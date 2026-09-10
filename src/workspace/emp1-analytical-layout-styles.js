@@ -7,7 +7,7 @@ export const EMP1_ANALYTICAL_LAYOUT_STYLES = `
 .emp1-analytical-layout__region[data-emp1-layout-region="ACTIVE_TASK"]{grid-column:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding-right:2px}
 .emp1-analytical-layout__region[data-emp1-layout-region="BASIS_RAIL"]{grid-column:2;grid-template-rows:auto minmax(0,1fr);min-height:0;overflow:hidden;padding-right:2px}
 .emp1-analytical-layout__region[data-emp1-layout-region="BASIS_RAIL"]>[data-emp1-layout-surface]:not([hidden]){min-height:0;overflow:auto;overscroll-behavior:contain}
-.emp1-analytical-layout__region[data-emp1-layout-region="EVIDENCE_WORKSPACE"]{width:100%;min-width:0;max-height:min(42vh,440px);overflow:auto;overscroll-behavior:contain;border-top:1px solid currentColor;padding-top:6px}
+.emp1-analytical-layout__region[data-emp1-layout-region="EVIDENCE_WORKSPACE"]{box-sizing:border-box;width:100%;min-width:0;max-height:min(42vh,440px);overflow:auto;overscroll-behavior:contain;border-top:1px solid currentColor;padding-top:6px}
 .emp1-analytical-layout__region[data-emp1-layout-region="EVIDENCE_WORKSPACE"][data-emp1-evidence-open="false"]{overflow:hidden}
 .emp1-analytical-layout__region[data-emp1-layout-region="EVIDENCE_WORKSPACE"]>.lafea-workbench__card,
 .emp1-analytical-layout__region[data-emp1-layout-region="EVIDENCE_WORKSPACE"]>[data-emp1-layout-surface]{max-width:100%;overflow-x:auto}
