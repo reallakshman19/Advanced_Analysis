@@ -22,7 +22,7 @@ test('EMP.1 split console bounds work, inspector and evidence without responsive
   await expect(analytical).toHaveAttribute('data-emp1-task-shell', 'true');
   await expect(analytical).toHaveAttribute('data-emp1-split-console', 'emp1-split-console/v1');
   await expect(analytical).toHaveAttribute('data-emp1-console-mode', 'WORK');
-  await expect(workflow.locator('[data-role="emp1-workflow-compact-status"]')).toBeVisible();
+  await expect(workflow.locator('[data-role="emp1-assessment-outcome"]')).toBeVisible();
   await expect(workflow.locator('[data-role="emp1-professional-step"]')).toHaveCount(7);
   await expect(workflow.locator('[data-role="emp1-workflow-details"]')).not.toHaveAttribute('open', '');
 
@@ -63,14 +63,14 @@ test('EMP.1 split console bounds work, inspector and evidence without responsive
   await assertSingleVisibleInspector(analytical, 'engineeringEvidence');
   await expect(analytical.locator('[data-role="emp1-c-run-configuration"]')).toBeHidden();
 
-  await professionalStep(workflow, 4, 'Load Transfer').click();
+  await professionalStep(workflow, 4, 'Load transfer').click();
   analytical = workbench.locator('[data-role="lafea-analytical-calc"]');
   workflow = workbench.locator('[data-role="emp1-workflow"]');
   await expect(analytical).toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   await expect(analytical).toHaveAttribute('data-emp1-professional-task', 'LOAD_TRANSFER');
   await assertVisibleInputGroups(analytical, ['REFERENCE_POINTS']);
 
-  await professionalStep(workflow, 5, 'Section Screening').click();
+  await professionalStep(workflow, 5, 'Section check').click();
   analytical = workbench.locator('[data-role="lafea-analytical-calc"]');
   workflow = workbench.locator('[data-role="emp1-workflow"]');
   await expect(analytical).toHaveAttribute('data-backing-stage-id', 'LAFEA.2');
@@ -78,7 +78,7 @@ test('EMP.1 split console bounds work, inspector and evidence without responsive
   await assertVisibleInputGroups(analytical, ['SCREENING_CASES', 'EVALUATION_LOCATIONS']);
   await assertSelectedEvidence(analytical, 'screeningCustody');
 
-  await professionalStep(workflow, 6, 'Local Correlation').click();
+  await professionalStep(workflow, 6, 'Local check').click();
   await expect(analytical).toHaveAttribute('data-emp1-professional-task', 'LOCAL_CORRELATION');
   await assertSingleVisibleInspector(analytical, 'boundedCorrelation');
   await assertSelectedEvidence(analytical, 'correlationResult');
@@ -88,7 +88,7 @@ test('EMP.1 split console bounds work, inspector and evidence without responsive
   await expect(bounded.locator('[data-role="emp1-c-route-capability-tab"][aria-selected="true"]'))
     .toContainText('Authorized');
 
-  await professionalStep(workflow, 7, 'Review & Evidence').click();
+  await professionalStep(workflow, 7, 'Review & export').click();
   await expect(analytical).toHaveAttribute('data-emp1-professional-task', 'REVIEW_EVIDENCE');
   await expect(analytical).toHaveAttribute('data-emp1-console-mode', 'EVIDENCE');
   await expect(analytical.locator('[data-role="emp1-analytical-full-width-detail"]'))
