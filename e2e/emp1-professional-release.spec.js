@@ -17,6 +17,11 @@ test('authorized bounded EMP.1 route executes through the real workbench without
   await expect(sample).toBeVisible();
   await sample.click();
 
+  // Wait for the complete-example transaction to settle before navigating away.
+  // Playwright's click waits for the DOM event, not an async event-handler promise;
+  // without this governed-state wait a late product rerender can race Review.
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
+
   // Execution summary is retained evidence, not permanent page content. Review &
   // export foregrounds that same governed node without changing execution state.
   const workflow = workbench.locator('[data-role="emp1-workflow"]');
