@@ -167,7 +167,6 @@ export class LafeaWorkbenchController {
       return this.store.reportEditError('analysisMeshEvidence', null, error);
     }
   }
-
   importDocument(value, stageId, sourceHash = null) {
     return this.store.importDocument(value, stageId, sourceHash);
   }
@@ -240,7 +239,33 @@ export class LafeaWorkbenchController {
         './emp1-workbench-qualification-sample.js'
       );
       const sample = createEmp1WorkbenchQualificationSample();
-      const importedA = this.importDocument(sample.aDocument, 'LAFEA.1');
+
+      // A complete sample load is one source/product replacement transaction.
+      // Retire any previous product-side run/review state before changing the
+      // backing documents, and invalidate an in-flight EMP.1 product run so it
+      // cannot publish against the replacement source after this reset.
+      this.emp1RunSerial += 1;
+      this.emp1RunInput = null;
+      this.emp1Execution = null;
+      this.emp1RunFailure = null;
+      this.emp1EngineeringReviewRecord = null;
+
+      // A bulk replacement must not inherit lifecycle custody from whichever
+      // source happened to be loaded previously. The retained store already
+      // supports atomic import + lifecycle initialization when an explicit
+      // source hash is supplied, so issue the authority for this exact sample
+      // document and use that path rather than weakening run-time mismatch
+      // detection.
+      const aSourceAuthority = issueLafeaSourceAuthority(
+        'LAFEA.1',
+        sample.aDocument,
+        'EMP1_QUALIFICATION_SAMPLE/A',
+      );
+      const importedA = this.importDocument(
+        sample.aDocument,
+        'LAFEA.1',
+        aSourceAuthority.sourceHash,
+      );
       if (!importedA?.stages?.['LAFEA.1']?.document) {
         const error = new TypeError('EMP.1 qualification sample requires an imported step A document.');
         error.code = 'EMP1_WORKBENCH_A_DOCUMENT_REQUIRED';
@@ -250,8 +275,16 @@ export class LafeaWorkbenchController {
       this.store.selectStage('LAFEA.1');
       const ranA = this.run();
       const aExecution = ranA?.stages?.['LAFEA.1']?.execution;
-      if (ranA?.status === 'FAILED'
-        || aExecution?.status !== 'QUALIFIED'
+      if (ranA?.status === 'FAILED') {
+        const diagnostic = ranA?.diagnostics?.find((row) => row?.severity === 'ERROR')
+          ?? ranA?.diagnostics?.[0];
+        const error = new TypeError(
+          diagnostic?.message ?? 'EMP.1 qualification sample step A execution failed.',
+        );
+        error.code = diagnostic?.code ?? 'EMP1_QUALIFICATION_SAMPLE_A_RUN_FAILED';
+        throw error;
+      }
+      if (aExecution?.status !== 'QUALIFIED'
         || aExecution?.result?.qualification?.state !== 'ACCEPTED') {
         const error = new TypeError(
           'EMP.1 qualification sample requires step A to produce a current qualified result before B/C.',
@@ -260,7 +293,16 @@ export class LafeaWorkbenchController {
         throw error;
       }
 
-      const importedB = this.importDocument(sample.bDocument, 'LAFEA.2');
+      const bSourceAuthority = issueLafeaSourceAuthority(
+        'LAFEA.2',
+        sample.bDocument,
+        'EMP1_QUALIFICATION_SAMPLE/B',
+      );
+      const importedB = this.importDocument(
+        sample.bDocument,
+        'LAFEA.2',
+        bSourceAuthority.sourceHash,
+      );
       if (!importedB?.stages?.['LAFEA.2']?.document) {
         const error = new TypeError('EMP.1 qualification sample requires an imported step B document.');
         error.code = 'EMP1_WORKBENCH_B_DOCUMENT_REQUIRED';
