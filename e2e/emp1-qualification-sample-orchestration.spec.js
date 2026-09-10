@@ -89,6 +89,10 @@ test('complete sample replaces an existing A lifecycle instead of inheriting it'
     failureCode: null,
     diagnosticCode: null,
   });
+  await expect.poll(async () => String(
+    (await sampleState(page)).emp1ExecutionStatus ?? 'PENDING',
+  )).toMatch(/^(CALCULATED|PREPARED_C_BLOCKED)$/u);
+
   const replaced = await sampleState(page);
   expect(replaced.aLifecycleSourceHash).not.toBe(priorSourceHash);
   expect(['CALCULATED', 'PREPARED_C_BLOCKED']).toContain(replaced.emp1ExecutionStatus);
