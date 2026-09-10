@@ -39,11 +39,11 @@ test('EMP.1 starts with seven user steps, one primary action and technical detai
   await expect(outcome).toContainText('run the complete example or import assessment data to begin');
   await expect(outcome).toContainText('Use · Not approved for final use');
 
-  const primary = workbench.locator('[data-role="emp1-primary-action"]');
+  const primary = workbench.locator('[data-emp1-primary-action="true"]');
   await expect(primary).toHaveCount(1);
   await expect(primary).toBeVisible();
   await expect(primary).toHaveText('Run complete example');
-  await expect(primary).toHaveAttribute('data-next-action', 'RUN_COMPLETE_EXAMPLE');
+  await expect(primary).toHaveAttribute('data-toolbar-primary', 'true');
   await expect(workbench.locator('[data-role="emp1-primary-action-help"]'))
     .toContainText('run the required assessment stages in order');
 
@@ -56,11 +56,11 @@ test('EMP.1 starts with seven user steps, one primary action and technical detai
 test('complete example ends at a review action without implying final-use approval', async ({ page }) => {
   await mountEmp1Workbench(page);
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  await workbench.locator('[data-role="emp1-primary-action"]').click();
+  await workbench.locator('[data-emp1-primary-action="true"]').click();
 
   await expect.poll(async () => (await sampleState(page)).aExecutionStatus).toBe('QUALIFIED');
   await expect.poll(async () => (await sampleState(page)).bDocumentLoaded).toBe(true);
-  await expect(workbench.locator('[data-role="emp1-primary-action"]')).toHaveText('Review assessment');
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
   await expect(workbench.locator('[data-role="emp1-header-status"]')).toContainText(/Calculated/u);
   await expect(workbench.locator('[data-role="emp1-assessment-outcome"]'))
     .toContainText('Not approved for final use');
@@ -83,8 +83,8 @@ test('complete example ends at a review action without implying final-use approv
 test('seven-step navigation uses task language and review leads with assessment result', async ({ page }) => {
   await mountEmp1Workbench(page);
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  await workbench.locator('[data-role="emp1-primary-action"]').click();
-  await expect(workbench.locator('[data-role="emp1-primary-action"]')).toHaveText('Review assessment');
+  await workbench.locator('[data-emp1-primary-action="true"]').click();
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
 
   let analytical = workbench.locator('[data-role="lafea-analytical-calc"]');
   let workflow = workbench.locator('[data-role="emp1-workflow"]');
@@ -118,8 +118,8 @@ test('seven-step navigation uses task language and review leads with assessment 
 test('secondary samples state their limitation and replacing an assessment asks first', async ({ page }) => {
   await mountEmp1Workbench(page);
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  await workbench.locator('[data-role="emp1-primary-action"]').click();
-  await expect(workbench.locator('[data-role="emp1-primary-action"]')).toHaveText('Review assessment');
+  await workbench.locator('[data-emp1-primary-action="true"]').click();
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
 
   const workflow = workbench.locator('[data-role="emp1-workflow"]');
   await workflow.getByRole('button', { name: /^5 Section check\./u }).click();
@@ -136,7 +136,7 @@ test('secondary samples state their limitation and replacing an assessment asks 
   });
   await replacement.click();
   await expect.poll(() => prompt).toContain('Replace the current EMP.1 assessment?');
-  await expect(workbench.locator('[data-role="emp1-primary-action"]')).toHaveText('Review assessment');
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
 });
 
 async function openEvidenceConsole(workbench) {
