@@ -135,10 +135,11 @@ test('complete sample preserves an A run root diagnostic and retires prior produ
   });
   const failure = workbench.locator('[data-role="emp1-workflow-run-failure"]');
   await expect(failure).toContainText('Assessment needs attention');
-  await expect(failure).not.toContainText('EMP1_TEST_A_ROOT_FAILURE');
   const technical = failure.locator('[data-role="emp1-workflow-run-failure-technical"]');
   await expect(technical).not.toHaveAttribute('open', '');
+  await expect(technical.locator('code')).not.toBeVisible();
   await technical.locator('summary').click();
+  await expect(technical.locator('code')).toBeVisible();
   await expect(technical).toContainText('EMP1_TEST_A_ROOT_FAILURE');
 });
 
