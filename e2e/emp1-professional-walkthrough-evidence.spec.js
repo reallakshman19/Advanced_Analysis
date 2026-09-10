@@ -112,7 +112,7 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
 
   await expect(summary).toContainText('Local inputs changed — recalculate');
   const workflowDetails = workflow.locator('[data-role="emp1-workflow-details"]');
-  if (!(await workflowDetails.getAttribute('open'))) await workflowDetails.locator('summary').click();
+  if (!(await workflowDetails.getAttribute('open'))) await workflowDetails.locator(':scope > summary').click();
   await expect(workflowDetails).toHaveAttribute('open', '');
   const staleNotice = workflow.locator('[data-role="emp1-professional-currentness-notice"]');
   await expect(staleNotice).toHaveAttribute('data-state', 'STALE');
