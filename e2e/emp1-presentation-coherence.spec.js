@@ -15,7 +15,7 @@ test('professional task remains presentation source of truth across backing-stag
   await mountEmp1Workbench(page);
 
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  await workbench.locator('[data-role="emp1-load-complete-qualification-sample"]').click();
+  await workbench.locator('[data-emp1-primary-action="true"]').click();
 
   let analytical = workbench.locator('[data-role="lafea-analytical-calc"]');
   let workflow = analytical.locator('[data-role="emp1-workflow"]');
@@ -26,21 +26,21 @@ test('professional task remains presentation source of truth across backing-stag
   // shift caused by the disclosure toggle below.
   await expect(analytical.locator('[data-role="emp1-product-execution-summary"]')).toHaveCount(1);
 
-  await expect(analytical.locator('[data-role="emp1-active-task-title"]')).toHaveText('1 · Basis & Source');
-  await expect(analytical.locator('[data-emp1-layout-surface="route"] > h2')).toHaveText('Backing calculation stage');
+  await expect(analytical.locator('[data-role="emp1-active-task-title"]')).toHaveText('1 · Start');
+  await expect(analytical.locator('[data-emp1-layout-surface="route"] > h2')).toHaveText('Assessment setup');
 
   const compactLabels = await workflow.locator('[data-role="emp1-professional-step"]').allTextContents();
   expect(compactLabels).toEqual([
-    '1 Basis & Source',
+    '1 Start',
     '2 Geometry',
     '3 Loads',
-    '4 Load Transfer',
-    '5 Section Screening',
-    '6 Local Correlation',
-    '7 Review & Evidence',
+    '4 Load transfer',
+    '5 Section check',
+    '6 Local check',
+    '7 Review & export',
   ]);
   for (const button of await workflow.locator('[data-role="emp1-professional-step"]').all()) {
-    await expect(button).toHaveAttribute('aria-label', / · /u);
+    await expect(button).toHaveAttribute('aria-label', /\. /u);
   }
 
   await expect(analytical.locator('[data-role="emp1-inspector-tab"]:visible')).toHaveCount(2);
@@ -79,9 +79,10 @@ test('professional task remains presentation source of truth across backing-stag
   await expect(analytical.locator('[data-emp1-layout-surface="source"]')).toBeHidden();
   await expect(analytical.locator('[data-emp1-layout-surface="runConfiguration"]')).toBeHidden();
   await expect(analytical.locator('[data-emp1-layout-surface="transactionSummary"]')).toBeVisible();
+  await expect(analytical.locator('[data-emp1-layout-surface="transactionSummary"] > h2')).toHaveText('Assessment result');
 
-  // Local Correlation is the only task whose default inspector may foreground
-  // the bounded WRC route authority. Deep authority disclosures remain closed.
+  // Local check is the only task whose default inspector may foreground the
+  // bounded WRC route authority. Deep authority disclosures remain closed.
   await step(workflow, 'LOCAL_CORRELATION').click();
   analytical = workbench.locator('[data-role="lafea-analytical-calc"]');
   await expect(analytical).toHaveAttribute('data-emp1-professional-task', 'LOCAL_CORRELATION');
