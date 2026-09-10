@@ -38,6 +38,8 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await checkpoint(page, testInfo, checkpointEvidence, '03', 'start');
 
   await professionalStep(workflow, 2, 'Geometry').click();
+  await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
+    .toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   await expect(workbench.locator('[data-role="emp1-c-run-configuration"]')).toBeInViewport();
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group="PIPE_GEOMETRY"]')).toBeVisible();
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group="THICKNESS"]')).toBeVisible();
@@ -92,8 +94,12 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(workflow.locator('[data-role="emp1-workflow-details"]')).not.toHaveAttribute('open', '');
   await checkpoint(page, testInfo, checkpointEvidence, '10', 'review-and-export');
 
-  // Upstream mutation belongs to the Geometry task under the recovered console.
+  // Returning from Review must recover the A-backed Geometry editor before the
+  // governed upstream mutation is made. This is a navigation/presentation
+  // contract; it does not alter EMP.1 calculation state or engineering authority.
   await professionalStep(workflow, 2, 'Geometry').click();
+  await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
+    .toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   const outsideDiameter = workbench.getByRole('textbox', { name: 'Pipe outside diameter LAFEA.1' });
   await expect(outsideDiameter).toBeVisible();
   const originalDiameter = Number(await outsideDiameter.inputValue());
