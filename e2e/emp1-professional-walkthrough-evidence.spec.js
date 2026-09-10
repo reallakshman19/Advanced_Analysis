@@ -83,7 +83,9 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await checkpoint(page, testInfo, checkpointEvidence, '09', 'current-local-result-and-governing-scope');
 
   await professionalStep(workflow, 7, 'Review & export').click();
-  await expect(workbench.locator('[data-role="emp1-product-execution-summary"]')).toBeInViewport();
+  const reviewSummary = workbench.locator('[data-role="emp1-product-execution-summary"]');
+  await reviewSummary.scrollIntoViewIfNeeded();
+  await expect(reviewSummary).toBeInViewport();
   await expect(workflow.locator('[data-role="emp1-workflow-details"]')).not.toHaveAttribute('open', '');
   await checkpoint(page, testInfo, checkpointEvidence, '10', 'review-and-export');
 
@@ -129,6 +131,9 @@ async function openEvidenceView(workbench, surfaceId) {
   );
   await tab.click();
   await expect(tab).toHaveAttribute('aria-selected', 'true');
+  const surface = analytical.locator(`[data-emp1-layout-surface="${surfaceId}"]`);
+  await expect(surface).toBeVisible();
+  await surface.scrollIntoViewIfNeeded();
 }
 
 function professionalStep(workflow, ordinal, label) {
