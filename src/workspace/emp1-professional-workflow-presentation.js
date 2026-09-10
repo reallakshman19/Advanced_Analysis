@@ -2,7 +2,7 @@ export const EMP1_PROFESSIONAL_WORKFLOW_SCHEMA = 'emp1-professional-workflow/v1'
 
 export const EMP1_PROFESSIONAL_WORKFLOW_STEPS = Object.freeze([
   Object.freeze({ stepId: 'BASIS_SOURCE', ordinal: 1, label: 'Basis & Source', backingStepIds: Object.freeze(['A', 'B', 'C']), preferredBackingStageId: 'LAFEA.1', targetRole: 'source' }),
-  Object.freeze({ stepId: 'GEOMETRY', ordinal: 2, label: 'Geometry', backingStepIds: Object.freeze(['A', 'C']), preferredBackingStageId: null, targetRole: 'emp1-c-run-configuration' }),
+  Object.freeze({ stepId: 'GEOMETRY', ordinal: 2, label: 'Geometry', backingStepIds: Object.freeze(['A', 'C']), preferredBackingStageId: 'LAFEA.1', targetRole: 'emp1-c-run-configuration' }),
   Object.freeze({ stepId: 'LOADS', ordinal: 3, label: 'Loads', backingStepIds: Object.freeze(['A']), preferredBackingStageId: 'LAFEA.1', targetRole: 'source' }),
   Object.freeze({ stepId: 'LOAD_TRANSFER', ordinal: 4, label: 'Load Transfer', backingStepIds: Object.freeze(['A']), preferredBackingStageId: 'LAFEA.1', targetRole: 'results' }),
   Object.freeze({ stepId: 'SECTION_SCREENING', ordinal: 5, label: 'Section Screening', backingStepIds: Object.freeze(['B']), preferredBackingStageId: 'LAFEA.2', targetRole: 'results' }),
@@ -181,44 +181,32 @@ function staleAction({ authorityReason, runAuthorized }) {
 }
 
 function sourceCurrentness(a, b, c) {
-  if (a.documentLoaded === false && b.documentLoaded === false) return 'SOURCE INPUT REQUIRED';
-  if (a.documentLoaded === false || b.documentLoaded === false) return 'SOURCE INCOMPLETE';
-  if (B_SOURCE_STALE_STATES.has(b.state)) return 'SOURCE STALE';
-  if (c.state === 'SOURCE_INCOMPLETE') return 'SOURCE INCOMPLETE';
+  if (!a.documentLoaded || !b.documentLoaded || !c.inputLoaded) return 'SOURCE INPUT REQUIRED';
+  if (a.resultStale || B_SOURCE_STALE_STATES.has(b.state) || c.sourceCurrent === false) return 'SOURCE STALE';
   return 'SOURCE CURRENT';
 }
 
 function transferCurrentness(a) {
-  if (a.resultAvailable === true) return 'TRANSFER CURRENT';
-  if (a.documentLoaded === false) return 'TRANSFER INPUT REQUIRED';
-  return 'TRANSFER NOT CALCULATED';
+  if (!a.documentLoaded) return 'TRANSFER INPUT REQUIRED';
+  if (a.resultStale) return 'SOURCE STALE';
+  return a.resultAvailable ? 'TRANSFER CURRENT' : 'TRANSFER NOT CALCULATED';
 }
 
 function screeningCurrentness(b) {
-  if (b.resultAvailable === true) return 'SCREENING CURRENT';
-  if (b.retainedResultAvailable === true || B_SOURCE_STALE_STATES.has(b.state)) return 'SCREENING STALE';
-  if (b.documentLoaded === false) return 'SCREENING INPUT REQUIRED';
-  return 'SCREENING NOT CALCULATED';
-}
-
-function localResultCurrentness(c) {
-  if (c.resultAvailable === true) return 'LOCAL RESULT CURRENT';
-  if (c.retainedResultAvailable === true) return 'LOCAL RESULT STALE';
-  return 'LOCAL RESULT NOT CALCULATED';
+  if (!b.documentLoaded) return 'SCREENING INPUT REQUIRED';
+  if (B_SOURCE_STALE_STATES.has(b.state)) return 'SCREENING STALE';
+  return b.resultAvailable ? 'SCREENING CURRENT' : 'SCREENING NOT CALCULATED';
 }
 
 function geometryStatus(c, sourceStatus) {
-  if (c.state === 'SOURCE_INCOMPLETE') return 'SOURCE INCOMPLETE';
-  return sourceStatus;
+  if (sourceStatus === 'SOURCE INPUT REQUIRED') return 'SOURCE INCOMPLETE';
+  if (!c.inputLoaded || c.sourceCurrent === false) return 'SOURCE STALE';
+  return 'SOURCE CURRENT';
 }
 
-function reasonCopy(code) {
-  return REASON_COPY[code] ?? String(code).replaceAll('_', ' ');
-}
-
-function uniqueReasonCodes(value) {
-  if (!Array.isArray(value)) return [];
-  return [...new Set(value.filter((code) => typeof code === 'string' && code.trim()).map((code) => code.trim()))];
+function localResultCurrentness(c) {
+  if (c.retainedResultAvailable === true && c.resultAvailable !== true) return 'LOCAL RESULT STALE';
+  return c.resultAvailable ? 'LOCAL RESULT CURRENT' : 'LOCAL RESULT NOT CALCULATED';
 }
 
 function backingDisclosure(step) {
@@ -226,15 +214,24 @@ function backingDisclosure(step) {
     shortId: step.shortId,
     stepId: step.stepId,
     label: step.label,
-    state: step.currentnessBadge ?? step.state,
-    backingStageId: step.backingStageId ?? null,
-    runAuthorized: step.runAuthorized === true,
+    backingStageId: step.backingStageId,
+    state: step.state,
+    documentLoaded: step.documentLoaded,
+    resultAvailable: step.resultAvailable,
   });
 }
 
 function requireBacking(step, shortId) {
-  if (!step || step.shortId !== shortId) {
-    throw new TypeError(`EMP1_PROFESSIONAL_WORKFLOW_BACKING_STEP_REQUIRED:${shortId}`);
-  }
+  if (!step) throw new TypeError(`EMP1_PROFESSIONAL_BACKING_STEP_REQUIRED:${shortId}`);
   return step;
+}
+
+function uniqueReasonCodes(blockers) {
+  return [...new Set((blockers ?? [])
+    .map((blocker) => blocker?.code ?? blocker?.message ?? null)
+    .filter(Boolean))];
+}
+
+function reasonCopy(code) {
+  return REASON_COPY[code] ?? String(code).replaceAll('_', ' ');
 }
