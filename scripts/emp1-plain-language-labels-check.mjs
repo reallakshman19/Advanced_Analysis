@@ -50,11 +50,17 @@ for (const code of RENDERED_ON_SCREEN) {
 
 assert.equal(
   emp1PlainLanguageLabelRequired('LOCAL METHOD BLOCKED · LOCAL RESULT NOT CALCULATED'),
-  'Local method blocked · Local result not calculated',
+  'Local method unavailable for these inputs · Local check not calculated',
 );
 assert.equal(
   emp1PlainLanguageLabel('LOCAL RESULT NOT CALCULATED · RELEASE PROFILE NOT QUALIFIED'),
-  'Local result not calculated · Release profile not qualified',
+  'Local check not calculated · Not approved for final use',
+);
+assert.equal(emp1PlainLanguageLabelRequired('NOT_QUALIFIED'), 'Not approved for stated use');
+assert.equal(emp1PlainLanguageLabelRequired('STALE'), 'Inputs changed — recalculate');
+assert.equal(
+  emp1PlainLanguageLabelRequired('EMP1_A_CURRENT_QUALIFIED_RESULT_REQUIRED'),
+  'A current load-transfer result is required before the local check can run.',
 );
 
 // Legacy compatibility remains available only through the non-strict helper.

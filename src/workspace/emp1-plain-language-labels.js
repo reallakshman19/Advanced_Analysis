@@ -18,7 +18,7 @@ const STATE_LABELS = Object.freeze({
   NOT_READY: 'Not ready',
   NOT_REVIEWED: 'Not reviewed',
   NOT_ASSESSED: 'Not assessed',
-  NOT_QUALIFIED: 'Not qualified',
+  NOT_QUALIFIED: 'Not approved for stated use',
   NOT_RUN: 'Not run',
   NOT_AVAILABLE: 'Not available',
   READY: 'Ready',
@@ -27,25 +27,25 @@ const STATE_LABELS = Object.freeze({
   READY_FOR_ENGINEERING_REVIEW: 'Ready for engineering review',
   CALCULATED_CURRENT: 'Calculated and current',
   CALCULATION_REQUIRED: 'Calculation required',
-  CALCULATION_STALE: 'Calculation is stale',
+  CALCULATION_STALE: 'Inputs changed — recalculate',
   CURRENT: 'Current',
-  STALE: 'Stale',
-  STALE_INPUT: 'Input changed since the last run',
-  STALE_AUTHORITY: 'Route authority changed since the last run',
-  STALE_A_EVIDENCE: 'Step A evidence changed since the last run',
-  STALE_WITH_RETAINED_CALCULATION: 'Stale, with an earlier calculation retained',
-  SOURCE_INCOMPLETE: 'Source is incomplete',
-  SOURCE_STALE: 'Source has changed since the last run',
-  BLOCKED: 'Blocked',
-  METHOD_BLOCKED: 'Method is blocked',
-  ROUTE_SUSPENDED: 'Route is suspended',
-  AWAITING_CURRENT_A: 'Waiting on a current step A result',
-  A_EVIDENCE_REQUIRED: 'Step A evidence is required',
-  PENDING_EXECUTION_GATE: 'Pending the execution gate',
-  AUTHORIZED_BOUNDED_ROUTE: 'Authorized on the bounded route',
-  QUALIFIED_BY_CURRENT_EXECUTION_GATE: 'Qualified by the current execution gate',
-  QUALIFIED_BY_EXISTING_RELEASE_BOUNDARY: 'Qualified by the existing release boundary',
-  CURRENT_REPORTABLE_BOUNDED_C_EXECUTION: 'Current, reportable bounded step C execution',
+  STALE: 'Inputs changed — recalculate',
+  STALE_INPUT: 'Inputs changed — recalculate',
+  STALE_AUTHORITY: 'Method authority changed — recalculate before use',
+  STALE_A_EVIDENCE: 'Load-transfer evidence changed — recalculate',
+  STALE_WITH_RETAINED_CALCULATION: 'Inputs changed — earlier calculation retained for history',
+  SOURCE_INCOMPLETE: 'Assessment data is incomplete',
+  SOURCE_STALE: 'Inputs changed — recalculate',
+  BLOCKED: 'Action required',
+  METHOD_BLOCKED: 'Method unavailable for these inputs',
+  ROUTE_SUSPENDED: 'Method temporarily unavailable',
+  AWAITING_CURRENT_A: 'Waiting for a current load-transfer result',
+  A_EVIDENCE_REQUIRED: 'Current load-transfer evidence is required',
+  PENDING_EXECUTION_GATE: 'Pending calculation checks',
+  AUTHORIZED_BOUNDED_ROUTE: 'Available for the bounded method range',
+  QUALIFIED_BY_CURRENT_EXECUTION_GATE: 'Available under the current calculation checks',
+  QUALIFIED_BY_EXISTING_RELEASE_BOUNDARY: 'Approved under the existing release boundary',
+  CURRENT_REPORTABLE_BOUNDED_C_EXECUTION: 'Current reportable local-check result',
 
   // benchmark/reference presentation states
   REFERENCE_NOT_AVAILABLE: 'Reference not available',
@@ -57,7 +57,7 @@ const STATE_LABELS = Object.freeze({
     'Independent benchmark reference — not WRC method authority',
   INDEPENDENT_COMMERCIAL_SOFTWARE_COMPARISON_NOT_WRC_METHOD_AUTHORITY:
     'Independent commercial-software comparison — not WRC method authority',
-  COMPARISON_QUALIFIED: 'Comparison qualified',
+  COMPARISON_QUALIFIED: 'Comparison checks satisfied',
   REFERENCE_FROZEN: 'Reference values and tolerance frozen before EMP.1 observation',
   RETAINED_ACTUAL_EXECUTION_COMPARISON: 'Retained actual EMP.1 comparison execution',
   PASS: 'Verified',
@@ -69,50 +69,50 @@ const STATE_LABELS = Object.freeze({
 
   // blockers and route authority
   EMP1_READINESS_A_SOURCE_REQUIRED:
-    'The EMP.1.A load and reference source is required.',
+    'Load-transfer assessment data is required.',
   EMP1_READINESS_B_SOURCE_REQUIRED:
-    'The EMP.1.B section-screening source is required.',
+    'Section-check assessment data is required.',
   EMP1_WORKBENCH_A_DOCUMENT_REQUIRED:
-    'Load the EMP.1.A load and reference source before running.',
+    'Load the load-transfer assessment data before running.',
   EMP1_WORKBENCH_B_DOCUMENT_REQUIRED:
-    'Load the EMP.1.B section-screening source before running.',
+    'Load the section-check assessment data before running.',
   EMP1_WORKBENCH_RUN_INPUT_REQUIRED:
-    'Complete the EMP.1.C source binding and run setup before running.',
+    'Complete the local-check data connection and setup before running.',
   EMP1_WORKBENCH_RUN_INPUT_INVALID:
-    'The EMP.1.C run setup was rejected; re-enter the source binding.',
+    'The local-check setup was rejected; review the data connection.',
   EMP1_WORKBENCH_GEOMETRY_IDENTITY_REQUIRED:
-    'Bind an attachment geometry identity before running.',
-  EMP1_WORKBENCH_LOAD_CASE_IDENTITY_REQUIRED: 'Select a load case before running.',
-  EMP1_WORKBENCH_PRESSURE_RESULT_IDENTITY_REQUIRED: 'Select a pressure result before running.',
+    'Identify the attachment geometry before running the local check.',
+  EMP1_WORKBENCH_LOAD_CASE_IDENTITY_REQUIRED: 'Select a load case before running the local check.',
+  EMP1_WORKBENCH_PRESSURE_RESULT_IDENTITY_REQUIRED: 'Select a pressure result before running the local check.',
   EMP1_WORKBENCH_ROUTE_AUTHORITY_CHANGED:
-    'Route authority changed after the retained result; re-run before relying on it.',
+    'Method authority changed after the retained result; recalculate before relying on it.',
   EMP1_WORKBENCH_C_CURRENT_ROUTE_AUTHORITY_REQUIRED:
-    'A current route authority snapshot is required before step C can run.',
+    'Current method authority is required before the local check can run.',
   EMP1_WORKBENCH_C_CURRENT_ROUTE_NOT_AUTHORIZED:
-    'The current route is not authorized for step C execution.',
+    'The local method is unavailable for these inputs.',
   EMP1_WORKBENCH_C_ROUTE_AUTHORITY_SNAPSHOT_REQUIRED:
-    'A route authority snapshot is required before step C can run.',
+    'A current method-authority record is required before the local check can run.',
   EMP1_A_CURRENT_QUALIFIED_RESULT_REQUIRED:
-    'Step A must produce a current qualified result before step C can run.',
+    'A current load-transfer result is required before the local check can run.',
   EMP1_C_BOUNDED_ROUTE_NOT_REGISTERED:
-    'The bounded local-correlation route is not registered in this build.',
+    'The bounded local method is not available in this build.',
   EMP1_C_BOUNDED_ROUTE_REGISTRY_ENTRY_REQUIRED:
-    'The bounded local-correlation route has no registry entry.',
+    'The bounded local method is missing its registered definition.',
   EMP1_C_BOUNDED_ROUTE_ENGINEERING_USE_NOT_AUTHORIZED:
-    'The bounded local-correlation route is not authorized for engineering use.',
+    'The bounded local method is not approved for engineering use.',
   EMP1_C_BOUNDED_ROUTE_EXECUTOR_NOT_AUTHORIZED:
-    'The bounded local-correlation route has no authorized executor.',
+    'The bounded local method has no approved calculation executor.',
   EMP1_ENGINEERING_RESULT_REVIEW: 'Engineering result review',
   EMP1_ENGINEERING_REVIEW_CURRENT_EXECUTION_REQUIRED:
-    'A current EMP.1 execution is required before engineering review.',
+    'A current EMP.1 calculation is required before engineering review.',
   EMP1_ENGINEERING_REVIEW_EXECUTION_NOT_CURRENT:
-    'The retained execution is not current; re-run before engineering review.',
+    'Inputs changed after the retained calculation; recalculate before engineering review.',
   EMP1_ENGINEERING_REVIEW_INPUT_CURRENTNESS_REQUIRED:
-    'Input currentness is required before engineering review.',
+    'Current inputs are required before engineering review.',
   EMP1_ENGINEERING_REVIEW_ROUTE_AUTHORITY_CURRENTNESS_REQUIRED:
-    'Current route authority is required before engineering review.',
+    'Current method authority is required before engineering review.',
   EMP1_ENGINEERING_REVIEW_CURRENT_C_RESULT_REQUIRED:
-    'A current step C result is required before engineering review.',
+    'A current local-check result is required before engineering review.',
   OWNER_DECLARED_REQUIRED_ABOVE_GAMMA_5:
     'Owner declaration required above gamma 5',
   NONZERO_DIFFERENTIAL_PRESSURE:
@@ -134,9 +134,9 @@ const STATE_LABELS = Object.freeze({
     'WRC 537 states no γ interpolation rule, so this route carries no engineering-use authority.',
   GAMMA_INTERPOLATED_BETWEEN_SOURCE_ROWS_BY_OWNER_DIRECTED_POLICY:
     'γ is interpolated between source rows by owner-directed policy, not by a WRC source rule.',
-  GLOBAL_EMP1_C_ROUTE: 'The unbounded, full-domain EMP.1.C route remains blocked.',
+  GLOBAL_EMP1_C_ROUTE: 'The unbounded, full-domain local method remains unavailable.',
   EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_SUSPENDED:
-    'The WRC 537 gamma=5 zero-pressure route is suspended pending requalification.',
+    'The WRC 537 gamma=5 zero-pressure method is temporarily unavailable pending requalification.',
 
   // axis and sign-convention authority
   SOURCE_QUALIFIED_RUNTIME_POLARITY_REQUIRED:
@@ -146,24 +146,24 @@ const STATE_LABELS = Object.freeze({
 });
 
 const SUMMARY_LABELS = Object.freeze({
-  'SOURCE CURRENT': 'Source current',
-  'SOURCE INCOMPLETE': 'Source incomplete',
-  'SOURCE INPUT REQUIRED': 'Source input required',
-  'SOURCE STALE': 'Source stale',
+  'SOURCE CURRENT': 'Assessment data current',
+  'SOURCE INCOMPLETE': 'Assessment data incomplete',
+  'SOURCE INPUT REQUIRED': 'Assessment data required',
+  'SOURCE STALE': 'Inputs changed — recalculate',
   'TRANSFER CURRENT': 'Load transfer current',
   'TRANSFER INPUT REQUIRED': 'Load transfer input required',
   'TRANSFER NOT CALCULATED': 'Load transfer not calculated',
-  'SCREENING CURRENT': 'Section screening current',
-  'SCREENING INPUT REQUIRED': 'Section screening input required',
-  'SCREENING NOT CALCULATED': 'Section screening not calculated',
-  'SCREENING STALE': 'Section screening stale',
-  'LOCAL METHOD QUALIFIED': 'Local method qualified',
-  'LOCAL METHOD BLOCKED': 'Local method blocked',
-  'LOCAL RESULT CURRENT': 'Local result current',
-  'LOCAL RESULT NOT CALCULATED': 'Local result not calculated',
-  'LOCAL RESULT STALE': 'Local result stale',
-  'RELEASE PROFILE QUALIFIED': 'Release profile qualified',
-  'RELEASE PROFILE NOT QUALIFIED': 'Release profile not qualified',
+  'SCREENING CURRENT': 'Section check current',
+  'SCREENING INPUT REQUIRED': 'Section check input required',
+  'SCREENING NOT CALCULATED': 'Section check not calculated',
+  'SCREENING STALE': 'Section inputs changed — recalculate',
+  'LOCAL METHOD QUALIFIED': 'Local method available',
+  'LOCAL METHOD BLOCKED': 'Local method unavailable for these inputs',
+  'LOCAL RESULT CURRENT': 'Local check current',
+  'LOCAL RESULT NOT CALCULATED': 'Local check not calculated',
+  'LOCAL RESULT STALE': 'Local inputs changed — recalculate',
+  'RELEASE PROFILE QUALIFIED': 'Approved for stated use',
+  'RELEASE PROFILE NOT QUALIFIED': 'Not approved for final use',
   'CODE COMPLIANCE NOT ASSESSED': 'Code compliance not assessed',
 });
 

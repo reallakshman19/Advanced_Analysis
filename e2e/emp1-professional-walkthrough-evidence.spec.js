@@ -17,26 +17,29 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   const workflow = workbench.locator('[data-role="emp1-workflow"]');
   const summary = workflow.locator('[data-role="emp1-professional-authority-summary"]');
 
-  await expect(summary).toContainText('SOURCE INPUT REQUIRED');
-  await expect(summary).toContainText('LOCAL METHOD BLOCKED');
+  await expect(summary).toContainText('Assessment data required');
+  await expect(summary).toContainText('Local method unavailable for these inputs');
   await checkpoint(page, testInfo, checkpointEvidence, '01', 'cold-start-fail-closed');
 
-  await workbench.locator('[data-role="emp1-load-complete-qualification-sample"]').click();
-  await expect(summary).toContainText('SOURCE CURRENT');
-  await expect(summary).toContainText('TRANSFER CURRENT');
-  await expect(summary).toContainText('SCREENING CURRENT');
-  await expect(summary).toContainText('LOCAL METHOD QUALIFIED');
-  await expect(summary).toContainText('LOCAL RESULT CURRENT');
-  await checkpoint(page, testInfo, checkpointEvidence, '02', 'qualification-source-bundle-current');
+  await workbench.locator('[data-emp1-primary-action="true"]').click();
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
+  await expect(summary).toContainText('Assessment data current');
+  await expect(summary).toContainText('Load transfer current');
+  await expect(summary).toContainText('Section check current');
+  await expect(summary).toContainText('Local method available');
+  await expect(summary).toContainText('Local check current');
+  await checkpoint(page, testInfo, checkpointEvidence, '02', 'complete-example-current');
 
-  await professionalStep(workflow, 1, 'Basis & Source').click();
+  await professionalStep(workflow, 1, 'Start').click();
   await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
     .toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   await expect(workbench.locator('[data-guided-target="source"]')).toBeInViewport();
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group]:visible')).toHaveCount(0);
-  await checkpoint(page, testInfo, checkpointEvidence, '03', 'basis-and-source');
+  await checkpoint(page, testInfo, checkpointEvidence, '03', 'start');
 
   await professionalStep(workflow, 2, 'Geometry').click();
+  await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
+    .toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   await expect(workbench.locator('[data-role="emp1-c-run-configuration"]')).toBeInViewport();
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group="PIPE_GEOMETRY"]')).toBeVisible();
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group="THICKNESS"]')).toBeVisible();
@@ -49,7 +52,7 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group="LOAD_CASES"]')).toBeVisible();
   await checkpoint(page, testInfo, checkpointEvidence, '05', 'loads');
 
-  await professionalStep(workflow, 4, 'Load Transfer').click();
+  await professionalStep(workflow, 4, 'Load transfer').click();
   await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
     .toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   await expect(workbench.locator('.lafea-doc-table-section[data-input-group="REFERENCE_POINTS"]')).toBeVisible();
@@ -57,19 +60,22 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(workbench.locator('[data-guided-target="results"]')).toBeInViewport();
   await checkpoint(page, testInfo, checkpointEvidence, '06', 'load-transfer-results');
 
-  await professionalStep(workflow, 5, 'Section Screening').click();
+  await professionalStep(workflow, 5, 'Section check').click();
   await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
     .toHaveAttribute('data-backing-stage-id', 'LAFEA.2');
   await openEvidenceConsole(workbench);
-  await expect(workbench.locator('[data-role="lafea-screening-load-custody"]')).toBeInViewport();
+  const sectionRecord = workbench.locator('[data-role="lafea-screening-load-custody"]');
+  await expect(sectionRecord).toBeVisible();
+  await sectionRecord.scrollIntoViewIfNeeded();
+  await expect(sectionRecord).toBeInViewport();
   await expect(workbench.locator('[data-role="emp1-analytical-full-width-detail"]'))
     .toHaveAttribute('data-emp1-evidence-view', 'screeningCustody');
-  await checkpoint(page, testInfo, checkpointEvidence, '07', 'section-screening-custody');
+  await checkpoint(page, testInfo, checkpointEvidence, '07', 'section-check-record');
 
-  await professionalStep(workflow, 6, 'Local Correlation').click();
+  await professionalStep(workflow, 6, 'Local check').click();
   const cConfiguration = workbench.locator('[data-role="emp1-c-run-configuration"]');
   await expect(cConfiguration).toBeInViewport();
-  await checkpoint(page, testInfo, checkpointEvidence, '08', 'local-correlation-configuration');
+  await checkpoint(page, testInfo, checkpointEvidence, '08', 'local-check-configuration');
 
   await openEvidenceConsole(workbench);
   const cEvidence = workbench.locator('[data-role="emp1-c-result-evidence"]');
@@ -79,15 +85,21 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(governing).toContainText('Continuous/global shell maximum');
   await expect(governing).toContainText('NOT CLAIMED');
   await expect(governing).toContainText('NOT ESTABLISHED BY THIS WRC RESULT');
-  await checkpoint(page, testInfo, checkpointEvidence, '09', 'current-wrc-result-and-governing-scope');
+  await checkpoint(page, testInfo, checkpointEvidence, '09', 'current-local-result-and-governing-scope');
 
-  await professionalStep(workflow, 7, 'Review & Evidence').click();
-  await expect(workbench.locator('[data-role="emp1-product-execution-summary"]')).toBeInViewport();
+  await professionalStep(workflow, 7, 'Review & export').click();
+  const reviewSummary = workbench.locator('[data-role="emp1-product-execution-summary"]');
+  await reviewSummary.scrollIntoViewIfNeeded();
+  await expect(reviewSummary).toBeInViewport();
   await expect(workflow.locator('[data-role="emp1-workflow-details"]')).not.toHaveAttribute('open', '');
-  await checkpoint(page, testInfo, checkpointEvidence, '10', 'review-and-evidence');
+  await checkpoint(page, testInfo, checkpointEvidence, '10', 'review-and-export');
 
-  // Upstream mutation belongs to the Geometry task under the recovered console.
+  // Returning from Review must recover the A-backed Geometry editor before the
+  // governed upstream mutation is made. This is a navigation/presentation
+  // contract; it does not alter EMP.1 calculation state or engineering authority.
   await professionalStep(workflow, 2, 'Geometry').click();
+  await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
+    .toHaveAttribute('data-backing-stage-id', 'LAFEA.1');
   const outsideDiameter = workbench.getByRole('textbox', { name: 'Pipe outside diameter LAFEA.1' });
   await expect(outsideDiameter).toBeVisible();
   const originalDiameter = Number(await outsideDiameter.inputValue());
@@ -98,14 +110,14 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await applyGeometry.click();
   await checkpoint(page, testInfo, checkpointEvidence, '11', 'upstream-a-geometry-edited');
 
-  await expect(summary).toContainText('LOCAL RESULT STALE');
+  await expect(summary).toContainText('Local inputs changed — recalculate');
   const workflowDetails = workflow.locator('[data-role="emp1-workflow-details"]');
-  if (!(await workflowDetails.getAttribute('open'))) await workflowDetails.locator('summary').click();
+  if (!(await workflowDetails.getAttribute('open'))) await workflowDetails.locator(':scope > summary').click();
   await expect(workflowDetails).toHaveAttribute('open', '');
   const staleNotice = workflow.locator('[data-role="emp1-professional-currentness-notice"]');
   await expect(staleNotice).toHaveAttribute('data-state', 'STALE');
   await expect(staleNotice.locator('[data-role="emp1-professional-required-action"]'))
-    .toContainText(/Re-run|rerun/u);
+    .toContainText(/Re-run|rerun|recalculate/u);
   await expect(workbench.locator('[data-role="emp1-c-result-evidence"]')).toHaveCount(0);
   await staleNotice.scrollIntoViewIfNeeded();
   await checkpoint(page, testInfo, checkpointEvidence, '12', 'downstream-local-result-stale-with-explanation');
@@ -128,6 +140,9 @@ async function openEvidenceView(workbench, surfaceId) {
   );
   await tab.click();
   await expect(tab).toHaveAttribute('aria-selected', 'true');
+  const surface = analytical.locator(`[data-emp1-layout-surface="${surfaceId}"]`);
+  await expect(surface).toBeVisible();
+  await surface.scrollIntoViewIfNeeded();
 }
 
 function professionalStep(workflow, ordinal, label) {
@@ -159,13 +174,21 @@ async function checkpoint(page, testInfo, evidence, ordinal, name) {
 async function attachManifest(page, testInfo, originalDiameter, checkpointEvidence) {
   const browserVersion = page.context().browser()?.version() ?? 'UNRESOLVED';
   const manifest = {
-    schema: 'emp1-wrc-ui-walkthrough-evidence/v5',
+    schema: 'emp1-wrc-ui-walkthrough-evidence/v6',
     project: testInfo.project.name,
     browserVersion,
     checkpoints: 12,
     checkpointEvidence,
-    taskShellRecoveryIssue: 1664,
     splitConsoleSchema: 'emp1-split-console/v1',
+    operatorWorkflow: [
+      'Start',
+      'Geometry',
+      'Loads',
+      'Load transfer',
+      'Section check',
+      'Local check',
+      'Review & export',
+    ],
     attachmentPolicy: {
       viewportScreenshots: 12,
       fullPageContextScreenshots: 12,
