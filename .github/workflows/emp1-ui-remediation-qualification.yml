@@ -29,6 +29,8 @@ jobs:
           node --check src/workspace/lafea-workbench-view.js
           node --check src/workspace/lafea-workbench-controller.js
           node --check src/workspace/lafea-analytical-calc-content.js
+          node scripts/emp1-assessment-state-check.mjs
+          node scripts/emp1-qualification-sample-orchestration-check.mjs
           node scripts/emp1-plain-language-labels-check.mjs
           node scripts/emp1-professional-workflow-check.mjs
           npm run check:imports
@@ -50,3 +52,4 @@ jobs:
           e2e/emp1-benchmark-evidence.spec.js
           e2e/emp1-human-presentation-tokens.spec.js
           e2e/emp1-professional-release.spec.js
+          e2e/emp1-professional-walkthrough-evidence.spec.js
