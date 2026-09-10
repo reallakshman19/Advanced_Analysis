@@ -62,7 +62,10 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(workbench.locator('[data-role="lafea-analytical-calc"]'))
     .toHaveAttribute('data-backing-stage-id', 'LAFEA.2');
   await openEvidenceConsole(workbench);
-  await expect(workbench.locator('[data-role="lafea-screening-load-custody"]')).toBeInViewport();
+  const sectionRecord = workbench.locator('[data-role="lafea-screening-load-custody"]');
+  await expect(sectionRecord).toBeVisible();
+  await sectionRecord.scrollIntoViewIfNeeded();
+  await expect(sectionRecord).toBeInViewport();
   await expect(workbench.locator('[data-role="emp1-analytical-full-width-detail"]'))
     .toHaveAttribute('data-emp1-evidence-view', 'screeningCustody');
   await checkpoint(page, testInfo, checkpointEvidence, '07', 'section-check-record');
