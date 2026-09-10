@@ -13,7 +13,7 @@ test.afterEach(async ({ page }) => destroyWorkbench(page));
 test('clean complete sample executes and retains A before B/C', async ({ page }) => {
   await mountEmp1Workbench(page);
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  await workbench.locator('[data-role="emp1-load-complete-qualification-sample"]').click();
+  await runCompleteExample(workbench);
 
   await expect.poll(() => sampleState(page)).toMatchObject({
     aDocumentLoaded: true,
@@ -39,8 +39,7 @@ test('clean complete sample executes and retains A before B/C', async ({ page })
 test('complete sample replaces an existing A lifecycle instead of inheriting it', async ({ page }) => {
   await mountEmp1Workbench(page);
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  const loadSample = workbench.locator('[data-role="emp1-load-complete-qualification-sample"]');
-  await loadSample.click();
+  await runCompleteExample(workbench);
 
   await expect.poll(() => sampleState(page)).toMatchObject({
     aExecutionStatus: 'QUALIFIED',
@@ -77,7 +76,7 @@ test('complete sample replaces an existing A lifecycle instead of inheriting it'
     aLifecycleSourceHash: priorSourceHash,
   });
 
-  await loadSample.click();
+  await replaceWithCompleteExample(page, workbench);
 
   await expect.poll(() => sampleState(page)).toMatchObject({
     storeStatus: 'READY',
@@ -98,8 +97,7 @@ test('complete sample replaces an existing A lifecycle instead of inheriting it'
 test('complete sample preserves an A run root diagnostic and retires prior product sidecars', async ({ page }) => {
   await mountEmp1Workbench(page);
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  const loadSample = workbench.locator('[data-role="emp1-load-complete-qualification-sample"]');
-  await loadSample.click();
+  await runCompleteExample(workbench);
 
   await expect.poll(() => sampleState(page)).toMatchObject({
     aExecutionStatus: 'QUALIFIED',
@@ -128,13 +126,20 @@ test('complete sample preserves an A run root diagnostic and retires prior produ
     };
   });
 
-  await loadSample.click();
+  await replaceWithCompleteExample(page, workbench);
 
   await expect.poll(() => sampleState(page)).toMatchObject({
     runInputLoaded: false,
     emp1ExecutionStatus: null,
     failureCode: 'EMP1_TEST_A_ROOT_FAILURE',
   });
+  const failure = workbench.locator('[data-role="emp1-workflow-run-failure"]');
+  await expect(failure).toContainText('Assessment needs attention');
+  await expect(failure).not.toContainText('EMP1_TEST_A_ROOT_FAILURE');
+  const technical = failure.locator('[data-role="emp1-workflow-run-failure-technical"]');
+  await expect(technical).not.toHaveAttribute('open', '');
+  await technical.locator('summary').click();
+  await expect(technical).toContainText('EMP1_TEST_A_ROOT_FAILURE');
 });
 
 test('complete sample stops before B/C when A is not current and qualified', async ({ page }) => {
@@ -145,7 +150,7 @@ test('complete sample stops before B/C when A is not current and qualified', asy
   });
 
   const workbench = page.locator('[data-role="lafea-workbench"]');
-  await workbench.locator('[data-role="emp1-load-complete-qualification-sample"]').click();
+  await runCompleteExample(workbench);
 
   await expect.poll(() => sampleState(page)).toMatchObject({
     aDocumentLoaded: true,
@@ -156,7 +161,20 @@ test('complete sample stops before B/C when A is not current and qualified', asy
     emp1ExecutionStatus: null,
     failureCode: 'EMP1_A_CURRENT_QUALIFIED_RESULT_REQUIRED',
   });
+  await expect(workbench.locator('[data-role="emp1-workflow-run-failure"]'))
+    .toContainText('A current load-transfer result is required before the local check can run.');
 });
+
+async function runCompleteExample(workbench) {
+  await workbench.locator('[data-emp1-primary-action="true"]').click();
+}
+
+async function replaceWithCompleteExample(page, workbench) {
+  const more = workbench.locator('[data-role="emp1-more-actions"]');
+  if (await more.getAttribute('open') === null) await more.locator(':scope > summary').click();
+  page.once('dialog', (dialog) => dialog.accept());
+  await more.locator('[data-role="emp1-load-complete-qualification-sample"]').click();
+}
 
 async function sampleState(page) {
   return page.evaluate(() => {
