@@ -8,6 +8,8 @@
 
 export const EMP1_PRESENTATION_FINALIZER_SCHEMA = 'emp1-presentation-finalizer/v1';
 
+const GLOBAL_META_OBSERVERS = new WeakMap();
+
 const STEP_LABELS = Object.freeze({
   BASIS_SOURCE: Object.freeze({ ordinal: 1, label: 'Start', note: 'Choose assessment data and confirm the basis.' }),
   GEOMETRY: Object.freeze({ ordinal: 2, label: 'Geometry', note: 'Review the dimensions used by this assessment.' }),
@@ -51,6 +53,8 @@ export function finalizeEmp1Presentation(shell, options = {}) {
   const assessment = options.assessmentState ?? null;
   shell.dataset.emp1PresentationFinalizer = EMP1_PRESENTATION_FINALIZER_SCHEMA;
 
+  normalizeGlobalTopbar(shell);
+  normalizeActionBar(shell, assessment);
   normalizeWorkflow(shell, assessment);
   normalizeTaskContext(shell, assessment);
   normalizeInspector(shell);
@@ -70,6 +74,48 @@ export function finalizeEmp1Presentation(shell, options = {}) {
     else setTimeout(apply, 0);
   });
   return shell;
+}
+
+function normalizeActionBar(shell, assessment) {
+  const documentRef = shell.ownerDocument;
+  const toolbar = documentRef?.querySelector?.('[data-role="lafea-workbench"] [data-role="emp1-action-bar"]');
+  if (!toolbar) return;
+  const primary = toolbar.querySelector('[data-role="emp1-primary-action"]');
+  const help = toolbar.querySelector('[data-role="emp1-primary-action-help"]');
+  const complete = toolbar.querySelector('[data-role="emp1-load-complete-qualification-sample"]');
+  if (primary) primary.dataset.emp1PrimaryAction = 'true';
+
+  if (assessment?.nextAction?.id === 'RUN_COMPLETE_EXAMPLE' && complete) {
+    if (primary) {
+      primary.hidden = true;
+      delete primary.dataset.emp1PrimaryAction;
+    }
+    complete.dataset.emp1PrimaryAction = 'true';
+    complete.dataset.toolbarPrimary = 'true';
+    complete.setAttribute('aria-describedby', 'emp1-primary-action-help');
+    toolbar.insertBefore(complete, help ?? toolbar.firstChild);
+  }
+}
+
+function normalizeGlobalTopbar(shell) {
+  const documentRef = shell.ownerDocument;
+  const meta = documentRef?.querySelector?.('.top-bar-meta');
+  if (meta) {
+    meta.hidden = true;
+    meta.dataset.hiddenByEmp1 = 'true';
+  }
+  const MutationObserverType = documentRef?.defaultView?.MutationObserver ?? globalThis.MutationObserver;
+  if (!documentRef || typeof MutationObserverType !== 'function' || GLOBAL_META_OBSERVERS.has(documentRef)) return;
+  const observer = new MutationObserverType(() => {
+    if (documentRef.querySelector?.('[data-role="lafea-analytical-calc"]')) return;
+    const current = documentRef.querySelector?.('.top-bar-meta[data-hidden-by-emp1="true"]');
+    if (current) {
+      current.hidden = false;
+      delete current.dataset.hiddenByEmp1;
+    }
+  });
+  observer.observe(documentRef.body ?? documentRef.documentElement, { childList: true, subtree: true });
+  GLOBAL_META_OBSERVERS.set(documentRef, observer);
 }
 
 function normalizeWorkflow(shell, assessment) {
