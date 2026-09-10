@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { refreshEmp1BSourceEvidence } from '../src/core/emp1/emp1-a-to-b-refresh.js';
 import { createEmp1WorkbenchQualificationSample } from '../src/workspace/emp1-workbench-qualification-sample.js';
+import { createLafeaWorkbenchStore } from '../src/workspace/lafea-lifecycle-workbench-store.js';
 import { executeLafeaStage } from '../src/workspace/lafea-workbench-model.js';
+import { issueLafeaSourceAuthority } from '../src/workspace/lafea-source-authority.js';
 
 const controllerPath = 'src/workspace/lafea-workbench-controller.js';
 const samplePath = 'src/workspace/emp1-workbench-qualification-sample.js';
@@ -16,12 +18,20 @@ assert.notEqual(methodEnd, -1, 'EMP1_QUALIFICATION_SAMPLE_LOADER_BOUNDARY_REQUIR
 const method = controllerSource.slice(methodStart, methodEnd);
 
 const orderedMarkers = [
-  "this.importDocument(sample.aDocument, 'LAFEA.1')",
+  'this.emp1RunSerial += 1',
+  'this.emp1RunInput = null',
+  'this.emp1Execution = null',
+  'this.emp1EngineeringReviewRecord = null',
+  'const aSourceAuthority = issueLafeaSourceAuthority(',
+  'aSourceAuthority.sourceHash,',
   "this.store.selectStage('LAFEA.1')",
   'const ranA = this.run()',
+  "ranA?.status === 'FAILED'",
+  "diagnostic?.code ?? 'EMP1_QUALIFICATION_SAMPLE_A_RUN_FAILED'",
   "aExecution?.status !== 'QUALIFIED'",
   "aExecution?.result?.qualification?.state !== 'ACCEPTED'",
-  "this.importDocument(sample.bDocument, 'LAFEA.2')",
+  'const bSourceAuthority = issueLafeaSourceAuthority(',
+  'bSourceAuthority.sourceHash,',
   'this.setEmp1RunInput(sample.runInput)',
   'await this.runEmp1Product()',
 ];
@@ -33,15 +43,12 @@ for (const marker of orderedMarkers) {
   previous = index;
 }
 
-// importDocument(sample.bDocument, 'LAFEA.2') makes B the active stage as an
-// intrinsic side effect of importing into it - correct for a deliberate
-// single-document import, but "load complete sample" is one bulk convenience
-// action, not the caller choosing to look at B. runEmp1Product() itself
-// reads stages['LAFEA.1']/['LAFEA.2'] directly and does not depend on which
-// stage is active, so the method must restore A as active afterward rather
-// than leaving the caller looking at B (which also drives
-// reconcileSelectionWithBackingStage in emp1-analytical-layout.js to jump
-// the professional-workflow task to SECTION_SCREENING).
+// importDocument(sample.bDocument, 'LAFEA.2', sourceHash) makes B the active
+// stage as an intrinsic side effect of importing into it - correct for a
+// deliberate single-document import, but "load complete sample" is one bulk
+// convenience action, not the caller choosing to look at B. runEmp1Product()
+// itself reads stages['LAFEA.1']/['LAFEA.2'] directly and does not depend on
+// which stage is active, so the method must restore A as active afterward.
 const restoreAIndex = method.indexOf("this.store.selectStage('LAFEA.1')", previous);
 assert.ok(restoreAIndex > previous,
   "EMP1_QUALIFICATION_SAMPLE_MUST_RESTORE_A_ACTIVE_AFTER_RUN:this.store.selectStage('LAFEA.1')");
@@ -49,6 +56,10 @@ assert.ok(restoreAIndex > previous,
 assert.match(method, /error\.code = 'EMP1_A_CURRENT_QUALIFIED_RESULT_REQUIRED'/u);
 assert.equal(method.includes('sample.aExecution'), false,
   'EMP1_QUALIFICATION_SAMPLE_MUST_NOT_INJECT_FACTORY_A_EXECUTION');
+assert.match(method, /issueLafeaSourceAuthority\(\s*'LAFEA\.1',[\s\S]*?aSourceAuthority\.sourceHash/u,
+  'EMP1_QUALIFICATION_SAMPLE_A_IMPORT_MUST_REPLACE_LIFECYCLE_AUTHORITY');
+assert.match(method, /issueLafeaSourceAuthority\(\s*'LAFEA\.2',[\s\S]*?bSourceAuthority\.sourceHash/u,
+  'EMP1_QUALIFICATION_SAMPLE_B_IMPORT_MUST_REPLACE_LIFECYCLE_AUTHORITY');
 
 const factoryStart = sampleSource.indexOf('export function createEmp1WorkbenchQualificationSample()');
 const factoryEnd = sampleSource.indexOf('\nfunction createQualificationAInput()', factoryStart);
@@ -100,15 +111,70 @@ assert.doesNotThrow(() => refreshEmp1BSourceEvidence({
   bDocument: sample.bDocument,
 }), 'EMP1_QUALIFICATION_SAMPLE_RUNTIME_A_TO_B_REFRESH_MUST_ACCEPT_RETURNED_A');
 
+// A complete-sample source replacement must not inherit an already-current
+// lifecycle from a different A source. Exercise the existing explicit
+// sourceHash import seam directly so this remains a non-browser falsifier for
+// the source/lifecycle hash mismatch that motivated this release.
+const replacementStore = createLafeaWorkbenchStore({ initialStage: 'LAFEA.1' });
+const priorA = structuredClone(sample.aDocument);
+priorA.modelIdentity = `${priorA.modelIdentity}-PRIOR-LIFECYCLE`;
+const priorAuthority = issueLafeaSourceAuthority(
+  'LAFEA.1',
+  priorA,
+  'EMP1_QUALIFICATION_SAMPLE_CHECK/PRIOR',
+);
+let replacementState = replacementStore.importDocument(
+  priorA,
+  'LAFEA.1',
+  priorAuthority.sourceHash,
+);
+assert.equal(replacementState.stages['LAFEA.1'].lifecycleBinding.status, 'CURRENT');
+assert.equal(
+  replacementState.stages['LAFEA.1'].lifecycle.source.sourceHash,
+  priorAuthority.sourceHash,
+);
+replacementState = replacementStore.run();
+assert.equal(replacementState.status, 'READY');
+assert.equal(replacementState.stages['LAFEA.1'].execution?.status, 'QUALIFIED');
+
+const sampleAuthority = issueLafeaSourceAuthority(
+  'LAFEA.1',
+  sample.aDocument,
+  'EMP1_QUALIFICATION_SAMPLE_CHECK/REPLACEMENT',
+);
+assert.notEqual(sampleAuthority.sourceHash, priorAuthority.sourceHash);
+replacementState = replacementStore.importDocument(
+  sample.aDocument,
+  'LAFEA.1',
+  sampleAuthority.sourceHash,
+);
+assert.equal(replacementState.stages['LAFEA.1'].lifecycleBinding.status, 'CURRENT');
+assert.equal(
+  replacementState.stages['LAFEA.1'].lifecycle.source.sourceHash,
+  sampleAuthority.sourceHash,
+);
+replacementState = replacementStore.run();
+assert.equal(replacementState.status, 'READY');
+assert.equal(replacementState.diagnostics?.[0]?.code ?? null, null);
+assert.equal(replacementState.stages['LAFEA.1'].execution?.status, 'QUALIFIED');
+assert.equal(
+  replacementState.stages['LAFEA.1'].execution?.result?.qualification?.state,
+  'ACCEPTED',
+);
+replacementStore.destroy();
+
 console.log(JSON.stringify({
-  schema: 'emp1-qualification-sample-orchestration-check/v2',
+  schema: 'emp1-qualification-sample-orchestration-check/v3',
   status: 'PASS_STATIC_QUALIFICATION_SAMPLE_A_THEN_B_THEN_C_CONTRACT',
   factorySourceIdentity: 'NORMALIZED_FACTORY_A_SOURCE',
   factoryRuntimeSmokePass: true,
+  lifecycleReplacementSmokePass: true,
   aExecutionPath: 'NORMAL_CONTROLLER_STORE_RUN',
   aMustBeQualified: true,
   aQualificationMustBeAccepted: true,
+  aRunFailureDiagnosticPreserved: true,
   bImportedAfterAQualified: true,
   cRunAfterBAndRunInput: true,
+  productSidecarResetBeforeReplacement: true,
   factoryExecutionInjectionAllowed: false,
 }, null, 2));
