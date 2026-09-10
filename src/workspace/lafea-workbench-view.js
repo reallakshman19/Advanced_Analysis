@@ -22,11 +22,15 @@ import {
   isEmp1BackingStage,
 } from './emp1-product-projection.js';
 import {
-  EMP1_WORKBENCH_EXECUTION_CURRENTNESS,
   classifyEmp1WorkbenchExecutionCurrentness,
   projectEmp1WorkbenchCState,
   projectEmp1WorkbenchRunReadiness,
 } from './emp1-workbench-run-state.js';
+import {
+  EMP1_ASSESSMENT_ACTIONS,
+  projectEmp1AssessmentState,
+} from './emp1-assessment-state.js';
+import { finalizeEmp1Presentation } from './emp1-presentation-finalizer.js';
 import {
   lafeaWorkbenchReasonLabel,
   lafeaWorkbenchReasonLabels,
@@ -102,6 +106,7 @@ export class LafeaWorkbenchView {
     const dependencies = VIEW_RENDER_DEPENDENCIES.get(this);
     const emp1RunInput = analyticalMode ? dependencies.getEmp1RunInput() : null;
     const emp1Execution = analyticalMode ? dependencies.getEmp1Execution() : null;
+    const emp1RunFailure = analyticalMode ? dependencies.getEmp1RunFailure() : null;
     const emp1RouteAuthority = analyticalMode ? dependencies.getEmp1RouteAuthority() : null;
     const emp1ExecutionCurrentness = analyticalMode
       ? classifyEmp1WorkbenchExecutionCurrentness({
@@ -139,6 +144,20 @@ export class LafeaWorkbenchView {
     const emp1Projection = analyticalMode
       ? withEmp1CStateProjection(baseEmp1Projection, emp1CState)
       : null;
+    const emp1AssessmentState = analyticalMode
+      ? projectEmp1AssessmentState({
+        state: analyticalState,
+        projection: emp1Projection,
+        runReadiness: emp1RunReadiness,
+        executionCurrentness: emp1ExecutionCurrentness,
+        cState: emp1CState,
+        runFailure: emp1RunFailure,
+        runInput: emp1RunInput,
+      })
+      : null;
+    const presentedEmp1Projection = analyticalMode
+      ? Object.freeze({ ...emp1Projection, presentationState: emp1AssessmentState })
+      : null;
     const renderPacket = fePresentation ? dependencies.getRenderPacket(stageId) : null;
     const sceneRevision = fePresentation
       ? this.nextSceneRevision(stageId, stage.document, stage.lifecycle, stage.lifecycleBinding)
@@ -152,12 +171,17 @@ export class LafeaWorkbenchView {
     const previousViewport = this.activeViewport;
 
     this.ensureShell();
-    this.slots.header.replaceChildren(this.header(state, stage, registryEntry, { analyticalMode }));
+    this.slots.header.replaceChildren(this.header(state, stage, registryEntry, {
+      analyticalMode,
+      emp1AssessmentState,
+    }));
     this.slots.navigation.replaceChildren(this.stageNavigation(state));
     this.slots.toolbar.replaceChildren(this.toolbar(stageId, stage, analyticalMode, {
+      workspaceState: state,
       emp1RunReadiness,
       emp1ExecutionCurrentness,
       emp1CState,
+      emp1AssessmentState,
     }));
 
     const presentedStage = analyticalMode ? analyticalState.stages[stageId] : stage;
@@ -165,13 +189,13 @@ export class LafeaWorkbenchView {
       ? renderLafeaAnalyticalCalcContent(this.rootElement, analyticalState, presentedStage, {
         handlers: this.handlers,
         registryEntry,
-        emp1Projection,
+        emp1Projection: presentedEmp1Projection,
         emp1RunInput,
         emp1Execution,
         emp1ExecutionCurrentness,
         emp1CState,
         emp1RouteAuthority,
-        emp1RunFailure: dependencies.getEmp1RunFailure(),
+        emp1RunFailure,
         onSelectRoute: (nextStageId) => this.selectAnalyticalRoute(nextStageId, state),
         benchmarkHost: this.benchmarkHost,
       })
@@ -189,6 +213,13 @@ export class LafeaWorkbenchView {
         onNavigateTarget: (target) => this.focusToolbarTarget(target),
         benchmarkHost: this.benchmarkHost,
       });
+
+    if (analyticalMode) {
+      finalizeEmp1Presentation(content.element, {
+        assessmentState: emp1AssessmentState,
+        backingStageId: stageId,
+      });
+    }
 
     if (!reuseViewport) previousViewport?.destroy();
     this.activeViewport = content.viewport;
@@ -242,12 +273,10 @@ export class LafeaWorkbenchView {
     let custody = null;
 
     if (modes.analyticalMode) {
-      eyebrow = this.analyticalOnly
-        ? 'Independent analytical assessment'
-        : 'LAFEA standalone analysis • analytical product';
+      eyebrow = 'Local attachment assessment';
       title = `${EMP1_PUBLIC_PRODUCT.productId} — ${EMP1_PUBLIC_PRODUCT.label}`;
-      purpose = `${EMP1_PUBLIC_PRODUCT.purpose} No FE mesh is created in EMP.1.`;
-      custody = this.analyticalCustody(stage);
+      purpose = 'Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.';
+      custody = this.analyticalCustody(stage, modes.emp1AssessmentState);
     } else {
       eyebrow = `LAFEA standalone analysis • active stage ${definition.stageId}`;
       title = `${definition.stageId} — ${definition.label}`;
@@ -260,9 +289,20 @@ export class LafeaWorkbenchView {
       element(this.rootElement, 'h1', null, title),
       element(this.rootElement, 'p', null, purpose),
     );
+    if (modes.analyticalMode && modes.emp1AssessmentState?.outcome) {
+      const message = element(this.rootElement, 'p', 'lafea-workbench__authority', modes.emp1AssessmentState.outcome.message);
+      message.dataset.role = 'emp1-header-outcome-message';
+      block.append(message);
+    }
     if (custody) block.append(custody);
-    const status = element(this.rootElement, 'output', 'lafea-workbench__status', state.status);
-    status.dataset.status = state.status;
+    const statusText = modes.analyticalMode
+      ? modes.emp1AssessmentState?.outcome?.label ?? 'Not ready'
+      : state.status;
+    const status = element(this.rootElement, 'output', 'lafea-workbench__status', statusText);
+    status.dataset.status = modes.analyticalMode
+      ? modes.emp1AssessmentState?.outcome?.state ?? 'NOT_READY'
+      : state.status;
+    status.dataset.role = modes.analyticalMode ? 'emp1-header-status' : 'lafea-stage-status';
     status.setAttribute('aria-live', 'polite');
     header.append(block, status);
     return header;
@@ -286,19 +326,21 @@ export class LafeaWorkbenchView {
     return details;
   }
 
-  analyticalCustody(stage) {
+  analyticalCustody(stage, assessmentState) {
     const details = element(this.rootElement, 'details', 'lafea-workbench__custody-details');
-    const summary = element(this.rootElement, 'summary', null, 'Technical custody detail');
+    details.dataset.role = 'emp1-header-technical-details';
+    const summary = element(this.rootElement, 'summary', null, 'Technical details');
     const row = element(this.rootElement, 'div', 'lafea-workbench__custody');
     const sections = stage.orchestration?.sections ?? {};
     const step = emp1StepForBackingStage(stage.stageId);
     [
-      `Public step: ${step?.stepId ?? 'UNRESOLVED'} ${step?.label ?? ''}`.trim(),
-      `Retained backing engine: ${stage.stageId}`,
+      `Engine stage: ${step?.stepId ?? 'UNRESOLVED'} ${step?.label ?? ''}`.trim(),
+      `Backing engine: ${stage.stageId}`,
       `Source binding: ${stage.lifecycleBinding?.status ?? 'UNINITIALIZED'}`,
       `Profile: ${stage.lifecycle?.profileId ?? 'UNINITIALIZED'}`,
       `Preparation: ${sections.PREPARATION?.state ?? 'UNAVAILABLE'}`,
       `Authorization: ${sections.AUTHORIZATION?.state ?? 'UNAVAILABLE'}`,
+      `Execution currentness: ${assessmentState?.technical?.executionCurrentness ?? 'NOT_RUN'}`,
       'FE mesh: NOT APPLICABLE',
       `Release: ${sections.RELEASE?.state === 'COMPLETE' ? 'QUALIFIED' : 'NOT QUALIFIED'}`,
     ].forEach((value) => row.append(element(this.rootElement, 'span', null, value)));
@@ -372,34 +414,20 @@ export class LafeaWorkbenchView {
   }
 
   toolbar(stageId, stage, analyticalMode = false, emp1 = {}) {
+    if (analyticalMode) return this.analyticalToolbar(stageId, stage, emp1);
+
     const toolbar = element(this.rootElement, 'div', 'lafea-workbench__toolbar');
-    const step = analyticalMode ? emp1StepForBackingStage(stageId) : null;
-    const publicId = step?.stepId ?? stageId;
     const mock = actionButton(
       this.rootElement,
-      `[SIMULATED] Load ${publicId} demonstration source`,
+      `[SIMULATED] Load ${stageId} demonstration source`,
       () => this.handlers.onMock(stageId),
     );
     mock.dataset.role = 'lafea-mock';
     mock.dataset.mockData = 'true';
     if (stage?.document) mock.style.display = 'none';
 
-    const completeSample = analyticalMode
-      ? actionButton(
-        this.rootElement,
-        '[SIMULATED] Load complete EMP.1 qualification sample',
-        this.handlers.onLoadEmp1QualificationSample,
-      )
-      : null;
-    if (completeSample) {
-      completeSample.dataset.role = 'emp1-load-complete-qualification-sample';
-      completeSample.dataset.mockData = 'true';
-      completeSample.title = 'Load source-only A/B/C qualification inputs through the normal workbench custody path. Derived WRC quantities and production authority are not injected.';
-    }
-
     const file = element(this.rootElement, 'input');
-    const fileLabel = element(this.rootElement, 'label', null,
-      analyticalMode ? `Import ${publicId} source JSON` : 'Import stage JSON');
+    const fileLabel = element(this.rootElement, 'label', null, 'Import stage JSON');
     const fileId = `lafea-import-${stageId.replace('.', '-')}`;
     file.id = fileId;
     fileLabel.htmlFor = fileId;
@@ -413,7 +441,123 @@ export class LafeaWorkbenchView {
     const runAuthorized = authorization?.state === 'READY';
     const run = actionButton(
       this.rootElement,
-      executionSupported ? (analyticalMode ? `Validate and run ${publicId}` : 'Validate and calculate') : 'Calculation not implemented',
+      executionSupported ? 'Validate and calculate' : 'Calculation not implemented',
+      this.handlers.onRun,
+    );
+    run.dataset.role = 'lafea-run';
+    run.disabled = !stage.document || !executionSupported || !runAuthorized;
+    run.title = runTitle(stage, executionSupported, authorization);
+
+    const benchmark = actionButton(this.rootElement, 'Run available verification suite', this.handlers.onBenchmark);
+    benchmark.dataset.role = 'lafea-benchmark';
+    benchmark.disabled = !executionSupported;
+    const exportButton = actionButton(this.rootElement, 'Export source document', this.handlers.onExport);
+    exportButton.disabled = !stage.document;
+    const undo = actionButton(this.rootElement, 'Undo', this.handlers.onUndo);
+    undo.disabled = !stage.past.length;
+    const redo = actionButton(this.rootElement, 'Redo', this.handlers.onRedo);
+    redo.disabled = !stage.future.length;
+    const showMock = !this.rootElement?.hasAttribute?.('data-lafea-app-root');
+    toolbar.append(
+      ...(showMock ? [mock] : []),
+      fileLabel,
+      file,
+      run,
+      ...(this.benchmarkHost ? [benchmark] : []),
+      exportButton,
+      undo,
+      redo,
+    );
+    return toolbar;
+  }
+
+  analyticalToolbar(stageId, stage, emp1) {
+    const toolbar = element(this.rootElement, 'div', 'lafea-workbench__toolbar');
+    toolbar.dataset.role = 'emp1-action-bar';
+    const step = emp1StepForBackingStage(stageId);
+    const assessment = emp1.emp1AssessmentState;
+    const next = assessment?.nextAction ?? {
+      id: EMP1_ASSESSMENT_ACTIONS.RUN_COMPLETE_EXAMPLE,
+      label: 'Run complete example',
+      reason: 'Load compatible assessment data to begin.',
+    };
+
+    const primary = actionButton(
+      this.rootElement,
+      next.label,
+      () => this.executeEmp1PrimaryAction(next.id, emp1.workspaceState),
+    );
+    primary.dataset.role = 'emp1-primary-action';
+    primary.dataset.nextAction = next.id;
+    primary.dataset.toolbarPrimary = 'true';
+    primary.title = next.reason;
+    primary.setAttribute('aria-describedby', 'emp1-primary-action-help');
+
+    const help = element(this.rootElement, 'span', 'lafea-workbench__toolbar-help', next.reason);
+    help.id = 'emp1-primary-action-help';
+    help.dataset.role = 'emp1-primary-action-help';
+
+    const details = element(this.rootElement, 'details', 'lafea-workbench__custody-details');
+    details.dataset.role = 'emp1-more-actions';
+    details.append(element(this.rootElement, 'summary', null, 'More actions'));
+    const note = element(this.rootElement, 'p', 'lafea-workbench__section-intro',
+      'Import, export, software verification and individual engine-stage tools are secondary. Use them only when you need to inspect or replace a specific part of the assessment.');
+    details.append(note);
+
+    const sourceControls = this.emp1SourceControls(stageId, stage, emp1.workspaceState);
+    const runControls = this.emp1TechnicalRunControls(stageId, stage, emp1);
+    const evidenceControls = this.emp1EvidenceControls(stageId, stage);
+    details.append(
+      this.toolbarGroup('source', 'Assessment data', sourceControls),
+      this.toolbarGroup('run', 'Engine-stage tools', runControls),
+      this.toolbarGroup('evidence', 'Export & software QA', evidenceControls),
+    );
+    toolbar.append(primary, help, details);
+    return toolbar;
+  }
+
+  emp1SourceControls(stageId, stage, workspaceState) {
+    const step = emp1StepForBackingStage(stageId);
+    const isolatedLabel = step?.shortId === 'B'
+      ? 'Load B-only test data (requires current load transfer)'
+      : 'Load A-only test data';
+    const mock = actionButton(this.rootElement, isolatedLabel, () => this.handlers.onMock(stageId));
+    mock.dataset.role = 'lafea-mock';
+    mock.dataset.mockData = 'true';
+    mock.title = step?.shortId === 'B'
+      ? 'Technical sample only. It does not supply the current load-transfer evidence required by section screening.'
+      : 'Technical sample only. Use Run complete example for the guided end-to-end assessment.';
+
+    const completeSample = actionButton(
+      this.rootElement,
+      'Run complete example',
+      () => this.loadCompleteExampleWithConfirmation(workspaceState),
+    );
+    completeSample.dataset.role = 'emp1-load-complete-qualification-sample';
+    completeSample.dataset.mockData = 'true';
+    completeSample.title = 'Load compatible A/B/C example inputs, establish fresh assessment custody, and run the required stages.';
+
+    const file = element(this.rootElement, 'input');
+    const fileLabel = element(this.rootElement, 'label', null,
+      step?.shortId === 'B' ? 'Import section-check JSON' : 'Import load-transfer JSON');
+    const fileId = `lafea-import-${stageId.replace('.', '-')}`;
+    file.id = fileId;
+    fileLabel.htmlFor = fileId;
+    file.type = 'file';
+    file.accept = '.json,application/json';
+    file.dataset.role = 'lafea-import';
+    file.addEventListener('change', () => this.handlers.onFile(file.files?.[0] ?? null));
+    return [mock, completeSample, fileLabel, file];
+  }
+
+  emp1TechnicalRunControls(stageId, stage, emp1) {
+    const step = emp1StepForBackingStage(stageId);
+    const executionSupported = lafeaRegisteredExecutionSupported(stageId);
+    const authorization = stage.orchestration?.sections?.AUTHORIZATION ?? null;
+    const runAuthorized = authorization?.state === 'READY';
+    const run = actionButton(
+      this.rootElement,
+      step?.shortId === 'B' ? 'Run section check' : 'Run load transfer',
       this.handlers.onRun,
     );
     run.dataset.role = 'lafea-run';
@@ -421,92 +565,98 @@ export class LafeaWorkbenchView {
     run.disabled = !stage.document || !executionSupported || !runAuthorized;
     run.title = runTitle(stage, executionSupported, authorization);
 
-    const productRun = analyticalMode
-      ? actionButton(this.rootElement, 'Prepare EMP.1 · A → B → governed C', this.handlers.onRunEmp1)
-      : null;
-    if (productRun) {
-      productRun.dataset.role = 'emp1-run-product';
-      productRun.dataset.currentness = emp1.emp1ExecutionCurrentness?.state ?? 'NOT_RUN';
-      productRun.disabled = emp1.emp1RunReadiness?.runAuthorized !== true;
-      productRun.title = productRun.disabled
-        ? `EMP.1 source binding is not ready: ${(emp1.emp1RunReadiness?.reasons ?? []).join(', ')}`
-        : 'Execute retained A/B mechanics and prepare source-bound C custody. If C production authority is suspended, no WRC stress result is produced.';
-    }
-
-    const cRun = analyticalMode
-      ? actionButton(
-        this.rootElement,
-        emp1.emp1CState?.buttonLabel ?? 'Run C',
-        this.handlers.onRunEmp1,
-      )
-      : null;
-    if (cRun) {
-      cRun.dataset.role = 'emp1-run-c';
-      cRun.dataset.cState = emp1.emp1CState?.state ?? 'SOURCE_INCOMPLETE';
-      cRun.disabled = emp1.emp1CState?.buttonEnabled !== true;
-      cRun.title = cRun.disabled
-        ? `C production execution is unavailable: ${(emp1.emp1CState?.blockerCodes ?? []).join(', ') || 'source/authority not ready'}`
-        : 'Execute the governed C transaction under the current route authority. Unchanged A/B layers are retained.';
-    }
-
-    const benchmark = actionButton(
+    const productRun = actionButton(
       this.rootElement,
-      analyticalMode ? `Verify ${publicId}` : 'Run available verification suite',
-      this.handlers.onBenchmark,
+      'Run required assessment steps',
+      this.handlers.onRunEmp1,
     );
+    productRun.dataset.role = 'emp1-run-product';
+    productRun.dataset.currentness = emp1.emp1ExecutionCurrentness?.state ?? 'NOT_RUN';
+    productRun.disabled = emp1.emp1RunReadiness?.runAuthorized !== true;
+    productRun.title = productRun.disabled
+      ? `Assessment setup is incomplete: ${(emp1.emp1RunReadiness?.reasons ?? []).join(', ')}`
+      : 'Run current required A/B mechanics and the governed local check when it is available.';
+
+    const cRun = actionButton(
+      this.rootElement,
+      emp1.emp1CState?.currentResultAvailable === true ? 'Recalculate local check' : 'Run local check',
+      this.handlers.onRunEmp1,
+    );
+    cRun.dataset.role = 'emp1-run-c';
+    cRun.dataset.cState = emp1.emp1CState?.state ?? 'SOURCE_INCOMPLETE';
+    cRun.disabled = emp1.emp1CState?.buttonEnabled !== true;
+    cRun.title = cRun.disabled
+      ? `Local check is unavailable: ${(emp1.emp1CState?.blockerCodes ?? []).join(', ') || 'source or method setup is incomplete'}`
+      : 'Run the local correlation under the current bounded method authority.';
+    return [productRun, cRun, run];
+  }
+
+  emp1EvidenceControls(stageId, stage) {
+    const executionSupported = lafeaRegisteredExecutionSupported(stageId);
+    const benchmark = actionButton(this.rootElement, 'Run software verification', this.handlers.onBenchmark);
     benchmark.dataset.role = 'lafea-benchmark';
     benchmark.disabled = !executionSupported;
+    benchmark.title = 'Runs software quality-assurance checks. Passing these checks is not an EMP.1 assessment result.';
 
-    const exportButton = actionButton(
-      this.rootElement,
-      analyticalMode ? `Export ${publicId} source` : 'Export source document',
-      this.handlers.onExport,
-    );
+    const exportButton = actionButton(this.rootElement, 'Export current step data', this.handlers.onExport);
     exportButton.disabled = !stage.document;
-    const undo = actionButton(this.rootElement, 'Undo', this.handlers.onUndo);
+    const undo = actionButton(this.rootElement, 'Undo edit', this.handlers.onUndo);
     undo.disabled = !stage.past.length;
-    const redo = actionButton(this.rootElement, 'Redo', this.handlers.onRedo);
+    const redo = actionButton(this.rootElement, 'Redo edit', this.handlers.onRedo);
     redo.disabled = !stage.future.length;
+    return [...(this.benchmarkHost ? [benchmark] : []), exportButton, undo, redo];
+  }
 
-    const showMock = !this.rootElement?.hasAttribute?.('data-lafea-app-root');
-    const sourceControls = [
-      ...(showMock ? [mock] : []),
-      ...(completeSample ? [completeSample] : []),
-      fileLabel,
-      file,
-    ];
-    const runControls = [
-      ...(productRun ? [productRun] : []),
-      ...(cRun ? [cRun] : []),
-      run,
-    ];
-    const evidenceControls = [
-      ...(this.benchmarkHost ? [benchmark] : []),
-      exportButton,
-      undo,
-      redo,
-    ];
-
-    if (!analyticalMode) {
-      // FE stage presentation keeps the existing flat toolbar untouched.
-      toolbar.append(...sourceControls, ...runControls, ...evidenceControls);
-      return toolbar;
-    }
-
-    // Analytical presentation groups by intent, because these controls are not
-    // equally relevant at once: several are sequential and two are mutually
-    // exclusive ways of loading a source. The next actionable control is marked
-    // primary so the toolbar states where the engineer is in the sequence.
-    const primary = runControls.find((control) => control.disabled === false)
-      ?? (stage?.document ? null : fileLabel);
-    if (primary) primary.dataset.toolbarPrimary = 'true';
-
-    toolbar.append(
-      this.toolbarGroup('source', 'Source', sourceControls),
-      this.toolbarGroup('run', 'Run', runControls),
-      this.toolbarGroup('evidence', 'Evidence', evidenceControls),
+  loadCompleteExampleWithConfirmation(state) {
+    const hasCurrentAssessment = Boolean(
+      state?.stages?.['LAFEA.1']?.document
+      || state?.stages?.['LAFEA.2']?.document
+      || state?.stages?.['LAFEA.1']?.execution
+      || state?.stages?.['LAFEA.2']?.execution,
     );
-    return toolbar;
+    if (hasCurrentAssessment) {
+      const confirm = this.rootElement?.ownerDocument?.defaultView?.confirm;
+      if (typeof confirm === 'function' && confirm(
+        'Replace the current EMP.1 assessment? Existing calculated results will be cleared and recalculated for the example.',
+      ) !== true) return null;
+    }
+    return this.handlers.onLoadEmp1QualificationSample();
+  }
+
+  executeEmp1PrimaryAction(actionId, state) {
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.RUN_COMPLETE_EXAMPLE) {
+      return this.loadCompleteExampleWithConfirmation(state);
+    }
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.RUN_LOAD_TRANSFER) {
+      this.handlers.onStage('LAFEA.1');
+      return this.handlers.onRun();
+    }
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.OPEN_SECTION_CHECK) {
+      this.handlers.onStage('LAFEA.2');
+      return this.selectEmp1Task('SECTION_SCREENING');
+    }
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.RUN_SECTION_CHECK) {
+      this.handlers.onStage('LAFEA.2');
+      return this.handlers.onRun();
+    }
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.CONFIGURE_LOCAL_CHECK) {
+      return this.selectEmp1Task('LOCAL_CORRELATION');
+    }
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.RUN_LOCAL_CHECK) {
+      return this.handlers.onRunEmp1();
+    }
+    if (actionId === EMP1_ASSESSMENT_ACTIONS.REVIEW_ASSESSMENT) {
+      return this.selectEmp1Task('REVIEW_EVIDENCE');
+    }
+    throw new TypeError(`EMP1_PRIMARY_ACTION_UNSUPPORTED:${actionId}`);
+  }
+
+  selectEmp1Task(stepId) {
+    const shell = this.rootElement?.querySelector?.('[data-role="lafea-analytical-calc"]');
+    const CustomEventType = this.rootElement?.ownerDocument?.defaultView?.CustomEvent ?? globalThis.CustomEvent;
+    if (!shell || typeof shell.dispatchEvent !== 'function' || typeof CustomEventType !== 'function') return false;
+    shell.dispatchEvent(new CustomEventType('emp1-task-shell-select', { detail: { stepId } }));
+    return true;
   }
 
   /** One labelled, separated cluster of toolbar controls. */
@@ -538,7 +688,7 @@ export class LafeaWorkbenchView {
 
   focusToolbarTarget(target) {
     if (target !== 'run') return;
-    this.slots?.toolbar?.querySelector?.('[data-role="lafea-run"]')?.focus?.();
+    this.slots?.toolbar?.querySelector?.('[data-role="emp1-primary-action"], [data-role="lafea-run"]')?.focus?.();
   }
 }
 
