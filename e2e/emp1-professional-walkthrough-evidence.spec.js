@@ -17,16 +17,17 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   const workflow = workbench.locator('[data-role="emp1-workflow"]');
   const summary = workflow.locator('[data-role="emp1-professional-authority-summary"]');
 
-  await expect(summary).toContainText('SOURCE INPUT REQUIRED');
-  await expect(summary).toContainText('LOCAL METHOD BLOCKED');
+  await expect(summary).toContainText('Assessment data required');
+  await expect(summary).toContainText('Local method unavailable for these inputs');
   await checkpoint(page, testInfo, checkpointEvidence, '01', 'cold-start-fail-closed');
 
   await workbench.locator('[data-emp1-primary-action="true"]').click();
-  await expect(summary).toContainText('SOURCE CURRENT');
-  await expect(summary).toContainText('TRANSFER CURRENT');
-  await expect(summary).toContainText('SCREENING CURRENT');
-  await expect(summary).toContainText('LOCAL METHOD QUALIFIED');
-  await expect(summary).toContainText('LOCAL RESULT CURRENT');
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
+  await expect(summary).toContainText('Assessment data current');
+  await expect(summary).toContainText('Load transfer current');
+  await expect(summary).toContainText('Section check current');
+  await expect(summary).toContainText('Local method available');
+  await expect(summary).toContainText('Local check current');
   await checkpoint(page, testInfo, checkpointEvidence, '02', 'complete-example-current');
 
   await professionalStep(workflow, 1, 'Start').click();
@@ -98,14 +99,14 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await applyGeometry.click();
   await checkpoint(page, testInfo, checkpointEvidence, '11', 'upstream-a-geometry-edited');
 
-  await expect(summary).toContainText('LOCAL RESULT STALE');
+  await expect(summary).toContainText('Local inputs changed — recalculate');
   const workflowDetails = workflow.locator('[data-role="emp1-workflow-details"]');
   if (!(await workflowDetails.getAttribute('open'))) await workflowDetails.locator('summary').click();
   await expect(workflowDetails).toHaveAttribute('open', '');
   const staleNotice = workflow.locator('[data-role="emp1-professional-currentness-notice"]');
   await expect(staleNotice).toHaveAttribute('data-state', 'STALE');
   await expect(staleNotice.locator('[data-role="emp1-professional-required-action"]'))
-    .toContainText(/Re-run|rerun/u);
+    .toContainText(/Re-run|rerun|recalculate/u);
   await expect(workbench.locator('[data-role="emp1-c-result-evidence"]')).toHaveCount(0);
   await staleNotice.scrollIntoViewIfNeeded();
   await checkpoint(page, testInfo, checkpointEvidence, '12', 'downstream-local-result-stale-with-explanation');
