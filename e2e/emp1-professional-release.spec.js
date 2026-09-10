@@ -18,9 +18,9 @@ test('authorized bounded EMP.1 route executes through the real workbench without
   await sample.click();
 
   // Execution summary is retained evidence, not permanent page content. Review &
-  // Evidence foregrounds that same governed node without changing execution state.
+  // export foregrounds that same governed node without changing execution state.
   const workflow = workbench.locator('[data-role="emp1-workflow"]');
-  await workflow.getByRole('button', { name: /^7 Review & Evidence/u }).click();
+  await workflow.getByRole('button', { name: /^7 Review & export/u }).click();
   const summary = workbench.locator('[data-role="emp1-product-execution-summary"]');
   await expect(summary).toBeVisible();
   await expect(summary).toContainText('A 1 · B 1 · prepare C 1 · production C 1');
