@@ -16,6 +16,9 @@ jobs:
       github.head_ref == 'fix/issue-1743-state-contract' ||
       github.head_ref == 'fix/issue-1743-ui-remediation' ||
       github.head_ref == 'fix/issue-1743-pressure-radius-validation' ||
+      github.head_ref == 'fix/issue-1748-review-outcome-first' ||
+      github.head_ref == 'fix/issue-1749-local-check-simplification' ||
+      github.head_ref == 'fix/issue-1750-stale-copy' ||
       github.head_ref == 'chore/issue-1743-walkthrough-evidence'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
