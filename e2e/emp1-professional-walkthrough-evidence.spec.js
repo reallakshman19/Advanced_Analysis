@@ -114,6 +114,22 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await applyGeometry.click();
   await checkpoint(page, testInfo, checkpointEvidence, '11', 'upstream-a-geometry-edited');
 
+  const localCurrentness = cConfiguration.locator('[data-role="emp1-c-currentness-notice"]');
+  await expect(localCurrentness).toBeVisible();
+  await expect(localCurrentness).toHaveText(
+    'Inputs changed — recalculate load transfer before using the previous local-check result.',
+  );
+  const localTechnical = cConfiguration.locator('[data-role="emp1-c-currentness-technical"]');
+  await expect(localTechnical).toBeVisible();
+  await expect(localTechnical).not.toHaveAttribute('open', '');
+  const rawReason = localTechnical.locator('[data-role="emp1-c-currentness-reason-code"]');
+  await expect(rawReason).toHaveCount(1);
+  await expect(rawReason).toHaveText('EMP1_WORKBENCH_LOADTRANSFERDOCUMENT_CHANGED');
+  await expect(rawReason).toBeHidden();
+  await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Run load transfer');
+  await expect(professionalStep(workflow, 7, 'Review & export'))
+    .toHaveAttribute('title', 'No current assessment result');
+
   await expect(summary).toContainText('Local inputs changed — recalculate');
   const workflowDetails = workflow.locator('[data-role="emp1-workflow-details"]');
   if (!(await workflowDetails.getAttribute('open'))) await workflowDetails.locator(':scope > summary').click();
@@ -123,7 +139,21 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(staleNotice.locator('[data-role="emp1-professional-required-action"]'))
     .toContainText(/Re-run|rerun|recalculate/u);
   await expect(workbench.locator('[data-role="emp1-c-result-evidence"]')).toHaveCount(0);
-  await staleNotice.scrollIntoViewIfNeeded();
+
+  // The workflow detail is an overlay. Close it before inspecting the separate
+  // Local-check technical disclosure so this exercises the same reachable user
+  // path rather than forcing a pointer event through another surface.
+  await workflowDetails.locator(':scope > summary').click();
+  await expect(workflowDetails).not.toHaveAttribute('open', '');
+  await localTechnical.scrollIntoViewIfNeeded();
+  await localTechnical.locator(':scope > summary').click();
+  await expect(localTechnical).toHaveAttribute('open', '');
+  await expect(rawReason).toBeVisible();
+  await localTechnical.locator(':scope > summary').click();
+  await expect(localTechnical).not.toHaveAttribute('open', '');
+  await expect(rawReason).toBeHidden();
+
+  await localCurrentness.scrollIntoViewIfNeeded();
   await checkpoint(page, testInfo, checkpointEvidence, '12', 'downstream-local-result-stale-with-explanation');
 
   await attachManifest(page, testInfo, originalDiameter, checkpointEvidence);
@@ -238,8 +268,13 @@ async function attachManifest(page, testInfo, originalDiameter, checkpointEviden
   });
 }
 
-async function writeEvidenceFile(filename, body) {
-  await writeFile(path.join(EVIDENCE_DIR, filename), body);
+async function writeEvidenceFile(name, body) {
+  await mkdir(EVIDENCE_DIR, { recursive: true });
+  await writeFile(path.join(EVIDENCE_DIR, name), body);
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
 }
 
 async function mountEmp1Workbench(page) {
@@ -250,10 +285,7 @@ async function mountEmp1Workbench(page) {
     const controller = new LafeaWorkbenchController(root, { analyticalOnly: true });
     controller.init();
     globalThis.__EMP1_WRC_WALKTHROUGH__ = { controller };
-    return controller.getState().activeStageId;
+    const state = controller.getState();
+    return { stageId: state.activeStageId, status: state.status };
   }, { controllerUrl: CONTROLLER_URL });
-}
-
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
 }
