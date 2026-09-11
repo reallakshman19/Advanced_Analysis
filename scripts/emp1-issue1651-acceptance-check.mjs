@@ -134,8 +134,8 @@ for (const required of [
 
 for (const required of [
   'professional task remains presentation source of truth across backing-stage rerenders',
-  "toHaveText('Backing calculation stage')",
-  "toHaveText('1 · Basis & Source')",
+  "toHaveText('Assessment setup')",
+  "toHaveText('1 · Start')",
   "toHaveAttribute('data-backing-stage-id', 'LAFEA.2')",
   "toHaveAttribute('data-emp1-professional-task', 'REVIEW_EVIDENCE')",
   "toHaveAttribute('data-emp1-console-mode', 'EVIDENCE')",
