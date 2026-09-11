@@ -59,6 +59,7 @@ export function finalizeEmp1Presentation(shell, options = {}) {
   normalizeTaskContext(shell, assessment);
   normalizeInspector(shell);
   normalizeEvidence(shell);
+  normalizeReviewOutcome(shell, assessment);
   normalizeSurfaces(shell, options.backingStageId);
   normalizeTechnicalDisclosures(shell);
   normalizeBenchmark(shell);
@@ -257,6 +258,72 @@ function normalizeEvidence(shell) {
   }
 }
 
+function normalizeReviewOutcome(shell, assessment) {
+  const summary = shell.querySelector('[data-role="emp1-product-execution-summary"]');
+  if (!summary || summary.dataset.emp1OutcomeFirst === 'true') return;
+  const body = summary.children?.[1] ?? null;
+  const professional = summary.querySelector('[data-role="emp1-professional-status"]');
+  if (!body || !professional) return;
+
+  const rawTransactionTable = [...body.children]
+    .find((node) => node.tagName === 'TABLE') ?? null;
+  const engineeringDecision = tableValue(rawTransactionTable, 'Engineering decision');
+  const outcome = create(summary, 'div', 'lafea-workbench__authority');
+  outcome.dataset.role = 'emp1-review-outcome';
+  outcome.append(
+    create(summary, 'strong', null, 'Assessment outcome'),
+    create(summary, 'p', null,
+      assessment?.outcome?.message ?? 'Review the current assessment result and limitations before export.'),
+  );
+  const facts = create(summary, 'dl', 'lafea-workbench__review-outcome-facts');
+  appendDefinition(summary, facts, 'Result', assessment?.result?.label ?? 'Status available in technical evidence');
+  appendDefinition(summary, facts, 'Engineering decision', plainEngineeringDecision(engineeringDecision));
+  appendDefinition(summary, facts, 'Permitted use', assessment?.release?.label ?? 'Not approved for final use');
+  outcome.append(facts);
+  outcome.append(create(summary, 'p', null,
+    `Next: ${assessment?.nextAction?.reason ?? 'Review the limitations and permitted use before export.'}`));
+  professional.append(outcome);
+
+  const technical = create(summary, 'details', 'lafea-workbench__custody-details');
+  technical.dataset.role = 'emp1-review-technical-evidence';
+  technical.dataset.emp1RawAllowed = 'true';
+  technical.open = false;
+  technical.append(create(summary, 'summary', null, 'Technical evidence & traceability'));
+
+  const domain = professional.querySelector('[data-role="emp1-professional-bounded-domain"]');
+  if (domain) technical.append(domain);
+  if (rawTransactionTable) technical.append(rawTransactionTable);
+  const authorityEvidence = body.querySelector(':scope > [data-role="emp1-c-authority-evidence"]');
+  if (authorityEvidence) technical.append(authorityEvidence);
+  body.append(technical);
+  summary.dataset.emp1OutcomeFirst = 'true';
+}
+
+function appendDefinition(root, list, term, value) {
+  list.append(
+    create(root, 'dt', null, term),
+    create(root, 'dd', null, value ?? '—'),
+  );
+}
+
+function tableValue(table, label) {
+  if (!table) return null;
+  for (const row of table.querySelectorAll?.('tr') ?? []) {
+    const heading = row.querySelector?.('th[scope="row"]');
+    if (heading?.textContent?.trim() !== label) continue;
+    return row.querySelector?.('td')?.textContent?.trim() ?? null;
+  }
+  return null;
+}
+
+function plainEngineeringDecision(value) {
+  if (value === 'ESCALATE') return 'Engineering review required';
+  if (value === 'ACCEPT') return 'Acceptable within the stated assessment scope';
+  if (value === 'REJECT') return 'Correction required';
+  if (!value) return 'Review required';
+  return value.toLowerCase().replaceAll('_', ' ');
+}
+
 function normalizeSurfaces(shell, backingStageId) {
   const route = shell.querySelector('[data-emp1-layout-surface="route"]');
   const routeTitle = route?.querySelector(':scope > h2');
@@ -296,6 +363,7 @@ function normalizeTechnicalDisclosures(shell) {
     '[data-role="emp1-c-route-detail"]',
     '[data-role="emp1-c-route-limitations"]',
     '[data-role="emp1-c-gamma-domain-detail"]',
+    '[data-role="emp1-review-technical-evidence"]',
   ];
   for (const selector of selectors) {
     const nodes = shell.querySelectorAll?.(selector) ?? [];
