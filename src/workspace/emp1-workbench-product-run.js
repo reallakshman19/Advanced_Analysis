@@ -7,6 +7,7 @@ import {
   EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_AUTHORIZED,
   EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_SUSPENSION_REASONS,
 } from '../core/emp1/emp1-wrc537-gamma5-zero-dp-route.js';
+import { requireLafea1PressureRadiusRunAuthorized } from './lafea-1-pressure-radius-validation.js';
 
 export const EMP1_WORKBENCH_ROUTE_AUTHORITY_SNAPSHOT_SCHEMA =
   'emp1-workbench-route-authority-snapshot/v1';
@@ -38,6 +39,10 @@ export {
  * execution only when the async product transaction is actually requested.
  */
 export async function executeEmp1WorkbenchProduct(options = {}) {
+  // Reject a stale geometry/request-radius combination before loading or
+  // invoking any heavy calculation engine. The preflight is read-only and
+  // shares the qualified pressure solver's tolerance rule.
+  requireLafea1PressureRadiusRunAuthorized(options.aDocument);
   const { executeEmp1WorkbenchProductTransaction } = await import(
     './emp1-workbench-product-execution.js'
   );
