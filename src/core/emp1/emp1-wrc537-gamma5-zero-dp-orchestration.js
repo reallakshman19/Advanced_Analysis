@@ -40,6 +40,8 @@ const REQUEST_KEYS = Object.freeze([
   'pressureResultIdentity',
 ]);
 const EXACT_GAMMA_POLICY = 'EXACT_SOURCE_TABULATED_GAMMA_ONLY';
+const NONZERO_DP_PRODUCER_ERROR = 'EMP1_A_WRC_ZERO_DP_NONZERO_DIFFERENTIAL_PRESSURE';
+const NONZERO_DP_SUSPENSION_REASON = 'NONZERO_DIFFERENTIAL_PRESSURE';
 
 export function createEmp1RetainedFoundationLayer(foundationResult) {
   const result = requireQualifiedFoundationResult(foundationResult);
@@ -71,14 +73,21 @@ export function prepareEmp1Wrc537Gamma5ZeroDpLocalSource({
     loadCaseIdentity: request.loadCaseIdentity,
   });
 
-  const loadCandidate = deriveEmp1AZeroDpWrcLoadPackageCandidate({
-    result: foundationResult,
-    loadCaseIdentity: request.loadCaseIdentity,
-    pressureResultIdentity: request.pressureResultIdentity,
-    wrcReferencePointGlobal: sourceCustody.loadReference.pointGlobal,
-    productionObservationUsedToSetAuthority: false,
-  });
-  const loadCustody = createEmp1AZeroDpWrcQualifiedLoadCustody(loadCandidate);
+  let loadCustody = null;
+  let routeSuspensionReasons = null;
+  try {
+    const loadCandidate = deriveEmp1AZeroDpWrcLoadPackageCandidate({
+      result: foundationResult,
+      loadCaseIdentity: request.loadCaseIdentity,
+      pressureResultIdentity: request.pressureResultIdentity,
+      wrcReferencePointGlobal: sourceCustody.loadReference.pointGlobal,
+      productionObservationUsedToSetAuthority: false,
+    });
+    loadCustody = createEmp1AZeroDpWrcQualifiedLoadCustody(loadCandidate);
+  } catch (error) {
+    if ((error?.code ?? error?.message) !== NONZERO_DP_PRODUCER_ERROR) throw error;
+    routeSuspensionReasons = Object.freeze([NONZERO_DP_SUSPENSION_REASON]);
+  }
 
   const prepared = structuredClone(source);
   prepared.localMethod = {
@@ -99,6 +108,10 @@ export function prepareEmp1Wrc537Gamma5ZeroDpLocalSource({
     loadCustody,
     wrcSourceCustody: sourceCustody,
     applicabilitySourceAuthority,
+    ...(routeSuspensionReasons == null ? {} : {
+      preparationBlocked: true,
+      routeSuspensionReasons,
+    }),
   };
   return deepFreeze(prepared);
 }
