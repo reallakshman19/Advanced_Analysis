@@ -1,0 +1,300 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Assessment calculated — review the result. It is not approved for final use.
+- group: Technical details
+- status: Calculated
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Review assessment"
+- text: Review the governing result, limitations and permitted use before export.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: Calculated
+    - text: Assessment calculated — review the result. It is not approved for final use.Result · Current assessment resultUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Current": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Current": 5 Section check
+    - listitem:
+      - button "6 Local check. Current": 6 Local check
+    - listitem:
+      - button "7 Review & export. Ready to review": 7 Review & export
+  - group: Readiness and technical details
+- region "Active engineering workspace":
+  - text: Current step
+  - strong: 5 · Section check
+  - text: Check the nominal section using current load-transfer evidence.
+  - heading "Section check" [level=2]
+  - paragraph: Governed stage-specific inputs. Every edit uses an exact descriptor and engineering identity.
+  - tablist:
+    - tab "Stage inputs" [selected]
+    - tab "Advanced raw JSON"
+  - heading "Screening cases" [level=4]
+  - table:
+    - row "Engineering identity Input Unit Source/status":
+      - columnheader "Engineering identity"
+      - columnheader "Input"
+      - columnheader "Unit"
+      - columnheader "Source/status"
+    - row "Pressure factor CASE-WRC screeningCases[screeningCaseId=CASE-WRC].pressureFactor 0 DIMENSIONLESS — RETAINED_SOURCE":
+      - rowheader "Pressure factor CASE-WRC screeningCases[screeningCaseId=CASE-WRC].pressureFactor":
+        - strong: Pressure factor
+        - code: CASE-WRC
+        - code: screeningCases[screeningCaseId=CASE-WRC].pressureFactor
+      - cell "0":
+        - textbox "Pressure factor CASE-WRC":
+          - /placeholder: ""
+          - text: "0"
+      - cell "DIMENSIONLESS"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+  - button "Apply Screening cases changes" [disabled]
+  - status
+  - heading "Evaluation locations" [level=4]
+  - table:
+    - row "Engineering identity Input Unit Source/status":
+      - columnheader "Engineering identity"
+      - columnheader "Input"
+      - columnheader "Unit"
+      - columnheader "Source/status"
+    - row "Evaluation angle L0 evaluationLocations[evaluationLocationId=L0].angle 0 rad — RETAINED_SOURCE":
+      - rowheader "Evaluation angle L0 evaluationLocations[evaluationLocationId=L0].angle":
+        - strong: Evaluation angle
+        - code: L0
+        - code: evaluationLocations[evaluationLocationId=L0].angle
+      - cell "0":
+        - textbox "Evaluation angle L0":
+          - /placeholder: ""
+          - text: "0"
+      - cell "rad"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - row "Evaluation angle L180 evaluationLocations[evaluationLocationId=L180].angle 3.141592653589793 rad — RETAINED_SOURCE":
+      - rowheader "Evaluation angle L180 evaluationLocations[evaluationLocationId=L180].angle":
+        - strong: Evaluation angle
+        - code: L180
+        - code: evaluationLocations[evaluationLocationId=L180].angle
+      - cell "3.141592653589793":
+        - textbox "Evaluation angle L180":
+          - /placeholder: ""
+          - text: "3.141592653589793"
+      - cell "rad"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - row "Evaluation angle L270 evaluationLocations[evaluationLocationId=L270].angle 4.71238898038469 rad — RETAINED_SOURCE":
+      - rowheader "Evaluation angle L270 evaluationLocations[evaluationLocationId=L270].angle":
+        - strong: Evaluation angle
+        - code: L270
+        - code: evaluationLocations[evaluationLocationId=L270].angle
+      - cell "4.71238898038469":
+        - textbox "Evaluation angle L270":
+          - /placeholder: ""
+          - text: "4.71238898038469"
+      - cell "rad"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - row "Evaluation angle L90 evaluationLocations[evaluationLocationId=L90].angle 1.5707963267948966 rad — RETAINED_SOURCE":
+      - rowheader "Evaluation angle L90 evaluationLocations[evaluationLocationId=L90].angle":
+        - strong: Evaluation angle
+        - code: L90
+        - code: evaluationLocations[evaluationLocationId=L90].angle
+      - cell "1.5707963267948966":
+        - textbox "Evaluation angle L90":
+          - /placeholder: ""
+          - text: "1.5707963267948966"
+      - cell "rad"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - row "Evaluation angle LMID evaluationLocations[evaluationLocationId=LMID].angle 0.7853981633974483 rad — RETAINED_SOURCE":
+      - rowheader "Evaluation angle LMID evaluationLocations[evaluationLocationId=LMID].angle":
+        - strong: Evaluation angle
+        - code: LMID
+        - code: evaluationLocations[evaluationLocationId=LMID].angle
+      - cell "0.7853981633974483":
+        - textbox "Evaluation angle LMID":
+          - /placeholder: ""
+          - text: "0.7853981633974483"
+      - cell "rad"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - 'row "Explicit evaluation radius L0 evaluationLocations[evaluationLocationId=L0].explicitRadius State: PRESENT_NULL LENGTH — RETAINED_SOURCE"':
+      - rowheader "Explicit evaluation radius L0 evaluationLocations[evaluationLocationId=L0].explicitRadius":
+        - strong: Explicit evaluation radius
+        - code: L0
+        - code: evaluationLocations[evaluationLocationId=L0].explicitRadius
+      - 'cell "State: PRESENT_NULL"':
+        - textbox "Explicit evaluation radius L0":
+          - /placeholder: "null"
+        - text: "State: PRESENT_NULL"
+      - cell "LENGTH"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - 'row "Explicit evaluation radius L180 evaluationLocations[evaluationLocationId=L180].explicitRadius State: PRESENT_NULL LENGTH — RETAINED_SOURCE"':
+      - rowheader "Explicit evaluation radius L180 evaluationLocations[evaluationLocationId=L180].explicitRadius":
+        - strong: Explicit evaluation radius
+        - code: L180
+        - code: evaluationLocations[evaluationLocationId=L180].explicitRadius
+      - 'cell "State: PRESENT_NULL"':
+        - textbox "Explicit evaluation radius L180":
+          - /placeholder: "null"
+        - text: "State: PRESENT_NULL"
+      - cell "LENGTH"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - 'row "Explicit evaluation radius L270 evaluationLocations[evaluationLocationId=L270].explicitRadius State: PRESENT_NULL LENGTH — RETAINED_SOURCE"':
+      - rowheader "Explicit evaluation radius L270 evaluationLocations[evaluationLocationId=L270].explicitRadius":
+        - strong: Explicit evaluation radius
+        - code: L270
+        - code: evaluationLocations[evaluationLocationId=L270].explicitRadius
+      - 'cell "State: PRESENT_NULL"':
+        - textbox "Explicit evaluation radius L270":
+          - /placeholder: "null"
+        - text: "State: PRESENT_NULL"
+      - cell "LENGTH"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - 'row "Explicit evaluation radius L90 evaluationLocations[evaluationLocationId=L90].explicitRadius State: PRESENT_NULL LENGTH — RETAINED_SOURCE"':
+      - rowheader "Explicit evaluation radius L90 evaluationLocations[evaluationLocationId=L90].explicitRadius":
+        - strong: Explicit evaluation radius
+        - code: L90
+        - code: evaluationLocations[evaluationLocationId=L90].explicitRadius
+      - 'cell "State: PRESENT_NULL"':
+        - textbox "Explicit evaluation radius L90":
+          - /placeholder: "null"
+        - text: "State: PRESENT_NULL"
+      - cell "LENGTH"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+    - 'row "Explicit evaluation radius LMID evaluationLocations[evaluationLocationId=LMID].explicitRadius State: PRESENT_NULL LENGTH — RETAINED_SOURCE"':
+      - rowheader "Explicit evaluation radius LMID evaluationLocations[evaluationLocationId=LMID].explicitRadius":
+        - strong: Explicit evaluation radius
+        - code: LMID
+        - code: evaluationLocations[evaluationLocationId=LMID].explicitRadius
+      - 'cell "State: PRESENT_NULL"':
+        - textbox "Explicit evaluation radius LMID":
+          - /placeholder: "null"
+        - text: "State: PRESENT_NULL"
+      - cell "LENGTH"
+      - cell "— RETAINED_SOURCE":
+        - code: —
+        - text: RETAINED_SOURCE
+  - button "Apply Evaluation locations changes" [disabled]
+  - status
+- region "Section Screening engineering inspector":
+  - tablist "EMP.1 engineering inspector":
+    - tab "Data & status" [selected]
+    - tab "Method availability"
+  - tabpanel "Data & status":
+    - heading "EMP.1.B geometry, thickness and A→B custody" [level=2]
+    - strong: A → B CURRENT A EVIDENCE
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Pipe OD 220":
+        - rowheader "Pipe OD"
+        - cell "220"
+      - row "Assessment thickness T 20":
+        - rowheader "Assessment thickness T"
+        - cell "20"
+      - row "Mean radius Rm 100":
+        - rowheader "Mean radius Rm"
+        - cell "100"
+      - row "Retained screening result Available":
+        - rowheader "Retained screening result"
+        - cell "Available"
+    - group: Geometry lineage and retained ancestry
+- region "Results and evidence console":
+  - button "Results & evidence · collapse" [expanded]
+  - tablist "EMP.1 results and evidence":
+    - tab "Calculation detail"
+    - tab "Assessment result"
+    - tab "Local check evidence"
+    - tab "Section record" [selected]
+    - tab "Data history"
+    - tab "Reference comparison"
+  - tabpanel "Section record":
+    - heading "Section check record" [level=2]
+    - strong: "A → B evidence: CURRENT A EVIDENCE"
+    - paragraph: EMP.1.B owns its screening cases, factors and evaluation locations. Only its validated A-derived source evidence may be refreshed from the current qualified EMP.1.A result.
+    - paragraph: B is bound to the current qualified A model/result. Its retained snapshot of EMP.1.A foundation evidence is current. If A changes, refresh/re-import B evidence before relying on B. B-owned screening cases, factors and evaluation locations remain independently governed.
+    - button "Refresh B from current A" [disabled]
+    - heading "Retained EMP.1.A transformed resultants" [level=4]
+    - table:
+      - row "Load case Fx (N) Fy (N) Fz (N) Mx (N·mm) My (N·mm) Mz (N·mm)":
+        - columnheader "Load case"
+        - columnheader "Fx (N)"
+        - columnheader "Fy (N)"
+        - columnheader "Fz (N)"
+        - columnheader "Mx (N·mm)"
+        - columnheader "My (N·mm)"
+        - columnheader "Mz (N·mm)"
+      - row "LC-1 -400 -250 -1000 -500000 600000 -700000":
+        - rowheader "LC-1"
+        - cell "-400"
+        - cell "-250"
+        - cell "-1000"
+        - cell "-500000"
+        - cell "600000"
+        - cell "-700000"
+    - heading "Screening-case mechanical terms" [level=4]
+    - table:
+      - row "Screening case Load case Factor Pressure definition Pressure factor Action":
+        - columnheader "Screening case"
+        - columnheader "Load case"
+        - columnheader "Factor"
+        - columnheader "Pressure definition"
+        - columnheader "Pressure factor"
+        - columnheader "Action"
+      - row "CASE-WRC LC-1 1 P-CLOSED 0 Apply factor":
+        - rowheader "CASE-WRC"
+        - cell "LC-1"
+        - cell "1":
+          - textbox "Mechanical factor CASE-WRC LC-1": "1"
+        - cell "P-CLOSED"
+        - cell "0"
+        - cell "Apply factor":
+          - button "Apply factor"
+    - heading "Axial pressure-thrust custody" [level=4]
+    - paragraph: For closed-end pressure, declare whether the supplied Fx already contains pressure end-cap thrust. This cannot be inferred safely from the combined result.
+    - table:
+      - row "Screening case Pressure definition Pressure factor Axial thrust in Fx Engineering treatment Action":
+        - columnheader "Screening case"
+        - columnheader "Pressure definition"
+        - columnheader "Pressure factor"
+        - columnheader "Axial thrust in Fx"
+        - columnheader "Engineering treatment"
+        - columnheader "Action"
+      - row "CASE-WRC P-CLOSED 0 Select pressure-thrust basis Pressure factor is zero; pressure-thrust custody does not affect this screening case. Apply basis":
+        - rowheader "CASE-WRC"
+        - cell "P-CLOSED"
+        - cell "0"
+        - cell "Select pressure-thrust basis":
+          - combobox "Axial pressure-thrust basis CASE-WRC":
+            - option "Select pressure-thrust basis" [selected]
+            - option "Fx excludes pressure thrust"
+            - option "Fx already includes pressure thrust"
+        - cell "Pressure factor is zero; pressure-thrust custody does not affect this screening case."
+        - cell "Apply basis":
+          - button "Apply basis"

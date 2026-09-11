@@ -1,0 +1,118 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Assessment calculated — review the result. It is not approved for final use.
+- group: Technical details
+- status: Calculated
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Review assessment"
+- text: Review the governing result, limitations and permitted use before export.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: Calculated
+    - text: Assessment calculated — review the result. It is not approved for final use.Result · Current assessment resultUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Current": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Current": 5 Section check
+    - listitem:
+      - button "6 Local check. Current": 6 Local check
+    - listitem:
+      - button "7 Review & export. Ready to review": 7 Review & export
+  - group: Readiness and technical details
+- region "Active engineering workspace":
+  - text: Current step
+  - strong: 6 · Local check
+  - text: Run the available local method for the current inputs.
+  - heading "Local check setup" [level=2]
+  - paragraph: Bind the attachment OUTSIDE diameter at the shell juncture and the WRC §4.5 cylinder geometry to engineering sources. Rm, T, WRC axes, γ, β, Kn/Kb and nearest-end distance are not editable calculation authority; nearest-end distance is derived from cylinder length and the WRC attachment reference station.
+  - strong: "EMP.1.C: CALCULATED · CURRENT"
+  - text: Load case at retained A target reference
+  - combobox "Load case at retained A target reference":
+    - option "Select…"
+    - option "LC-1" [selected]
+  - text: Pressure result (comparison scope requires Δp = 0)
+  - combobox "Pressure result (comparison scope requires Δp = 0)":
+    - option "Select…"
+    - option "PR-1" [selected]
+  - text: Attachment geometry identity
+  - textbox "Attachment geometry identity": EMP1-QUALIFICATION-SAMPLE-ATTACHMENT
+  - text: Attachment outside diameter at shell juncture (mm)
+  - spinbutton "Attachment outside diameter at shell juncture (mm)": "35.42857142857143"
+  - text: Engineering source reference for this outside diameter
+  - textbox "Engineering source reference for this outside diameter": SIMULATED/EMP1-QUALIFICATION/ATTACHMENT-OD-AT-SHELL-JUNCTURE
+  - text: Cylinder geometry identity for WRC §4.5
+  - textbox "Cylinder geometry identity for WRC §4.5": EMP1-QUALIFICATION-SAMPLE-CYLINDER
+  - text: Cylinder length between end planes (mm)
+  - spinbutton "Cylinder length between end planes (mm)": "300"
+  - text: WRC attachment reference station from cylinder start end plane (mm)
+  - spinbutton "WRC attachment reference station from cylinder start end plane (mm)": "80"
+  - text: Engineering source reference for cylinder length
+  - textbox "Engineering source reference for cylinder length": SIMULATED/EMP1-QUALIFICATION/CYLINDER-END-PLANE-LENGTH
+  - text: Engineering source reference for WRC attachment station
+  - textbox "Engineering source reference for WRC attachment station": SIMULATED/EMP1-QUALIFICATION/WRC-ATTACHMENT-STATION
+  - paragraph: WRC r0 basis is locked to OUTSIDE DIAMETER at the ATTACHMENT–SHELL JUNCTURE. WRC §4.5 cylinder length is measured BETWEEN CYLINDER END PLANES. The attachment station is measured from the selected cylinder start end plane to the retained WRC attachment reference point; nearest-end distance is derived as min(x, L−x) and is not directly editable.
+  - paragraph: "Canonical length unit: mm. Enter attachment diameter, cylinder length and station in this exact unit; no UI-side unit conversion is calculation authority."
+  - button "Apply C source binding"
+  - strong: Bounded C execution authority
+  - paragraph: Only the registered bounded runtime domain may execute. A successful run is not global WRC authority, code compliance, or release qualification.
+- region "Local Correlation engineering inspector":
+  - tablist "EMP.1 engineering inspector":
+    - tab "Method limits" [selected]
+    - tab "Method availability"
+    - tab "Technical settings"
+  - tabpanel "Method limits":
+    - heading "EMP.1.C bounded local-correlation authority" [level=2]
+    - paragraph: 2 governed bounded capabilities are registered. Inspect one capability at a time; global EMP.1.C and code-compliance release remain separately governed.
+    - tablist "EMP.1.C registered bounded capabilities":
+      - tab "γ 5 exact · Authorized" [selected]
+      - tab "Interpolated γ · Comparison only"
+    - tabpanel:
+      - strong: Engineering use authorized · bounded capability
+      - table:
+        - row "Engineering datum Retained value":
+          - columnheader "Engineering datum"
+          - columnheader "Retained value"
+        - row "Method WRC 537 (2013)":
+          - rowheader "Method"
+          - cell "WRC 537 (2013)"
+        - row "Shell / attachment Cylindrical shell / Round attachment":
+          - rowheader "Shell / attachment"
+          - cell "Cylindrical shell / Round attachment"
+        - row "Curve variant Original":
+          - rowheader "Curve variant"
+          - cell "Original"
+        - row "γ 5 · exact tabulated row":
+          - rowheader "γ"
+          - cell "5 · exact tabulated row"
+        - row "β domain 0.05 ≤ β ≤ 0.5":
+          - rowheader "β domain"
+          - cell "0.05 ≤ β ≤ 0.5"
+        - row "Differential pressure 0":
+          - rowheader "Differential pressure"
+          - cell "0"
+        - row "Kn / Kb 1 / 1":
+          - rowheader "Kn / Kb"
+          - cell "1 / 1"
+        - row "Interpolation Not permitted":
+          - rowheader "Interpolation"
+          - cell "Not permitted"
+        - row "Release qualified No":
+          - rowheader "Release qualified"
+          - cell "No"
+      - group: Route authority details
+      - group: Route limitations (8)
+    - group: Shell parameter domain and curve-selection policy
+- region "Results and evidence console":
+  - button "Results & evidence"

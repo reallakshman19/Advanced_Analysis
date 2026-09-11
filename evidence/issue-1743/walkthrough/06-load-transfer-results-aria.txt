@@ -1,0 +1,427 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Assessment calculated — review the result. It is not approved for final use.
+- group: Technical details
+- status: Calculated
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Review assessment"
+- text: Review the governing result, limitations and permitted use before export.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: Calculated
+    - text: Assessment calculated — review the result. It is not approved for final use.Result · Current assessment resultUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Current": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Current": 5 Section check
+    - listitem:
+      - button "6 Local check. Current": 6 Local check
+    - listitem:
+      - button "7 Review & export. Ready to review": 7 Review & export
+  - group: Readiness and technical details
+- region "Active engineering workspace":
+  - text: Current step
+  - strong: 4 · Load transfer
+  - text: Calculate loads at the assessment reference point.
+  - heading "Load transfer" [level=2]
+  - paragraph: Governed stage-specific inputs. Every edit uses an exact descriptor and engineering identity.
+  - tablist:
+    - tab "Stage inputs" [selected]
+    - tab "Advanced raw JSON"
+  - heading "Reference points" [level=4]
+  - table:
+    - row "Engineering identity X Y Z Unit Source/status":
+      - columnheader "Engineering identity"
+      - columnheader "X"
+      - columnheader "Y"
+      - columnheader "Z"
+      - columnheader "Unit"
+      - columnheader "Source/status"
+    - row "Reference point LUG-BASE-NE loadReferencePoints[identity=LUG-BASE-NE].point.value.0 84 63 0 mm SOURCE-PIPE-MODEL@7#points.lug-ne RETAINED_SOURCE":
+      - rowheader "Reference point LUG-BASE-NE loadReferencePoints[identity=LUG-BASE-NE].point.value.0":
+        - strong: Reference point
+        - code: LUG-BASE-NE
+        - code: loadReferencePoints[identity=LUG-BASE-NE].point.value.0
+      - cell "84":
+        - textbox "Reference point X LUG-BASE-NE":
+          - /placeholder: ""
+          - text: "84"
+      - cell "63":
+        - textbox "Reference point Y LUG-BASE-NE":
+          - /placeholder: ""
+          - text: "63"
+      - cell "0":
+        - textbox "Reference point Z LUG-BASE-NE":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.lug-ne RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.lug-ne
+        - text: RETAINED_SOURCE
+    - row "Reference point LUG-BASE-NW loadReferencePoints[identity=LUG-BASE-NW].point.value.0 -84 63 0 mm SOURCE-PIPE-MODEL@7#points.lug-nw RETAINED_SOURCE":
+      - rowheader "Reference point LUG-BASE-NW loadReferencePoints[identity=LUG-BASE-NW].point.value.0":
+        - strong: Reference point
+        - code: LUG-BASE-NW
+        - code: loadReferencePoints[identity=LUG-BASE-NW].point.value.0
+      - cell "-84":
+        - textbox "Reference point X LUG-BASE-NW":
+          - /placeholder: ""
+          - text: "-84"
+      - cell "63":
+        - textbox "Reference point Y LUG-BASE-NW":
+          - /placeholder: ""
+          - text: "63"
+      - cell "0":
+        - textbox "Reference point Z LUG-BASE-NW":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.lug-nw RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.lug-nw
+        - text: RETAINED_SOURCE
+    - row "Reference point LUG-BASE-SE loadReferencePoints[identity=LUG-BASE-SE].point.value.0 84 -63 0 mm SOURCE-PIPE-MODEL@7#points.lug-se RETAINED_SOURCE":
+      - rowheader "Reference point LUG-BASE-SE loadReferencePoints[identity=LUG-BASE-SE].point.value.0":
+        - strong: Reference point
+        - code: LUG-BASE-SE
+        - code: loadReferencePoints[identity=LUG-BASE-SE].point.value.0
+      - cell "84":
+        - textbox "Reference point X LUG-BASE-SE":
+          - /placeholder: ""
+          - text: "84"
+      - cell "-63":
+        - textbox "Reference point Y LUG-BASE-SE":
+          - /placeholder: ""
+          - text: "-63"
+      - cell "0":
+        - textbox "Reference point Z LUG-BASE-SE":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.lug-se RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.lug-se
+        - text: RETAINED_SOURCE
+    - row "Reference point LUG-BASE-SW loadReferencePoints[identity=LUG-BASE-SW].point.value.0 -84 -63 0 mm SOURCE-PIPE-MODEL@7#points.lug-sw RETAINED_SOURCE":
+      - rowheader "Reference point LUG-BASE-SW loadReferencePoints[identity=LUG-BASE-SW].point.value.0":
+        - strong: Reference point
+        - code: LUG-BASE-SW
+        - code: loadReferencePoints[identity=LUG-BASE-SW].point.value.0
+      - cell "-84":
+        - textbox "Reference point X LUG-BASE-SW":
+          - /placeholder: ""
+          - text: "-84"
+      - cell "-63":
+        - textbox "Reference point Y LUG-BASE-SW":
+          - /placeholder: ""
+          - text: "-63"
+      - cell "0":
+        - textbox "Reference point Z LUG-BASE-SW":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.lug-sw RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.lug-sw
+        - text: RETAINED_SOURCE
+    - row "Reference point PLATE-NE loadReferencePoints[identity=PLATE-NE].point.value.0 200 225 0 mm SOURCE-PIPE-MODEL@7#points.plate-ne RETAINED_SOURCE":
+      - rowheader "Reference point PLATE-NE loadReferencePoints[identity=PLATE-NE].point.value.0":
+        - strong: Reference point
+        - code: PLATE-NE
+        - code: loadReferencePoints[identity=PLATE-NE].point.value.0
+      - cell "200":
+        - textbox "Reference point X PLATE-NE":
+          - /placeholder: ""
+          - text: "200"
+      - cell "225":
+        - textbox "Reference point Y PLATE-NE":
+          - /placeholder: ""
+          - text: "225"
+      - cell "0":
+        - textbox "Reference point Z PLATE-NE":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.plate-ne RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.plate-ne
+        - text: RETAINED_SOURCE
+    - row "Reference point PLATE-NW loadReferencePoints[identity=PLATE-NW].point.value.0 -200 225 0 mm SOURCE-PIPE-MODEL@7#points.plate-nw RETAINED_SOURCE":
+      - rowheader "Reference point PLATE-NW loadReferencePoints[identity=PLATE-NW].point.value.0":
+        - strong: Reference point
+        - code: PLATE-NW
+        - code: loadReferencePoints[identity=PLATE-NW].point.value.0
+      - cell "-200":
+        - textbox "Reference point X PLATE-NW":
+          - /placeholder: ""
+          - text: "-200"
+      - cell "225":
+        - textbox "Reference point Y PLATE-NW":
+          - /placeholder: ""
+          - text: "225"
+      - cell "0":
+        - textbox "Reference point Z PLATE-NW":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.plate-nw RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.plate-nw
+        - text: RETAINED_SOURCE
+    - row "Reference point PLATE-SE loadReferencePoints[identity=PLATE-SE].point.value.0 200 -225 0 mm SOURCE-PIPE-MODEL@7#points.plate-se RETAINED_SOURCE":
+      - rowheader "Reference point PLATE-SE loadReferencePoints[identity=PLATE-SE].point.value.0":
+        - strong: Reference point
+        - code: PLATE-SE
+        - code: loadReferencePoints[identity=PLATE-SE].point.value.0
+      - cell "200":
+        - textbox "Reference point X PLATE-SE":
+          - /placeholder: ""
+          - text: "200"
+      - cell "-225":
+        - textbox "Reference point Y PLATE-SE":
+          - /placeholder: ""
+          - text: "-225"
+      - cell "0":
+        - textbox "Reference point Z PLATE-SE":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.plate-se RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.plate-se
+        - text: RETAINED_SOURCE
+    - row "Reference point PLATE-SW loadReferencePoints[identity=PLATE-SW].point.value.0 -200 -225 0 mm SOURCE-PIPE-MODEL@7#points.plate-sw RETAINED_SOURCE":
+      - rowheader "Reference point PLATE-SW loadReferencePoints[identity=PLATE-SW].point.value.0":
+        - strong: Reference point
+        - code: PLATE-SW
+        - code: loadReferencePoints[identity=PLATE-SW].point.value.0
+      - cell "-200":
+        - textbox "Reference point X PLATE-SW":
+          - /placeholder: ""
+          - text: "-200"
+      - cell "-225":
+        - textbox "Reference point Y PLATE-SW":
+          - /placeholder: ""
+          - text: "-225"
+      - cell "0":
+        - textbox "Reference point Z PLATE-SW":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.plate-sw RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.plate-sw
+        - text: RETAINED_SOURCE
+    - row "Reference point SOURCE loadReferencePoints[identity=SOURCE].point.value.0 0 0 1000 mm SOURCE-PIPE-MODEL@7#points.source RETAINED_SOURCE":
+      - rowheader "Reference point SOURCE loadReferencePoints[identity=SOURCE].point.value.0":
+        - strong: Reference point
+        - code: SOURCE
+        - code: loadReferencePoints[identity=SOURCE].point.value.0
+      - cell "0":
+        - textbox "Reference point X SOURCE":
+          - /placeholder: ""
+          - text: "0"
+      - cell "0":
+        - textbox "Reference point Y SOURCE":
+          - /placeholder: ""
+          - text: "0"
+      - cell "1000":
+        - textbox "Reference point Z SOURCE":
+          - /placeholder: ""
+          - text: "1000"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.source RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.source
+        - text: RETAINED_SOURCE
+    - row "Reference point TARGET loadReferencePoints[identity=TARGET].point.value.0 0 0 0 mm SOURCE-PIPE-MODEL@7#points.target RETAINED_SOURCE":
+      - rowheader "Reference point TARGET loadReferencePoints[identity=TARGET].point.value.0":
+        - strong: Reference point
+        - code: TARGET
+        - code: loadReferencePoints[identity=TARGET].point.value.0
+      - cell "0":
+        - textbox "Reference point X TARGET":
+          - /placeholder: ""
+          - text: "0"
+      - cell "0":
+        - textbox "Reference point Y TARGET":
+          - /placeholder: ""
+          - text: "0"
+      - cell "0":
+        - textbox "Reference point Z TARGET":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#points.target RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#points.target
+        - text: RETAINED_SOURCE
+  - button "Apply Reference points changes" [disabled]
+  - status
+- region "Load Transfer engineering inspector":
+  - tablist "EMP.1 engineering inspector":
+    - tab "Data & status" [selected]
+  - tabpanel "Data & status":
+    - heading "EMP.1.A load, reference and axis custody" [level=2]
+    - strong: EMP.1.A custody · Retained
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Coordinate system PIPE-CS-1":
+        - rowheader "Coordinate system"
+        - cell "PIPE-CS-1"
+      - row "Transformed load cases 1":
+        - rowheader "Transformed load cases"
+        - cell "1"
+      - row "Pressure results 1":
+        - rowheader "Pressure results"
+        - cell "1"
+      - row "WRC polarity authority from raw foundation eZ No":
+        - rowheader "WRC polarity authority from raw foundation eZ"
+        - cell "No"
+    - group: Retained load / reference / axis detail
+- region "Results and evidence console":
+  - button "Results & evidence · collapse" [expanded]
+  - tablist "EMP.1 results and evidence":
+    - tab "Calculation detail" [selected]
+    - tab "Assessment result"
+    - tab "Local check evidence"
+    - tab "Data history"
+    - tab "Reference comparison"
+  - tabpanel "Calculation detail":
+    - heading "Calculation detail" [level=2]
+    - paragraph: EMP.1.A evidence only; local attachment correlation is not implied by this result.
+    - paragraph: Analysis completed. Retained result evidence is accepted by the current stage result contract.
+    - heading "Engineering result summary" [level=3]
+    - paragraph: 1 retained case · values below come directly from retained stage result evidence.
+    - strong: COMPUTED
+    - article:
+      - text: Max |transferred force|
+      - strong: 1000 N
+      - text: LC-1 · Fz
+    - article:
+      - text: Max |transferred moment|
+      - strong: 700000 N·mm
+      - text: LC-1 · Mz
+    - article:
+      - text: Max |hoop pressure stress|
+      - strong: 0 MPa
+      - text: PR-1 · point 1
+    - article:
+      - text: Max |radial pressure stress|
+      - strong: 0 MPa
+      - text: PR-1 · point 1
+    - article:
+      - text: Max |axial pressure stress|
+      - strong: 0 MPa
+      - text: PR-1 · axial pressure stress
+    - paragraph: LAFEA.1 is an analytical load-transfer and elastic pressure baseline. It does not produce local attachment, shell-bending or weld stress.
+    - heading "Transferred resultants" [level=3]
+    - table:
+      - row "Quantity Value Unit Formula identity Retained source path Authority":
+        - columnheader "Quantity"
+        - columnheader "Value"
+        - columnheader "Unit"
+        - columnheader "Formula identity"
+        - columnheader "Retained source path"
+        - columnheader "Authority"
+      - row "LC-1 local force 0 -400 N FORCE COMPONENT RECONSTRUCTION RESIDUAL V1 result.transformedLoadCases[0].transformedForceLocal[0] RETAINED_STAGE_RESULT":
+        - rowheader "LC-1 local force 0"
+        - cell "-400"
+        - cell "N"
+        - cell "FORCE COMPONENT RECONSTRUCTION RESIDUAL V1"
+        - cell "result.transformedLoadCases[0].transformedForceLocal[0]"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "LC-1 local force 1 -250 N FORCE COMPONENT RECONSTRUCTION RESIDUAL V1 result.transformedLoadCases[0].transformedForceLocal[1] RETAINED_STAGE_RESULT":
+        - rowheader "LC-1 local force 1"
+        - cell "-250"
+        - cell "N"
+        - cell "FORCE COMPONENT RECONSTRUCTION RESIDUAL V1"
+        - cell "result.transformedLoadCases[0].transformedForceLocal[1]"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "LC-1 local force 2 -1000 N FORCE COMPONENT RECONSTRUCTION RESIDUAL V1 result.transformedLoadCases[0].transformedForceLocal[2] RETAINED_STAGE_RESULT":
+        - rowheader "LC-1 local force 2"
+        - cell "-1000"
+        - cell "N"
+        - cell "FORCE COMPONENT RECONSTRUCTION RESIDUAL V1"
+        - cell "result.transformedLoadCases[0].transformedForceLocal[2]"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "LC-1 local moment 0 -500000 N·mm FORCE COMPONENT RECONSTRUCTION RESIDUAL V1 result.transformedLoadCases[0].transformedMomentLocal[0] RETAINED_STAGE_RESULT":
+        - rowheader "LC-1 local moment 0"
+        - cell "-500000"
+        - cell "N·mm"
+        - cell "FORCE COMPONENT RECONSTRUCTION RESIDUAL V1"
+        - cell "result.transformedLoadCases[0].transformedMomentLocal[0]"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "LC-1 local moment 1 600000 N·mm FORCE COMPONENT RECONSTRUCTION RESIDUAL V1 result.transformedLoadCases[0].transformedMomentLocal[1] RETAINED_STAGE_RESULT":
+        - rowheader "LC-1 local moment 1"
+        - cell "600000"
+        - cell "N·mm"
+        - cell "FORCE COMPONENT RECONSTRUCTION RESIDUAL V1"
+        - cell "result.transformedLoadCases[0].transformedMomentLocal[1]"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "LC-1 local moment 2 -700000 N·mm FORCE COMPONENT RECONSTRUCTION RESIDUAL V1 result.transformedLoadCases[0].transformedMomentLocal[2] RETAINED_STAGE_RESULT":
+        - rowheader "LC-1 local moment 2"
+        - cell "-700000"
+        - cell "N·mm"
+        - cell "FORCE COMPONENT RECONSTRUCTION RESIDUAL V1"
+        - cell "result.transformedLoadCases[0].transformedMomentLocal[2]"
+        - cell "RETAINED_STAGE_RESULT"
+    - heading "Lamé pressure stress" [level=3]
+    - table:
+      - row "Quantity Value Unit Formula identity Retained source path Authority":
+        - columnheader "Quantity"
+        - columnheader "Value"
+        - columnheader "Unit"
+        - columnheader "Formula identity"
+        - columnheader "Retained source path"
+        - columnheader "Authority"
+      - row "PR-1 axial pressure stress 0 MPa LAME CLOSED END AXIAL STRESS V1 result.pressureStressResults[0].axialPressureStress RETAINED_STAGE_RESULT":
+        - rowheader "PR-1 axial pressure stress"
+        - cell "0"
+        - cell "MPa"
+        - cell "LAME CLOSED END AXIAL STRESS V1"
+        - cell "result.pressureStressResults[0].axialPressureStress"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "PR-1 point 1 hoop stress 0 MPa LAME CLOSED END AXIAL STRESS V1 result.pressureStressResults[0].requestedPoints[0].hoopStress RETAINED_STAGE_RESULT":
+        - rowheader "PR-1 point 1 hoop stress"
+        - cell "0"
+        - cell "MPa"
+        - cell "LAME CLOSED END AXIAL STRESS V1"
+        - cell "result.pressureStressResults[0].requestedPoints[0].hoopStress"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "PR-1 point 1 radial stress 0 MPa LAME CLOSED END AXIAL STRESS V1 result.pressureStressResults[0].requestedPoints[0].radialStress RETAINED_STAGE_RESULT":
+        - rowheader "PR-1 point 1 radial stress"
+        - cell "0"
+        - cell "MPa"
+        - cell "LAME CLOSED END AXIAL STRESS V1"
+        - cell "result.pressureStressResults[0].requestedPoints[0].radialStress"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "PR-1 point 2 hoop stress 0 MPa LAME CLOSED END AXIAL STRESS V1 result.pressureStressResults[0].requestedPoints[1].hoopStress RETAINED_STAGE_RESULT":
+        - rowheader "PR-1 point 2 hoop stress"
+        - cell "0"
+        - cell "MPa"
+        - cell "LAME CLOSED END AXIAL STRESS V1"
+        - cell "result.pressureStressResults[0].requestedPoints[1].hoopStress"
+        - cell "RETAINED_STAGE_RESULT"
+      - row "PR-1 point 2 radial stress 0 MPa LAME CLOSED END AXIAL STRESS V1 result.pressureStressResults[0].requestedPoints[1].radialStress RETAINED_STAGE_RESULT":
+        - rowheader "PR-1 point 2 radial stress"
+        - cell "0"
+        - cell "MPa"
+        - cell "LAME CLOSED END AXIAL STRESS V1"
+        - cell "result.pressureStressResults[0].requestedPoints[1].radialStress"
+        - cell "RETAINED_STAGE_RESULT"
+    - heading "Current stage limitations" [level=4]
+    - list:
+      - listitem: No code-compliance assessment is produced by this stage.
+      - listitem: No contact, friction, gap, lift-off or one-way behavior.
+      - listitem: No finite-element stiffness solution is performed by this stage.
+      - listitem: No local attachment or discontinuity stress is produced.
+      - listitem: No shell bending stress is produced.
+      - listitem: No weld stress is produced.
+      - listitem: "[SIMULATED] Qualification input only; no production/release authority."
+    - group: Advanced raw retained result evidence

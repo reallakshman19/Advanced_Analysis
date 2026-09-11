@@ -1,0 +1,323 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Assessment calculated — review the result. It is not approved for final use.
+- group: Technical details
+- status: Calculated
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Review assessment"
+- text: Review the governing result, limitations and permitted use before export.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: Calculated
+    - text: Assessment calculated — review the result. It is not approved for final use.Result · Current assessment resultUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Current": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Current": 5 Section check
+    - listitem:
+      - button "6 Local check. Current": 6 Local check
+    - listitem:
+      - button "7 Review & export. Ready to review": 7 Review & export
+  - group: Readiness and technical details
+- region "Active engineering workspace":
+  - text: Current step
+  - strong: 6 · Local check
+  - text: Run the available local method for the current inputs.
+  - heading "Local check setup" [level=2]
+  - paragraph: Bind the attachment OUTSIDE diameter at the shell juncture and the WRC §4.5 cylinder geometry to engineering sources. Rm, T, WRC axes, γ, β, Kn/Kb and nearest-end distance are not editable calculation authority; nearest-end distance is derived from cylinder length and the WRC attachment reference station.
+  - strong: "EMP.1.C: CALCULATED · CURRENT"
+  - text: Load case at retained A target reference
+  - combobox "Load case at retained A target reference":
+    - option "Select…"
+    - option "LC-1" [selected]
+  - text: Pressure result (comparison scope requires Δp = 0)
+  - combobox "Pressure result (comparison scope requires Δp = 0)":
+    - option "Select…"
+    - option "PR-1" [selected]
+  - text: Attachment geometry identity
+  - textbox "Attachment geometry identity": EMP1-QUALIFICATION-SAMPLE-ATTACHMENT
+  - text: Attachment outside diameter at shell juncture (mm)
+  - spinbutton "Attachment outside diameter at shell juncture (mm)": "35.42857142857143"
+  - text: Engineering source reference for this outside diameter
+  - textbox "Engineering source reference for this outside diameter": SIMULATED/EMP1-QUALIFICATION/ATTACHMENT-OD-AT-SHELL-JUNCTURE
+  - text: Cylinder geometry identity for WRC §4.5
+  - textbox "Cylinder geometry identity for WRC §4.5": EMP1-QUALIFICATION-SAMPLE-CYLINDER
+  - text: Cylinder length between end planes (mm)
+  - spinbutton "Cylinder length between end planes (mm)": "300"
+  - text: WRC attachment reference station from cylinder start end plane (mm)
+  - spinbutton "WRC attachment reference station from cylinder start end plane (mm)": "80"
+  - text: Engineering source reference for cylinder length
+  - textbox "Engineering source reference for cylinder length": SIMULATED/EMP1-QUALIFICATION/CYLINDER-END-PLANE-LENGTH
+  - text: Engineering source reference for WRC attachment station
+  - textbox "Engineering source reference for WRC attachment station": SIMULATED/EMP1-QUALIFICATION/WRC-ATTACHMENT-STATION
+  - paragraph: WRC r0 basis is locked to OUTSIDE DIAMETER at the ATTACHMENT–SHELL JUNCTURE. WRC §4.5 cylinder length is measured BETWEEN CYLINDER END PLANES. The attachment station is measured from the selected cylinder start end plane to the retained WRC attachment reference point; nearest-end distance is derived as min(x, L−x) and is not directly editable.
+  - paragraph: "Canonical length unit: mm. Enter attachment diameter, cylinder length and station in this exact unit; no UI-side unit conversion is calculation authority."
+  - button "Apply C source binding"
+  - strong: Bounded C execution authority
+  - paragraph: Only the registered bounded runtime domain may execute. A successful run is not global WRC authority, code compliance, or release qualification.
+- region "Local Correlation engineering inspector":
+  - tablist "EMP.1 engineering inspector":
+    - tab "Method limits" [selected]
+    - tab "Method availability"
+    - tab "Technical settings"
+  - tabpanel "Method limits":
+    - heading "EMP.1.C bounded local-correlation authority" [level=2]
+    - paragraph: 2 governed bounded capabilities are registered. Inspect one capability at a time; global EMP.1.C and code-compliance release remain separately governed.
+    - tablist "EMP.1.C registered bounded capabilities":
+      - tab "γ 5 exact · Authorized" [selected]
+      - tab "Interpolated γ · Comparison only"
+    - tabpanel:
+      - strong: Engineering use authorized · bounded capability
+      - table:
+        - row "Engineering datum Retained value":
+          - columnheader "Engineering datum"
+          - columnheader "Retained value"
+        - row "Method WRC 537 (2013)":
+          - rowheader "Method"
+          - cell "WRC 537 (2013)"
+        - row "Shell / attachment Cylindrical shell / Round attachment":
+          - rowheader "Shell / attachment"
+          - cell "Cylindrical shell / Round attachment"
+        - row "Curve variant Original":
+          - rowheader "Curve variant"
+          - cell "Original"
+        - row "γ 5 · exact tabulated row":
+          - rowheader "γ"
+          - cell "5 · exact tabulated row"
+        - row "β domain 0.05 ≤ β ≤ 0.5":
+          - rowheader "β domain"
+          - cell "0.05 ≤ β ≤ 0.5"
+        - row "Differential pressure 0":
+          - rowheader "Differential pressure"
+          - cell "0"
+        - row "Kn / Kb 1 / 1":
+          - rowheader "Kn / Kb"
+          - cell "1 / 1"
+        - row "Interpolation Not permitted":
+          - rowheader "Interpolation"
+          - cell "Not permitted"
+        - row "Release qualified No":
+          - rowheader "Release qualified"
+          - cell "No"
+      - group: Route authority details
+      - group: Route limitations (8)
+    - group: Shell parameter domain and curve-selection policy
+- region "Results and evidence console":
+  - button "Results & evidence · collapse" [expanded]
+  - tablist "EMP.1 results and evidence":
+    - tab "Calculation detail"
+    - tab "Assessment result"
+    - tab "Local check evidence" [selected]
+    - tab "Section record"
+    - tab "Data history"
+    - tab "Reference comparison"
+  - tabpanel "Local check evidence":
+    - heading "Local check evidence" [level=2]
+    - heading "Source-bound WRC geometry" [level=4]
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Rm 100":
+        - rowheader "Rm"
+        - cell "100"
+      - row "T 20":
+        - rowheader "T"
+        - cell "20"
+      - row "r0 17.71428571":
+        - rowheader "r0"
+        - cell "17.71428571"
+      - row "γ = Rm/T 5":
+        - rowheader "γ = Rm/T"
+        - cell "5"
+      - row "β = 0.875 r0/Rm 0.155":
+        - rowheader "β = 0.875 r0/Rm"
+        - cell "0.155"
+      - row "Geometry evidence hash fnv1a64:cee3f7088a5cf776":
+        - rowheader "Geometry evidence hash"
+        - cell "fnv1a64:cee3f7088a5cf776"
+    - heading "Reference and foundation-frame custody" [level=4]
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Reference identity TARGET":
+        - rowheader "Reference identity"
+        - cell "TARGET"
+      - row "Reference point global [0, 0, 0]":
+        - rowheader "Reference point global"
+        - cell "[0, 0, 0]"
+      - row "Foundation vessel eX [1, 0, 0]":
+        - rowheader "Foundation vessel eX"
+        - cell "[1, 0, 0]"
+      - row "Foundation radial eZ — unoriented line [0, 0, 1]":
+        - rowheader "Foundation radial eZ — unoriented line"
+        - cell "[0, 0, 1]"
+      - row "Foundation result hash fnv1a64:5a7b67f34d03ddc0":
+        - rowheader "Foundation result hash"
+        - cell "fnv1a64:5a7b67f34d03ddc0"
+      - row "Screening result hash fnv1a64:6940b6a91941b702":
+        - rowheader "Screening result hash"
+        - cell "fnv1a64:6940b6a91941b702"
+    - heading "Source-qualified WRC load-axis polarity" [level=4]
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Axis authority state QUALIFIED SOURCE POLARITY":
+        - rowheader "Axis authority state"
+        - cell "QUALIFIED SOURCE POLARITY"
+      - row "Axis authority identity WRC537_2013_FIGURE2_TABLE4_TABLE5_CYLINDRICAL_LOAD_BASIS_V1":
+        - rowheader "Axis authority identity"
+        - cell "WRC537_2013_FIGURE2_TABLE4_TABLE5_CYLINDRICAL_LOAD_BASIS_V1"
+      - row "Source point global [0, 0, 1000]":
+        - rowheader "Source point global"
+        - cell "[0, 0, 1000]"
+      - row "Attachment target global [0, 0, 0]":
+        - rowheader "Attachment target global"
+        - cell "[0, 0, 0]"
+      - row "Raw radial-line alignment with +P -1":
+        - rowheader "Raw radial-line alignment with +P"
+        - cell "-1"
+      - row "+P [0, 0, -1]":
+        - rowheader "+P"
+        - cell "[0, 0, -1]"
+      - row "+Vc [0, 1, 0]":
+        - rowheader "+Vc"
+        - cell "[0, 1, 0]"
+      - row "+Vl [1, 0, 0]":
+        - rowheader "+Vl"
+        - cell "[1, 0, 0]"
+      - row "+Mc moment axis [-1, 0, 0]":
+        - rowheader "+Mc moment axis"
+        - cell "[-1, 0, 0]"
+      - row "+Ml moment axis [0, 1, 0]":
+        - rowheader "+Ml moment axis"
+        - cell "[0, 1, 0]"
+      - row "+Mt moment axis [0, 0, 1]":
+        - rowheader "+Mt moment axis"
+        - cell "[0, 0, 1]"
+      - row "Axis source SHA-256 698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2":
+        - rowheader "Axis source SHA-256"
+        - cell "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2"
+    - heading "WRC attachment-reference loads" [level=4]
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "P 1000":
+        - rowheader "P"
+        - cell "1000"
+      - row "Vc -250":
+        - rowheader "Vc"
+        - cell "-250"
+      - row "Vl -400":
+        - rowheader "Vl"
+        - cell "-400"
+      - row "Mc 500000":
+        - rowheader "Mc"
+        - cell "500000"
+      - row "Ml 600000":
+        - rowheader "Ml"
+        - cell "600000"
+      - row "Mt -700000":
+        - rowheader "Mt"
+        - cell "-700000"
+    - heading "Eight-location shell stress trace" [level=4]
+    - table:
+      - row "Location σφ σx τ Stress intensity":
+        - columnheader "Location"
+        - columnheader "σφ"
+        - columnheader "σx"
+        - columnheader "τ"
+        - columnheader "Stress intensity"
+      - row "Au -44.51629933 -61.19592585 -17.97635209 72.67281564":
+        - rowheader "Au"
+        - cell "-44.51629933"
+        - cell "-61.19592585"
+        - cell "-17.97635209"
+        - cell "72.67281564"
+      - row "Al 31.0039821 56.99348484 -17.97635209 66.18009496":
+        - rowheader "Al"
+        - cell "31.0039821"
+        - cell "56.99348484"
+        - cell "-17.97635209"
+        - cell "66.18009496"
+      - row "Bu 39.09655821 55.03195437 -17.52712442 66.31741975":
+        - rowheader "Bu"
+        - cell "39.09655821"
+        - cell "55.03195437"
+        - cell "-17.52712442"
+        - cell "66.31741975"
+      - row "Bl -27.60174756 -52.76972145 -17.52712442 61.7625002":
+        - rowheader "Bl"
+        - cell "-27.60174756"
+        - cell "-52.76972145"
+        - cell "-17.52712442"
+        - cell "61.7625002"
+      - row "Cu -55.42761144 -35.17585812 -17.39235613 65.42702806":
+        - rowheader "Cu"
+        - cell "-55.42761144"
+        - cell "-35.17585812"
+        - cell "-17.39235613"
+        - cell "65.42702806"
+      - row "Cl 51.57302409 30.19992979 -17.39235613 61.29961833":
+        - rowheader "Cl"
+        - cell "51.57302409"
+        - cell "30.19992979"
+        - cell "-17.39235613"
+        - cell "61.29961833"
+      - row "Du 49.31507099 29.83022154 -18.11112038 60.13784797":
+        - rowheader "Du"
+        - cell "49.31507099"
+        - cell "29.83022154"
+        - cell "-18.11112038"
+        - cell "60.13784797"
+      - row "Dl -47.40069174 -26.87179981 -18.11112038 57.95382326":
+        - rowheader "Dl"
+        - cell "-47.40069174"
+        - cell "-26.87179981"
+        - cell "-18.11112038"
+        - cell "57.95382326"
+    - strong: Professional WRC result scope
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Governing among eight evaluated WRC points Au · stress intensity 72.67281564":
+        - rowheader "Governing among eight evaluated WRC points"
+        - cell "Au · stress intensity 72.67281564"
+      - row "Evaluated locations Au, Al, Bu, Bl, Cu, Cl, Du, Dl":
+        - rowheader "Evaluated locations"
+        - cell "Au, Al, Bu, Bl, Cu, Cl, Du, Dl"
+      - row "Envelope basis MAXIMUM STRESS INTENSITY OVER EIGHT EVALUATED WRC POINTS ONLY":
+        - rowheader "Envelope basis"
+        - cell "MAXIMUM STRESS INTENSITY OVER EIGHT EVALUATED WRC POINTS ONLY"
+      - row "Continuous/global shell maximum NOT CLAIMED":
+        - rowheader "Continuous/global shell maximum"
+        - cell "NOT CLAIMED"
+      - row "Stress result domain HOST CYLINDRICAL SHELL AT ATTACHMENT–SHELL JUNCTURE":
+        - rowheader "Stress result domain"
+        - cell "HOST CYLINDRICAL SHELL AT ATTACHMENT–SHELL JUNCTURE"
+      - row "Nozzle / attachment-wall stress NOT CALCULATED":
+        - rowheader "Nozzle / attachment-wall stress"
+        - cell "NOT CALCULATED"
+      - row "Continuous juncture search NOT PERFORMED":
+        - rowheader "Continuous juncture search"
+        - cell "NOT PERFORMED"
+      - row "Code compliance NOT ESTABLISHED BY THIS WRC RESULT":
+        - rowheader "Code compliance"
+        - cell "NOT ESTABLISHED BY THIS WRC RESULT"
+    - paragraph: The governing value above is the maximum retained stress intensity among Au, Al, Bu, Bl, Cu, Cl, Du and Dl only. It is not a continuous or global shell maximum. Engineering judgment remains required outside these evaluated locations.

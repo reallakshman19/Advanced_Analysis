@@ -1,0 +1,182 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Assessment calculated — review the result. It is not approved for final use.
+- group: Technical details
+- status: Calculated
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Review assessment"
+- text: Review the governing result, limitations and permitted use before export.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: Calculated
+    - text: Assessment calculated — review the result. It is not approved for final use.Result · Current assessment resultUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Current": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Current": 5 Section check
+    - listitem:
+      - button "6 Local check. Current": 6 Local check
+    - listitem:
+      - button "7 Review & export. Ready to review": 7 Review & export
+  - group: Readiness and technical details
+- region "Results and evidence console":
+  - button "Results & evidence · collapse" [expanded]
+  - tablist "EMP.1 results and evidence":
+    - tab "Calculation detail"
+    - tab "Assessment result" [selected]
+    - tab "Local check evidence"
+    - tab "Section record"
+    - tab "Data history"
+    - tab "Reference comparison"
+  - tabpanel "Assessment result":
+    - heading "Assessment result" [level=2]
+    - strong: Professional assessment state — independent gates
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "CALCULATED YES":
+        - rowheader "CALCULATED"
+        - cell "YES"
+      - row "METHOD QUALIFIED YES":
+        - rowheader "METHOD QUALIFIED"
+        - cell "YES"
+      - row "CODE COMPLIANT NO":
+        - rowheader "CODE COMPLIANT"
+        - cell "NO"
+      - row "RELEASED NO":
+        - rowheader "RELEASED"
+        - cell "NO"
+    - strong: Current bounded method/domain authority
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Route EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.GAMMA5.ZERO_DP":
+        - rowheader "Route"
+        - cell "EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.GAMMA5.ZERO_DP"
+      - row "Method WRC537_2013_CYLINDRICAL_ORIGINAL_GAMMA5_TABLE5_ZERO_DP":
+        - rowheader "Method"
+        - cell "WRC537_2013_CYLINDRICAL_ORIGINAL_GAMMA5_TABLE5_ZERO_DP"
+      - row "Edition 2013":
+        - rowheader "Edition"
+        - cell "2013"
+      - row "Shell / attachment CYLINDRICAL / ROUND":
+        - rowheader "Shell / attachment"
+        - cell "CYLINDRICAL / ROUND"
+      - row "Curve / γ ORIGINAL / 5":
+        - rowheader "Curve / γ"
+        - cell "ORIGINAL / 5"
+      - row "β domain 0.05 ≤ β ≤ 0.5":
+        - rowheader "β domain"
+        - cell "0.05 ≤ β ≤ 0.5"
+      - row "Differential pressure 0":
+        - rowheader "Differential pressure"
+        - cell "0"
+      - row "Kn / Kb 1 / 1":
+        - rowheader "Kn / Kb"
+        - cell "1 / 1"
+      - row "Interpolation allowed NO":
+        - rowheader "Interpolation allowed"
+        - cell "NO"
+      - row "Cross-variant fallback allowed NO":
+        - rowheader "Cross-variant fallback allowed"
+        - cell "NO"
+      - row "Stress output domain HOST_CYLINDRICAL_SHELL_AT_ATTACHMENT_SHELL_JUNCTURE":
+        - rowheader "Stress output domain"
+        - cell "HOST_CYLINDRICAL_SHELL_AT_ATTACHMENT_SHELL_JUNCTURE"
+      - row "Source SHA-256 698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2":
+        - rowheader "Source SHA-256"
+        - cell "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2"
+      - row "Dataset hash fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c":
+        - rowheader "Dataset hash"
+        - cell "fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c"
+      - row "Qualification hash 9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7":
+        - rowheader "Qualification hash"
+        - cell "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7"
+    - strong: Blocked / limited outside current authority
+    - list:
+      - listitem: WRC TABLE5 EIGHT POINTS NOT GLOBAL ABSOLUTE MAXIMUM
+      - listitem: UNITY STRESS CONCENTRATION MULTIPLIERS ONLY
+      - listitem: The general Appendix B stress-concentration treatment is not source qualified.
+      - listitem: Differential pressure must be zero on this route.
+      - listitem: Stress concentration factors other than Kn = Kb = 1 are not qualified.
+      - listitem: Off-axis longitudinal-moment maxima need the 1B-1/2B-1 curves and a separate applicability case.
+      - listitem: Only the tabulated γ = 5 row is qualified on this route.
+      - listitem: β outside 0.05 to 0.50 is outside the qualified band.
+      - listitem: A γ between source rows is not qualified on this route.
+      - listitem: The unbounded, full-domain local method remains unavailable.
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Transaction status CALCULATED":
+        - rowheader "Transaction status"
+        - cell "CALCULATED"
+      - row "Engineering decision ESCALATE":
+        - rowheader "Engineering decision"
+        - cell "ESCALATE"
+      - row "Currentness CURRENT":
+        - rowheader "Currentness"
+        - cell "CURRENT"
+      - row "C state CALCULATED · CURRENT":
+        - rowheader "C state"
+        - cell "CALCULATED · CURRENT"
+      - row "C current/reportable result YES":
+        - rowheader "C current/reportable result"
+        - cell "YES"
+      - row "C retained numerical evidence YES":
+        - rowheader "C retained numerical evidence"
+        - cell "YES"
+      - row "Execution authority hash fnv1a64:dbc6c26ce4bbadfb":
+        - rowheader "Execution authority hash"
+        - cell "fnv1a64:dbc6c26ce4bbadfb"
+      - row "Current authority hash fnv1a64:dbc6c26ce4bbadfb":
+        - rowheader "Current authority hash"
+        - cell "fnv1a64:dbc6c26ce4bbadfb"
+      - row "EMP.1 source hash fnv1a64:91f2dd33d6825677":
+        - rowheader "EMP.1 source hash"
+        - cell "fnv1a64:91f2dd33d6825677"
+      - row "A result hash fnv1a64:5a7b67f34d03ddc0":
+        - rowheader "A result hash"
+        - cell "fnv1a64:5a7b67f34d03ddc0"
+      - row "B retained evidence hash fnv1a64:6940b6a91941b702":
+        - rowheader "B retained evidence hash"
+        - cell "fnv1a64:6940b6a91941b702"
+      - row "C result hash fnv1a64:5546c1b48b1cd434":
+        - rowheader "C result hash"
+        - cell "fnv1a64:5546c1b48b1cd434"
+      - row "A/B/C invocations A 1 · B 1 · prepare C 1 · production C 1":
+        - rowheader "A/B/C invocations"
+        - cell "A 1 · B 1 · prepare C 1 · production C 1"
+      - row "C source custody prepared YES":
+        - rowheader "C source custody prepared"
+        - cell "YES"
+      - row "C production route executed YES":
+        - rowheader "C production route executed"
+        - cell "YES"
+      - row "C suspension reasons —":
+        - rowheader "C suspension reasons"
+        - cell "—"
+      - row "Global C authority NO":
+        - rowheader "Global C authority"
+        - cell "NO"
+      - row "Code compliance produced NO":
+        - rowheader "Code compliance produced"
+        - cell "NO"
+      - row "Release qualified NO":
+        - rowheader "Release qualified"
+        - cell "NO"
+    - group: C route-authority and retained historical evidence

@@ -1,0 +1,141 @@
+{
+  "schema": "emp1-wrc-ui-walkthrough-evidence/v6",
+  "project": "chromium",
+  "browserVersion": "147.0.7727.15",
+  "checkpoints": 12,
+  "checkpointEvidence": [
+    {
+      "ordinal": 1,
+      "name": "cold-start-fail-closed",
+      "scrollX": 0,
+      "scrollY": 0,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 2,
+      "name": "complete-example-current",
+      "scrollX": 0,
+      "scrollY": 0,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 3,
+      "name": "start",
+      "scrollX": 0,
+      "scrollY": 70,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 4,
+      "name": "geometry",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 5,
+      "name": "loads",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 6,
+      "name": "load-transfer-results",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 7,
+      "name": "section-check-record",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 8,
+      "name": "local-check-configuration",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 9,
+      "name": "current-local-result-and-governing-scope",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 10,
+      "name": "review-and-export",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 11,
+      "name": "upstream-a-geometry-edited",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    },
+    {
+      "ordinal": 12,
+      "name": "downstream-local-result-stale-with-explanation",
+      "scrollX": 0,
+      "scrollY": 88,
+      "viewportWidth": 1280,
+      "viewportHeight": 720
+    }
+  ],
+  "splitConsoleSchema": "emp1-split-console/v1",
+  "operatorWorkflow": [
+    "Start",
+    "Geometry",
+    "Loads",
+    "Load transfer",
+    "Section check",
+    "Local check",
+    "Review & export"
+  ],
+  "attachmentPolicy": {
+    "viewportScreenshots": 12,
+    "fullPageContextScreenshots": 12,
+    "ariaSnapshots": 12,
+    "ariaSnapshotScope": "lafea-workbench",
+    "viewportScreenshotProvesLanding": true,
+    "fullPageScreenshotIsContextOnly": true,
+    "ariaSnapshotSupportsAccessibleNameReview": true,
+    "hoverOnlyTooltipRequiresLiveObservation": true
+  },
+  "humanObservationPolicy": {
+    "finalPassRequiresLiveOrRecordedQualifiedHumanObservation": true,
+    "artifactOnlyReviewCanEstablishFinalPass": false,
+    "staticArtifactsSupportPerStageReview": true,
+    "dynamicTransitionsRequireLiveOrRecordedObservation": true,
+    "fullPageWaterfallFalsifierRequired": true,
+    "narrowStackingForbidden": true
+  },
+  "upstreamMutation": {
+    "task": "Geometry",
+    "control": "Pipe outside diameter LAFEA.1",
+    "originalValue": 220,
+    "mutatedValue": 221,
+    "action": "Apply PIPE_GEOMETRY changes"
+  },
+  "automationIsAcceptance": false,
+  "requiredHumanReview": true
+}

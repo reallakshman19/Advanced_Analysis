@@ -1,0 +1,154 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Run load transfer — Calculate the current load-transfer source before continuing.
+- group: Technical details
+- status: In progress
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Run load transfer"
+- text: Calculate the current load-transfer source before continuing.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: In progress
+    - text: Run load transfer — Calculate the current load-transfer source before continuing.Result · Inputs changed — recalculateUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Ready to calculate": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Inputs changed — recalculate": 5 Section check
+    - listitem:
+      - button "6 Local check. Inputs changed — recalculate": 6 Local check
+    - listitem:
+      - button "7 Review & export. No current assessment result": 7 Review & export
+  - group: Readiness and technical details
+- region "Active engineering workspace":
+  - text: Current step
+  - strong: 2 · Geometry
+  - text: Review the dimensions used by this assessment.
+  - heading "Geometry" [level=2]
+  - paragraph: Governed stage-specific inputs. Every edit uses an exact descriptor and engineering identity.
+  - tablist:
+    - tab "Stage inputs" [selected]
+    - tab "Advanced raw JSON"
+  - heading "Pipe geometry" [level=4]
+  - table:
+    - row "Engineering identity Input Unit Source/status":
+      - columnheader "Engineering identity"
+      - columnheader "Input"
+      - columnheader "Unit"
+      - columnheader "Source/status"
+    - row "Pipe outside diameter LAFEA.1 document.pipeGeometry.outsideDiameter.value 221 mm SOURCE-PIPE-MODEL@7#geometry.outsideDiameter RETAINED_SOURCE":
+      - rowheader "Pipe outside diameter LAFEA.1 document.pipeGeometry.outsideDiameter.value":
+        - strong: Pipe outside diameter
+        - code: LAFEA.1
+        - code: document.pipeGeometry.outsideDiameter.value
+      - cell "221":
+        - textbox "Pipe outside diameter LAFEA.1":
+          - /placeholder: ""
+          - text: "221"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#geometry.outsideDiameter RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#geometry.outsideDiameter
+        - text: RETAINED_SOURCE
+  - button "Apply Pipe geometry changes" [disabled]
+  - status
+  - heading "Thickness" [level=4]
+  - table:
+    - row "Engineering identity Input Unit Source/status":
+      - columnheader "Engineering identity"
+      - columnheader "Input"
+      - columnheader "Unit"
+      - columnheader "Source/status"
+    - row "Nominal pipe thickness LAFEA.1 document.thicknessBasis.nominalPipeThickness.value 20 mm SOURCE-PIPE-MODEL@7#thickness.nominal RETAINED_SOURCE":
+      - rowheader "Nominal pipe thickness LAFEA.1 document.thicknessBasis.nominalPipeThickness.value":
+        - strong: Nominal pipe thickness
+        - code: LAFEA.1
+        - code: document.thicknessBasis.nominalPipeThickness.value
+      - cell "20":
+        - textbox "Nominal pipe thickness LAFEA.1":
+          - /placeholder: ""
+          - text: "20"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#thickness.nominal RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#thickness.nominal
+        - text: RETAINED_SOURCE
+    - row "Corrosion allowance LAFEA.1 document.thicknessBasis.corrosionAllowance.value 0 mm SOURCE-PIPE-MODEL@7#thickness.corrosion RETAINED_SOURCE":
+      - rowheader "Corrosion allowance LAFEA.1 document.thicknessBasis.corrosionAllowance.value":
+        - strong: Corrosion allowance
+        - code: LAFEA.1
+        - code: document.thicknessBasis.corrosionAllowance.value
+      - cell "0":
+        - textbox "Corrosion allowance LAFEA.1":
+          - /placeholder: ""
+          - text: "0"
+      - cell "mm"
+      - cell "SOURCE-PIPE-MODEL@7#thickness.corrosion RETAINED_SOURCE":
+        - code: SOURCE-PIPE-MODEL@7#thickness.corrosion
+        - text: RETAINED_SOURCE
+  - button "Apply Thickness changes" [disabled]
+  - status
+  - heading "Local check setup" [level=2]
+  - paragraph: Bind the attachment OUTSIDE diameter at the shell juncture and the WRC §4.5 cylinder geometry to engineering sources. Rm, T, WRC axes, γ, β, Kn/Kb and nearest-end distance are not editable calculation authority; nearest-end distance is derived from cylinder length and the WRC attachment reference station.
+  - strong: "EMP.1.C: STALE · INPUT CHANGED"
+  - paragraph: "Retained transaction is not current: EMP1 WORKBENCH LOADTRANSFERDOCUMENT CHANGED."
+  - text: Load case at retained A target reference
+  - combobox "Load case at retained A target reference":
+    - option "Select…"
+    - option "LC-1" [selected]
+  - text: Pressure result (comparison scope requires Δp = 0)
+  - combobox "Pressure result (comparison scope requires Δp = 0)":
+    - option "Select…"
+    - option "PR-1" [selected]
+  - text: Attachment geometry identity
+  - textbox "Attachment geometry identity": EMP1-QUALIFICATION-SAMPLE-ATTACHMENT
+  - text: Attachment outside diameter at shell juncture (mm)
+  - spinbutton "Attachment outside diameter at shell juncture (mm)": "35.42857142857143"
+  - text: Engineering source reference for this outside diameter
+  - textbox "Engineering source reference for this outside diameter": SIMULATED/EMP1-QUALIFICATION/ATTACHMENT-OD-AT-SHELL-JUNCTURE
+  - text: Cylinder geometry identity for WRC §4.5
+  - textbox "Cylinder geometry identity for WRC §4.5": EMP1-QUALIFICATION-SAMPLE-CYLINDER
+  - text: Cylinder length between end planes (mm)
+  - spinbutton "Cylinder length between end planes (mm)": "300"
+  - text: WRC attachment reference station from cylinder start end plane (mm)
+  - spinbutton "WRC attachment reference station from cylinder start end plane (mm)": "80"
+  - text: Engineering source reference for cylinder length
+  - textbox "Engineering source reference for cylinder length": SIMULATED/EMP1-QUALIFICATION/CYLINDER-END-PLANE-LENGTH
+  - text: Engineering source reference for WRC attachment station
+  - textbox "Engineering source reference for WRC attachment station": SIMULATED/EMP1-QUALIFICATION/WRC-ATTACHMENT-STATION
+  - paragraph: WRC r0 basis is locked to OUTSIDE DIAMETER at the ATTACHMENT–SHELL JUNCTURE. WRC §4.5 cylinder length is measured BETWEEN CYLINDER END PLANES. The attachment station is measured from the selected cylinder start end plane to the retained WRC attachment reference point; nearest-end distance is derived as min(x, L−x) and is not directly editable.
+  - paragraph: "Canonical length unit: mm. Enter attachment diameter, cylinder length and station in this exact unit; no UI-side unit conversion is calculation authority."
+  - button "Apply C source binding"
+  - strong: Bounded C execution authority
+  - paragraph: Only the registered bounded runtime domain may execute. A successful run is not global WRC authority, code compliance, or release qualification.
+- region "Geometry engineering inspector":
+  - tablist "EMP.1 engineering inspector":
+    - tab "Data & status"
+    - tab "Technical settings" [selected]
+  - tabpanel "Technical settings":
+    - heading "EMP.1.A calculation contract and settings" [level=2]
+    - paragraph: Configure only the stage-authorized analysis choices here. Source identity, solver custody and qualification metadata remain available as supporting evidence without occupying the primary workflow.
+    - heading "Model-declared analysis settings" [level=3]
+    - group: (i)
+    - text: Source
+    - heading "Solver readiness" [level=3]
+    - group: (i)
+    - text: Governed
+    - term: Availability
+    - definition: Engine available
+    - term: Source binding
+    - definition: Current
+    - group: Technical identifiers and lifecycle custody
+    - group: Locked qualification tolerances (8)
+    - group: Current solver/stage limitations (3)
+- region "Results and evidence console":
+  - button "Results & evidence"

@@ -1,0 +1,74 @@
+- text: Local attachment assessment
+- heading "EMP.1 — Local Attachment Analytical Assessment" [level=1]
+- paragraph: Check load transfer, nominal section response, and the available local correlation. EMP.1 does not create an FE mesh.
+- paragraph: Assessment calculated — review the result. It is not approved for final use.
+- group: Technical details
+- status: Calculated
+- navigation "Analytical assessment products":
+  - button "EMP.1 Local Attachment Analytical Assessment · Analytical"
+- button "Review assessment"
+- text: Review the governing result, limitations and permitted use before export.
+- group: More actions
+- region "Assessment workflow navigation":
+  - heading "Assessment workflow" [level=2]
+  - strong: Local attachment assessment
+  - status:
+    - strong: Calculated
+    - text: Assessment calculated — review the result. It is not approved for final use.Result · Current assessment resultUse · Not approved for final use
+  - list:
+    - listitem:
+      - button "1 Start. Assessment data ready": 1 Start
+    - listitem:
+      - button "2 Geometry. Ready to review": 2 Geometry
+    - listitem:
+      - button "3 Loads. Ready to review": 3 Loads
+    - listitem:
+      - button "4 Load transfer. Current": 4 Load transfer
+    - listitem:
+      - button "5 Section check. Current": 5 Section check
+    - listitem:
+      - button "6 Local check. Current": 6 Local check
+    - listitem:
+      - button "7 Review & export. Ready to review": 7 Review & export
+  - group: Readiness and technical details
+- region "Active engineering workspace":
+  - text: Current step
+  - strong: 1 · Start
+  - text: Confirm the assessment basis here. Use Geometry or Loads to edit engineering inputs.
+  - heading "Assessment setup" [level=2]
+  - strong: EMP.1.A LOAD & REFERENCE · READY
+  - heading "Load transfer setup" [level=3]
+  - paragraph: "Retained backing engine: LAFEA.1. EMP.1 is analytical; registered FE routes begin at LAFEA.3."
+  - paragraph: "Authority: load/reference transfer and elastic pressure baseline only. It does not calculate WRC 107/537 local-attachment stress or establish code compliance."
+  - heading "Assessment data" [level=2]
+  - paragraph: Start confirms which assessment data is loaded. Use Geometry or Loads to edit engineering inputs.
+  - paragraph: Governed stage-specific inputs. Every edit uses an exact descriptor and engineering identity.
+  - tablist:
+    - tab "Stage inputs" [selected]
+    - tab "Advanced raw JSON"
+- region "Basis & Source engineering inspector":
+  - tablist "EMP.1 engineering inspector":
+    - tab "Data & status" [selected]
+    - tab "Technical settings"
+  - tabpanel "Data & status":
+    - heading "EMP.1.A load, reference and axis custody" [level=2]
+    - strong: EMP.1.A custody · Retained
+    - table:
+      - row "Engineering datum Retained value":
+        - columnheader "Engineering datum"
+        - columnheader "Retained value"
+      - row "Coordinate system PIPE-CS-1":
+        - rowheader "Coordinate system"
+        - cell "PIPE-CS-1"
+      - row "Transformed load cases 1":
+        - rowheader "Transformed load cases"
+        - cell "1"
+      - row "Pressure results 1":
+        - rowheader "Pressure results"
+        - cell "1"
+      - row "WRC polarity authority from raw foundation eZ No":
+        - rowheader "WRC polarity authority from raw foundation eZ"
+        - cell "No"
+    - group: Retained load / reference / axis detail
+- region "Results and evidence console":
+  - button "Results & evidence"
