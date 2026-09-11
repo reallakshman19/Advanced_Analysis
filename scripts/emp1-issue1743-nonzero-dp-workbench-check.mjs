@@ -1,26 +1,26 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { calculateLocalAttachmentFoundation } from '../src/core/local-stress/index.js';
 import {
-  EMP1_WORKBENCH_ATTACHMENT_DIAMETER_BASIS,
-  EMP1_WORKBENCH_ATTACHMENT_PHYSICAL_LOCATION,
-  EMP1_WORKBENCH_ATTACHMENT_STATION_BASIS,
-  EMP1_WORKBENCH_CYLINDER_LENGTH_BASIS,
-  EMP1_WORKBENCH_RUN_INPUT_SCHEMA,
   classifyEmp1WorkbenchExecutionCurrentness,
   currentEmp1WorkbenchRouteAuthority,
   executeEmp1WorkbenchProduct,
   projectEmp1WorkbenchCState,
   projectEmp1WorkbenchRunReadiness,
 } from '../src/workspace/emp1-workbench-product-run.js';
-import { canonicalFixture } from './lafea.1-fixtures.mjs';
-import { rawRequestFixture } from './lafea.2-fixtures.mjs';
+import { createEmp1WorkbenchQualificationSample } from '../src/workspace/emp1-workbench-qualification-sample.js';
+import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
+import { sourceFixture } from './lafea.1-fixtures.mjs';
 
-const aDocument = foundationModelWithNonzeroDifferentialPressure();
-const aResult = calculateLocalAttachmentFoundation(aDocument);
-assert.equal(aResult.qualification.state, 'ACCEPTED');
-const bDocument = routeScreeningRequest(aDocument, aResult);
-const runInput = qualifiedRunInput();
+const sample = createEmp1WorkbenchQualificationSample();
+const aDocument = normalizeLafeaStageDocument(
+  'LAFEA.1',
+  foundationSourceWithNonzeroDifferentialPressure(),
+);
+// Retain a real imported B document, but deliberately let the product transaction
+// refresh its A ancestry from the newly executed nonzero-dp A document. This is
+// the same custody seam used by the visible workbench journey.
+const bDocument = normalizeLafeaStageDocument('LAFEA.2', sample.bDocument);
+const runInput = sample.runInput;
 
 const execution = await executeEmp1WorkbenchProduct({
   aDocument,
@@ -72,7 +72,7 @@ assert.ok(cState.blockerCodes.includes('NONZERO_DIFFERENTIAL_PRESSURE'));
 assert.equal(cState.currentResultAvailable, false);
 
 console.log(JSON.stringify({
-  schema: 'emp1-issue1743-nonzero-dp-workbench-check/v2',
+  schema: 'emp1-issue1743-nonzero-dp-workbench-check/v3',
   status: 'PASS_NONZERO_DP_TRANSLATED_TO_BLOCKED_WORKBENCH_STATE',
   executionStatus: execution.status,
   cState: cState.state,
@@ -84,12 +84,13 @@ console.log(JSON.stringify({
   releaseQualified: false,
 }, null, 2));
 
-function foundationModelWithNonzeroDifferentialPressure() {
-  return canonicalFixture((source) => {
+function foundationSourceWithNonzeroDifferentialPressure() {
+  return sourceFixture((source) => {
     const meanRadius = 100;
     const shellThickness = 20;
     const outerRadius = meanRadius + shellThickness / 2;
     const innerRadius = meanRadius - shellThickness / 2;
+    source.modelIdentity = 'EMP1-ISSUE-1743-NONZERO-DP-A';
     source.pipeGeometry.outsideDiameter.value = 2 * outerRadius;
     source.thicknessBasis.nominalPipeThickness.value = shellThickness;
     source.thicknessBasis.corrosionAllowance.value = 0;
@@ -102,54 +103,8 @@ function foundationModelWithNonzeroDifferentialPressure() {
     });
     source.resultRequests.pressure[0].requestedRadii[0].value = innerRadius;
     source.resultRequests.pressure[0].requestedRadii[1].value = outerRadius;
+    source.limitations = [
+      '[SIMULATED] Issue 1743 nonzero differential-pressure blocker regression.',
+    ];
   });
-}
-
-function routeScreeningRequest(foundationModel, foundationResult) {
-  return rawRequestFixture((raw) => {
-    raw.sourceEvidence = {
-      ...raw.sourceEvidence,
-      foundationModel: structuredClone(foundationModel),
-      foundationResult: structuredClone(foundationResult),
-    };
-    raw.screeningCases = [{
-      screeningCaseId: 'CASE-WRC',
-      mechanicalTerms: [{ loadCaseId: 'LC-1', factor: 1 }],
-      pressureDefinitionId: 'P-CLOSED',
-      pressureFactor: 0,
-      sourceReference: 'EMP1-1743/CASE-WRC',
-    }];
-  });
-}
-
-function qualifiedRunInput() {
-  const attachmentRadius = 0.155 * 100 / 0.875;
-  return {
-    schema: EMP1_WORKBENCH_RUN_INPUT_SCHEMA,
-    localMethod: {
-      routeRequest: {
-        schema: 'emp1-wrc537-gamma5-zero-dp-orchestration-request/v2',
-        loadCaseIdentity: 'LC-1',
-        pressureResultIdentity: 'PR-1',
-      },
-      attachmentGeometry: {
-        geometryIdentity: 'EMP1-WRC-ATTACHMENT-1743',
-        attachmentDiameter: 2 * attachmentRadius,
-        diameterBasis: EMP1_WORKBENCH_ATTACHMENT_DIAMETER_BASIS,
-        physicalLocation: EMP1_WORKBENCH_ATTACHMENT_PHYSICAL_LOCATION,
-        unit: 'mm',
-        sourceReference: 'EMP1-1743/ATTACHMENT-OUTSIDE-DIAMETER-AT-SHELL-JUNCTURE',
-      },
-      applicabilityGeometry: {
-        geometryIdentity: 'EMP1-WRC45-CYLINDER-1743',
-        cylinderLengthBasis: EMP1_WORKBENCH_CYLINDER_LENGTH_BASIS,
-        cylinderLength: 300,
-        attachmentStationBasis: EMP1_WORKBENCH_ATTACHMENT_STATION_BASIS,
-        attachmentStationFromCylinderStart: 80,
-        unit: 'mm',
-        cylinderLengthSourceReference: 'EMP1-1743/CYLINDER-LENGTH',
-        attachmentStationSourceReference: 'EMP1-1743/WRC-ATTACHMENT-STATION',
-      },
-    },
-  };
 }
