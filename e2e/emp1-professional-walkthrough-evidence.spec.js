@@ -140,6 +140,12 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
     .toContainText(/Re-run|rerun|recalculate/u);
   await expect(workbench.locator('[data-role="emp1-c-result-evidence"]')).toHaveCount(0);
 
+  // The workflow detail is an overlay. Close it before inspecting the separate
+  // Local-check technical disclosure so this exercises the same reachable user
+  // path rather than forcing a pointer event through another surface.
+  await workflowDetails.locator(':scope > summary').click();
+  await expect(workflowDetails).not.toHaveAttribute('open', '');
+  await localTechnical.scrollIntoViewIfNeeded();
   await localTechnical.locator(':scope > summary').click();
   await expect(localTechnical).toHaveAttribute('open', '');
   await expect(rawReason).toBeVisible();
@@ -147,7 +153,7 @@ test('records the 12-checkpoint WRC professional walkthrough for human review', 
   await expect(localTechnical).not.toHaveAttribute('open', '');
   await expect(rawReason).toBeHidden();
 
-  await staleNotice.scrollIntoViewIfNeeded();
+  await localCurrentness.scrollIntoViewIfNeeded();
   await checkpoint(page, testInfo, checkpointEvidence, '12', 'downstream-local-result-stale-with-explanation');
 
   await attachManifest(page, testInfo, originalDiameter, checkpointEvidence);
