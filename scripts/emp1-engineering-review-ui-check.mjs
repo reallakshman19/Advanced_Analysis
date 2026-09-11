@@ -155,7 +155,7 @@ const adapterSource = await read('src/workspace/emp1-engineering-review-workspac
 assert.equal(adapterSource.includes('runEmp1('), false);
 assert.equal(adapterSource.includes('stressIntensity'), false);
 assert.equal(adapterSource.includes('releaseQualified: true'), false);
-assert.match(adapterSource, /execution\.sourceHash/u);
+assert.match(adapterSource, /value\.sourceHash/u);
 assert.match(adapterSource, /authority\.routeAuthorityHash/u);
 assert.match(adapterSource, /authority\.routeAuthoritySnapshot/u);
 assert.match(adapterSource, /value\.result/u);
