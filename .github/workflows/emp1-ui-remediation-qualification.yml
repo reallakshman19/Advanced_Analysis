@@ -10,7 +10,10 @@ permissions:
 
 jobs:
   qualify-emp1-ui:
-    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'fix/emp1-complete-sample-lifecycle'
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.head_ref == 'fix/emp1-complete-sample-lifecycle' ||
+      github.head_ref == 'fix/issue-1743-state-contract'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -33,6 +36,9 @@ jobs:
           node scripts/emp1-qualification-sample-orchestration-check.mjs
           node scripts/emp1-plain-language-labels-check.mjs
           node scripts/emp1-professional-workflow-check.mjs
+          node scripts/emp1-readiness-projection-check.mjs
+          node scripts/emp1-engineering-review-ui-check.mjs
+          node scripts/emp1-issue1743-nonzero-dp-workbench-check.mjs
           npm run check:imports
           npm run build
       - name: Install Chromium
