@@ -1,7 +1,10 @@
+import { mkdir, rm, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { expect, test } from '@playwright/test';
 
 const HOST_URL = '/e2e/fixtures/lafea-guided-workbench.html';
 const CONTROLLER_URL = '/src/workspace/lafea-workbench-controller.js';
+const EVIDENCE_DIR = path.resolve('artifacts/emp1-walkthrough');
 
 const destroyWorkbench = async (page) => page.evaluate(() => {
   globalThis.__EMP1_WRC_WALKTHROUGH__?.controller?.destroy?.();
@@ -11,6 +14,7 @@ const destroyWorkbench = async (page) => page.evaluate(() => {
 test.afterEach(async ({ page }) => destroyWorkbench(page));
 
 test('records the 12-checkpoint WRC professional walkthrough for human review', async ({ page }, testInfo) => {
+  await resetEvidenceDirectory();
   await mountEmp1Workbench(page);
   const checkpointEvidence = [];
   const workbench = page.locator('[data-role="lafea-workbench"]');
@@ -149,6 +153,11 @@ function professionalStep(workflow, ordinal, label) {
   return workflow.getByRole('button', { name: new RegExp(`^${ordinal} ${escapeRegExp(label)}`, 'u') });
 }
 
+async function resetEvidenceDirectory() {
+  await rm(EVIDENCE_DIR, { recursive: true, force: true });
+  await mkdir(EVIDENCE_DIR, { recursive: true });
+}
+
 async function checkpoint(page, testInfo, evidence, ordinal, name) {
   await page.evaluate(() => document.activeElement?.blur?.());
   const viewportState = await page.evaluate(() => ({
@@ -159,13 +168,17 @@ async function checkpoint(page, testInfo, evidence, ordinal, name) {
   }));
   const screenshotOptions = { animations: 'disabled', caret: 'hide' };
   const viewportBody = await page.screenshot(screenshotOptions);
+  await writeEvidenceFile(`${ordinal}-${name}-viewport.png`, viewportBody);
   await testInfo.attach(`${ordinal}-${name}-viewport`, { body: viewportBody, contentType: 'image/png' });
   const fullPageBody = await page.screenshot({ ...screenshotOptions, fullPage: true });
+  await writeEvidenceFile(`${ordinal}-${name}-full-page.png`, fullPageBody);
   await testInfo.attach(`${ordinal}-${name}-full-page`, { body: fullPageBody, contentType: 'image/png' });
   await page.evaluate(({ scrollX, scrollY }) => window.scrollTo(scrollX, scrollY), viewportState);
   const ariaSnapshot = await page.locator('[data-role="lafea-workbench"]').ariaSnapshot();
+  const ariaBody = Buffer.from(`${ariaSnapshot}\n`, 'utf8');
+  await writeEvidenceFile(`${ordinal}-${name}-aria.txt`, ariaBody);
   await testInfo.attach(`${ordinal}-${name}-aria`, {
-    body: Buffer.from(`${ariaSnapshot}\n`, 'utf8'),
+    body: ariaBody,
     contentType: 'text/plain',
   });
   evidence.push({ ordinal: Number(ordinal), name, ...viewportState });
@@ -217,10 +230,16 @@ async function attachManifest(page, testInfo, originalDiameter, checkpointEviden
     automationIsAcceptance: false,
     requiredHumanReview: true,
   };
+  const manifestBody = Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+  await writeEvidenceFile('walkthrough-manifest.json', manifestBody);
   await testInfo.attach('walkthrough-manifest', {
-    body: Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`, 'utf8'),
+    body: manifestBody,
     contentType: 'application/json',
   });
+}
+
+async function writeEvidenceFile(filename, body) {
+  await writeFile(path.join(EVIDENCE_DIR, filename), body);
 }
 
 async function mountEmp1Workbench(page) {
