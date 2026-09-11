@@ -38,8 +38,31 @@ export function renderEmp1WorkbenchRunConfiguration(root, options = {}) {
   status.dataset.role = 'emp1-product-currentness';
   panel.body.append(status);
   if (currentness.reasons?.length) {
-    panel.body.append(element(root, 'p', 'lafea-workbench__authority',
-      `Retained transaction is not current: ${currentness.reasons.map(human).join('; ')}.`));
+    const notice = element(root, 'p', 'lafea-workbench__authority',
+      currentnessRecoveryMessage(currentness.reasons));
+    notice.dataset.role = 'emp1-c-currentness-notice';
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+
+    const technical = element(root, 'details', 'lafea-workbench__custody-details');
+    technical.dataset.role = 'emp1-c-currentness-technical';
+    technical.dataset.emp1RawAllowed = 'true';
+    technical.open = false;
+    const reasons = element(root, 'ul');
+    for (const code of uniqueText(currentness.reasons)) {
+      const item = element(root, 'li');
+      const diagnostic = element(root, 'code', null, code);
+      diagnostic.dataset.role = 'emp1-c-currentness-reason-code';
+      item.append(diagnostic);
+      reasons.append(item);
+    }
+    technical.append(
+      element(root, 'summary', null, 'Technical details'),
+      element(root, 'p', null,
+        'Exact retained currentness diagnostics are preserved here for traceability; they do not make stale numerical evidence current.'),
+      reasons,
+    );
+    panel.body.append(notice, technical);
   }
   if (options.runFailure) {
     const failure = element(root, 'p', 'lafea-workbench__authority',
@@ -351,6 +374,32 @@ function renderAuthorityEvidence(root, cState) {
     });
   }
   return details;
+}
+
+function currentnessRecoveryMessage(reasons) {
+  const codes = new Set(uniqueText(reasons));
+  if (codes.has('EMP1_WORKBENCH_LOADTRANSFERDOCUMENT_CHANGED')) {
+    return 'Inputs changed — recalculate load transfer before using the previous local-check result.';
+  }
+  if (codes.has('EMP1_WORKBENCH_SECTIONSCREENINGDOCUMENT_CHANGED')) {
+    return 'Inputs changed — recalculate the section check before using the previous local-check result.';
+  }
+  if ([
+    'EMP1_WORKBENCH_ATTACHMENTGEOMETRY_CHANGED',
+    'EMP1_WORKBENCH_APPLICABILITYGEOMETRY_CHANGED',
+    'EMP1_WORKBENCH_LOCALROUTE_CHANGED',
+  ].some((code) => codes.has(code))) {
+    return 'Local-check inputs changed — update the local-check basis and recalculate before using the previous result.';
+  }
+  if ([
+    'EMP1_WORKBENCH_ROUTE_AUTHORITY_CHANGED',
+    'EMP1_WORKBENCH_C_ROUTE_AUTHORITY_SNAPSHOT_REQUIRED',
+    'EMP1_WORKBENCH_C_CURRENT_ROUTE_AUTHORITY_REQUIRED',
+    'EMP1_WORKBENCH_C_CURRENT_ROUTE_NOT_AUTHORIZED',
+  ].some((code) => codes.has(code))) {
+    return 'Method authority changed — recalculate the local check under the current qualified method before using the previous result.';
+  }
+  return 'Inputs changed — recalculate the affected assessment step before using the previous local-check result.';
 }
 
 function loadCaseIdentities(documentValue) {
