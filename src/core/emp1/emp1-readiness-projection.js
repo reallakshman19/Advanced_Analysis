@@ -21,6 +21,7 @@ const B_SOURCE_STALE_STATES = new Set([
 
 const C_SOURCE_INCOMPLETE = 'SOURCE_INCOMPLETE';
 const C_ROUTE_SUSPENDED = 'ROUTE_SUSPENDED';
+const C_BOUNDED_ROUTE_AVAILABLE = 'BOUNDED_ROUTE_AVAILABLE';
 const C_READY_TO_RUN = 'READY_TO_RUN';
 const C_CALCULATED_CURRENT = 'CALCULATED_CURRENT';
 const C_STALE_AUTHORITY = 'STALE_AUTHORITY';
@@ -28,6 +29,7 @@ const C_STALE_INPUT = 'STALE_INPUT';
 const SUPPORTED_C_STATES = new Set([
   C_SOURCE_INCOMPLETE,
   C_ROUTE_SUSPENDED,
+  C_BOUNDED_ROUTE_AVAILABLE,
   C_READY_TO_RUN,
   C_CALCULATED_CURRENT,
   C_STALE_AUTHORITY,
@@ -143,7 +145,7 @@ function projectApplicability(c) {
     && c.retainedResultAvailable === true) {
     return Object.freeze({ state: 'STALE_WITH_RETAINED_CALCULATION', basis: null });
   }
-  if (c.state === C_READY_TO_RUN) {
+  if (c.state === C_READY_TO_RUN || c.state === C_BOUNDED_ROUTE_AVAILABLE) {
     return Object.freeze({ state: 'PENDING_EXECUTION_GATE', basis: null });
   }
   return Object.freeze({ state: 'NOT_ESTABLISHED', basis: null });
@@ -163,7 +165,7 @@ function projectCalculation(a, b, c) {
   if (c.state === C_CALCULATED_CURRENT && c.resultAvailable === true) {
     return calculationState('CURRENT', a, b, c, []);
   }
-  if (c.state === C_READY_TO_RUN) {
+  if (c.state === C_READY_TO_RUN || c.state === C_BOUNDED_ROUTE_AVAILABLE) {
     return calculationState('READY_TO_CALCULATE', a, b, c, []);
   }
   if (c.state === C_ROUTE_SUSPENDED) {

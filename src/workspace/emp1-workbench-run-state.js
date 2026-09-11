@@ -218,6 +218,11 @@ export function projectEmp1WorkbenchCState({
   const sourceReady = readiness?.state === 'READY';
   const productionUseAuthorized = routeAuthority?.productionUseAuthorized === true;
   const numericalC = execution?.authority?.boundedLocalRouteExecuted === true;
+  const executionRouteSuspensionReasons = execution?.status === 'BLOCKED'
+    && currentness?.state === EMP1_WORKBENCH_EXECUTION_CURRENTNESS.CURRENT
+    ? unique(execution?.authority?.routeSuspensionReasons ?? [])
+    : [];
+  const executionRouteSuspended = executionRouteSuspensionReasons.length > 0;
   const reportable = numericalC
     && currentness?.cReportable === true
     && productionUseAuthorized;
@@ -236,11 +241,11 @@ export function projectEmp1WorkbenchCState({
     buttonEnabled = false;
     buttonLabel = 'Complete C source binding';
     stageBadge = 'SOURCE INCOMPLETE';
-  } else if (!productionUseAuthorized) {
+  } else if (!productionUseAuthorized || executionRouteSuspended) {
     state = EMP1_WORKBENCH_C_STATE.ROUTE_SUSPENDED;
     buttonEnabled = false;
-    buttonLabel = 'C route suspended';
-    stageBadge = 'PREPARED · ROUTE SUSPENDED';
+    buttonLabel = executionRouteSuspended ? 'C blocked by current inputs' : 'C route suspended';
+    stageBadge = executionRouteSuspended ? 'BLOCKED · ROUTE LIMIT' : 'PREPARED · ROUTE SUSPENDED';
   } else if (numericalC && currentness?.state === EMP1_WORKBENCH_EXECUTION_CURRENTNESS.STALE) {
     state = authorityStale
       ? EMP1_WORKBENCH_C_STATE.STALE_AUTHORITY
@@ -263,6 +268,7 @@ export function projectEmp1WorkbenchCState({
   const blockerCodes = unique([
     ...(!sourceReady ? (readiness?.reasons ?? []) : []),
     ...(!productionUseAuthorized ? (routeAuthority?.reasons ?? []) : []),
+    ...(executionRouteSuspended ? executionRouteSuspensionReasons : []),
     ...(state === EMP1_WORKBENCH_C_STATE.STALE_AUTHORITY
       || state === EMP1_WORKBENCH_C_STATE.STALE_INPUT
       ? (currentness?.reasons ?? [])

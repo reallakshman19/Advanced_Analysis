@@ -54,6 +54,18 @@ assert.equal(suspended.applicability.state, 'NOT_ESTABLISHED');
 assert.equal(suspended.calculation.state, 'BLOCKED');
 assert.equal(suspended.overall, EMP1_READINESS_OVERALL.METHOD_BLOCKED);
 
+const boundedRouteAvailable = projectEmp1Readiness(fixture({
+  cState: 'BOUNDED_ROUTE_AVAILABLE',
+  cResultAvailable: false,
+  cRetainedResultAvailable: false,
+}));
+assert.equal(boundedRouteAvailable.source.state, 'CURRENT');
+assert.equal(boundedRouteAvailable.method.state, 'AUTHORIZED_BOUNDED_ROUTE');
+assert.equal(boundedRouteAvailable.applicability.state, 'PENDING_EXECUTION_GATE');
+assert.equal(boundedRouteAvailable.calculation.state, 'READY_TO_CALCULATE');
+assert.equal(boundedRouteAvailable.overall, EMP1_READINESS_OVERALL.READY_TO_CALCULATE);
+assert.equal(boundedRouteAvailable.blockers.length, 0);
+
 const ready = projectEmp1Readiness(fixture({
   cState: 'READY_TO_RUN',
   cResultAvailable: false,

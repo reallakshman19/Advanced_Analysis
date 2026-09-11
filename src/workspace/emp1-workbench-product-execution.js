@@ -20,6 +20,9 @@ import {
   reconcileEmp1WorkbenchChangeClasses,
 } from './emp1-workbench-run-state.js';
 
+const NONZERO_DP_PRODUCER_ERROR = 'EMP1_A_WRC_ZERO_DP_NONZERO_DIFFERENTIAL_PRESSURE';
+const NONZERO_DP_SUSPENSION_REASON = 'NONZERO_DIFFERENTIAL_PRESSURE';
+
 /**
  * Heavy EMP.1 product transaction implementation.
  *
@@ -69,6 +72,7 @@ export async function executeEmp1WorkbenchProductTransaction(
     localPreparation: 0,
     localCorrelation: 0,
   };
+  const preparationRouteSuspensionReasons = new Set();
 
   const adapters = {
     runLoadTransfer: () => {
@@ -111,7 +115,14 @@ export async function executeEmp1WorkbenchProductTransaction(
     },
     prepareLocalCorrelationSource: (context) => {
       invocations.localPreparation += 1;
-      return prepareEmp1Wrc537Gamma5ZeroDpLocalSource(context);
+      try {
+        return prepareEmp1Wrc537Gamma5ZeroDpLocalSource(context);
+      } catch (error) {
+        const suspensionReason = localPreparationSuspensionReason(error);
+        if (!suspensionReason) throw error;
+        preparationRouteSuspensionReasons.add(suspensionReason);
+        return context.source;
+      }
     },
     runLocalCorrelation: (context) => {
       if (!routeAuthority.productionUseAuthorized) {
@@ -137,7 +148,10 @@ export async function executeEmp1WorkbenchProductTransaction(
       || result.localCorrelation?.preparedSourceCustody,
   );
   const routeSuspensionReasons = result.localCorrelation?.state === 'BLOCKED'
-    ? [...(result.localCorrelation.routeSuspensionReasons ?? [])]
+    ? [...new Set([
+      ...(result.localCorrelation.routeSuspensionReasons ?? []),
+      ...preparationRouteSuspensionReasons,
+    ])]
     : [];
   const retainedLocalCorrelationHistory = retainHistoricalLocalCorrelation(
     previous,
@@ -181,6 +195,11 @@ export async function executeEmp1WorkbenchProductTransaction(
       releaseQualified: false,
     },
   });
+}
+
+function localPreparationSuspensionReason(error) {
+  const code = error?.code ?? error?.message;
+  return code === NONZERO_DP_PRODUCER_ERROR ? NONZERO_DP_SUSPENSION_REASON : null;
 }
 
 function reconcileRouteAuthorityChangeClass(changeClasses, previousSnapshot, currentSnapshot) {
