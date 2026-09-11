@@ -28,13 +28,6 @@ test('authorized bounded EMP.1 route executes through the real workbench without
   await workflow.getByRole('button', { name: /^7 Review & export/u }).click();
   const summary = workbench.locator('[data-role="emp1-product-execution-summary"]');
   await expect(summary).toBeVisible();
-  await expect(summary).toContainText('A 1 · B 1 · prepare C 1 · production C 1');
-  await expect(summary.getByRole('row').filter({ hasText: 'C current/reportable result' }))
-    .toContainText('YES');
-  await expect(summary.getByRole('row').filter({ hasText: 'Code compliance produced' }))
-    .toContainText('NO');
-  await expect(summary.getByRole('row').filter({ hasText: 'Release qualified' }))
-    .toContainText('NO');
 
   const professional = summary.locator('[data-role="emp1-professional-status"]');
   await expect(professional).toBeVisible();
@@ -42,6 +35,30 @@ test('authorized bounded EMP.1 route executes through the real workbench without
   await expect(professional.getByRole('row').filter({ hasText: 'METHOD QUALIFIED' })).toContainText('YES');
   await expect(professional.getByRole('row').filter({ hasText: 'CODE COMPLIANT' })).toContainText('NO');
   await expect(professional.getByRole('row').filter({ hasText: 'RELEASED' })).toContainText('NO');
+
+  const outcome = summary.locator('[data-role="emp1-review-outcome"]');
+  await expect(outcome).toBeVisible();
+  await expect(outcome).toContainText('Assessment outcome');
+  await expect(outcome).toContainText('Assessment calculated');
+  await expect(outcome).toContainText('Engineering decisionEngineering review required');
+  await expect(outcome).toContainText('Permitted useNot approved for final use');
+  await expect(outcome).toContainText('Next: Review the governing result, limitations and permitted use before export.');
+
+  const technical = summary.locator('[data-role="emp1-review-technical-evidence"]');
+  await expect(technical).toBeVisible();
+  await expect(technical).not.toHaveAttribute('open', '');
+  await expect(technical.locator('[data-role="emp1-professional-bounded-domain"]')).toBeHidden();
+  await expect(technical.getByText('Execution authority hash', { exact: true })).toBeHidden();
+
+  await technical.locator(':scope > summary').click();
+  await expect(technical).toHaveAttribute('open', '');
+  await expect(technical).toContainText('A 1 · B 1 · prepare C 1 · production C 1');
+  await expect(technical.getByRole('row').filter({ hasText: 'C current/reportable result' }))
+    .toContainText('YES');
+  await expect(technical.getByRole('row').filter({ hasText: 'Code compliance produced' }))
+    .toContainText('NO');
+  await expect(technical.getByRole('row').filter({ hasText: 'Release qualified' }))
+    .toContainText('NO');
 
   // Switch the bounded evidence console to the current WRC result before checking
   // its eight-point scope. The result node remains unique in DOM custody.
