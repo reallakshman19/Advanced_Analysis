@@ -59,6 +59,7 @@ export function finalizeEmp1Presentation(shell, options = {}) {
   normalizeTaskContext(shell, assessment);
   normalizeInspector(shell);
   normalizeEvidence(shell);
+  normalizeLocalCheck(shell);
   normalizeReviewOutcome(shell, assessment);
   normalizeSurfaces(shell, options.backingStageId);
   normalizeTechnicalDisclosures(shell);
@@ -258,6 +259,69 @@ function normalizeEvidence(shell) {
   }
 }
 
+function normalizeLocalCheck(shell) {
+  const panel = shell.querySelector('[data-role="emp1-c-run-configuration"]');
+  if (!panel || panel.dataset.emp1Simplified === 'true') return;
+  const form = panel.querySelector('.lafea-workbench__form');
+  if (!form) return;
+
+  const intro = panel.querySelector('.lafea-workbench__section-intro');
+  setText(intro,
+    'Choose the load and pressure cases, confirm the attachment and cylinder dimensions, and review whether the bounded local method applies.');
+
+  relabelControl(panel, 'emp1-c-load-case', 'Load case');
+  relabelControl(panel, 'emp1-c-pressure-result', 'Pressure case (zero differential pressure required)');
+
+  const currentness = panel.querySelector('[data-role="emp1-product-currentness"]');
+  if (currentness?.textContent?.startsWith('EMP.1.C:')) {
+    currentness.textContent = currentness.textContent.replace(/^EMP\.1\.C:/u, 'Local check:');
+  }
+
+  const apply = panel.querySelector('[data-role="emp1-c-apply-run-input"]');
+  setText(apply, 'Update local-check basis');
+
+  const technical = create(panel, 'details', 'lafea-workbench__custody-details');
+  technical.dataset.role = 'emp1-local-check-source-traceability';
+  technical.dataset.emp1RawAllowed = 'true';
+  technical.open = false;
+  technical.append(create(panel, 'summary', null, 'Source traceability & advanced settings'));
+
+  const technicalRoles = [
+    'emp1-c-geometry-identity',
+    'emp1-c-attachment-source-ref',
+    'emp1-c-applicability-geometry-identity',
+    'emp1-c-cylinder-length-source-ref',
+    'emp1-c-attachment-station-source-ref',
+  ];
+  for (const role of technicalRoles) {
+    const row = panel.querySelector(`[data-role="${role}"]`)?.closest?.('label');
+    if (row) technical.append(row);
+  }
+  const physicalBasis = panel.querySelector('[data-role="emp1-c-r0-physical-basis"]');
+  const canonical = panel.querySelector('[data-role="emp1-c-canonical-length-unit"]');
+  if (physicalBasis) technical.append(physicalBasis);
+  if (canonical) technical.append(canonical);
+  form.append(technical);
+
+  const boundary = panel.querySelector('[data-role="emp1-c-production-authority"]');
+  const boundaryTitle = boundary?.querySelector('strong');
+  const boundaryText = boundary?.querySelector('p');
+  const suspended = Boolean(boundaryTitle?.textContent?.toLowerCase().includes('suspended'));
+  setText(boundaryTitle, suspended ? 'Local method unavailable for current inputs' : 'Bounded local method');
+  setText(boundaryText, suspended
+    ? 'The local method cannot run under the current bounded authority. Review the reasons below and correct the inputs or method setup.'
+    : 'Available only within the qualified WRC range shown in Method limits. A calculated local result does not establish code compliance or final-use approval.');
+
+  panel.dataset.emp1Simplified = 'true';
+}
+
+function relabelControl(container, role, label) {
+  const control = container.querySelector(`[data-role="${role}"]`);
+  const row = control?.closest?.('label');
+  const labelNode = row?.querySelector?.(':scope > span');
+  setText(labelNode, label);
+}
+
 function normalizeReviewOutcome(shell, assessment) {
   const summary = shell.querySelector('[data-role="emp1-product-execution-summary"]');
   if (!summary || summary.dataset.emp1OutcomeFirst === 'true') return;
@@ -364,6 +428,7 @@ function normalizeTechnicalDisclosures(shell) {
     '[data-role="emp1-c-route-limitations"]',
     '[data-role="emp1-c-gamma-domain-detail"]',
     '[data-role="emp1-review-technical-evidence"]',
+    '[data-role="emp1-local-check-source-traceability"]',
   ];
   for (const selector of selectors) {
     const nodes = shell.querySelectorAll?.(selector) ?? [];
