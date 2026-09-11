@@ -48,7 +48,10 @@ test('authorized bounded EMP.1 route executes through the real workbench without
   await expect(technical).toBeVisible();
   await expect(technical).not.toHaveAttribute('open', '');
   await expect(technical.locator('[data-role="emp1-professional-bounded-domain"]')).toBeHidden();
-  await expect(technical.getByText('Execution authority hash', { exact: true })).toBeHidden();
+  const authorityHashes = technical.getByText('Execution authority hash', { exact: true });
+  await expect(authorityHashes).toHaveCount(2);
+  await expect(authorityHashes.first()).toBeHidden();
+  await expect(authorityHashes.nth(1)).toBeHidden();
 
   await technical.locator(':scope > summary').click();
   await expect(technical).toHaveAttribute('open', '');
