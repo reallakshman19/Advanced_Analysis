@@ -57,6 +57,10 @@ export function projectEmp1EngineeringReviewWorkspace({
         reviewRecord: review,
         evidence: emp1EngineeringReviewEvidenceFromExecution(execution),
       });
+      reviewState = applyExecutionCurrentnessToRetainedReview(
+        reviewState,
+        executionCurrentness,
+      );
     } else {
       reviewState = Object.freeze({ ...reviewState, retainedReviewUnavailable: true });
     }
@@ -113,6 +117,26 @@ export function createEmp1WorkspaceEngineeringReview({
     basisCode: EMP1_ENGINEERING_REVIEW_BASIS_CODE,
     comment: optionalText(comment),
     evidence: emp1EngineeringReviewEvidenceFromExecution(execution),
+  });
+}
+
+function applyExecutionCurrentnessToRetainedReview(reviewState, executionCurrentness) {
+  if (reviewState?.reviewed !== true
+    || executionCurrentness?.state !== EMP1_WORKBENCH_EXECUTION_CURRENTNESS.STALE) {
+    return reviewState;
+  }
+  const stalenessReasons = Object.freeze([
+    ...new Set(array(executionCurrentness.reasons).map(String)),
+  ]);
+  const changedBindings = reviewState.changedBindings?.length
+    ? reviewState.changedBindings
+    : Object.freeze(['executionCurrentness']);
+  return Object.freeze({
+    ...reviewState,
+    state: 'REVIEW_STALE',
+    current: false,
+    changedBindings,
+    stalenessReasons,
   });
 }
 
