@@ -63,6 +63,8 @@ export function actionButton(root, text, handler) {
   button.type = 'button';
   button.addEventListener('click', (event) => {
     const role = button.dataset.role;
+    // The EMP.1 example-replacement confirmation deliberately returns null on
+    // cancel. Surface that existing outcome without changing action semantics.
     const cancellableEmp1Action = role === 'emp1-primary-action'
       || role === 'emp1-load-complete-qualification-sample';
     if (cancellableEmp1Action) {
