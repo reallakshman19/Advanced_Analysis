@@ -61,7 +61,30 @@ export function card(root, titleText) {
 export function actionButton(root, text, handler) {
   const button = element(root, 'button', null, text);
   button.type = 'button';
-  button.addEventListener('click', handler);
+  button.addEventListener('click', (event) => {
+    const role = button.dataset.role;
+    // The EMP.1 example-replacement confirmation deliberately returns null on
+    // cancel. Surface that existing outcome without changing action semantics.
+    const cancellableEmp1Action = role === 'emp1-primary-action'
+      || role === 'emp1-load-complete-qualification-sample';
+    if (cancellableEmp1Action) {
+      button.parentElement?.querySelector?.('[data-role="emp1-primary-action-status"]')?.remove?.();
+    }
+    const result = handler(event);
+    if (result === null && cancellableEmp1Action && button.parentElement) {
+      const status = element(
+        root,
+        'output',
+        'lafea-workbench__action-status',
+        'Example replacement cancelled. Current assessment was not changed.',
+      );
+      status.dataset.role = 'emp1-primary-action-status';
+      status.setAttribute('role', 'status');
+      status.setAttribute('aria-live', 'polite');
+      button.parentElement.append(status);
+    }
+    return result;
+  });
   return button;
 }
 
