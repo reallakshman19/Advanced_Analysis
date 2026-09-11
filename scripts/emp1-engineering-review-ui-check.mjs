@@ -109,6 +109,12 @@ assert.equal(blockedWorkspace.canCreateReview, false);
 assert.ok(blockedWorkspace.creationBlockers.includes('EMP1_ENGINEERING_REVIEW_EXECUTION_NOT_CURRENT'));
 assert.ok(blockedWorkspace.creationBlockers.includes('EMP1_ENGINEERING_REVIEW_INPUT_CURRENTNESS_REQUIRED'));
 assert.ok(blockedWorkspace.creationBlockers.includes('EMP1_ENGINEERING_REVIEW_CURRENT_C_RESULT_REQUIRED'));
+assert.equal(blockedWorkspace.reviewState.state, 'REVIEW_STALE');
+assert.equal(blockedWorkspace.reviewState.current, false);
+assert.equal(blockedWorkspace.readinessReviewState.state, 'REVIEW_STALE');
+assert.ok(blockedWorkspace.reviewState.changedBindings.includes('executionCurrentness'));
+assert.deepEqual(blockedWorkspace.reviewState.stalenessReasons,
+  ['EMP1_WORKBENCH_ATTACHMENTGEOMETRY_CHANGED']);
 assert.throws(
   () => createEmp1WorkspaceEngineeringReview({
     disposition: 'ACCEPTED', reviewerIdentity: 'engineer:test',
@@ -192,6 +198,7 @@ console.log(JSON.stringify({
   acceptedState: acceptedWorkspace.reviewState.state,
   rejectedState: rejectedWorkspace.reviewState.state,
   staleState: staleWorkspace.reviewState.state,
+  staleCurrentnessReviewState: blockedWorkspace.reviewState.state,
   staleCreationBlocked: blockedWorkspace.canCreateReview === false,
   routeAuthorityStaleCreationBlocked: routeBlocked.canCreateReview === false,
   retentionScope: empty.retention.scope,
