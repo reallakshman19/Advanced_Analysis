@@ -4,6 +4,13 @@ import { evaluateEmp1LocalMethodScope } from './emp1-local-method-scope.js';
 export function evaluateEmp1LocalCorrelationGate(options = {}) {
   const method = options.methodQualification ?? null;
   const benchmark = options.benchmarkQualification ?? null;
+  const preparedLocalMethod = options.source?.localMethod ?? null;
+  const preparationBlocked = preparedLocalMethod?.preparationBlocked === true;
+  const routeSuspensionReasons = preparationBlocked
+    ? unique(array(preparedLocalMethod?.routeSuspensionReasons)
+      .filter(nonEmpty)
+      .map((reason) => String(reason).trim()))
+    : [];
   const reasons = [];
 
   if (!method) reasons.push('EMP1_LOCAL_METHOD_QUALIFICATION_REQUIRED');
@@ -25,10 +32,27 @@ export function evaluateEmp1LocalCorrelationGate(options = {}) {
   if (benchmark && !nonEmpty(benchmark.benchmarkHash)) {
     reasons.push('EMP1_LOCAL_METHOD_BENCHMARK_HASH_REQUIRED');
   }
+  if (preparationBlocked) {
+    if (routeSuspensionReasons.length === 0) {
+      reasons.push('EMP1_LOCAL_METHOD_PREPARATION_BLOCKED_REASON_REQUIRED');
+    } else {
+      reasons.push(...routeSuspensionReasons.map(
+        (reason) => `EMP1_LOCAL_METHOD_ROUTE_SUSPENDED:${reason}`,
+      ));
+    }
+  }
 
-  const scopeEvaluation = method
-    ? evaluateEmp1LocalMethodScope(method, options.source ?? null)
-    : Object.freeze({ status: 'NOT_EVALUATED_NO_METHOD', bounded: false, reasons: [] });
+  const scopeEvaluation = preparationBlocked
+    ? Object.freeze({
+      status: 'BLOCKED_ROUTE_PREPARATION',
+      bounded: method?.scopeContract != null,
+      scopeType: method?.scopeContract?.type ?? null,
+      gammaSelectionPolicy: method?.scopeContract?.gammaSelectionPolicy ?? null,
+      reasons: [],
+    })
+    : method
+      ? evaluateEmp1LocalMethodScope(method, options.source ?? null)
+      : Object.freeze({ status: 'NOT_EVALUATED_NO_METHOD', bounded: false, reasons: [] });
   if (scopeEvaluation.reasons?.length) reasons.push(...scopeEvaluation.reasons);
 
   if (reasons.length) {
@@ -39,6 +63,7 @@ export function evaluateEmp1LocalCorrelationGate(options = {}) {
       boundedScope: scopeEvaluation.bounded === true,
       scopeStatus: scopeEvaluation.status,
       scopeType: scopeEvaluation.scopeType ?? null,
+      routeSuspensionReasons,
       reasons: unique(reasons),
       result: null,
     });
@@ -73,6 +98,7 @@ export function requireEmp1LocalCorrelationExecutionAuthority(gate) {
   return gate;
 }
 
+function array(value) { return Array.isArray(value) ? value : []; }
 function nonEmpty(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
