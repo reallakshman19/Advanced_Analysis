@@ -22,9 +22,30 @@ test('authorized bounded EMP.1 route executes through the real workbench without
   // without this governed-state wait a late product rerender can race Review.
   await expect(workbench.locator('[data-emp1-primary-action="true"]')).toHaveText('Review assessment');
 
+  const workflow = workbench.locator('[data-role="emp1-workflow"]');
+  await workflow.getByRole('button', { name: /^6 Local check/u }).click();
+  const localSetup = workbench.locator('[data-role="emp1-c-run-configuration"]');
+  await expect(localSetup).toBeVisible();
+  await expect(localSetup.getByLabel('Load case', { exact: true })).toBeVisible();
+  await expect(localSetup.getByLabel('Pressure case (zero differential pressure required)', { exact: true }))
+    .toBeVisible();
+  await expect(localSetup.getByRole('button', { name: 'Update local-check basis' })).toBeVisible();
+  await expect(localSetup).toContainText('Bounded local method');
+  await expect(localSetup).toContainText('does not establish code compliance or final-use approval');
+  await expect(localSetup.locator('[data-role="emp1-product-currentness"]')).toContainText('Local check:');
+
+  const sourceTraceability = localSetup.locator('[data-role="emp1-local-check-source-traceability"]');
+  await expect(sourceTraceability).toBeVisible();
+  await expect(sourceTraceability).not.toHaveAttribute('open', '');
+  await expect(localSetup.locator('[data-role="emp1-c-attachment-source-ref"]')).toBeHidden();
+  await expect(localSetup.locator('[data-role="emp1-c-cylinder-length-source-ref"]')).toBeHidden();
+  await sourceTraceability.locator(':scope > summary').click();
+  await expect(sourceTraceability).toHaveAttribute('open', '');
+  await expect(localSetup.locator('[data-role="emp1-c-attachment-source-ref"]')).toBeVisible();
+  await expect(localSetup.locator('[data-role="emp1-c-cylinder-length-source-ref"]')).toBeVisible();
+
   // Execution summary is retained evidence, not permanent page content. Review &
   // export foregrounds that same governed node without changing execution state.
-  const workflow = workbench.locator('[data-role="emp1-workflow"]');
   await workflow.getByRole('button', { name: /^7 Review & export/u }).click();
   const summary = workbench.locator('[data-role="emp1-product-execution-summary"]');
   await expect(summary).toBeVisible();
