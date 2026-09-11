@@ -41,8 +41,12 @@ export async function createLafeaMockDomainAndGeometryEvidence(stageId, sourceHa
   return null;
 }
 
+export const LAFEA4_SIMULATED_MESH_TARGET_MM = 50;
+export const LAFEA4_SIMULATED_MESH_ELEMENT_FAMILY = 'CST_DKT_TRI3_THIN_SHELL_V1';
+export const LAFEA4_SIMULATED_MESH_PROFILE_ID = 'LAFEA4_SIMULATED_SHELL_H50_V1';
+
 /**
- * Sample-only governed mesh profile for the visible LAFEA.3 demonstration.
+ * Sample-only governed mesh profile for the visible LAFEA.3 and LAFEA.4 demonstration.
  *
  * This is not a fallback for imported engineering models. It exists because
  * Sample already declares a deterministic source and deterministic
@@ -51,27 +55,37 @@ export async function createLafeaMockDomainAndGeometryEvidence(stageId, sourceHa
  * weakening the general explicit-profile custody rule.
  */
 export function createLafeaMockMeshProfile(stageId) {
-  if (stageId !== 'LAFEA.3') return null;
+  if (stageId !== 'LAFEA.3' && stageId !== 'LAFEA.4') return null;
   const defaults = defaultProfileFields(PROFILE_KINDS.MESH);
   const policy = qualifiedMeshQualityPolicyForStage(stageId);
-  if (!policy?.fields) throw new TypeError('LAFEA3_SIMULATED_MESH_QUALITY_POLICY_REQUIRED');
+  if (!policy?.fields) throw new TypeError(`${stageId.replace('.', '')}_SIMULATED_MESH_QUALITY_POLICY_REQUIRED`);
   const fields = policy.fields;
+
+  const isLafea4 = stageId === 'LAFEA.4';
+
+  const baseFields = {
+    ...defaults,
+    globalTargetSize: isLafea4 ? LAFEA4_SIMULATED_MESH_TARGET_MM : LAFEA3_SIMULATED_MESH_TARGET_MM,
+    adjacentSizeRatioMax: fields.adjacentSizeRatioMax,
+    aspectRatioWarn: fields.aspectRatioWarn,
+    aspectRatioBlock: fields.aspectRatioBlock,
+    scaledJacobianWarn: fields.scaledJacobianWarn,
+    scaledJacobianBlock: fields.scaledJacobianBlock,
+    adaptiveLevels: fields.adaptiveLevelsMinimum,
+  };
+
+  if (isLafea4) {
+    baseFields.shellElement = LAFEA4_SIMULATED_MESH_ELEMENT_FAMILY;
+  } else {
+    baseFields.continuumElement = LAFEA3_SIMULATED_MESH_ELEMENT_FAMILY;
+  }
+
   return canonicalProfile(PROFILE_KINDS.MESH, {
     schema: 'lafea-mesh-profile/v1',
-    profileIdentity: LAFEA3_SIMULATED_MESH_PROFILE_ID,
-    sourceRevision: 'SIMULATED-LAFEA3-MESH-PROFILE/V1',
+    profileIdentity: isLafea4 ? LAFEA4_SIMULATED_MESH_PROFILE_ID : LAFEA3_SIMULATED_MESH_PROFILE_ID,
+    sourceRevision: isLafea4 ? 'SIMULATED-LAFEA4-MESH-PROFILE/V1' : 'SIMULATED-LAFEA3-MESH-PROFILE/V1',
     semanticHash: undefined,
-    fields: {
-      ...defaults,
-      continuumElement: LAFEA3_SIMULATED_MESH_ELEMENT_FAMILY,
-      globalTargetSize: LAFEA3_SIMULATED_MESH_TARGET_MM,
-      adjacentSizeRatioMax: fields.adjacentSizeRatioMax,
-      aspectRatioWarn: fields.aspectRatioWarn,
-      aspectRatioBlock: fields.aspectRatioBlock,
-      scaledJacobianWarn: fields.scaledJacobianWarn,
-      scaledJacobianBlock: fields.scaledJacobianBlock,
-      adaptiveLevels: fields.adaptiveLevelsMinimum,
-    },
+    fields: baseFields,
   });
 }
 
