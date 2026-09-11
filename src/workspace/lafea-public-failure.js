@@ -7,6 +7,10 @@
 
 const DIAGNOSTIC_CODE_PATTERN = /^[A-Z][A-Z0-9_.-]{2,127}$/u;
 const DEFAULT_PUBLIC_CODE = 'LAFEA_PUBLIC_FAILURE';
+const REVIEWED_PUBLIC_DIAGNOSTIC_MESSAGES = Object.freeze({
+  EMP1_WORKBENCH_LAFEA_1_REQUESTED_RADIUS_OUTSIDE_WALL:
+    'Pressure evaluation radii no longer fit inside the current pipe wall. Use Undo to restore the previous geometry, or import coordinated assessment data before calculating.',
+});
 
 export function boundedLafeaDiagnosticCode(value, fallbackCode = DEFAULT_PUBLIC_CODE) {
   if (typeof value === 'string' && DIAGNOSTIC_CODE_PATTERN.test(value)) return value;
@@ -38,7 +42,8 @@ export function sanitizeLafeaPublicDiagnostic(value) {
   return Object.freeze({
     ...value,
     code,
-    message: `LAFEA operation failed. Diagnostic code: ${code}.`,
+    message: REVIEWED_PUBLIC_DIAGNOSTIC_MESSAGES[code]
+      ?? `LAFEA operation failed. Diagnostic code: ${code}.`,
   });
 }
 
