@@ -7,7 +7,11 @@ import {
   EMP1_WORKBENCH_ATTACHMENT_STATION_BASIS,
   EMP1_WORKBENCH_CYLINDER_LENGTH_BASIS,
   EMP1_WORKBENCH_RUN_INPUT_SCHEMA,
+  classifyEmp1WorkbenchExecutionCurrentness,
+  currentEmp1WorkbenchRouteAuthority,
   executeEmp1WorkbenchProduct,
+  projectEmp1WorkbenchCState,
+  projectEmp1WorkbenchRunReadiness,
 } from '../src/workspace/emp1-workbench-product-run.js';
 import { canonicalFixture } from './lafea.1-fixtures.mjs';
 import { rawRequestFixture } from './lafea.2-fixtures.mjs';
@@ -16,11 +20,12 @@ const aDocument = foundationModelWithNonzeroDifferentialPressure();
 const aResult = calculateLocalAttachmentFoundation(aDocument);
 assert.equal(aResult.qualification.state, 'ACCEPTED');
 const bDocument = routeScreeningRequest(aDocument, aResult);
+const runInput = qualifiedRunInput();
 
 const execution = await executeEmp1WorkbenchProduct({
   aDocument,
   bDocument,
-  runInput: qualifiedRunInput(),
+  runInput,
 });
 
 assert.equal(execution.status, 'BLOCKED');
@@ -38,10 +43,40 @@ assert.equal(execution.result.localCorrelation.state, 'BLOCKED');
 assert.equal(execution.authority.codeComplianceProduced, false);
 assert.equal(execution.authority.releaseQualified, false);
 
+const routeAuthority = currentEmp1WorkbenchRouteAuthority();
+const currentness = classifyEmp1WorkbenchExecutionCurrentness({
+  execution,
+  aDocument,
+  bDocument,
+  runInput,
+  currentRouteAuthority: routeAuthority,
+});
+assert.equal(currentness.state, 'CURRENT');
+assert.equal(currentness.inputCurrent, true);
+assert.equal(currentness.cAuthorityCurrent, true);
+assert.equal(currentness.cReportable, false);
+
+const readiness = projectEmp1WorkbenchRunReadiness({ aDocument, bDocument, runInput });
+assert.equal(readiness.state, 'READY');
+const cState = projectEmp1WorkbenchCState({
+  readiness,
+  execution,
+  currentness,
+  routeAuthority,
+});
+assert.equal(cState.state, 'ROUTE_SUSPENDED');
+assert.equal(cState.buttonEnabled, false);
+assert.equal(cState.buttonLabel, 'C blocked by current inputs');
+assert.equal(cState.stageBadge, 'BLOCKED · ROUTE LIMIT');
+assert.ok(cState.blockerCodes.includes('NONZERO_DIFFERENTIAL_PRESSURE'));
+assert.equal(cState.currentResultAvailable, false);
+
 console.log(JSON.stringify({
-  schema: 'emp1-issue1743-nonzero-dp-workbench-check/v1',
+  schema: 'emp1-issue1743-nonzero-dp-workbench-check/v2',
   status: 'PASS_NONZERO_DP_TRANSLATED_TO_BLOCKED_WORKBENCH_STATE',
   executionStatus: execution.status,
+  cState: cState.state,
+  stageBadge: cState.stageBadge,
   routeSuspensionReasons: execution.authority.routeSuspensionReasons,
   localCorrelationInvoked: execution.invocations.localCorrelation > 0,
   producerBoundaryRelaxed: false,
