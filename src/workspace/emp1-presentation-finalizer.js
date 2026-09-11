@@ -11,7 +11,7 @@ export const EMP1_PRESENTATION_FINALIZER_SCHEMA = 'emp1-presentation-finalizer/v
 const GLOBAL_META_OBSERVERS = new WeakMap();
 
 const STEP_LABELS = Object.freeze({
-  BASIS_SOURCE: Object.freeze({ ordinal: 1, label: 'Start', note: 'Choose assessment data and confirm the basis.' }),
+  BASIS_SOURCE: Object.freeze({ ordinal: 1, label: 'Start', note: 'Confirm the assessment basis here. Use Geometry or Loads to edit engineering inputs.' }),
   GEOMETRY: Object.freeze({ ordinal: 2, label: 'Geometry', note: 'Review the dimensions used by this assessment.' }),
   LOADS: Object.freeze({ ordinal: 3, label: 'Loads', note: 'Review forces, moments, pressure and units.' }),
   LOAD_TRANSFER: Object.freeze({ ordinal: 4, label: 'Load transfer', note: 'Calculate loads at the assessment reference point.' }),
@@ -197,8 +197,29 @@ function normalizeTaskContext(shell, assessment) {
   if (title) title.textContent = `${definition.ordinal} · ${definition.label}`;
   const note = shell.querySelector('[data-role="emp1-active-task-note"]');
   if (note) note.textContent = definition.note;
+  normalizeStartGuidance(shell, stepId);
   const activeStatus = assessment?.steps?.[stepId]?.state;
   if (title && activeStatus) title.dataset.stepState = activeStatus;
+}
+
+function normalizeStartGuidance(shell, stepId) {
+  const source = shell.querySelector('[data-emp1-layout-surface="source"]');
+  const existing = source?.querySelector?.('[data-role="emp1-start-guidance"]') ?? null;
+  if (stepId !== 'BASIS_SOURCE') {
+    existing?.remove?.();
+    return;
+  }
+  if (!source || existing) return;
+  const guidance = create(
+    shell,
+    'p',
+    'lafea-workbench__authority',
+    'Start confirms which assessment data is loaded. Use Geometry or Loads to edit engineering inputs.',
+  );
+  guidance.dataset.role = 'emp1-start-guidance';
+  const heading = source.querySelector(':scope > h2');
+  if (heading?.insertAdjacentElement) heading.insertAdjacentElement('afterend', guidance);
+  else source.prepend?.(guidance);
 }
 
 function normalizeInspector(shell) {
