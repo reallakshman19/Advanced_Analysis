@@ -70,6 +70,7 @@ export function finalizeEmp1Presentation(shell, options = {}) {
       normalizeTaskContext(shell, assessment);
       normalizeWorkflowSteps(shell, assessment);
       normalizeCurrentTaskSurfaceTitle(shell);
+      normalizeLocalCheck(shell);
     };
     const queue = shell.ownerDocument?.defaultView?.queueMicrotask ?? globalThis.queueMicrotask;
     if (typeof queue === 'function') queue(apply);
