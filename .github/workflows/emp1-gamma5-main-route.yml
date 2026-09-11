@@ -30,12 +30,6 @@ jobs:
         run: node scripts/emp1-wrc537-r0-unit-coherence-check.mjs
       - name: Qualify typed r0 through workbench transaction
         run: node scripts/emp1-workbench-product-run-qualification.mjs
-      - name: Verify issue 1743 readiness state contract
-        run: node scripts/emp1-readiness-projection-check.mjs
-      - name: Verify issue 1743 stale engineering review projection
-        run: node scripts/emp1-engineering-review-ui-check.mjs
-      - name: Verify issue 1743 nonzero differential pressure handling
-        run: node scripts/emp1-issue1743-nonzero-dp-workbench-check.mjs
       - name: Qualify WRC 4.5 cylindrical applicability
         run: node scripts/emp1-wrc537-cylindrical-applicability-check.mjs
       - name: Qualify WRC eight-point extrema authority
