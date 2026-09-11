@@ -1,6 +1,7 @@
 /** Public lifecycle workbench store backed by one canonical orchestrator. */
 import { createLafeaContinuumConvergenceWorkbench } from './lafea-continuum-convergence-workbench.js';
 import { createLafeaWorkbenchOrchestratorStore } from './lafea-workbench-orchestrator-store.js';
+import { requireLafea1PressureRadiusRunAuthorized } from './lafea-1-pressure-radius-validation.js';
 
 export {
   LAFEA_CALCULATION_STATES,
@@ -62,5 +63,27 @@ export * from './lafea-continuum-convergence-study.js';
 export * from './lafea-continuum-convergence-publication.js';
 
 export function createLafeaWorkbenchStore(options) {
-  return createLafeaContinuumConvergenceWorkbench(createLafeaWorkbenchOrchestratorStore(options));
+  const store = createLafeaContinuumConvergenceWorkbench(
+    createLafeaWorkbenchOrchestratorStore(options),
+  );
+  return Object.freeze({
+    ...store,
+    run: () => runWithLafea1PressureRadiusPreflight(store),
+  });
+}
+
+function runWithLafea1PressureRadiusPreflight(store) {
+  const state = store.getState();
+  if (state.activeStageId === 'LAFEA.1') {
+    try {
+      requireLafea1PressureRadiusRunAuthorized(state.stages?.['LAFEA.1']?.document);
+    } catch (error) {
+      return store.reportEditError(
+        'resultRequests.pressure.requestedRadii',
+        null,
+        error,
+      );
+    }
+  }
+  return store.run();
 }
