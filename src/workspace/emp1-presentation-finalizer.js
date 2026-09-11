@@ -262,7 +262,7 @@ function normalizeEvidence(shell) {
 
 function normalizeLocalCheck(shell) {
   const panel = shell.querySelector('[data-role="emp1-c-run-configuration"]');
-  if (!panel || panel.dataset.emp1Simplified === 'true') return;
+  if (!panel) return;
   const form = panel.querySelector('.lafea-workbench__form');
   if (!form) return;
 
@@ -281,11 +281,14 @@ function normalizeLocalCheck(shell) {
   const apply = panel.querySelector('[data-role="emp1-c-apply-run-input"]');
   setText(apply, 'Update local-check basis');
 
-  const technical = create(panel, 'details', 'lafea-workbench__custody-details');
-  technical.dataset.role = 'emp1-local-check-source-traceability';
-  technical.dataset.emp1RawAllowed = 'true';
-  technical.open = false;
-  technical.append(create(panel, 'summary', null, 'Source traceability & advanced settings'));
+  let technical = panel.querySelector('[data-role="emp1-local-check-source-traceability"]');
+  if (!technical) {
+    technical = create(panel, 'details', 'lafea-workbench__custody-details');
+    technical.dataset.role = 'emp1-local-check-source-traceability';
+    technical.dataset.emp1RawAllowed = 'true';
+    technical.open = false;
+    technical.append(create(panel, 'summary', null, 'Source traceability & advanced settings'));
+  }
 
   const technicalRoles = [
     'emp1-c-geometry-identity',
@@ -321,6 +324,7 @@ function relabelControl(container, role, label) {
   const row = control?.closest?.('label');
   const labelNode = row?.querySelector?.(':scope > span');
   setText(labelNode, label);
+  control?.setAttribute?.('aria-label', label);
 }
 
 function normalizeReviewOutcome(shell, assessment) {
