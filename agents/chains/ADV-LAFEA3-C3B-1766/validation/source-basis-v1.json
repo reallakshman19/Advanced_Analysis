@@ -1,7 +1,7 @@
 {
   "schema": "lafea3-c3b-source-basis/v1",
-  "basisId": "C3B-SOURCE-BASIS-0004",
-  "previousBasisId": "C3B-SOURCE-BASIS-0003",
+  "basisId": "C3B-SOURCE-BASIS-0005",
+  "previousBasisId": "C3B-SOURCE-BASIS-0004",
   "issue": "github:reallaksh19/Advanced_Analysis#1766",
   "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "commonProtocol": {
@@ -24,9 +24,19 @@
   "qualificationHarnessCorrection": {
     "source": "diagnostic PR #1784 run 34678760491 exact product head 0509a9c2913ba45724dc2ee14265d0a17c124889",
     "classification": "SURFACE_GOVERNED_ORCHESTRATOR_DIAGNOSTIC_INSTEAD_OF_MASKING_REJECTION_WITH_OPTIONAL_CHAIN_ASSERTION",
-    "path": "scripts/lib/lafea-b02-kirsch-production-route.mjs",
-    "previousBlobSha": "8069cf9deebd6ac2d36bca0f04c6f341aee8aad5",
-    "currentBlobSha": "2d7107145be97c75d13ce742f8b534944a6e74ab",
+    "productionSourceMutation": false,
+    "meshAlgorithmMutation": false,
+    "qualityThresholdMutation": false,
+    "benchmarkOracleOrToleranceMutation": false
+  },
+  "supplementaryRouteCorrection": {
+    "source": "diagnostic PR #1784 run 34679135777 exact product head b308f13a1d23a7eb379b109c9f5af20b109ae321",
+    "observedErrorCode": "LAFEA_B02C_GRADED_POLAR_TARGET_H_NOT_FROZEN_LEVEL",
+    "classification": "SUPPLEMENTARY_LEVELS_USE_GENERAL_QUALIFIED_PRODUCTION_MESHER_WITHOUT_BROADENING_FROZEN_B02C_SPECIAL_STRATEGY",
+    "frozenLevels": ["L1", "L2", "L3"],
+    "supplementaryLevels": ["L4-SUPPLEMENTARY", "L5-SUPPLEMENTARY"],
+    "frozenSpecialStrategyBroadened": false,
+    "crossStrategyRichardsonOrGciClaimed": false,
     "productionSourceMutation": false,
     "meshAlgorithmMutation": false,
     "qualityThresholdMutation": false,
@@ -147,7 +157,8 @@
       "sourceId": "C3B-Q006",
       "role": "b02cCurvedHoleRegressionEntrypoint",
       "path": "scripts/lafea-b02c-supplementary-convergence-proof.mjs",
-      "blobSha": "7e51fe8c2ebc811a6d5cfefc277fc6e424f39f46"
+      "blobSha": "458ccd70b477d57958b6d3ae4585b12d5e859555",
+      "history": "C3-B run 34679135777 proved supplementary L4/L5 could not lawfully select the frozen three-level graded-polar strategy; v2 proof discloses the special-to-ordinary production mesher boundary and forbids cross-strategy Richardson/GCI claims"
     },
     {
       "sourceId": "C3B-Q007",
@@ -169,10 +180,10 @@
     },
     {
       "sourceId": "C3B-Q010",
-      "role": "b02cProductionRouteDiagnosticHarness",
+      "role": "b02cProductionRouteHarness",
       "path": "scripts/lib/lafea-b02-kirsch-production-route.mjs",
-      "blobSha": "2d7107145be97c75d13ce742f8b534944a6e74ab",
-      "history": "C3-B run 34678760491 proved generateAnalysisMesh rejection was masked by an optional-chain assertion; this harness revision surfaces the governed orchestrator diagnostic without changing mechanics"
+      "blobSha": "7237303797c09804573911b869f3316a31dde909",
+      "history": "Frozen B02C levels remain on the dedicated graded-polar profile; explicitly named supplementary levels use the ordinary qualified production mesher and arbitrary other levels fail closed"
     }
   ],
   "qualityAuthority": {
@@ -185,7 +196,7 @@
   "execution": {
     "batchRunnerPath": "scripts/lafea.3-c3b-mesh-qualification-check.mjs",
     "batchRunnerSelfHashCapturedAtRuntime": true,
-    "currentHeadExecutableEvidence": "PENDING_RERUN_TO_EXPOSE_GOVERNED_B02C_REJECTION_CODE",
+    "currentHeadExecutableEvidence": "PENDING_EXACT_HEAD_RERUN_AFTER_SUPPLEMENTARY_ROUTE_CORRECTION",
     "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
     "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
   },
