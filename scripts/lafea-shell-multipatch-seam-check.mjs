@@ -245,7 +245,7 @@ function assertSeamOwnership(mesh, geometry, expectedNodeCount) {
     .sort((left, right) => left.uv.v - right.uv.v || left.node.nodeId.localeCompare(right.node.nodeId));
   assert.equal(seamRows.length, expectedNodeCount);
   close(seamRows[0].uv.v, 0, 1e-9);
-  close(seamRows.at(-1].uv.v, 120, 1e-9);
+  close(seamRows.at(-1).uv.v, 120, 1e-9);
   const owners = edgeOwners(mesh.elements);
   for (let index = 0; index < seamRows.length - 1; index += 1) {
     assert.equal(owners.get(edgeKey(seamRows[index].node.nodeId, seamRows[index + 1].node.nodeId)), 2);
