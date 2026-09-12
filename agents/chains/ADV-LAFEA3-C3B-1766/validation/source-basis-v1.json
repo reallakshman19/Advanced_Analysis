@@ -1,0 +1,143 @@
+{
+  "schema": "lafea3-c3b-source-basis/v1",
+  "basisId": "C3B-SOURCE-BASIS-0001",
+  "issue": "github:reallaksh19/Advanced_Analysis#1766",
+  "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
+  "commonProtocol": {
+    "name": "engineering-pr-delivery-v2",
+    "sha": "734286a3da99133c0f16faa29bb641103e29ada0"
+  },
+  "historicalBenchmark": {
+    "issue": "github:reallaksh19/Advanced_Analysis#1652",
+    "registryPath": "validation/lafea-benchmark-data/MESH/sources/source-registry.json",
+    "registryBlobSha": "338debf9bbd75bc6032298e140543e82eee9d4a6",
+    "disposition": "HISTORICAL_EXACT_HEAD_EVIDENCE_NOT_CURRENT_SOURCE_AUTHORITY"
+  },
+  "sources": [
+    {
+      "sourceId": "C3B-S001",
+      "role": "producerRegistry",
+      "path": "src/workspace/lafea-mesh-producer-registry.js",
+      "blobSha": "b5fccf89dfb99fd09c4faeb6ef1d7db9e08101a6",
+      "history": "BM-MESH S-001 unchanged"
+    },
+    {
+      "sourceId": "C3B-S002",
+      "role": "producerBinding",
+      "path": "src/workspace/lafea-mesh-producer-binding.js",
+      "blobSha": "9be4f734ce35699da2a136b6dff236a263b1a80f",
+      "historicalBlobSha": "e8307066293314ad952608872db596cf1898d5c1",
+      "requiresCurrentRequalification": true
+    },
+    {
+      "sourceId": "C3B-S003",
+      "role": "producerEngine",
+      "path": "src/workspace/lafea-mesh-producer-engine.js",
+      "blobSha": "2b25cbe47710c7ed5dd3dd1382c731a55b73d68a",
+      "historicalBlobSha": "36fe0e7cb8b95aab8ebc2532578a68a1eb75f558",
+      "requiresCurrentRequalification": true
+    },
+    {
+      "sourceId": "C3B-S004",
+      "role": "geometryTopologyAdapter",
+      "path": "src/workspace/lafea-mesh-geometry-topology-adapter.js",
+      "blobSha": "0dea937de150ca5a54cc7750c907fd3fafd7761c",
+      "history": "BM-MESH S-005 unchanged"
+    },
+    {
+      "sourceId": "C3B-S005",
+      "role": "boundaryDiscretization",
+      "path": "src/core/lafea-meshing/boundary-discretization.js",
+      "blobSha": "4079dabc9baab6a660337eb6c85e151048696b1d",
+      "history": "directly pinned by C3-B because this material mesher primitive changed after historical BM-MESH"
+    },
+    {
+      "sourceId": "C3B-S006",
+      "role": "constrainedTriangulationKernel",
+      "path": "src/core/lafea-meshing/constrained-delaunay-t6.js",
+      "blobSha": "bedadbaeca6c8cd3a30b30df7a7d689854e91e6e"
+    },
+    {
+      "sourceId": "C3B-S007",
+      "role": "interiorRefinementAndHoleRecovery",
+      "path": "src/core/lafea-meshing/interior-refinement-t6.js",
+      "blobSha": "8acdde8bbc3dc11c073928d3bf84e4c64b285e31",
+      "history": "directly pinned by C3-B because this material mesher primitive changed after historical BM-MESH"
+    },
+    {
+      "sourceId": "C3B-S008",
+      "role": "meshQualityGates",
+      "path": "src/core/lafea-meshing/quality-gates.js",
+      "blobSha": "da21c333a5bc22e59c4b52c2c1ff135ee7460ebb",
+      "history": "BM-MESH S-007 unchanged"
+    },
+    {
+      "sourceId": "C3B-S009",
+      "role": "analysisMeshQuality",
+      "path": "src/workspace/lafea-analysis-mesh-quality.js",
+      "blobSha": "953bf7e1121464016d46b2262ebc2da5f0d23341",
+      "history": "BM-MESH S-036 unchanged"
+    },
+    {
+      "sourceId": "C3B-S010",
+      "role": "retainedMeshRefinement",
+      "path": "src/workspace/lafea-retained-mesh-refinement.js",
+      "blobSha": "51f9ffa992aeb664313fb3d12efb934297647f41"
+    },
+    {
+      "sourceId": "C3B-S011",
+      "role": "workbenchMeshGenerationCustody",
+      "path": "src/workspace/lafea-workbench-mesh-generation-state.js",
+      "blobSha": "f8a50a591671bf35670fc5bea62893ab5f5af281"
+    },
+    {
+      "sourceId": "C3B-Q001",
+      "role": "ordinaryGeometryQualificationEntrypoint",
+      "path": "scripts/lafea.3-geometry-intake-check.mjs",
+      "blobSha": "3a8512fa5c1124d6186cbb129c99b60a6fe6762a"
+    },
+    {
+      "sourceId": "C3B-Q002",
+      "role": "curvedGeometryQualificationEntrypoint",
+      "path": "scripts/lafea.3-curved-geometry-intake-check.mjs",
+      "blobSha": "027f05ba6610ce3d3aebdc4bdf9f0017a13fe17b"
+    },
+    {
+      "sourceId": "C3B-Q003",
+      "role": "producerBindingQualificationEntrypoint",
+      "path": "scripts/lafea-mesh-producer-binding-check.mjs",
+      "blobSha": "dc75b7ea350a9f9ebb5c3b2a80bce06cee081330"
+    },
+    {
+      "sourceId": "C3B-Q004",
+      "role": "retainedRefinementQualificationEntrypoint",
+      "path": "scripts/lafea-retained-mesh-refinement-check.mjs",
+      "blobSha": "c10e0a530d7383b7ddf8efdb10449d8bce9d3bd0"
+    },
+    {
+      "sourceId": "C3B-Q005",
+      "role": "bmMeshHistoricalRunner",
+      "path": "scripts/lafea-mesh-benchmark-run.mjs",
+      "blobSha": "7a8c8e9bfd432070d55e5c2ac42bbc1d5ea7c97a"
+    },
+    {
+      "sourceId": "C3B-Q006",
+      "role": "b02cCurvedHoleRegressionEntrypoint",
+      "path": "scripts/lafea-b02c-supplementary-convergence-proof.mjs",
+      "blobSha": "7e51fe8c2ebc811a6d5cfefc277fc6e424f39f46"
+    }
+  ],
+  "qualityAuthority": {
+    "minimumAngleBlockDegrees": 10,
+    "scaledJacobianBlock": 0.2,
+    "aspectRatioBlock": 10,
+    "nonPositiveJacobianDisposition": "BLOCK",
+    "thresholdMutationAuthorized": false
+  },
+  "execution": {
+    "currentHeadExecutableEvidence": "NOT_RUN",
+    "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
+    "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
+  },
+  "invalidationPolicy": "NEW_CURRENT_BASIS_REQUIRED_IF_ANY_C3B_SOURCE_OR_QUALIFICATION_ENTRYPOINT_BLOB_CHANGES"
+}
