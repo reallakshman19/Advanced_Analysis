@@ -68,7 +68,7 @@
     "loadProducerQualificationSha256": "47a9157ba88a5646021fabd41cd803028e1880c8d6f712095afda429f2c2622b",
     "benchmarkQualification": {
       "status": "PASS_FROZEN_INDEPENDENT_POST_AUTHORITY_ORACLE",
-      "benchmarkHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18"
+      "benchmarkHash": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
     },
     "independentAuthority": {
       "sourceSemanticHash": "ccc3715aeefe71cbca4fffbee36c24d037e45a531636d65d24bf475312518890",
@@ -101,7 +101,7 @@
       "RELEASE_QUALIFICATION"
     ]
   },
-  "qualificationRecordSha256": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+  "qualificationRecordSha256": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
   "reobservation": {
     "status": "NOT_RUN_EXECUTION_ENVIRONMENT",
     "stressComparisonsRequired": 32,

@@ -42,7 +42,7 @@ const [record, oracle] = await Promise.all([
   readFile('validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json', 'utf8').then(JSON.parse),
   readFile('validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json', 'utf8').then(JSON.parse),
 ]);
-const expectedCandidateHash = '9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7';
+const expectedCandidateHash = 'db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665';
 const historicalQualificationHash = '3b4375407dc9484c80144f2d9a5b555000d0257021108cd799923ed6fede1a8e';
 const payloadHash = createHash('sha256').update(canonical(record.semanticPayload)).digest('hex');
 assert.equal(payloadHash, expectedCandidateHash);

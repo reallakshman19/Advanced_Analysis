@@ -53,7 +53,7 @@ console.log(JSON.stringify({
 // synthetic merge commit; a later merged-main promotion still requires a fresh
 // observation on that main commit.
 if(process.env.GITHUB_ACTIONS==='true'){
-  const expectedHead=process.env.GITHUB_SHA??'';
+  const expectedHead=process.env.EXPECTED_HEAD??process.env.GITHUB_SHA??'';
   assert.match(expectedHead,/^[0-9a-f]{40}$/u,'EMP1_GITHUB_ACTIONS_EXACT_HEAD_SHA_REQUIRED');
   const { spawnSync }=await import('node:child_process');
   const observationPath='validation/emp1/wrc537-2013/.emp1-gamma5-exact-head-observation.generated.json';

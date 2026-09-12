@@ -216,7 +216,17 @@ export class LafeaWorkbenchController {
           hash,
           documentValue,
         );
-        if (shellParent) this.store.registerShellMidsurfaceEvidence(shellParent);
+        if (shellParent) {
+          this.store.registerShellMidsurfaceEvidence(shellParent);
+          const meshProfileFactory = this.mockDocumentFactory?.meshProfileFactory;
+          if (typeof meshProfileFactory === 'function') {
+            const meshProfile = await meshProfileFactory(stageId);
+            if (meshProfile) {
+              this.store.bindAnalysisMeshProfile(meshProfile, stageId);
+              this.store.generateAnalysisMesh({}, stageId);
+            }
+          }
+        }
       } else if (stageId === 'LAFEA.5') {
         const { createLafea5SourceShellParent } = await import(
           './lafea-source-shell-mesh-adoption.js'

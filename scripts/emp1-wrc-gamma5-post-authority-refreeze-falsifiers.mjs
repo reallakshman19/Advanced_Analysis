@@ -86,7 +86,7 @@ const corrupted = evaluateIndependentWrc537Table5({ geometry, stressConcentratio
 assert.notEqual(corrupted.stresses.circumferential[0], current.stresses.circumferential[0]);
 detections.push('table5-sign-corruption-detected');
 
-assert.equal(detections.length, 7);
+assert.equal(detections.length, 8);
 console.log(JSON.stringify({
   schema:'emp1-wrc537-gamma5-post-authority-refreeze-falsifiers/v1',
   status:'PASS_POST_AUTHORITY_PHYSICAL_ORACLE_FALSIFIERS',
