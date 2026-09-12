@@ -60,7 +60,8 @@ export function executeB02KirschProductionLevel(definition, method, level) {
     assert.equal(store.registerAnalysisGeometryEvidence(geometryEvidence).projection.state, 'CURRENT_PASS');
     store.bindAnalysisMeshProfile(meshProfile(definition, method, level));
     const generated = store.generateAnalysisMesh();
-    assert.equal(generated?.evidence?.qualification, 'PASS');
+    requireGeneratedMesh(generated, store, method, level);
+    assert.equal(generated.evidence.qualification, 'PASS');
     assert.equal(generated.evidence.mesh.elements.every((row) => row.elementType === method), true);
     assertCircularBoundary(generated.evidence.mesh, definition);
     const preflight = store.prepareContinuumForRun();
@@ -80,6 +81,17 @@ export function executeB02KirschProductionLevel(definition, method, level) {
   } finally {
     store.destroy();
   }
+}
+
+function requireGeneratedMesh(generated, store, method, level) {
+  if (generated?.evidence) return;
+  const diagnostic = store.getState().diagnostics?.[0] ?? null;
+  const code = diagnostic?.code ?? 'B02C_PRODUCTION_MESH_GENERATION_REJECTED';
+  const message = diagnostic?.message
+    ?? `B02C production mesh generation returned no evidence for ${method}/${level.levelId}`;
+  const error = new Error(message);
+  error.code = code;
+  throw error;
 }
 
 function sourceDocument(definition, method) {
