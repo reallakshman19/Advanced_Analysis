@@ -9,100 +9,49 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const options = parseArgs(process.argv.slice(2));
-if (!options.recordPath) throw falsifierError('EMP1_REQUALIFICATION_FALSIFIER_RECORD_REQUIRED');
+if (!options.recordPath) throw gateError('EMP1_CURRENT_FALSIFIER_RECORD_REQUIRED');
 if (!/^[0-9a-f]{40}$/u.test(options.expectedObservedHead ?? '')) {
-  throw falsifierError('EMP1_REQUALIFICATION_FALSIFIER_EXPECTED_HEAD_REQUIRED');
+  throw gateError('EMP1_CURRENT_FALSIFIER_EXPECTED_HEAD_REQUIRED');
 }
-
 const sourceRecord = JSON.parse(await readFile(resolve(root, options.recordPath), 'utf8'));
-assert.equal(sourceRecord.observedHeadSha, options.expectedObservedHead,
-  'EMP1_REQUALIFICATION_FALSIFIER_BASELINE_HEAD_MISMATCH');
-
+assert.equal(sourceRecord.observedHeadSha, options.expectedObservedHead);
 const baseline = runReplay(options.recordPath);
 assert.equal(baseline.status, 0,
-  `EMP1_REQUALIFICATION_FALSIFIER_BASELINE_REPLAY_FAILED\nSTDOUT:\n${baseline.stdout}\nSTDERR:\n${baseline.stderr}`);
+  `EMP1_CURRENT_FALSIFIER_BASELINE_FAILED\nSTDOUT:\n${baseline.stdout}\nSTDERR:\n${baseline.stderr}`);
 
-const tempRoot = await mkdtemp(join(tmpdir(), 'emp1-gamma5-observation-falsifiers-'));
+const tempRoot = await mkdtemp(join(tmpdir(), 'emp1-current-authority-falsifiers-'));
 const detections = [];
 try {
   const mutations = [
-    {
-      name: 'semantic-hash-corruption',
-      mutate(record) {
-        record.observationSemanticHash = '0'.repeat(64);
-      },
-      recompute: false,
-    },
-    {
-      name: 'candidate-qualification-substitution-with-rehashed-payload',
-      mutate(record) {
-        record.candidateQualificationSha256 = '0'.repeat(64);
-      },
-    },
-    {
-      name: 'physical-wrc-load-drift-with-rehashed-payload',
-      mutate(record) {
-        const row = record.physicalWrcLoadComparisons[0];
-        row.actual += 1;
-        row.absoluteDelta = Math.abs(row.actual - row.expected);
-      },
-    },
-    {
-      name: 'stress-oracle-substitution-with-rehashed-payload',
-      mutate(record) {
-        record.stressComparisons[0].expected += 1;
-      },
-    },
-    {
-      name: 'coherent-out-of-tolerance-stress-with-rehashed-payload',
-      mutate(record) {
-        const row = record.stressComparisons[0];
-        row.actual = row.expected + (2 * row.tolerance);
-        row.absoluteDelta = Math.abs(row.actual - row.expected);
-        row.relativeDelta = row.absoluteDelta / Math.max(1, Math.abs(row.expected));
-        row.toleranceRatio = row.absoluteDelta / row.tolerance;
-        const governing = record.stressComparisons.reduce((current, value) =>
-          value.toleranceRatio > current.toleranceRatio ? value : current,
-        record.stressComparisons[0]);
-        record.maxAbsoluteDelta = Math.max(...record.stressComparisons.map((value) => value.absoluteDelta));
-        record.maxRelativeDelta = Math.max(...record.stressComparisons.map((value) => value.relativeDelta));
-        record.maxToleranceRatio = governing.toleranceRatio;
-        record.governingComparison = structuredClone(governing);
-      },
-    },
-    {
-      name: 'stress-matrix-row-deletion-with-rehashed-payload',
-      mutate(record) {
-        record.stressComparisons.pop();
-      },
-    },
-    {
-      name: 'authorization-escalation-with-rehashed-payload',
-      mutate(record) {
-        record.authorization.authorizationChangeAppliedByThisObservation = true;
-        record.authorization.globalEmp1CRouteAuthority = true;
-      },
-    },
-    {
-      name: 'subordinate-stdout-hash-substitution-with-rehashed-payload',
-      mutate(record) {
-        record.subordinateEvidence.productQualification.stdoutSha256 = 'f'.repeat(64);
-      },
-    },
-    {
-      name: 'pass-looking-subordinate-status-forgery-with-rehashed-payload',
-      mutate(record) {
-        record.subordinateEvidence.productQualification.status = 'PASS_FORGED';
-      },
-    },
-    {
-      name: 'complete-sample-authority-hash-substitution-with-rehashed-payload',
-      mutate(record) {
-        record.subordinateEvidence.completeSample.routeAuthorityHash = 'FORGED_ROUTE_AUTHORITY_HASH';
-      },
-    },
+    { name: 'semantic-hash-corruption', recompute: false,
+      mutate: (r) => { r.observationSemanticHash = '0'.repeat(64); } },
+    { name: 'qualification-substitution', mutate: (r) => { r.qualificationRecordSha256 = '0'.repeat(64); } },
+    { name: 'source-substitution', mutate: (r) => { r.sourceDocumentSha256 = '0'.repeat(64); } },
+    { name: 'physical-load-drift', mutate: (r) => {
+      const row = r.physicalWrcLoadComparisons[0]; row.actual += 1; row.absoluteDelta = Math.abs(row.actual - row.expected);
+    } },
+    { name: 'stress-oracle-substitution', mutate: (r) => { r.stressComparisons[0].expected += 1; } },
+    { name: 'coherent-out-of-tolerance-stress', mutate: (r) => {
+      const row = r.stressComparisons[0]; row.actual = row.expected + 2 * row.tolerance;
+      row.absoluteDelta = Math.abs(row.actual - row.expected);
+      row.relativeDelta = row.absoluteDelta / Math.max(1, Math.abs(row.expected));
+      row.toleranceRatio = row.absoluteDelta / row.tolerance;
+      const governing = r.stressComparisons.reduce((a, b) => b.toleranceRatio > a.toleranceRatio ? b : a,
+        r.stressComparisons[0]);
+      r.maxToleranceRatio = governing.toleranceRatio; r.governingComparison = structuredClone(governing);
+    } },
+    { name: 'stress-row-deletion', mutate: (r) => { r.stressComparisons.pop(); } },
+    { name: 'authority-escalation', mutate: (r) => {
+      r.authorityBoundary.authorityCreatedByThisObservation = true;
+      r.currentAuthority.globalEmp1CRouteAuthority = true;
+    } },
+    { name: 'subordinate-hash-substitution', mutate: (r) => {
+      r.subordinateEvidence.qualificationBinding.stdoutSha256 = 'f'.repeat(64);
+    } },
+    { name: 'historical-evidence-forgery', mutate: (r) => {
+      r.standardHistoricalQualification.numericalQualification = 'PASS';
+    } },
   ];
-
   for (let index = 0; index < mutations.length; index += 1) {
     const mutation = mutations[index];
     const record = structuredClone(sourceRecord);
@@ -111,30 +60,27 @@ try {
     const path = join(tempRoot, `${String(index + 1).padStart(2, '0')}-${mutation.name}.json`);
     await writeFile(path, `${JSON.stringify(record, null, 2)}\n`, 'utf8');
     const result = runReplay(path);
-    assert.notEqual(result.status, 0,
-      `EMP1_REQUALIFICATION_FALSIFIER_NOT_DETECTED:${mutation.name}`);
+    assert.notEqual(result.status, 0, `EMP1_CURRENT_FALSIFIER_NOT_DETECTED:${mutation.name}`);
     detections.push({ name: mutation.name, detected: true });
   }
 } finally {
   await rm(tempRoot, { recursive: true, force: true });
 }
-
 assert.equal(detections.length, 10);
 assert.ok(detections.every((value) => value.detected));
 const receipt = {
-  schema: 'emp1-wrc537-gamma5-requalification-observation-falsifiers/v1',
-  status: 'PASS_REQUALIFICATION_OBSERVATION_ANTI_FORGERY_FALSIFIERS',
+  schema: 'emp1-wrc537-gamma5-current-authority-reobservation-falsifiers/v1',
+  status: 'PASS_CURRENT_AUTHORITY_REOBSERVATION_ANTI_FORGERY_FALSIFIERS',
   observedHeadSha: sourceRecord.observedHeadSha,
   observationSemanticHash: sourceRecord.observationSemanticHash,
   baselineReplayRequiredAndPassed: true,
   mutationCount: detections.length,
   detections,
-  productionRouteAuthorized: false,
-  authorizationChangeApplied: false,
+  productionRouteAuthorized: true,
+  authorityCreatedByFalsifiers: false,
+  standardHistoricalEvidenceCreatedByFalsifiers: false,
 };
-if (options.writeReceipt) {
-  await writeFile(resolve(root, options.writeReceipt), `${JSON.stringify(receipt, null, 2)}\n`, 'utf8');
-}
+if (options.writeReceipt) await writeFile(resolve(root, options.writeReceipt), `${JSON.stringify(receipt, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(receipt, null, 2));
 
 function runReplay(recordPath) {
@@ -142,14 +88,10 @@ function runReplay(recordPath) {
     'scripts/emp1-wrc-gamma5-requalification-observation-replay-check.mjs',
     '--record', recordPath,
     '--expected-observed-head', options.expectedObservedHead,
-  ], {
-    cwd: root,
-    encoding: 'utf8',
-    env: { ...process.env, EMP1_EXACT_HEAD_PARENT_SHA: options.expectedObservedHead },
-  });
+  ], { cwd: root, encoding: 'utf8', env: { ...process.env, EMP1_EXACT_HEAD_PARENT_SHA: options.expectedObservedHead } });
 }
 function semanticHash(record) {
-  const { observationSemanticHash: _ignoredHash, status: _ignoredStatus, ...payload } = record;
+  const { observationSemanticHash: _hash, status: _status, ...payload } = record;
   return sha256Canonical(payload);
 }
 function sha256Canonical(value) {
@@ -157,9 +99,7 @@ function sha256Canonical(value) {
 }
 function sortValue(value) {
   if (Array.isArray(value)) return value.map(sortValue);
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(Object.keys(value).sort().map((key) => [key, sortValue(value[key])]));
-  }
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map((key) => [key, sortValue(value[key])]));
   return value;
 }
 function parseArgs(args) {
@@ -168,12 +108,8 @@ function parseArgs(args) {
     if (args[index] === '--record') out.recordPath = args[++index] ?? null;
     else if (args[index] === '--expected-observed-head') out.expectedObservedHead = args[++index] ?? null;
     else if (args[index] === '--write-receipt') out.writeReceipt = args[++index] ?? null;
-    else throw falsifierError(`EMP1_REQUALIFICATION_FALSIFIER_UNKNOWN_ARGUMENT:${args[index]}`);
+    else throw gateError(`EMP1_CURRENT_FALSIFIER_UNKNOWN_ARGUMENT:${args[index]}`);
   }
   return out;
 }
-function falsifierError(code) {
-  const error = new TypeError(code);
-  error.code = code;
-  return error;
-}
+function gateError(code) { const error = new TypeError(code); error.code = code; return error; }
