@@ -20,7 +20,9 @@ if (trackedStatus.trim()) fail(`Tracked worktree must be clean before C3-B quali
 
 const basis = JSON.parse(fs.readFileSync(BASIS_PATH, 'utf8'));
 if (basis.schema !== 'lafea3-c3b-source-basis/v1') fail(`Unexpected C3-B source basis schema ${basis.schema}.`);
+
 const runnerBlobSha = git(['rev-parse', `${head}:scripts/lafea.3-c3b-mesh-qualification-check.mjs`]).trim();
+const sourceBasisBlobSha = git(['rev-parse', `${head}:agents/chains/ADV-LAFEA3-C3B-1766/validation/source-basis-v1.json`]).trim();
 
 const sourceCustody = basis.sources.map((source) => {
   const observedBlobSha = git(['rev-parse', `${head}:${source.path}`]).trim();
@@ -75,7 +77,7 @@ function step(stepId, command, commandArgs, evidenceClass) {
     stdoutSha256: sha256(stdout),
     stderrSha256: sha256(stderr),
     stdoutTail: tail(stdout),
-    stderrTail: tail(stderr),
+    stdertTail: tail(stderr),
     elapsedMs: Number(elapsedMs.toFixed(3)),
   };
 }
@@ -87,6 +89,7 @@ function summary({ head, basis, sourceCustody, steps, status, blocker }) {
     chainId: 'ADV-LAFEA3-C3B-1766',
     exactHeadSha: head,
     sourceBasisId: basis.basisId,
+    sourceBasisBlobSha,
     historicalBmMeshDisposition: basis.historicalBenchmark.disposition,
     runnerBlobSha,
     sourceCustody,
