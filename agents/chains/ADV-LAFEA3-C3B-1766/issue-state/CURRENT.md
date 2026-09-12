@@ -2,14 +2,14 @@
 
 ISSUE_BASIS_ID: IB-0001
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1766
-CURRENT_ENDPOINT: EP-0001
+CURRENT_ENDPOINT: EP-0002
 MAIN_OBSERVED: 41df6e945789273fc327aaeca6686529a9ad8b39
-MATERIAL_HEAD: 80ab28aebb49a2f1e5083a39d8ec08ce2d584392
+MATERIAL_HEAD: 145736dd0952159ae6182b154021f28b827bdcdc
 PR: https://github.com/reallaksh19/Advanced_Analysis/pull/1782
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5644123843
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5644124754
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5644125992
-ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0002
+ISSUE_HANDOVER_SYNC_STATUS: STALE_PENDING_EP0002_COMMENT
 COMMON_PROTOCOL_BASIS: 734286a3da99133c0f16faa29bb641103e29ada0
 ENGINEERING_STATE: IN_PROGRESS
 CUSTODY_STATE: HELD
@@ -21,28 +21,31 @@ MERGE_AUTHORIZED: FALSE
 
 ## Original task / acceptance ledger
 
-TASK-001 | Current-source reconciliation | PARTIAL_PASS | Current main already implements simple/curved/hole generation, deterministic evidence and refinement; exact-current execution still NOT_RUN.
-TASK-002 | Production geometry -> mesh qualification | OPEN | Source coverage exists; exact-current qualification pending.
-TASK-003 | Determinism/refinement custody | OPEN | Source coverage exists; exact-current qualification pending.
-TASK-004 | Quality/Jacobian/tamper/BM-MESH | BLOCKED_BY_SOURCE_CUSTODY_REBASE | Historical BM-MESH registry pins pre-current producer blobs.
-TASK-005 | B02C mesher regression | HISTORICAL_PR_HEAD_PASS / CURRENT_NOT_RUN | PR #1740 proves repaired boundary on its qualified head; current main is later.
-TASK-006 | C3-B closure | OPEN | No release or downstream authority granted.
+TASK-001 | Current-source reconciliation | COMPLETE_PASS_SOURCE_RECONCILIATION | Current production already implements the creation-time mesher architecture; source custody is explicitly rebound for this C3-B epoch without rewriting historical BM-MESH.
+TASK-002 | Production geometry -> mesh qualification | READY_CURRENT_EXECUTION_NOT_RUN | Batch gate covers ordinary polygon, LINE/CIRCULAR_ARC and multiply-connected production routes.
+TASK-003 | Determinism/refinement custody | READY_CURRENT_EXECUTION_NOT_RUN | Batch gate covers producer replay plus retained T3/T6 refinement and Q8 fail-closed authority.
+TASK-004 | Quality/Jacobian/tamper/M0-M4 intent | READY_CURRENT_EXECUTION_NOT_RUN | C3-B source basis + batch gate provide LAFEA.3 successor custody; shared BM-MESH remains historical rather than silently repinned.
+TASK-005 | B02C mesher regression | READY_CURRENT_EXECUTION_NOT_RUN | #1740 historical PR-head PASS retained; current batch gate includes the supplementary B02C proof.
+TASK-006 | C3-B closure | OPEN | Requires retained exact-current executable receipt. No downstream/release authority follows automatically.
 
 ## Input ledger
 
-INPUT-001 | Current main | AVAILABLE | 41df6e945789273fc327aaeca6686529a9ad8b39
+INPUT-001 | Current main basis | AVAILABLE | 41df6e945789273fc327aaeca6686529a9ad8b39
 INPUT-002 | Historical BM-MESH source registry | AVAILABLE_HISTORICAL | validation/lafea-benchmark-data/MESH/sources/source-registry.json
-INPUT-003 | C3-B current source basis | AVAILABLE | agents/chains/ADV-LAFEA3-C3B-1766/validation/source-basis-v1.json
-INPUT-004 | Exact-current executable receipts | NOT_RUN | connector-only material leg
+INPUT-003 | C3-B source basis | AVAILABLE | C3B-SOURCE-BASIS-0002
+INPUT-004 | C3-B batch runner | AVAILABLE | scripts/lafea.3-c3b-mesh-qualification-check.mjs
+INPUT-005 | Exact-current executable receipt | NOT_RUN | no relevant C3-B executor has run on the current PR head
 
 ## Benchmark / oracle ledger
 
-BM-001 | ordinary polygon route | NOT_RUN_CURRENT | existing checker pinned in source basis
-BM-002 | curved LINE/ARC route | NOT_RUN_CURRENT | existing checker pinned in source basis
-BM-003 | producer binding + hole T6/Q8 + v2 custody | NOT_RUN_CURRENT | existing checker pinned in source basis
-BM-004 | retained refinement | NOT_RUN_CURRENT | existing checker pinned in source basis
-BM-005 | BM-MESH M0-M4 | HISTORICAL_PASS_CURRENT_STALE_SOURCE_CUSTODY | #1652/#1715
-BM-006 | B02C curved-hole regression | HISTORICAL_PR_HEAD_PASS_CURRENT_NOT_RUN | #1740
+BM-001 | ordinary polygon route | READY / NOT_RUN_CURRENT | existing production checker
+BM-002 | curved LINE/ARC route | READY / NOT_RUN_CURRENT | existing production checker
+BM-003 | producer binding + hole T6/Q8 + v2 custody | READY / NOT_RUN_CURRENT | existing production checker
+BM-004 | retained refinement | READY / NOT_RUN_CURRENT | existing production checker
+BM-005 | LAFEA.3 M0-M4 intent / regressions | HISTORICAL_SHARED_PASS + CURRENT_NOT_RUN | #1652/#1715 preserved; current C3-B gate composes LAFEA.3-only checks
+BM-006 | B02C curved-hole regression | HISTORICAL_PR_HEAD_PASS + CURRENT_NOT_RUN | #1740
+
+PASS, FAIL, NOT_RUN and historical PASS remain distinct.
 
 ## Roadmap ledger
 
@@ -50,27 +53,22 @@ RM-001 | #1710 | OWNER_ROADMAP | ALIGNED
 RM-002 | #1711 | OWNER_ROADMAP | ALIGNED
 RM-003 | #1766 | ISSUE_EXECUTION_PLAN | ALIGNED_WITH_CURRENT_SOURCE_RECONCILIATION
 
-## Current engineering finding
+## Current engineering state
 
-#1766's original sequence assumed MP3.1 simple-domain T6 still needed implementation followed by holes. Current production is beyond that state:
+No production numerical code was changed. The first C3-B implementation assumption was falsified by current source: the requested mesher architecture already exists. This batch therefore establishes one exact-current LAFEA.3 qualification gate rather than accumulating micro fixes.
 
-- ordinary polygon intake already reaches governed generated T6 mesh, preflight and compiler;
-- LINE + CIRCULAR_ARC ordinary geometry already reaches deterministic T6 evidence;
-- the generic producer routes multiply-connected regions through deterministic constrained triangulation and preserves analytic curved-boundary midsides;
-- Q8 hole requests remain uniform Q8 rather than silently degrading family;
-- retained T3/T6 local refinement has deterministic replay and atomic custody; Q8 local refinement remains explicitly unqualified;
-- #1740 repaired mapped grading and outer-loop curved-edge transition behavior without relaxing quality thresholds.
+The gate hash-binds its exact source basis and its own runner blob, then runs the existing production and regression checks. A failing receipt must identify the first real boundary before a production patch is considered.
 
-Therefore production mesher construction is not the current first boundary. The first current boundary is exact-head source/evidence qualification after material mesher drift.
+## Current blocker
 
-## Source-custody blocker
+`EXACT_CURRENT_C3B_EXECUTION_NOT_RUN`.
 
-Historical BM-MESH registry currently pins:
-- S-002 producer binding `e8307066293314ad952608872db596cf1898d5c1`, while current is `9be4f734ce35699da2a136b6dff236a263b1a80f`;
-- S-003 producer engine `36fe0e7cb8b95aab8ebc2532578a68a1eb75f558`, while current is `2b25cbe47710c7ed5dd3dd1382c731a55b73d68a`.
-
-The meshing changes also directly touched `boundary-discretization.js` and `interior-refinement-t6.js`, which the historical BM-MESH registry did not separately pin. The old exact-head PASS remains historical evidence and must not be silently relabeled current.
+Unrelated PR-triggered workflows do not satisfy C3-B qualification. No current C3-B execution receipt exists yet.
 
 ## Exact next action
 
-Run one C3-B qualification campaign on an exact clean candidate using the current source basis and existing production checkers. Establish successor source custody without rewriting historical evidence. Only after a real executable failure may production meshing be patched.
+Run once on a clean exact candidate:
+
+`node scripts/lafea.3-c3b-mesh-qualification-check.mjs --expected-head <EXACT_HEAD> --base 41df6e945789273fc327aaeca6686529a9ad8b39`
+
+Retain the JSON receipt. Patch production only after a real failing boundary is retained.

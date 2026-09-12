@@ -1,16 +1,16 @@
 CHAIN_STATE_VERSION: 3
 CHAIN_ID: ADV-LAFEA3-C3B-1766
 MISSION: Qualify the current LAFEA.3 geometry -> deterministic analysis mesh boundary as one coherent C3-B batch, preserving historical BM-MESH evidence and changing production meshing only after a real exact-current failure is isolated.
-ACTIVE_ENDPOINT: EP-0001
-ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA3-C3B-1766/endpoints/EP-0001.md
-CURRENT_MATERIAL_LEG: LEG-001
+ACTIVE_ENDPOINT: EP-0002
+ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA3-C3B-1766/endpoints/EP-0002.md
+CURRENT_MATERIAL_LEG: LEG-002
 WORK_ITEM_SOURCE: GITHUB_ISSUE
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1766
 WORK_ITEM_MODE: EXCLUSIVE
 AGENT_INSTANCE_ID: chatgpt:67b2c55d-91c8-44af-a0a5-e329d2835fb5
 ACTIVE_CUSTODIAN: chatgpt:67b2c55d-91c8-44af-a0a5-e329d2835fb5
 CUSTODY_EPOCH: 1
-COORDINATION_STATE: C3B_CURRENT_SOURCE_RECONCILIATION
+COORDINATION_STATE: C3B_BATCH_GATE_READY_CURRENT_EXECUTION_NOT_RUN
 COMMON_PROTOCOL: engineering-pr-delivery-v2
 COMMON_PROTOCOL_BASIS: 734286a3da99133c0f16faa29bb641103e29ada0
 COMMON_PROTOCOL_STATUS: CURRENT
@@ -30,27 +30,28 @@ AUTO_STATE: NOT_APPLICABLE
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
 BRANCH: engineering/lafea3-c3b-1766-mesh-qualification
-MATERIAL_HEAD: 80ab28aebb49a2f1e5083a39d8ec08ce2d584392
-HEAD_SEMANTICS: MATERIAL_HEAD_BEFORE_CONTROL_PLANE_ID_SYNC; later sync commit changes custody files only
+MATERIAL_HEAD: 145736dd0952159ae6182b154021f28b827bdcdc
+HEAD_SEMANTICS: C3B_SOURCE_BASIS_PLUS_BATCH_QUALIFICATION_GATE
 MAIN_OBSERVED: 41df6e945789273fc327aaeca6686529a9ad8b39
 PR: https://github.com/reallaksh19/Advanced_Analysis/pull/1782
 PR_STATUS: OPEN_DRAFT
-MERGEABILITY: UNKNOWN
+MERGEABILITY: MERGEABLE_LAST_OBSERVED
 ISSUE_BASIS_ID: IB-0001
 ISSUE_BASIS_FILE: agents/chains/ADV-LAFEA3-C3B-1766/issue-basis/IB-0001.md
 ISSUE_BASIS_STATUS: CURRENT
 ISSUE_CURRENT_STATE_FILE: agents/chains/ADV-LAFEA3-C3B-1766/issue-state/CURRENT.md
 ISSUE_CURRENT_STATE_BASIS: IB-0001
-ISSUE_CURRENT_STATE_ENDPOINT: EP-0001
+ISSUE_CURRENT_STATE_ENDPOINT: EP-0002
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5644123843
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5644124754
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5644125992
-ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0002
+ISSUE_HANDOVER_SYNC_STATUS: STALE_PENDING_EP0002_COMMENT
 ROADMAPS: github:reallaksh19/Advanced_Analysis#1710; github:reallaksh19/Advanced_Analysis#1711
 ROADMAP_ALIGNMENT: ALIGNED
 ROADMAP_MUTATION_AUTHORITY: NONE
 SOURCE_BASIS: agents/chains/ADV-LAFEA3-C3B-1766/validation/source-basis-v1.json
-SOURCE_RECONCILIATION: agents/chains/ADV-LAFEA3-C3B-1766/validation/LEG-001-SOURCE-RECONCILIATION.md
-CURRENT_BLOCKER: Exact-current C3-B executable qualification is NOT_RUN. Historical BM-MESH source custody is stale for current producer-binding/engine code and does not directly pin the changed boundary-discretization/interior-refinement primitives.
-EXACT_NEXT_ACTION: Execute the complete C3-B current-head qualification bundle against a clean exact candidate. Preserve the historical BM-MESH registry as historical evidence; establish successor C3-B source custody before treating M0-M4 as current. Patch production meshing only if the first real executable failure identifies a production defect.
-CHAIN_HANDOVER_READY: TRUE
+SOURCE_BASIS_ID: C3B-SOURCE-BASIS-0002
+BATCH_RUNNER: scripts/lafea.3-c3b-mesh-qualification-check.mjs
+CURRENT_BLOCKER: EXACT_CURRENT_C3B_EXECUTION_NOT_RUN. Relevant C3-B batch receipt does not yet exist; unrelated workflow runs are not qualification evidence.
+EXACT_NEXT_ACTION: Run the C3-B batch gate once on a clean exact candidate. Retain the JSON receipt; patch production only after a real failed boundary is retained. If PASS, reconcile the receipt against #1766 closure rows. Merge remains Owner-only.
+CHAIN_HANDOVER_READY: FALSE
