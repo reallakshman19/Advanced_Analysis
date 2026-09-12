@@ -1,7 +1,7 @@
 {
   "schema": "lafea3-c3b-source-basis/v1",
-  "basisId": "C3B-SOURCE-BASIS-0003",
-  "previousBasisId": "C3B-SOURCE-BASIS-0002",
+  "basisId": "C3B-SOURCE-BASIS-0004",
+  "previousBasisId": "C3B-SOURCE-BASIS-0003",
   "issue": "github:reallaksh19/Advanced_Analysis#1766",
   "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "commonProtocol": {
@@ -19,6 +19,17 @@
     "classification": "MANIFEST_TRANSCRIPTION_CORRECTION_ONLY_NO_PRODUCTION_SOURCE_CHANGE",
     "correctedSourceIds": ["C3B-S002", "C3B-S003"],
     "productionSourceMutation": false,
+    "benchmarkOracleOrToleranceMutation": false
+  },
+  "qualificationHarnessCorrection": {
+    "source": "diagnostic PR #1784 run 34678760491 exact product head 0509a9c2913ba45724dc2ee14265d0a17c124889",
+    "classification": "SURFACE_GOVERNED_ORCHESTRATOR_DIAGNOSTIC_INSTEAD_OF_MASKING_REJECTION_WITH_OPTIONAL_CHAIN_ASSERTION",
+    "path": "scripts/lib/lafea-b02-kirsch-production-route.mjs",
+    "previousBlobSha": "8069cf9deebd6ac2d36bca0f04c6f341aee8aad5",
+    "currentBlobSha": "2d7107145be97c75d13ce742f8b534944a6e74ab",
+    "productionSourceMutation": false,
+    "meshAlgorithmMutation": false,
+    "qualityThresholdMutation": false,
     "benchmarkOracleOrToleranceMutation": false
   },
   "sources": [
@@ -155,6 +166,13 @@
       "role": "importGovernanceEntrypoint",
       "path": "scripts/import-check.mjs",
       "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2"
+    },
+    {
+      "sourceId": "C3B-Q010",
+      "role": "b02cProductionRouteDiagnosticHarness",
+      "path": "scripts/lib/lafea-b02-kirsch-production-route.mjs",
+      "blobSha": "2d7107145be97c75d13ce742f8b534944a6e74ab",
+      "history": "C3-B run 34678760491 proved generateAnalysisMesh rejection was masked by an optional-chain assertion; this harness revision surfaces the governed orchestrator diagnostic without changing mechanics"
     }
   ],
   "qualityAuthority": {
@@ -167,7 +185,7 @@
   "execution": {
     "batchRunnerPath": "scripts/lafea.3-c3b-mesh-qualification-check.mjs",
     "batchRunnerSelfHashCapturedAtRuntime": true,
-    "currentHeadExecutableEvidence": "PENDING_RERUN_AFTER_SOURCE_BASIS_TRANSCRIPTION_CORRECTION",
+    "currentHeadExecutableEvidence": "PENDING_RERUN_TO_EXPOSE_GOVERNED_B02C_REJECTION_CODE",
     "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
     "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
   },
