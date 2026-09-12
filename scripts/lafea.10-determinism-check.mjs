@@ -9,10 +9,12 @@
  * repetition), produces byte-identical node/element output.
  *
  * P2-8 and its shell-scope extensions make the external shell producers part
- * of this permanent determinism surface. The imported planar, cylindrical,
- * cylindrical-hole and full-cylinder periodic qualifiers prove geometry,
- * topology, quality, custody and stage-scope contracts before this legacy
- * determinism check continues.
+ * of this permanent determinism surface. The imported planar, multipatch,
+ * cylindrical, cylindrical-hole and full-cylinder periodic qualifiers prove
+ * geometry, topology, quality, custody and stage-scope contracts before this
+ * legacy determinism check continues. A1 additionally requires those shell
+ * producer routes themselves to be byte-identical across separate processes;
+ * importing their checks only proved an in-process replay.
  */
 
 import assert from 'node:assert/strict';
@@ -24,6 +26,7 @@ import { canonicalSort, assignCanonicalNumbers, codeUnitCompare } from '../src/c
 import { canonicalTopology } from '../src/core/lafea-geometry/index.js';
 import { triangulateRegion } from '../src/core/lafea-meshing/index.js';
 import './lafea-shell-mesh-producer-check.mjs';
+import './lafea-shell-multipatch-seam-check.mjs';
 import './lafea-shell-curved-cylinder-check.mjs';
 import './lafea-shell-curved-hole-check.mjs';
 import './lafea-shell-periodic-cylinder-check.mjs';
@@ -32,6 +35,7 @@ console.log('\n--- LAFEA §10.2 meshing determinism check ---');
 checkCanonicalOrderingPrimitives();
 checkInProcessRepeatability();
 checkCrossProcessRepeatability();
+checkShellProducerCrossProcessRepeatability();
 console.log('\n✅ LAFEA §10.2 meshing determinism check passed.\n');
 
 function checkCanonicalOrderingPrimitives() {
@@ -76,9 +80,38 @@ function checkInProcessRepeatability() {
 
 function checkCrossProcessRepeatability() {
   const scriptPath = fileURLToPath(new URL('./lafea-mesh-determinism-worker.mjs', import.meta.url));
-  const outputA = execFileSync('node', [scriptPath], { cwd: path.dirname(scriptPath), encoding: 'utf8' });
-  const outputB = execFileSync('node', [scriptPath], { cwd: path.dirname(scriptPath), encoding: 'utf8' });
+  const outputA = executeScript(scriptPath);
+  const outputB = executeScript(scriptPath);
   assert.equal(outputA, outputB);
   assert.ok(outputA.length > 0);
   console.log('✅ Meshing the same topology in two independent Node process invocations produces byte-identical output.');
+}
+
+function checkShellProducerCrossProcessRepeatability() {
+  const checks = [
+    './lafea-shell-mesh-producer-check.mjs',
+    './lafea-shell-multipatch-seam-check.mjs',
+    './lafea-shell-curved-cylinder-check.mjs',
+    './lafea-shell-curved-hole-check.mjs',
+    './lafea-shell-periodic-cylinder-check.mjs',
+  ];
+  for (const relative of checks) {
+    const scriptPath = fileURLToPath(new URL(relative, import.meta.url));
+    const outputA = executeScript(scriptPath);
+    const outputB = executeScript(scriptPath);
+    assert.ok(outputA.length > 0, `${relative} produced no qualification output`);
+    assert.equal(
+      outputA,
+      outputB,
+      `${relative} changed output across independent Node process invocations`,
+    );
+  }
+  console.log('✅ Planar, multipatch, cylindrical, cylindrical-hole and periodic shell producers are byte-identical across two independent Node process invocations.');
+}
+
+function executeScript(scriptPath) {
+  return execFileSync('node', [scriptPath], {
+    cwd: path.dirname(scriptPath),
+    encoding: 'utf8',
+  });
 }
