@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { canonicalProfile, PROFILE_KINDS } from '../src/core/lafea-profile-contract/index.js';
 import { BASE_LIMITATIONS, createCanonicalLocalShellModel } from '../src/core/local-shell/index.js';
 import { buildShellElementEvidence } from '../src/core/local-shell/element.js';
+import { qualifyLafeaAnalysisMesh } from '../src/workspace/lafea-analysis-mesh-contract.js';
 import { baseSource, triangleSource as shellFixture } from './lafea.4-fixtures.mjs';
 import { workflowSource as trunnionFixture } from './lafea.5-fixtures.mjs';
 import {
@@ -117,12 +118,14 @@ for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
   });
 }
 
+const orientationTopologyFalsifiers = checkOrientationTopologyFalsifiers();
 checkAdversarialContracts();
 
 console.log(JSON.stringify({
   schema: 'lafea-shell-multipatch-seam-check/v1',
   status: 'PASS',
   rows,
+  orientationTopologyFalsifiers,
   qualifiedScope: {
     patches: 2,
     surface: 'COPLANAR_PLANAR',
@@ -320,12 +323,80 @@ function checkWorkbench(stageId, parent, profile) {
   workbench.destroy();
 }
 
+function checkOrientationTopologyFalsifiers() {
+  const profile = shellProfile('LAFEA.4', 30);
+  const nodes = [
+    { nodeId: 'A', x: 0, y: 0, z: 0 },
+    { nodeId: 'B', x: 10, y: 0, z: 0 },
+    { nodeId: 'C', x: 10, y: 10, z: 0 },
+    { nodeId: 'D', x: 0, y: 10, z: 0 },
+  ];
+  const consistent = shellTopologyQuality(nodes, [
+    ['E1', ['A', 'B', 'C']],
+    ['E2', ['A', 'C', 'D']],
+  ], profile);
+  assert.equal(consistent.qualification, 'PASS');
+
+  const oneFacetReversed = shellTopologyQuality(nodes, [
+    ['E1', ['A', 'B', 'C']],
+    ['E2', ['A', 'D', 'C']],
+  ], profile);
+  assert.equal(oneFacetReversed.qualification, 'BLOCK');
+  assert.ok(oneFacetReversed.elementsRequiringFlip.length > 0);
+
+  const globallyReversedButConsistent = shellTopologyQuality(nodes, [
+    ['E1', ['A', 'C', 'B']],
+    ['E2', ['A', 'D', 'C']],
+  ], profile);
+  assert.equal(globallyReversedButConsistent.qualification, 'PASS');
+  assert.deepEqual(globallyReversedButConsistent.elementsRequiringFlip, []);
+
+  const duplicatedSeamNodes = [
+    ...nodes,
+    { nodeId: 'A2', x: 0, y: 0, z: 0 },
+    { nodeId: 'C2', x: 10, y: 10, z: 0 },
+  ];
+  const coordinateCoincidentButDisconnected = shellTopologyQuality(duplicatedSeamNodes, [
+    ['E1', ['A', 'B', 'C']],
+    ['E2', ['A2', 'C2', 'D']],
+  ], profile);
+  assert.equal(coordinateCoincidentButDisconnected.qualification, 'BLOCK');
+  assert.equal(coordinateCoincidentButDisconnected.patchCount, 2);
+
+  return {
+    schema: 'lafea4-a1-orientation-topology-falsifiers/v1',
+    localFacetReversal: 'BLOCK',
+    coordinateCoincidentDistinctNodeIds: 'BLOCK_DISCONNECTED_PATCHES',
+    duplicatedSeamNodes: 'BLOCK_DISCONNECTED_PATCHES',
+    globalInversionTopologyGate: 'PASS_INTERNALLY_CONSISTENT_REQUIRES_SEPARATE_PARENT_NORMAL_POLICY',
+  };
+}
+
+function shellTopologyQuality(nodes, definitions, profile) {
+  const quality = qualifyLafeaAnalysisMesh('LAFEA.4', {
+    nodes,
+    elements: definitions.map(([elementId, nodeIds]) => ({
+      elementId,
+      elementType: LAFEA_SHELL_MULTIPATCH_ELEMENT,
+      nodeIds,
+    })),
+  }, profile);
+  return quality.shellOrientationTopology;
+}
+
 function checkAdversarialContracts() {
   const base = rawGeometry('LAFEA.4');
   const gap = structuredClone(base);
   for (const vertex of gap.patches[1].vertices) vertex.u += 1;
   assert.throws(() => createLafeaMultiPatchShellMidsurfaceGeometry(gap),
     (error) => error?.code === 'LAFEA_SHELL_MULTIPATCH_SEAM_NOT_COINCIDENT_OPPOSITE');
+
+  const coordinateCoincidentWithoutDeclaredTopology = structuredClone(base);
+  coordinateCoincidentWithoutDeclaredTopology.seams = [];
+  assert.throws(
+    () => createLafeaMultiPatchShellMidsurfaceGeometry(coordinateCoincidentWithoutDeclaredTopology),
+    (error) => error?.code === 'LAFEA_SHELL_MULTIPATCH_EXACTLY_ONE_SEAM_REQUIRED',
+  );
 
   const nonRectangle = structuredClone(base);
   nonRectangle.patches[1].vertices.find((row) => row.vertexId === 'B-V2').v = 10;
