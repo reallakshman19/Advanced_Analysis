@@ -1,0 +1,130 @@
+{
+  "schema": "emp1-wrc537-gamma5-authority-identity-reconciliation/v1",
+  "issue": 1762,
+  "parentIssue": 1760,
+  "observedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
+  "observedMainTreeSha": "2ebc03a01b3b7485e1b38a7fa41367f92bb92085",
+  "status": "BLOCKED_A3_NUMERICAL_PAYLOAD_DRIFT_REQUIRES_GOVERNED_DISPOSITION",
+  "authorityCreatedByThisArtifact": false,
+  "sourceCustody": {
+    "wrc537_2013": {
+      "sha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+      "state": "PASS_SOURCE_CUSTODY",
+      "authorityBoundary": "CUSTODY_ONLY_NOT_METHOD_OR_RELEASE_AUTHORITY"
+    },
+    "caux2017": {
+      "sha256": "c1e92798a7bc172d649007ad88f6be548651f07a01cb2fbf83343e2283e0e83e",
+      "state": "PASS_SOURCE_CUSTODY",
+      "authorityBoundary": "BENCHMARK_CUSTODY_ONLY_NOT_WRC_METHOD_AUTHORITY"
+    }
+  },
+  "boundedDatasetHash": "fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c",
+  "authorizedIdentity": {
+    "qualificationRecordSha256": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "postAuthorityOracleSemanticHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "basis": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json",
+    "authorizationMode": "OWNER_OVERRIDE_BOUNDED_ROUTE_PENDING_STANDARD_POST_PROMOTION_QUALIFICATION",
+    "standardNumericalQualification": "NOT_RUN_NOT_CLAIMED"
+  },
+  "mutatedCurrentArtifacts": {
+    "qualificationRecordSha256": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+    "postAuthorityOracleSemanticHash": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c",
+    "classification": "QUARANTINED_PENDING_A3_DISPOSITION",
+    "engineeringAuthorityClaimedByThisReconciliation": false
+  },
+  "driftOrigin": {
+    "oracleMutationCommit": "b197a0c26418a2d6c3a44b0651a4b5b20881fdb0",
+    "qualificationCascadeCommit": "868467ea45b623438c693cf244bb5b9298168204",
+    "mainEntryPr": 1755,
+    "mainEntryMergeSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
+    "prDeclaredScope": "LAFEA4_DEMONSTRATION_MESH_AND_UI",
+    "scopeContamination": true
+  },
+  "a3NumericalDrift": {
+    "present": true,
+    "type": "ULP_LEVEL_RUNTIME_DEPENDENT_FLOATING_PAYLOAD_REFREEZE",
+    "historicalOracleCommit": "8f0a510744ef6757255a1113ef6dddf952fa7390",
+    "representativeChanges": [
+      {
+        "quantity": "curveOrdinates.circ.Pbend_CD",
+        "authorizedFrozen": 0.17141454656732902,
+        "mutatedCurrent": 0.171414546567329
+      },
+      {
+        "quantity": "curveOrdinates.circ.Mcmem",
+        "authorizedFrozen": 0.08941898249736933,
+        "mutatedCurrent": 0.08941898249736935
+      },
+      {
+        "quantity": "curveOrdinates.long.Mcmem",
+        "authorizedFrozen": 0.12298242595099688,
+        "mutatedCurrent": 0.12298242595099684
+      },
+      {
+        "quantity": "curveOrdinates.long.Mlmem",
+        "authorizedFrozen": 0.08350203830442386,
+        "mutatedCurrent": 0.08350203830442383
+      },
+      {
+        "quantity": "expected.circumferential.Bl",
+        "authorizedFrozen": 27.601747564693834,
+        "mutatedCurrent": 27.601747564693838
+      }
+    ],
+    "stressIntensityVectorChanged": false,
+    "sourceHashChanged": false,
+    "datasetHashChanged": false,
+    "toleranceChanged": false,
+    "methodScopeChanged": false
+  },
+  "qualificationCascade": {
+    "semanticPayloadDifferenceFromAuthorizedCandidate": "benchmarkQualification.benchmarkHash only",
+    "fromBenchmarkHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "toBenchmarkHash": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c",
+    "fromQualificationHash": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "toQualificationHash": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+    "independentNewNumericalQualificationRun": false
+  },
+  "currentSplitBrain": {
+    "productionRouteQualification": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "productionRouteOracle": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "boundedRegistryQualification": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "ownerAuthorizationQualification": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "ownerAuthorizationOracle": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "currentOracleArtifact": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c",
+    "currentCandidateQualificationArtifact": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+    "splitBrain": true
+  },
+  "determinismDefect": {
+    "description": "The independent refreeze path tolerance-compares recomputed floating values but then exact-hashes the runtime-recomputed floating payload and requires hash equality. ULP variation across Node/V8 can therefore cause hash drift without an engineering-significant tolerance failure.",
+    "runtimeReobservationMayAuthorFrozenExpectedValues": false,
+    "productionObservationMayRegenerateOracle": false,
+    "toleranceWideningAuthorized": false
+  },
+  "protectedScope": {
+    "method": "WRC 537 (2013)",
+    "shellFamily": "CYLINDRICAL",
+    "attachmentShape": "ROUND",
+    "variant": "ORIGINAL",
+    "gamma": 5,
+    "betaMinimum": 0.05,
+    "betaMaximum": 0.5,
+    "differentialPressure": 0,
+    "Kn": 1,
+    "Kb": 1,
+    "locations": ["Au", "Al", "Bu", "Bl", "Cu", "Cl", "Du", "Dl"],
+    "hostShellOnly": true,
+    "continuousGlobalMaximumClaim": false,
+    "globalEmp1CAuthority": false,
+    "codeComplianceAuthorized": false,
+    "releaseQualified": false
+  },
+  "nextAuthorityBearingDecision": {
+    "state": "REQUIRED",
+    "allowedDirectionsForReview": [
+      "RESTORE_OWNER_AUTHORIZED_FROZEN_ORACLE_AND_QUALIFICATION_CHAIN_AND_SEPARATE_RUNTIME_REOBSERVATION_FROM_ORACLE_AUTHORSHIP",
+      "SEPARATELY_AUTHORIZE_AND_QUALIFY_A_DETERMINISTIC_CANONICALIZATION_OR_REFREEZE_POLICY"
+    ],
+    "prohibitedShortcut": "CASCADE_0AEC_DB477_INTO_PRODUCTION_AUTHORITY_MERELY_TO_SATISFY_RUNTIME_HASH_CHECKS"
+  }
+}
