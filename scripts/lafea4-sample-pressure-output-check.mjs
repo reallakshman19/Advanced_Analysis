@@ -135,11 +135,11 @@ try {
     result,
     resolveLafeaUnits(STAGE_ID, normalized),
   );
-  assert.equal(presentation.sections[0].title, 'Engineering summary — retained shell evidence only');
+  assert.equal(presentation.sections[0].title, 'Engineering summary — CST+DKT thin-shell retained evidence');
   const summary = presentation.sections[0].rows;
   assert.ok(summary.some((row) => row.label.startsWith('Max translational displacement magnitude')));
   assert.ok(summary.some((row) => row.label.startsWith('Max authoritative surface/IP von Mises')));
-  assert.ok(summary.some((row) => row.label.startsWith('Max |combined surface σx|')));
+  assert.ok(summary.some((row) => row.label.startsWith('Max |combined surface sigmaX|')));
   assert.ok(summary.some((row) => row.label.startsWith('Max translational reaction component') && row.value > 0));
   assert.ok(summary.some((row) => row.label.includes('Force equilibrium residual · PASS')));
   assert.ok(summary.some((row) => row.label.includes('Moment equilibrium residual · PASS')));
