@@ -34,6 +34,9 @@ assert.equal(frozen.schema, 'emp1-wrc537-gamma5-post-authority-physical-oracle/v
 assert.equal(frozen.productionAuthority, false);
 assert.equal(frozen.productionObservationUsed, false);
 const F = frozen.semanticPayload;
+const frozenPayloadSemanticHash = sha256(canonical(F));
+assert.equal(frozenPayloadSemanticHash, frozen.semanticHash,
+  'FROZEN_POST_AUTHORITY_ORACLE_PAYLOAD_HASH_DRIFT');
 
 const sourceAuthority = deriveIndependentWrc537Table5Authority({
   wrcMarkdown,
@@ -142,6 +145,11 @@ for (let index = 4; index < 8; index += 1) {
   `POST_AUTHORITY_CD_DRIFT:${index}`);
 }
 
+// Runtime reproduction is an observation, not an oracle authoring path.
+// Exact identity belongs to the already-frozen semantic payload above. Runtime
+// floating-point values are independently compared to that payload using the
+// pre-existing close() contract; their environment-specific exact hash is
+// retained only as diagnostic information and is never allowed to refreeze F.
 const recomposedPayload = {
   sourceDocumentSha256: F.sourceDocumentSha256,
   sourceExtraction: F.sourceExtraction,
@@ -166,9 +174,8 @@ const recomposedPayload = {
     stressIntensity: independent.stresses.stressIntensity,
   },
 };
-const semanticHash = sha256(canonical(recomposedPayload));
-assert.equal(semanticHash, frozen.semanticHash, 'POST_AUTHORITY_ORACLE_SEMANTIC_HASH_DRIFT');
-assertNumericTreeClose(recomposedPayload, F, 'POST_AUTHORITY_ORACLE_PAYLOAD');
+assertNumericTreeClose(recomposedPayload, F, 'POST_AUTHORITY_ORACLE_RUNTIME_REOBSERVATION');
+const runtimeReobservationSemanticHash = sha256(canonical(recomposedPayload));
 
 console.log(JSON.stringify({
   schema: 'emp1-wrc537-gamma5-post-authority-independent-refreeze/v1',
@@ -176,7 +183,11 @@ console.log(JSON.stringify({
   productionImports: [],
   productionObservationUsed: false,
   productionAuthority: false,
-  semanticHash,
+  semanticHash: frozen.semanticHash,
+  runtimeReobservationSemanticHash,
+  runtimeReobservationExactHashMatchesFrozen:
+    runtimeReobservationSemanticHash === frozen.semanticHash,
+  runtimeReobservationMayAuthorFrozenOracle: false,
   physical: {
     basisGlobal: statics.basisGlobal,
     transferMomentGlobal: statics.transferMomentGlobal,
