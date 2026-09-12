@@ -1,7 +1,7 @@
 {
   "schema": "lafea3-c3b-source-basis/v1",
-  "basisId": "C3B-SOURCE-BASIS-0002",
-  "previousBasisId": "C3B-SOURCE-BASIS-0001",
+  "basisId": "C3B-SOURCE-BASIS-0003",
+  "previousBasisId": "C3B-SOURCE-BASIS-0002",
   "issue": "github:reallaksh19/Advanced_Analysis#1766",
   "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "commonProtocol": {
@@ -13,6 +13,13 @@
     "registryPath": "validation/lafea-benchmark-data/MESH/sources/source-registry.json",
     "registryBlobSha": "338debf9bbd75bc6032298e140543e82eee9d4a6",
     "disposition": "HISTORICAL_EXACT_HEAD_EVIDENCE_NOT_CURRENT_SOURCE_AUTHORITY"
+  },
+  "custodyCorrection": {
+    "source": "diagnostic PR #1784 run 34678679389 exact product head f1d2ba6ea64500f16339f15f5b5506c8d153fe79",
+    "classification": "MANIFEST_TRANSCRIPTION_CORRECTION_ONLY_NO_PRODUCTION_SOURCE_CHANGE",
+    "correctedSourceIds": ["C3B-S002", "C3B-S003"],
+    "productionSourceMutation": false,
+    "benchmarkOracleOrToleranceMutation": false
   },
   "sources": [
     {
@@ -26,16 +33,20 @@
       "sourceId": "C3B-S002",
       "role": "producerBinding",
       "path": "src/workspace/lafea-mesh-producer-binding.js",
-      "blobSha": "9be4f734ce35699da2a136b6dff236a263b1a80f",
+      "blobSha": "9be4f734c449b9293a82af80a2936b901d33ee68",
+      "previousIncorrectBlobSha": "9be4f734ce35699da2a136b6dff236a263b1a80f",
       "historicalBlobSha": "e8307066293314ad952608872db596cf1898d5c1",
+      "changeAuthority": "C3B-SOURCE-BASIS-0003 corrects a transcription error proven by exact Git blob observation; production source unchanged",
       "requiresCurrentRequalification": true
     },
     {
       "sourceId": "C3B-S003",
       "role": "producerEngine",
       "path": "src/workspace/lafea-mesh-producer-engine.js",
-      "blobSha": "2b25cbe47710c7ed5dd3dd1382c731a55b73d68a",
+      "blobSha": "2b25cbe07751e9637dd1e5c8f6ce79346999a30f",
+      "previousIncorrectBlobSha": "2b25cbe47710c7ed5dd3dd1382c731a55b73d68a",
       "historicalBlobSha": "36fe0e7cb8b95aab8ebc2532578a68a1eb75f558",
+      "changeAuthority": "C3B-SOURCE-BASIS-0003 corrects a transcription error proven by exact Git blob observation; production source unchanged",
       "requiresCurrentRequalification": true
     },
     {
@@ -156,7 +167,7 @@
   "execution": {
     "batchRunnerPath": "scripts/lafea.3-c3b-mesh-qualification-check.mjs",
     "batchRunnerSelfHashCapturedAtRuntime": true,
-    "currentHeadExecutableEvidence": "NOT_RUN",
+    "currentHeadExecutableEvidence": "PENDING_RERUN_AFTER_SOURCE_BASIS_TRANSCRIPTION_CORRECTION",
     "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
     "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
   },
