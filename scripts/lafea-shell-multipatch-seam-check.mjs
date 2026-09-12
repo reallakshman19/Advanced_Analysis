@@ -35,6 +35,10 @@ const SOURCE_HASH = `sha256:${'9'.repeat(64)}`;
 const NEXT_SOURCE_HASH = `sha256:${'a'.repeat(64)}`;
 const ROOT2 = Math.sqrt(0.5);
 const fixtureByStage = { 'LAFEA.4': shellFixture, 'LAFEA.5': trunnionFixture };
+const expectedCompilerBlock = {
+  'LAFEA.4': 'LAFEA4_SHELL_SOLVER_NODAL_LOAD_MAPPING_REQUIRED',
+  'LAFEA.5': 'LAFEA5_SHELL_SOLVER_SOURCE_MESH_PARENT_REQUIRED',
+};
 const rows = [];
 
 for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
@@ -241,7 +245,7 @@ function assertSeamOwnership(mesh, geometry, expectedNodeCount) {
     .sort((left, right) => left.uv.v - right.uv.v || left.node.nodeId.localeCompare(right.node.nodeId));
   assert.equal(seamRows.length, expectedNodeCount);
   close(seamRows[0].uv.v, 0, 1e-9);
-  close(seamRows.at(-1).uv.v, 120, 1e-9);
+  close(seamRows.at(-1].uv.v, 120, 1e-9);
   const owners = edgeOwners(mesh.elements);
   for (let index = 0; index < seamRows.length - 1; index += 1) {
     assert.equal(owners.get(edgeKey(seamRows[index].node.nodeId, seamRows[index + 1].node.nodeId)), 2);
@@ -306,9 +310,14 @@ function checkWorkbench(stageId, parent, profile) {
   assert.equal(generated.evidence.qualification, 'PASS');
   let stage = workbench.getState().stages[stageId];
   assert.equal(stage.analysisMeshCustodyProjection.state, 'CURRENT_PASS');
-  assert.equal(stage.analysisMeshCustodyProjection.usableForRun, true);
+  assert.equal(stage.analysisMeshCustodyProjection.usableForRun, false);
+  assert.equal(stage.shellSolverModelProjection.state, 'BLOCKED');
+  assert.deepEqual(stage.shellSolverModelProjection.reasons, [expectedCompilerBlock[stageId]]);
+  assert.deepEqual(stage.analysisMeshCustodyProjection.runBlockingReasons, [
+    expectedCompilerBlock[stageId],
+  ]);
   const vm = buildLafeaDiscretizationViewModel(stage);
-  assert.equal(vm.actions.canRun, true);
+  assert.equal(vm.actions.canRun, false);
   assert.equal(vm.actions.manualRefinementEnabled, false);
   const retainedHash = workbench.selectRetainedAnalysisMeshEvidenceV2(stageId).artifactHash;
   assert.equal(workbench.refineAnalysisMesh({
