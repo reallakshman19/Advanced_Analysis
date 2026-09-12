@@ -1,110 +1,92 @@
 #!/usr/bin/env node
 /**
- * Supplementary convergence proof for B02C (does NOT touch the frozen
- * validation/lafea-b02-definitions/B02C-kirsch.json production definition,
- * its 3-level mesh ladder, its independent Kirsch closed-form oracle, or its
- * acceptance tolerances -- this script only reads that frozen definition and
- * reuses the shared, already-qualified production route to add more
- * h-refinement).
+ * Supplementary B02C fixed-probe robustness study.
  *
- * scripts/lafea-b02c-production-check.mjs fails at two independent findings,
- * both resolved by refining past the frozen 3-level ladder:
+ * The frozen B02C definition remains unchanged: L1-L3 use the dedicated,
+ * frozen graded-polar production strategy and retain the independent Kirsch
+ * oracle plus every frozen acceptance tolerance. This supplementary script
+ * adds finer h-levels without broadening that special strategy's authority.
  *
- * T3: fails at the frozen finest level (L3, h=5.625mm) --
- * KIRSCH_MIDFIELD_PMAX sits at 5.15% relative error against a 3% tolerance.
- * Root-cause diagnosis showed this is expected constant-strain-triangle
- * (T3/CST) behavior compounded by ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT
- * recovery (an unaveraged, single-element value with no internal gradient)
- * on an independently regenerated, non-nested mesh at each level -- the same
- * mechanism already documented for B02A's T3/T6 findings and B02B's
- * supplementary study. Unlike B02A's T3 finding, this one is NOT cleanly
- * monotonic level-to-level for all three fixed probes (see the recorded
- * per-level trend below) -- this script does not claim monotonic
- * convergence. What it does prove: two levels beyond the frozen ladder, all
- * three fixed probes (including the HIGH_GRADIENT_CONVERGENCE crown probe
- * closest to the hole, and both NON_SINGULAR_ANALYTICAL probes)
- * simultaneously satisfy their frozen tolerances against the independent
- * Kirsch closed-form oracle -- i.e. the underlying element/solver
- * implementation is numerically correct; the frozen ladder's finest level
- * just is not far enough for T3 specifically, and the non-monotonic
- * intermediate trajectory is consistent with non-nested-remeshing/
- * unaveraged-recovery noise rather than divergence (mesh quality and probe
- * mapping are clean at every level -- enforced by
- * executeB02KirschProductionLevel itself, which throws otherwise).
+ * L4/L5 are therefore executed through the ordinary qualified LAFEA.3
+ * production mesher. The strategy transition is retained explicitly in this
+ * script's evidence and is NOT treated as one continuous Richardson/GCI or
+ * same-mesh-family asymptotic sequence. Same-strategy trend assertions apply
+ * only inside frozen L1-L3. Supplementary levels are used as independent
+ * fixed-probe tolerance/robustness evidence on a second qualified production
+ * meshing route.
  *
- * T6: already satisfies every finest-level analytical-error and equilibrium
- * gate at the frozen ladder, but KIRSCH_MIDFIELD_PMAX's error sequence
- * (2.43% -> 2.76% -> 0.07%) ticks up between L1 and L2 before dropping
- * sharply at L3, which the GCI/order-based convergence classifier reports
- * as OSCILLATORY rather than an accepted classification -- the same
- * character as B02A's T6 OSCILLATORY finding at its own frozen ladder. This
- * script reports (does not hard-assert, mirroring
- * lafea-b02a-supplementary-convergence-proof.mjs's treatment of the
- * analogous T6 finding there) one level of refinement past the frozen
- * ladder: MIDFIELD's error stabilizes at ~0.07% between L3 and L4 -- the
- * hallmark of an already-converged, noise-floor wobble rather than genuine
- * non-convergence -- while CROWN and FARFIELD stay comfortably within
- * tolerance throughout.
- *
- * Q8: already satisfies every finest-level analytical-error and equilibrium
- * gate at the frozen ladder (every probe under 0.13% by L3), but the crown
- * probe's GCI/order-based convergence classification also comes back
- * OSCILLATORY, for the same reason as T6's MIDFIELD finding above (a wobble
- * in the estimated convergence ORDER between non-nested meshes, not in the
- * error values themselves, which are already tiny and shrink monotonically
- * at every level: 1.81% -> 0.81% -> 0.064% -> 0.024% one level past the
- * frozen ladder). This script proves the stronger claim directly: crown's
- * relative error strictly decreases at every level tested, frozen and
- * supplementary alike, and is already three orders of magnitude under
- * tolerance -- the OSCILLATORY classification is a convergence-order
- * artifact of non-nested remeshing, not evidence of non-convergence.
+ * No frozen geometry, load, material, probe, oracle, tolerance, quality gate,
+ * formulation, solver or recovery convention is modified here.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { executeB02KirschProductionLevel } from './lib/lafea-b02-kirsch-production-route.mjs';
+import {
+  B02C_FROZEN_MESH_POLICY,
+  B02C_SUPPLEMENTARY_MESH_POLICY,
+  executeB02KirschProductionLevel,
+} from './lib/lafea-b02-kirsch-production-route.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const definition = read('validation/lafea-b02-definitions/B02C-kirsch.json');
+const frozenLevelIds = new Set(definition.meshLadder.levels.map((level) => level.levelId));
 
-// Same refinement ratio (2) as the frozen ladder, extended two levels finer.
+// Same nominal h refinement ratio (2) as the frozen ladder, extended two levels finer.
+// These extra levels are supplementary observations, not additions to the frozen definition.
 const supplementaryLevels = [
   ...definition.meshLadder.levels,
   { levelId: 'L4-SUPPLEMENTARY', h: 2.8125, targetElementLength: 2.8125, curvatureToleranceDegrees: 1.40625 },
   { levelId: 'L5-SUPPLEMENTARY', h: 1.40625, targetElementLength: 1.40625, curvatureToleranceDegrees: 0.703125 },
 ];
 
-function measureAll(method, level) {
+function measureLevel(method, level) {
   const run = executeB02KirschProductionLevel(definition, method, level);
-  return definition.fixedProbes.map((frozen) => {
-    const probe = run.probes.find((row) => row.probe.probeId === frozen.probeId);
-    assert.ok(probe, `${method}/${level.levelId} missing probe ${frozen.probeId}`);
-    const relativeError = Math.abs(probe.authoritativeValue - frozen.analyticalReferenceValue)
-      / Math.abs(frozen.analyticalReferenceValue);
-    const limit = frozen.singularityClassification === 'HIGH_GRADIENT_CONVERGENCE'
-      ? definition.acceptance.highGradientFineRelativeMaximum
-      : definition.acceptance.nonSingularFineRelativeMaximum;
-    return {
-      probeId: frozen.probeId,
-      singularityClassification: frozen.singularityClassification,
-      value: probe.authoritativeValue,
-      relativeError,
-      limit,
-      withinTolerance: relativeError <= limit,
-    };
-  });
+  return {
+    levelId: level.levelId,
+    h: level.h,
+    meshPolicyClass: run.meshPolicyClass,
+    meshStrategy: run.meshStrategy,
+    meshStrategyReason: run.meshStrategyReason,
+    probes: definition.fixedProbes.map((frozen) => {
+      const probe = run.probes.find((row) => row.probe.probeId === frozen.probeId);
+      assert.ok(probe, `${method}/${level.levelId} missing probe ${frozen.probeId}`);
+      const relativeError = Math.abs(probe.authoritativeValue - frozen.analyticalReferenceValue)
+        / Math.abs(frozen.analyticalReferenceValue);
+      const limit = frozen.singularityClassification === 'HIGH_GRADIENT_CONVERGENCE'
+        ? definition.acceptance.highGradientFineRelativeMaximum
+        : definition.acceptance.nonSingularFineRelativeMaximum;
+      return {
+        probeId: frozen.probeId,
+        singularityClassification: frozen.singularityClassification,
+        value: probe.authoritativeValue,
+        relativeError,
+        limit,
+        withinTolerance: relativeError <= limit,
+      };
+    }),
+  };
 }
 
-const t3ByLevel = supplementaryLevels.map((level) => ({
-  levelId: level.levelId,
-  h: level.h,
-  probes: measureAll('T3', level),
-}));
+function assertMesherAuthority(rows, method) {
+  for (const row of rows) {
+    const expected = frozenLevelIds.has(row.levelId)
+      ? B02C_FROZEN_MESH_POLICY
+      : B02C_SUPPLEMENTARY_MESH_POLICY;
+    assert.equal(
+      row.meshPolicyClass,
+      expected,
+      `${method}/${row.levelId} must retain the declared B02C mesh-policy boundary`,
+    );
+  }
+}
 
-// Decisive claim: at the finest supplementary level, every T3 fixed probe
-// simultaneously satisfies its frozen tolerance against the independent
-// oracle.
+const t3ByLevel = supplementaryLevels.map((level) => measureLevel('T3', level));
+assertMesherAuthority(t3ByLevel, 'T3');
+
+// Decisive T3 supplementary claim: at the finest ordinary-production-mesher
+// level, every fixed physical probe simultaneously satisfies its unchanged
+// frozen tolerance against the independent Kirsch oracle.
 const t3Finest = t3ByLevel.at(-1);
 for (const probe of t3Finest.probes) {
   assert.ok(
@@ -114,16 +96,12 @@ for (const probe of t3Finest.probes) {
   );
 }
 
-// T6: one level past the frozen ladder is enough to show MIDFIELD's error
-// stabilizing (not a hard assertion -- see the header comment, mirroring how
-// lafea-b02a-supplementary-convergence-proof.mjs treats the analogous T6
-// OSCILLATORY finding there).
-const t6Levels = supplementaryLevels.slice(0, 4); // L1..L3 (frozen) + L4-SUPPLEMENTARY only
-const t6ByLevel = t6Levels.map((level) => ({
-  levelId: level.levelId,
-  h: level.h,
-  probes: measureAll('T6', level),
-}));
+// T6: frozen L1-L3 remain on the frozen graded-polar route; L4 is an
+// ordinary-production-mesher robustness observation. Do not infer convergence
+// order or noise-floor stabilization across the strategy boundary.
+const t6Levels = supplementaryLevels.slice(0, 4);
+const t6ByLevel = t6Levels.map((level) => measureLevel('T6', level));
+assertMesherAuthority(t6ByLevel, 'T6');
 for (const probe of t6ByLevel.at(-1).probes) {
   assert.ok(
     probe.withinTolerance,
@@ -132,16 +110,12 @@ for (const probe of t6ByLevel.at(-1).probes) {
   );
 }
 
-// Q8: the crown probe's convergence classification also comes back
-// OSCILLATORY at the frozen ladder despite already-tiny error values. Prove
-// the stronger claim directly -- strict monotonic decrease at every level,
-// frozen and supplementary alike -- rather than just a tolerance check.
-const q8Levels = supplementaryLevels.slice(0, 4); // L1..L3 (frozen) + L4-SUPPLEMENTARY only
-const q8ByLevel = q8Levels.map((level) => ({
-  levelId: level.levelId,
-  h: level.h,
-  probes: measureAll('Q8', level),
-}));
+// Q8: keep the same-strategy frozen-level trend check on L1-L3 only. L4 uses
+// the ordinary production mesher, so it is checked against the unchanged
+// physical-probe tolerances but excluded from a same-strategy monotonic claim.
+const q8Levels = supplementaryLevels.slice(0, 4);
+const q8ByLevel = q8Levels.map((level) => measureLevel('Q8', level));
+assertMesherAuthority(q8ByLevel, 'Q8');
 for (const probe of q8ByLevel.at(-1).probes) {
   assert.ok(
     probe.withinTolerance,
@@ -149,12 +123,14 @@ for (const probe of q8ByLevel.at(-1).probes) {
     `${(probe.relativeError * 100).toFixed(3)}% > ${(probe.limit * 100).toFixed(1)}%`,
   );
 }
-const crownQ8 = q8ByLevel.map((row) => row.probes.find((p) => p.probeId === 'KIRSCH_NEAR_CROWN_PMAX').relativeError);
-for (let i = 1; i < crownQ8.length; i += 1) {
+const frozenCrownQ8 = q8ByLevel
+  .filter((row) => frozenLevelIds.has(row.levelId))
+  .map((row) => row.probes.find((p) => p.probeId === 'KIRSCH_NEAR_CROWN_PMAX').relativeError);
+for (let i = 1; i < frozenCrownQ8.length; i += 1) {
   assert.ok(
-    crownQ8[i] < crownQ8[i - 1],
-    `Q8/KIRSCH_NEAR_CROWN_PMAX relative error must strictly decrease with refinement: ` +
-    `level ${i} (${crownQ8[i]}) >= level ${i - 1} (${crownQ8[i - 1]})`,
+    frozenCrownQ8[i] < frozenCrownQ8[i - 1],
+    `Q8/KIRSCH_NEAR_CROWN_PMAX frozen-route relative error must strictly decrease: ` +
+    `level ${i} (${frozenCrownQ8[i]}) >= level ${i - 1} (${frozenCrownQ8[i - 1]})`,
   );
 }
 
@@ -166,6 +142,9 @@ function trendFor(byLevel) {
       return {
         levelId: row.levelId,
         h: row.h,
+        meshPolicyClass: row.meshPolicyClass,
+        meshStrategy: row.meshStrategy,
+        meshStrategyReason: row.meshStrategyReason,
         relativeErrorPercent: Number((found.relativeError * 100).toFixed(4)),
         withinTolerance: found.withinTolerance,
       };
@@ -174,54 +153,50 @@ function trendFor(byLevel) {
   return trend;
 }
 
-const midfieldT6 = t6ByLevel.map((row) => row.probes.find((p) => p.probeId === 'KIRSCH_MIDFIELD_PMAX').relativeError);
-const t6MidfieldStabilized = Math.abs(midfieldT6.at(-1) - midfieldT6.at(-2)) < 0.005;
+function policyTrace(rows) {
+  return rows.map((row) => ({
+    levelId: row.levelId,
+    h: row.h,
+    meshPolicyClass: row.meshPolicyClass,
+    meshStrategy: row.meshStrategy,
+    meshStrategyReason: row.meshStrategyReason,
+  }));
+}
 
 console.log(JSON.stringify({
-  schema: 'lafea-b02c-supplementary-convergence-proof/v1',
+  schema: 'lafea-b02c-supplementary-convergence-proof/v2',
   status: 'PASS',
-  note: 'Diagnostic-only: does not modify or supersede the frozen B02C production definition or scripts/lafea-b02c-production-check.mjs, which continues to enforce only the frozen 3-level ladder.',
+  authorityBoundary: {
+    frozenDefinitionModified: false,
+    frozenOracleModified: false,
+    frozenToleranceModified: false,
+    meshQualityThresholdModified: false,
+    frozenSpecialStrategyBroadened: false,
+    crossStrategyRichardsonOrGciClaimed: false,
+    frozenLevelsMeshPolicy: B02C_FROZEN_MESH_POLICY,
+    supplementaryLevelsMeshPolicy: B02C_SUPPLEMENTARY_MESH_POLICY,
+  },
+  note: 'Frozen L1-L3 retain the dedicated B02C graded-polar production route. L4/L5 are explicitly separate ordinary-production-mesher observations; no convergence-order continuity is claimed across that strategy boundary.',
   frozenTolerances: {
     highGradientFineRelativeMaximum: definition.acceptance.highGradientFineRelativeMaximum,
     nonSingularFineRelativeMaximum: definition.acceptance.nonSingularFineRelativeMaximum,
   },
   T3: {
+    meshPolicyTrace: policyTrace(t3ByLevel),
     perProbeTrend: trendFor(t3ByLevel),
     allProbesWithinToleranceAtLevel: t3Finest.levelId,
-    conclusion: 'T3 (CST) satisfies every fixed-probe tolerance against the independent Kirsch ' +
-      'closed-form oracle two levels beyond the frozen 3-level ladder. The per-level trajectory is ' +
-      'not strictly monotonic for the crown (HIGH_GRADIENT_CONVERGENCE) and farfield probes -- ' +
-      'consistent with the same ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT (unaveraged, single ' +
-      'constant-strain-element) recovery combined with independently-regenerated, non-nested ' +
-      'triangulation at each level already documented for B02A and B02B, not with non-convergence: ' +
-      'mesh quality and probe mapping are clean at every level (executeB02KirschProductionLevel ' +
-      'asserts this internally and throws otherwise), and the finest level satisfies all three ' +
-      'probes simultaneously. This is expected element-formulation/recovery-method behavior for a ' +
-      'benchmark with a 10:1 radius-ratio stress concentration, not an implementation defect.',
+    conclusion: 'At L5-SUPPLEMENTARY, T3 satisfies every unchanged fixed-probe tolerance against the independent Kirsch closed-form oracle on the ordinary qualified production mesher. This is supplementary robustness/tolerance evidence, not a Richardson/GCI continuation of the frozen graded-polar ladder.',
   },
   T6: {
+    meshPolicyTrace: policyTrace(t6ByLevel),
     perProbeTrend: trendFor(t6ByLevel),
-    midfieldStabilizedPastFrozenLadder: t6MidfieldStabilized,
-    conclusion: t6MidfieldStabilized
-      ? 'T6 KIRSCH_MIDFIELD_PMAX error stabilizes to within 0.005 percentage points between the ' +
-        "frozen ladder's finest level and one supplementary refinement, consistent with an " +
-        'already-converged value whose OSCILLATORY classification at the frozen 3-level ladder is ' +
-        'a noise-floor wobble (the L1->L2 uptick) rather than genuine non-convergence -- the same ' +
-        'character as the OSCILLATORY finding already resolved for B02A T6. All three T6 probes ' +
-        'remain comfortably within tolerance at every level tested, frozen and supplementary alike.'
-      : 'T6 KIRSCH_MIDFIELD_PMAX error did not stabilize at the tested supplementary level; further ' +
-        'refinement may be needed to confirm the OSCILLATORY classification is a noise-floor ' +
-        'artifact rather than genuine non-convergence.',
+    conclusion: 'T6 remains within every unchanged fixed-probe tolerance at the L4 supplementary ordinary-production-mesher observation. The result is cross-route robustness evidence only; no same-strategy convergence-order or noise-floor claim crosses L3 to L4.',
   },
   Q8: {
+    meshPolicyTrace: policyTrace(q8ByLevel),
     perProbeTrend: trendFor(q8ByLevel),
-    crownMonotonicallyDecreasing: true,
-    conclusion: 'Q8 KIRSCH_NEAR_CROWN_PMAX relative error strictly decreases at every level tested ' +
-      '(frozen and supplementary alike) and is already three orders of magnitude under its 5% ' +
-      'tolerance one level past the frozen ladder. Its OSCILLATORY convergence classification at ' +
-      "the frozen 3-level ladder reflects a wobble in the GCI classifier's estimated convergence " +
-      'ORDER between independently-regenerated, non-nested meshes -- not non-convergence in the ' +
-      'values themselves, which is what the acceptance gate and this proof both measure directly.',
+    frozenCrownMonotonicallyDecreasing: true,
+    conclusion: 'Q8 crown error strictly decreases across the frozen L1-L3 graded-polar route and the L4 ordinary-production-mesher observation remains within every unchanged fixed-probe tolerance. L4 is not included in the same-strategy monotonic or Richardson/GCI claim.',
   },
 }, null, 2));
 
