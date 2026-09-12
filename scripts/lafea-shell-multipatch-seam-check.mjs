@@ -35,6 +35,10 @@ const SOURCE_HASH = `sha256:${'9'.repeat(64)}`;
 const NEXT_SOURCE_HASH = `sha256:${'a'.repeat(64)}`;
 const ROOT2 = Math.sqrt(0.5);
 const fixtureByStage = { 'LAFEA.4': shellFixture, 'LAFEA.5': trunnionFixture };
+const expectedRefinementDiagnosticByStage = {
+  'LAFEA.4': 'LAFEA4_SHELL_PRODUCT_REFINEMENT_SURFACE_NOT_QUALIFIED',
+  'LAFEA.5': 'LAFEA_SHELL_LOCAL_REFINEMENT_NOT_QUALIFIED',
+};
 const rows = [];
 
 for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
@@ -319,7 +323,7 @@ function checkWorkbench(stageId, parent, profile) {
   assert.equal(workbench.refineAnalysisMesh({
     targetType: 'ELEMENT', targetIds: ['E000001'], targetElementLength: 10, lengthUnit: 'mm',
   }, stageId), null);
-  assert.equal(workbench.getState().diagnostics?.[0]?.code, 'LAFEA_SHELL_LOCAL_REFINEMENT_NOT_QUALIFIED');
+  assert.equal(workbench.getState().diagnostics?.[0]?.code, expectedRefinementDiagnosticByStage[stageId]);
   assert.equal(workbench.selectRetainedAnalysisMeshEvidenceV2(stageId).artifactHash, retainedHash);
   workbench.initializeLifecycle(NEXT_SOURCE_HASH, `MULTIPATCH-${stageId}-SOURCE-CHANGE`);
   stage = workbench.getState().stages[stageId];
