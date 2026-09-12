@@ -1,6 +1,7 @@
 {
   "schema": "lafea3-c3b-source-basis/v1",
-  "basisId": "C3B-SOURCE-BASIS-0001",
+  "basisId": "C3B-SOURCE-BASIS-0002",
+  "previousBasisId": "C3B-SOURCE-BASIS-0001",
   "issue": "github:reallaksh19/Advanced_Analysis#1766",
   "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "commonProtocol": {
@@ -125,6 +126,24 @@
       "role": "b02cCurvedHoleRegressionEntrypoint",
       "path": "scripts/lafea-b02c-supplementary-convergence-proof.mjs",
       "blobSha": "7e51fe8c2ebc811a6d5cfefc277fc6e424f39f46"
+    },
+    {
+      "sourceId": "C3B-Q007",
+      "role": "continuumProductionHandoffConvergenceEntrypoint",
+      "path": "scripts/lafea.3-continuum-convergence-route-check.mjs",
+      "blobSha": "0af61fa53216f918df91c8f9fffc7d81eac89134"
+    },
+    {
+      "sourceId": "C3B-Q008",
+      "role": "repositoryScriptCommandRegistry",
+      "path": "package.json",
+      "blobSha": "f1cdfbf97773a1bd850686332bfa7daaa6369e79"
+    },
+    {
+      "sourceId": "C3B-Q009",
+      "role": "importGovernanceEntrypoint",
+      "path": "scripts/import-check.mjs",
+      "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2"
     }
   ],
   "qualityAuthority": {
@@ -135,9 +154,11 @@
     "thresholdMutationAuthorized": false
   },
   "execution": {
+    "batchRunnerPath": "scripts/lafea.3-c3b-mesh-qualification-check.mjs",
+    "batchRunnerSelfHashCapturedAtRuntime": true,
     "currentHeadExecutableEvidence": "NOT_RUN",
     "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
     "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
   },
-  "invalidationPolicy": "NEW_CURRENT_BASIS_REQUIRED_IF_ANY_C3B_SOURCE_OR_QUALIFICATION_ENTRYPOINT_BLOB_CHANGES"
+  "invalidationPolicy": "NEW_CURRENT_BASIS_REQUIRED_IF_ANY_C3B_SOURCE_OR_PRIMARY_QUALIFICATION_ENTRYPOINT_BLOB_CHANGES"
 }
