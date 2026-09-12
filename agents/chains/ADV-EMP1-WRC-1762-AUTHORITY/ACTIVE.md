@@ -22,10 +22,21 @@ Reconcile the bounded EMP.1 WRC 537 gamma=5 source/oracle/qualification/current-
 - main: `41df6e945789273fc327aaeca6686529a9ad8b39`
 - tree: `2ebc03a01b3b7485e1b38a7fa41367f92bb92085`
 - branch: `agent/arch-wrc-01-authority-reconciliation`
+- Draft PR: #1785
+- current branch checkpoint before control-plane sync: `467bf5e6c9d4c4ef750456bd2a9db1c6f1847f20`
 - parent architecture: #1760
 - work issue: #1762
+- mergeability at sync: MERGEABLE
+- reviews: 0
+- unresolved review threads: 0
+- commit status checks reported: none
 - merge authority: OWNER_ONLY
 - merge authorized: FALSE
+
+Issue control plane:
+- CHAIN_ROOT comment `5644282891`
+- ACTIVE_HANDOVER comment `5644283529`
+- EP-0001 checkpoint comment `5644284079`
 
 ## Protected bounded method
 
@@ -88,4 +99,4 @@ TAKEOVER_QUALIFICATION_READY: TRUE
 
 ## Exact next action
 
-Complete EP-0001 as a diagnostic-only Draft PR. The next endpoint must make an explicit, reviewable A3 disposition before touching authority-bearing bytes.
+Complete the control-plane sync commit for EP-0001. The next material endpoint must make an explicit, reviewable A3 disposition before touching authority-bearing bytes.

@@ -19,9 +19,21 @@ MAIN_SHA: 41df6e945789273fc327aaeca6686529a9ad8b39
 MAIN_TREE: 2ebc03a01b3b7485e1b38a7fa41367f92bb92085
 BRANCH: agent/arch-wrc-01-authority-reconciliation
 BRANCH_BASE_SHA: 41df6e945789273fc327aaeca6686529a9ad8b39
-PR: NOT_OPEN_AT_STATE_CAPTURE
+PR: #1785
+PR_STATUS: OPEN / DRAFT / MERGEABLE
+PR_HEAD_AT_SYNC: 467bf5e6c9d4c4ef750456bd2a9db1c6f1847f20
+REVIEWS: 0
+UNRESOLVED_REVIEW_THREADS: 0
+COMMIT_STATUS_CHECKS: NONE_REPORTED
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
+
+## Issue control plane
+
+CHAIN_ROOT_COMMENT_ID: 5644282891
+ACTIVE_HANDOVER_COMMENT_ID: 5644283529
+EP_0001_COMMENT_ID: 5644284079
+ISSUE_COMMENT_SYNC: IN_SYNC_AT_PR_HEAD_467bf5e6
 
 ## Current authority identity state
 
@@ -81,7 +93,7 @@ ENGINEERING_PASS_CLAIMED: FALSE
 
 ## Exact next action
 
-Create the diagnostic reconciliation artifact/checker and open a Draft PR. Then independently review the A3 disposition: either restore the exact owner-authorized frozen `60771128... / 9ea591a...` authority chain while converting runtime recomputation to tolerance-based observation, or establish a separately authorized deterministic canonicalization/refreeze process. Do not cascade `0aec3815... / db477df...` into production authority merely to make checks green.
+Independently review the A3 disposition: either restore the exact owner-authorized frozen `60771128... / 9ea591a...` authority chain while converting runtime recomputation to tolerance-based observation, or establish a separately authorized deterministic canonicalization/refreeze process. Do not cascade `0aec3815... / db477df...` into production authority merely to make checks green.
 
 HANDOVER_CONTENT_READY: TRUE
 HANDOVER_VALIDATION_STATUS: NOT_RUN
