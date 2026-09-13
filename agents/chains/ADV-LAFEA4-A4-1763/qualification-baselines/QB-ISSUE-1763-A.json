@@ -1,0 +1,35 @@
+{
+  "schema": "owner-qualification-baseline/v1",
+  "baselineId": "QB-ISSUE-1763-A",
+  "workItemKey": "github:reallaksh19/Advanced_Analysis#1763",
+  "source": "github:reallaksh19/Advanced_Analysis#1763/body",
+  "sourceSnapshotAt": "2026-09-13T14:40:25Z",
+  "status": "SATISFIED",
+  "requiredQuestionChallenges": [
+    "rigid physical rotation must produce zero membrane/bending/shear strain and energy",
+    "correct beta slope mapping must eliminate spurious shear for arbitrary orientation",
+    "thin-limit shear-locking behavior must be independently established",
+    "thin-limit convergence must use an independent oracle, not CST/DKT alone",
+    "moderate-thickness physical shear must use an independent Reissner-Mindlin/Timoshenko or published reference",
+    "MITC3 and MITC4 must pass membrane/bending/pressure/recovery within explicit geometry envelopes",
+    "distorted Q4 must retain an explicit Jacobian/quality envelope",
+    "transverse shear must remain semantically separate from in-plane von Mises and membrane+bending surface stress"
+  ],
+  "benchmarkIds": ["MITC-B1","MITC-B2","MITC-B3","MITC-B4","MITC-B5","MITC-B6","MITC-B7","MITC-B8","MITC-B9"],
+  "requiredProductionBenchmarkIds": ["LAFEA4-CYL-01","LAFEA4-PRESS-01","LAFEA4-COMB-01"],
+  "mandatoryNegatives": [
+    "wrong slope sign/axis mapping",
+    "rigid rotation producing shear energy",
+    "inverted/invalid Q4 Jacobian",
+    "silent MITC4-to-MITC3 or MITC-to-CST/DKT fallback",
+    "unsupported family/mesh mismatch",
+    "shear result relabeled as in-plane von Mises authority",
+    "global oracle compared directly to rotated local result",
+    "stale mesh/load/recovery parent",
+    "pressure resultant correct but first moment deliberately wrong",
+    "CST/DKT thin-limit agreement used as sole oracle"
+  ],
+  "noPatchBoundary": "Do not tune independent oracle, geometry, thickness, shear correction, tolerance or solver to force PASS; diagnose source/units -> geometry/basis -> slope kinematics/tying -> load/BC -> element strain/B -> constitutive -> assembly/solver -> recovery/frame, one owner boundary per iteration.",
+  "releaseAuthority": "A7_ONLY",
+  "activeQuestionSet": "QS-ADV-LAFEA4-A4-1763-0001"
+}
