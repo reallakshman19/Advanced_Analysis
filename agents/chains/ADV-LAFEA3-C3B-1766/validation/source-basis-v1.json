@@ -1,7 +1,7 @@
 {
   "schema": "lafea3-c3b-source-basis/v1",
-  "basisId": "C3B-SOURCE-BASIS-0006",
-  "previousBasisId": "C3B-SOURCE-BASIS-0005",
+  "basisId": "C3B-SOURCE-BASIS-0007",
+  "previousBasisId": "C3B-SOURCE-BASIS-0006",
   "issue": "github:reallaksh19/Advanced_Analysis#1766",
   "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "commonProtocol": {
@@ -35,6 +35,16 @@
       "classification": "C3B_SCOPE_CORRECTION_RESPONSE_CONVERGENCE_ASSERTION_REMOVED_FROM_MESH_QUALIFICATION",
       "engineeringDisposition": "8_OF_9_C3B_GATES_PASS_SOLE_FAILURE_WAS_Q8_POINT_RESPONSE_MONOTONICITY_OUTSIDE_C3B_AUTHORITY",
       "responseConvergenceAuthority": "github:reallaksh19/Advanced_Analysis#1771"
+    },
+    {
+      "run": 34733194257,
+      "exactProductHead": "638865ac7cc73e6f34cff7dcd74c5d02dd639208",
+      "classification": "MANIFEST_TRANSCRIPTION_CORRECTION_ONLY_NO_PRODUCTION_SOURCE_CHANGE",
+      "correctedSourceIds": ["C3B-Q011"],
+      "previousIncorrectBlobSha": "73c9b0c0a0b6724e02f7d2d6cd0c9c5406c36a6",
+      "observedCorrectBlobSha": "73c9b0c0a0b6724e02f7d2d6cd0c9c5406c36a6c",
+      "engineeringStepsExecuted": false,
+      "productionSourceMutation": false
     }
   ],
   "scopeCorrection": {
@@ -189,7 +199,9 @@
       "sourceId": "C3B-Q011",
       "role": "b02cFrozenDefinition",
       "path": "validation/lafea-b02-definitions/B02C-kirsch.json",
-      "blobSha": "73c9b0c0a0b6724e02f7d2d6cd0c9c5406c36a6"
+      "blobSha": "73c9b0c0a0b6724e02f7d2d6cd0c9c5406c36a6c",
+      "previousIncorrectBlobSha": "73c9b0c0a0b6724e02f7d2d6cd0c9c5406c36a6",
+      "changeAuthority": "C3B-SOURCE-BASIS-0007 corrects a manifest transcription error observed on exact-head run 34733194257; frozen benchmark definition content is unchanged"
     }
   ],
   "qualityAuthority": {
@@ -202,7 +214,7 @@
   "execution": {
     "batchRunnerPath": "scripts/lafea.3-c3b-mesh-qualification-check.mjs",
     "batchRunnerSelfHashCapturedAtRuntime": true,
-    "currentHeadExecutableEvidence": "PENDING_HOSTED_EXACT_HEAD_EXECUTION_AFTER_C3B_SCOPE_CORRECTION",
+    "currentHeadExecutableEvidence": "PENDING_HOSTED_EXACT_HEAD_RERUN_AFTER_C3B_Q011_MANIFEST_CORRECTION",
     "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
     "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
   },
