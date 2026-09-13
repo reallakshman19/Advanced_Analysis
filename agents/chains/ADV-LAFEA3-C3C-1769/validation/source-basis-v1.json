@@ -1,0 +1,173 @@
+{
+  "schema": "lafea3-c3c-source-basis/v1",
+  "basisId": "C3C-SOURCE-BASIS-0001",
+  "issue": "github:reallaksh19/Advanced_Analysis#1769",
+  "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
+  "stackedDependency": {
+    "issue": "github:reallaksh19/Advanced_Analysis#1766",
+    "pullRequest": "github:reallaksh19/Advanced_Analysis#1782",
+    "qualifiedHead": "6d7d099b201029e42e64927d932c2a2f14bef471",
+    "sourceBasisId": "C3B-SOURCE-BASIS-0007",
+    "disposition": "CANDIDATE_QUALIFIED_NOT_MAIN_CURRENT"
+  },
+  "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
+  "scope": "EXISTING_DOMAIN_FIRST_COMPILER_QUALIFICATION_AND_GAP_CUSTODY_ONLY",
+  "sources": [
+    {
+      "sourceId": "C3C-S001",
+      "role": "analysisDomainAndFeatureIntent",
+      "path": "src/workspace/lafea-continuum-analysis-domain.js",
+      "blobSha": "61203e3f323504a847568b35e473ee649304dad6"
+    },
+    {
+      "sourceId": "C3C-S002",
+      "role": "featureToMeshMapping",
+      "path": "src/workspace/lafea-continuum-solver-mapping.js",
+      "blobSha": "e7f07f2cc79c3ba430b697e3f7a7403e14be8b3d"
+    },
+    {
+      "sourceId": "C3C-S003",
+      "role": "canonicalSolverModelCompiler",
+      "path": "src/workspace/lafea-continuum-solver-model.js",
+      "blobSha": "984436664605fdce91d76017137a5040f6ee7ea0"
+    },
+    {
+      "sourceId": "C3C-S004",
+      "role": "compiledLoadAndBcLowering",
+      "path": "src/workspace/lafea-continuum-compiled-input.js",
+      "blobSha": "656e012654df11b465ed65f23ac63abe2d353a71"
+    },
+    {
+      "sourceId": "C3C-S005",
+      "role": "analyticalTractionLowering",
+      "path": "src/workspace/lafea-analytical-traction-lowering.js",
+      "blobSha": "461ab7a2ede5459f6f8976caf289324b053ecc6e"
+    },
+    {
+      "sourceId": "C3C-S006",
+      "role": "kernelConsistentEdgeIntegration",
+      "path": "src/core/local-continuum/edge-traction-loads.js",
+      "blobSha": "889cd7ff79392247ae24c92f97d76fd4f8db8f5f"
+    },
+    {
+      "sourceId": "C3C-S007",
+      "role": "kernelPressureNormalIntegration",
+      "path": "src/core/local-continuum/pressure-loads.js",
+      "blobSha": "8c0ea676cc6420f12ca325c9e0d79f2fc72e7410"
+    },
+    {
+      "sourceId": "C3C-S008",
+      "role": "kernelLoadAssemblyAndContributionEvidence",
+      "path": "src/core/local-continuum/loads.js",
+      "blobSha": "7f3178ba0a508f4f8f271886594391b8bb687aab"
+    },
+    {
+      "sourceId": "C3C-S009",
+      "role": "workbenchSevenStateCurrentness",
+      "path": "src/workspace/lafea-workbench-currentness.js",
+      "blobSha": "f2db310741e38d2b48858305567e48de911816cb"
+    },
+    {
+      "sourceId": "C3C-S010",
+      "role": "runTransactionHashCustody",
+      "path": "src/workspace/lafea-workbench-run-transaction-state.js",
+      "blobSha": "ca6db92efedbc4a31868ea6bfa3bd0e35af892b9"
+    },
+    {
+      "sourceId": "C3C-S011",
+      "role": "physicalProbeMappingAndAncestry",
+      "path": "src/workspace/lafea-continuum-physical-probe.js",
+      "blobSha": "f1991fc17f0e799933917601b78c7a89af196df1"
+    },
+    {
+      "sourceId": "C3C-Q001",
+      "role": "solverModelCompilerCheck",
+      "path": "scripts/lafea-continuum-solver-model-check.mjs",
+      "blobSha": "29ab2a73d06c4a4023c5df2d053d02c34cc330df"
+    },
+    {
+      "sourceId": "C3C-Q002",
+      "role": "compiledInputCheck",
+      "path": "scripts/lafea-continuum-compiled-input-check.mjs",
+      "blobSha": "30863f46ab7b38e084c7175d2a0b60af0e3fc2a6"
+    },
+    {
+      "sourceId": "C3C-Q003",
+      "role": "compiledLoadParityCheck",
+      "path": "scripts/lafea-continuum-compiled-load-parity-check.mjs",
+      "blobSha": "0f5770bc8b18dbaf917b0d7482fe55a9959cc876"
+    },
+    {
+      "sourceId": "C3C-Q004",
+      "role": "compiledExecutionParityCheck",
+      "path": "scripts/lafea-continuum-compiled-execution-check.mjs",
+      "blobSha": "ff89008a2160a01445111107cb47a44d16271c71"
+    },
+    {
+      "sourceId": "C3C-Q005",
+      "role": "sevenStateCurrentnessCheck",
+      "path": "scripts/lafea-b02-currentness-check.mjs",
+      "blobSha": "e74c0c9d53d874afa3784ae4d90b83c5baf45d2d"
+    },
+    {
+      "sourceId": "C3C-Q006",
+      "role": "physicalProbeDiagnostic",
+      "path": "scripts/lafea-b02-g4-physical-probe-diagnostic.mjs",
+      "blobSha": "52416809f4cb6b858fc526a44012f9e2ec6b14e5"
+    },
+    {
+      "sourceId": "C3C-Q007",
+      "role": "physicalProbeFailClosedDiagnostic",
+      "path": "scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs",
+      "blobSha": "72de567937f5b62b11076e5d708ed86738def71d"
+    },
+    {
+      "sourceId": "C3C-Q008",
+      "role": "importGovernanceEntrypoint",
+      "path": "scripts/import-check.mjs",
+      "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2"
+    }
+  ],
+  "confirmedOpenSemantics": [
+    {
+      "gapId": "C3C-G001",
+      "state": "OPEN",
+      "description": "No standalone hash-addressed feature-projection receipt is a solver-model parent."
+    },
+    {
+      "gapId": "C3C-G002",
+      "state": "OPEN",
+      "description": "Compiler does not retain source-vs-compiled force and moment resultant evidence for ordinary distributed loads."
+    },
+    {
+      "gapId": "C3C-G003",
+      "state": "OPEN",
+      "description": "Ordinary TRACTION attachment semantics are constant-vector only; source-feature linear variation is not qualified."
+    },
+    {
+      "gapId": "C3C-G004",
+      "state": "OPEN",
+      "description": "Pressure kernel evaluates local normals from retained edge traversal, but source-geometry normal/loop-role correspondence is not retained as compiler evidence."
+    },
+    {
+      "gapId": "C3C-G005",
+      "state": "OPEN_FAIL_CLOSED",
+      "description": "Domain-first TEMPERATURE delta is rejected because governed thermal-expansion coefficient/reference-temperature authority is absent; direct kernel thermalStrain remains separate authority."
+    },
+    {
+      "gapId": "C3C-G006",
+      "state": "OPEN",
+      "description": "Local-feature support/roller semantics are not an explicit ordinary-domain contract; current supports are global ux/uy."
+    }
+  ],
+  "claimBoundary": {
+    "existingCompilerQualificationOnly": true,
+    "newPhysicsImplemented": false,
+    "temperatureDeltaQualified": false,
+    "linearTractionQualified": false,
+    "sourceNormalPressureQualified": false,
+    "projectionReceiptQualified": false,
+    "releaseQualified": false
+  },
+  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_OR_PROBE_SOURCE_CHANGES"
+}
