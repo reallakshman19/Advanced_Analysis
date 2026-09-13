@@ -207,6 +207,15 @@ function appendAnalyticalTraction(loadCase, attachment, model, sections) {
   if (!target.edgeNodePaths.length || target.edgeNodePaths.length !== target.elementIds.length) {
     fail('LAFEA_CONTINUUM_COMPILED_EDGE_OWNER_MAPPING_INVALID');
   }
+  const projectionEntry = model.projectionEvidence?.entries?.find(
+    (row) => row.attachmentId === attachment.attachmentId,
+  );
+  if (!projectionEntry
+    || projectionEntry.sourceFeature?.targetType !== 'SEGMENT'
+    || projectionEntry.sourceFeature?.featureId !== attachment.targetId
+    || !projectionEntry.sourceFeature?.geometry) {
+    fail('LAFEA_CONTINUUM_COMPILED_ANALYTICAL_TRACTION_PROJECTION_REQUIRED');
+  }
   const factor = dimensionFactor('stress', payload.unit);
   const nodeById = new Map(model.nodes.map((row) => [row.nodeId, row]));
   const elementById = new Map(model.elements.map((row) => [row.elementId, row]));
@@ -222,6 +231,7 @@ function appendAnalyticalTraction(loadCase, attachment, model, sections) {
       edgeNodes,
       thickness: section.thickness,
       stressFactor: factor,
+      sourceFeatureGeometry: projectionEntry.sourceFeature.geometry,
     });
     integrated.nodalForces.forEach((force, nodeIndex) => {
       loadCase.nodalForces.push({
