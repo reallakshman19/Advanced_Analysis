@@ -1,0 +1,89 @@
+name: LAFEA.3 C3-C exact-head diagnostic carrier
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/lafea3-c3c-exact-head-carrier.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  c3c-product-head:
+    runs-on: ubuntu-latest
+    env:
+      PRODUCT_HEAD: ${{ github.event.pull_request.base.sha }}
+      STACK_BASE: 6d7d099b201029e42e64927d932c2a2f14bef471
+      C3C_REPORT_DIR: /tmp/lafea3-c3c-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: Checkout exact product head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify exact product head and clean tree
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$PRODUCT_HEAD"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+          git diff --check "$STACK_BASE...$PRODUCT_HEAD"
+
+      - name: Check C3-C batch runner syntax
+        run: node --check scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+
+      - name: Execute exact-head C3-C qualification
+        id: c3c
+        continue-on-error: true
+        shell: bash
+        run: |
+          rm -rf "$C3C_REPORT_DIR"
+          mkdir -p "$C3C_REPORT_DIR"
+          set +e
+          node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs \
+            --expected-head "$PRODUCT_HEAD" \
+            --base "$STACK_BASE" \
+            > "$C3C_REPORT_DIR/c3c-receipt.json" \
+            2> "$C3C_REPORT_DIR/c3c-stderr.txt"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$C3C_REPORT_DIR/c3c-exit-code.txt"
+          exit "$status"
+
+      - name: Print C3-C exact-head receipt
+        if: always()
+        shell: bash
+        run: |
+          echo '=== C3-C EXIT CODE ==='
+          cat "$C3C_REPORT_DIR/c3c-exit-code.txt" || true
+          echo '=== C3-C RECEIPT ==='
+          cat "$C3C_REPORT_DIR/c3c-receipt.json" || true
+          echo '=== C3-C STDERR ==='
+          cat "$C3C_REPORT_DIR/c3c-stderr.txt" || true
+
+      - name: Upload C3-C exact-head receipt
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: lafea3-c3c-${{ env.PRODUCT_HEAD }}
+          path: ${{ env.C3C_REPORT_DIR }}
+          if-no-files-found: error
+          retention-days: 5
+
+      - name: Propagate C3-C qualification result
+        if: always()
+        shell: bash
+        run: |
+          test -f "$C3C_REPORT_DIR/c3c-exit-code.txt"
+          status=$(cat "$C3C_REPORT_DIR/c3c-exit-code.txt")
+          if [ "$status" -ne 0 ]; then
+            echo 'C3-C exact-head qualification failed; job log carries the diagnostic receipt.'
+            exit "$status"
+          fi
+          echo 'C3-C exact-head qualification passed; job log carries candidate baseline evidence.'
