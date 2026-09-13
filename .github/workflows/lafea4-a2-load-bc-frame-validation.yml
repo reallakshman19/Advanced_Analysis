@@ -5,13 +5,16 @@ on:
     paths:
       - 'scripts/lafea4-a2-load-transfer-check.mjs'
       - 'scripts/lafea4-a2-frame-covariance-check.mjs'
+      - 'scripts/lafea4-a2-applicability-negative-check.mjs'
       - 'scripts/lafea4-independent-pressure-resultant-authorization-check.mjs'
       - 'scripts/lafea4-shell-independent-benchmark-check.mjs'
       - 'scripts/lafea.4-pressure-check.mjs'
       - 'scripts/lafea.4-stress-energy-check.mjs'
+      - 'scripts/lafea.4-solver-loads-check.mjs'
       - 'scripts/lafea.4-shell-transformation-generalization-check.mjs'
       - 'scripts/lafea.4-mitc-adoption-pressure-check.mjs'
       - 'scripts/lafea.4-mitc-adoption-recovery-check.mjs'
+      - 'scripts/lafea-shell-multipatch-seam-check.mjs'
       - 'scripts/lafea-tech12c-solver-execution-companion-binding-check.mjs'
       - 'scripts/lafea-shell-compiled-execution-check.mjs'
       - 'src/core/local-shell/**'
@@ -55,6 +58,9 @@ jobs:
       - name: A2 local/global frame covariance and pressure-normal transport
         run: node scripts/lafea4-a2-frame-covariance-check.mjs
 
+      - name: A2 unsupported applicability and independent moment negatives
+        run: node scripts/lafea4-a2-applicability-negative-check.mjs
+
       - name: Independent curved pressure resultant and first moment
         run: node scripts/lafea4-independent-pressure-resultant-authorization-check.mjs
 
@@ -67,6 +73,9 @@ jobs:
       - name: Stress invariants and energy covariance
         run: node scripts/lafea.4-stress-energy-check.mjs
 
+      - name: Solver loads reactions and pure-moment equilibrium
+        run: node scripts/lafea.4-solver-loads-check.mjs
+
       - name: Five-DOF basis transformation rigid reproduction
         run: node scripts/lafea.4-shell-transformation-generalization-check.mjs
 
@@ -75,6 +84,9 @@ jobs:
 
       - name: MITC physical rotation to beta-slope recovery falsifier
         run: node scripts/lafea.4-mitc-adoption-recovery-check.mjs
+
+      - name: Multipatch seam orientation inherited A1 guard
+        run: node scripts/lafea-shell-multipatch-seam-check.mjs
 
       - name: Parent-normal companion and adversarial reversed-mesh custody
         run: node scripts/lafea-tech12c-solver-execution-companion-binding-check.mjs
