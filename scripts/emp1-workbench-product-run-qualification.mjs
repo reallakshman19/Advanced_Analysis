@@ -18,12 +18,18 @@ import {
 import { canonicalFixture } from './lafea.1-fixtures.mjs';
 import { rawRequestFixture } from './lafea.2-fixtures.mjs';
 
+function stage(name) {
+  console.log(`EMP1_WORKBENCH_QUALIFICATION_STAGE:${name}`);
+}
+
+stage('BOOT');
 const oracleRecord = JSON.parse(await readFile(
   'validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json', 'utf8'));
 assert.equal(oracleRecord.semanticHash,
   '60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18');
 const oracle = oracleRecord.semanticPayload;
 
+stage('READINESS');
 const aDocument = routeFoundationModel({ meanRadius: 100, shellThickness: 20 });
 const aResult = calculateLocalAttachmentFoundation(aDocument);
 assert.equal(aResult.qualification.state, 'ACCEPTED');
@@ -31,6 +37,7 @@ const bDocument = routeScreeningRequest(aDocument, aResult);
 const runInput = qualifiedRunInput();
 assert.equal(projectEmp1WorkbenchRunReadiness({ aDocument, bDocument, runInput }).state, 'READY');
 
+stage('FIRST_EXECUTION');
 const first = await executeEmp1WorkbenchProduct({ aDocument, bDocument, runInput });
 assert.equal(first.status, 'CALCULATED');
 assert.equal(first.decision, 'ESCALATE');
@@ -52,6 +59,7 @@ assert.deepEqual(first.result.localCorrelation.routeSuspensionReasons, []);
 assert.equal(first.result.localCorrelation.routeQualificationSha256,
   '9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7');
 
+stage('FIRST_SOURCE_CUSTODY');
 const retainedCustody = first.result.localCorrelation.sourceCustody;
 assert.equal(retainedCustody.geometry.gamma, 5);
 assert.ok(Math.abs(retainedCustody.geometry.beta - 0.155) < 1e-12);
@@ -65,6 +73,7 @@ assert.equal(retainedAttachment.physicalLocation, EMP1_WORKBENCH_ATTACHMENT_PHYS
 assert.equal(retainedAttachment.sourceBindingSemanticHash,
   semanticHash(runInput.localMethod.attachmentGeometry));
 
+stage('FIRST_APPLICABILITY_AUTHORITY');
 const applicabilityAuthority = first.applicabilitySourceAuthority;
 assert.equal(first.authority.applicabilitySourceAuthorityPrepared, true);
 assert.equal(first.authority.applicabilitySourceAuthoritySemanticHash,
@@ -83,6 +92,7 @@ assert.equal(applicabilityAuthority.sourceBindingSemanticHash,
 assert.equal(first.result.localCorrelation.applicabilitySourceAuthority.semanticHash,
   applicabilityAuthority.semanticHash);
 
+stage('FIRST_AUTHORITY');
 assert.equal(first.authority.boundedLocalRoutePrepared, true);
 assert.equal(first.authority.boundedLocalRouteExecuted, true);
 assert.equal(first.authority.routeModuleAuthorized, true);
@@ -93,6 +103,7 @@ assert.equal(first.authority.globalEmp1CRouteAuthority, false);
 assert.equal(first.authority.codeComplianceProduced, false);
 assert.equal(first.authority.releaseQualified, false);
 
+stage('FIRST_NUMERICS');
 assert.deepEqual(first.result.localCorrelation.numerics.wrcLoads,
   oracle.expectedPhysical.wrcLoads);
 assert.deepEqual(first.result.localCorrelation.numerics.curveFigureMap, oracle.figureMap);
@@ -119,6 +130,7 @@ assert.equal(classifyEmp1WorkbenchExecutionCurrentness({
   execution: first, aDocument, bDocument, runInput,
 }).state, EMP1_WORKBENCH_EXECUTION_CURRENTNESS.CURRENT);
 
+stage('REUSE');
 const reused = await executeEmp1WorkbenchProduct({
   aDocument,
   bDocument,
@@ -137,6 +149,7 @@ assert.deepEqual(reused.result.assessment.parents, first.result.assessment.paren
 assert.equal(reused.result.localCorrelation.resultHash, first.result.localCorrelation.resultHash);
 assert.equal(reused.result.localCorrelation.productionRouteAuthority, true);
 
+stage('ATTACHMENT_INVALIDATION');
 const attachmentChanged = structuredClone(runInput);
 attachmentChanged.localMethod.attachmentGeometry.attachmentDiameter = 40;
 const attachmentRerun = await executeEmp1WorkbenchProduct({
@@ -166,6 +179,7 @@ assert.notEqual(
 assert.notEqual(attachmentRerun.result.localCorrelation.resultHash,
   first.result.localCorrelation.resultHash);
 
+stage('APPLICABILITY_INVALIDATION');
 const applicabilityChanged = structuredClone(runInput);
 applicabilityChanged.localMethod.applicabilityGeometry.attachmentStationFromCylinderStart = 90;
 const applicabilityRerun = await executeEmp1WorkbenchProduct({
@@ -191,6 +205,7 @@ assert.notEqual(applicabilityRerun.applicabilitySourceAuthority.semanticHash,
   applicabilityAuthority.semanticHash);
 assert.equal(applicabilityRerun.applicabilitySourceAuthority.nearestCylinderEndDistance, 90);
 
+stage('CURRENTNESS');
 const bChanged = structuredClone(bDocument);
 bChanged.screeningCases[0].mechanicalTerms[0].factor = 1.1;
 const stale = classifyEmp1WorkbenchExecutionCurrentness({
@@ -202,6 +217,7 @@ const stale = classifyEmp1WorkbenchExecutionCurrentness({
 assert.equal(stale.state, EMP1_WORKBENCH_EXECUTION_CURRENTNESS.STALE);
 assert.ok(stale.reasons.includes('EMP1_WORKBENCH_SECTIONSCREENINGDOCUMENT_CHANGED'));
 
+stage('INPUT_GUARDS');
 assert.throws(
   () => normalizeEmp1WorkbenchRunInput({
     ...runInput,
@@ -278,6 +294,7 @@ await assert.rejects(
   (error) => error?.code === 'EMP1_WORKBENCH_APPLICABILITY_UNIT_NOT_CANONICAL',
 );
 
+stage('GAMMA15_NEGATIVE');
 const gamma15Document = routeFoundationModel({ meanRadius: 300, shellThickness: 20 });
 const gamma15Result = calculateLocalAttachmentFoundation(gamma15Document);
 const gamma15B = routeScreeningRequest(gamma15Document, gamma15Result);
@@ -297,6 +314,7 @@ assert.equal(gamma15.authority.boundedLocalRouteExecuted, false);
 assert.equal(gamma15.authority.globalEmp1CRouteAuthority, false);
 assert.equal(gamma15.authority.releaseQualified, false);
 
+stage('PASS');
 console.log(JSON.stringify({
   schema: 'emp1-workbench-product-run-qualification/v9',
   status: 'PASS_CURRENT_AUTHORIZED_GAMMA5_ROUTE_THROUGH_WORKBENCH_TRANSACTION',
