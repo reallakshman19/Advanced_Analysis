@@ -41,6 +41,7 @@ const steps = [
   step('C3C-COMPILER-MAPPING-MODEL', process.execPath, ['scripts/lafea-continuum-solver-model-check.mjs'], 'C3C_1_C3C_5'),
   step('C3C-COMPILED-INPUT-LOWERING', process.execPath, ['scripts/lafea-continuum-compiled-input-check.mjs'], 'C3C_2_C3C_3'),
   step('C3C-PROJECTION-RESULTANT-CUSTODY', process.execPath, ['scripts/lafea.3-c3c-projection-resultant-check.mjs'], 'C3C_1_C3C_2'),
+  step('C3C-LINEAR-TRACTION', process.execPath, ['scripts/lafea.3-c3c-linear-traction-check.mjs'], 'C3C_2_G003'),
   step('C3C-COMPILED-LOAD-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-load-parity-check.mjs'], 'C3C_2'),
   step('C3C-COMPILED-EXECUTION-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-execution-check.mjs'], 'C3C_5'),
   step('C3C-SEVEN-STATE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-currentness-check.mjs'], 'C3C_6'),
@@ -56,6 +57,7 @@ emit(status, blocker, steps);
 process.exit(status === 'PASS' ? 0 : 1);
 
 function emit(status, blocker, steps) {
+  const passed = (stepId) => steps.some((row) => row.stepId === stepId && row.status === 'PASS');
   process.stdout.write(`${JSON.stringify({
     schema: 'lafea3-c3c-model-compiler-qualification-run/v1',
     issue: 'github:reallaksh19/Advanced_Analysis#1769',
@@ -75,10 +77,10 @@ function emit(status, blocker, steps) {
       newPhysicsImplementedByRunner: false,
       sourceOrMeshMutationPerformedByRunner: false,
       temperatureDeltaQualified: false,
-      linearTractionQualified: false,
+      linearTractionQualified: passed('C3C-LINEAR-TRACTION'),
       sourceNormalPressureQualified: false,
-      projectionReceiptQualified: true,
-      constantStraightTractionForceMomentQualified: true,
+      projectionReceiptQualified: passed('C3C-PROJECTION-RESULTANT-CUSTODY'),
+      constantStraightTractionForceMomentQualified: passed('C3C-PROJECTION-RESULTANT-CUSTODY'),
       bodyForceResultantQualified: false,
       releaseAuthorityGranted: false,
     },
