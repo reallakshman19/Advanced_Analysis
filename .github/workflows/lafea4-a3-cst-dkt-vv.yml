@@ -16,6 +16,8 @@ on:
       - 'scripts/lafea4-a2-applicability-negative-check.mjs'
       - 'validation/lafea-shell/**'
       - 'src/core/local-shell/**'
+      - 'agents/chains/ADV-LAFEA4-A3-1761/**'
+      - 'agents/qualifications/ADV-LAFEA4-A3-1761/**'
       - '.github/workflows/lafea4-a3-cst-dkt-vv.yml'
 
 permissions:
