@@ -28,7 +28,7 @@
       "category": "WRC_METHOD_SEMANTICS",
       "artifact": "validation/emp1/wrc537-2013/stress-intensity-source-qualification-v1.json",
       "authorityDocument": "docs/emp1/WRC537_2013_Stress_Intensity_Authority.md",
-      "currentStatus": "BLOCKED_PARTIAL_TABLE5_STRESS_INTENSITY_FORMULA_AUTHORITY_PLANE_STRESS_SEMANTICS_UNQUALIFIED",
+      "currentStatus": "BLOCKED_PARTIAL_PRIMARY_STRESS_INTENSITY_DEFINITION_AND_MAXIMUM_SHEAR_THEORY_QUALIFIED_EXPLICIT_PLANE_STRESS_RECONSTRUCTION_UNQUALIFIED",
       "profileAuthorityKey": "stressIntensitySemantics"
     },
     {
