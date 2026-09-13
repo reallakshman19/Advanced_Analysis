@@ -15,6 +15,7 @@ import {
   normalizeEmp1WorkbenchRunInput,
   projectEmp1WorkbenchRunReadiness,
 } from '../src/workspace/emp1-workbench-product-run.js';
+import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
 import { canonicalFixture } from './lafea.1-fixtures.mjs';
 import { rawRequestFixture } from './lafea.2-fixtures.mjs';
 
@@ -30,10 +31,11 @@ assert.equal(oracleRecord.semanticHash,
 const oracle = oracleRecord.semanticPayload;
 
 stage('READINESS');
-const aDocument = routeFoundationModel({ meanRadius: 100, shellThickness: 20 });
-const aResult = calculateLocalAttachmentFoundation(aDocument);
+const aKernelModel = routeFoundationModel({ meanRadius: 100, shellThickness: 20 });
+const aDocument = normalizeLafeaStageDocument('LAFEA.1', aKernelModel);
+const aResult = calculateLocalAttachmentFoundation(aKernelModel);
 assert.equal(aResult.qualification.state, 'ACCEPTED');
-const bDocument = routeScreeningRequest(aDocument, aResult);
+const bDocument = routeScreeningRequest(aKernelModel, aResult);
 const runInput = qualifiedRunInput();
 assert.equal(projectEmp1WorkbenchRunReadiness({ aDocument, bDocument, runInput }).state, 'READY');
 
@@ -295,9 +297,10 @@ await assert.rejects(
 );
 
 stage('GAMMA15_NEGATIVE');
-const gamma15Document = routeFoundationModel({ meanRadius: 300, shellThickness: 20 });
-const gamma15Result = calculateLocalAttachmentFoundation(gamma15Document);
-const gamma15B = routeScreeningRequest(gamma15Document, gamma15Result);
+const gamma15KernelModel = routeFoundationModel({ meanRadius: 300, shellThickness: 20 });
+const gamma15Document = normalizeLafeaStageDocument('LAFEA.1', gamma15KernelModel);
+const gamma15Result = calculateLocalAttachmentFoundation(gamma15KernelModel);
+const gamma15B = routeScreeningRequest(gamma15KernelModel, gamma15Result);
 const gamma15 = await executeEmp1WorkbenchProduct({
   aDocument: gamma15Document,
   bDocument: gamma15B,
