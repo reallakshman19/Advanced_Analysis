@@ -1,5 +1,6 @@
 const gates = [
   './lafea.4-a4-independent-shear-objectivity-check.mjs',
+  './lafea.4-a4-field-recovery-envelope-check.mjs',
   './lafea.4-mitc4-element-check.mjs',
   './lafea.4-mitc3-fallback-check.mjs',
   './lafea.4-mitc-adoption-element-check.mjs',
