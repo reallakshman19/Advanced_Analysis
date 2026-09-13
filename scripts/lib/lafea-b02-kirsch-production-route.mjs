@@ -29,13 +29,9 @@ import {
 
 const STAGE_ID = 'LAFEA.3';
 const PHYSICAL_PROBE_SCHEMA = 'lafea-continuum-physical-probe/v1';
-export const B02C_FROZEN_MESH_POLICY = 'FROZEN_B02C_GRADED_POLAR_V1';
-export const B02C_SUPPLEMENTARY_MESH_POLICY = 'SUPPLEMENTARY_ORDINARY_PRODUCTION_MESHER_V1';
-const B02C_SUPPLEMENTARY_SOURCE_REVISION = 'B02C-SUPPLEMENTARY-ORDINARY-PRODUCTION-V1';
 
 export function executeB02KirschProductionLevel(definition, method, level) {
   requireDefinition(definition);
-  const meshPolicyClass = resolveMeshPolicyClass(definition, level);
   const source = requireLafeaStageComposition(STAGE_ID).normalizeDocument(
     sourceDocument(definition, method),
   );
@@ -62,10 +58,9 @@ export function executeB02KirschProductionLevel(definition, method, level) {
     store.activateDomainFirstProfile();
     assert.equal(store.registerAnalysisDomain(domain).projection.state, 'CURRENT_PASS');
     assert.equal(store.registerAnalysisGeometryEvidence(geometryEvidence).projection.state, 'CURRENT_PASS');
-    store.bindAnalysisMeshProfile(meshProfile(definition, method, level, meshPolicyClass));
+    store.bindAnalysisMeshProfile(meshProfile(definition, method, level));
     const generated = store.generateAnalysisMesh();
-    requireGeneratedMesh(generated, store, method, level);
-    assert.equal(generated.evidence.qualification, 'PASS');
+    assert.equal(generated?.evidence?.qualification, 'PASS');
     assert.equal(generated.evidence.mesh.elements.every((row) => row.elementType === method), true);
     assertCircularBoundary(generated.evidence.mesh, definition);
     const preflight = store.prepareContinuumForRun();
@@ -81,24 +76,10 @@ export function executeB02KirschProductionLevel(definition, method, level) {
       stage,
       probes: definition.fixedProbes.map((probe) => store.evaluateContinuumPhysicalProbe(stripAcceptance(probe))),
       meshEvidence: generated.evidence,
-      meshPolicyClass,
-      meshStrategy: generated.plan?.strategy ?? null,
-      meshStrategyReason: generated.plan?.strategyReason ?? null,
     };
   } finally {
     store.destroy();
   }
-}
-
-function requireGeneratedMesh(generated, store, method, level) {
-  if (generated?.evidence) return;
-  const diagnostic = store.getState().diagnostics?.[0] ?? null;
-  const code = diagnostic?.code ?? 'B02C_PRODUCTION_MESH_GENERATION_REJECTED';
-  const message = diagnostic?.message
-    ?? `B02C production mesh generation returned no evidence for ${method}/${level.levelId}`;
-  const error = new Error(message);
-  error.code = code;
-  throw error;
 }
 
 function sourceDocument(definition, method) {
@@ -197,17 +178,12 @@ function kirschDomain(definition, sourceHash, geometry) {
   }, geometry);
 }
 
-function meshProfile(definition, method, level, meshPolicyClass) {
+function meshProfile(definition, method, level) {
   const defaults = defaultProfileFields(PROFILE_KINDS.MESH);
-  const frozen = meshPolicyClass === B02C_FROZEN_MESH_POLICY;
   return canonicalProfile(PROFILE_KINDS.MESH, {
     schema: 'lafea-mesh-profile/v1',
-    profileIdentity: frozen
-      ? b02cGradedPolarProfileIdentity(method, level.targetElementLength)
-      : `B02C_SUPPLEMENTARY_ORDINARY_${method}_${sanitizeProfileToken(level.levelId)}`,
-    sourceRevision: frozen
-      ? LAFEA_B02C_GRADED_POLAR_PROFILE_SOURCE_REVISION
-      : B02C_SUPPLEMENTARY_SOURCE_REVISION,
+    profileIdentity: b02cGradedPolarProfileIdentity(method, level.targetElementLength),
+    sourceRevision: LAFEA_B02C_GRADED_POLAR_PROFILE_SOURCE_REVISION,
     semanticHash: undefined,
     fields: {
       ...defaults,
@@ -217,27 +193,6 @@ function meshProfile(definition, method, level, meshPolicyClass) {
       adjacentSizeRatioMax: definition.meshLadder.commonRequestPolicy.growthLimit,
     },
   });
-}
-
-function resolveMeshPolicyClass(definition, level) {
-  const frozen = definition.meshLadder.levels.find((candidate) => candidate.levelId === level.levelId);
-  if (frozen) {
-    assert.equal(level.targetElementLength, frozen.targetElementLength,
-      `B02C frozen level ${level.levelId} target h must remain unchanged`);
-    return B02C_FROZEN_MESH_POLICY;
-  }
-  if (typeof level.levelId === 'string' && level.levelId.endsWith('-SUPPLEMENTARY')) {
-    assert.ok(level.targetElementLength < definition.meshLadder.levels.at(-1).targetElementLength,
-      'B02C supplementary h must refine beyond the frozen ladder');
-    return B02C_SUPPLEMENTARY_MESH_POLICY;
-  }
-  const error = new Error(`B02C mesh policy is undefined for level ${level.levelId}`);
-  error.code = 'LAFEA_B02C_MESH_POLICY_LEVEL_NOT_AUTHORIZED';
-  throw error;
-}
-
-function sanitizeProfileToken(value) {
-  return String(value).replace(/[^A-Za-z0-9_-]/gu, '_');
 }
 
 function assertCircularBoundary(mesh, definition) {

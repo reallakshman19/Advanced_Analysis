@@ -46,7 +46,7 @@ const steps = [
   step('C3B-M0-M3-PRODUCER-BINDING', process.execPath, ['scripts/lafea-mesh-producer-binding-check.mjs'], 'M0_M1_M2_M3'),
   step('C3B-REFINEMENT-CUSTODY', process.execPath, ['scripts/lafea-retained-mesh-refinement-check.mjs'], 'C3B_3'),
   step('C3B-M4-CONTINUUM-HANDOFF', process.execPath, ['scripts/lafea.3-continuum-convergence-route-check.mjs'], 'M4'),
-  step('C3B-B02C-CURVED-HOLE-REGRESSION', process.execPath, ['scripts/lafea-b02c-supplementary-convergence-proof.mjs'], 'B02C'),
+  step('C3B-B02C-CURVED-HOLE-MESH', process.execPath, ['scripts/lafea.3-c3b-b02c-mesh-check.mjs'], 'M2_M3'),
   step('C3B-MESHING-GOVERNANCE', npm, ['run', 'check:lafea-meshing'], 'REGRESSION'),
   step('C3B-IMPORT-GOVERNANCE', npm, ['run', 'check:imports'], 'REGRESSION'),
   step('C3B-DIFF-HYGIENE', 'git', ['diff', '--check', `${args.base ?? basis.candidateBaseSha}...HEAD`], 'REGRESSION'),

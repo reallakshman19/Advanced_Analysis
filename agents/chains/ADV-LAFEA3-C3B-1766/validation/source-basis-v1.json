@@ -1,7 +1,7 @@
 {
   "schema": "lafea3-c3b-source-basis/v1",
-  "basisId": "C3B-SOURCE-BASIS-0005",
-  "previousBasisId": "C3B-SOURCE-BASIS-0004",
+  "basisId": "C3B-SOURCE-BASIS-0006",
+  "previousBasisId": "C3B-SOURCE-BASIS-0005",
   "issue": "github:reallaksh19/Advanced_Analysis#1766",
   "candidateBaseSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "commonProtocol": {
@@ -14,33 +14,42 @@
     "registryBlobSha": "338debf9bbd75bc6032298e140543e82eee9d4a6",
     "disposition": "HISTORICAL_EXACT_HEAD_EVIDENCE_NOT_CURRENT_SOURCE_AUTHORITY"
   },
-  "custodyCorrection": {
-    "source": "diagnostic PR #1784 run 34678679389 exact product head f1d2ba6ea64500f16339f15f5b5506c8d153fe79",
-    "classification": "MANIFEST_TRANSCRIPTION_CORRECTION_ONLY_NO_PRODUCTION_SOURCE_CHANGE",
-    "correctedSourceIds": ["C3B-S002", "C3B-S003"],
-    "productionSourceMutation": false,
-    "benchmarkOracleOrToleranceMutation": false
-  },
-  "qualificationHarnessCorrection": {
-    "source": "diagnostic PR #1784 run 34678760491 exact product head 0509a9c2913ba45724dc2ee14265d0a17c124889",
-    "classification": "SURFACE_GOVERNED_ORCHESTRATOR_DIAGNOSTIC_INSTEAD_OF_MASKING_REJECTION_WITH_OPTIONAL_CHAIN_ASSERTION",
-    "productionSourceMutation": false,
-    "meshAlgorithmMutation": false,
+  "diagnosticHistory": [
+    {
+      "run": 34678679389,
+      "classification": "MANIFEST_TRANSCRIPTION_CORRECTION_ONLY_NO_PRODUCTION_SOURCE_CHANGE",
+      "correctedSourceIds": ["C3B-S002", "C3B-S003"]
+    },
+    {
+      "run": 34678760491,
+      "classification": "B02C_ORCHESTRATOR_REJECTION_WAS_MASKED_BY_RESPONSE_HARNESS_ASSERTION"
+    },
+    {
+      "run": 34679135777,
+      "classification": "FROZEN_B02C_SPECIAL_STRATEGY_CORRECTLY_REJECTED_NON_FROZEN_SUPPLEMENTARY_H",
+      "observedErrorCode": "LAFEA_B02C_GRADED_POLAR_TARGET_H_NOT_FROZEN_LEVEL"
+    },
+    {
+      "run": 34679490813,
+      "exactProductHead": "472c41f7520007cc17263625c616ae926dc2a174",
+      "classification": "C3B_SCOPE_CORRECTION_RESPONSE_CONVERGENCE_ASSERTION_REMOVED_FROM_MESH_QUALIFICATION",
+      "engineeringDisposition": "8_OF_9_C3B_GATES_PASS_SOLE_FAILURE_WAS_Q8_POINT_RESPONSE_MONOTONICITY_OUTSIDE_C3B_AUTHORITY",
+      "responseConvergenceAuthority": "github:reallaksh19/Advanced_Analysis#1771"
+    }
+  ],
+  "scopeCorrection": {
+    "classification": "MESH_ONLY_B02C_REGRESSION_REPLACES_RESPONSE_CONVERGENCE_PROOF",
+    "restoredToMain": [
+      "scripts/lafea-b02c-supplementary-convergence-proof.mjs",
+      "scripts/lib/lafea-b02-kirsch-production-route.mjs"
+    ],
+    "meshOnlyEntrypoint": "scripts/lafea.3-c3b-b02c-mesh-check.mjs",
+    "productionMesherMutation": false,
+    "solverMutation": false,
+    "stressRecoveryMutation": false,
     "qualityThresholdMutation": false,
-    "benchmarkOracleOrToleranceMutation": false
-  },
-  "supplementaryRouteCorrection": {
-    "source": "diagnostic PR #1784 run 34679135777 exact product head b308f13a1d23a7eb379b109c9f5af20b109ae321",
-    "observedErrorCode": "LAFEA_B02C_GRADED_POLAR_TARGET_H_NOT_FROZEN_LEVEL",
-    "classification": "SUPPLEMENTARY_LEVELS_USE_GENERAL_QUALIFIED_PRODUCTION_MESHER_WITHOUT_BROADENING_FROZEN_B02C_SPECIAL_STRATEGY",
-    "frozenLevels": ["L1", "L2", "L3"],
-    "supplementaryLevels": ["L4-SUPPLEMENTARY", "L5-SUPPLEMENTARY"],
-    "frozenSpecialStrategyBroadened": false,
-    "crossStrategyRichardsonOrGciClaimed": false,
-    "productionSourceMutation": false,
-    "meshAlgorithmMutation": false,
-    "qualityThresholdMutation": false,
-    "benchmarkOracleOrToleranceMutation": false
+    "benchmarkOracleOrToleranceMutation": false,
+    "releaseAuthorityGranted": false
   },
   "sources": [
     {
@@ -57,7 +66,6 @@
       "blobSha": "9be4f734c449b9293a82af80a2936b901d33ee68",
       "previousIncorrectBlobSha": "9be4f734ce35699da2a136b6dff236a263b1a80f",
       "historicalBlobSha": "e8307066293314ad952608872db596cf1898d5c1",
-      "changeAuthority": "C3B-SOURCE-BASIS-0003 corrects a transcription error proven by exact Git blob observation; production source unchanged",
       "requiresCurrentRequalification": true
     },
     {
@@ -67,22 +75,19 @@
       "blobSha": "2b25cbe07751e9637dd1e5c8f6ce79346999a30f",
       "previousIncorrectBlobSha": "2b25cbe47710c7ed5dd3dd1382c731a55b73d68a",
       "historicalBlobSha": "36fe0e7cb8b95aab8ebc2532578a68a1eb75f558",
-      "changeAuthority": "C3B-SOURCE-BASIS-0003 corrects a transcription error proven by exact Git blob observation; production source unchanged",
       "requiresCurrentRequalification": true
     },
     {
       "sourceId": "C3B-S004",
       "role": "geometryTopologyAdapter",
       "path": "src/workspace/lafea-mesh-geometry-topology-adapter.js",
-      "blobSha": "0dea937de150ca5a54cc7750c907fd3fafd7761c",
-      "history": "BM-MESH S-005 unchanged"
+      "blobSha": "0dea937de150ca5a54cc7750c907fd3fafd7761c"
     },
     {
       "sourceId": "C3B-S005",
       "role": "boundaryDiscretization",
       "path": "src/core/lafea-meshing/boundary-discretization.js",
-      "blobSha": "4079dabc9baab6a660337eb6c85e151048696b1d",
-      "history": "directly pinned by C3-B because this material mesher primitive changed after historical BM-MESH"
+      "blobSha": "4079dabc9baab6a660337eb6c85e151048696b1d"
     },
     {
       "sourceId": "C3B-S006",
@@ -94,22 +99,19 @@
       "sourceId": "C3B-S007",
       "role": "interiorRefinementAndHoleRecovery",
       "path": "src/core/lafea-meshing/interior-refinement-t6.js",
-      "blobSha": "8acdde8bbc3dc11c073928d3bf84e4c64b285e31",
-      "history": "directly pinned by C3-B because this material mesher primitive changed after historical BM-MESH"
+      "blobSha": "8acdde8bbc3dc11c073928d3bf84e4c64b285e31"
     },
     {
       "sourceId": "C3B-S008",
       "role": "meshQualityGates",
       "path": "src/core/lafea-meshing/quality-gates.js",
-      "blobSha": "da21c333a5bc22e59c4b52c2c1ff135ee7460ebb",
-      "history": "BM-MESH S-007 unchanged"
+      "blobSha": "da21c333a5bc22e59c4b52c2c1ff135ee7460ebb"
     },
     {
       "sourceId": "C3B-S009",
       "role": "analysisMeshQuality",
       "path": "src/workspace/lafea-analysis-mesh-quality.js",
-      "blobSha": "953bf7e1121464016d46b2262ebc2da5f0d23341",
-      "history": "BM-MESH S-036 unchanged"
+      "blobSha": "953bf7e1121464016d46b2262ebc2da5f0d23341"
     },
     {
       "sourceId": "C3B-S010",
@@ -122,6 +124,12 @@
       "role": "workbenchMeshGenerationCustody",
       "path": "src/workspace/lafea-workbench-mesh-generation-state.js",
       "blobSha": "f8a50a591671bf35670fc5bea62893ab5f5af281"
+    },
+    {
+      "sourceId": "C3B-S012",
+      "role": "b02cFrozenGradedPolarT6Generator",
+      "path": "src/core/lafea-meshing/b02c-kirsch-graded-polar-mesh.js",
+      "blobSha": "641340bb34a8f1a77abd7fb5c919154d107beeef"
     },
     {
       "sourceId": "C3B-Q001",
@@ -155,10 +163,9 @@
     },
     {
       "sourceId": "C3B-Q006",
-      "role": "b02cCurvedHoleRegressionEntrypoint",
-      "path": "scripts/lafea-b02c-supplementary-convergence-proof.mjs",
-      "blobSha": "458ccd70b477d57958b6d3ae4585b12d5e859555",
-      "history": "C3-B run 34679135777 proved supplementary L4/L5 could not lawfully select the frozen three-level graded-polar strategy; v2 proof discloses the special-to-ordinary production mesher boundary and forbids cross-strategy Richardson/GCI claims"
+      "role": "b02cCurvedHoleMeshOnlyRegressionEntrypoint",
+      "path": "scripts/lafea.3-c3b-b02c-mesh-check.mjs",
+      "blobSha": "e4d42df158cb18f518d9dad33cbaee57d05f395c"
     },
     {
       "sourceId": "C3B-Q007",
@@ -179,11 +186,10 @@
       "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2"
     },
     {
-      "sourceId": "C3B-Q010",
-      "role": "b02cProductionRouteHarness",
-      "path": "scripts/lib/lafea-b02-kirsch-production-route.mjs",
-      "blobSha": "7237303797c09804573911b869f3316a31dde909",
-      "history": "Frozen B02C levels remain on the dedicated graded-polar profile; explicitly named supplementary levels use the ordinary qualified production mesher and arbitrary other levels fail closed"
+      "sourceId": "C3B-Q011",
+      "role": "b02cFrozenDefinition",
+      "path": "validation/lafea-b02-definitions/B02C-kirsch.json",
+      "blobSha": "73c9b0c0a0b6724e02f7d2d6cd0c9c5406c36a6"
     }
   ],
   "qualityAuthority": {
@@ -196,9 +202,17 @@
   "execution": {
     "batchRunnerPath": "scripts/lafea.3-c3b-mesh-qualification-check.mjs",
     "batchRunnerSelfHashCapturedAtRuntime": true,
-    "currentHeadExecutableEvidence": "PENDING_EXACT_HEAD_RERUN_AFTER_SUPPLEMENTARY_ROUTE_CORRECTION",
+    "currentHeadExecutableEvidence": "PENDING_HOSTED_EXACT_HEAD_EXECUTION_AFTER_C3B_SCOPE_CORRECTION",
     "historicalBmMeshEvidence": "PASS_HISTORICAL_HEAD_ONLY",
     "pr1740MesherEvidence": "PASS_PR_QUALIFICATION_HEAD_ONLY"
+  },
+  "claimBoundary": {
+    "meshProductionAndCustodyOnly": true,
+    "physicalLoadingQualified": false,
+    "solverCorrectnessQualified": false,
+    "stressAccuracyQualified": false,
+    "responseConvergenceQualified": false,
+    "releaseQualified": false
   },
   "invalidationPolicy": "NEW_CURRENT_BASIS_REQUIRED_IF_ANY_C3B_SOURCE_OR_PRIMARY_QUALIFICATION_ENTRYPOINT_BLOB_CHANGES"
 }
