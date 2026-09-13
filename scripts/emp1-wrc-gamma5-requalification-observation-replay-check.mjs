@@ -39,8 +39,8 @@ assertReplay(record.subordinateEvidence.qualificationBinding, bindingRun,
   'emp1-wrc537-gamma5-route-requalification-candidate-check/v1');
 const reconciliationRun = runScript('scripts/emp1-wrc-gamma5-authority-identity-reconciliation-check.mjs');
 assertReplay(record.subordinateEvidence.authorityIdentityReconciliation, reconciliationRun,
-  'emp1-wrc537-gamma5-authority-identity-reconciliation-check/v1',
-  'PASS_CURRENT_AUTHORITY_IDENTITIES_RECONCILED_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN');
+  'emp1-wrc537-gamma5-authority-identity-reconciliation-check/v2',
+  'PASS_CURRENT_AUTHORITY_IDENTITIES_RECONCILED_WITH_AUTHORITY_STALENESS_AND_ROLE_AWARE_HASH_GUARDS_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN');
 
 const receipt = {
   schema: 'emp1-wrc537-gamma5-current-authority-reobservation-replay/v1',
