@@ -390,8 +390,8 @@ function routeFoundationModel({ meanRadius, shellThickness }) {
     source.thicknessBasis.nominalPipeThickness.value = shellThickness;
     source.thicknessBasis.corrosionAllowance.value = 0;
     source.thicknessBasis.assessmentPipeThickness.value = shellThickness;
-    source.loadCases[0].force.value = [-400, -250, -1000];
-    source.loadCases[0].moment.value = [-750000, 1000000, -700000];
+    source.loadCases[0].force.value = [...oracle.physicalBenchmark.forceAtSourceGlobal];
+    source.loadCases[0].moment.value = [...oracle.physicalBenchmark.momentAtSourceGlobal];
     source.pressureDefinitions.forEach((row) => {
       row.internalPressure.value = 0;
       row.externalPressure.value = 0;
