@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0001",
+  "basisId": "C3C-SOURCE-BASIS-0002",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -12,6 +12,17 @@
   },
   "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
   "scope": "EXISTING_DOMAIN_FIRST_COMPILER_QUALIFICATION_AND_GAP_CUSTODY_ONLY",
+  "diagnosticProvenance": {
+    "priorBasisId": "C3C-SOURCE-BASIS-0001",
+    "failedRun": 34733697227,
+    "failedJob": 103661145113,
+    "blocker": "C3C-SEVEN-STATE-CURRENTNESS",
+    "classification": "INHERITED_QUALIFICATION_HARNESS_TDZ",
+    "repair": "Initialize immutable synthetic hash fixture H before first currentStage() invocation.",
+    "productionPhysicsChanged": false,
+    "compilerSemanticsChanged": false,
+    "assertionsChanged": false
+  },
   "sources": [
     {
       "sourceId": "C3C-S001",
@@ -107,7 +118,7 @@
       "sourceId": "C3C-Q005",
       "role": "sevenStateCurrentnessCheck",
       "path": "scripts/lafea-b02-currentness-check.mjs",
-      "blobSha": "e74c0c9d53d874afa3784ae4d90b83c5baf45d2d"
+      "blobSha": "b19ec43f5547c5680d2b9751776504abf5d1993f"
     },
     {
       "sourceId": "C3C-Q006",
