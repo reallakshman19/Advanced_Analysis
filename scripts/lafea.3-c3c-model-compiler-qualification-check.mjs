@@ -40,6 +40,7 @@ if (sourceCustody.some((row) => row.status !== 'PASS')) {
 const steps = [
   step('C3C-COMPILER-MAPPING-MODEL', process.execPath, ['scripts/lafea-continuum-solver-model-check.mjs'], 'C3C_1_C3C_5'),
   step('C3C-COMPILED-INPUT-LOWERING', process.execPath, ['scripts/lafea-continuum-compiled-input-check.mjs'], 'C3C_2_C3C_3'),
+  step('C3C-PROJECTION-RESULTANT-CUSTODY', process.execPath, ['scripts/lafea.3-c3c-projection-resultant-check.mjs'], 'C3C_1_C3C_2'),
   step('C3C-COMPILED-LOAD-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-load-parity-check.mjs'], 'C3C_2'),
   step('C3C-COMPILED-EXECUTION-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-execution-check.mjs'], 'C3C_5'),
   step('C3C-SEVEN-STATE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-currentness-check.mjs'], 'C3C_6'),
@@ -76,7 +77,9 @@ function emit(status, blocker, steps) {
       temperatureDeltaQualified: false,
       linearTractionQualified: false,
       sourceNormalPressureQualified: false,
-      projectionReceiptQualified: false,
+      projectionReceiptQualified: true,
+      constantStraightTractionForceMomentQualified: true,
+      bodyForceResultantQualified: false,
       releaseAuthorityGranted: false,
     },
   }, null, 2)}\n`);
