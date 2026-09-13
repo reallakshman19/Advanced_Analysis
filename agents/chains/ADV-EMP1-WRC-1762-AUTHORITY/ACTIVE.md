@@ -1,11 +1,11 @@
 # ACTIVE — ADV-EMP1-WRC-1762-AUTHORITY
 
 CHAIN_ID: ADV-EMP1-WRC-1762-AUTHORITY
-CHAIN_STATE_VERSION: 3
+CHAIN_STATE_VERSION: 4
 WORK_ITEM_SOURCE: GITHUB_ISSUE
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1762
 WORK_ITEM_MODE: EXCLUSIVE
-ACTIVE_ENDPOINT: EP-0001
+ACTIVE_ENDPOINT: EP-0002
 ACTIVE_ISSUE_BASIS: IB-0001
 AGENT_INSTANCE_ID: chatgpt-gpt56sol:7e6df0e7-4de8-42fc-950b-472b450b85bb
 
@@ -26,17 +26,14 @@ Reconcile the bounded EMP.1 WRC 537 gamma=5 source/oracle/qualification/current-
 - Draft PR: #1785
 - parent architecture: #1760
 - work issue: #1762
-- mergeability at EP-0001: MERGEABLE
-- reviews: 0
-- unresolved review threads: 0
-- commit status checks reported: none
+- active endpoint: EP-0002
 - merge authority: OWNER_ONLY
 - merge authorized: FALSE
 
 Issue control plane:
 - CHAIN_ROOT comment `5644282891`
 - ACTIVE_HANDOVER comment `5644283529` — mutable current-head/state pointer
-- EP-0001 checkpoint comment `5644284079`
+- EP-0001 checkpoint comment `5644284079` — immutable diagnostic history
 
 ## Protected bounded method
 
@@ -57,46 +54,44 @@ Code compliance = false
 Professional release = false
 ```
 
-## Active diagnosis
+## Active disposition
 
-`60771128... -> 0aec3815...` is not a hash-only change. Commit `b197a0c...` rewrote exact floating-point values in the frozen oracle at ULP scale, then changed its semantic hash. Commit `868467ea...` changed only the qualification benchmark hash and resulting qualification identity `9ea591a... -> db477df...`. These changes entered `main` through unrelated PR #1755.
-
-The production route, bounded registry, owner-override authorization, frozen release profile/manifest/readiness and source-custody reconciliation surfaces continue to bind the owner-authorized `9ea591a... / 60771128...` chain.
-
-Current classification:
+The EP-0001 A3 hard stop has been resolved on the Draft PR by restoring the exact already-authorized frozen chain rather than promoting runtime recomputation:
 
 ```text
-A3_NUMERICAL_PAYLOAD_DRIFT = TRUE
-AUTHORITY_SPLIT_BRAIN = TRUE
-SOURCE_DRIFT = FALSE
-DATASET_DRIFT = FALSE
-TOLERANCE_DRIFT = FALSE
-ROUTE_MECHANICS_DRIFT_OBSERVED = FALSE
+SOURCE_SHA256  = 698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2
+DATASET_HASH   = fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c
+QUALIFICATION  = 9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7
+ORACLE         = 60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18
+AUTHORIZATION  = 4a7bec7c84dd03ec547ae2ee7157efc91edef70f9662901d40d616e8cb8d0566
+SPLIT_BRAIN    = FALSE_ON_PR_HEAD
 ```
 
-## Write boundary for EP-0001
+Superseded environment-dependent identities remain immutable provenance only and are rejected from active authority surfaces by the role-aware stale-hash guard.
 
-Allowed:
-- canonical chain / Issue Basis / endpoint / qualification custody;
-- diagnostic reconciliation artifact;
-- read-only diagnostic checker;
-- issue/PR control-plane comments.
+## Qualification/control status
 
-Not allowed:
-- route/registry authorization mutation;
-- oracle expected-value mutation;
-- qualification hash mutation;
-- source/dataset/tolerance changes;
-- code/release/global authority changes;
-- `.github/workflows/**` changes.
+EP-0002 delivers and has observed real GitHub Actions success for:
+- authority/oracle/qualification reconciliation;
+- six-load and 32-stress current-head re-observation under the frozen tolerance;
+- independent oracle decoupling/refreeze/falsifiers;
+- retained-C authority-only staleness falsifiers;
+- repository-wide role-aware superseded-hash detection;
+- exact-head replay and anti-forgery evidence;
+- deterministic current-authority documentation.
 
-## Qualification
+The latest immutable executed endpoint is recorded in `endpoints/EP-0002.md`. Current PR checks and the mutable ACTIVE_HANDOVER comment are the authoritative pointer for the exact latest branch-head run after control-plane-only commits.
 
-QUALIFICATION_SCOPE_ID: QSCOPE-1762-WRC-AUTHORITY-ORACLE-CUSTODY
-QUESTION_SET_ID: QSET-1762-0001
-QUESTION_SET_STATUS: CURRENT
-TAKEOVER_QUALIFICATION_READY: TRUE
+Historical standard qualification remains:
+
+```text
+01-10 = NOT_GENERATED
+numerical qualification = NOT_RUN_NOT_CLAIMED
+11-12 = NOT_GENERATED
+```
+
+No engineering PASS for that historical standard qualification is claimed. #1768 owns that execution debt.
 
 ## Exact next action
 
-The next material endpoint must make an explicit, reviewable A3 disposition before touching authority-bearing bytes. Preferred safe review direction is restoration/preservation of the owner-authorized frozen identities plus a separate tolerance-based runtime reobservation path, unless a new deterministic refreeze policy is separately authorized and qualified.
+Owner review of Draft PR #1785. Do not merge without owner authorization. Once merged, #1762 can be closed as the authority/custody reconciliation layer and architecture execution can continue through #1765/#1768 without reopening the superseded identity chain.
