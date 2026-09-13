@@ -4,14 +4,21 @@ on:
   pull_request:
     paths:
       - 'scripts/lafea4-a2-load-transfer-check.mjs'
+      - 'scripts/lafea4-a2-frame-covariance-check.mjs'
       - 'scripts/lafea4-independent-pressure-resultant-authorization-check.mjs'
+      - 'scripts/lafea4-shell-independent-benchmark-check.mjs'
       - 'scripts/lafea.4-pressure-check.mjs'
+      - 'scripts/lafea.4-stress-energy-check.mjs'
+      - 'scripts/lafea.4-shell-transformation-generalization-check.mjs'
       - 'scripts/lafea.4-mitc-adoption-pressure-check.mjs'
+      - 'scripts/lafea.4-mitc-adoption-recovery-check.mjs'
+      - 'scripts/lafea-tech12c-solver-execution-companion-binding-check.mjs'
       - 'scripts/lafea-shell-compiled-execution-check.mjs'
       - 'src/core/local-shell/**'
       - 'src/workspace/lafea-shell-solver-model.js'
       - 'src/workspace/lafea-shell-midsurface-*.js'
       - 'src/workspace/lafea-shell-mesh-*.js'
+      - 'src/workspace/lafea4-shell-solver-companion-custody.js'
       - '.github/workflows/lafea4-a2-load-bc-frame-validation.yml'
 
 permissions:
@@ -45,14 +52,32 @@ jobs:
       - name: A2 TRI3 hand oracle and remesh load/BC transfer
         run: node scripts/lafea4-a2-load-transfer-check.mjs
 
+      - name: A2 local/global frame covariance and pressure-normal transport
+        run: node scripts/lafea4-a2-frame-covariance-check.mjs
+
       - name: Independent curved pressure resultant and first moment
         run: node scripts/lafea4-independent-pressure-resultant-authorization-check.mjs
+
+      - name: Frozen independent shell local-frame benchmarks
+        run: node scripts/lafea4-shell-independent-benchmark-check.mjs
 
       - name: CST/DKT pressure sense and first-moment regression
         run: node scripts/lafea.4-pressure-check.mjs
 
+      - name: Stress invariants and energy covariance
+        run: node scripts/lafea.4-stress-energy-check.mjs
+
+      - name: Five-DOF basis transformation rigid reproduction
+        run: node scripts/lafea.4-shell-transformation-generalization-check.mjs
+
       - name: MITC3 and distorted MITC4 independent pressure integration
         run: node scripts/lafea.4-mitc-adoption-pressure-check.mjs
+
+      - name: MITC physical rotation to beta-slope recovery falsifier
+        run: node scripts/lafea.4-mitc-adoption-recovery-check.mjs
+
+      - name: Parent-normal companion and adversarial reversed-mesh custody
+        run: node scripts/lafea-tech12c-solver-execution-companion-binding-check.mjs
 
       - name: Compiler supported/unsupported transfer boundary
         run: node scripts/lafea-shell-compiled-execution-check.mjs
