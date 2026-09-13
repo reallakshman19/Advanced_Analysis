@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0005",
+  "basisId": "C3C-SOURCE-BASIS-0006",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,7 +11,7 @@
     "disposition": "CANDIDATE_QUALIFIED_NOT_MAIN_CURRENT"
   },
   "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
-  "scope": "G001_G002_PROJECTION_AND_CONSTANT_STRAIGHT_TRACTION_RESULTANT_CUSTODY_QUALIFIED_BOUNDED",
+  "scope": "G001_G002_QUALIFIED_G003_LINEAR_SOURCE_SEGMENT_TRACTION_CANDIDATE",
   "diagnosticProvenance": {
     "baselineBasisId": "C3C-SOURCE-BASIS-0002",
     "baselinePassRun": 34763598330,
@@ -31,9 +31,18 @@
     "qualifiedCandidateJob": 103806144993,
     "qualifiedCandidateHead": "b19f707393f949b90fdaeba641020430e4dce279",
     "qualifiedCandidateDisposition": "ALL_10_GATES_PASS",
-    "productionPhysicsChangedByG001G002": false,
-    "kernelLoadIntegrationChangedByG001G002": false,
-    "compilerCustodyChangedByG001G002": true
+    "qualifiedBasisId": "C3C-SOURCE-BASIS-0005",
+    "qualifiedRun": 34787791827,
+    "qualifiedJob": 103806333498,
+    "qualifiedHead": "d413776836cef981a9d2ca97e202d2072ceca43f",
+    "qualifiedDisposition": "G001_AND_BOUNDED_G002_EXACT_HEAD_PASS",
+    "g003FocusedDiagnosticRun": 34788208570,
+    "g003FocusedDiagnosticJob": 103807469827,
+    "g003FocusedDiagnosticHead": "59ffade1c3659e573e00c276c2b95777ac45cae7",
+    "g003FocusedDiagnosticDisposition": "T6_Q8_LINEAR_TRACTION_CHECK_PASS_NOT_YET_AGGREGATE_QUALIFIED",
+    "productionPhysicsChangedByG001G002G003": false,
+    "kernelLoadIntegrationChangedByG001G002G003": false,
+    "compilerCustodyChangedByG001G002G003": true
   },
   "sources": [
     {
@@ -56,15 +65,15 @@
     },
     {
       "sourceId": "C3C-S004",
-      "role": "compiledLoadAndBcLowering",
+      "role": "compiledLoadAndBcLoweringWithSourceLinearTraction",
       "path": "src/workspace/lafea-continuum-compiled-input.js",
-      "blobSha": "656e012654df11b465ed65f23ac63abe2d353a71"
+      "blobSha": "bfdec23bc86ee9f824a2271ff77c7fd82e4972c5"
     },
     {
       "sourceId": "C3C-S005",
-      "role": "analyticalTractionLowering",
+      "role": "analyticalAndSourceLinearTractionLowering",
       "path": "src/workspace/lafea-analytical-traction-lowering.js",
-      "blobSha": "461ab7a2ede5459f6f8976caf289324b053ecc6e"
+      "blobSha": "77a849107c8a13008b902903330dea6bc90a8e78"
     },
     {
       "sourceId": "C3C-S006",
@@ -110,9 +119,9 @@
     },
     {
       "sourceId": "C3C-S013",
-      "role": "sourceVsCompiledForceMomentEvidence",
+      "role": "sourceVsCompiledForceMomentEvidenceForConstantAndLinearTraction",
       "path": "src/workspace/lafea-continuum-load-resultant-evidence.js",
-      "blobSha": "4004a016914dd94d81ecd324919531f558820350"
+      "blobSha": "60b5ea297be530dec414f7fbfdda8f18ba864708"
     },
     {
       "sourceId": "C3C-S014",
@@ -188,9 +197,15 @@
     },
     {
       "sourceId": "C3C-Q009",
-      "role": "projectionAndResultantQualificationCheck",
+      "role": "projectionAndConstantResultantQualificationCheck",
       "path": "scripts/lafea.3-c3c-projection-resultant-check.mjs",
       "blobSha": "8c361551d23c06a475ea283fe54e63dd3d128163"
+    },
+    {
+      "sourceId": "C3C-Q010",
+      "role": "sourceLinearT6Q8TractionQualificationCheck",
+      "path": "scripts/lafea.3-c3c-linear-traction-check.mjs",
+      "blobSha": "69500ea1aad432d7e08710cb2e4071bb31abb7a7"
     }
   ],
   "confirmedOpenSemantics": [
@@ -202,17 +217,17 @@
     {
       "gapId": "C3C-G002",
       "state": "PARTIAL_QUALIFIED_BOUNDED",
-      "description": "Source-vs-compiled Fx/Fy/Mz conservation is qualified for constant traction on straight source segments, including a moment-only negative control. Linear traction, pressure/source-normal, curved-traction and body-force resultant certification remain open."
+      "description": "Source-vs-compiled Fx/Fy/Mz conservation is qualified for constant traction on straight source segments, including a moment-only negative control. Linear traction is implemented in the G003 candidate but is not promoted by this source basis until the aggregate exact-head campaign passes; pressure/source-normal, curved-traction and body-force resultant certification remain open."
     },
     {
       "gapId": "C3C-G003",
-      "state": "OPEN",
-      "description": "Ordinary TRACTION attachment semantics are constant-vector only; source-feature linear variation is not qualified."
+      "state": "IMPLEMENTED_PENDING_EXACT_HEAD_QUALIFICATION",
+      "description": "Candidate adds source-coordinate LINEAR_SOURCE_SEGMENT_TRACTION_V1 lowering through equivalent nodal forces for straight source segments, with independent exact T6/Q8 nodal and Fx/Fy/Mz checks plus split-edge invariance. Full aggregate exact-head qualification is pending."
     },
     {
       "gapId": "C3C-G004",
       "state": "OPEN",
-      "description": "Pressure kernel evaluates local normals from retained edge traversal; source-geometry normal and loop-role correspondence are retained by the new projection receipt but are not yet authoritative pressure-normal evidence."
+      "description": "Pressure kernel evaluates local normals from retained edge traversal; source-geometry normal and loop-role correspondence are retained by the projection receipt but are not yet authoritative pressure-normal evidence."
     },
     {
       "gapId": "C3C-G005",
@@ -228,13 +243,12 @@
   "claimBoundary": {
     "newPhysicsImplemented": false,
     "kernelLoadIntegrationChanged": false,
-    "projectionReceiptImplementedCandidate": true,
     "projectionReceiptQualified": true,
-    "constantStraightTractionForceMomentEvidenceImplementedCandidate": true,
     "constantStraightTractionForceMomentQualified": true,
+    "linearTractionImplementedCandidate": true,
+    "linearTractionQualified": false,
     "bodyForceResultantQualified": false,
     "temperatureDeltaQualified": false,
-    "linearTractionQualified": false,
     "sourceNormalPressureQualified": false,
     "releaseQualified": false
   },
