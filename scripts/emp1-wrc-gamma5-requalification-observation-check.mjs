@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -134,6 +134,8 @@ assert.equal(registry.engineeringUseAuthorized, true);
 assert.equal(registry.globalEmp1CRouteAuthority, false);
 assert.equal(registry.releaseQualified, false);
 
+const documentation = verifyGeneratedCurrentAuthorityDocumentation();
+
 console.log(JSON.stringify({
   schema: 'emp1-wrc537-gamma5-current-authority-reobservation-check/v1',
   status: 'PASS_CURRENT_AUTHORITY_REOBSERVATION_FULL_MATRIX_INTEGRITY',
@@ -141,6 +143,7 @@ console.log(JSON.stringify({
   observationSemanticHash,
   qualificationRecordSha256: record.qualificationRecordSha256,
   oracleSemanticHash: record.oracleSemanticHash,
+  currentAuthorityDocumentationSha256: documentation.sha256,
   physicalWrcLoadsPassed: 6,
   stressComparisonsPassed: 32,
   maxToleranceRatio: record.maxToleranceRatio,
@@ -149,6 +152,25 @@ console.log(JSON.stringify({
   standardHistoricalQualification: 'NOT_RUN_NOT_CLAIMED',
 }, null, 2));
 
+function verifyGeneratedCurrentAuthorityDocumentation() {
+  const completed = spawnSync(process.execPath,
+    ['scripts/emp1-wrc-gamma5-current-authority-documentation.mjs'],
+    { cwd: root, encoding: 'utf8' });
+  assert.equal(completed.status, 0,
+    `EMP1_CURRENT_AUTHORITY_DOCUMENTATION_CHECK_FAILED\nSTDOUT:\n${completed.stdout ?? ''}\nSTDERR:\n${completed.stderr ?? ''}`);
+  const value = JSON.parse(completed.stdout ?? '{}');
+  assert.equal(value.schema, 'emp1-wrc537-gamma5-current-authority-documentation/v1');
+  assert.equal(value.status,
+    'PASS_GENERATED_CURRENT_AUTHORITY_DOCUMENTATION_MATCHES_REPOSITORY_AUTHORITY');
+  assert.equal(value.qualificationRecordSha256,
+    '9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7');
+  assert.equal(value.oracleSemanticHash,
+    '60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18');
+  assert.equal(value.globalEmp1CRouteAuthority, false);
+  assert.equal(value.codeComplianceAuthorized, false);
+  assert.equal(value.releaseQualified, false);
+  return value;
+}
 function assertSubordinate(value, script, expectedStatus = null) {
   assert.ok(value && typeof value === 'object');
   assert.equal(value.script, script);
