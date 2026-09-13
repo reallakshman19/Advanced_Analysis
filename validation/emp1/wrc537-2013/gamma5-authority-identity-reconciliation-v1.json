@@ -181,11 +181,27 @@
     "codeComplianceAuthorized": false,
     "releaseQualified": false
   },
+  "acceptanceGuards": {
+    "authorityMutationStaleness": "IMPLEMENTED_AND_EXACT_HEAD_ACTIONS_OBSERVED",
+    "roleAwareStaleHashSearch": "IMPLEMENTED_AND_EXACT_HEAD_ACTIONS_OBSERVED",
+    "generatedCurrentStateDocumentation": "IMPLEMENTED_AND_EXACT_HEAD_ACTIONS_OBSERVED",
+    "exactHeadControlEvidence": {
+      "observedHeadSha": "1b34bce32017aa049d0c90dbe2342c116652f021",
+      "gamma5WorkflowRun": 34787828778,
+      "gamma5WorkflowConclusion": "SUCCESS",
+      "runEmp1WorkflowRun": 34787828827,
+      "runEmp1WorkflowConclusion": "SUCCESS",
+      "baselineWorkflowRun": 34787828792,
+      "baselineWorkflowConclusion": "SUCCESS",
+      "independentOracleWorkflowRun": 34787828815,
+      "independentOracleWorkflowConclusion": "SUCCESS",
+      "uiRemediationWorkflowRun": 34787828795,
+      "uiRemediationWorkflowConclusion": "SKIPPED_SCOPE_APPROPRIATE",
+      "engineeringPassClaimed": false,
+      "standardNumericalQualification": "NOT_RUN_NOT_CLAIMED"
+    }
+  },
   "remainingWork": [
-    "EXECUTE_EXACT_HEAD_RECONCILIATION_CHECKS",
-    "ADD_RETAINED_C_AUTHORITY_MUTATION_STALENESS_FALSIFIER",
-    "ADD_REPOSITORY_WIDE_ROLE_AWARE_STALE_HASH_SEARCH",
-    "REGENERATE_CURRENT_STATE_DOCUMENTATION_FROM_CURRENT_AUTHORITY",
     "PRESERVE_01_TO_12_STANDARD_EVIDENCE_AS_NOT_RUN_UNTIL_1768_EXECUTION"
   ]
 }
