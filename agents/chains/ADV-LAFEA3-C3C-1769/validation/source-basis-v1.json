@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0003",
+  "basisId": "C3C-SOURCE-BASIS-0004",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -20,6 +20,12 @@
     "priorHarnessFailureRun": 34733697227,
     "priorHarnessFailureJob": 103661145113,
     "priorHarnessRepair": "Initialize immutable synthetic hash fixture H before first currentStage() invocation.",
+    "candidateBasisId": "C3C-SOURCE-BASIS-0003",
+    "candidateFailureRun": 34764520545,
+    "candidateFailureJob": 103743006742,
+    "candidateFailureBlocker": "C3C-COMPILER-MAPPING-MODEL",
+    "candidateFailureCode": "LAFEA_CONTINUUM_PROJECTION_MESH_PROFILE_HASH_INVALID",
+    "candidateRepair": "Validate meshProfileHash using the canonical profile semantic-hash format fnv1a64:<16 hex> instead of the unrelated sha256 artifact-hash format.",
     "productionPhysicsChangedByG001G002": false,
     "kernelLoadIntegrationChangedByG001G002": false,
     "compilerCustodyChangedByG001G002": true
@@ -95,7 +101,7 @@
       "sourceId": "C3C-S012",
       "role": "hashAddressedFeatureProjectionEvidence",
       "path": "src/workspace/lafea-continuum-projection-evidence.js",
-      "blobSha": "8b297e2f40d7e002f0a24333381217166b75ff0a"
+      "blobSha": "44b1611f2e54753290c23e2013ee20d3822d3edb"
     },
     {
       "sourceId": "C3C-S013",
