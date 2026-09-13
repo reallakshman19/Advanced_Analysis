@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0002",
+  "basisId": "C3C-SOURCE-BASIS-0003",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,17 +11,18 @@
     "disposition": "CANDIDATE_QUALIFIED_NOT_MAIN_CURRENT"
   },
   "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
-  "scope": "EXISTING_DOMAIN_FIRST_COMPILER_QUALIFICATION_AND_GAP_CUSTODY_ONLY",
+  "scope": "G001_G002_PROJECTION_AND_CONSTANT_STRAIGHT_TRACTION_RESULTANT_CUSTODY_CANDIDATE",
   "diagnosticProvenance": {
-    "priorBasisId": "C3C-SOURCE-BASIS-0001",
-    "failedRun": 34733697227,
-    "failedJob": 103661145113,
-    "blocker": "C3C-SEVEN-STATE-CURRENTNESS",
-    "classification": "INHERITED_QUALIFICATION_HARNESS_TDZ",
-    "repair": "Initialize immutable synthetic hash fixture H before first currentStage() invocation.",
-    "productionPhysicsChanged": false,
-    "compilerSemanticsChanged": false,
-    "assertionsChanged": false
+    "baselineBasisId": "C3C-SOURCE-BASIS-0002",
+    "baselinePassRun": 34763598330,
+    "baselinePassJob": 103740555929,
+    "baselineHead": "2638e06a305b1ba8ca07781c65ecff273033334e",
+    "priorHarnessFailureRun": 34733697227,
+    "priorHarnessFailureJob": 103661145113,
+    "priorHarnessRepair": "Initialize immutable synthetic hash fixture H before first currentStage() invocation.",
+    "productionPhysicsChangedByG001G002": false,
+    "kernelLoadIntegrationChangedByG001G002": false,
+    "compilerCustodyChangedByG001G002": true
   },
   "sources": [
     {
@@ -38,9 +39,9 @@
     },
     {
       "sourceId": "C3C-S003",
-      "role": "canonicalSolverModelCompiler",
+      "role": "canonicalSolverModelCompilerWithProjectionParent",
       "path": "src/workspace/lafea-continuum-solver-model.js",
-      "blobSha": "984436664605fdce91d76017137a5040f6ee7ea0"
+      "blobSha": "c3df559f07722bcecd0d7cafa795072a7e3f2468"
     },
     {
       "sourceId": "C3C-S004",
@@ -91,6 +92,42 @@
       "blobSha": "f1991fc17f0e799933917601b78c7a89af196df1"
     },
     {
+      "sourceId": "C3C-S012",
+      "role": "hashAddressedFeatureProjectionEvidence",
+      "path": "src/workspace/lafea-continuum-projection-evidence.js",
+      "blobSha": "8b297e2f40d7e002f0a24333381217166b75ff0a"
+    },
+    {
+      "sourceId": "C3C-S013",
+      "role": "sourceVsCompiledForceMomentEvidence",
+      "path": "src/workspace/lafea-continuum-load-resultant-evidence.js",
+      "blobSha": "4004a016914dd94d81ecd324919531f558820350"
+    },
+    {
+      "sourceId": "C3C-S014",
+      "role": "compiledExecutionCustodyCarrier",
+      "path": "src/workspace/lafea-continuum-compiled-execution.js",
+      "blobSha": "15ea7ec8764844c5f0e77eacd3062a577b8d2232"
+    },
+    {
+      "sourceId": "C3C-S015",
+      "role": "authoritativeWorkbenchExecutionCustodyCarrier",
+      "path": "src/workspace/lafea-continuum-authoritative-workbench-run.js",
+      "blobSha": "a469259db7887aceaaf8783b7e7700046c4cddd8"
+    },
+    {
+      "sourceId": "C3C-S016",
+      "role": "lifecycleExecutionCustodyValidation",
+      "path": "src/workspace/lafea-continuum-domain-first-lifecycle-producers.js",
+      "blobSha": "8e742dc3fa0963dba77f4eb37e2c14201fb13cea"
+    },
+    {
+      "sourceId": "C3C-S017",
+      "role": "ordinaryWorkbenchCompilerRoute",
+      "path": "src/workspace/lafea-continuum-workbench-route.js",
+      "blobSha": "2adf4bfcd4a78a71ecb5b79ad0f4269190335455"
+    },
+    {
       "sourceId": "C3C-Q001",
       "role": "solverModelCompilerCheck",
       "path": "scripts/lafea-continuum-solver-model-check.mjs",
@@ -137,18 +174,24 @@
       "role": "importGovernanceEntrypoint",
       "path": "scripts/import-check.mjs",
       "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2"
+    },
+    {
+      "sourceId": "C3C-Q009",
+      "role": "projectionAndResultantQualificationCheck",
+      "path": "scripts/lafea.3-c3c-projection-resultant-check.mjs",
+      "blobSha": "8c361551d23c06a475ea283fe54e63dd3d128163"
     }
   ],
   "confirmedOpenSemantics": [
     {
       "gapId": "C3C-G001",
-      "state": "OPEN",
-      "description": "No standalone hash-addressed feature-projection receipt is a solver-model parent."
+      "state": "IMPLEMENTED_PENDING_EXACT_HEAD_QUALIFICATION",
+      "description": "Candidate now retains a hash-addressed source-feature to mesh-entity to compiled-contribution projection receipt as a solver-model parent. Exact-head qualification is still required; source-normal/hole-orientation authority remains under G004."
     },
     {
       "gapId": "C3C-G002",
-      "state": "OPEN",
-      "description": "Compiler does not retain source-vs-compiled force and moment resultant evidence for ordinary distributed loads."
+      "state": "PARTIAL_IMPLEMENTED_PENDING_EXACT_HEAD_QUALIFICATION",
+      "description": "Candidate retains source-vs-compiled force and moment evidence for constant traction on straight source segments. Linear traction, pressure/source-normal, curved-traction and body-force resultant certification remain outside this increment."
     },
     {
       "gapId": "C3C-G003",
@@ -158,7 +201,7 @@
     {
       "gapId": "C3C-G004",
       "state": "OPEN",
-      "description": "Pressure kernel evaluates local normals from retained edge traversal, but source-geometry normal/loop-role correspondence is not retained as compiler evidence."
+      "description": "Pressure kernel evaluates local normals from retained edge traversal; source-geometry normal and loop-role correspondence are retained by the new projection receipt but are not yet authoritative pressure-normal evidence."
     },
     {
       "gapId": "C3C-G005",
@@ -172,13 +215,17 @@
     }
   ],
   "claimBoundary": {
-    "existingCompilerQualificationOnly": true,
     "newPhysicsImplemented": false,
+    "kernelLoadIntegrationChanged": false,
+    "projectionReceiptImplementedCandidate": true,
+    "projectionReceiptQualified": false,
+    "constantStraightTractionForceMomentEvidenceImplementedCandidate": true,
+    "constantStraightTractionForceMomentQualified": false,
+    "bodyForceResultantQualified": false,
     "temperatureDeltaQualified": false,
     "linearTractionQualified": false,
     "sourceNormalPressureQualified": false,
-    "projectionReceiptQualified": false,
     "releaseQualified": false
   },
-  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_OR_PROBE_SOURCE_CHANGES"
+  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_OR_PROBE_SOURCE_CHANGES"
 }
