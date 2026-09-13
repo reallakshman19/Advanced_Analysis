@@ -87,9 +87,9 @@ assert.equal(qualificationBinding.ownerAuthorizedProductionRouteActive, true);
 
 const reconciliationRun = runScript('scripts/emp1-wrc-gamma5-authority-identity-reconciliation-check.mjs');
 const reconciliationCheck = requireRecord(reconciliationRun.records,
-  'emp1-wrc537-gamma5-authority-identity-reconciliation-check/v1');
+  'emp1-wrc537-gamma5-authority-identity-reconciliation-check/v2');
 assert.equal(reconciliationCheck.status,
-  'PASS_CURRENT_AUTHORITY_IDENTITIES_RECONCILED_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN');
+  'PASS_CURRENT_AUTHORITY_IDENTITIES_RECONCILED_WITH_AUTHORITY_STALENESS_AND_ROLE_AWARE_HASH_GUARDS_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN');
 assert.equal(reconciliationCheck.engineeringPassClaimed, false);
 
 const oracle = oracleRecord.semanticPayload;
