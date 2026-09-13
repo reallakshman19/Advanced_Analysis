@@ -20,7 +20,7 @@ export function createLafeaContinuumProjectionEvidence(options) {
     analysisGeometryHash: sha256(options?.analysisGeometryHash, 'ANALYSIS_GEOMETRY_HASH'),
     meshArtifactHash: sha256(options?.meshArtifactHash, 'MESH_ARTIFACT_HASH'),
     meshHash: sha256(options?.meshHash, 'MESH_HASH'),
-    meshProfileHash: sha256(options?.meshProfileHash, 'MESH_PROFILE_HASH'),
+    meshProfileHash: profileSemanticHash(options?.meshProfileHash, 'MESH_PROFILE_HASH'),
   });
   const entries = domain.attachments.map((attachment) => {
     const target = targetMap.get(attachment.attachmentId);
@@ -156,6 +156,12 @@ function requireObject(value, code) {
 function requireArray(value, code) { if (!Array.isArray(value)) fail(code); return value; }
 function sha256(value, field) {
   if (typeof value !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(value)) {
+    fail(`LAFEA_CONTINUUM_PROJECTION_${field}_INVALID`);
+  }
+  return value;
+}
+function profileSemanticHash(value, field) {
+  if (typeof value !== 'string' || !/^fnv1a64:[0-9a-f]{16}$/u.test(value)) {
     fail(`LAFEA_CONTINUUM_PROJECTION_${field}_INVALID`);
   }
   return value;
