@@ -1,25 +1,25 @@
 CHAIN_STATE_VERSION: 3
 CHAIN_ID: ADV-LAFEA4-A4-1763
 MISSION: Independently qualify the current MITC3/MITC4 production-dispatched Reissner-Mindlin shell routes, including shear kinematics, objectivity, pressure/recovery, distortion and thin-to-moderate-thickness applicability, without using CST/DKT as the sole oracle and without granting release authority.
-ACTIVE_ENDPOINT: EP-0002
-ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0002.md
+ACTIVE_ENDPOINT: EP-0003
+ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0003.md
 MATERIAL_HISTORY_ROOT_BASE: bd25d9edb55786a7358ae3abccd016bb96cf176e
 MATERIAL_LEG_PREWORK_ENDPOINT_FILE: agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0001.md
 PR: #1792
 BRANCH: engineering/lafea4-a4-1763-mitc-qualification
-ENGINEERING_EVIDENCE_HEAD: c894c48d7f6db765658b950fc629aa482e32d612
-STATE: IN_PROGRESS_A4_LEG002_AUTHORIZED
+ENGINEERING_EVIDENCE_HEAD: 85a09e0bf52677729a9b7b601dc4c682c22a7089
+STATE: IN_PROGRESS_A4_LEG002_PASS_EXPLICIT_BLOCKERS
 ENGINEERING_STATE: IN_PROGRESS
 CUSTODY_STATE: HELD
 QUALIFICATION_STATE: NOT_REQUIRED
-WRITE_AUTHORITY: WRITE_ALLOWED
+WRITE_AUTHORITY: READ_ONLY
 AUTO_STATE: NOT_APPLICABLE
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
-MERGEABILITY: MERGEABLE_AT_CURRENT_RECONCILIATION
+MERGEABILITY: MERGEABLE_AT_PRE_LEG002_RECONCILIATION
 REVIEWS: 0
 UNRESOLVED_REVIEW_THREADS: 0_NO_PR_DISCUSSION_OBSERVED
-REQUIRED_CHECKS: LEG002_EXACT_HEAD_NOT_RUN; FULL_A4_MATRIX_PENDING
+REQUIRED_CHECKS: LEG001_PASS; LEG002_PASS; B6_AUTHORITY_BLOCKER; B8_NAMED_MITC_V2_EXECUTION_PENDING; B9_THREE_COLUMN_PENDING
 AUTHORITY_DOMAIN: A4 MITC3/MITC4 linear-elastic small-displacement Reissner-Mindlin mechanics, transverse-shear treatment, pressure/recovery, distortion and applicability qualification only; no drilling, follower-load/geometric-nonlinear, plastic, contact, weld, code or release authority
 ACTIVE_CUSTODIAN: chatgpt
 AGENT_INSTANCE_ID: chatgpt:6fd8ae21-8da3-4c82-bf34-4f42821ef763
@@ -63,23 +63,24 @@ ROADMAPS: docs/conceptcumroadmapLAFEA.md@088f4cebfd954e5d1e37da855c95142712463a3
 ROADMAP_REVIEW_STATUS: COMPLETE_INHERITED_NO_OWNER_INTENT_DRIFT
 POST_BASIS_DRIFT: MATERIAL_WITHIN_QUALIFIED_BOUNDARY
 QUALIFICATION_COVERAGE: CURRENT_A4_SCOPE
-CURRENT_STATE_AUTHORITY: CLEAR_FOR_ONE_BOUNDED_A4_LEG002_QUALIFICATION_CLUSTER
-WRITE_AUTHORITY_DECISION: WRITE_ALLOWED_TEST_EVIDENCE_ONLY
+CURRENT_STATE_AUTHORITY: LEG002_PASS_WITH_B6_B8_B9_OPEN
+WRITE_AUTHORITY_DECISION: READ_ONLY_AWAIT_OWNER_PROGRESSION
 ISSUE_BASIS_ID: IB-0001
 ISSUE_BASIS_FILE: agents/chains/ADV-LAFEA4-A4-1763/issue-basis/IB-0001.md
 ISSUE_BASIS_STATUS: CURRENT
 ISSUE_CURRENT_STATE_FILE: agents/chains/ADV-LAFEA4-A4-1763/issue-state/CURRENT.md
 ISSUE_CURRENT_STATE_BASIS: IB-0001
-ISSUE_CURRENT_STATE_ENDPOINT: EP-0002
+ISSUE_CURRENT_STATE_ENDPOINT: EP-0003
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5653984900
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5653983722
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5654040206
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5656731090
 ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC_AFTER_ACTIVE_UPDATE
-MATERIAL_LEG_ID: LEG-002_PREWORK
-MATERIAL_LEG_RECEIPT: PENDING
-VALIDATION_RECEIPT: PENDING
+MATERIAL_LEG_ID: LEG-002
+MATERIAL_LEG_RECEIPT: agents/chains/ADV-LAFEA4-A4-1763/material-legs/LEG-002.md
+VALIDATION_RECEIPT: agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0002.md
 LIVE_MAIN: 41df6e945789273fc327aaeca6686529a9ad8b39
 LIVE_MAIN_TREE: 2ebc03a01b3b7485e1b38a7fa41367f92bb92085
 STACK_BASE: bd25d9edb55786a7358ae3abccd016bb96cf176e
 STACK_BASE_PR: #1791
-EXACT_NEXT_ACTION: Author and execute one bounded qualification-only LEG-002 covering full nontrivial MITC3/MITC4 affine membrane covariance, controlled prescribed bending/recovery, explicit MITC3 t/L=0.2 and complete B5 table, near-singular/distorted Q4 envelope, and pressure first-moment negative/deformable recovery; classify B8 production-route quantities only where oracle independence is provable. Do not patch protected mechanics unless an independent failure isolates the first wrong boundary.
+ADMINISTRATIVE_INCIDENT: issue #1794 was accidentally created during connector operation, immediately retitled accidental/no-engineering-work and closed not_planned; it carries no A4 authority, evidence or custody.
+EXACT_NEXT_ACTION: Keep B6 BLOCKED pending an Owner-authorized geometry-quality/applicability decision rather than inventing a normalized-Jacobian threshold. On the next Owner progression, implement the named B8 CYL/PRESS/COMB cases through current MITC-v2 production dispatch using the already independent analytical oracles where applicable, and close B9 with independent-oracle | CST/DKT | MITC evidence; no production mechanics patch is authorized by LEG-002.
