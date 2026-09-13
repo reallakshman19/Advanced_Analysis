@@ -102,7 +102,7 @@ assertSubordinate(record.subordinateEvidence.qualificationBinding,
   'scripts/emp1-wrc-gamma5-route-requalification-candidate-check.mjs');
 assertSubordinate(record.subordinateEvidence.authorityIdentityReconciliation,
   'scripts/emp1-wrc-gamma5-authority-identity-reconciliation-check.mjs',
-  'PASS_CURRENT_AUTHORITY_IDENTITIES_RECONCILED_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN');
+  'PASS_CURRENT_AUTHORITY_IDENTITIES_RECONCILED_WITH_AUTHORITY_STALENESS_AND_ROLE_AWARE_HASH_GUARDS_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN');
 
 assert.deepEqual(record.currentAuthority, {
   productionRouteAuthorized: true,
