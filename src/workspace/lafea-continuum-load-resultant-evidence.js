@@ -7,9 +7,10 @@ import { validateLafeaContinuumProjectionEvidence } from './lafea-continuum-proj
 export const LAFEA_CONTINUUM_LOAD_RESULTANT_EVIDENCE_SCHEMA =
   'lafea-continuum-load-resultant-evidence/v1';
 export const LAFEA_CONTINUUM_LOAD_RESULTANT_QUALIFIED_SCOPE =
-  'CONSTANT_TRACTION_STRAIGHT_SEGMENT_V1';
+  'CONSTANT_AND_LINEAR_TRACTION_STRAIGHT_SEGMENT_V2';
 
 const STAGE_ID = 'LAFEA.3';
+const LINEAR_TRACTION_LAW = 'LINEAR_SOURCE_SEGMENT_TRACTION_V1';
 
 export function createLafeaContinuumLoadResultantEvidence(model, executionInput) {
   requireObject(model, 'LAFEA_CONTINUUM_RESULTANT_SOLVER_MODEL_REQUIRED');
@@ -42,21 +43,31 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
     const factor = lafeaUnitFactor('stress', attachment.payload.unit);
     if (factor === null) fail('LAFEA_CONTINUUM_RESULTANT_TRACTION_UNIT_UNSUPPORTED');
     const thickness = uniformMappedThickness(attachment, elements, sections);
-    const tx = finite(attachment.payload.tx, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor;
-    const ty = finite(attachment.payload.ty, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor;
-    const source = straightSegmentResultant(projectionEntry.sourceFeature.geometry, thickness, tx, ty);
+    const tractionLaw = attachment.payload?.law === LINEAR_TRACTION_LAW
+      ? LINEAR_TRACTION_LAW : 'CONSTANT_VECTOR';
+    const source = tractionLaw === LINEAR_TRACTION_LAW
+      ? linearStraightSegmentResultant(projectionEntry.sourceFeature.geometry, thickness, attachment.payload, factor)
+      : constantStraightSegmentResultant(
+        projectionEntry.sourceFeature.geometry,
+        thickness,
+        finite(attachment.payload.tx, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor,
+        finite(attachment.payload.ty, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor,
+      );
     for (const caseId of attachment.physicalCaseIds) {
       const loadCase = cases.get(caseId);
       if (!loadCase) fail('LAFEA_CONTINUUM_RESULTANT_CASE_MISSING');
-      const compiled = compiledTractionResultant(
-        attachment, projectionEntry, loadCase, nodes, elements, sections,
-      );
+      const compiled = tractionLaw === LINEAR_TRACTION_LAW
+        ? compiledAnalyticalTractionResultant(attachment, projectionEntry, loadCase, nodes, source.measure)
+        : compiledConstantTractionResultant(
+          attachment, projectionEntry, loadCase, nodes, elements, sections,
+        );
       const comparison = compareResultants(source, compiled.resultant);
       if (comparison.status !== 'PASS') fail('LAFEA_CONTINUUM_LOAD_RESULTANT_MISMATCH');
       evaluated.push(freeze({
         attachmentId: attachment.attachmentId,
         caseId,
         kind: attachment.kind,
+        tractionLaw,
         sourceFeatureId: attachment.targetId,
         projectionId: projectionEntry.projectionId,
         contributionIds: [...projectionEntry.compiledContributionIds],
@@ -68,6 +79,8 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
     }
   }
 
+  const linearTractionQualified = evaluated.some((row) =>
+    row.tractionLaw === LINEAR_TRACTION_LAW && row.comparison.status === 'PASS');
   const base = freeze({
     schema: LAFEA_CONTINUUM_LOAD_RESULTANT_EVIDENCE_SCHEMA,
     stageId: STAGE_ID,
@@ -84,7 +97,7 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
     notEvaluated: notEvaluated.sort((a, b) => compare(a.attachmentId, b.attachmentId)),
     forceAndMomentPreservationRequired: true,
     pressureSourceNormalQualified: false,
-    linearTractionQualified: false,
+    linearTractionQualified,
     bodyForceResultantQualified: false,
     releaseAuthorityGranted: false,
   });
@@ -124,20 +137,18 @@ function isDistributed(kind) {
 function unsupportedReason(attachment, projection) {
   if (attachment.kind === 'PRESSURE') return 'SOURCE_NORMAL_PRESSURE_G004_OPEN';
   if (attachment.kind === 'BODY_FORCE') return 'BODY_FORCE_RESULTANT_CERTIFICATION_PENDING';
-  if (typeof attachment.payload?.law === 'string') return 'ANALYTICAL_TRACTION_OUTSIDE_CONSTANT_SCOPE';
   if (projection.sourceFeature?.geometry?.type !== 'LINE') {
     return 'CURVED_TRACTION_SOURCE_GEOMETRY_CERTIFICATION_PENDING';
+  }
+  if (typeof attachment.payload?.law === 'string'
+    && attachment.payload.law !== LINEAR_TRACTION_LAW) {
+    return 'ANALYTICAL_TRACTION_OUTSIDE_QUALIFIED_SCOPE';
   }
   return null;
 }
 
-function straightSegmentResultant(geometry, thickness, tx, ty) {
-  const ax = finite(geometry.start?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
-  const ay = finite(geometry.start?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
-  const bx = finite(geometry.end?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
-  const by = finite(geometry.end?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
-  const length = Math.hypot(bx - ax, by - ay);
-  if (!(length > 0)) fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+function constantStraightSegmentResultant(geometry, thickness, tx, ty) {
+  const { ax, ay, bx, by, length } = straightGeometry(geometry);
   const forceX = tx * thickness * length;
   const forceY = ty * thickness * length;
   const cx = (ax + bx) / 2;
@@ -145,7 +156,36 @@ function straightSegmentResultant(geometry, thickness, tx, ty) {
   return resultant(forceX, forceY, cx * forceY - cy * forceX, length);
 }
 
-function compiledTractionResultant(attachment, projection, loadCase, nodes, elements, sections) {
+function linearStraightSegmentResultant(geometry, thickness, payload, factor) {
+  const { ax, ay, bx, by, dx, dy, length } = straightGeometry(geometry);
+  const q0x = finite(payload.txStart, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor;
+  const q0y = finite(payload.tyStart, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor;
+  const q1x = finite(payload.txEnd, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor;
+  const q1y = finite(payload.tyEnd, 'LAFEA_CONTINUUM_RESULTANT_TRACTION_VALUE_INVALID') * factor;
+  const dqx = q1x - q0x;
+  const dqy = q1y - q0y;
+  const forceX = thickness * length * (q0x + q1x) / 2;
+  const forceY = thickness * length * (q0y + q1y) / 2;
+  const cross = (rx, ry, fx, fy) => rx * fy - ry * fx;
+  const momentIntegral = cross(ax, ay, q0x, q0y)
+    + 0.5 * (cross(ax, ay, dqx, dqy) + cross(dx, dy, q0x, q0y))
+    + (1 / 3) * cross(dx, dy, dqx, dqy);
+  return resultant(forceX, forceY, thickness * length * momentIntegral, length);
+}
+
+function straightGeometry(geometry) {
+  const ax = finite(geometry.start?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const ay = finite(geometry.start?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const bx = finite(geometry.end?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const by = finite(geometry.end?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const dx = bx - ax;
+  const dy = by - ay;
+  const length = Math.hypot(dx, dy);
+  if (!(length > 0)) fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  return { ax, ay, bx, by, dx, dy, length };
+}
+
+function compiledConstantTractionResultant(attachment, projection, loadCase, nodes, elements, sections) {
   const expectedIds = new Set(projection.compiledContributionIds);
   const loads = loadCase.edgeTractions.filter((row) =>
     row.sourceReference === `COMPILED_ATTACHMENT#${attachment.attachmentId}`);
@@ -176,6 +216,34 @@ function compiledTractionResultant(attachment, projection, loadCase, nodes, elem
   }
   return freeze({
     resultant: resultant(forceX, forceY, momentZ, length),
+    equivalentNodalForces: freeze(equivalentNodalForces),
+  });
+}
+
+function compiledAnalyticalTractionResultant(attachment, projection, loadCase, nodes, measure) {
+  const expectedIds = new Set(projection.compiledContributionIds);
+  const prefix = `COMPILED_ANALYTICAL_TRACTION#${attachment.attachmentId}/${LINEAR_TRACTION_LAW}/`;
+  const loads = loadCase.nodalForces.filter((row) => expectedIds.has(row.loadId));
+  if (loads.length !== expectedIds.size
+    || loads.some((row) => !row.sourceReference.startsWith(prefix))) {
+    fail('LAFEA_CONTINUUM_RESULTANT_CONTRIBUTION_CUSTODY_MISMATCH');
+  }
+  let forceX = 0; let forceY = 0; let momentZ = 0;
+  const equivalentNodalForces = loads.sort((a, b) => compare(a.loadId, b.loadId)).map((load) => {
+    const node = nodes.get(load.nodeId);
+    if (!node) fail('LAFEA_CONTINUUM_RESULTANT_EDGE_NODE_MISSING');
+    forceX += load.fx;
+    forceY += load.fy;
+    momentZ += node.x * load.fy - node.y * load.fx;
+    return freeze({
+      contributionId: load.loadId,
+      nodeId: load.nodeId,
+      fx: clean(load.fx),
+      fy: clean(load.fy),
+    });
+  });
+  return freeze({
+    resultant: resultant(forceX, forceY, momentZ, measure),
     equivalentNodalForces: freeze(equivalentNodalForces),
   });
 }
