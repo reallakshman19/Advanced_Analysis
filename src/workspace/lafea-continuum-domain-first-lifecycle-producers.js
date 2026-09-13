@@ -8,6 +8,7 @@ import {
   registerLafeaArtifact,
 } from './lafea-lifecycle.js';
 import { canonicalLafeaSha256 } from './lafea-canonical-sha256.js';
+import { validateLafeaContinuumLoadResultantEvidence } from './lafea-continuum-load-resultant-evidence.js';
 import {
   LAFEA_CONTINUUM_SOLVER_COMPILER_ID,
   LAFEA_CONTINUUM_SOLVER_COMPILER_REVISION,
@@ -17,7 +18,7 @@ import { validateLafeaSourceAuthority } from './lafea-source-authority.js';
 
 export const LAFEA_CONTINUUM_DOMAIN_FIRST_PRODUCER_SCHEMA =
   'lafea-continuum-domain-first-producer-batch/v1';
-export const LAFEA_CONTINUUM_DOMAIN_FIRST_PRODUCER_REVISION = '13.1';
+export const LAFEA_CONTINUUM_DOMAIN_FIRST_PRODUCER_REVISION = '13.2';
 
 const STAGE_ID = 'LAFEA.3';
 const ROUTE = 'DOMAIN_FIRST_COMPILED_SOLVER_MODEL';
@@ -85,6 +86,8 @@ export function createLafeaContinuumDomainFirstLifecycleProducerBatch(options) {
     stageId: STAGE_ID,
     sourceHash: authority.sourceHash,
     solverModelHash: solverModel.solverModelHash,
+    projectionHash: solverModel.parents.projectionHash,
+    loadResultantEvidenceHash: execution.loadResultantEvidenceHash,
     calculationState: 'CALCULATION_ACCEPTED_BY_STAGE_CONTRACT',
     records,
     registrations: records.map((row) => ({
@@ -125,7 +128,9 @@ function requireBatch(value) {
     || value.stageId !== STAGE_ID
     || !Array.isArray(value.records) || !Array.isArray(value.registrations)
     || value.records.length !== value.registrations.length
-    || value.records.length !== 5) {
+    || value.records.length !== 5
+    || typeof value.projectionHash !== 'string'
+    || typeof value.loadResultantEvidenceHash !== 'string') {
     fail('LAFEA_CONTINUUM_DOMAIN_FIRST_BATCH_INVALID');
   }
   return value;
@@ -152,6 +157,7 @@ function requireSolverModel(value) {
 
 function requireExecution(value, solverModel) {
   const parents = solverModel.parents ?? {};
+  const resultantEvidence = validateLafeaContinuumLoadResultantEvidence(value?.loadResultantEvidence);
   if (!value || value.stageId !== STAGE_ID || value.status !== 'QUALIFIED'
     || value.route !== ROUTE || value.solverModelHash !== solverModel.solverModelHash
     || value.sourceHash !== parents.sourceHash
@@ -159,6 +165,10 @@ function requireExecution(value, solverModel) {
     || value.analysisGeometryHash !== parents.analysisGeometryHash
     || value.meshHash !== parents.meshHash
     || value.meshProfileHash !== parents.meshProfileHash
+    || value.projectionHash !== parents.projectionHash
+    || value.loadResultantEvidenceHash !== resultantEvidence.loadResultantEvidenceHash
+    || resultantEvidence.parents.solverModelHash !== solverModel.solverModelHash
+    || resultantEvidence.parents.projectionHash !== parents.projectionHash
     || value.releaseQualified !== false
     || typeof value.compiledExecutionHash !== 'string'
     || !/^sha256:[0-9a-f]{64}$/u.test(value.compiledExecutionHash)
@@ -177,6 +187,9 @@ function requireExecution(value, solverModel) {
     stageId: STAGE_ID,
     mode: LAFEA_CONTINUUM_AUTHORITATIVE_EXECUTION_MODE,
     solverModelHash: solverModel.solverModelHash,
+    projectionHash: parents.projectionHash,
+    loadResultantEvidenceHash: resultantEvidence.loadResultantEvidenceHash,
+    loadResultantEvidence: resultantEvidence,
     canonicalExecutionInputHash,
     qualificationState: 'ACCEPTED',
     canonicalInput: value.canonicalInput,
