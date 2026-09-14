@@ -7,10 +7,12 @@ import { validateLafeaContinuumProjectionEvidence } from './lafea-continuum-proj
 export const LAFEA_CONTINUUM_LOAD_RESULTANT_EVIDENCE_SCHEMA =
   'lafea-continuum-load-resultant-evidence/v1';
 export const LAFEA_CONTINUUM_LOAD_RESULTANT_QUALIFIED_SCOPE =
-  'CONSTANT_AND_LINEAR_TRACTION_STRAIGHT_SEGMENT_V2';
+  'CONSTANT_LINEAR_TRACTION_AND_SOURCE_NORMAL_PRESSURE_V3';
 
 const STAGE_ID = 'LAFEA.3';
 const LINEAR_TRACTION_LAW = 'LINEAR_SOURCE_SEGMENT_TRACTION_V1';
+const SOURCE_PRESSURE_LAW = 'SOURCE_GEOMETRY_INWARD_NORMAL_V1';
+const SOURCE_PRESSURE_AUTHORITY = 'ANALYSIS_GEOMETRY_ORIENTED_SEGMENT_V1';
 
 export function createLafeaContinuumLoadResultantEvidence(model, executionInput) {
   requireObject(model, 'LAFEA_CONTINUUM_RESULTANT_SOLVER_MODEL_REQUIRED');
@@ -41,8 +43,41 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
       continue;
     }
     const factor = lafeaUnitFactor('stress', attachment.payload.unit);
-    if (factor === null) fail('LAFEA_CONTINUUM_RESULTANT_TRACTION_UNIT_UNSUPPORTED');
+    if (factor === null) fail('LAFEA_CONTINUUM_RESULTANT_DISTRIBUTED_STRESS_UNIT_UNSUPPORTED');
     const thickness = uniformMappedThickness(attachment, elements, sections);
+
+    if (attachment.kind === 'PRESSURE') {
+      const source = sourcePressureResultant(
+        projectionEntry.sourceFeature.geometry,
+        thickness,
+        finite(attachment.payload.pressure, 'LAFEA_CONTINUUM_RESULTANT_PRESSURE_VALUE_INVALID') * factor,
+      );
+      for (const caseId of attachment.physicalCaseIds) {
+        const loadCase = cases.get(caseId);
+        if (!loadCase) fail('LAFEA_CONTINUUM_RESULTANT_CASE_MISSING');
+        const compiled = compiledSourcePressureResultant(
+          attachment, projectionEntry, loadCase, nodes, source.measure,
+        );
+        const comparison = compareResultants(source, compiled.resultant);
+        if (comparison.status !== 'PASS') fail('LAFEA_CONTINUUM_LOAD_RESULTANT_MISMATCH');
+        evaluated.push(freeze({
+          attachmentId: attachment.attachmentId,
+          caseId,
+          kind: attachment.kind,
+          pressureLaw: SOURCE_PRESSURE_LAW,
+          sourceBoundaryAuthority: SOURCE_PRESSURE_AUTHORITY,
+          sourceFeatureId: attachment.targetId,
+          projectionId: projectionEntry.projectionId,
+          contributionIds: [...projectionEntry.compiledContributionIds],
+          sourceResultant: source,
+          compiledResultant: compiled.resultant,
+          equivalentNodalForces: compiled.equivalentNodalForces,
+          comparison,
+        }));
+      }
+      continue;
+    }
+
     const tractionLaw = attachment.payload?.law === LINEAR_TRACTION_LAW
       ? LINEAR_TRACTION_LAW : 'CONSTANT_VECTOR';
     const source = tractionLaw === LINEAR_TRACTION_LAW
@@ -81,6 +116,11 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
 
   const linearTractionQualified = evaluated.some((row) =>
     row.tractionLaw === LINEAR_TRACTION_LAW && row.comparison.status === 'PASS');
+  const pressureSourceNormalQualified = evaluated.some((row) =>
+    row.kind === 'PRESSURE'
+    && row.pressureLaw === SOURCE_PRESSURE_LAW
+    && row.sourceBoundaryAuthority === SOURCE_PRESSURE_AUTHORITY
+    && row.comparison.status === 'PASS');
   const base = freeze({
     schema: LAFEA_CONTINUUM_LOAD_RESULTANT_EVIDENCE_SCHEMA,
     stageId: STAGE_ID,
@@ -96,7 +136,7 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
     evaluated: evaluated.sort(resultantCompare),
     notEvaluated: notEvaluated.sort((a, b) => compare(a.attachmentId, b.attachmentId)),
     forceAndMomentPreservationRequired: true,
-    pressureSourceNormalQualified: false,
+    pressureSourceNormalQualified,
     linearTractionQualified,
     bodyForceResultantQualified: false,
     releaseAuthorityGranted: false,
@@ -135,8 +175,11 @@ function isDistributed(kind) {
 }
 
 function unsupportedReason(attachment, projection) {
-  if (attachment.kind === 'PRESSURE') return 'SOURCE_NORMAL_PRESSURE_G004_OPEN';
   if (attachment.kind === 'BODY_FORCE') return 'BODY_FORCE_RESULTANT_CERTIFICATION_PENDING';
+  if (attachment.kind === 'PRESSURE') {
+    return ['LINE', 'CIRCULAR_ARC'].includes(projection.sourceFeature?.geometry?.type)
+      ? null : 'SOURCE_NORMAL_PRESSURE_GEOMETRY_UNSUPPORTED';
+  }
   if (projection.sourceFeature?.geometry?.type !== 'LINE') {
     return 'CURVED_TRACTION_SOURCE_GEOMETRY_CERTIFICATION_PENDING';
   }
@@ -171,6 +214,59 @@ function linearStraightSegmentResultant(geometry, thickness, payload, factor) {
     + 0.5 * (cross(ax, ay, dqx, dqy) + cross(dx, dy, q0x, q0y))
     + (1 / 3) * cross(dx, dy, dqx, dqy);
   return resultant(forceX, forceY, thickness * length * momentIntegral, length);
+}
+
+function sourcePressureResultant(geometry, thickness, pressure) {
+  const ax = finite(geometry.start?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const ay = finite(geometry.start?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const bx = finite(geometry.end?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const by = finite(geometry.end?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  requirePressureLoopBinding(geometry.loopBindings);
+  const measure = sourceBoundaryMeasure(geometry, ax, ay, bx, by);
+  const lineLoad = pressure * thickness;
+  return resultant(
+    -lineLoad * (by - ay),
+    lineLoad * (bx - ax),
+    0.5 * lineLoad * ((bx * bx + by * by) - (ax * ax + ay * ay)),
+    measure,
+  );
+}
+
+function sourceBoundaryMeasure(geometry, ax, ay, bx, by) {
+  if (geometry.type === 'LINE') {
+    const length = Math.hypot(bx - ax, by - ay);
+    if (!(length > 0)) fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+    return length;
+  }
+  if (geometry.type !== 'CIRCULAR_ARC') {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_PRESSURE_GEOMETRY_UNSUPPORTED');
+  }
+  const cx = finite(geometry.centerX, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const cy = finite(geometry.centerY, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  const radius = finite(geometry.radius, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  if (!(radius > 0) || !['CCW', 'CW'].includes(geometry.sweep)) {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  }
+  const scale = Math.max(1, radius, Math.abs(cx), Math.abs(cy), Math.abs(ax), Math.abs(ay), Math.abs(bx), Math.abs(by));
+  const tolerance = 1e-8 * scale;
+  if (Math.abs(Math.hypot(ax - cx, ay - cy) - radius) > tolerance
+    || Math.abs(Math.hypot(bx - cx, by - cy) - radius) > tolerance) {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  }
+  const a0 = Math.atan2(ay - cy, ax - cx);
+  const a1 = Math.atan2(by - cy, bx - cx);
+  const angle = geometry.sweep === 'CCW' ? ccw(a0, a1) : ccw(a1, a0);
+  if (!(angle > 1e-12)) fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
+  return radius * angle;
+}
+
+function requirePressureLoopBinding(bindings) {
+  if (!Array.isArray(bindings) || bindings.length !== 1
+    || typeof bindings[0]?.loopId !== 'string'
+    || !['OUTER', 'HOLE'].includes(bindings[0]?.role)) {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_PRESSURE_LOOP_BINDING_INVALID');
+  }
+  return bindings[0];
 }
 
 function straightGeometry(geometry) {
@@ -221,11 +317,37 @@ function compiledConstantTractionResultant(attachment, projection, loadCase, nod
 }
 
 function compiledAnalyticalTractionResultant(attachment, projection, loadCase, nodes, measure) {
+  return compiledNodalResultant(
+    attachment,
+    projection,
+    loadCase,
+    nodes,
+    measure,
+    `COMPILED_ANALYTICAL_TRACTION#${attachment.attachmentId}/${LINEAR_TRACTION_LAW}/`,
+  );
+}
+
+function compiledSourcePressureResultant(attachment, projection, loadCase, nodes, measure) {
+  if (loadCase.pressureLoads.some((row) =>
+    row.sourceReference === `COMPILED_ATTACHMENT#${attachment.attachmentId}`
+    || row.pressureLoadId?.startsWith(`${attachment.attachmentId}/`))) {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_PRESSURE_NOT_LOWERED');
+  }
+  return compiledNodalResultant(
+    attachment,
+    projection,
+    loadCase,
+    nodes,
+    measure,
+    `COMPILED_SOURCE_PRESSURE#${attachment.attachmentId}/${SOURCE_PRESSURE_AUTHORITY}/`,
+  );
+}
+
+function compiledNodalResultant(attachment, projection, loadCase, nodes, measure, sourcePrefix) {
   const expectedIds = new Set(projection.compiledContributionIds);
-  const prefix = `COMPILED_ANALYTICAL_TRACTION#${attachment.attachmentId}/${LINEAR_TRACTION_LAW}/`;
   const loads = loadCase.nodalForces.filter((row) => expectedIds.has(row.loadId));
   if (loads.length !== expectedIds.size
-    || loads.some((row) => !row.sourceReference.startsWith(prefix))) {
+    || loads.some((row) => !row.sourceReference.startsWith(sourcePrefix))) {
     fail('LAFEA_CONTINUUM_RESULTANT_CONTRIBUTION_CUSTODY_MISMATCH');
   }
   let forceX = 0; let forceY = 0; let momentZ = 0;
@@ -283,6 +405,12 @@ function resultant(forceX, forceY, momentZ, measure) {
   });
 }
 
+function ccw(start, end) {
+  let value = end - start;
+  while (value < 0) value += Math.PI * 2;
+  while (value >= Math.PI * 2) value -= Math.PI * 2;
+  return value;
+}
 function resultantCompare(a, b) {
   const first = compare(a.attachmentId, b.attachmentId);
   return first || compare(a.caseId, b.caseId);
