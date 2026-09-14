@@ -1,0 +1,36 @@
+name: LAFEA.3 C3-C G005 delta-T exact-head qualification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  exact-head:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout carrier
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Checkout exact product head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout --detach 2abe8563f0dc2d972af91f6ff7953d29f96b3e58
+          test "$(git rev-parse HEAD)" = "2abe8563f0dc2d972af91f6ff7953d29f96b3e58"
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: G005 focused qualification
+        run: node scripts/lafea.3-c3c-temperature-delta-check.mjs
+      - name: Full C3-C exact-head aggregate
+        run: node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs --expected-head 2abe8563f0dc2d972af91f6ff7953d29f96b3e58 --base c468fc4a902dd7166750e3d6f2519c20cd429469
