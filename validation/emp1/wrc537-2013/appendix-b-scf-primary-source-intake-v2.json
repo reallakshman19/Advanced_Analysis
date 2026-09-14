@@ -1,0 +1,105 @@
+{
+  "schema": "emp1-wrc537-appendix-b-scf-primary-source-intake/v2",
+  "issue": 1777,
+  "trackId": "E1",
+  "capability": "NON_UNITY_STRESS_CONCENTRATION_FACTORS",
+  "status": "BLOCKED_PRIMARY_APPENDIX_B_PAGES_NOT_READABLE_IN_CURRENT_INTERFACE",
+  "authorityCreatedByThisArtifact": false,
+  "engineeringPassClaimed": false,
+  "sourceDefinitionFrozen": false,
+  "productionObservationUsedToChooseDefinition": false,
+  "source": {
+    "document": "docs/emp1/WRC537_2013.pdf",
+    "edition": "2013 repository copy",
+    "rawPdfSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+    "gitBlob": "ce861233928154145a9257efbbf8dbef3f5a17d1",
+    "repositoryHeadAtIntake": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
+    "binaryReadStatus": "PRESENT_BUT_BINARY_CONTENT_NOT_AVAILABLE_THROUGH_CONNECTED_INTERFACE",
+    "primaryPageObservation": "NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT",
+    "primarySourceVerifiedForImplementation": false
+  },
+  "predecessor": {
+    "issue": 1347,
+    "issueDisposition": "SUPERSEDED_NOT_PLANNED_STANDALONE_MIGRATED_TO_1777_E1",
+    "record": "validation/emp1/wrc537-2013/appendix-b-scf-source-qualification-v1.json",
+    "recordBlob": "ada2b037b69cea1f72377e8385c31272864f321a",
+    "recordStatus": "BLOCKED_PINNED_PRIMARY_PDF_NOT_BINARY_READABLE_IN_CURRENT_EXECUTION_INTERFACE",
+    "candidateFormulaAuthority": "REJECTED_FOR_IMPLEMENTATION_PENDING_PRIMARY_PAGE_VERIFICATION",
+    "transcriptionRisk": "MATERIAL_NUMERICAL_RISK"
+  },
+  "currentBoundedAuthority": {
+    "mode": "UNITY_ONLY",
+    "Kn": 1,
+    "Kb": 1,
+    "historicalUnityAuthority": "PINNED_BOUNDED_ROUTE_UNITY_ONLY",
+    "generalAppendixBAuthority": false,
+    "nonUnityAuthorized": false,
+    "licensedPrimarySourceVerifiedForImplementation": false,
+    "equationSelectionPolicyQualified": false
+  },
+  "requiredPrimaryExtractionFields": [
+    "documentEdition",
+    "rawPdfSha256",
+    "pdfPage",
+    "printedPage",
+    "appendixSection",
+    "equationId",
+    "figureTableNoteFootnoteLocator",
+    "exactSymbol",
+    "exactDefinition",
+    "unitsOrDimensionality",
+    "applicabilityStatement",
+    "ambiguityStatus"
+  ],
+  "requiredPrimaryQuestions": [
+    "EXACT_DEFINITION_AND_ENGINEERING_MEANING_OF_Kn",
+    "EXACT_DEFINITION_AND_ENGINEERING_MEANING_OF_Kb",
+    "EXACT_EQUATION_B3_TYPOGRAPHY",
+    "EXACT_EQUATION_B4_TYPOGRAPHY",
+    "EXACT_EQUATION_B5_TYPOGRAPHY",
+    "EVERY_VARIABLE_DEFINITION_IN_B3_B4_B5",
+    "EXACT_GEOMETRIC_RATIO_AND_DENOMINATOR_BASIS_PER_EQUATION",
+    "EXACT_NOZZLE_EVALUATION_SUBSTITUTION_NOTE",
+    "EXACT_APPLICABILITY_LIMITS_AND_RANGES",
+    "WHETHER_Kn_GE_1_AND_Kb_GE_1_ARE_EXPLICIT_SOURCE_RULES",
+    "AUTHORITATIVE_B4_VS_B5_Kb_SELECTION_RULE",
+    "PREFERRED_RECOMMENDED_ALTERNATIVE_STATUS_AND_CONDITIONS",
+    "EXACT_RESULT_QUANTITY_TO_WHICH_FACTORS_APPLY",
+    "SEPARATE_MEMBRANE_AND_BENDING_APPLICATION_BEFORE_SUPERPOSITION",
+    "SIGN_PRESERVATION_SEMANTICS",
+    "HOST_SHELL_VS_NOZZLE_ATTACHMENT_SCOPE_AND_EXTERNAL_REFERENCE_DEPENDENCIES"
+  ],
+  "corroborationBoundary": {
+    "publicReproductionMayGuidePrimaryReview": true,
+    "publicReproductionCreatesMethodAuthority": false,
+    "secondaryCandidateEquationTextMayBeImplemented": false,
+    "secondaryCandidateEquationTextMaySeedIndependentBenchmark": false,
+    "productionNumericalAgreementMaySelectEquation": false,
+    "vendorOrComparisonSoftwareMaySelectEquation": false
+  },
+  "benchmarkGate": {
+    "independentBenchmark": "ABSENT",
+    "benchmarkFreezeAllowedNow": false,
+    "minimumFutureCases": 2,
+    "requiredCoverageAfterSourceClosure": [
+      "one source-qualified Kn/B3 case",
+      "one case for every source-qualified Kb selection branch",
+      "all intermediate dimensionless ratios",
+      "dimensional consistency",
+      "coefficient/exponent/numerator/denominator/thickness-radius/branch falsifiers",
+      "exact preservation of legacy Kn=Kb=1 bounded behavior"
+    ]
+  },
+  "authority": {
+    "generalAppendixBAuthority": false,
+    "nonUnityAuthorized": false,
+    "productionImplementationAuthority": false,
+    "independentBenchmarkFrozen": false,
+    "numericalQualification": "NOT_RUN",
+    "versionedRouteProfileAuthorization": false,
+    "globalEmp1CRouteAuthority": false,
+    "codeComplianceAuthorized": false,
+    "releaseQualified": false
+  },
+  "nextGate": "RENDER_AND_INDEPENDENTLY_REVIEW_PINNED_WRC537_2013_APPENDIX_B_PAGES_AND_POPULATE_EXACT_PRIMARY_LOCATORS_BEFORE_BENCHMARK_FREEZE"
+}

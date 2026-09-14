@@ -322,11 +322,12 @@ function measureNormalContinuity(mesh, facets) {
 }
 
 function uvAt(surfaceKind, geometry, point) {
+  const position = { x: point.x, y: point.y, z: point.z };
   if (surfaceKind === LAFEA_SHELL_SURFACE_KINDS.CYLINDRICAL) {
-    return cylindricalShellUvAtPoint3d(geometry, point);
+    return cylindricalShellUvAtPoint3d(geometry, position);
   }
   if (surfaceKind === LAFEA_SHELL_SURFACE_KINDS.CYLINDRICAL_HOLES) {
-    return curvedHoleShellUvAtPoint3d(geometry, point);
+    return curvedHoleShellUvAtPoint3d(geometry, position);
   }
   fail('LAFEA4_SHELL_GEOMETRIC_QUALITY_SURFACE_NOT_QUALIFIED');
 }

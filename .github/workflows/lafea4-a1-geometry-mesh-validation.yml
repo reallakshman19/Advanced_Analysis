@@ -1,0 +1,79 @@
+name: LAFEA.4 A1 geometry and retained-mesh exact-head validation
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/lafea.10-determinism-check.mjs'
+      - 'scripts/lafea-shell-*.mjs'
+      - 'scripts/lafea-tech2-thickness-curvature-check.mjs'
+      - 'src/workspace/lafea-analysis-mesh-*.js'
+      - 'src/workspace/lafea-shell-*.js'
+      - 'src/workspace/lafea4-shell-*.js'
+      - 'src/workspace/lafea4-parent-normal-*.js'
+      - 'agents/chains/ADV-LAFEA4-A1-1758/**'
+      - 'agents/qualifications/ADV-LAFEA4-A1-1758/**'
+      - '.github/workflows/lafea4-a1-geometry-mesh-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-head:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Verify exact head and clean tree
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Planar shell geometry and retained mesh
+        run: node scripts/lafea-shell-mesh-producer-check.mjs
+
+      - name: Multipatch seam and topology qualification
+        run: node scripts/lafea-shell-multipatch-seam-check.mjs
+
+      - name: Curved cylinder and three-level retained mesh ladder
+        run: node scripts/lafea-shell-curved-cylinder-check.mjs
+
+      - name: Curved-hole shell geometry qualification
+        run: node scripts/lafea-shell-curved-hole-check.mjs
+
+      - name: Periodic cylinder seam qualification
+        run: node scripts/lafea-shell-periodic-cylinder-check.mjs
+
+      - name: Source-bound shell thickness evidence
+        run: node scripts/lafea-tech2-thickness-curvature-check.mjs
+
+      - name: Meshing determinism and shell cross-process replay
+        run: node scripts/lafea.10-determinism-check.mjs
+
+      - name: Governed meshing aggregate
+        run: npm run check:lafea-meshing
+
+      - name: Import integrity
+        run: npm run check:imports
+
+      - name: Production build
+        run: npm run build
+
+      - name: Diff whitespace gate
+        shell: bash
+        run: |
+          git fetch origin main --depth=1
+          git diff --check origin/main...HEAD

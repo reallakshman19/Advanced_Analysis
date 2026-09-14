@@ -2,6 +2,8 @@
 import { MODEL_SCHEMA } from '../core/local-continuum/index.js';
 import { lafeaUnitFactor } from '../core/lafea-common-input/units.js';
 import { integrateLafeaAnalyticalEdgeTraction } from './lafea-analytical-traction-lowering.js';
+import { integrateLafeaSourcePressure } from './lafea-source-pressure-lowering.js';
+import { appendLafeaDeltaTemperatureLoads } from './lafea-continuum-temperature-lowering.js';
 
 export function buildLafeaContinuumCompiledExecutionInput(model) {
   const sections = new Map(model.sections.map((row) => [row.sectionId, row]));
@@ -29,6 +31,8 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
   const hasAnalyticalTraction = model.attachments.some(
     (row) => row.kind === 'TRACTION' && typeof row.payload?.law === 'string',
   );
+  const hasSourcePressure = model.attachments.some((row) => row.kind === 'PRESSURE');
+  const hasTemperature = model.attachments.some((row) => row.kind === 'TEMPERATURE');
   return {
     schema: MODEL_SCHEMA,
     modelIdentity: model.sourceModel.modelIdentity,
@@ -48,6 +52,8 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
       ...model.limitations,
       'DOMAIN_FIRST_COMPILED_PARITY_EXECUTION_ONLY',
       ...(hasAnalyticalTraction ? ['ANALYTICAL_TRACTION_CONSISTENT_NODAL_LOWERING_V1'] : []),
+      ...(hasSourcePressure ? ['SOURCE_NORMAL_PRESSURE_CONSISTENT_NODAL_LOWERING_V1'] : []),
+      ...(hasTemperature ? ['GOVERNED_CONSTANT_ALPHA_DELTA_T_LOWERING_V1'] : []),
     ])].sort(compare),
   };
 }
@@ -124,12 +130,12 @@ function appendCaseAttachment(loadCase, attachment, model, sections) {
     if (typeof attachment.payload?.law === 'string') {
       return appendAnalyticalTraction(loadCase, attachment, model, sections);
     }
-    return appendEdge(loadCase, attachment, 'TRACTION');
+    return appendConstantTraction(loadCase, attachment);
   }
-  if (attachment.kind === 'PRESSURE') return appendEdge(loadCase, attachment, 'PRESSURE');
+  if (attachment.kind === 'PRESSURE') return appendSourcePressure(loadCase, attachment, model, sections);
   if (attachment.kind === 'BODY_FORCE') return appendBodyForce(loadCase, attachment, model);
   if (attachment.kind === 'TEMPERATURE') {
-    fail('LAFEA_CONTINUUM_COMPILED_TEMPERATURE_SEMANTICS_NOT_QUALIFIED');
+    return appendLafeaDeltaTemperatureLoads({ loadCase, attachment, model });
   }
   fail('LAFEA_CONTINUUM_COMPILED_ATTACHMENT_KIND_UNSUPPORTED');
 }
@@ -169,35 +175,22 @@ function appendForce(loadCase, attachment) {
   });
 }
 
-function appendEdge(loadCase, attachment, kind) {
-  const pressure = kind === 'PRESSURE';
-  const allowed = pressure ? ['pressure', 'unit'] : ['tx', 'ty', 'unit'];
-  const payload = payloadObject(attachment, allowed, allowed);
+function appendConstantTraction(loadCase, attachment) {
+  const payload = payloadObject(attachment, ['tx', 'ty', 'unit'], ['tx', 'ty', 'unit']);
   const target = attachment.compiledTarget;
   if (!target.edgeNodePaths.length || target.edgeNodePaths.length !== target.elementIds.length) {
     fail('LAFEA_CONTINUUM_COMPILED_EDGE_OWNER_MAPPING_INVALID');
   }
   const factor = dimensionFactor('stress', payload.unit);
   target.edgeNodePaths.forEach((edgeNodeIds, index) => {
-    const common = {
+    loadCase.edgeTractions.push({
+      tractionId: `${attachment.attachmentId}/${index + 1}`,
       elementId: target.elementIds[index],
       edgeNodeIds: [...edgeNodeIds],
       sourceReference: `COMPILED_ATTACHMENT#${attachment.attachmentId}`,
-    };
-    if (pressure) {
-      loadCase.pressureLoads.push({
-        pressureLoadId: `${attachment.attachmentId}/${index + 1}`,
-        ...common,
-        pressure: finite(payload.pressure, 'LAFEA_CONTINUUM_COMPILED_PRESSURE_VALUE_INVALID') * factor,
-      });
-    } else {
-      loadCase.edgeTractions.push({
-        tractionId: `${attachment.attachmentId}/${index + 1}`,
-        ...common,
-        tx: finite(payload.tx, 'LAFEA_CONTINUUM_COMPILED_TRACTION_VALUE_INVALID') * factor,
-        ty: finite(payload.ty, 'LAFEA_CONTINUUM_COMPILED_TRACTION_VALUE_INVALID') * factor,
-      });
-    }
+      tx: finite(payload.tx, 'LAFEA_CONTINUUM_COMPILED_TRACTION_VALUE_INVALID') * factor,
+      ty: finite(payload.ty, 'LAFEA_CONTINUUM_COMPILED_TRACTION_VALUE_INVALID') * factor,
+    });
   });
 }
 
@@ -207,6 +200,9 @@ function appendAnalyticalTraction(loadCase, attachment, model, sections) {
   if (!target.edgeNodePaths.length || target.edgeNodePaths.length !== target.elementIds.length) {
     fail('LAFEA_CONTINUUM_COMPILED_EDGE_OWNER_MAPPING_INVALID');
   }
+  const projectionEntry = requireSegmentProjection(
+    model, attachment, 'LAFEA_CONTINUUM_COMPILED_ANALYTICAL_TRACTION_PROJECTION_REQUIRED',
+  );
   const factor = dimensionFactor('stress', payload.unit);
   const nodeById = new Map(model.nodes.map((row) => [row.nodeId, row]));
   const elementById = new Map(model.elements.map((row) => [row.elementId, row]));
@@ -222,6 +218,7 @@ function appendAnalyticalTraction(loadCase, attachment, model, sections) {
       edgeNodes,
       thickness: section.thickness,
       stressFactor: factor,
+      sourceFeatureGeometry: projectionEntry.sourceFeature.geometry,
     });
     integrated.nodalForces.forEach((force, nodeIndex) => {
       loadCase.nodalForces.push({
@@ -233,6 +230,57 @@ function appendAnalyticalTraction(loadCase, attachment, model, sections) {
       });
     });
   });
+}
+
+function appendSourcePressure(loadCase, attachment, model, sections) {
+  const payload = payloadObject(attachment, ['pressure', 'unit'], ['pressure', 'unit']);
+  const target = attachment.compiledTarget;
+  if (!target.edgeNodePaths.length || target.edgeNodePaths.length !== target.elementIds.length) {
+    fail('LAFEA_CONTINUUM_COMPILED_EDGE_OWNER_MAPPING_INVALID');
+  }
+  const projectionEntry = requireSegmentProjection(
+    model, attachment, 'LAFEA_CONTINUUM_COMPILED_SOURCE_PRESSURE_PROJECTION_REQUIRED',
+  );
+  const factor = dimensionFactor('stress', payload.unit);
+  const nodeById = new Map(model.nodes.map((row) => [row.nodeId, row]));
+  const elementById = new Map(model.elements.map((row) => [row.elementId, row]));
+  target.edgeNodePaths.forEach((edgeNodeIds, edgeIndex) => {
+    const elementId = target.elementIds[edgeIndex];
+    const element = elementById.get(elementId);
+    const section = sections.get(element?.sectionId);
+    if (!element || !section) fail('LAFEA_CONTINUUM_COMPILED_SECTION_REFERENCE_MISSING');
+    const edgeNodes = edgeNodeIds.map((nodeId) => nodeById.get(nodeId));
+    if (edgeNodes.some((node) => !node)) fail('LAFEA_CONTINUUM_COMPILED_EDGE_NODE_REFERENCE_INVALID');
+    const integrated = integrateLafeaSourcePressure({
+      pressure: finite(payload.pressure, 'LAFEA_CONTINUUM_COMPILED_PRESSURE_VALUE_INVALID'),
+      edgeNodes,
+      thickness: section.thickness,
+      stressFactor: factor,
+      sourceFeatureGeometry: projectionEntry.sourceFeature.geometry,
+    });
+    integrated.nodalForces.forEach((force, nodeIndex) => {
+      loadCase.nodalForces.push({
+        loadId: `${attachment.attachmentId}/${edgeIndex + 1}/${nodeIndex + 1}/${force.nodeId}`,
+        nodeId: force.nodeId,
+        fx: force.fx,
+        fy: force.fy,
+        sourceReference: `COMPILED_SOURCE_PRESSURE#${attachment.attachmentId}/${integrated.sourceBoundaryAuthority}/${integrated.quadratureId}`,
+      });
+    });
+  });
+}
+
+function requireSegmentProjection(model, attachment, code) {
+  const projectionEntry = model.projectionEvidence?.entries?.find(
+    (row) => row.attachmentId === attachment.attachmentId,
+  );
+  if (!projectionEntry
+    || projectionEntry.sourceFeature?.targetType !== 'SEGMENT'
+    || projectionEntry.sourceFeature?.featureId !== attachment.targetId
+    || !projectionEntry.sourceFeature?.geometry) {
+    fail(code);
+  }
+  return projectionEntry;
 }
 
 function appendBodyForce(loadCase, attachment, model) {

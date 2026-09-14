@@ -33,6 +33,12 @@ import {
   planLafeaShellAnalysisMesh,
   produceLafeaShellAnalysisMesh,
 } from '../src/workspace/lafea-shell-mesh-producer.js';
+import {
+  createLafea4ShellThicknessBasis,
+} from '../src/workspace/lafea-shell-thickness-basis.js';
+import {
+  createLafea4ShellGeometricQualityEvidence,
+} from '../src/workspace/lafea4-shell-geometric-quality-evidence.js';
 import { issueLafeaSourceAuthority } from '../src/workspace/lafea-source-authority.js';
 import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
 import { createLafeaWorkbenchOrchestratorStore } from '../src/workspace/lafea-workbench-orchestrator-store.js';
@@ -119,12 +125,14 @@ for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
   });
 }
 
+const g5RetainedMeshLadder = checkLafea4ThreeLevelRetainedMeshLadder();
 checkAdversarialContracts();
 
 console.log(JSON.stringify({
   schema: 'lafea-shell-curved-cylinder-check/v1',
   status: 'PASS',
   rows,
+  g5RetainedMeshLadder,
   qualifiedScope: {
     surface: 'ANALYTIC_CYLINDER',
     parameterization: 'U_ARC_LENGTH_V_AXIAL',
@@ -205,6 +213,122 @@ function shellProfile(stageId, target) {
       adaptiveLevels: 3,
     },
   });
+}
+
+function checkLafea4ThreeLevelRetainedMeshLadder() {
+  const stageId = 'LAFEA.4';
+  const document = normalizeLafeaStageDocument(stageId, shellFixture());
+  const authority = issueLafeaSourceAuthority(
+    stageId,
+    document,
+    'LAFEA4-A1-G5-THREE-LEVEL-RETAINED-MESH-LADDER',
+  );
+  const parent = cylindricalParent(stageId, authority.sourceHash);
+  const thicknessBasis = createLafea4ShellThicknessBasis({
+    sourceHash: authority.sourceHash,
+    document,
+  });
+  assert.equal(thicknessBasis.classification, 'UNIFORM_THICKNESS');
+
+  const workbench = createLafeaWorkbenchOrchestratorStore({
+    initialStage: stageId,
+    initialDocument: document,
+    initialSourceHash: authority.sourceHash,
+  });
+  assert.equal(workbench.registerShellMidsurfaceEvidence(parent, stageId)?.changed, true);
+
+  const levels = [30, 15, 7.5].map((target) => {
+    const profile = shellProfile(stageId, target);
+    workbench.bindAnalysisMeshProfile(profile, stageId);
+    const planned = workbench.planAnalysisMesh({}, stageId);
+    const generated = workbench.generateAnalysisMesh({}, stageId);
+    assert.equal(generated.evidence.qualification, 'PASS');
+    const retained = workbench.selectRetainedAnalysisMeshEvidenceV2(stageId);
+    assert.equal(retained.artifactHash, generated.evidence.artifactHash);
+    assert.equal(retained.meshHash, generated.evidence.meshHash);
+    assert.equal(retained.sourceHash, authority.sourceHash);
+    assert.equal(retained.analysisGeometryHash, parent.analysisGeometryHash);
+    assert.equal(retained.meshProfileHash, profile.semanticHash);
+    assert.equal(retained.status, 'CURRENT');
+    assert.equal(retained.qualification, 'PASS');
+
+    const lengths = retained.quality.elementResults
+      .map((row) => row.characteristicLength)
+      .sort((left, right) => left - right);
+    const geometric = createLafea4ShellGeometricQualityEvidence({
+      meshEvidence: retained,
+      midsurfaceEvidence: parent,
+      thicknessBasis,
+    });
+    assert.equal(geometric.sourceHash, authority.sourceHash);
+    assert.equal(geometric.meshHash, retained.meshHash);
+    assert.equal(geometric.meshProfileHash, profile.semanticHash);
+    assert.equal(geometric.thicknessBasisHash, thicknessBasis.semanticHash);
+    assert.equal(geometric.metrics.hOverT.status, 'AVAILABLE_UNIFORM_THICKNESS');
+
+    return {
+      requestedTargetElementLength: target,
+      effectiveTargetElementLength: planned.planned.effectiveTargetElementLength,
+      sourceHash: retained.sourceHash,
+      analysisGeometryHash: retained.analysisGeometryHash,
+      meshProfileHash: retained.meshProfileHash,
+      meshHash: retained.meshHash,
+      artifactHash: retained.artifactHash,
+      nodeCount: retained.mesh.nodes.length,
+      elementCount: retained.mesh.elements.length,
+      estimatedDofs: retained.mesh.nodes.length * 5,
+      measuredCharacteristicLengthMin: lengths[0],
+      measuredCharacteristicLengthMedian: median(lengths),
+      measuredCharacteristicLengthMax: lengths.at(-1),
+      qualityWorstStatus: retained.quality.worstStatus,
+      minimumScaledJacobian: gateValue(retained.quality, 'SCALED_JACOBIAN'),
+      maximumAspectRatio: gateValue(retained.quality, 'ASPECT_RATIO'),
+      maximumChordMidpointDeviation:
+        geometric.metrics.curvatureChordMidpointDeviation.maximum,
+      maximumHOverT: geometric.metrics.hOverT.maximum,
+      thicknessBasisHash: thicknessBasis.semanticHash,
+      uniformThickness: thicknessBasis.uniformThickness,
+    };
+  });
+
+  assert.equal(new Set(levels.map((row) => row.meshProfileHash)).size, levels.length);
+  assert.equal(new Set(levels.map((row) => row.meshHash)).size, levels.length);
+  assert.equal(new Set(levels.map((row) => row.artifactHash)).size, levels.length);
+  for (let index = 1; index < levels.length; index += 1) {
+    const coarse = levels[index - 1];
+    const fine = levels[index];
+    assert.ok(fine.nodeCount > coarse.nodeCount);
+    assert.ok(fine.elementCount > coarse.elementCount);
+    assert.ok(fine.estimatedDofs > coarse.estimatedDofs);
+    assert.ok(fine.measuredCharacteristicLengthMedian < coarse.measuredCharacteristicLengthMedian);
+    assert.ok(fine.measuredCharacteristicLengthMax < coarse.measuredCharacteristicLengthMax);
+    assert.ok(fine.maximumChordMidpointDeviation <= coarse.maximumChordMidpointDeviation + 1e-12);
+    assert.ok(fine.maximumHOverT < coarse.maximumHOverT);
+  }
+  workbench.destroy();
+  return {
+    schema: 'lafea4-a1-g5-retained-mesh-ladder/v1',
+    status: 'PASS',
+    sourceHash: authority.sourceHash,
+    analysisGeometryHash: parent.analysisGeometryHash,
+    thicknessBasisHash: thicknessBasis.semanticHash,
+    levelCount: levels.length,
+    levels,
+  };
+}
+
+function gateValue(quality, metric) {
+  const row = quality.gateResults.find((candidate) => candidate.metric === metric);
+  assert.ok(row && Number.isFinite(row.value), `Missing finite ${metric} gate value`);
+  return row.value;
+}
+
+function median(values) {
+  assert.ok(values.length > 0);
+  const middle = Math.floor(values.length / 2);
+  return values.length % 2 === 0
+    ? (values[middle - 1] + values[middle]) / 2
+    : values[middle];
 }
 
 function checkAnalyticSurface(geometry) {
