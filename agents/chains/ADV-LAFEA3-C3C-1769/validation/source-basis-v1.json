@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0007",
+  "basisId": "C3C-SOURCE-BASIS-0008",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,7 +11,7 @@
     "disposition": "CANDIDATE_QUALIFIED_NOT_MAIN_CURRENT"
   },
   "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
-  "scope": "G001_G002_G003_PROJECTION_CONSTANT_AND_LINEAR_STRAIGHT_TRACTION_QUALIFIED_BOUNDED",
+  "scope": "G001_G002_G003_QUALIFIED_G004_SOURCE_NORMAL_PRESSURE_PRIMITIVE_QUALIFIED_COMPILER_WIRING_PENDING",
   "diagnosticProvenance": {
     "baselineBasisId": "C3C-SOURCE-BASIS-0002",
     "baselinePassRun": 34763598330,
@@ -47,9 +47,13 @@
     "g003QualifiedCandidateJob": 103808311500,
     "g003QualifiedCandidateHead": "e796902fded42c03fcb384ca15df4023bc13d868",
     "g003QualifiedCandidateDisposition": "ALL_11_ENGINEERING_AND_CUSTODY_GATES_PASS",
-    "productionPhysicsChangedByG001G002G003": false,
-    "kernelLoadIntegrationChangedByG001G002G003": false,
-    "compilerCustodyChangedByG001G002G003": true
+    "g004PrimitiveFocusedRun": 34797554549,
+    "g004PrimitiveFocusedJob": 103833491416,
+    "g004PrimitiveFocusedHead": "0fac3d37930be054753c3ccd625727f41b28c45a",
+    "g004PrimitiveFocusedDisposition": "SOURCE_NORMAL_PRESSURE_PRIMITIVE_AND_IMPORT_GOVERNANCE_PASS_COMPILER_WIRING_NOT_YET_QUALIFIED",
+    "productionPhysicsChangedByG001G002G003G004Primitive": false,
+    "kernelLoadIntegrationChangedByG001G002G003G004Primitive": false,
+    "compilerCustodyChangedByG001G002G003G004Primitive": true
   },
   "sources": [
     {
@@ -155,6 +159,12 @@
       "blobSha": "2adf4bfcd4a78a71ecb5b79ad0f4269190335455"
     },
     {
+      "sourceId": "C3C-S018",
+      "role": "sourceGeometryPressureLoweringPrimitive",
+      "path": "src/workspace/lafea-source-pressure-lowering.js",
+      "blobSha": "546ed5ca4f7f8336df6e4feaa9c6d9692b542641"
+    },
+    {
       "sourceId": "C3C-Q001",
       "role": "solverModelCompilerCheck",
       "path": "scripts/lafea-continuum-solver-model-check.mjs",
@@ -213,18 +223,24 @@
       "role": "sourceLinearT6Q8TractionQualificationCheck",
       "path": "scripts/lafea.3-c3c-linear-traction-check.mjs",
       "blobSha": "69500ea1aad432d7e08710cb2e4071bb31abb7a7"
+    },
+    {
+      "sourceId": "C3C-Q011",
+      "role": "sourceNormalPressurePrimitiveQualificationCheck",
+      "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs",
+      "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989"
     }
   ],
   "confirmedOpenSemantics": [
     {
       "gapId": "C3C-G001",
       "state": "QUALIFIED_BOUNDED",
-      "description": "Hash-addressed source-feature to mesh-entity to compiled-contribution projection custody is qualified on the ordinary compiler route. Source-normal pressure authority and hole-orientation semantics remain outside this bounded claim."
+      "description": "Hash-addressed source-feature to mesh-entity to compiled-contribution projection custody is qualified on the ordinary compiler route. Full G004 source-pressure compiled-contribution custody remains outside this bounded claim."
     },
     {
       "gapId": "C3C-G002",
       "state": "PARTIAL_QUALIFIED_BOUNDED",
-      "description": "Source-vs-compiled Fx/Fy/Mz conservation is qualified for constant and source-linear traction on straight source segments. Pressure/source-normal, curved-traction and body-force resultant certification remain outside this bounded claim."
+      "description": "Source-vs-compiled Fx/Fy/Mz conservation is qualified for constant and source-linear traction on straight source segments. Pressure compiled-resultant and body-force resultant certification remain outside this bounded claim."
     },
     {
       "gapId": "C3C-G003",
@@ -233,8 +249,8 @@
     },
     {
       "gapId": "C3C-G004",
-      "state": "OPEN",
-      "description": "Pressure kernel evaluates local normals from retained edge traversal; source-geometry normal and loop-role correspondence are retained by the projection receipt but are not yet authoritative pressure-normal evidence."
+      "state": "PRIMITIVE_QUALIFIED_COMPILER_WIRING_PENDING",
+      "description": "A source-geometry pressure lowering primitive is qualified for LINE/CIRCULAR_ARC source boundaries, T6/Q8 quadratic edge distribution, OUTER/HOLE orientation, exact independent source force/moment resultants, split-edge invariance, and fail-closed geometry. Ordinary compiler wiring, projection contribution IDs, and pressure resultant receipt remain unqualified."
     },
     {
       "gapId": "C3C-G005",
@@ -254,10 +270,13 @@
     "constantStraightTractionForceMomentQualified": true,
     "linearTractionImplementedCandidate": true,
     "linearTractionQualified": true,
+    "sourceNormalPressurePrimitiveImplemented": true,
+    "sourceNormalPressurePrimitiveQualified": true,
+    "sourceNormalPressureCompilerWiringQualified": false,
+    "sourceNormalPressureQualified": false,
     "bodyForceResultantQualified": false,
     "temperatureDeltaQualified": false,
-    "sourceNormalPressureQualified": false,
     "releaseQualified": false
   },
-  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_OR_PROBE_SOURCE_CHANGES"
+  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_PROBE_OR_SOURCE_PRESSURE_SOURCE_CHANGES"
 }
