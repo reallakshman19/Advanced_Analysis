@@ -57,25 +57,55 @@ assert.deepEqual(tractionProjection.meshEntities.edgeNodePaths, [['M-B', 'M-BC',
 assert.deepEqual(tractionProjection.meshEntities.elementIds, ['M-E1']);
 assert.deepEqual(tractionProjection.compiledContributionIds, ['PULL-EDGE/1']);
 
+const bodyProjection = projection.entries.find((row) => row.attachmentId === 'BODY');
+assert.ok(bodyProjection, 'BODY projection required');
+assert.equal(bodyProjection.sourceFeature.targetType, 'REGION');
+assert.equal(bodyProjection.sourceFeature.featureId, 'REGION-1');
+assert.equal(bodyProjection.sourceFeature.geometry.orientationPolicy, 'OUTER_CCW_HOLES_CW_V1');
+assert.equal(bodyProjection.sourceFeature.geometry.loops.length, 1);
+assert.equal(bodyProjection.sourceFeature.geometry.loops[0].role, 'OUTER');
+assert.deepEqual(bodyProjection.compiledContributionIds, ['BODY/M-E1']);
+
 const input = buildLafeaContinuumCompiledExecutionInput(model);
 const evidence = validateLafeaContinuumLoadResultantEvidence(
   createLafeaContinuumLoadResultantEvidence(model, input),
 );
 assert.equal(evidence.parents.solverModelHash, model.solverModelHash);
 assert.equal(evidence.parents.projectionHash, model.parents.projectionHash);
-assert.equal(evidence.evaluated.length, 1);
-const row = evidence.evaluated[0];
-assert.equal(row.attachmentId, 'PULL-EDGE');
-assert.equal(row.caseId, 'L1');
-assert.equal(row.comparison.status, 'PASS');
-assert.ok(Math.abs(row.sourceResultant.forceX - 10000 * Math.SQRT2) < 1e-8);
-assert.ok(Math.abs(row.sourceResultant.forceY) < 1e-12);
-assert.ok(Math.abs(row.sourceResultant.momentZ + 500000 * Math.SQRT2) < 1e-7);
-assert.ok(Math.abs(row.compiledResultant.forceX - row.sourceResultant.forceX) <= row.comparison.forceTolerance);
-assert.ok(Math.abs(row.compiledResultant.forceY - row.sourceResultant.forceY) <= row.comparison.forceTolerance);
-assert.ok(Math.abs(row.compiledResultant.momentZ - row.sourceResultant.momentZ) <= row.comparison.momentTolerance);
-assert.equal(row.equivalentNodalForces.length, 3);
-assert.deepEqual(row.contributionIds, ['PULL-EDGE/1']);
+assert.equal(evidence.evaluated.length, 2);
+
+const tractionRow = evidence.evaluated.find((item) => item.attachmentId === 'PULL-EDGE');
+assert.ok(tractionRow);
+assert.equal(tractionRow.caseId, 'L1');
+assert.equal(tractionRow.comparison.status, 'PASS');
+assert.ok(Math.abs(tractionRow.sourceResultant.forceX - 10000 * Math.SQRT2) < 1e-8);
+assert.ok(Math.abs(tractionRow.sourceResultant.forceY) < 1e-12);
+assert.ok(Math.abs(tractionRow.sourceResultant.momentZ + 500000 * Math.SQRT2) < 1e-7);
+assert.ok(Math.abs(tractionRow.compiledResultant.forceX - tractionRow.sourceResultant.forceX) <= tractionRow.comparison.forceTolerance);
+assert.ok(Math.abs(tractionRow.compiledResultant.forceY - tractionRow.sourceResultant.forceY) <= tractionRow.comparison.forceTolerance);
+assert.ok(Math.abs(tractionRow.compiledResultant.momentZ - tractionRow.sourceResultant.momentZ) <= tractionRow.comparison.momentTolerance);
+assert.equal(tractionRow.equivalentNodalForces.length, 3);
+assert.deepEqual(tractionRow.contributionIds, ['PULL-EDGE/1']);
+
+const bodyRow = evidence.evaluated.find((item) => item.attachmentId === 'BODY');
+assert.ok(bodyRow);
+assert.equal(bodyRow.caseId, 'L1');
+assert.equal(bodyRow.bodyForceLaw, 'UNIFORM_SOURCE_REGION_BODY_FORCE_V1');
+assert.equal(bodyRow.sourceRegionAuthority, 'ANALYSIS_GEOMETRY_ORIENTED_REGION_BOUNDARY_V1');
+assert.equal(bodyRow.comparison.status, 'PASS');
+close(bodyRow.sourceRegionMoments.area, 5000);
+close(bodyRow.sourceRegionMoments.centroidX, 100 / 3);
+close(bodyRow.sourceRegionMoments.centroidY, 100 / 3);
+close(bodyRow.sourceResultant.forceX, 0);
+close(bodyRow.sourceResultant.forceY, -50000);
+close(bodyRow.sourceResultant.momentZ, -5000000 / 3);
+close(bodyRow.compiledResultant.forceX, bodyRow.sourceResultant.forceX);
+close(bodyRow.compiledResultant.forceY, bodyRow.sourceResultant.forceY);
+close(bodyRow.compiledResultant.momentZ, bodyRow.sourceResultant.momentZ);
+assert.equal(bodyRow.sourceResultant.measureUnit, 'mm^2');
+assert.equal(bodyRow.equivalentNodalForces.length, 6);
+assert.deepEqual(bodyRow.contributionIds, ['BODY/M-E1']);
+
 assert.equal(
   createLafeaContinuumLoadResultantEvidence(model, input).loadResultantEvidenceHash,
   evidence.loadResultantEvidenceHash,
@@ -92,6 +122,11 @@ contributionDrift.loadCases.find((loadCase) => loadCase.loadCaseId === 'L1').edg
 expectCode(() => createLafeaContinuumLoadResultantEvidence(model, contributionDrift),
   'LAFEA_CONTINUUM_RESULTANT_CONTRIBUTION_CUSTODY_MISMATCH');
 
+const bodyContributionDrift = structuredClone(input);
+bodyContributionDrift.loadCases.find((loadCase) => loadCase.loadCaseId === 'L1').bodyForces[0].bodyForceId = 'BODY/DRIFT';
+expectCode(() => createLafeaContinuumLoadResultantEvidence(model, bodyContributionDrift),
+  'LAFEA_CONTINUUM_RESULTANT_CONTRIBUTION_CUSTODY_MISMATCH');
+
 const momentOnlyDrift = structuredClone(model);
 for (const nodeId of ['M-B', 'M-BC', 'M-C']) {
   momentOnlyDrift.nodes.find((node) => node.nodeId === nodeId).y += 1;
@@ -99,15 +134,13 @@ for (const nodeId of ['M-B', 'M-BC', 'M-C']) {
 expectCode(() => createLafeaContinuumLoadResultantEvidence(momentOnlyDrift, input),
   'LAFEA_CONTINUUM_LOAD_RESULTANT_MISMATCH');
 
-assert.ok(evidence.notEvaluated.some((item) =>
-  item.attachmentId === 'BODY' && item.reason === 'BODY_FORCE_RESULTANT_CERTIFICATION_PENDING'));
 assert.equal(evidence.pressureSourceNormalQualified, false);
 assert.equal(evidence.linearTractionQualified, false);
-assert.equal(evidence.bodyForceResultantQualified, false);
+assert.equal(evidence.bodyForceResultantQualified, true);
 assert.equal(evidence.releaseAuthorityGranted, false);
 
 console.log(JSON.stringify({
-  schema: 'lafea3-c3c-projection-resultant-check/v1',
+  schema: 'lafea3-c3c-projection-resultant-check/v2',
   status: 'PASS',
   stageId: 'LAFEA.3',
   projectionHash: projection.projectionHash,
@@ -116,12 +149,15 @@ console.log(JSON.stringify({
   sourceFeatureToMeshToContributionCustody: true,
   constantStraightT6TractionForcePreserved: true,
   constantStraightT6TractionMomentPreserved: true,
+  straightRegionT6BodyForcePreserved: true,
+  bodyForceMomentPreserved: true,
   momentOnlyDriftRejected: true,
   contributionIdentityDriftRejected: true,
+  bodyForceContributionIdentityDriftRejected: true,
   deterministicReplay: true,
   pressureSourceNormalQualified: false,
   linearTractionQualified: false,
-  bodyForceResultantQualified: false,
+  bodyForceResultantQualified: true,
   releaseAuthorityGranted: false,
 }));
 
@@ -234,6 +270,9 @@ function line(segmentId, startVertexId, endVertexId) {
 }
 function node(nodeId, x, y) { return { nodeId, x, y, z: 0 }; }
 function hash(value) { return canonicalLafeaSha256({ schema: 'c3c-g001-g002-test-hash/v1', value }); }
+function close(actual, expected) {
+  assert.ok(Math.abs(actual - expected) <= 1e-9 * Math.max(1, Math.abs(expected)), `${actual} != ${expected}`);
+}
 function expectCode(action, code) {
   assert.throws(action, (error) => error?.code === code, `expected ${code}`);
 }
