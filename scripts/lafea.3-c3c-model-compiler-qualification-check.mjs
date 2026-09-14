@@ -42,6 +42,7 @@ const steps = [
   step('C3C-COMPILED-INPUT-LOWERING', process.execPath, ['scripts/lafea-continuum-compiled-input-check.mjs'], 'C3C_2_C3C_3'),
   step('C3C-PROJECTION-RESULTANT-CUSTODY', process.execPath, ['scripts/lafea.3-c3c-projection-resultant-check.mjs'], 'C3C_1_C3C_2'),
   step('C3C-BODY-FORCE-RESULTANT', process.execPath, ['scripts/lafea.3-c3c-body-force-resultant-check.mjs'], 'C3C_2_G002'),
+  step('C3C-G005-DELTA-T', process.execPath, ['scripts/lafea.3-c3c-temperature-delta-check.mjs'], 'C3C_2_G005'),
   step('C3C-LINEAR-TRACTION', process.execPath, ['scripts/lafea.3-c3c-linear-traction-check.mjs'], 'C3C_2_G003'),
   step('C3C-G004-SOURCE-PRESSURE-PRIMITIVE', process.execPath, ['scripts/lafea.3-c3c-source-pressure-lowering-check.mjs'], 'C3C_2_G004'),
   step('C3C-G004-SOURCE-PRESSURE-COMPILER', process.execPath, ['scripts/lafea.3-c3c-source-pressure-compiler-check.mjs'], 'C3C_1_C3C_2_G004'),
@@ -79,7 +80,7 @@ function emit(status, blocker, steps) {
     authority: {
       newPhysicsImplementedByRunner: false,
       sourceOrMeshMutationPerformedByRunner: false,
-      temperatureDeltaQualified: false,
+      temperatureDeltaQualified: passed('C3C-G005-DELTA-T'),
       linearTractionQualified: passed('C3C-LINEAR-TRACTION'),
       sourceNormalPressureQualified: passed('C3C-G004-SOURCE-PRESSURE-COMPILER'),
       projectionReceiptQualified: passed('C3C-PROJECTION-RESULTANT-CUSTODY'),

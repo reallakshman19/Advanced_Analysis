@@ -3,6 +3,7 @@ import { MODEL_SCHEMA } from '../core/local-continuum/index.js';
 import { lafeaUnitFactor } from '../core/lafea-common-input/units.js';
 import { integrateLafeaAnalyticalEdgeTraction } from './lafea-analytical-traction-lowering.js';
 import { integrateLafeaSourcePressure } from './lafea-source-pressure-lowering.js';
+import { appendLafeaDeltaTemperatureLoads } from './lafea-continuum-temperature-lowering.js';
 
 export function buildLafeaContinuumCompiledExecutionInput(model) {
   const sections = new Map(model.sections.map((row) => [row.sectionId, row]));
@@ -31,6 +32,7 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
     (row) => row.kind === 'TRACTION' && typeof row.payload?.law === 'string',
   );
   const hasSourcePressure = model.attachments.some((row) => row.kind === 'PRESSURE');
+  const hasTemperature = model.attachments.some((row) => row.kind === 'TEMPERATURE');
   return {
     schema: MODEL_SCHEMA,
     modelIdentity: model.sourceModel.modelIdentity,
@@ -51,6 +53,7 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
       'DOMAIN_FIRST_COMPILED_PARITY_EXECUTION_ONLY',
       ...(hasAnalyticalTraction ? ['ANALYTICAL_TRACTION_CONSISTENT_NODAL_LOWERING_V1'] : []),
       ...(hasSourcePressure ? ['SOURCE_NORMAL_PRESSURE_CONSISTENT_NODAL_LOWERING_V1'] : []),
+      ...(hasTemperature ? ['GOVERNED_CONSTANT_ALPHA_DELTA_T_LOWERING_V1'] : []),
     ])].sort(compare),
   };
 }
@@ -132,7 +135,7 @@ function appendCaseAttachment(loadCase, attachment, model, sections) {
   if (attachment.kind === 'PRESSURE') return appendSourcePressure(loadCase, attachment, model, sections);
   if (attachment.kind === 'BODY_FORCE') return appendBodyForce(loadCase, attachment, model);
   if (attachment.kind === 'TEMPERATURE') {
-    fail('LAFEA_CONTINUUM_COMPILED_TEMPERATURE_SEMANTICS_NOT_QUALIFIED');
+    return appendLafeaDeltaTemperatureLoads({ loadCase, attachment, model });
   }
   fail('LAFEA_CONTINUUM_COMPILED_ATTACHMENT_KIND_UNSUPPORTED');
 }
