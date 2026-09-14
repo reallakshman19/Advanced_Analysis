@@ -138,7 +138,7 @@ function compileFixture(family) {
     region: { regionId: 'REGION-1', materialRef: 'MAT' },
     physicalCases: caseIds.map((caseId) => ({ caseId })),
     attachments: [
-      attachment('OUTER-P', 'OUTER', CASE_ID),
+      attachment('OUTER-P', 'O1', CASE_ID),
       attachment('HOLE-P', 'H1', CASE_ID),
     ],
   }, geometry);
