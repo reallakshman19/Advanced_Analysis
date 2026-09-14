@@ -1,0 +1,97 @@
+name: LAFEA.4 A3 CST-DKT exact-head mechanics validation
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/lafea4-a3-mechanics-dossier-check.mjs'
+      - 'scripts/lafea-shell-independent-benchmark-freeze-check.mjs'
+      - 'scripts/lafea4-shell-independent-benchmark-check.mjs'
+      - 'scripts/lafea.4-membrane-check.mjs'
+      - 'scripts/lafea.4-bending-check.mjs'
+      - 'scripts/lafea-s4-resultant-check.mjs'
+      - 'scripts/lafea.4-stress-energy-check.mjs'
+      - 'scripts/lafea.4-solver-loads-check.mjs'
+      - 'scripts/lafea4-a2-load-transfer-check.mjs'
+      - 'scripts/lafea4-a2-frame-covariance-check.mjs'
+      - 'scripts/lafea4-a2-applicability-negative-check.mjs'
+      - 'validation/lafea-shell/**'
+      - 'src/core/local-shell/**'
+      - 'agents/chains/ADV-LAFEA4-A3-1761/**'
+      - 'agents/qualifications/ADV-LAFEA4-A3-1761/**'
+      - '.github/workflows/lafea4-a3-cst-dkt-vv.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-head:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Verify exact head and clean tree
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: A3 independent mechanics dossier and falsifiers
+        run: node scripts/lafea4-a3-mechanics-dossier-check.mjs
+
+      - name: Frozen B4 oracle/source anti-circularity
+        run: node scripts/lafea-shell-independent-benchmark-freeze-check.mjs
+
+      - name: B4-1 B4-2 and published B4-3 production execution
+        run: node scripts/lafea4-shell-independent-benchmark-check.mjs
+
+      - name: CST affine membrane completeness
+        run: node scripts/lafea.4-membrane-check.mjs
+
+      - name: DKT rigid modes curvature signs and t-cubed scaling
+        run: node scripts/lafea.4-bending-check.mjs
+
+      - name: Membrane/bending resultants surfaces and cylinder sanity
+        run: node scripts/lafea-s4-resultant-check.mjs
+
+      - name: Stress invariants and strain-energy reconstruction
+        run: node scripts/lafea.4-stress-energy-check.mjs
+
+      - name: Reactions and pure-moment equilibrium
+        run: node scripts/lafea.4-solver-loads-check.mjs
+
+      - name: Inherited A2 pressure/remesh boundary
+        run: node scripts/lafea4-a2-load-transfer-check.mjs
+
+      - name: Inherited A2 frame covariance boundary
+        run: node scripts/lafea4-a2-frame-covariance-check.mjs
+
+      - name: Inherited A2 fail-closed applicability
+        run: node scripts/lafea4-a2-applicability-negative-check.mjs
+
+      - name: Governed LAFEA core aggregate
+        run: npm run check:lafea-core
+
+      - name: Import integrity
+        run: npm run check:imports
+
+      - name: Production build
+        run: npm run build
+
+      - name: Diff whitespace gate
+        shell: bash
+        run: |
+          git fetch origin engineering/lafea4-a2-1759-load-bc-frame --depth=1
+          git diff --check FETCH_HEAD...HEAD
