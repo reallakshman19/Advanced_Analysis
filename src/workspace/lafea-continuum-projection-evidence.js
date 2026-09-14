@@ -126,11 +126,12 @@ function collectSegmentLoops(loops) {
 function compiledContributionIds(attachment, target) {
   const id = attachment.attachmentId;
   if (attachment.kind === 'CONCENTRATED_LOAD') return freeze([id]);
-  if (attachment.kind === 'TRACTION' && typeof attachment.payload?.law === 'string') {
+  if ((attachment.kind === 'TRACTION' && typeof attachment.payload?.law === 'string')
+    || attachment.kind === 'PRESSURE') {
     return freeze(target.edgeNodePaths.flatMap((nodeIds, edgeIndex) =>
       nodeIds.map((nodeId, nodeIndex) => `${id}/${edgeIndex + 1}/${nodeIndex + 1}/${nodeId}`)));
   }
-  if (attachment.kind === 'TRACTION' || attachment.kind === 'PRESSURE') {
+  if (attachment.kind === 'TRACTION') {
     return freeze(target.edgeNodePaths.map((_, index) => `${id}/${index + 1}`));
   }
   if (attachment.kind === 'BODY_FORCE' || attachment.kind === 'TEMPERATURE') {
