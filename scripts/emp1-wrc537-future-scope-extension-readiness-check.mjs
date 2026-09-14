@@ -3,14 +3,16 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const RECORD_PATH = 'validation/emp1/wrc537-2013/future-scope-extension-readiness-v1.json';
+const E1_INTAKE_PATH = 'validation/emp1/wrc537-2013/appendix-b-scf-primary-source-intake-v2.json';
 const ROUTE_PATH = 'src/core/emp1/emp1-wrc537-gamma5-zero-dp-route.js';
 const SOURCE_SHA = '698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2';
 const DATASET_HASH = 'fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c';
 const QUALIFICATION = '9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7';
 const ORACLE = '60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18';
 
-const [record, routeSource] = await Promise.all([
+const [record, e1Intake, routeSource] = await Promise.all([
   readJson(RECORD_PATH),
+  readJson(E1_INTAKE_PATH),
   readFile(ROUTE_PATH, 'utf8'),
 ]);
 
@@ -57,6 +59,26 @@ for (const track of record.tracks) {
   assert.equal(track.numericalQualification, 'NOT_RUN',
     `EMP1_1777_NUMERICAL_QUALIFICATION_FALSE_CLAIM:${track.trackId}`);
 }
+
+const e1Track = record.tracks.find((track) => track.trackId === 'E1');
+assert(e1Track, 'EMP1_1777_E1_TRACK_REQUIRED');
+assert.equal(e1Intake.schema, 'emp1-wrc537-appendix-b-scf-primary-source-intake/v2');
+assert.equal(e1Intake.issue, 1777);
+assert.equal(e1Intake.trackId, 'E1');
+assert.equal(e1Intake.status, 'BLOCKED_PRIMARY_APPENDIX_B_PAGES_NOT_READABLE_IN_CURRENT_INTERFACE');
+assert.equal(e1Intake.authorityCreatedByThisArtifact, false);
+assert.equal(e1Intake.engineeringPassClaimed, false);
+assert.equal(e1Intake.sourceDefinitionFrozen, false);
+assert.equal(e1Intake.source.rawPdfSha256, SOURCE_SHA);
+assert.equal(e1Intake.currentBoundedAuthority.mode, 'UNITY_ONLY');
+assert.equal(e1Intake.currentBoundedAuthority.Kn, 1);
+assert.equal(e1Intake.currentBoundedAuthority.Kb, 1);
+assert.equal(e1Intake.currentBoundedAuthority.nonUnityAuthorized, false);
+assert.equal(e1Intake.benchmarkGate.independentBenchmark, 'ABSENT');
+assert.equal(e1Intake.benchmarkGate.benchmarkFreezeAllowedNow, false);
+assert.equal(e1Intake.authority.productionImplementationAuthority, false);
+assert.equal(e1Intake.authority.numericalQualification, 'NOT_RUN');
+assert.equal(e1Track.firstUnmetLifecycleBoundary, 'PRIMARY_SOURCE_QUALIFICATION');
 
 assert.equal(record.antiLeakageRules.boundedV1MutableInPlace, false);
 assert.equal(record.antiLeakageRules.productionOutputMayChooseDefinition, false);
@@ -113,6 +135,12 @@ console.log(JSON.stringify({
   authorityCreatedByThisCheck: false,
   engineeringPassClaimed: false,
   boundedRouteGuarded: true,
+  e1PrimarySourceIntake: {
+    status: e1Intake.status,
+    sourceDefinitionFrozen: e1Intake.sourceDefinitionFrozen,
+    nonUnityAuthorized: e1Intake.currentBoundedAuthority.nonUnityAuthorized,
+    independentBenchmark: e1Intake.benchmarkGate.independentBenchmark,
+  },
   extensionTracks: record.tracks.map(({ trackId, productionAuthorization, firstUnmetLifecycleBoundary }) => ({
     trackId,
     productionAuthorization,

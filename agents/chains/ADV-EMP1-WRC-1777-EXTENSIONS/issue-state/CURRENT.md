@@ -12,19 +12,17 @@ COMMON_PROTOCOL_STATUS: CURRENT
 ISSUE_BASIS_ID: IB-0001
 ISSUE_BASIS_FILE: agents/chains/ADV-EMP1-WRC-1777-EXTENSIONS/issue-basis/IB-0001.md
 PARENT_ARCHITECTURE: #1760
-ACTIVE_ENDPOINT: EP-0001
-
-ENGINEERING_STATE: IN_PROGRESS
+ACTIVE_ENDPOINT: EP-0002
+ENGINEERING_STATE: BLOCKED
 CUSTODY_STATE: HELD
 QUALIFICATION_STATE: NOT_REQUIRED
 WRITE_AUTHORITY: WRITE_ALLOWED
-AUTO_STATE: PAUSED
+AUTO_STATE: BLOCKED
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
-
-OWNER_PROGRESSION_COMMAND: proceed next
-QUALIFICATION_SCOPE_ID: QSCOPE-1777-WRC-EXTENSION-PROGRAMME-READINESS
-QUESTION_SET_ID: QSET-1777-0001
+OWNER_PROGRESSION_COMMAND: merge if mergeable, proceed next
+QUALIFICATION_SCOPE_ID: QSCOPE-1777-E1-APPENDIX-B-PRIMARY-SOURCE
+QUESTION_SET_ID: QSET-1777-0002
 QUESTION_SET_STATUS: CURRENT
 QUESTION_PACK_ACTION: REFRESHED
 QUESTION_DISPLAY: SHOW
@@ -32,111 +30,100 @@ CHAIN_HANDOVER_READY: TRUE
 TAKEOVER_QUALIFICATION_READY: TRUE
 HANDOVER_CONTENT_READY: TRUE
 HANDOVER_VALIDATION_STATUS: NOT_RUN
-HANDOVER_VALIDATION_EVIDENCE: NONE_EXECUTABLE_CI_PRE_RUNNER_BLOCKED
+HANDOVER_VALIDATION_EVIDENCE: NONE_EXECUTABLE_CI_PRE_RUNNER_BLOCKED_AND_PRIMARY_PDF_BINARY_UNAVAILABLE
 HANDOVER_READY: FALSE
 
 ## Repository / branch state
 
 ```text
-MAIN_SHA: 41df6e945789273fc327aaeca6686529a9ad8b39
-MAIN_TREE: 2ebc03a01b3b7485e1b38a7fa41367f92bb92085
-BRANCH: agent/arch-wrc-06-extension-readiness
-BRANCH_HEAD: SELF / resolve from PR #1799
-PR: #1799 OPEN / DRAFT / MERGEABLE
-MATERIAL_IMPLEMENTATION_HEAD: 77627fe3d75bb5c46a4b25d02a7611a866b5e589
+MAIN_SHA: ea2a2e5842a5ae1931544b20f7dcb97184d7cec1
+MAIN_DRIFT_CLASS: MATERIAL_WITHIN_QUALIFIED_BOUNDARY_NO_EMP1_WRC_OVERLAP
+MAIN_DRIFT_SOURCE: PR #1789 LAFEA.3 C3-C only
+BRANCH: agent/arch-wrc-06-e1-appendix-b-source
+BRANCH_HEAD: SELF / resolve from PR #1800
+ACTIVE_PR: #1800 OPEN / DRAFT
+PREVIOUS_PR: #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 ```
 
 ## Cumulative task ledger
 
 - T1: preserve bounded-v1 authority as a separate immutable route/profile boundary — RETAINED.
-- T2: organize E1-E6 as independent versioned extension tracks — MATERIALIZED.
-- T3: require source -> contract -> independent benchmark -> implementation -> exact-head qualification -> versioned authorization -> product integration — MATERIALIZED.
-- T4: prohibit authority inference from adjacent capability, production smoothness or external-software agreement — MATERIALIZED.
-- T5: preserve common positive/negative boundary, overlap and anti-leakage governance — MATERIALIZED.
+- T2: organize E1-E6 as independent versioned extension tracks — MATERIALIZED by merged #1799.
+- T3: require source -> contract -> independent benchmark -> implementation -> exact-head qualification -> versioned authorization -> product integration — RETAINED.
+- T4: prohibit authority inference from adjacent capability, production smoothness or external-software agreement — RETAINED.
+- T5: preserve common positive/negative boundary, overlap and anti-leakage governance — RETAINED.
+- T6: begin E1 at controlled primary-source qualification only — ACTIVE / BLOCKED ON PRIMARY PAGE ACCESS.
 
 ## Cumulative input ledger
 
 - I1: issue #1777 owner architecture — CURRENT.
-- I2: legacy #1347 -> E1 — MIGRATED_UNRESOLVED.
-- I3: legacy #1350 -> E2 — MIGRATED_UNRESOLVED.
-- I4: legacy #1354 -> E3 — MIGRATED_UNRESOLVED.
-- I5: legacy #1356/#1358 plus PR #1346 -> E4 — MIGRATED_UNRESOLVED_WITH_RETAINED_HIGHER_GAMMA_BLOCK.
-- I6: legacy #1363/#1365 plus retained host-shell/nozzle boundary -> E5 — MIGRATED_UNRESOLVED.
-- I7: #1218 / PR #1211 -> E6 — MIGRATED_BLOCKED_SOURCE_UNAVAILABLE.
-- I8: current bounded production route source at main `41df6e...` — OBSERVED.
+- I2: legacy #1347 -> E1 — MIGRATED_UNRESOLVED; predecessor issue remains closed/superseded.
+- I3: PR1349 workreport + v1 Appendix-B source record — RETAINED HISTORICAL PREDECESSOR EVIDENCE.
+- I4: pinned WRC 537 (2013) PDF SHA `698fcdc3...` / Git blob `ce861233...` — RETAINED.
+- I5: public reproduction / secondary extraction — CORROBORATION_ONLY / NOT_AUTHORITY.
+- I6: E2-E6 readiness — unchanged from EP-0001.
+- I7: post-#1799 main drift through `ea2a2e...` — RECONCILED_NO_EMP1_WRC_OVERLAP.
 
 ## Cumulative benchmark/oracle ledger
 
-No extension benchmark is frozen by EP-0001.
-
 ```text
-E1..E6 independent extension benchmark = ABSENT
-extension numerical qualification = NOT_RUN
-extension engineering PASS = FALSE
-current bounded oracle 60771128... = baseline authority input only, not extension oracle
+E1 independent benchmark = ABSENT
+E1 benchmark freeze allowed now = FALSE
+E1 numerical qualification = NOT_RUN
+E1 engineering/source PASS = FALSE
+E2..E6 independent extension benchmark = ABSENT
 ```
 
-## Current E-track readiness
+The diagnostic candidate-relation comparisons used in QSET-1777-0002 demonstrate transcription risk only and are explicitly ineligible as benchmark expected values.
+
+## E1 primary-source state
 
 ```text
-E1 first unmet boundary = PRIMARY_SOURCE_QUALIFICATION
-E2 first unmet boundary = PRIMARY_SOURCE_QUALIFICATION
-E3 first unmet boundary = PRIMARY_SOURCE_QUALIFICATION
-E4 first unmet boundary = PRIMARY_SOURCE_QUALIFICATION
-E5 first unmet boundary = PRIMARY_SOURCE_QUALIFICATION
-E6 first unmet boundary = PRIMARY_SOURCE_QUALIFICATION / SOURCE_PACKAGE_BLOCKED
+source record = validation/emp1/wrc537-2013/appendix-b-scf-primary-source-intake-v2.json
+source status = BLOCKED_PRIMARY_APPENDIX_B_PAGES_NOT_READABLE_IN_CURRENT_INTERFACE
+primary page observation = NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT
+source definition frozen = FALSE
+current production SCF mode = UNITY_ONLY
+Kn = 1
+Kb = 1
+general Appendix-B authority = FALSE
+non-unity authority = FALSE
+production implementation authority = FALSE
+versioned route/profile authorization = FALSE
 ```
 
-Every track:
+The v2 intake requires exact source locators/semantics for B.3/B.4/B.5, all variables and dimensional ratios, applicability limits, minimum-factor rule status, B.4/B.5 selection, result application, membrane/bending treatment, sign behavior, Point A/B/C scope and external-reference dependencies before source closure.
 
-```text
-productionAuthorization = NOT_AUTHORIZED
-independentBenchmark = ABSENT
-numericalQualification = NOT_RUN
-```
+## Other E-track readiness
 
-## Bounded-v1 anti-leakage baseline
-
-```text
-WRC537_2013
-CYLINDRICAL / ROUND / ORIGINAL
-gamma=5 exact
-0.05 <= beta <= 0.50
-dP=0
-Kn=Kb=1
-Table-5 Au/Al/Bu/Bl/Cu/Cl/Du/Dl
-host-shell only
-off-axis maximum false
-global EMP.1.C false
-code/release false
-```
-
-Source: `698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2`
-Dataset: `fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c`
-Qualification: `9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7`
-Oracle: `60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18`
+E2-E6 remain at `PRIMARY_SOURCE_QUALIFICATION`, `productionAuthorization=NOT_AUTHORIZED`, `independentBenchmark=ABSENT`, and `numericalQualification=NOT_RUN`. E6 source package remains blocked.
 
 ## Validation truth
 
 ```text
-issue/repository source inspection = COMPLETE
-readiness record/checker authorship = COMPLETE
-checker execution = NOT_RUN
-reason = HOSTED_CI_PRE_RUNNER_FAILURE_ISSUE_54
-source/method extension PASS = NOT_CLAIMED
+#1347/#1349 repository/source-history inspection = COMPLETE
+main drift reconciliation = COMPLETE / NO EMP1-WRC OVERLAP
+E1 v1 source record inspection = COMPLETE
+E1 v2 intake/checker authorship = COMPLETE
+programme checker integration authorship = COMPLETE
+primary Appendix-B page observation = NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT
+E1 checker execution = NOT_RUN
+programme checker execution = NOT_RUN
+hosted CI reason = issue #54 pre-runner zero-step failure
+engineering/source PASS = NOT_CLAIMED
 ```
 
 ## Protected boundary
 
-No `src/core/**`, controlled WRC source bytes, oracle/tolerance/benchmark expected values, route/registry authorization, historical 01-12 evidence, `.github/workflows/**`, code-compliance, global EMP.1.C, professional-release or deployment authority is changed by EP-0001.
+No `src/core/**`, controlled source bytes, bounded dataset/oracle/tolerance/qualification expected values, route/registry authorization, historical 01–12 evidence, `.github/workflows/**`, code-compliance, global EMP.1.C, professional-release or deployment authority is changed by EP-0002.
 
 ## Issue synchronization
 
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5660165096
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5660167092
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5660169239
-ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0002_COMMENT
+ISSUE_HANDOVER_SYNC_STATUS: STALE_PENDING_EP0002_COMMENT
 
 ## Exact next action
 
-Stop this bounded progression. A future Owner command may select exactly one E-track for controlled primary-source qualification. Do not implement or authorize extension numerics before that track has a frozen source/domain contract and independent benchmark.
+Publish/synchronize EP-0002. Thereafter E1 may advance only by independently observing the pinned primary Appendix-B pages. If the controlled bytes remain unavailable, stop with source definition unfrozen and benchmark absent.
