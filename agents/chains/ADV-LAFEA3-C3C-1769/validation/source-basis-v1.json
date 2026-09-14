@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0008",
+  "basisId": "C3C-SOURCE-BASIS-0009",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,7 +11,7 @@
     "disposition": "CANDIDATE_QUALIFIED_NOT_MAIN_CURRENT"
   },
   "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
-  "scope": "G001_G002_G003_QUALIFIED_G004_SOURCE_NORMAL_PRESSURE_PRIMITIVE_QUALIFIED_COMPILER_WIRING_PENDING",
+  "scope": "G001_G002_G003_QUALIFIED_G004_SOURCE_NORMAL_PRESSURE_PRIMITIVE_EXACT_HEAD_QUALIFIED_COMPILER_WIRING_PENDING",
   "diagnosticProvenance": {
     "baselineBasisId": "C3C-SOURCE-BASIS-0002",
     "baselinePassRun": 34763598330,
@@ -51,6 +51,11 @@
     "g004PrimitiveFocusedJob": 103833491416,
     "g004PrimitiveFocusedHead": "0fac3d37930be054753c3ccd625727f41b28c45a",
     "g004PrimitiveFocusedDisposition": "SOURCE_NORMAL_PRESSURE_PRIMITIVE_AND_IMPORT_GOVERNANCE_PASS_COMPILER_WIRING_NOT_YET_QUALIFIED",
+    "g004PrimitiveAggregateBasisId": "C3C-SOURCE-BASIS-0008",
+    "g004PrimitiveAggregateRun": 34797685508,
+    "g004PrimitiveAggregateJob": 103833861815,
+    "g004PrimitiveAggregateHead": "0c3cf3615e2de6cf2fe797f4eef4bc5f34429363",
+    "g004PrimitiveAggregateDisposition": "SOURCE_CUSTODY_AND_ALL_PRIOR_C3C_GATES_PLUS_G004_PRIMITIVE_PASS",
     "productionPhysicsChangedByG001G002G003G004Primitive": false,
     "kernelLoadIntegrationChangedByG001G002G003G004Primitive": false,
     "compilerCustodyChangedByG001G002G003G004Primitive": true
@@ -250,7 +255,7 @@
     {
       "gapId": "C3C-G004",
       "state": "PRIMITIVE_QUALIFIED_COMPILER_WIRING_PENDING",
-      "description": "A source-geometry pressure lowering primitive is qualified for LINE/CIRCULAR_ARC source boundaries, T6/Q8 quadratic edge distribution, OUTER/HOLE orientation, exact independent source force/moment resultants, split-edge invariance, and fail-closed geometry. Ordinary compiler wiring, projection contribution IDs, and pressure resultant receipt remain unqualified."
+      "description": "The source-geometry pressure lowering primitive is exact-head qualified for LINE/CIRCULAR_ARC source boundaries, T6/Q8 quadratic edge distribution, OUTER/HOLE orientation, exact independent source force/moment resultants, split-edge invariance, and fail-closed geometry. Ordinary compiler wiring, projection contribution IDs, and pressure resultant receipt remain unqualified."
     },
     {
       "gapId": "C3C-G005",
