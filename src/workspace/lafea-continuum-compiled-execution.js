@@ -9,6 +9,13 @@ import {
   buildLafeaContinuumCompiledExecutionInput,
 } from './lafea-continuum-compiled-input.js';
 import {
+  createLafeaContinuumLoadResultantEvidence,
+  validateLafeaContinuumLoadResultantEvidence,
+} from './lafea-continuum-load-resultant-evidence.js';
+import {
+  validateLafeaContinuumProjectionEvidence,
+} from './lafea-continuum-projection-evidence.js';
+import {
   LAFEA_CONTINUUM_SOLVER_COMPILER_ID,
   LAFEA_CONTINUUM_SOLVER_COMPILER_REVISION,
   LAFEA_CONTINUUM_SOLVER_MODEL_SCHEMA,
@@ -34,6 +41,9 @@ export function executeLafeaContinuumCompiledForParity(value) {
     stageId: STAGE_ID,
     mode: LAFEA_CONTINUUM_COMPILED_EXECUTION_MODE,
     solverModelHash: run.solverModel.solverModelHash,
+    projectionHash: run.solverModel.parents.projectionHash,
+    loadResultantEvidenceHash: run.loadResultantEvidence.loadResultantEvidenceHash,
+    loadResultantEvidence: run.loadResultantEvidence,
     canonicalExecutionInputHash: run.canonicalExecutionInputHash,
     qualificationState: run.executionResult.qualification?.state ?? null,
     executionResult: run.executionResult,
@@ -58,6 +68,9 @@ export function executeLafeaContinuumCompiledAuthoritatively(value) {
     stageId: STAGE_ID,
     mode: LAFEA_CONTINUUM_AUTHORITATIVE_EXECUTION_MODE,
     solverModelHash: run.solverModel.solverModelHash,
+    projectionHash: run.solverModel.parents.projectionHash,
+    loadResultantEvidenceHash: run.loadResultantEvidence.loadResultantEvidenceHash,
+    loadResultantEvidence: run.loadResultantEvidence,
     canonicalExecutionInputHash: run.canonicalExecutionInputHash,
     qualificationState,
     canonicalInput: run.canonicalInput,
@@ -77,13 +90,22 @@ export function executeLafeaContinuumCompiledAuthoritatively(value) {
 function executeCompiled(value) {
   const solverModel = validateSolverModel(value);
   const executionInput = buildLafeaContinuumCompiledExecutionInput(solverModel);
+  const loadResultantEvidence = validateLafeaContinuumLoadResultantEvidence(
+    createLafeaContinuumLoadResultantEvidence(solverModel, executionInput),
+  );
   const canonicalInput = createCanonicalLocalContinuumModel(executionInput);
   const executionResult = calculateLocalContinuum(canonicalInput);
   const canonicalExecutionInputHash = canonicalLafeaSha256({
     schema: 'lafea-continuum-compiled-execution-input-hash/v1',
     canonicalInput,
   });
-  return freeze({ solverModel, canonicalInput, executionResult, canonicalExecutionInputHash });
+  return freeze({
+    solverModel,
+    canonicalInput,
+    executionResult,
+    canonicalExecutionInputHash,
+    loadResultantEvidence,
+  });
 }
 
 function validateSolverModel(value) {
@@ -111,6 +133,10 @@ function validateSolverModel(value) {
   requireCanonicalUnits(value.units);
   requireSourceModel(value.sourceModel);
   requireCollections(value);
+  const projection = validateLafeaContinuumProjectionEvidence(value.projectionEvidence);
+  if (value.parents?.projectionHash !== projection.projectionHash) {
+    fail('LAFEA_CONTINUUM_COMPILED_PROJECTION_PARENT_INVALID');
+  }
   if (!value.qualificationProfile || typeof value.qualificationProfile !== 'object') {
     fail('LAFEA_CONTINUUM_COMPILED_PROFILE_INVALID');
   }

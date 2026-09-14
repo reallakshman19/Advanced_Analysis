@@ -24,6 +24,30 @@ const contract = JSON.parse(fs.readFileSync(
 assert.deepEqual(LAFEA_COMPUTATIONAL_STATES, contract.stateModel.computationalState);
 assert.deepEqual(LAFEA_WORKBENCH_QUALIFICATION_STATES, contract.stateModel.qualificationState);
 
+function sha(character) {
+  return `sha256:${character.repeat(64)}`;
+}
+const H = Object.freeze({
+  source: sha('1'),
+  source2: sha('2'),
+  canonical: sha('3'),
+  domain: sha('4'),
+  geometry: sha('5'),
+  mesh: sha('6'),
+  mesh2: sha('7'),
+  meshProfile: sha('8'),
+  solverModel: sha('9'),
+  execution: sha('a'),
+  recovery: sha('b'),
+  loadCase: sha('c'),
+  solverProfile: sha('d'),
+  recoveryProfile: sha('e'),
+  preflight: sha('f'),
+  transactionReceipt: sha('0'),
+  rejectedReceipt: sha('1'),
+  transaction2: sha('a'),
+});
+
 const current = currentStage();
 const projected = projectLafeaWorkbenchCurrentness(current);
 assert.equal(projected.computationalState, 'CURRENT_RESULT');
@@ -333,26 +357,3 @@ function absent() {
     qualification: 'NOT_EVALUATED',
   };
 }
-function sha(character) {
-  return `sha256:${character.repeat(64)}`;
-}
-const H = Object.freeze({
-  source: sha('1'),
-  source2: sha('2'),
-  canonical: sha('3'),
-  domain: sha('4'),
-  geometry: sha('5'),
-  mesh: sha('6'),
-  mesh2: sha('7'),
-  meshProfile: sha('8'),
-  solverModel: sha('9'),
-  execution: sha('a'),
-  recovery: sha('b'),
-  loadCase: sha('c'),
-  solverProfile: sha('d'),
-  recoveryProfile: sha('e'),
-  preflight: sha('f'),
-  transactionReceipt: sha('0'),
-  rejectedReceipt: sha('1'),
-  transaction2: sha('a'),
-});

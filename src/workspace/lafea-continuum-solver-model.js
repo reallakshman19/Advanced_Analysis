@@ -7,13 +7,17 @@ import { validateLafeaAnalysisGeometryEvidence } from './lafea-analysis-geometry
 import { validateLafeaAnalysisMeshEvidenceV2 } from './lafea-analysis-mesh-evidence-v2.js';
 import { canonicalLafeaSha256 } from './lafea-canonical-sha256.js';
 import { validateLafeaContinuumAnalysisDomain } from './lafea-continuum-analysis-domain.js';
+import {
+  createLafeaContinuumProjectionEvidence,
+  validateLafeaContinuumProjectionEvidence,
+} from './lafea-continuum-projection-evidence.js';
 import { compileLafeaContinuumAttachmentTargets } from './lafea-continuum-solver-mapping.js';
 import { requireLafeaStageAnalysisAdapter } from './lafea-stage-analysis-adapter.js';
 import { sourceAuthorityDocument, validateLafeaSourceAuthority } from './lafea-source-authority.js';
 
 export const LAFEA_CONTINUUM_SOLVER_MODEL_SCHEMA = 'lafea-continuum-solver-model/v1';
 export const LAFEA_CONTINUUM_SOLVER_COMPILER_ID = 'LAFEA.3/DOMAIN_FIRST_SOLVER_COMPILER';
-export const LAFEA_CONTINUUM_SOLVER_COMPILER_REVISION = '12B.1';
+export const LAFEA_CONTINUUM_SOLVER_COMPILER_REVISION = '12B.2';
 
 const STAGE_ID = 'LAFEA.3';
 
@@ -38,6 +42,18 @@ export function compileLafeaContinuumSolverModel(options) {
   const attachmentTargets = compileLafeaContinuumAttachmentTargets({
     domain, geometry: geometryEvidence.geometry, mesh: meshEvidence.mesh,
   });
+  const projectionEvidence = createLafeaContinuumProjectionEvidence({
+    sourceHash: authority.sourceHash,
+    analysisDomainHash: domain.semanticHash,
+    analysisGeometryHash: geometryEvidence.analysisGeometryHash,
+    meshArtifactHash: meshEvidence.artifactHash,
+    meshHash: meshEvidence.meshHash,
+    meshProfileHash: meshEvidence.meshProfileHash,
+    domain,
+    geometry: geometryEvidence.geometry,
+    attachmentTargets,
+  });
+  validateLafeaContinuumProjectionEvidence(projectionEvidence);
   const targetMap = new Map(attachmentTargets.map((row) => [row.attachmentId, row.target]));
   const sectionId = `${domain.region.regionId}/UNIFORM_THICKNESS`;
   const base = freeze({
@@ -46,7 +62,8 @@ export function compileLafeaContinuumSolverModel(options) {
     compilerId: LAFEA_CONTINUUM_SOLVER_COMPILER_ID,
     compilerRevision: LAFEA_CONTINUUM_SOLVER_COMPILER_REVISION,
     status: 'COMPILED',
-    parents: compileParents(authority, canonical, domain, geometryEvidence, meshEvidence),
+    parents: compileParents(authority, canonical, domain, geometryEvidence, meshEvidence, projectionEvidence),
+    projectionEvidence,
     formulation: canonical.formulation,
     units: freeze({ ...canonical.units.canonical }),
     declaredUnits: freeze({ ...canonical.units.declared }),
@@ -71,6 +88,7 @@ export function compileLafeaContinuumSolverModel(options) {
     limitations: freeze([...new Set([
       ...canonical.limitations,
       'DOMAIN_FIRST_SINGLE_REGION_UNIFORM_THICKNESS_COMPILER_V1',
+      'FEATURE_PROJECTION_HASH_CUSTODY_V1',
     ])].sort()),
     executionAuthorized: false,
     releaseQualified: false,
@@ -150,7 +168,7 @@ function requireUniformThickness(canonical) {
   return values[0];
 }
 
-function compileParents(authority, canonical, domain, geometryEvidence, meshEvidence) {
+function compileParents(authority, canonical, domain, geometryEvidence, meshEvidence, projectionEvidence) {
   return freeze({
     sourceHash: authority.sourceHash,
     canonicalInputHash: canonicalLafeaSha256({
@@ -162,6 +180,7 @@ function compileParents(authority, canonical, domain, geometryEvidence, meshEvid
     meshArtifactHash: meshEvidence.artifactHash,
     meshHash: meshEvidence.meshHash,
     meshProfileHash: meshEvidence.meshProfileHash,
+    projectionHash: projectionEvidence.projectionHash,
   });
 }
 
