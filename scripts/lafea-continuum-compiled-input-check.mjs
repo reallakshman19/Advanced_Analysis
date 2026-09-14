@@ -42,11 +42,18 @@ assert.deepEqual(l1.edgeTractions.map(({ tractionId, elementId, edgeNodeIds, tx,
 })), [
   { tractionId: 'T1/1', elementId: 'E1', edgeNodeIds: ['B', 'C'], tx: 2, ty: 3 },
 ]);
-assert.deepEqual(l2.pressureLoads.map(({ pressureLoadId, elementId, edgeNodeIds, pressure }) => ({
-  pressureLoadId, elementId, edgeNodeIds, pressure,
-})), [
-  { pressureLoadId: 'P1/1', elementId: 'E1', edgeNodeIds: ['C', 'A'], pressure: 4 },
+assert.deepEqual(l2.pressureLoads, [], 'ordinary source pressure must lower before the kernel pressure schema');
+const pressureForces = l2.nodalForces.filter((row) =>
+  row.sourceReference.startsWith('COMPILED_SOURCE_PRESSURE#P1/ANALYSIS_GEOMETRY_ORIENTED_SEGMENT_V1/'));
+assert.equal(pressureForces.length, 2);
+assert.deepEqual(pressureForces.map(({ loadId, nodeId }) => ({ loadId, nodeId })), [
+  { loadId: 'P1/1/1/C', nodeId: 'C' },
+  { loadId: 'P1/1/2/A', nodeId: 'A' },
 ]);
+for (const row of pressureForces) {
+  close(row.fx, 2000, 1e-9, `${row.nodeId} source-pressure fx`);
+  close(row.fy, 0, 1e-12, `${row.nodeId} source-pressure fy`);
+}
 assert.deepEqual(l2.bodyForces.map(({ bodyForceId, elementId, bx, by }) => ({
   bodyForceId, elementId, bx, by,
 })), [
@@ -54,6 +61,7 @@ assert.deepEqual(l2.bodyForces.map(({ bodyForceId, elementId, bx, by }) => ({
 ]);
 assert.deepEqual(input.resultRequests, { loadCaseIds: ['L1', 'L2'] });
 assert.ok(input.limitations.includes('DOMAIN_FIRST_COMPILED_PARITY_EXECUTION_ONLY'));
+assert.ok(input.limitations.includes('SOURCE_NORMAL_PRESSURE_CONSISTENT_NODAL_LOWERING_V1'));
 
 const badEdgeOwnership = clone(model);
 badEdgeOwnership.attachments.find((row) => row.attachmentId === 'T1').compiledTarget.elementIds = [];
@@ -67,6 +75,13 @@ badForceMapping.attachments.find((row) => row.attachmentId === 'F1').compiledTar
 expectCode(
   () => buildLafeaContinuumCompiledExecutionInput(badForceMapping),
   'LAFEA_CONTINUUM_COMPILED_FORCE_VERTEX_MAPPING_INVALID',
+);
+
+const missingPressureProjection = clone(model);
+delete missingPressureProjection.projectionEvidence;
+expectCode(
+  () => buildLafeaContinuumCompiledExecutionInput(missingPressureProjection),
+  'LAFEA_CONTINUUM_COMPILED_SOURCE_PRESSURE_PROJECTION_REQUIRED',
 );
 
 const unsupportedBodyForceUnit = clone(model);
@@ -88,7 +103,7 @@ expectCode(
 );
 
 console.log(JSON.stringify({
-  schema: 'lafea-continuum-compiled-input-check/v1',
+  schema: 'lafea-continuum-compiled-input-check/v2',
   check: 'lafea-continuum-compiled-input',
   status: 'PASS',
   stageId: 'LAFEA.3',
@@ -96,7 +111,8 @@ console.log(JSON.stringify({
   imposedDisplacementLoweringCovered: true,
   concentratedLoadLoweringCovered: true,
   tractionLoweringCovered: true,
-  pressureLoweringCovered: true,
+  sourceNormalPressureLoweringCovered: true,
+  sourcePressureProjectionRequired: true,
   bodyForceLoweringCovered: true,
   edgeOwnershipFailsClosed: true,
   forceVertexMappingFailsClosed: true,
@@ -142,6 +158,19 @@ function compiledFixture() {
       attachment('BF1', 'BODY_FORCE', 'REGION', 'REGION-1', ['L2'],
         { bx: 0.5, by: -0.25, unit: 'N/mm^3' }, target('REGION', 'REGION-1', [], [], ['E1'])),
     ],
+    projectionEvidence: {
+      entries: [{
+        attachmentId: 'P1',
+        sourceFeature: {
+          targetType: 'SEGMENT', featureId: 'S3',
+          geometry: {
+            segmentId: 'S3', type: 'LINE', startVertexId: 'C', endVertexId: 'A',
+            start: { x: 0, y: 100 }, end: { x: 0, y: 0 },
+            loopBindings: [{ loopId: 'OUTER', role: 'OUTER' }],
+          },
+        },
+      }],
+    },
     requestedCaseIds: ['L1', 'L2'],
     qualificationProfile: { profileIdentity: 'STAGE12B-COMPILED-INPUT' },
     limitations: [],
@@ -156,6 +185,10 @@ function target(targetType, featureId, nodeIds, edgeNodePaths, elementIds) {
 }
 function node(nodeId, x, y) { return { nodeId, x, y }; }
 function clone(value) { return structuredClone(value); }
+function close(actual, expected, tolerance, label) {
+  assert.ok(Math.abs(actual - expected) <= tolerance,
+    `${label}: expected ${expected}, received ${actual}, tolerance ${tolerance}`);
+}
 function expectCode(action, code) {
   assert.throws(action, (error) => error?.code === code, `expected ${code}`);
 }

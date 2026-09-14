@@ -4,6 +4,7 @@
  */
 export const LAFEA_ANALYTICAL_TRACTION_LAWS = Object.freeze([
   'KIRSCH_INFINITE_PLATE_OUTER_BOUNDARY_V1',
+  'LINEAR_SOURCE_SEGMENT_TRACTION_V1',
 ]);
 export const LAFEA_ANALYTICAL_TRACTION_QUADRATURE = 'GAUSS_LEGENDRE_12_EDGE_V1';
 
@@ -22,8 +23,14 @@ const GAUSS_12 = Object.freeze([
   [0.9815606342467192, 0.04717533638651141],
 ].map(([point, weight]) => Object.freeze({ point, weight })));
 
-export function integrateLafeaAnalyticalEdgeTraction({ payload, edgeNodes, thickness, stressFactor = 1 }) {
-  const law = requireLaw(payload);
+export function integrateLafeaAnalyticalEdgeTraction({
+  payload,
+  edgeNodes,
+  thickness,
+  stressFactor = 1,
+  sourceFeatureGeometry = null,
+}) {
+  const law = requireLaw(payload, sourceFeatureGeometry);
   if (!Array.isArray(edgeNodes) || ![2, 3].includes(edgeNodes.length)
     || edgeNodes.some((node) => !Number.isFinite(node?.x) || !Number.isFinite(node?.y))) {
     fail('LAFEA_ANALYTICAL_TRACTION_EDGE_NODES_INVALID');
@@ -80,11 +87,11 @@ export function integrateLafeaAnalyticalEdgeTraction({ payload, edgeNodes, thick
   });
 }
 
-export function evaluateLafeaAnalyticalTraction(payload, x, y) {
-  return requireLaw(payload)(x, y);
+export function evaluateLafeaAnalyticalTraction(payload, x, y, sourceFeatureGeometry = null) {
+  return requireLaw(payload, sourceFeatureGeometry)(x, y);
 }
 
-function requireLaw(payload) {
+function requireLaw(payload, sourceFeatureGeometry) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)
     || !LAFEA_ANALYTICAL_TRACTION_LAWS.includes(payload.law)) {
     fail('LAFEA_ANALYTICAL_TRACTION_LAW_INVALID');
@@ -99,7 +106,50 @@ function requireLaw(payload) {
     const remote = finite(payload.remoteStressSigmaX, 'LAFEA_KIRSCH_REMOTE_STRESS_INVALID');
     return (x, y) => kirschTraction(x, y, centerX, centerY, a, remote);
   }
+  if (payload.law === 'LINEAR_SOURCE_SEGMENT_TRACTION_V1') {
+    exactKeys(payload, [
+      'law', 'txStart', 'tyStart', 'txEnd', 'tyEnd', 'unit',
+    ]);
+    return linearSourceSegmentTraction(payload, sourceFeatureGeometry);
+  }
   fail('LAFEA_ANALYTICAL_TRACTION_LAW_INVALID');
+}
+
+function linearSourceSegmentTraction(payload, geometry) {
+  if (!geometry || geometry.type !== 'LINE' || !geometry.start || !geometry.end) {
+    fail('LAFEA_LINEAR_TRACTION_SOURCE_LINE_GEOMETRY_INVALID');
+  }
+  const ax = finite(geometry.start.x, 'LAFEA_LINEAR_TRACTION_SOURCE_LINE_GEOMETRY_INVALID');
+  const ay = finite(geometry.start.y, 'LAFEA_LINEAR_TRACTION_SOURCE_LINE_GEOMETRY_INVALID');
+  const bx = finite(geometry.end.x, 'LAFEA_LINEAR_TRACTION_SOURCE_LINE_GEOMETRY_INVALID');
+  const by = finite(geometry.end.y, 'LAFEA_LINEAR_TRACTION_SOURCE_LINE_GEOMETRY_INVALID');
+  const dx = bx - ax;
+  const dy = by - ay;
+  const length2 = dx * dx + dy * dy;
+  if (!(length2 > 0)) fail('LAFEA_LINEAR_TRACTION_SOURCE_LINE_GEOMETRY_INVALID');
+  const txStart = finite(payload.txStart, 'LAFEA_LINEAR_TRACTION_VALUE_INVALID');
+  const tyStart = finite(payload.tyStart, 'LAFEA_LINEAR_TRACTION_VALUE_INVALID');
+  const txEnd = finite(payload.txEnd, 'LAFEA_LINEAR_TRACTION_VALUE_INVALID');
+  const tyEnd = finite(payload.tyEnd, 'LAFEA_LINEAR_TRACTION_VALUE_INVALID');
+  const length = Math.sqrt(length2);
+  const coordinateScale = Math.max(1, length, Math.abs(ax), Math.abs(ay), Math.abs(bx), Math.abs(by));
+  const distanceTolerance = 1e-8 * coordinateScale;
+  return (x, y) => {
+    const px = finite(x, 'LAFEA_LINEAR_TRACTION_POINT_INVALID');
+    const py = finite(y, 'LAFEA_LINEAR_TRACTION_POINT_INVALID');
+    const uRaw = ((px - ax) * dx + (py - ay) * dy) / length2;
+    const lineX = ax + uRaw * dx;
+    const lineY = ay + uRaw * dy;
+    if (Math.hypot(px - lineX, py - lineY) > distanceTolerance
+      || uRaw < -1e-8 || uRaw > 1 + 1e-8) {
+      fail('LAFEA_LINEAR_TRACTION_POINT_OUTSIDE_SOURCE_SEGMENT');
+    }
+    const u = Math.min(1, Math.max(0, uRaw));
+    return Object.freeze({
+      tx: clean(txStart + u * (txEnd - txStart)),
+      ty: clean(tyStart + u * (tyEnd - tyStart)),
+    });
+  };
 }
 
 function kirschTraction(x, y, cx, cy, a, remote) {
