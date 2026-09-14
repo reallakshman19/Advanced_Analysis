@@ -63,8 +63,8 @@ A4 engineering qualification remains incomplete. PR #1792 is merged only as qual
 ## Issue control-plane synchronization
 CHAIN_ROOT_COMMENT_ID: 5653984900
 ACTIVE_HANDOVER_COMMENT_ID: 5653983722
-LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0007_ISSUE_PROJECTION
-SYNC_STATUS: PENDING_EP0007_ISSUE_PROJECTION
+LATEST_ENDPOINT_COMMENT_ID: 5669373271
+SYNC_STATUS: IN_SYNC_EP0007
 
 ## Administrative incident
 Issue #1794 was accidentally created during an earlier connector operation, immediately retitled accidental/no-engineering-work and closed `not_planned`; it carries no A4 authority or evidence.
