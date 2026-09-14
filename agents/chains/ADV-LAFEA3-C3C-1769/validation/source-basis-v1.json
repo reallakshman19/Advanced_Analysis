@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0011",
+  "basisId": "C3C-SOURCE-BASIS-0012",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -10,24 +10,30 @@
     "sourceBasisId": "C3B-SOURCE-BASIS-0007",
     "disposition": "MERGED_MAIN_CURRENT"
   },
-  "reviewedMainSha": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
-  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_QUALIFIED_G004_COMPILER_MERGED_NOT_RUN_INFRASTRUCTURE_G002_BODY_FORCE_STRAIGHT_REGION_CANDIDATE",
+  "reviewedMainSha": "5d170f7a8870426d081efb7a49bdc74511a64f6a",
+  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_QUALIFIED_G004_COMPILER_MERGED_NOT_RUN_INFRASTRUCTURE_G002_BODY_FORCE_MERGED_NOT_RUN_INFRASTRUCTURE_G005_CONSTANT_ALPHA_DELTA_T_CANDIDATE",
   "diagnosticProvenance": {
     "priorC3cMergedPullRequest": "github:reallaksh19/Advanced_Analysis#1789",
     "priorC3cMergeCommit": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
+    "bodyForceMergedPullRequest": "github:reallaksh19/Advanced_Analysis#1801",
+    "bodyForceMergeCommit": "f90b0d9f43ed8cee6abd0a5b8a2df9965162ef68",
     "g004CompilerValidationState": "NOT_RUN_INFRASTRUCTURE_ZERO_STEP_GITHUB_ACTIONS",
-    "g004CompilerMergeDidNotPromoteValidationState": true,
-    "c3bPostBasisMainDrift": "PR_1799_WRC_ONLY_NO_LAFEA_PATHS",
-    "bodyForceCandidateBase": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
-    "bodyForceKernelChanged": false,
-    "bodyForceQuadratureChanged": false,
-    "bodyForceOraclePolicy": "SOURCE_ORIENTED_STRAIGHT_REGION_AREA_AND_FIRST_MOMENTS_V1"
+    "bodyForceValidationState": "NOT_RUN_INFRASTRUCTURE_ZERO_STEP_GITHUB_ACTIONS",
+    "mergeDidNotPromoteValidationState": true,
+    "postBodyForceMainDrift": "28_COMMITS_LAFEA4_WRC_ONLY_NO_LAFEA3_CONTINUUM_COMPILER_MATERIAL_LOAD_PATHS",
+    "g005CandidateBase": "5d170f7a8870426d081efb7a49bdc74511a64f6a",
+    "g005Law": "CONSTANT_ALPHA_DELTA_T_V1",
+    "g005AuthoritySchema": "lafea-continuum-thermal-material-authority/v1",
+    "g005KernelThermalFormulationChanged": false,
+    "g005BbarThermalQualified": false,
+    "g005LegacyMissingAuthorityDiagnosticPreserved": "LAFEA_CONTINUUM_COMPILED_TEMPERATURE_SEMANTICS_NOT_QUALIFIED",
+    "sourceBasis0011CustodyRepair": "C3C-S019 production body-force kernel blob corrected from inherited test-script blob to c7394b19c7623145834d641c7cb7a26516d4a010"
   },
   "sources": [
     { "sourceId": "C3C-S001", "role": "analysisDomainAndFeatureIntent", "path": "src/workspace/lafea-continuum-analysis-domain.js", "blobSha": "61203e3f323504a847568b35e473ee649304dad6" },
     { "sourceId": "C3C-S002", "role": "featureToMeshMapping", "path": "src/workspace/lafea-continuum-solver-mapping.js", "blobSha": "e7f07f2cc79c3ba430b697e3f7a7403e14be8b3d" },
     { "sourceId": "C3C-S003", "role": "canonicalSolverModelCompilerWithProjectionParent", "path": "src/workspace/lafea-continuum-solver-model.js", "blobSha": "c3df559f07722bcecd0d7cafa795072a7e3f2468" },
-    { "sourceId": "C3C-S004", "role": "compiledLoadAndBcLowering", "path": "src/workspace/lafea-continuum-compiled-input.js", "blobSha": "2ecee01074a885c760b48d7f01781c68cca909ef" },
+    { "sourceId": "C3C-S004", "role": "compiledLoadBcAndGovernedDeltaTLowering", "path": "src/workspace/lafea-continuum-compiled-input.js", "blobSha": "2e81d14e54fad0b4e99b71eca8efa050e493ffef" },
     { "sourceId": "C3C-S005", "role": "analyticalTractionLowering", "path": "src/workspace/lafea-analytical-traction-lowering.js", "blobSha": "77a849107c8a13008b902903330dea6bc90a8e78" },
     { "sourceId": "C3C-S006", "role": "kernelConsistentEdgeIntegration", "path": "src/core/local-continuum/edge-traction-loads.js", "blobSha": "889cd7ff79392247ae24c92f97d76fd4f8db8f5f" },
     { "sourceId": "C3C-S007", "role": "kernelPressureIntegrationLowerLevelCapability", "path": "src/core/local-continuum/pressure-loads.js", "blobSha": "8c0ea676cc6420f12ca325c9e0d79f2fc72e7410" },
@@ -42,7 +48,8 @@
     { "sourceId": "C3C-S016", "role": "lifecycleExecutionCustodyValidation", "path": "src/workspace/lafea-continuum-domain-first-lifecycle-producers.js", "blobSha": "8e742dc3fa0963dba77f4eb37e2c14201fb13cea" },
     { "sourceId": "C3C-S017", "role": "ordinaryWorkbenchCompilerRoute", "path": "src/workspace/lafea-continuum-workbench-route.js", "blobSha": "2adf4bfcd4a78a71ecb5b79ad0f4269190335455" },
     { "sourceId": "C3C-S018", "role": "sourceGeometryPressureLoweringPrimitive", "path": "src/workspace/lafea-source-pressure-lowering.js", "blobSha": "546ed5ca4f7f8336df6e4feaa9c6d9692b542641" },
-    { "sourceId": "C3C-S019", "role": "kernelConsistentBodyForceVectorUnchanged", "path": "src/core/local-continuum/body-force-loads.js", "blobSha": "0068de49a888fe721d7c9b2f99a404dab7a45d48" },
+    { "sourceId": "C3C-S019", "role": "kernelConsistentBodyForceVectorUnchanged", "path": "src/core/local-continuum/body-force-loads.js", "blobSha": "c7394b19c7623145834d641c7cb7a26516d4a010" },
+    { "sourceId": "C3C-S020", "role": "governedDeltaTMaterialAuthorityLowering", "path": "src/workspace/lafea-continuum-temperature-lowering.js", "blobSha": "09d17d343ceb1794a0b43548cb2d556a9913404f" },
     { "sourceId": "C3C-Q001", "role": "solverModelCompilerCheck", "path": "scripts/lafea-continuum-solver-model-check.mjs", "blobSha": "29ab2a73d06c4a4023c5df2d053d02c34cc330df" },
     { "sourceId": "C3C-Q002", "role": "compiledInputAndSourcePressureLoweringCheck", "path": "scripts/lafea-continuum-compiled-input-check.mjs", "blobSha": "ea70fd3681b426fd6ae140e9aeca4eedc8188eb0" },
     { "sourceId": "C3C-Q003", "role": "compiledLoadParityCheck", "path": "scripts/lafea-continuum-compiled-load-parity-check.mjs", "blobSha": "0f5770bc8b18dbaf917b0d7482fe55a9959cc876" },
@@ -56,18 +63,19 @@
     { "sourceId": "C3C-Q011", "role": "sourceNormalPressurePrimitiveQualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs", "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989" },
     { "sourceId": "C3C-Q012", "role": "sourceNormalPressureCompilerT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-compiler-check.mjs", "blobSha": "90701e34f512478d103e45cdf0b829171bffae81" },
     { "sourceId": "C3C-Q013", "role": "straightRegionBodyForceT6Q8ResultantQualificationCheck", "path": "scripts/lafea.3-c3c-body-force-resultant-check.mjs", "blobSha": "4a0b7361920c8e953e819b742dd1c9c9f09b25e3" },
-    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "db1fcb473dbe00b5d976e1ffe5f90e06b0d7e5ea" }
+    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "ca9184833b4bba93d072253c820583bcf58466c6" },
+    { "sourceId": "C3C-Q015", "role": "governedDeltaTT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-temperature-delta-check.mjs", "blobSha": "b5a2d2a2e48cf123b97413bfe5996b62a004f282" }
   ],
   "confirmedOpenSemantics": [
     {
       "gapId": "C3C-G001",
       "state": "QUALIFIED_BOUNDED",
-      "description": "Hash-addressed source-feature to mesh-entity to compiled-contribution projection custody is previously qualified; this candidate extends REGION source geometry retained by that receipt."
+      "description": "Hash-addressed source-feature to mesh-entity to compiled-contribution projection custody is previously qualified."
     },
     {
       "gapId": "C3C-G002",
-      "state": "BODY_FORCE_STRAIGHT_REGION_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION",
-      "description": "Force/moment custody is previously qualified for constant and source-linear straight-segment traction. Source-normal pressure compiler custody is merged but exact-head execution remained NOT_RUN_INFRASTRUCTURE. This candidate adds straight-source-region BODY_FORCE source-vs-compiled Fx/Fy/Mz certification for T6/Q8; curved-region body-force certification remains fail-closed."
+      "state": "MERGED_CANDIDATE_NOT_RUN_INFRASTRUCTURE",
+      "description": "Force/moment custody for constant and source-linear straight traction is previously qualified. Straight-source-region BODY_FORCE T6/Q8 custody is merged, but its exact aggregate campaign produced zero job steps and remains NOT_RUN_INFRASTRUCTURE. Curved-region body-force certification remains fail-closed."
     },
     {
       "gapId": "C3C-G003",
@@ -81,8 +89,8 @@
     },
     {
       "gapId": "C3C-G005",
-      "state": "OPEN_FAIL_CLOSED",
-      "description": "Domain-first TEMPERATURE delta remains fail-closed pending governed thermal-expansion coefficient/reference-temperature authority."
+      "state": "CONSTANT_ALPHA_DELTA_T_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION",
+      "description": "Domain-first TEMPERATURE intent is treated as a C/K temperature increment only when a hash-addressed resolved thermal-material authority supplies materialRef, constant coefficientPerKelvin, referenceTemperatureKelvin and source evidence. T6 plane stress and Q8 plane strain are candidate-covered. Missing/mismatched/tampered authority and unsupported units fail closed; PLANE_STRAIN_BBAR thermal authority remains explicitly unqualified."
     },
     {
       "gapId": "C3C-G006",
@@ -94,13 +102,16 @@
     "newElementOrSolverPhysicsImplemented": false,
     "kernelLoadIntegrationChanged": false,
     "bodyForceKernelChanged": false,
-    "bodyForceResultantImplementedCandidate": true,
+    "bodyForceResultantMerged": true,
     "bodyForceResultantQualified": false,
     "curvedRegionBodyForceQualified": false,
     "sourceNormalPressureCompilerWiringMerged": true,
     "sourceNormalPressureCompilerWiringQualified": false,
+    "temperatureDeltaImplementedCandidate": true,
     "temperatureDeltaQualified": false,
+    "thermalBbarQualified": false,
+    "kernelThermalFormulationChanged": false,
     "releaseQualified": false
   },
-  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_PROBE_OR_QUALIFICATION_SOURCE_CHANGES"
+  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_PROBE_THERMAL_AUTHORITY_OR_QUALIFICATION_SOURCE_CHANGES"
 }
