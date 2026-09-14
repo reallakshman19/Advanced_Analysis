@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0009",
+  "basisId": "C3C-SOURCE-BASIS-0010",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,7 +11,7 @@
     "disposition": "CANDIDATE_QUALIFIED_NOT_MAIN_CURRENT"
   },
   "reviewedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
-  "scope": "G001_G002_G003_QUALIFIED_G004_SOURCE_NORMAL_PRESSURE_PRIMITIVE_EXACT_HEAD_QUALIFIED_COMPILER_WIRING_PENDING",
+  "scope": "G001_G002_G003_QUALIFIED_G004_SOURCE_NORMAL_PRESSURE_COMPILER_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION",
   "diagnosticProvenance": {
     "baselineBasisId": "C3C-SOURCE-BASIS-0002",
     "baselinePassRun": 34763598330,
@@ -56,9 +56,18 @@
     "g004PrimitiveAggregateJob": 103833861815,
     "g004PrimitiveAggregateHead": "0c3cf3615e2de6cf2fe797f4eef4bc5f34429363",
     "g004PrimitiveAggregateDisposition": "SOURCE_CUSTODY_AND_ALL_PRIOR_C3C_GATES_PLUS_G004_PRIMITIVE_PASS",
-    "productionPhysicsChangedByG001G002G003G004Primitive": false,
-    "kernelLoadIntegrationChangedByG001G002G003G004Primitive": false,
-    "compilerCustodyChangedByG001G002G003G004Primitive": true
+    "g004PrimitiveQualifiedBasisId": "C3C-SOURCE-BASIS-0009",
+    "g004PrimitiveQualifiedRun": 34797796494,
+    "g004PrimitiveQualifiedJob": 103834167224,
+    "g004PrimitiveQualifiedHead": "ec5ec819ab889020f17c803718451d1d8673a223",
+    "g004PrimitiveQualifiedDisposition": "SOURCE_NORMAL_PRESSURE_PRIMITIVE_EXACT_HEAD_PASS_COMPILER_WIRING_PENDING",
+    "g004CompilerFocusedInfrastructureRun": 34799270230,
+    "g004CompilerFocusedInfrastructureJob": 103838440728,
+    "g004CompilerFocusedInfrastructureDisposition": "NOT_RUN_INFRASTRUCTURE_ZERO_STEPS_WITH_CONCURRENT_REPOSITORY_ACTIONS_FAILURES",
+    "g004CarrierSetupCorrection": "Two transient placeholder files were accidentally written to the product branch and deleted before candidate pinning; neither exists in this candidate tree and neither is included in qualification evidence.",
+    "productionPhysicsChangedByG001G002G003G004": false,
+    "kernelLoadIntegrationChangedByG001G002G003G004": false,
+    "compilerCustodyChangedByG001G002G003G004": true
   },
   "sources": [
     {
@@ -81,9 +90,9 @@
     },
     {
       "sourceId": "C3C-S004",
-      "role": "compiledLoadAndBcLoweringWithSourceLinearTraction",
+      "role": "compiledLoadAndBcLoweringWithSourceLinearTractionAndSourceNormalPressure",
       "path": "src/workspace/lafea-continuum-compiled-input.js",
-      "blobSha": "bfdec23bc86ee9f824a2271ff77c7fd82e4972c5"
+      "blobSha": "2ecee01074a885c760b48d7f01781c68cca909ef"
     },
     {
       "sourceId": "C3C-S005",
@@ -99,7 +108,7 @@
     },
     {
       "sourceId": "C3C-S007",
-      "role": "kernelPressureNormalIntegration",
+      "role": "kernelPressureNormalIntegrationUnchangedLowerLevelCapability",
       "path": "src/core/local-continuum/pressure-loads.js",
       "blobSha": "8c0ea676cc6420f12ca325c9e0d79f2fc72e7410"
     },
@@ -129,15 +138,15 @@
     },
     {
       "sourceId": "C3C-S012",
-      "role": "hashAddressedFeatureProjectionEvidence",
+      "role": "hashAddressedFeatureProjectionEvidenceWithPressureNodalContributionCustody",
       "path": "src/workspace/lafea-continuum-projection-evidence.js",
-      "blobSha": "44b1611f2e54753290c23e2013ee20d3822d3edb"
+      "blobSha": "0a993a3ceaa7110db04498b6900cba038c640e27"
     },
     {
       "sourceId": "C3C-S013",
-      "role": "sourceVsCompiledForceMomentEvidenceForConstantAndLinearTraction",
+      "role": "sourceVsCompiledForceMomentEvidenceForTractionAndSourceNormalPressure",
       "path": "src/workspace/lafea-continuum-load-resultant-evidence.js",
-      "blobSha": "60b5ea297be530dec414f7fbfdda8f18ba864708"
+      "blobSha": "1f79b9c136f0458709382346f2cfde51ed8b5af1"
     },
     {
       "sourceId": "C3C-S014",
@@ -177,9 +186,9 @@
     },
     {
       "sourceId": "C3C-Q002",
-      "role": "compiledInputCheck",
+      "role": "compiledInputAndSourcePressureLoweringCheck",
       "path": "scripts/lafea-continuum-compiled-input-check.mjs",
-      "blobSha": "30863f46ab7b38e084c7175d2a0b60af0e3fc2a6"
+      "blobSha": "ea70fd3681b426fd6ae140e9aeca4eedc8188eb0"
     },
     {
       "sourceId": "C3C-Q003",
@@ -234,18 +243,24 @@
       "role": "sourceNormalPressurePrimitiveQualificationCheck",
       "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs",
       "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989"
+    },
+    {
+      "sourceId": "C3C-Q012",
+      "role": "sourceNormalPressureCompilerT6Q8QualificationCheck",
+      "path": "scripts/lafea.3-c3c-source-pressure-compiler-check.mjs",
+      "blobSha": "90701e34f512478d103e45cdf0b829171bffae81"
     }
   ],
   "confirmedOpenSemantics": [
     {
       "gapId": "C3C-G001",
       "state": "QUALIFIED_BOUNDED",
-      "description": "Hash-addressed source-feature to mesh-entity to compiled-contribution projection custody is qualified on the ordinary compiler route. Full G004 source-pressure compiled-contribution custody remains outside this bounded claim."
+      "description": "Hash-addressed source-feature to mesh-entity to compiled-contribution projection custody is qualified on the ordinary compiler route. G004 pressure nodal-contribution custody is implemented in this candidate but awaits exact-head aggregate qualification."
     },
     {
       "gapId": "C3C-G002",
       "state": "PARTIAL_QUALIFIED_BOUNDED",
-      "description": "Source-vs-compiled Fx/Fy/Mz conservation is qualified for constant and source-linear traction on straight source segments. Pressure compiled-resultant and body-force resultant certification remain outside this bounded claim."
+      "description": "Source-vs-compiled Fx/Fy/Mz conservation is qualified for constant and source-linear traction on straight source segments. Source-normal pressure conservation is implemented in this candidate but awaits exact-head aggregate qualification; body-force resultant certification remains open."
     },
     {
       "gapId": "C3C-G003",
@@ -254,8 +269,8 @@
     },
     {
       "gapId": "C3C-G004",
-      "state": "PRIMITIVE_QUALIFIED_COMPILER_WIRING_PENDING",
-      "description": "The source-geometry pressure lowering primitive is exact-head qualified for LINE/CIRCULAR_ARC source boundaries, T6/Q8 quadratic edge distribution, OUTER/HOLE orientation, exact independent source force/moment resultants, split-edge invariance, and fail-closed geometry. Ordinary compiler wiring, projection contribution IDs, and pressure resultant receipt remain unqualified."
+      "state": "IMPLEMENTED_PENDING_EXACT_HEAD_QUALIFICATION",
+      "description": "The previously qualified source-geometry pressure primitive is wired into the ordinary compiler as consistent nodal forces. Projection custody binds each pressure nodal contribution; resultant evidence compares exact source Fx/Fy/Mz with compiled terms for LINE/CIRCULAR_ARC boundaries and OUTER/HOLE roles. Exact-head aggregate qualification is pending."
     },
     {
       "gapId": "C3C-G005",
@@ -277,6 +292,7 @@
     "linearTractionQualified": true,
     "sourceNormalPressurePrimitiveImplemented": true,
     "sourceNormalPressurePrimitiveQualified": true,
+    "sourceNormalPressureCompilerWiringImplementedCandidate": true,
     "sourceNormalPressureCompilerWiringQualified": false,
     "sourceNormalPressureQualified": false,
     "bodyForceResultantQualified": false,
