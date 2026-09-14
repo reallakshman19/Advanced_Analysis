@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0012",
+  "basisId": "C3C-SOURCE-BASIS-0013",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -10,30 +10,32 @@
     "sourceBasisId": "C3B-SOURCE-BASIS-0007",
     "disposition": "MERGED_MAIN_CURRENT"
   },
-  "reviewedMainSha": "5d170f7a8870426d081efb7a49bdc74511a64f6a",
-  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_QUALIFIED_G004_COMPILER_MERGED_NOT_RUN_INFRASTRUCTURE_G002_BODY_FORCE_MERGED_NOT_RUN_INFRASTRUCTURE_G005_CONSTANT_ALPHA_DELTA_T_CANDIDATE",
+  "reviewedMainSha": "8f620ef74638af56dcba1f1bc519adef39b90a0e",
+  "scope": "G001_G003_QUALIFIED_G004_COMPILER_MERGED_NOT_RUN_INFRASTRUCTURE_G002_BODY_FORCE_MERGED_NOT_RUN_INFRASTRUCTURE_G005_DELTA_T_MERGED_NOT_RUN_INFRASTRUCTURE_G006_AXIS_ALIGNED_SOURCE_NORMAL_RESTRAINT_CANDIDATE",
   "diagnosticProvenance": {
     "priorC3cMergedPullRequest": "github:reallaksh19/Advanced_Analysis#1789",
     "priorC3cMergeCommit": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
     "bodyForceMergedPullRequest": "github:reallaksh19/Advanced_Analysis#1801",
     "bodyForceMergeCommit": "f90b0d9f43ed8cee6abd0a5b8a2df9965162ef68",
+    "g005MergedPullRequest": "github:reallaksh19/Advanced_Analysis#1803",
+    "g005MergeCommit": "8f620ef74638af56dcba1f1bc519adef39b90a0e",
     "g004CompilerValidationState": "NOT_RUN_INFRASTRUCTURE_ZERO_STEP_GITHUB_ACTIONS",
     "bodyForceValidationState": "NOT_RUN_INFRASTRUCTURE_ZERO_STEP_GITHUB_ACTIONS",
+    "g005ValidationState": "NOT_RUN_INFRASTRUCTURE_ZERO_STEP_GITHUB_ACTIONS",
     "mergeDidNotPromoteValidationState": true,
-    "postBodyForceMainDrift": "28_COMMITS_LAFEA4_WRC_ONLY_NO_LAFEA3_CONTINUUM_COMPILER_MATERIAL_LOAD_PATHS",
-    "g005CandidateBase": "5d170f7a8870426d081efb7a49bdc74511a64f6a",
-    "g005Law": "CONSTANT_ALPHA_DELTA_T_V1",
-    "g005AuthoritySchema": "lafea-continuum-thermal-material-authority/v1",
-    "g005KernelThermalFormulationChanged": false,
-    "g005BbarThermalQualified": false,
-    "g005LegacyMissingAuthorityDiagnosticPreserved": "LAFEA_CONTINUUM_COMPILED_TEMPERATURE_SEMANTICS_NOT_QUALIFIED",
+    "g006CandidateBase": "8f620ef74638af56dcba1f1bc519adef39b90a0e",
+    "g006Mode": "SOURCE_NORMAL",
+    "g006Policy": "SOURCE_NORMAL_AXIS_ALIGNED_V1",
+    "g006RepresentableBoundary": "STRAIGHT_SOURCE_SEGMENT_GLOBAL_AXIS_ALIGNED_ONLY",
+    "g006ObliqueOrCurvedRequiresLinearConstraintAuthority": true,
+    "g006SolverConstraintFormulationChanged": false,
     "sourceBasis0011CustodyRepair": "C3C-S019 production body-force kernel blob corrected from inherited test-script blob to c7394b19c7623145834d641c7cb7a26516d4a010"
   },
   "sources": [
     { "sourceId": "C3C-S001", "role": "analysisDomainAndFeatureIntent", "path": "src/workspace/lafea-continuum-analysis-domain.js", "blobSha": "61203e3f323504a847568b35e473ee649304dad6" },
     { "sourceId": "C3C-S002", "role": "featureToMeshMapping", "path": "src/workspace/lafea-continuum-solver-mapping.js", "blobSha": "e7f07f2cc79c3ba430b697e3f7a7403e14be8b3d" },
     { "sourceId": "C3C-S003", "role": "canonicalSolverModelCompilerWithProjectionParent", "path": "src/workspace/lafea-continuum-solver-model.js", "blobSha": "c3df559f07722bcecd0d7cafa795072a7e3f2468" },
-    { "sourceId": "C3C-S004", "role": "compiledLoadBcAndGovernedDeltaTLowering", "path": "src/workspace/lafea-continuum-compiled-input.js", "blobSha": "2e81d14e54fad0b4e99b71eca8efa050e493ffef" },
+    { "sourceId": "C3C-S004", "role": "compiledLoadBcDeltaTAndLocalRestraintLowering", "path": "src/workspace/lafea-continuum-compiled-input.js", "blobSha": "a560d8be53e48e541ec512c49fb8962a976f95da" },
     { "sourceId": "C3C-S005", "role": "analyticalTractionLowering", "path": "src/workspace/lafea-analytical-traction-lowering.js", "blobSha": "77a849107c8a13008b902903330dea6bc90a8e78" },
     { "sourceId": "C3C-S006", "role": "kernelConsistentEdgeIntegration", "path": "src/core/local-continuum/edge-traction-loads.js", "blobSha": "889cd7ff79392247ae24c92f97d76fd4f8db8f5f" },
     { "sourceId": "C3C-S007", "role": "kernelPressureIntegrationLowerLevelCapability", "path": "src/core/local-continuum/pressure-loads.js", "blobSha": "8c0ea676cc6420f12ca325c9e0d79f2fc72e7410" },
@@ -41,7 +43,7 @@
     { "sourceId": "C3C-S009", "role": "workbenchSevenStateCurrentness", "path": "src/workspace/lafea-workbench-currentness.js", "blobSha": "f2db310741e38d2b48858305567e48de911816cb" },
     { "sourceId": "C3C-S010", "role": "runTransactionHashCustody", "path": "src/workspace/lafea-workbench-run-transaction-state.js", "blobSha": "ca6db92efedbc4a31868ea6bfa3bd0e35af892b9" },
     { "sourceId": "C3C-S011", "role": "physicalProbeMappingAndAncestry", "path": "src/workspace/lafea-continuum-physical-probe.js", "blobSha": "f1991fc17f0e799933917601b78c7a89af196df1" },
-    { "sourceId": "C3C-S012", "role": "projectionEvidenceWithRegionBoundaryAndPressureCustody", "path": "src/workspace/lafea-continuum-projection-evidence.js", "blobSha": "3741880a50d79cd687fd84f2b90a5334ab88f629" },
+    { "sourceId": "C3C-S012", "role": "projectionEvidenceWithLocalRestraintContributionCustody", "path": "src/workspace/lafea-continuum-projection-evidence.js", "blobSha": "8838defaa3034448683903898e680498470f0245" },
     { "sourceId": "C3C-S013", "role": "sourceVsCompiledForceMomentEvidenceIncludingStraightRegionBodyForce", "path": "src/workspace/lafea-continuum-load-resultant-evidence.js", "blobSha": "debf58757e2996115877f493e23e9fff579efccd" },
     { "sourceId": "C3C-S014", "role": "compiledExecutionCustodyCarrier", "path": "src/workspace/lafea-continuum-compiled-execution.js", "blobSha": "15ea7ec8764844c5f0e77eacd3062a577b8d2232" },
     { "sourceId": "C3C-S015", "role": "authoritativeWorkbenchExecutionCustodyCarrier", "path": "src/workspace/lafea-continuum-authoritative-workbench-run.js", "blobSha": "a469259db7887aceaaf8783b7e7700046c4cddd8" },
@@ -50,6 +52,7 @@
     { "sourceId": "C3C-S018", "role": "sourceGeometryPressureLoweringPrimitive", "path": "src/workspace/lafea-source-pressure-lowering.js", "blobSha": "546ed5ca4f7f8336df6e4feaa9c6d9692b542641" },
     { "sourceId": "C3C-S019", "role": "kernelConsistentBodyForceVectorUnchanged", "path": "src/core/local-continuum/body-force-loads.js", "blobSha": "c7394b19c7623145834d641c7cb7a26516d4a010" },
     { "sourceId": "C3C-S020", "role": "governedDeltaTMaterialAuthorityLowering", "path": "src/workspace/lafea-continuum-temperature-lowering.js", "blobSha": "09d17d343ceb1794a0b43548cb2d556a9913404f" },
+    { "sourceId": "C3C-S021", "role": "sourceNormalAxisAlignedRestraintAuthority", "path": "src/workspace/lafea-continuum-local-restraint.js", "blobSha": "0080e0e33a40e6223b9ccdde938179c523af1813" },
     { "sourceId": "C3C-Q001", "role": "solverModelCompilerCheck", "path": "scripts/lafea-continuum-solver-model-check.mjs", "blobSha": "29ab2a73d06c4a4023c5df2d053d02c34cc330df" },
     { "sourceId": "C3C-Q002", "role": "compiledInputAndSourcePressureLoweringCheck", "path": "scripts/lafea-continuum-compiled-input-check.mjs", "blobSha": "ea70fd3681b426fd6ae140e9aeca4eedc8188eb0" },
     { "sourceId": "C3C-Q003", "role": "compiledLoadParityCheck", "path": "scripts/lafea-continuum-compiled-load-parity-check.mjs", "blobSha": "0f5770bc8b18dbaf917b0d7482fe55a9959cc876" },
@@ -63,8 +66,9 @@
     { "sourceId": "C3C-Q011", "role": "sourceNormalPressurePrimitiveQualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs", "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989" },
     { "sourceId": "C3C-Q012", "role": "sourceNormalPressureCompilerT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-compiler-check.mjs", "blobSha": "90701e34f512478d103e45cdf0b829171bffae81" },
     { "sourceId": "C3C-Q013", "role": "straightRegionBodyForceT6Q8ResultantQualificationCheck", "path": "scripts/lafea.3-c3c-body-force-resultant-check.mjs", "blobSha": "4a0b7361920c8e953e819b742dd1c9c9f09b25e3" },
-    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "ca9184833b4bba93d072253c820583bcf58466c6" },
-    { "sourceId": "C3C-Q015", "role": "governedDeltaTT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-temperature-delta-check.mjs", "blobSha": "b5a2d2a2e48cf123b97413bfe5996b62a004f282" }
+    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "2be034c56c6e202a7ec84113e1e82aece677675e" },
+    { "sourceId": "C3C-Q015", "role": "governedDeltaTT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-temperature-delta-check.mjs", "blobSha": "b5a2d2a2e48cf123b97413bfe5996b62a004f282" },
+    { "sourceId": "C3C-Q016", "role": "sourceNormalAxisAlignedRestraintT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-local-restraint-check.mjs", "blobSha": "c163985bcd86b75b61d5d829c61590cf216e942d" }
   ],
   "confirmedOpenSemantics": [
     {
@@ -89,13 +93,13 @@
     },
     {
       "gapId": "C3C-G005",
-      "state": "CONSTANT_ALPHA_DELTA_T_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION",
-      "description": "Domain-first TEMPERATURE intent is treated as a C/K temperature increment only when a hash-addressed resolved thermal-material authority supplies materialRef, constant coefficientPerKelvin, referenceTemperatureKelvin and source evidence. T6 plane stress and Q8 plane strain are candidate-covered. Missing/mismatched/tampered authority and unsupported units fail closed; PLANE_STRAIN_BBAR thermal authority remains explicitly unqualified."
+      "state": "MERGED_CANDIDATE_NOT_RUN_INFRASTRUCTURE",
+      "description": "Governed CONSTANT_ALPHA_DELTA_T_V1 lowering is merged on main. Diagnostic carrier #1804 produced zero job steps, so the exact G005 campaign remains NOT_RUN_INFRASTRUCTURE. PLANE_STRAIN_BBAR thermal authority remains explicitly unqualified."
     },
     {
       "gapId": "C3C-G006",
-      "state": "OPEN",
-      "description": "Local-feature support/roller semantics remain open; current ordinary restraint semantics are global UX/UY."
+      "state": "AXIS_ALIGNED_SOURCE_NORMAL_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION",
+      "description": "SOURCE_NORMAL restraints on straight globally horizontal/vertical source segments are candidate-lowered exactly to global UY/UX zero constraints with projection contribution custody for T6/Q8. Existing global ux/uy restraints remain unchanged. Oblique or curved source-normal rollers require a linear/MPC constraint authority not present in the current solver and therefore remain fail-closed."
     }
   ],
   "claimBoundary": {
@@ -107,11 +111,15 @@
     "curvedRegionBodyForceQualified": false,
     "sourceNormalPressureCompilerWiringMerged": true,
     "sourceNormalPressureCompilerWiringQualified": false,
-    "temperatureDeltaImplementedCandidate": true,
+    "temperatureDeltaMerged": true,
     "temperatureDeltaQualified": false,
     "thermalBbarQualified": false,
     "kernelThermalFormulationChanged": false,
+    "sourceNormalAxisAlignedRestraintImplementedCandidate": true,
+    "sourceNormalAxisAlignedRestraintQualified": false,
+    "obliqueOrCurvedSourceNormalRestraintQualified": false,
+    "solverConstraintFormulationChanged": false,
     "releaseQualified": false
   },
-  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_PROBE_THERMAL_AUTHORITY_OR_QUALIFICATION_SOURCE_CHANGES"
+  "invalidationPolicy": "NEW_C3C_SOURCE_BASIS_REQUIRED_IF_ANY_PINNED_COMPILER_MAPPING_LOAD_CURRENTNESS_PROJECTION_RESULTANT_EXECUTION_PROBE_THERMAL_LOCAL_RESTRAINT_OR_QUALIFICATION_SOURCE_CHANGES"
 }
