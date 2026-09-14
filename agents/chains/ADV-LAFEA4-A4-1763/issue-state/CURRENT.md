@@ -64,8 +64,8 @@ Workflow run `34798948287` attempt 1 job `103837514736` completed FAILURE with n
 ## Issue control-plane synchronization
 CHAIN_ROOT_COMMENT_ID: 5653984900
 ACTIVE_HANDOVER_COMMENT_ID: 5653983722
-LATEST_ENDPOINT_COMMENT_ID: 5657992910
-SYNC_STATUS: STALE_PENDING_EP0005_ENDPOINT_COMMENT
+LATEST_ENDPOINT_COMMENT_ID: 5658155495
+SYNC_STATUS: IN_SYNC_AFTER_ACTIVE_UPDATE
 
 ## Administrative incident
 Issue #1794 was accidentally created during an earlier connector operation, immediately retitled as accidental/no-engineering-work and closed `not_planned`. It is not an A4 work item and carries no authority, evidence, roadmap, oracle, release or custody meaning.
