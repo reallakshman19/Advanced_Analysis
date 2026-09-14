@@ -20,7 +20,7 @@ Last qualified G004-primitive basis: `C3C-SOURCE-BASIS-0009` at `ec5ec819ab88902
 
 ## Current G004 compiler candidate
 
-Source basis `C3C-SOURCE-BASIS-0010` is pinned at product head `db2be9d3265738c3911ee8e0b606237a8a14dcf6`.
+Source basis `C3C-SOURCE-BASIS-0010` was materially pinned at `db2be9d3265738c3911ee8e0b606237a8a14dcf6`. Subsequent commits on #1789 are control-plane/current-state only; they do not change any source-basis-pinned engineering or qualification blob. Exact-head execution must nevertheless target the then-current #1789 head, not the older material-pinning SHA.
 
 The candidate:
 
@@ -40,7 +40,7 @@ No element formulation, solver, kernel pressure integration/quadrature, mesh thr
 
 `NOT_RUN_INFRASTRUCTURE` for the exact-head G004 compiler campaign.
 
-Diagnostic carrier PR #1798 is a never-merge workflow-only carrier. The first focused run `34799270230` / job `103838440728` and the `C3C-SOURCE-BASIS-0010` retry `34799495527` / job `103839099387` both failed before any job step materialized. Concurrent unrelated repository EMP.1 workflows showed the same zero-step failure pattern. These runs are not classified as engineering FAIL and do not qualify G004.
+Diagnostic carrier PR #1798 is a never-merge workflow-only carrier. The first focused run `34799270230` / job `103838440728` and the source-basis-0010 retry `34799495527` / job `103839099387` both failed before any job step materialized. Concurrent unrelated repository EMP.1 workflows showed the same zero-step failure pattern. These runs are not classified as engineering FAIL and do not qualify G004.
 
 Two transient placeholder files were accidentally written to the product branch during carrier setup and immediately deleted before candidate pinning. Neither file exists in the candidate tree; #1789 changed-file inventory contains no workflow or placeholder file. No qualification evidence uses those transient commits.
 
@@ -53,4 +53,4 @@ Two transient placeholder files were accidentally written to the product branch 
 
 ## Exact next action
 
-Re-run the never-merge #1798 exact-head carrier against `db2be9d3265738c3911ee8e0b606237a8a14dcf6` when GitHub Actions can start jobs. Require source custody plus every named C3-C gate and the aggregate receipt to PASS on that one head. If an engineering gate fails, the first failing named gate controls the repair. If all pass, advance the source basis once to record the exact PASS, replay on that metadata head, then promote G004 only within its bounded compiler/resultant claim.
+Resolve the then-current #1789 head and re-run never-merge carrier #1798 against that exact SHA when GitHub Actions can start jobs. Require source custody plus every named C3-C gate and the aggregate receipt to PASS on that one head. If an engineering gate fails, the first failing named gate controls the repair. If all pass, advance the source basis once to record the exact PASS, replay on that metadata head, then promote G004 only within its bounded compiler/resultant claim.
