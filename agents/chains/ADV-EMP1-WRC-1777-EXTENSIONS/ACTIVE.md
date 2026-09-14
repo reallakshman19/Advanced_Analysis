@@ -16,14 +16,14 @@ CUSTODY_STATE: HELD
 QUALIFICATION_STATE: NOT_REQUIRED
 WRITE_AUTHORITY: WRITE_ALLOWED
 AUTO_STATE: BLOCKED
-MERGE_AUTHORITY: OWNER_ONLY
-MERGE_AUTHORIZED: FALSE
-OWNER_PROGRESSION_COMMAND: merge if mergeable, proceed next
+MERGE_AUTHORITY: AUTHORIZED
+MERGE_AUTHORIZED: TRUE
+OWNER_PROGRESSION_COMMAND: fix and merge
 QUALIFICATION_SCOPE_ID: QSCOPE-1777-E1-APPENDIX-B-PRIMARY-SOURCE
 QUESTION_SET_ID: QSET-1777-0002
 QUESTION_SET_STATUS: CURRENT
-QUESTION_PACK_ACTION: REFRESHED
-QUESTION_DISPLAY: SHOW
+QUESTION_PACK_ACTION: REUSED
+QUESTION_DISPLAY: HIDE
 CHAIN_HANDOVER_READY: TRUE
 TAKEOVER_QUALIFICATION_READY: TRUE
 HANDOVER_CONTENT_READY: TRUE
@@ -33,12 +33,12 @@ HANDOVER_READY: FALSE
 ## Current repository state
 
 ```text
-main = ea2a2e5842a5ae1931544b20f7dcb97184d7cec1
-main drift from #1799 merge = LAFEA.3 only / no EMP1-WRC overlap
+main = f90b0d9f43ed8cee6abd0a5b8a2df9965162ef68
+main drift from EP-0002 basis = LAFEA.3 body-force resultant custody only / no EMP1-WRC overlap
 branch = agent/arch-wrc-06-e1-appendix-b-source
 material head = 8a3dbf0726bc1a153575dfef4932c4a717c3eb8c
-branch head = SELF / current control-plane sync commit
-active PR = #1800 OPEN / DRAFT / MERGEABLE
+base-refresh merge head = 2bf1fb9604c041ea82014bd23a23c4c2297c434b
+active PR = #1800 OWNER_AUTHORIZED_FOR_MERGE
 previous PR = #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 ```
 
@@ -66,7 +66,11 @@ current SCF mode = UNITY_ONLY
 non-unity authority = FALSE
 ```
 
-## Blockers
+## Merge disposition
+
+Owner explicitly authorized `fix and merge` on 2026-09-14. PR #1800 may merge after unrelated main drift is incorporated without changing the eight E1 material blobs. This merge authorization does not create E1 source/method/numerical authority and does not convert NOT_RUN checks to PASS.
+
+## Blockers after merge
 
 1. Controlled Appendix-B pages are not binary-readable through the current connected repository interface.
 2. Hosted CI issue #54 continues to prevent executable checker evidence.
@@ -75,4 +79,4 @@ Neither blocker authorizes copying secondary candidate equations, choosing B.4/B
 
 ## Exact next action
 
-Primary-source observation only. If the pinned Appendix-B pages remain unavailable, E1 remains blocked; do not implement or authorize non-unity SCFs.
+After merge, primary-source observation only. If the pinned Appendix-B pages remain unavailable, E1 remains blocked; do not implement or authorize non-unity SCFs.

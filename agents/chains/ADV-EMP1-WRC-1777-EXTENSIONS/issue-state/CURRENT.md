@@ -18,14 +18,14 @@ CUSTODY_STATE: HELD
 QUALIFICATION_STATE: NOT_REQUIRED
 WRITE_AUTHORITY: WRITE_ALLOWED
 AUTO_STATE: BLOCKED
-MERGE_AUTHORITY: OWNER_ONLY
-MERGE_AUTHORIZED: FALSE
-OWNER_PROGRESSION_COMMAND: merge if mergeable, proceed next
+MERGE_AUTHORITY: AUTHORIZED
+MERGE_AUTHORIZED: TRUE
+OWNER_PROGRESSION_COMMAND: fix and merge
 QUALIFICATION_SCOPE_ID: QSCOPE-1777-E1-APPENDIX-B-PRIMARY-SOURCE
 QUESTION_SET_ID: QSET-1777-0002
 QUESTION_SET_STATUS: CURRENT
-QUESTION_PACK_ACTION: REFRESHED
-QUESTION_DISPLAY: SHOW
+QUESTION_PACK_ACTION: REUSED
+QUESTION_DISPLAY: HIDE
 CHAIN_HANDOVER_READY: TRUE
 TAKEOVER_QUALIFICATION_READY: TRUE
 HANDOVER_CONTENT_READY: TRUE
@@ -36,13 +36,13 @@ HANDOVER_READY: FALSE
 ## Repository / branch state
 
 ```text
-MAIN_SHA: ea2a2e5842a5ae1931544b20f7dcb97184d7cec1
+MAIN_SHA: f90b0d9f43ed8cee6abd0a5b8a2df9965162ef68
 MAIN_DRIFT_CLASS: MATERIAL_WITHIN_QUALIFIED_BOUNDARY_NO_EMP1_WRC_OVERLAP
-MAIN_DRIFT_SOURCE: PR #1789 LAFEA.3 C3-C only
+MAIN_DRIFT_SOURCE: PR #1801 LAFEA.3 body-force resultant custody only
 BRANCH: agent/arch-wrc-06-e1-appendix-b-source
 MATERIAL_HEAD: 8a3dbf0726bc1a153575dfef4932c4a717c3eb8c
-BRANCH_HEAD: SELF / current control-plane sync commit
-ACTIVE_PR: #1800 OPEN / DRAFT / MERGEABLE
+BASE_REFRESH_HEAD: 2bf1fb9604c041ea82014bd23a23c4c2297c434b
+ACTIVE_PR: #1800 OWNER_AUTHORIZED_FOR_MERGE
 PREVIOUS_PR: #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 ```
 
@@ -63,7 +63,7 @@ PREVIOUS_PR: #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 - I4: pinned WRC 537 (2013) PDF SHA `698fcdc3...` / Git blob `ce861233...` — RETAINED.
 - I5: public reproduction / secondary extraction — CORROBORATION_ONLY / NOT_AUTHORITY.
 - I6: E2-E6 readiness — unchanged from EP-0001.
-- I7: post-#1799 main drift through `ea2a2e...` — RECONCILED_NO_EMP1_WRC_OVERLAP.
+- I7: post-EP-0002 main drift through `f90b0d9...` — RECONCILED_NO_EMP1_WRC_OVERLAP; LAFEA.3-only.
 
 ## Cumulative benchmark/oracle ledger
 
@@ -114,9 +114,13 @@ hosted CI reason = issue #54 pre-runner zero-step failure
 engineering/source PASS = NOT_CLAIMED
 ```
 
+## Merge disposition
+
+Owner explicitly authorized `fix and merge` on 2026-09-14. Merge authorization applies to PR #1800 after unrelated main drift is incorporated without changing E1 material/source authority. Merge does not imply source qualification or executable engineering PASS.
+
 ## Protected boundary
 
-No `src/core/**`, controlled source bytes, bounded dataset/oracle/tolerance/qualification expected values, route/registry authorization, historical 01–12 evidence, `.github/workflows/**`, code-compliance, global EMP.1.C, professional-release or deployment authority is changed by EP-0002.
+No `src/core/**`, controlled source bytes, bounded dataset/oracle/tolerance/qualification expected values, route/registry authorization, historical 01–12 evidence, `.github/workflows/**`, code-compliance, global EMP.1.C, professional-release or deployment authority is changed by EP-0002 / PR #1800.
 
 ## Issue synchronization
 
@@ -127,4 +131,4 @@ ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
 
 ## Exact next action
 
-E1 may advance only by independently observing the pinned primary Appendix-B pages. If the controlled bytes remain unavailable, stop with source definition unfrozen and benchmark absent.
+After PR #1800 merges, E1 may advance only by independently observing the pinned primary Appendix-B pages. If the controlled bytes remain unavailable, stop with source definition unfrozen and benchmark absent.
