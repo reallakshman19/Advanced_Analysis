@@ -26,7 +26,7 @@ const sourceCustody = basis.sources.map((source) => {
   return {
     sourceId: source.sourceId,
     path: source.path,
-    expectedBlobSha: source.blSha ?? source.blobSha,
+    expectedBlobSha: source.blobSha,
     observedBlobSha,
     status: observedBlobSha === source.blobSha ? 'PASS' : 'FAIL',
   };
@@ -41,6 +41,7 @@ const steps = [
   step('C3C-COMPILER-MAPPING-MODEL', process.execPath, ['scripts/lafea-continuum-solver-model-check.mjs'], 'C3C_1_C3C_5'),
   step('C3C-COMPILED-INPUT-LOWERING', process.execPath, ['scripts/lafea-continuum-compiled-input-check.mjs'], 'C3C_2_C3C_3'),
   step('C3C-PROJECTION-RESULTANT-CUSTODY', process.execPath, ['scripts/lafea.3-c3c-projection-resultant-check.mjs'], 'C3C_1_C3C_2'),
+  step('C3C-BODY-FORCE-RESULTANT', process.execPath, ['scripts/lafea.3-c3c-body-force-resultant-check.mjs'], 'C3C_2_G002'),
   step('C3C-LINEAR-TRACTION', process.execPath, ['scripts/lafea.3-c3c-linear-traction-check.mjs'], 'C3C_2_G003'),
   step('C3C-G004-SOURCE-PRESSURE-PRIMITIVE', process.execPath, ['scripts/lafea.3-c3c-source-pressure-lowering-check.mjs'], 'C3C_2_G004'),
   step('C3C-G004-SOURCE-PRESSURE-COMPILER', process.execPath, ['scripts/lafea.3-c3c-source-pressure-compiler-check.mjs'], 'C3C_1_C3C_2_G004'),
@@ -50,7 +51,7 @@ const steps = [
   step('C3C-PHYSICAL-PROBE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-g4-physical-probe-diagnostic.mjs'], 'C3C_4'),
   step('C3C-PHYSICAL-PROBE-FAIL-CLOSED', process.execPath, ['scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs'], 'C3C_4_C3C_6'),
   step('C3C-IMPORT-GOVERNANCE', npm, ['run', 'check:imports'], 'REGRESSION'),
-  step('C3C-DIFF-HYGIENE', 'git', ['diff', '--check', `${args.base ?? basis.stackedDependency.qualifiedHead}...HEAD`], 'REGRESSION'),
+  step('C3C-DIFF-HYGIENE', 'git', ['diff', '--check', `${args.base ?? basis.reviewedMainSha}...HEAD`], 'REGRESSION'),
 ];
 
 const status = steps.every((row) => row.status === 'PASS') ? 'PASS' : 'FAIL';
@@ -83,7 +84,7 @@ function emit(status, blocker, steps) {
       sourceNormalPressureQualified: passed('C3C-G004-SOURCE-PRESSURE-COMPILER'),
       projectionReceiptQualified: passed('C3C-PROJECTION-RESULTANT-CUSTODY'),
       constantStraightTractionForceMomentQualified: passed('C3C-PROJECTION-RESULTANT-CUSTODY'),
-      bodyForceResultantQualified: false,
+      bodyForceResultantQualified: passed('C3C-BODY-FORCE-RESULTANT'),
       releaseAuthorityGranted: false,
     },
   }, null, 2)}\n`);
