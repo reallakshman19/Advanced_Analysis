@@ -99,15 +99,38 @@ function sourceFeature(attachment, domain, geometry, vertexMap, segmentMap, segm
     });
   }
   if (attachment.targetType === 'REGION') {
+    if (attachment.targetId !== domain.region.regionId) {
+      fail('LAFEA_CONTINUUM_PROJECTION_SOURCE_REGION_MISSING');
+    }
     return freeze({
       targetType: 'REGION', featureId: attachment.targetId,
-      geometry: freeze({
-        regionId: domain.region.regionId,
-        geometryId: geometry.geometryId,
-      }),
+      geometry: regionGeometry(domain, geometry, vertexMap, segmentMap),
     });
   }
   fail('LAFEA_CONTINUUM_PROJECTION_SOURCE_FEATURE_TYPE_UNSUPPORTED');
+}
+
+function regionGeometry(domain, geometry, vertexMap, segmentMap) {
+  return freeze({
+    regionId: domain.region.regionId,
+    geometryId: geometry.geometryId,
+    orientationPolicy: geometry.orientationPolicy,
+    loops: geometry.loops.map((loop) => freeze({
+      loopId: loop.loopId,
+      role: loop.role,
+      segments: loop.segmentIds.map((segmentId) => {
+        const segment = segmentMap.get(segmentId);
+        const start = vertexMap.get(segment?.startVertexId);
+        const end = vertexMap.get(segment?.endVertexId);
+        if (!segment || !start || !end) fail('LAFEA_CONTINUUM_PROJECTION_SOURCE_REGION_GEOMETRY_INVALID');
+        return freeze({
+          ...structuredClone(segment),
+          start: freeze({ x: start.x, y: start.y }),
+          end: freeze({ x: end.x, y: end.y }),
+        });
+      }),
+    })),
+  });
 }
 
 function collectSegmentLoops(loops) {

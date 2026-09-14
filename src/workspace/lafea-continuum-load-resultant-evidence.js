@@ -1,4 +1,5 @@
 /** Source-vs-compiled distributed-load resultant custody for the LAFEA.3 compiler. */
+import { consistentBodyForceVector } from '../core/local-continuum/body-force-loads.js';
 import { integrateEdgeLoad } from '../core/local-continuum/edge-traction-loads.js';
 import { lafeaUnitFactor } from '../core/lafea-common-input/units.js';
 import { canonicalLafeaSha256 } from './lafea-canonical-sha256.js';
@@ -7,12 +8,14 @@ import { validateLafeaContinuumProjectionEvidence } from './lafea-continuum-proj
 export const LAFEA_CONTINUUM_LOAD_RESULTANT_EVIDENCE_SCHEMA =
   'lafea-continuum-load-resultant-evidence/v1';
 export const LAFEA_CONTINUUM_LOAD_RESULTANT_QUALIFIED_SCOPE =
-  'CONSTANT_LINEAR_TRACTION_AND_SOURCE_NORMAL_PRESSURE_V3';
+  'CONSTANT_LINEAR_TRACTION_SOURCE_NORMAL_PRESSURE_AND_STRAIGHT_REGION_BODY_FORCE_V4';
 
 const STAGE_ID = 'LAFEA.3';
 const LINEAR_TRACTION_LAW = 'LINEAR_SOURCE_SEGMENT_TRACTION_V1';
 const SOURCE_PRESSURE_LAW = 'SOURCE_GEOMETRY_INWARD_NORMAL_V1';
 const SOURCE_PRESSURE_AUTHORITY = 'ANALYSIS_GEOMETRY_ORIENTED_SEGMENT_V1';
+const BODY_FORCE_LAW = 'UNIFORM_SOURCE_REGION_BODY_FORCE_V1';
+const BODY_FORCE_SOURCE_AUTHORITY = 'ANALYSIS_GEOMETRY_ORIENTED_REGION_BOUNDARY_V1';
 
 export function createLafeaContinuumLoadResultantEvidence(model, executionInput) {
   requireObject(model, 'LAFEA_CONTINUUM_RESULTANT_SOLVER_MODEL_REQUIRED');
@@ -42,9 +45,43 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
       }));
       continue;
     }
+    const thickness = uniformMappedThickness(attachment, elements, sections);
+
+    if (attachment.kind === 'BODY_FORCE') {
+      const factor = bodyForceFactor(attachment.payload.unit, model);
+      const bx = finite(attachment.payload.bx, 'LAFEA_CONTINUUM_RESULTANT_BODY_FORCE_VALUE_INVALID') * factor;
+      const by = finite(attachment.payload.by, 'LAFEA_CONTINUUM_RESULTANT_BODY_FORCE_VALUE_INVALID') * factor;
+      const sourceRegionMoments = straightRegionAreaMoments(projectionEntry.sourceFeature.geometry);
+      const source = sourceBodyForceResultant(sourceRegionMoments, thickness, bx, by);
+      for (const caseId of attachment.physicalCaseIds) {
+        const loadCase = cases.get(caseId);
+        if (!loadCase) fail('LAFEA_CONTINUUM_RESULTANT_CASE_MISSING');
+        const compiled = compiledBodyForceResultant(
+          attachment, projectionEntry, loadCase, nodes, elements, sections, source.measure,
+        );
+        const comparison = compareResultants(source, compiled.resultant);
+        if (comparison.status !== 'PASS') fail('LAFEA_CONTINUUM_LOAD_RESULTANT_MISMATCH');
+        evaluated.push(freeze({
+          attachmentId: attachment.attachmentId,
+          caseId,
+          kind: attachment.kind,
+          bodyForceLaw: BODY_FORCE_LAW,
+          sourceRegionAuthority: BODY_FORCE_SOURCE_AUTHORITY,
+          sourceFeatureId: attachment.targetId,
+          projectionId: projectionEntry.projectionId,
+          contributionIds: [...projectionEntry.compiledContributionIds],
+          sourceRegionMoments,
+          sourceResultant: source,
+          compiledResultant: compiled.resultant,
+          equivalentNodalForces: compiled.equivalentNodalForces,
+          comparison,
+        }));
+      }
+      continue;
+    }
+
     const factor = lafeaUnitFactor('stress', attachment.payload.unit);
     if (factor === null) fail('LAFEA_CONTINUUM_RESULTANT_DISTRIBUTED_STRESS_UNIT_UNSUPPORTED');
-    const thickness = uniformMappedThickness(attachment, elements, sections);
 
     if (attachment.kind === 'PRESSURE') {
       const source = sourcePressureResultant(
@@ -121,6 +158,11 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
     && row.pressureLaw === SOURCE_PRESSURE_LAW
     && row.sourceBoundaryAuthority === SOURCE_PRESSURE_AUTHORITY
     && row.comparison.status === 'PASS');
+  const bodyForceResultantQualified = evaluated.some((row) =>
+    row.kind === 'BODY_FORCE'
+    && row.bodyForceLaw === BODY_FORCE_LAW
+    && row.sourceRegionAuthority === BODY_FORCE_SOURCE_AUTHORITY
+    && row.comparison.status === 'PASS');
   const base = freeze({
     schema: LAFEA_CONTINUUM_LOAD_RESULTANT_EVIDENCE_SCHEMA,
     stageId: STAGE_ID,
@@ -138,7 +180,7 @@ export function createLafeaContinuumLoadResultantEvidence(model, executionInput)
     forceAndMomentPreservationRequired: true,
     pressureSourceNormalQualified,
     linearTractionQualified,
-    bodyForceResultantQualified: false,
+    bodyForceResultantQualified,
     releaseAuthorityGranted: false,
   });
   return freeze({
@@ -175,7 +217,16 @@ function isDistributed(kind) {
 }
 
 function unsupportedReason(attachment, projection) {
-  if (attachment.kind === 'BODY_FORCE') return 'BODY_FORCE_RESULTANT_CERTIFICATION_PENDING';
+  if (attachment.kind === 'BODY_FORCE') {
+    const geometry = projection.sourceFeature?.geometry;
+    if (projection.sourceFeature?.targetType !== 'REGION' || !Array.isArray(geometry?.loops)) {
+      return 'SOURCE_REGION_BODY_FORCE_GEOMETRY_MISSING';
+    }
+    return geometry.loops.every((loop) =>
+      Array.isArray(loop.segments) && loop.segments.length > 0
+      && loop.segments.every((segment) => segment?.type === 'LINE'))
+      ? null : 'CURVED_REGION_BODY_FORCE_RESULTANT_CERTIFICATION_PENDING';
+  }
   if (attachment.kind === 'PRESSURE') {
     return ['LINE', 'CIRCULAR_ARC'].includes(projection.sourceFeature?.geometry?.type)
       ? null : 'SOURCE_NORMAL_PRESSURE_GEOMETRY_UNSUPPORTED';
@@ -269,6 +320,68 @@ function requirePressureLoopBinding(bindings) {
   return bindings[0];
 }
 
+function straightRegionAreaMoments(geometry) {
+  if (geometry?.orientationPolicy !== 'OUTER_CCW_HOLES_CW_V1'
+    || !Array.isArray(geometry.loops) || !geometry.loops.length) {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+  }
+  let area = 0;
+  let firstMomentX = 0;
+  let firstMomentY = 0;
+  let outerCount = 0;
+  for (const loop of geometry.loops) {
+    if (!['OUTER', 'HOLE'].includes(loop?.role)
+      || !Array.isArray(loop.segments) || !loop.segments.length) {
+      fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+    }
+    let loopArea = 0;
+    let loopFirstMomentX = 0;
+    let loopFirstMomentY = 0;
+    for (const segment of loop.segments) {
+      if (segment?.type !== 'LINE') fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+      const x0 = finite(segment.start?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+      const y0 = finite(segment.start?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+      const x1 = finite(segment.end?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+      const y1 = finite(segment.end?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+      const cross = x0 * y1 - x1 * y0;
+      loopArea += 0.5 * cross;
+      loopFirstMomentX += (x0 + x1) * cross / 6;
+      loopFirstMomentY += (y0 + y1) * cross / 6;
+    }
+    const scale = Math.max(1, Math.abs(loopArea));
+    if ((loop.role === 'OUTER' && !(loopArea > 1e-12 * scale))
+      || (loop.role === 'HOLE' && !(loopArea < -1e-12 * scale))) {
+      fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_ORIENTATION_INVALID');
+    }
+    if (loop.role === 'OUTER') outerCount += 1;
+    area += loopArea;
+    firstMomentX += loopFirstMomentX;
+    firstMomentY += loopFirstMomentY;
+  }
+  if (outerCount !== 1 || !(area > 0)) {
+    fail('LAFEA_CONTINUUM_RESULTANT_SOURCE_REGION_GEOMETRY_INVALID');
+  }
+  return freeze({
+    area: clean(area),
+    firstMomentX: clean(firstMomentX),
+    firstMomentY: clean(firstMomentY),
+    centroidX: clean(firstMomentX / area),
+    centroidY: clean(firstMomentY / area),
+    areaUnit: 'mm^2',
+    firstMomentUnit: 'mm^3',
+  });
+}
+
+function sourceBodyForceResultant(region, thickness, bx, by) {
+  return resultant(
+    bx * thickness * region.area,
+    by * thickness * region.area,
+    thickness * (by * region.firstMomentX - bx * region.firstMomentY),
+    region.area,
+    'mm^2',
+  );
+}
+
 function straightGeometry(geometry) {
   const ax = finite(geometry.start?.x, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
   const ay = finite(geometry.start?.y, 'LAFEA_CONTINUUM_RESULTANT_SOURCE_GEOMETRY_INVALID');
@@ -343,6 +456,46 @@ function compiledSourcePressureResultant(attachment, projection, loadCase, nodes
   );
 }
 
+function compiledBodyForceResultant(attachment, projection, loadCase, nodes, elements, sections, measure) {
+  const expectedIds = new Set(projection.compiledContributionIds);
+  const loads = loadCase.bodyForces.filter((row) =>
+    row.sourceReference === `COMPILED_ATTACHMENT#${attachment.attachmentId}`);
+  if (loads.length !== expectedIds.size
+    || loads.some((row) => !expectedIds.has(row.bodyForceId))) {
+    fail('LAFEA_CONTINUUM_RESULTANT_CONTRIBUTION_CUSTODY_MISMATCH');
+  }
+  let forceX = 0;
+  let forceY = 0;
+  let momentZ = 0;
+  const equivalentNodalForces = [];
+  for (const load of loads.sort((a, b) => compare(a.bodyForceId, b.bodyForceId))) {
+    const element = elements.get(load.elementId);
+    const section = sections.get(element?.sectionId);
+    if (!element || !section) fail('LAFEA_CONTINUUM_RESULTANT_ELEMENT_SECTION_MISSING');
+    const physicalNodes = element.nodeIds.map((nodeId) => nodes.get(nodeId));
+    if (physicalNodes.some((node) => !node)) fail('LAFEA_CONTINUUM_RESULTANT_ELEMENT_NODE_MISSING');
+    const forces = consistentBodyForceVector(
+      element.elementType, physicalNodes, section.thickness, load.bx, load.by,
+    );
+    forces.forEach(([fx, fy], index) => {
+      const node = physicalNodes[index];
+      forceX += fx;
+      forceY += fy;
+      momentZ += node.x * fy - node.y * fx;
+      equivalentNodalForces.push(freeze({
+        contributionId: load.bodyForceId,
+        nodeId: node.nodeId,
+        fx: clean(fx),
+        fy: clean(fy),
+      }));
+    });
+  }
+  return freeze({
+    resultant: resultant(forceX, forceY, momentZ, measure, 'mm^2'),
+    equivalentNodalForces: freeze(equivalentNodalForces),
+  });
+}
+
 function compiledNodalResultant(attachment, projection, loadCase, nodes, measure, sourcePrefix) {
   const expectedIds = new Set(projection.compiledContributionIds);
   const loads = loadCase.nodalForces.filter((row) => expectedIds.has(row.loadId));
@@ -382,9 +535,28 @@ function uniformMappedThickness(attachment, elements, sections) {
   return unique[0];
 }
 
+function bodyForceFactor(unit, model) {
+  const forceUnit = model.declaredUnits?.force;
+  const lengthUnit = model.declaredUnits?.length;
+  const stressUnit = model.declaredUnits?.stress;
+  const forceFactor = lafeaUnitFactor('force', forceUnit);
+  const lengthFactor = lafeaUnitFactor('length', lengthUnit);
+  const stressFactor = lafeaUnitFactor('stress', stressUnit);
+  if (forceFactor === null || lengthFactor === null || stressFactor === null) {
+    fail('LAFEA_CONTINUUM_RESULTANT_DECLARED_UNITS_INVALID');
+  }
+  if (unit === `${forceUnit}/${lengthUnit}^3`) return forceFactor / (lengthFactor ** 3);
+  if (unit === `${stressUnit}/${lengthUnit}`) return stressFactor / lengthFactor;
+  fail('LAFEA_CONTINUUM_RESULTANT_BODY_FORCE_UNIT_UNSUPPORTED');
+}
+
 function compareResultants(source, compiled) {
   const forceScale = Math.max(1, Math.hypot(source.forceX, source.forceY));
-  const momentScale = Math.max(1, Math.abs(source.momentZ), forceScale * Math.max(1, source.measure));
+  const characteristicLength = source.measureUnit === 'mm^2'
+    ? Math.sqrt(Math.max(0, source.measure)) : source.measure;
+  const momentScale = Math.max(
+    1, Math.abs(source.momentZ), forceScale * Math.max(1, characteristicLength),
+  );
   const forceTolerance = 1e-10 * forceScale;
   const momentTolerance = 1e-10 * momentScale;
   const residual = freeze({
@@ -398,10 +570,10 @@ function compareResultants(source, compiled) {
   return freeze({ status, forceTolerance, momentTolerance, residual });
 }
 
-function resultant(forceX, forceY, momentZ, measure) {
+function resultant(forceX, forceY, momentZ, measure, measureUnit = 'mm') {
   return freeze({
     forceX: clean(forceX), forceY: clean(forceY), momentZ: clean(momentZ), measure: clean(measure),
-    forceUnit: 'N', momentUnit: 'N*mm', measureUnit: 'mm', origin: freeze({ x: 0, y: 0 }),
+    forceUnit: 'N', momentUnit: 'N*mm', measureUnit, origin: freeze({ x: 0, y: 0 }),
   });
 }
 
