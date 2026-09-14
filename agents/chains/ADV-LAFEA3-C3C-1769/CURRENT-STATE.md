@@ -40,7 +40,15 @@ No element formulation, solver, kernel pressure integration/quadrature, mesh thr
 
 `NOT_RUN_INFRASTRUCTURE` for the exact-head G004 compiler campaign.
 
-Diagnostic carrier PR #1798 is a never-merge workflow-only carrier. The first focused run `34799270230` / job `103838440728` and the source-basis-0010 retry `34799495527` / job `103839099387` both failed before any job step materialized. Concurrent unrelated repository EMP.1 workflows showed the same zero-step failure pattern. These runs are not classified as engineering FAIL and do not qualify G004.
+Diagnostic carrier PR #1798 is a never-merge workflow-only carrier. Every observed attempt has failed before any job step materialized:
+
+- run `34799270230` / job `103838440728` — zero steps;
+- run `34799495527` / job `103839099387` — zero steps;
+- run `34799746351` / job `103839825024` — zero steps;
+- run `34814830048` attempt 1 / job `103883221135` — zero steps;
+- direct connector re-run of the same exact job, run `34814830048` attempt 2 / job `103883346172` — zero steps and no log blob.
+
+No checkout, source-custody check, or engineering command ran in those attempts. Concurrent unrelated repository workflows have shown the same zero-step failure pattern. These attempts are infrastructure failures rather than engineering FAIL evidence and do not qualify G004.
 
 Two transient placeholder files were accidentally written to the product branch during carrier setup and immediately deleted before candidate pinning. Neither file exists in the candidate tree; #1789 changed-file inventory contains no workflow or placeholder file. No qualification evidence uses those transient commits.
 
@@ -53,4 +61,4 @@ Two transient placeholder files were accidentally written to the product branch 
 
 ## Exact next action
 
-Resolve the then-current #1789 head and re-run never-merge carrier #1798 against that exact SHA when GitHub Actions can start jobs. Require source custody plus every named C3-C gate and the aggregate receipt to PASS on that one head. If an engineering gate fails, the first failing named gate controls the repair. If all pass, advance the source basis once to record the exact PASS, replay on that metadata head, then promote G004 only within its bounded compiler/resultant claim.
+Resolve the then-current #1789 head and re-run never-merge carrier #1798 against that exact SHA when GitHub Actions can actually create job steps. Prefer a direct re-run of the existing carrier job before creating another carrier commit when the carrier already targets the exact product head. Require source custody plus every named C3-C gate and the aggregate receipt to PASS on one exact head. If an engineering gate fails, the first failing named gate controls the repair. If all pass, advance the source basis once to record the exact PASS, replay on that metadata head, then promote G004 only within its bounded compiler/resultant claim.
