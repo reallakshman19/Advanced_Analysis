@@ -1,7 +1,7 @@
 # CURRENT — #1765 bounded WRC 537 source semantics
 
 CHAIN_ID: ADV-EMP1-WRC-1765-SOURCE-SEMANTICS
-CHAIN_STATE_VERSION: 3
+CHAIN_STATE_VERSION: 4
 WORK_ITEM_SOURCE: GITHUB_ISSUE
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1765
 WORK_ITEM_MODE: EXCLUSIVE
@@ -12,8 +12,8 @@ COMMON_PROTOCOL_STATUS: CURRENT
 ISSUE_BASIS_ID: IB-0001
 ISSUE_BASIS_FILE: agents/chains/ADV-EMP1-WRC-1765-SOURCE-SEMANTICS/issue-basis/IB-0001.md
 PARENT_ARCHITECTURE: #1760
-DEPENDENCY: #1762
-ACTIVE_ENDPOINT: EP-0001
+DEPENDENCY: #1762 / Draft PR #1785
+ACTIVE_ENDPOINT: EP-0002
 
 ENGINEERING_STATE: BLOCKED
 CUSTODY_STATE: HELD
@@ -37,13 +37,16 @@ HANDOVER_READY: FALSE
 
 MAIN_SHA: 41df6e945789273fc327aaeca6686529a9ad8b39
 MAIN_TREE: 2ebc03a01b3b7485e1b38a7fa41367f92bb92085
+UPSTREAM_1762_PR: #1785
+UPSTREAM_1762_HEAD: 483ef5db88d4177881d17f25bf6d3f58dfdf30a8
+UPSTREAM_1762_MERGE_AUTHORIZED: FALSE
 BRANCH: agent/arch-wrc-02-bounded-source-semantics
-BRANCH_BASE_SHA: 41df6e945789273fc327aaeca6686529a9ad8b39
 PR: #1796
-PR_STATUS: OPEN / DRAFT / MERGEABLE
+PR_STATUS: OPEN / DRAFT / STACKED_ON_1785
 MATERIAL_IMPLEMENTATION_HEAD: 9ef783b67866d04ef9e8d67c31a287e6e7a85935
-REVIEWS: 0
-UNRESOLVED_THREADS: 0
+INITIAL_STACKED_HEAD: c35d64aaeb06bd6d35a5fef3153e7356e5924f07
+ROLE_POLICY_REPAIR_HEAD: 48d63ba8d00db71eb29be7abb5733ad7c6d97c4f
+COMBINED_QUALIFICATION_CARRIER: ccdd8c07615c093f265ea209714911d645a0e06b
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
 
@@ -60,39 +63,64 @@ CODE_COMPLIANCE: NOT_ASSESSED
 GLOBAL_EMP1_C: FALSE
 RELEASE_QUALIFIED: FALSE
 
-External case prerequisites:
+External case prerequisites remain:
 - same-state assessment geometry for `T` and `Rm`;
 - standard cylindrical ROUND physical classification;
 - physical attachment-axis coincidence with the WRC shell-normal reference axis;
 - separately governed isolation/noninteraction evidence.
 
-Unresolved primary method semantics:
+Unresolved primary method semantics remain:
 - physical Au..Dl recovery surface/location and common-point reconstruction;
 - explicit plane-stress / sigma3 / principal-stress reconstruction authority for stress intensity;
 - material/shell-theory applicability details.
 
-## Exact-head validation truth
+## Stacked integration evidence
 
-At material head `9ef783b67866d04ef9e8d67c31a287e6e7a85935`:
+At initial stacked head `c35d64aaeb06bd6d35a5fef3153e7356e5924f07`:
 
 ```text
-run 34797458548 gamma5 route          = FAIL_UPSTREAM_1762_AUTHORITY_IDENTITY
-run 34797458545 current-main baseline = FAIL_UPSTREAM_1762_AUTHORITY_IDENTITY
-run 34797458747 independent oracle    = FAIL_UPSTREAM_1762_AUTHORITY_IDENTITY
-run 34797458742 runEmp1               = FAIL_UPSTREAM_1762_STALE_CURRENT_AUTHORITY_HARNESS
-run 34797458544 UI remediation        = SKIPPED_SCOPE_APPROPRIATE
+run 34798832316 runEmp1               = PASS_EXECUTED
+run 34798832288 gamma5 route          = FAIL_ROLE_AWARE_STALE_IDENTITY_CLASSIFICATION
+run 34798832285 current-main baseline = FAIL_ROLE_AWARE_STALE_IDENTITY_CLASSIFICATION
+run 34798832318 independent oracle    = FAIL_ROLE_AWARE_STALE_IDENTITY_CLASSIFICATION
+run 34798832282 UI remediation        = SKIPPED_SCOPE_APPROPRIATE
 ```
 
-Observed first wrong boundaries:
+The reconciliation guard rejected the full superseded oracle identity retained in immutable #1765 EP-0001 history because the downstream path was unclassified. This was a governance/integration defect, not numerical drift and not a method-authority failure.
 
-1. current `main` still supplies oracle identity `0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c`, while the owner-authorized chain requires `60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18`;
-2. runEmp1 independently re-observes the frozen full-Table-5 oracle and passes cylindrical load-axis polarity before the stale `emp1-wrc-gamma5-axis-authority-suspension-check.mjs` asserts that the route must still be suspended.
+The correction at `48d63ba8d00db71eb29be7abb5733ad7c6d97c4f` adds two exact path classifications to the existing #1762 occurrence policy:
 
-Both are #1762/current-main defects already repaired on unmerged Draft PR #1785. They must not be duplicated into this #1765 source-only PR.
+```text
+EP-0001.md             = HISTORICAL_IMMUTABLE_EVIDENCE
+issue-state/CURRENT.md = DOCUMENTATION_HISTORY
+activeCurrentAuthority = false for both
+```
 
-BOUNDED_PROFILE_CHECKER_ACTIONS_EXECUTION: NOT_RUN_EARLIER_UPSTREAM_GATE_FAILURE
-CONTROLLED_PINNED_PDF_PAGE_OBSERVATION: NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT
-ENGINEERING_SOURCE_PASS_CLAIMED: FALSE
+No guard logic, current authority identity, route authorization, oracle, qualification, tolerance, expected value or production evaluator was changed.
+
+## Post-repair validation truth
+
+The corrected head and the combined no-content qualification carrier both encountered GitHub Actions startup failure before any engineering step executed. Jobs report `steps=null` and no downloadable job logs.
+
+At carrier `ccdd8c07615c093f265ea209714911d645a0e06b`:
+
+```text
+34799208693 gamma5 route          = NOT_RUN_CI_STARTUP_FAILURE
+34799208661 current-main baseline = NOT_RUN_CI_STARTUP_FAILURE
+34799208649 independent oracle    = NOT_RUN_CI_STARTUP_FAILURE
+34799208692 runEmp1               = NOT_RUN_CI_STARTUP_FAILURE
+34799208655 UI remediation        = SKIPPED_SCOPE_APPROPRIATE
+```
+
+Therefore:
+
+```text
+role-policy repair post-fix executable adjudication = NOT_RUN_CI_STARTUP_FAILURE
+bounded profile checker post-fix Actions execution   = NOT_RUN_CI_STARTUP_FAILURE
+professional P0 validator post-fix completion        = NOT_RUN_CI_STARTUP_FAILURE
+engineering/source PASS                              = NOT_CLAIMED
+controlled pinned-PDF page observation               = NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT
+```
 
 ## Protected result/code boundary
 
@@ -107,15 +135,15 @@ codeCompliance = NOT_ASSESSED
 professional release = false
 ```
 
-No `src/core/**`, controlled source bytes, oracle/tolerance/benchmark expected values, route/registry authorization, historical 01–12 evidence, or `.github/workflows/**` were changed by #1796.
+No `.github/workflows/**` change was made and no CI startup failure is being used to weaken an engineering gate.
 
 ## Issue synchronization
 
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5656800112
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5656800910
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5657987004
-ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0002_PUBLICATION
+ISSUE_HANDOVER_SYNC_STATUS: PENDING_EP0002_PUBLICATION
 
 ## Exact next action
 
-#1762 must land first through the Owner-controlled #1785 merge path (or equivalent explicitly authorized integration). After repaired authority/current-head harness semantics exist on `main`, re-ground main, rebase/refresh #1796, rerun exact-head workflows, and only then adjudicate the #1765 profile checker and remaining source-semantic blockers.
+When GitHub Actions can start jobs again, rerun the corrected stack and require executable success through the #1762 role-aware reconciliation guard, then execution of the #1765 bounded profile checker and professional P0 source-semantics validator. Until that occurs, keep #1765 blocked and make no PASS, code-compliance, global EMP.1.C or professional-release claim. Do not merge #1785 or #1796 without Owner authorization.

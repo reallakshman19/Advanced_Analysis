@@ -1,11 +1,11 @@
 # ACTIVE — ADV-EMP1-WRC-1765-SOURCE-SEMANTICS
 
 CHAIN_ID: ADV-EMP1-WRC-1765-SOURCE-SEMANTICS
-CHAIN_STATE_VERSION: 3
+CHAIN_STATE_VERSION: 4
 WORK_ITEM_SOURCE: GITHUB_ISSUE
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1765
 WORK_ITEM_MODE: EXCLUSIVE
-ACTIVE_ENDPOINT: EP-0001
+ACTIVE_ENDPOINT: EP-0002
 ACTIVE_ISSUE_BASIS: IB-0001
 AGENT_INSTANCE_ID: chatgpt-gpt56sol:4f2337aa-5a6f-40de-a7a4-72d2143e9b61
 
@@ -33,45 +33,52 @@ TAKEOVER_QUALIFICATION_READY: TRUE
 ```text
 main = 41df6e945789273fc327aaeca6686529a9ad8b39
 main tree = 2ebc03a01b3b7485e1b38a7fa41367f92bb92085
+upstream #1762 PR = #1785 OPEN / DRAFT / OWNER_ONLY / NOT_AUTHORIZED
+upstream #1762 head = 483ef5db88d4177881d17f25bf6d3f58dfdf30a8
 branch = agent/arch-wrc-02-bounded-source-semantics
 branch head = SELF / resolve from PR #1796
-PR = #1796 OPEN / DRAFT / MERGEABLE
+PR = #1796 OPEN / DRAFT / STACKED ON #1785
 ```
 
 ## Delivered source-integration slice
 
 - `emp1-wrc537-bounded-source-semantics/v1` profile, semantic hash `b43d4b6449d1a280e82b98d5f45ef8beab4d63eac0e5139e95d18b1228ffe0d8`;
 - nine governed legacy source bindings;
-- four external case prerequisites: same-state assessment geometry, standard-round physical classification, physical axis coincidence with WRC shell normal, and isolation/noninteraction evidence;
-- three unresolved primary method-semantic categories retained fail-closed: physical recovery/common-point semantics, explicit plane-stress/principal reconstruction, and material/shell-theory applicability;
-- profile integrity/falsifier checker wired into the existing professional P0 source-semantics validator;
-- legacy aggregate remains `BLOCKED_P0_SOURCE_SEMANTICS`; no source/code/release authority was promoted.
+- four external case prerequisites;
+- three unresolved primary method-semantic categories retained fail-closed;
+- nine profile mutation falsifiers;
+- bounded profile checker wired into the existing professional P0 source-semantics validator;
+- no source/code/global/release authority promoted.
 
-## Exact-head validation diagnosis
+## Stacked integration progression
 
-Material implementation head `9ef783b67866d04ef9e8d67c31a287e6e7a85935` was exercised by the existing PR workflow family.
+Initial exact #1762/#1765 stack:
+
+`c35d64aaeb06bd6d35a5fef3153e7356e5924f07`
+
+Real Actions execution on that stack proved runEmp1 success but exposed one downstream integration defect: #1762's role-aware superseded-identity guard correctly rejected the full historical `0aec...` reference in #1765 EP-0001 because that path had not yet been classified.
+
+The repair at `48d63ba8d00db71eb29be7abb5733ad7c6d97c4f` extends only the governed occurrence policy for two #1765 historical/documentation paths. It does not weaken the negative guard and does not create current authority.
+
+Post-repair attempts, including combined qualification carrier `ccdd8c07615c093f265ea209714911d645a0e06b`, failed before any job steps started (`steps=null`, no job log). Their engineering state is `NOT_RUN_CI_STARTUP_FAILURE`, not FAIL.
+
+## Current authority/result boundary
 
 ```text
-EMP.1 gamma5 bounded route on current main   run 34797458548  FAILURE
-EMP.1 current-main independent baseline      run 34797458545  FAILURE
-EMP.1 runEmp1 bounded gamma5 orchestration   run 34797458742  FAILURE
-EMP.1 independent WRC source oracle          run 34797458747  FAILURE
-EMP.1 UI remediation qualification           run 34797458544  SKIPPED_SCOPE_APPROPRIATE
+host cylindrical-shell local stress only = true
+attachment/nozzle-wall stress authority = false
+WRC297 authority = false
+eight-point evaluated envelope only = true
+global absolute maximum = false
+professional source semantics ready = false
+codeAssessmentPerformed = false
+codeCompliance = NOT_ASSESSED
+global EMP.1.C authority = false
+professional release = false
 ```
-
-The failures are upstream #1762 dependency failures, not evidence that the #1765 profile checker failed:
-
-1. exact-head authority checks observe current-main oracle `0aec3815...` while the owner-authorized chain requires `60771128...`; #1785 restores the authorized `60771128... / 9ea591a...` identities;
-2. runEmp1 first passes the independent full-Table-5 hand calculation and cylindrical load-axis polarity checks, then fails the stale pre-authorization suspension harness (`true !== false`); #1785 repairs the current-head harness semantics.
-
-The new bounded source-profile checker did not execute in these Actions runs because inherited exact-head gates failed earlier. Its Actions execution state is therefore `NOT_RUN`, not PASS.
 
 Direct pinned-PDF page re-observation remains `NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT`.
 
-## Authority boundary
-
-Do not copy #1762 authority restoration into #1765, weaken exact-head gates, change `.github/workflows/**`, or modify WRC production mechanics/oracles/tolerances merely to clear this dependency.
-
 ## Exact next action
 
-Land #1785 through its Owner-controlled merge process (or otherwise establish the #1762 repair on `main` under explicit Owner authority). Then re-ground `main`, rebase/refresh #1796 onto that repaired authority state, and rerun the exact-head workflow family before making any #1765 PASS or professional-route claim.
+Do not merge #1785 or #1796 without Owner authorization. When GitHub Actions can start jobs again, rerun the corrected stacked/combined exact-head workflow family and require the #1762 reconciliation guard plus the #1765 bounded profile checker and professional P0 validator to execute before any #1765 PASS claim.
