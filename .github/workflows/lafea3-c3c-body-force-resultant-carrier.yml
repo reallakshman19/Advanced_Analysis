@@ -1,0 +1,95 @@
+name: LAFEA.3 C3-C body-force resultant exact-head qualification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/lafea3-c3c-body-force-resultant-carrier.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  first-failure:
+    runs-on: ubuntu-latest
+    env:
+      PRODUCT_HEAD: ${{ github.event.pull_request.base.sha }}
+      MAIN_BASE: ea2a2e5842a5ae1931544b20f7dcb97184d7cec1
+    steps:
+      - name: Checkout exact product head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 100
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify exact product head and clean tree
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$PRODUCT_HEAD"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+          git cat-file -e "$MAIN_BASE^{commit}"
+
+      - name: C3C-SOURCE-CUSTODY
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const basis = JSON.parse(fs.readFileSync('agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json', 'utf8'));
+          for (const source of basis.sources) {
+            const observed = execFileSync('git', ['rev-parse', `HEAD:${source.path}`], { encoding: 'utf8' }).trim();
+            if (observed !== source.blobSha) throw new Error(`${source.sourceId} ${source.path}: expected ${source.blobSha}, observed ${observed}`);
+          }
+          console.log(`PASS ${basis.basisId}: ${basis.sources.length} pinned blobs match exact product head.`);
+          NODE
+
+      - name: C3C-COMPILER-MAPPING-MODEL
+        run: node scripts/lafea-continuum-solver-model-check.mjs
+
+      - name: C3C-COMPILED-INPUT-LOWERING
+        run: node scripts/lafea-continuum-compiled-input-check.mjs
+
+      - name: C3C-PROJECTION-RESULTANT-CUSTODY
+        run: node scripts/lafea.3-c3c-projection-resultant-check.mjs
+
+      - name: C3C-BODY-FORCE-RESULTANT
+        run: node scripts/lafea.3-c3c-body-force-resultant-check.mjs
+
+      - name: C3C-LINEAR-TRACTION
+        run: node scripts/lafea.3-c3c-linear-traction-check.mjs
+
+      - name: C3C-G004-SOURCE-PRESSURE-PRIMITIVE
+        run: node scripts/lafea.3-c3c-source-pressure-lowering-check.mjs
+
+      - name: C3C-G004-SOURCE-PRESSURE-COMPILER
+        run: node scripts/lafea.3-c3c-source-pressure-compiler-check.mjs
+
+      - name: C3C-COMPILED-LOAD-PARITY
+        run: node scripts/lafea-continuum-compiled-load-parity-check.mjs
+
+      - name: C3C-COMPILED-EXECUTION-PARITY
+        run: node scripts/lafea-continuum-compiled-execution-check.mjs
+
+      - name: C3C-SEVEN-STATE-CURRENTNESS
+        run: node scripts/lafea-b02-currentness-check.mjs
+
+      - name: C3C-PHYSICAL-PROBE-CURRENTNESS
+        run: node scripts/lafea-b02-g4-physical-probe-diagnostic.mjs
+
+      - name: C3C-PHYSICAL-PROBE-FAIL-CLOSED
+        run: node scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs
+
+      - name: C3C-IMPORT-GOVERNANCE
+        run: npm run check:imports
+
+      - name: C3C-DIFF-HYGIENE
+        shell: bash
+        run: git diff --check "$MAIN_BASE...$PRODUCT_HEAD"
+
+      - name: C3C-AGGREGATE-RECEIPT
+        shell: bash
+        run: node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs --expected-head "$PRODUCT_HEAD" --base "$MAIN_BASE"
