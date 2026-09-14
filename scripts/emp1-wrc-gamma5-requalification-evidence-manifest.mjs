@@ -8,66 +8,50 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const options = parseArgs(process.argv.slice(2));
-if (!/^[0-9a-f]{40}$/u.test(options.expectedHead ?? '')) {
-  throw manifestError('EMP1_REQUALIFICATION_MANIFEST_EXPECTED_HEAD_REQUIRED');
+if (!/^[0-9a-f]{40}$/u.test(options.expectedHead ?? '')) throw gateError('EMP1_CURRENT_MANIFEST_EXPECTED_HEAD_REQUIRED');
+if (!options.observationPath || !options.replayReceiptPath || !options.falsifierReceiptPath || !options.writeManifest) {
+  throw gateError('EMP1_CURRENT_MANIFEST_PATHS_REQUIRED');
 }
-if (!options.observationPath || !options.replayReceiptPath
-    || !options.falsifierReceiptPath || !options.writeManifest) {
-  throw manifestError('EMP1_REQUALIFICATION_MANIFEST_PATHS_REQUIRED');
-}
-
 const actualHead = git(['rev-parse', 'HEAD']);
 assert.equal(actualHead, options.expectedHead,
-  `EMP1_REQUALIFICATION_MANIFEST_HEAD_MISMATCH:${actualHead}:${options.expectedHead}`);
+  `EMP1_CURRENT_MANIFEST_HEAD_MISMATCH:${actualHead}:${options.expectedHead}`);
 const observedTreeSha = git(['rev-parse', 'HEAD^{tree}']);
 const parentText = git(['show', '-s', '--format=%P', 'HEAD']);
 const observedParentShas = parentText ? parentText.split(/\s+/u) : [];
-observedParentShas.forEach((sha) => assert.match(sha, /^[0-9a-f]{40}$/u));
 
 const [observationFile, replayFile, falsifierFile] = await Promise.all([
-  readEvidence(options.observationPath),
-  readEvidence(options.replayReceiptPath),
-  readEvidence(options.falsifierReceiptPath),
+  readEvidence(options.observationPath), readEvidence(options.replayReceiptPath), readEvidence(options.falsifierReceiptPath),
 ]);
 const observation = observationFile.json;
 const replay = replayFile.json;
 const falsifiers = falsifierFile.json;
-
-assert.equal(observation.schema, 'emp1-wrc537-gamma5-exact-head-requalification-observation/v1');
+assert.equal(observation.schema, 'emp1-wrc537-gamma5-current-authority-exact-head-reobservation/v2');
 assert.equal(observation.status,
-  'PASS_EXACT_HEAD_REQUALIFICATION_READY_FOR_REVIEW_ROUTE_STILL_SUSPENDED');
+  'PASS_CURRENT_AUTHORITY_EXACT_HEAD_REOBSERVATION_STANDARD_01_TO_12_STILL_NOT_RUN');
 assert.equal(observation.observedHeadSha, options.expectedHead);
-assert.equal(observation.authorization.productionRouteAuthorizedBeforeObservation, false);
-assert.equal(observation.authorization.authorizationChangeAppliedByThisObservation, false);
-assert.equal(observation.authorization.globalEmp1CRouteAuthority, false);
-assert.equal(observation.authorization.codeComplianceAuthorized, false);
-assert.equal(observation.authorization.releaseQualified, false);
+assert.equal(observation.currentAuthority.productionRouteAuthorized, true);
+assert.equal(observation.currentAuthority.globalEmp1CRouteAuthority, false);
+assert.equal(observation.currentAuthority.codeComplianceAuthorized, false);
+assert.equal(observation.currentAuthority.releaseQualified, false);
+assert.equal(observation.authorityBoundary.authorityCreatedByThisObservation, false);
+assert.equal(observation.standardHistoricalQualification.numericalQualification, 'NOT_RUN_NOT_CLAIMED');
 
-assert.equal(replay.schema,
-  'emp1-wrc537-gamma5-requalification-observation-replay-check/v1');
-assert.equal(replay.status,
-  'PASS_REQUALIFICATION_OBSERVATION_SUBORDINATE_REPLAY_ROUTE_STILL_SUSPENDED');
-assert.equal(replay.observedHeadSha, options.expectedHead);
+assert.equal(replay.schema, 'emp1-wrc537-gamma5-current-authority-reobservation-replay/v1');
+assert.equal(replay.status, 'PASS_CURRENT_AUTHORITY_REOBSERVATION_SUBORDINATE_REPLAY');
 assert.equal(replay.observationSemanticHash, observation.observationSemanticHash);
-assert.equal(replay.productionRouteAuthorized, false);
-assert.equal(replay.authorizationChangeApplied, false);
+assert.equal(replay.authorityCreatedByReplay, false);
+assert.equal(replay.standardHistoricalQualification, 'NOT_RUN_NOT_CLAIMED');
 
-assert.equal(falsifiers.schema,
-  'emp1-wrc537-gamma5-requalification-observation-falsifiers/v1');
-assert.equal(falsifiers.status,
-  'PASS_REQUALIFICATION_OBSERVATION_ANTI_FORGERY_FALSIFIERS');
-assert.equal(falsifiers.observedHeadSha, options.expectedHead);
+assert.equal(falsifiers.schema, 'emp1-wrc537-gamma5-current-authority-reobservation-falsifiers/v1');
+assert.equal(falsifiers.status, 'PASS_CURRENT_AUTHORITY_REOBSERVATION_ANTI_FORGERY_FALSIFIERS');
 assert.equal(falsifiers.observationSemanticHash, observation.observationSemanticHash);
-assert.equal(falsifiers.baselineReplayRequiredAndPassed, true);
 assert.equal(falsifiers.mutationCount, 10);
-assert.equal(falsifiers.detections.length, 10);
 assert.ok(falsifiers.detections.every((value) => value.detected === true));
-assert.equal(falsifiers.productionRouteAuthorized, false);
-assert.equal(falsifiers.authorizationChangeApplied, false);
+assert.equal(falsifiers.authorityCreatedByFalsifiers, false);
 
 const githubActions = process.env.GITHUB_ACTIONS === 'true';
 const payload = {
-  schema: 'emp1-wrc537-gamma5-requalification-evidence-manifest/v1',
+  schema: 'emp1-wrc537-gamma5-current-authority-evidence-manifest/v2',
   observedHeadSha: options.expectedHead,
   observedTreeSha,
   observedParentShas,
@@ -81,12 +65,12 @@ const payload = {
     githubRunAttempt: githubActions ? process.env.GITHUB_RUN_ATTEMPT ?? null : null,
   },
   evidenceFiles: [
-    evidenceDescriptor(options.observationPath, observationFile, observation.schema, observation.status),
-    evidenceDescriptor(options.replayReceiptPath, replayFile, replay.schema, replay.status),
-    evidenceDescriptor(options.falsifierReceiptPath, falsifierFile, falsifiers.schema, falsifiers.status),
+    descriptor(options.observationPath, observationFile, observation.schema, observation.status),
+    descriptor(options.replayReceiptPath, replayFile, replay.schema, replay.status),
+    descriptor(options.falsifierReceiptPath, falsifierFile, falsifiers.schema, falsifiers.status),
   ],
   observationSemanticHash: observation.observationSemanticHash,
-  candidateQualificationSha256: observation.candidateQualificationSha256,
+  qualificationRecordSha256: observation.qualificationRecordSha256,
   oracleSemanticHash: observation.oracleSemanticHash,
   sourceDocumentSha256: observation.sourceDocumentSha256,
   datasetHash: observation.datasetHash,
@@ -98,60 +82,41 @@ const payload = {
     subordinateReplayPassed: true,
     antiForgeryFalsifiersPassed: falsifiers.mutationCount,
   },
-  authorization: {
-    productionRouteAuthorized: false,
-    authorizationChangeAppliedByEvidenceBundle: false,
-    globalEmp1CRouteAuthority: false,
-    codeComplianceAuthorized: false,
-    releaseQualified: false,
+  currentAuthority: structuredClone(observation.currentAuthority),
+  authorityBoundary: {
+    authorityCreatedByEvidenceBundle: false,
+    frozenOracleMayBeRewrittenByEvidenceBundle: false,
+    toleranceMayBeChangedByEvidenceBundle: false,
+    standardHistoricalEvidenceCreatedByEvidenceBundle: false,
   },
+  standardHistoricalQualification: structuredClone(observation.standardHistoricalQualification),
 };
 assert.equal(payload.qualificationSummary.physicalWrcLoadsPassed, 6);
 assert.equal(payload.qualificationSummary.stressComparisonsPassed, 32);
-assert.ok(payload.qualificationSummary.maxToleranceRatio >= 0
-  && payload.qualificationSummary.maxToleranceRatio <= 1);
-
+assert.ok(payload.qualificationSummary.maxToleranceRatio >= 0 && payload.qualificationSummary.maxToleranceRatio <= 1);
 const manifest = {
   ...payload,
   evidenceBundleSemanticHash: sha256Canonical(payload),
-  status: 'PASS_EXACT_HEAD_EVIDENCE_BUNDLE_READY_FOR_ENGINEERING_REVIEW_ROUTE_STILL_SUSPENDED',
+  status: 'PASS_CURRENT_AUTHORITY_EXACT_HEAD_EVIDENCE_BUNDLE_STANDARD_01_TO_12_STILL_NOT_RUN',
 };
 await writeFile(resolve(root, options.writeManifest), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(manifest, null, 2));
 
-function evidenceDescriptor(path, file, schema, status) {
-  return {
-    path,
-    sha256: file.sha256,
-    schema,
-    status,
-  };
-}
+function descriptor(path, file, schema, status) { return { path, sha256: file.sha256, schema, status }; }
 async function readEvidence(path) {
   const buffer = await readFile(resolve(root, path));
-  return {
-    json: JSON.parse(buffer.toString('utf8')),
-    sha256: createHash('sha256').update(buffer).digest('hex'),
-  };
+  return { json: JSON.parse(buffer.toString('utf8')), sha256: createHash('sha256').update(buffer).digest('hex') };
 }
-function git(args) {
-  return execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
-}
+function git(args) { return execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim(); }
 function parseArgs(args) {
-  const out = {
-    expectedHead: null,
-    observationPath: null,
-    replayReceiptPath: null,
-    falsifierReceiptPath: null,
-    writeManifest: null,
-  };
+  const out = { expectedHead: null, observationPath: null, replayReceiptPath: null, falsifierReceiptPath: null, writeManifest: null };
   for (let index = 0; index < args.length; index += 1) {
     if (args[index] === '--expected-head') out.expectedHead = args[++index] ?? null;
     else if (args[index] === '--observation') out.observationPath = args[++index] ?? null;
     else if (args[index] === '--replay-receipt') out.replayReceiptPath = args[++index] ?? null;
     else if (args[index] === '--falsifier-receipt') out.falsifierReceiptPath = args[++index] ?? null;
     else if (args[index] === '--write-manifest') out.writeManifest = args[++index] ?? null;
-    else throw manifestError(`EMP1_REQUALIFICATION_MANIFEST_UNKNOWN_ARGUMENT:${args[index]}`);
+    else throw gateError(`EMP1_CURRENT_MANIFEST_UNKNOWN_ARGUMENT:${args[index]}`);
   }
   return out;
 }
@@ -160,13 +125,7 @@ function sha256Canonical(value) {
 }
 function sortValue(value) {
   if (Array.isArray(value)) return value.map(sortValue);
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(Object.keys(value).sort().map((key) => [key, sortValue(value[key])]));
-  }
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map((key) => [key, sortValue(value[key])]));
   return value;
 }
-function manifestError(code) {
-  const error = new TypeError(code);
-  error.code = code;
-  return error;
-}
+function gateError(code) { const error = new TypeError(code); error.code = code; return error; }

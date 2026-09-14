@@ -1,0 +1,207 @@
+{
+  "schema": "emp1-wrc537-gamma5-authority-identity-reconciliation/v1",
+  "issue": 1762,
+  "parentIssue": 1760,
+  "observedMainSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
+  "observedMainTreeSha": "2ebc03a01b3b7485e1b38a7fa41367f92bb92085",
+  "status": "RECONCILED_OWNER_AUTHORIZED_CHAIN_RUNTIME_REOBSERVATION_SEPARATED_STANDARD_NUMERICAL_EVIDENCE_STILL_NOT_RUN",
+  "authorityCreatedByThisArtifact": false,
+  "sourceCustody": {
+    "wrc537_2013": {
+      "sha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+      "state": "PASS_SOURCE_CUSTODY",
+      "authorityBoundary": "CUSTODY_ONLY_NOT_METHOD_OR_RELEASE_AUTHORITY"
+    },
+    "caux2017": {
+      "sha256": "c1e92798a7bc172d649007ad88f6be548651f07a01cb2fbf83343e2283e0e83e",
+      "state": "PASS_SOURCE_CUSTODY",
+      "authorityBoundary": "BENCHMARK_CUSTODY_ONLY_NOT_WRC_METHOD_AUTHORITY"
+    }
+  },
+  "boundedDatasetHash": "fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c",
+  "currentAuthorityIdentity": {
+    "qualificationRecordSha256": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "postAuthorityOracleSemanticHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "authorizationRecordSemanticHash": "4a7bec7c84dd03ec547ae2ee7157efc91edef70f9662901d40d616e8cb8d0566",
+    "authorizationBasis": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json",
+    "authorizationMode": "OWNER_OVERRIDE_BOUNDED_ROUTE_PENDING_STANDARD_POST_PROMOTION_QUALIFICATION",
+    "standardNumericalQualification": "NOT_RUN_NOT_CLAIMED"
+  },
+  "a3Disposition": {
+    "requiredClassification": "EXECUTION_ENVIRONMENT_CANONICALIZATION_CHANGE",
+    "custodyOnlyCascadeSafe": false,
+    "reason": "Runtime recomputation under a different Node/V8 environment changed exact floating-point payload values at ULP scale. Those values remained within the pre-existing numerical comparison tolerance, but exact tolerance agreement is not authority to rewrite immutable frozen expected values or their semantic identity.",
+    "repair": "RESTORE_OWNER_AUTHORIZED_FROZEN_ORACLE_AND_QUALIFICATION_CHAIN_AND_SEPARATE_RUNTIME_REOBSERVATION_FROM_ORACLE_AUTHORSHIP",
+    "newCanonicalizationPolicyAuthorized": false,
+    "newNumericalExpectedValuesAuthorized": false,
+    "toleranceChangeAuthorized": false
+  },
+  "driftOrigin": {
+    "oracleMutationCommit": "b197a0c26418a2d6c3a44b0651a4b5b20881fdb0",
+    "qualificationCascadeCommit": "868467ea45b623438c693cf244bb5b9298168204",
+    "mainEntryPr": 1755,
+    "mainEntryMergeSha": "41df6e945789273fc327aaeca6686529a9ad8b39",
+    "prDeclaredScope": "LAFEA4_DEMONSTRATION_MESH_AND_UI",
+    "scopeContamination": true
+  },
+  "exactBeforeAfterSemanticPayloadDiff": [
+    {
+      "path": "semanticPayload.curveOrdinates.circ.Pbend_CD",
+      "authorizedFrozen": 0.17141454656732902,
+      "mutatedRuntimeRefreeze": 0.171414546567329
+    },
+    {
+      "path": "semanticPayload.curveOrdinates.circ.Mcmem",
+      "authorizedFrozen": 0.08941898249736933,
+      "mutatedRuntimeRefreeze": 0.08941898249736935
+    },
+    {
+      "path": "semanticPayload.curveOrdinates.long.Mcmem",
+      "authorizedFrozen": 0.12298242595099688,
+      "mutatedRuntimeRefreeze": 0.12298242595099684
+    },
+    {
+      "path": "semanticPayload.curveOrdinates.long.Mlmem",
+      "authorizedFrozen": 0.08350203830442386,
+      "mutatedRuntimeRefreeze": 0.08350203830442383
+    },
+    {
+      "path": "semanticPayload.expected.circumferential[3]",
+      "location": "Bl",
+      "authorizedFrozen": 27.601747564693834,
+      "mutatedRuntimeRefreeze": 27.601747564693838
+    }
+  ],
+  "numericalDriftClassification": {
+    "exactPayloadValuesChanged": true,
+    "stressIntensityVectorChanged": false,
+    "wrcLoadVectorChanged": false,
+    "sourceHashChanged": false,
+    "datasetHashChanged": false,
+    "figureSelectionChanged": false,
+    "signSemanticsChanged": false,
+    "geometryChanged": false,
+    "toleranceChanged": false,
+    "methodScopeChanged": false
+  },
+  "supersededMutationProvenance": {
+    "qualificationRecordSha256": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+    "postAuthorityOracleSemanticHash": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c",
+    "classification": "SUPERSEDED_CURRENT_STATE",
+    "engineeringAuthority": false,
+    "independentNewNumericalQualificationRun": false,
+    "qualificationSemanticPayloadDifference": "benchmarkQualification.benchmarkHash only"
+  },
+  "identityLedger": [
+    {
+      "identityType": "ORACLE_SEMANTIC_HASH",
+      "identityValue": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+      "path": "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+      "semanticRole": "FROZEN_INDEPENDENT_POST_AUTHORITY_ORACLE",
+      "status": "ACTIVE_CURRENT_AUTHORITY",
+      "sourceSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+      "datasetHash": "fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c",
+      "qualificationHash": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+      "authorizationRecordHash": "4a7bec7c84dd03ec547ae2ee7157efc91edef70f9662901d40d616e8cb8d0566",
+      "releaseProfileReference": "EMP1_WRC537_2013_CYLINDRICAL_GAMMA5_ZERO_DP_V1",
+      "replacementRule": "ONLY_BY_SEPARATELY_AUTHORIZED_ENGINEERING_ORACLE_CHANGE"
+    },
+    {
+      "identityType": "QUALIFICATION_RECORD_HASH",
+      "identityValue": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+      "path": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+      "semanticRole": "POST_SOURCE_AUTHORITY_BOUNDED_ROUTE_QUALIFICATION_IDENTITY",
+      "status": "ACTIVE_CURRENT_AUTHORITY",
+      "sourceSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+      "datasetHash": "fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c",
+      "oracleHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+      "authorizationRecordHash": "4a7bec7c84dd03ec547ae2ee7157efc91edef70f9662901d40d616e8cb8d0566",
+      "releaseProfileReference": "EMP1_WRC537_2013_CYLINDRICAL_GAMMA5_ZERO_DP_V1",
+      "replacementRule": "ONLY_BY_SEPARATELY_QUALIFIED_SUCCESSOR_IDENTITY"
+    },
+    {
+      "identityType": "QUALIFICATION_RECORD_HASH",
+      "identityValue": "3b4375407dc9484c80144f2d9a5b555000d0257021108cd799923ed6fede1a8e",
+      "path": "gamma5-zero-dp-route-qualification-v2.json:supersedesHistorical.routeQualificationSha256",
+      "semanticRole": "PRE_SOURCE_AUTHORITY_HISTORICAL_QUALIFICATION",
+      "status": "HISTORICAL_IMMUTABLE_EVIDENCE",
+      "replacementRule": "NEVER_REWRITE_HISTORY"
+    },
+    {
+      "identityType": "ORACLE_SEMANTIC_HASH",
+      "identityValue": "5daeb3a84828cf19017e6d1d0a70bd3478929713973948f875f21cec463a80aa",
+      "path": "gamma5-zero-dp-route-qualification-v2.json:supersedesHistorical.historicalOracleHash",
+      "semanticRole": "PRE_SOURCE_AUTHORITY_HISTORICAL_ORACLE",
+      "status": "HISTORICAL_IMMUTABLE_EVIDENCE",
+      "replacementRule": "NEVER_REWRITE_HISTORY"
+    },
+    {
+      "identityType": "ORACLE_SEMANTIC_HASH",
+      "identityValue": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c",
+      "path": "reconciliation:driftOrigin.oracleMutationCommit",
+      "semanticRole": "ENVIRONMENT_DEPENDENT_RUNTIME_REFREEZE_PROVENANCE",
+      "status": "SUPERSEDED_CURRENT_STATE",
+      "replacementRule": "MUST_NOT_APPEAR_IN_ACTIVE_CURRENT_AUTHORITY_SURFACE"
+    },
+    {
+      "identityType": "QUALIFICATION_RECORD_HASH",
+      "identityValue": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+      "path": "reconciliation:driftOrigin.qualificationCascadeCommit",
+      "semanticRole": "UNQUALIFIED_DOWNSTREAM_HASH_CASCADE_PROVENANCE",
+      "status": "SUPERSEDED_CURRENT_STATE",
+      "replacementRule": "MUST_NOT_APPEAR_IN_ACTIVE_CURRENT_AUTHORITY_SURFACE"
+    }
+  ],
+  "runtimeReobservationPolicy": {
+    "frozenPayloadExactHashRequired": true,
+    "runtimeNumericalReproductionRequired": true,
+    "runtimeNumericsComparedToFrozenPayloadByExistingTolerance": true,
+    "runtimeExactHashMayDifferByExecutionEnvironment": true,
+    "runtimeExactHashIsEngineeringAuthority": false,
+    "runtimeReobservationMayAuthorFrozenExpectedValues": false,
+    "productionObservationMayRegenerateOracle": false,
+    "toleranceWideningAuthorized": false
+  },
+  "currentSplitBrain": false,
+  "protectedScope": {
+    "method": "WRC 537 (2013)",
+    "shellFamily": "CYLINDRICAL",
+    "attachmentShape": "ROUND",
+    "variant": "ORIGINAL",
+    "gamma": 5,
+    "betaMinimum": 0.05,
+    "betaMaximum": 0.5,
+    "differentialPressure": 0,
+    "Kn": 1,
+    "Kb": 1,
+    "locations": ["Au", "Al", "Bu", "Bl", "Cu", "Cl", "Du", "Dl"],
+    "hostShellOnly": true,
+    "continuousGlobalMaximumClaim": false,
+    "globalEmp1CAuthority": false,
+    "codeComplianceAuthorized": false,
+    "releaseQualified": false
+  },
+  "acceptanceGuards": {
+    "authorityMutationStaleness": "IMPLEMENTED_AND_EXACT_HEAD_ACTIONS_OBSERVED",
+    "roleAwareStaleHashSearch": "IMPLEMENTED_AND_EXACT_HEAD_ACTIONS_OBSERVED",
+    "generatedCurrentStateDocumentation": "IMPLEMENTED_AND_EXACT_HEAD_ACTIONS_OBSERVED",
+    "exactHeadControlEvidence": {
+      "observedHeadSha": "1b34bce32017aa049d0c90dbe2342c116652f021",
+      "gamma5WorkflowRun": 34787828778,
+      "gamma5WorkflowConclusion": "SUCCESS",
+      "runEmp1WorkflowRun": 34787828827,
+      "runEmp1WorkflowConclusion": "SUCCESS",
+      "baselineWorkflowRun": 34787828792,
+      "baselineWorkflowConclusion": "SUCCESS",
+      "independentOracleWorkflowRun": 34787828815,
+      "independentOracleWorkflowConclusion": "SUCCESS",
+      "uiRemediationWorkflowRun": 34787828795,
+      "uiRemediationWorkflowConclusion": "SKIPPED_SCOPE_APPROPRIATE",
+      "engineeringPassClaimed": false,
+      "standardNumericalQualification": "NOT_RUN_NOT_CLAIMED"
+    }
+  },
+  "remainingWork": [
+    "PRESERVE_01_TO_12_STANDARD_EVIDENCE_AS_NOT_RUN_UNTIL_1768_EXECUTION"
+  ]
+}

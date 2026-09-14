@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { calculateLocalAttachmentFoundation } from '../src/core/local-stress/index.js';
 import { semanticHash } from '../src/core/shared-primitives/canonical-json.js';
 import {
@@ -14,66 +15,67 @@ import {
   normalizeEmp1WorkbenchRunInput,
   projectEmp1WorkbenchRunReadiness,
 } from '../src/workspace/emp1-workbench-product-run.js';
+import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
 import { canonicalFixture } from './lafea.1-fixtures.mjs';
 import { rawRequestFixture } from './lafea.2-fixtures.mjs';
 
-const aDocument = routeFoundationModel({ meanRadius: 100, shellThickness: 20 });
-const aResult = calculateLocalAttachmentFoundation(aDocument);
+function stage(name) {
+  console.log(`EMP1_WORKBENCH_QUALIFICATION_STAGE:${name}`);
+}
+
+stage('BOOT');
+const oracleRecord = JSON.parse(await readFile(
+  'validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json', 'utf8'));
+assert.equal(oracleRecord.semanticHash,
+  '60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18');
+const oracle = oracleRecord.semanticPayload;
+
+stage('READINESS');
+const aKernelModel = routeFoundationModel({ meanRadius: 100, shellThickness: 20 });
+const aDocument = normalizeLafeaStageDocument('LAFEA.1', aKernelModel);
+const aResult = calculateLocalAttachmentFoundation(aKernelModel);
 assert.equal(aResult.qualification.state, 'ACCEPTED');
-const bDocument = routeScreeningRequest(aDocument, aResult);
+const bDocument = routeScreeningRequest(aKernelModel, aResult);
 const runInput = qualifiedRunInput();
 assert.equal(projectEmp1WorkbenchRunReadiness({ aDocument, bDocument, runInput }).state, 'READY');
 
+stage('FIRST_EXECUTION');
 const first = await executeEmp1WorkbenchProduct({ aDocument, bDocument, runInput });
-assert.equal(first.status, 'PREPARED_C_BLOCKED');
+assert.equal(first.status, 'CALCULATED');
 assert.equal(first.decision, 'ESCALATE');
 assert.deepEqual(first.invocations, {
   loadTransfer: 1,
   sectionScreening: 1,
   localPreparation: 1,
-  localCorrelation: 0,
+  localCorrelation: 1,
 });
 assert.equal(first.result.loadTransfer.qualification, 'PASS');
 assert.equal(first.result.sectionScreening.qualification, 'PASS');
 assert.equal(first.result.sectionScreening.decision, 'ESCALATE');
-assert.equal(first.result.localCorrelation.state, 'BLOCKED');
-assert.ok(first.result.localCorrelation.reasons.includes(
-  'EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_SUSPENDED',
-));
-const requalificationReason =
-  'WRC_GAMMA5_ROUTE_REQUALIFICATION_REQUIRED_AFTER_SOURCE_AUTHORITY_CLOSURE';
-assert.ok(first.result.localCorrelation.reasons.includes(requalificationReason));
-assert.ok(first.authority.routeSuspensionReasons.includes(requalificationReason));
-for (const resolved of [
-  'WRC_CYLINDRICAL_LOAD_AXIS_SIGN_UNRESOLVED',
-  'WRC_ATTACHMENT_OUTSIDE_RADIUS_SOURCE_BASIS_UNQUALIFIED',
-  'WRC_LONGITUDINAL_MOMENT_CURVE_SELECTION_AUTHORITY_UNRESOLVED',
-  'WRC_CYLINDRICAL_4_5_APPLICABILITY_SOURCE_BASIS_UNQUALIFIED',
-]) {
-  assert.equal(first.result.localCorrelation.reasons.includes(resolved), false,
-    `resolved blocker reappeared: ${resolved}`);
-  assert.equal(first.authority.routeSuspensionReasons.includes(resolved), false,
-    `resolved authority blocker reappeared: ${resolved}`);
-}
+assert.equal(first.result.localCorrelation.state,
+  'EVALUATED_AUTHORIZED_BOUNDED_GAMMA5_ZERO_DP_ROUTE');
+assert.equal(first.result.localCorrelation.engineeringUseAuthorized, true);
+assert.equal(first.result.localCorrelation.productionRouteAuthority, true);
+assert.equal(first.result.localCorrelation.globalEmp1CRouteAuthority, false);
+assert.deepEqual(first.result.localCorrelation.routeSuspensionReasons, []);
+assert.equal(first.result.localCorrelation.routeQualificationSha256,
+  '9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7');
 
-assert.equal(first.result.localCorrelation.preparedSourceCustody.geometry.gamma, 5);
-assert.ok(Math.abs(first.result.localCorrelation.preparedSourceCustody.geometry.beta - 0.155) < 1e-12);
-assert.ok(Math.abs(
-  first.result.localCorrelation.preparedSourceCustody.geometry.attachmentOutsideRadius
-    - 17.714285714285715,
-) < 1e-12);
-assert.equal(
-  first.result.localCorrelation.preparedSourceCustody.geometry.attachmentRadiusSourceQualification,
-  'QUALIFIED_FOR_BOUNDED_R0_CUSTODY',
-);
-const retainedAttachment = first.result.localCorrelation.preparedSourceCustody
-  .attachmentGeometryEvidence;
+stage('FIRST_SOURCE_CUSTODY');
+const retainedCustody = first.result.localCorrelation.sourceCustody;
+assert.equal(retainedCustody.geometry.gamma, 5);
+assert.ok(Math.abs(retainedCustody.geometry.beta - 0.155) < 1e-12);
+assert.ok(Math.abs(retainedCustody.geometry.attachmentOutsideRadius - 17.714285714285715) < 1e-12);
+assert.equal(retainedCustody.geometry.attachmentRadiusSourceQualification,
+  'QUALIFIED_FOR_BOUNDED_R0_CUSTODY');
+const retainedAttachment = retainedCustody.attachmentGeometryEvidence;
 assert.equal(retainedAttachment.authority, 'EMP1_TYPED_ENGINEERING_SOURCE_BINDING_V1');
 assert.equal(retainedAttachment.diameterBasis, EMP1_WORKBENCH_ATTACHMENT_DIAMETER_BASIS);
 assert.equal(retainedAttachment.physicalLocation, EMP1_WORKBENCH_ATTACHMENT_PHYSICAL_LOCATION);
 assert.equal(retainedAttachment.sourceBindingSemanticHash,
   semanticHash(runInput.localMethod.attachmentGeometry));
 
+stage('FIRST_APPLICABILITY_AUTHORITY');
 const applicabilityAuthority = first.applicabilitySourceAuthority;
 assert.equal(first.authority.applicabilitySourceAuthorityPrepared, true);
 assert.equal(first.authority.applicabilitySourceAuthoritySemanticHash,
@@ -89,34 +91,48 @@ assert.equal(applicabilityAuthority.distanceFromCylinderEnd, 220);
 assert.equal(applicabilityAuthority.nearestCylinderEndDistance, 80);
 assert.equal(applicabilityAuthority.sourceBindingSemanticHash,
   semanticHash(runInput.localMethod.applicabilityGeometry));
-assert.equal(first.result.localCorrelation.preparedApplicabilitySourceAuthority.semanticHash,
+assert.equal(first.result.localCorrelation.applicabilitySourceAuthority.semanticHash,
   applicabilityAuthority.semanticHash);
 
-assert.equal(first.result.localCorrelation.stresses, undefined);
+stage('FIRST_AUTHORITY');
 assert.equal(first.authority.boundedLocalRoutePrepared, true);
-assert.equal(first.authority.boundedLocalRouteExecuted, false);
-assert.equal(first.authority.routeModuleAuthorized, false);
-assert.equal(first.authority.routeRegistryRegistered, false);
-assert.equal(first.authority.routeRegistryEngineeringUseAuthorized, false);
-for (const authorityReason of [
-  'EMP1_C_BOUNDED_ROUTE_NOT_REGISTERED',
-  'EMP1_C_BOUNDED_ROUTE_ENGINEERING_USE_NOT_AUTHORIZED',
-  'EMP1_C_BOUNDED_ROUTE_EXECUTOR_NOT_AUTHORIZED',
-]) {
-  assert.ok(first.authority.routeSuspensionReasons.includes(authorityReason));
-}
+assert.equal(first.authority.boundedLocalRouteExecuted, true);
+assert.equal(first.authority.routeModuleAuthorized, true);
+assert.equal(first.authority.routeRegistryRegistered, true);
+assert.equal(first.authority.routeRegistryEngineeringUseAuthorized, true);
+assert.deepEqual(first.authority.routeSuspensionReasons, []);
 assert.equal(first.authority.globalEmp1CRouteAuthority, false);
 assert.equal(first.authority.codeComplianceProduced, false);
 assert.equal(first.authority.releaseQualified, false);
+
+stage('FIRST_NUMERICS');
+assert.deepEqual(first.result.localCorrelation.numerics.wrcLoads,
+  oracle.expectedPhysical.wrcLoads);
+assert.deepEqual(first.result.localCorrelation.numerics.curveFigureMap, oracle.figureMap);
+let stressComparisons = 0;
+for (const family of ['circumferential', 'longitudinal', 'shear', 'stressIntensity']) {
+  const actual = first.result.localCorrelation.stresses[family];
+  const expected = oracle.expected[family];
+  assert.equal(actual.length, 8);
+  assert.equal(expected.length, 8);
+  actual.forEach((value, index) => {
+    const tolerance = Math.max(1e-12, Math.max(1, Math.abs(expected[index])) * 1e-11);
+    assert.ok(Math.abs(value - expected[index]) <= tolerance,
+      `EMP1_WORKBENCH_CURRENT_ROUTE_STRESS_DRIFT:${family}:${oracle.expected.locations[index]}`);
+    stressComparisons += 1;
+  });
+}
+assert.equal(stressComparisons, 32);
 assert.equal(new Set([
   first.result.loadTransfer.resultHash,
   first.result.sectionScreening.resultHash,
   first.result.localCorrelation.resultHash,
-]).size, 3, 'A/B/blocked-C evidence hashes must remain distinct');
+]).size, 3, 'A/B/C evidence hashes must remain distinct');
 assert.equal(classifyEmp1WorkbenchExecutionCurrentness({
   execution: first, aDocument, bDocument, runInput,
 }).state, EMP1_WORKBENCH_EXECUTION_CURRENTNESS.CURRENT);
 
+stage('REUSE');
 const reused = await executeEmp1WorkbenchProduct({
   aDocument,
   bDocument,
@@ -124,6 +140,7 @@ const reused = await executeEmp1WorkbenchProduct({
   previous: first,
   changeClasses: [],
 });
+assert.equal(reused.status, 'CALCULATED');
 assert.deepEqual(reused.invocations, {
   loadTransfer: 0,
   sectionScreening: 0,
@@ -131,8 +148,10 @@ assert.deepEqual(reused.invocations, {
   localCorrelation: 0,
 });
 assert.deepEqual(reused.result.assessment.parents, first.result.assessment.parents);
-assert.equal(reused.result.localCorrelation.state, 'BLOCKED');
+assert.equal(reused.result.localCorrelation.resultHash, first.result.localCorrelation.resultHash);
+assert.equal(reused.result.localCorrelation.productionRouteAuthority, true);
 
+stage('ATTACHMENT_INVALIDATION');
 const attachmentChanged = structuredClone(runInput);
 attachmentChanged.localMethod.attachmentGeometry.attachmentDiameter = 40;
 const attachmentRerun = await executeEmp1WorkbenchProduct({
@@ -147,18 +166,22 @@ assert.deepEqual(attachmentRerun.invocations, {
   loadTransfer: 0,
   sectionScreening: 1,
   localPreparation: 1,
-  localCorrelation: 0,
+  localCorrelation: 1,
 });
+assert.equal(attachmentRerun.status, 'CALCULATED');
 assert.equal(attachmentRerun.result.loadTransfer.resultHash, first.result.loadTransfer.resultHash);
 assert.notEqual(
   attachmentRerun.result.sectionScreening.geometryEvidence.semanticHash,
   first.result.sectionScreening.geometryEvidence.semanticHash,
 );
 assert.notEqual(
-  attachmentRerun.result.localCorrelation.preparedSourceCustody.geometryEvidenceHash,
-  first.result.localCorrelation.preparedSourceCustody.geometryEvidenceHash,
+  attachmentRerun.result.localCorrelation.sourceCustody.geometryEvidenceHash,
+  first.result.localCorrelation.sourceCustody.geometryEvidenceHash,
 );
+assert.notEqual(attachmentRerun.result.localCorrelation.resultHash,
+  first.result.localCorrelation.resultHash);
 
+stage('APPLICABILITY_INVALIDATION');
 const applicabilityChanged = structuredClone(runInput);
 applicabilityChanged.localMethod.applicabilityGeometry.attachmentStationFromCylinderStart = 90;
 const applicabilityRerun = await executeEmp1WorkbenchProduct({
@@ -174,8 +197,9 @@ assert.deepEqual(applicabilityRerun.invocations, {
   loadTransfer: 0,
   sectionScreening: 0,
   localPreparation: 1,
-  localCorrelation: 0,
+  localCorrelation: 1,
 });
+assert.equal(applicabilityRerun.status, 'CALCULATED');
 assert.equal(applicabilityRerun.result.loadTransfer.resultHash, first.result.loadTransfer.resultHash);
 assert.equal(applicabilityRerun.result.sectionScreening.resultHash,
   first.result.sectionScreening.resultHash);
@@ -183,6 +207,7 @@ assert.notEqual(applicabilityRerun.applicabilitySourceAuthority.semanticHash,
   applicabilityAuthority.semanticHash);
 assert.equal(applicabilityRerun.applicabilitySourceAuthority.nearestCylinderEndDistance, 90);
 
+stage('CURRENTNESS');
 const bChanged = structuredClone(bDocument);
 bChanged.screeningCases[0].mechanicalTerms[0].factor = 1.1;
 const stale = classifyEmp1WorkbenchExecutionCurrentness({
@@ -194,6 +219,7 @@ const stale = classifyEmp1WorkbenchExecutionCurrentness({
 assert.equal(stale.state, EMP1_WORKBENCH_EXECUTION_CURRENTNESS.STALE);
 assert.ok(stale.reasons.includes('EMP1_WORKBENCH_SECTIONSCREENINGDOCUMENT_CHANGED'));
 
+stage('INPUT_GUARDS');
 assert.throws(
   () => normalizeEmp1WorkbenchRunInput({
     ...runInput,
@@ -221,7 +247,7 @@ assert.ok(missingReadiness.reasons.includes('EMP1_WORKBENCH_APPLICABILITY_GEOMET
 await assert.rejects(
   () => executeEmp1WorkbenchProduct({ aDocument, bDocument, runInput: missingApplicability }),
   (error) => error?.code === 'EMP1_WORKBENCH_APPLICABILITY_GEOMETRY_REQUIRED',
-  'prepared C must not omit WRC §4.5 source authority',
+  'current C must not omit WRC section 4.5 source authority',
 );
 
 const directNearestEndSpoof = structuredClone(runInput);
@@ -270,9 +296,11 @@ await assert.rejects(
   (error) => error?.code === 'EMP1_WORKBENCH_APPLICABILITY_UNIT_NOT_CANONICAL',
 );
 
-const gamma15Document = routeFoundationModel({ meanRadius: 300, shellThickness: 20 });
-const gamma15Result = calculateLocalAttachmentFoundation(gamma15Document);
-const gamma15B = routeScreeningRequest(gamma15Document, gamma15Result);
+stage('GAMMA15_NEGATIVE');
+const gamma15KernelModel = routeFoundationModel({ meanRadius: 300, shellThickness: 20 });
+const gamma15Document = normalizeLafeaStageDocument('LAFEA.1', gamma15KernelModel);
+const gamma15Result = calculateLocalAttachmentFoundation(gamma15KernelModel);
+const gamma15B = routeScreeningRequest(gamma15KernelModel, gamma15Result);
 const gamma15 = await executeEmp1WorkbenchProduct({
   aDocument: gamma15Document,
   bDocument: gamma15B,
@@ -287,34 +315,39 @@ assert.ok(gamma15.result.localCorrelation.reasons
 assert.equal(gamma15.authority.boundedLocalRoutePrepared, false);
 assert.equal(gamma15.authority.boundedLocalRouteExecuted, false);
 assert.equal(gamma15.authority.globalEmp1CRouteAuthority, false);
+assert.equal(gamma15.authority.releaseQualified, false);
 
+stage('PASS');
 console.log(JSON.stringify({
-  schema: 'emp1-workbench-product-run-qualification/v8',
-  status: 'PASS_TYPED_R0_AND_WRC45_SOURCE_BOUND_PREPARED_C_REQUALIFICATION_BLOCKED',
+  schema: 'emp1-workbench-product-run-qualification/v9',
+  status: 'PASS_CURRENT_AUTHORIZED_GAMMA5_ROUTE_THROUGH_WORKBENCH_TRANSACTION',
   productId: first.productId,
   decision: first.decision,
   firstInvocations: first.invocations,
   reuseInvocations: reused.invocations,
   attachmentGeometryInvalidation: attachmentRerun.invocations,
   applicabilityGeometryInvalidation: applicabilityRerun.invocations,
-  gamma5: first.result.localCorrelation.preparedSourceCustody.geometry.gamma,
-  beta: first.result.localCorrelation.preparedSourceCustody.geometry.beta,
-  r0: first.result.localCorrelation.preparedSourceCustody.geometry.attachmentOutsideRadius,
+  gamma5: retainedCustody.geometry.gamma,
+  beta: retainedCustody.geometry.beta,
+  r0: retainedCustody.geometry.attachmentOutsideRadius,
   r0SourceBindingHash: retainedAttachment.sourceBindingSemanticHash,
   applicabilitySourceBindingHash: applicabilityAuthority.sourceBindingSemanticHash,
   applicabilityAuthorityHash: applicabilityAuthority.semanticHash,
   derivedNearestEndDistance: applicabilityAuthority.nearestCylinderEndDistance,
-  productionRouteInvoked: first.invocations.localCorrelation > 0,
+  productionRouteInvoked: first.invocations.localCorrelation === 1,
+  stressComparisons,
+  oracleHash: oracleRecord.semanticHash,
+  qualificationHash: first.result.localCorrelation.routeQualificationSha256,
   routeSuspensionReasons: first.authority.routeSuspensionReasons,
-  allWrcSourceBlockersAbsent: true,
-  requalificationReason,
   missingApplicabilityBindingExecutionRejected: true,
   directNearestEndSpoofRejected: true,
   applicabilityChangeDoesNotRerunAOrB: true,
   canonicalApplicabilityUnitEnforced: true,
   gamma15BlockedBeforeTable5: gamma15.invocations.localCorrelation === 0,
   globalEmp1CRouteAuthority: false,
+  codeComplianceProduced: false,
   releaseQualified: false,
+  historicalStandardNumericalQualification: 'NOT_RUN_NOT_CLAIMED',
 }, null, 2));
 
 function qualifiedRunInput() {
@@ -357,8 +390,8 @@ function routeFoundationModel({ meanRadius, shellThickness }) {
     source.thicknessBasis.nominalPipeThickness.value = shellThickness;
     source.thicknessBasis.corrosionAllowance.value = 0;
     source.thicknessBasis.assessmentPipeThickness.value = shellThickness;
-    source.loadCases[0].force.value = [-400, -250, -1000];
-    source.loadCases[0].moment.value = [-750000, 1000000, -700000];
+    source.loadCases[0].force.value = [...oracle.physicalBenchmark.forceAtSourceGlobal];
+    source.loadCases[0].moment.value = [...oracle.physicalBenchmark.momentAtSourceGlobal];
     source.pressureDefinitions.forEach((row) => {
       row.internalPressure.value = 0;
       row.externalPressure.value = 0;
