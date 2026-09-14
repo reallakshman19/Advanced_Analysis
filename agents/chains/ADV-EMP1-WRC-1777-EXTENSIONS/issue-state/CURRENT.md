@@ -40,8 +40,9 @@ MAIN_SHA: ea2a2e5842a5ae1931544b20f7dcb97184d7cec1
 MAIN_DRIFT_CLASS: MATERIAL_WITHIN_QUALIFIED_BOUNDARY_NO_EMP1_WRC_OVERLAP
 MAIN_DRIFT_SOURCE: PR #1789 LAFEA.3 C3-C only
 BRANCH: agent/arch-wrc-06-e1-appendix-b-source
-BRANCH_HEAD: SELF / resolve from PR #1800
-ACTIVE_PR: #1800 OPEN / DRAFT
+MATERIAL_HEAD: 8a3dbf0726bc1a153575dfef4932c4a717c3eb8c
+BRANCH_HEAD: SELF / current control-plane sync commit
+ACTIVE_PR: #1800 OPEN / DRAFT / MERGEABLE
 PREVIOUS_PR: #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 ```
 
@@ -121,9 +122,9 @@ No `src/core/**`, controlled source bytes, bounded dataset/oracle/tolerance/qual
 
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5660165096
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5660167092
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0002_COMMENT
-ISSUE_HANDOVER_SYNC_STATUS: STALE_PENDING_EP0002_COMMENT
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5660757310
+ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
 
 ## Exact next action
 
-Publish/synchronize EP-0002. Thereafter E1 may advance only by independently observing the pinned primary Appendix-B pages. If the controlled bytes remain unavailable, stop with source definition unfrozen and benchmark absent.
+E1 may advance only by independently observing the pinned primary Appendix-B pages. If the controlled bytes remain unavailable, stop with source definition unfrozen and benchmark absent.

@@ -36,8 +36,9 @@ HANDOVER_READY: FALSE
 main = ea2a2e5842a5ae1931544b20f7dcb97184d7cec1
 main drift from #1799 merge = LAFEA.3 only / no EMP1-WRC overlap
 branch = agent/arch-wrc-06-e1-appendix-b-source
-branch head = SELF / resolve from PR #1800
-active PR = #1800 OPEN / DRAFT / mergeability recomputing
+material head = 8a3dbf0726bc1a153575dfef4932c4a717c3eb8c
+branch head = SELF / current control-plane sync commit
+active PR = #1800 OPEN / DRAFT / MERGEABLE
 previous PR = #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 ```
 
@@ -46,8 +47,8 @@ previous PR = #1799 MERGED -> b43d808e0cd66b5577ab122563878fe1d1860aec
 ```text
 CHAIN_ROOT = 5660165096
 ACTIVE_HANDOVER = 5660167092
-LATEST_ENDPOINT = PENDING_EP0002_COMMENT
-ISSUE_HANDOVER_SYNC_STATUS = STALE_PENDING_EP0002_COMMENT
+LATEST_ENDPOINT = 5660757310
+ISSUE_HANDOVER_SYNC_STATUS = IN_SYNC
 ```
 
 ## Active E1 boundary
@@ -74,4 +75,4 @@ Neither blocker authorizes copying secondary candidate equations, choosing B.4/B
 
 ## Exact next action
 
-Synchronize EP-0002 with #1777. Thereafter the only engineering continuation is controlled primary-page observation; if unavailable, E1 remains blocked.
+Primary-source observation only. If the pinned Appendix-B pages remain unavailable, E1 remains blocked; do not implement or authorize non-unity SCFs.
