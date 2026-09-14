@@ -1,0 +1,110 @@
+{
+  "schema": "emp1-wrc537-gamma5-authority-stale-identity-occurrences/v1",
+  "issue": 1762,
+  "authorityCreatedByThisArtifact": false,
+  "supersededIdentities": {
+    "qualificationRecordSha256": "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+    "postAuthorityOracleSemanticHash": "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+  },
+  "allowedClassifications": [
+    "ACTIVE_CURRENT_AUTHORITY",
+    "HISTORICAL_IMMUTABLE_EVIDENCE",
+    "SUPERSEDED_CURRENT_STATE",
+    "TEST_FIXTURE",
+    "DOCUMENTATION_HISTORY",
+    "INVALID_STALE_REFERENCE"
+  ],
+  "policy": [
+    {
+      "path": "agents/chains/ADV-PROD-1634-RECOVERY/endpoints/EP-0013.md",
+      "identityValues": ["0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"],
+      "classification": "HISTORICAL_IMMUTABLE_EVIDENCE",
+      "semanticRole": "PR1639_EXACT_EXECUTION_FAILURE_HISTORY",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "agents/chains/ADV-EMP1-GOVERNANCE-READINESS/endpoints/EP-0003.md",
+      "identityValues": ["0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"],
+      "classification": "HISTORICAL_IMMUTABLE_EVIDENCE",
+      "semanticRole": "PR1639_SUBORDINATE_REPLAY_FAILURE_HISTORY",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "agents/chains/ADV-PROD-1634-RECOVERY/issue-state/CURRENT.md",
+      "identityValues": ["0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"],
+      "classification": "DOCUMENTATION_HISTORY",
+      "semanticRole": "RECORDED_PRE_1762_DIAGNOSTIC_STATE",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "agents/chains/ADV-EMP1-WRC-1762-AUTHORITY/ACTIVE.md",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "DOCUMENTATION_HISTORY",
+      "semanticRole": "CURRENT_CHAIN_DIAGNOSIS_OF_SUPERSEDED_MUTATION",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "agents/chains/ADV-EMP1-WRC-1762-AUTHORITY/endpoints/EP-0001.md",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "HISTORICAL_IMMUTABLE_EVIDENCE",
+      "semanticRole": "EP0001_A3_DIAGNOSTIC_CHECKPOINT",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "agents/chains/ADV-EMP1-WRC-1762-AUTHORITY/issue-basis/IB-0001.md",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "DOCUMENTATION_HISTORY",
+      "semanticRole": "ISSUE_BASIS_INPUT_AND_BENCHMARK_LEDGER",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "agents/chains/ADV-EMP1-WRC-1762-AUTHORITY/issue-state/CURRENT.md",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "DOCUMENTATION_HISTORY",
+      "semanticRole": "CURRENT_CHAIN_DIAGNOSIS_OF_SUPERSEDED_MUTATION",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "validation/emp1/wrc537-2013/gamma5-authority-identity-reconciliation-v1.json",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "SUPERSEDED_CURRENT_STATE",
+      "semanticRole": "GOVERNED_SUPERSEDED_MUTATION_PROVENANCE",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "validation/emp1/wrc537-2013/gamma5-authority-stale-identity-occurrences-v1.json",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "TEST_FIXTURE",
+      "semanticRole": "ROLE_AWARE_STALE_IDENTITY_POLICY",
+      "activeCurrentAuthority": false
+    },
+    {
+      "path": "scripts/emp1-wrc-gamma5-authority-identity-reconciliation-check.mjs",
+      "identityValues": [
+        "db477df8596e9fd3fc830fa063d90c39558ed770d4cc67b3605e325a6216d665",
+        "0aec3815479ea092e61bad3858519c8495f9b5cbe6ac711e76ce5bd6f80a806c"
+      ],
+      "classification": "TEST_FIXTURE",
+      "semanticRole": "NEGATIVE_GUARD_CONSTANTS",
+      "activeCurrentAuthority": false
+    }
+  ]
+}

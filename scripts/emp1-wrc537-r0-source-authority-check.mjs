@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import { calculateLocalAttachmentFoundation } from '../src/core/local-stress/index.js';
 import { semanticHash } from '../src/core/shared-primitives/canonical-json.js';
-import { calculateLocalAttachmentScreening } from '../src/core/local-attachment-screening/index.js';
+import {
+  AXIAL_PRESSURE_THRUST_BASES,
+  calculateLocalAttachmentScreening,
+  createLocalAttachmentScreeningRequest,
+} from '../src/core/local-attachment-screening/index.js';
 import {
   EMP1_WRC537_ATTACHMENT_DIAMETER_BASIS,
   EMP1_WRC537_ATTACHMENT_PHYSICAL_LOCATION,
@@ -43,9 +48,15 @@ import {
   EMP1_WORKBENCH_RUN_INPUT_SCHEMA,
   normalizeEmp1WorkbenchRunInput,
 } from '../src/workspace/emp1-workbench-run-state.js';
-import { screeningRequestFixture } from './lafea.2-fixtures.mjs';
+import { canonicalFixture } from './lafea.1-fixtures.mjs';
+import { rawRequestFixture } from './lafea.2-fixtures.mjs';
 
-const request = screeningRequestFixture();
+const foundationModel = routeFoundationModel({ meanRadius: 100, shellThickness: 20 });
+const foundationResult = calculateLocalAttachmentFoundation(foundationModel);
+assert.equal(foundationResult.qualification.state, 'ACCEPTED');
+const request = createLocalAttachmentScreeningRequest(
+  routeScreeningRequest(foundationModel, foundationResult),
+);
 const screeningResult = calculateLocalAttachmentScreening(request);
 assert.equal(screeningResult.qualification.state, 'ACCEPTED');
 
@@ -95,12 +106,15 @@ const typedLayer = createEmp1RetainedSectionScreeningLayer({
 const typedCustody = deriveEmp1Wrc537SourceCustody({
   foundationResult: request.sourceEvidence.foundationResult,
   sectionScreening: typedLayer,
-  loadCaseIdentity: 'LC-A',
+  loadCaseIdentity: 'LC-1',
 });
 const qualified = requireEmp1Wrc537QualifiedR0SourceCustody(typedCustody);
 assert.equal(qualified.geometry.attachmentRadiusSourceQualification,
   EMP1_WRC537_ATTACHMENT_SOURCE_QUALIFIED);
+close(qualified.geometry.meanRadius, 100, 'qualified mean radius');
+close(qualified.geometry.shellThickness, 20, 'qualified shell thickness');
 close(qualified.geometry.attachmentOutsideRadius, 17.714285714285715, 'qualified r0');
+close(qualified.geometry.gamma, 5, 'qualified gamma');
 close(qualified.geometry.beta, 0.155, 'qualified beta');
 assert.equal(qualified.geometrySourceReferences.attachmentPhysicalLocation,
   EMP1_WRC537_ATTACHMENT_PHYSICAL_LOCATION);
@@ -144,7 +158,7 @@ assert.equal(legacyLayer.attachmentGeometryEvidence.sourceQualification,
 const legacyCustody = deriveEmp1Wrc537SourceCustody({
   foundationResult: request.sourceEvidence.foundationResult,
   sectionScreening: legacyLayer,
-  loadCaseIdentity: 'LC-A',
+  loadCaseIdentity: 'LC-1',
 });
 expectCode(() => requireEmp1Wrc537QualifiedR0SourceCustody(legacyCustody),
   'EMP1_WRC537_R0_QUALIFIED_SOURCE_AUTHORITY_REQUIRED');
@@ -181,8 +195,8 @@ const v3 = {
   localMethod: {
     routeRequest: {
       schema: 'emp1-wrc537-gamma5-zero-dp-orchestration-request/v2',
-      loadCaseIdentity: 'LC-A',
-      pressureResultIdentity: 'PR-A',
+      loadCaseIdentity: 'LC-1',
+      pressureResultIdentity: 'PR-1',
     },
     attachmentGeometry: normalizedAttachment,
   },
@@ -203,18 +217,20 @@ expectCode(() => normalizeEmp1WorkbenchRunInput(wrongLocation),
   'EMP1_WORKBENCH_ATTACHMENT_SHELL_JUNCTURE_LOCATION_REQUIRED');
 
 const route = emp1CBoundedRoute(EMP1_C_WRC537_GAMMA5_ZERO_DP_ROUTE_ID);
-const expectedReasons = [EMP1_C_WRC537_ROUTE_REQUALIFICATION_SUSPENSION_REASON];
-assert.deepEqual(route.suspensionReasons, expectedReasons);
+assert.deepEqual(route.suspensionReasons, []);
 for (const resolved of [
   EMP1_C_WRC537_R0_SOURCE_SUSPENSION_REASON,
   EMP1_C_WRC537_LONGITUDINAL_CURVE_SUSPENSION_REASON,
   EMP1_C_WRC537_APPLICABILITY_SOURCE_SUSPENSION_REASON,
+  EMP1_C_WRC537_ROUTE_REQUALIFICATION_SUSPENSION_REASON,
 ]) {
   assert.equal(route.suspensionReasons.includes(resolved), false);
 }
-assert.equal(route.registered, false);
-assert.equal(route.engineeringUseAuthorized, false);
-assert.equal(route.method.routeRequalificationRequired, true);
+assert.equal(route.registered, true);
+assert.equal(route.engineeringUseAuthorized, true);
+assert.equal(route.method.routeRequalificationRequired, false);
+assert.equal(route.globalEmp1CRouteAuthority, false);
+assert.equal(route.releaseQualified, false);
 assert.equal(route.scope.attachmentRadiusSourceAuthority,
   'EMP1_TYPED_ENGINEERING_SOURCE_BINDING_V1');
 assert.equal(route.scope.attachmentRadiusSourceQualification,
@@ -234,9 +250,10 @@ assert.equal(EMP1_WRC537_GAMMA5_ZERO_DP_METHOD_QUALIFICATION.cylindricalApplicab
   EMP1_WRC537_APPLICABILITY_SOURCE_QUALIFIED);
 
 console.log(JSON.stringify({
-  status: 'PASS_TYPED_WRC_R0_AUTHORITY_RETAINED_WITH_WRC45_SOURCE_AUTHORITY',
+  status: 'PASS_TYPED_WRC_R0_AUTHORITY_RETAINED_ON_CURRENT_AUTHORIZED_GAMMA5_ROUTE_WITH_WRC45_SOURCE_AUTHORITY',
   r0: qualified.geometry.attachmentOutsideRadius,
   beta: qualified.geometry.beta,
+  gamma: qualified.geometry.gamma,
   sourceQualification: qualified.geometry.attachmentRadiusSourceQualification,
   sourceBindingSemanticHash: authority.sourceBindingSemanticHash,
   applicabilityAuthorityHash: applicabilityAuthority.semanticHash,
@@ -244,9 +261,43 @@ console.log(JSON.stringify({
   routeR0ValueMismatchRejected: true,
   directRouteRuntimeAuthorityGuarded: true,
   longitudinalMomentAuthorityId: runtime.longitudinalMomentBendingAuthority.authorityId,
-  remainingSuspensionReasons: expectedReasons,
-  productionRouteAuthorized: false,
+  remainingSuspensionReasons: route.suspensionReasons,
+  productionRouteAuthorized: route.registered && route.engineeringUseAuthorized,
+  globalEmp1CRouteAuthority: route.globalEmp1CRouteAuthority,
+  releaseQualified: route.releaseQualified,
+  historicalStandardNumericalQualification: 'NOT_RUN_NOT_CLAIMED',
 }, null, 2));
+
+function routeFoundationModel({ meanRadius, shellThickness }) {
+  return canonicalFixture((source) => {
+    const outerRadius = meanRadius + shellThickness / 2;
+    const innerRadius = meanRadius - shellThickness / 2;
+    source.pipeGeometry.outsideDiameter.value = 2 * outerRadius;
+    source.thicknessBasis.nominalPipeThickness.value = shellThickness;
+    source.thicknessBasis.corrosionAllowance.value = 0;
+    source.thicknessBasis.assessmentPipeThickness.value = shellThickness;
+    source.resultRequests.pressure[0].requestedRadii[0].value = innerRadius;
+    source.resultRequests.pressure[0].requestedRadii[1].value = outerRadius;
+  });
+}
+
+function routeScreeningRequest(foundationModel, foundationResult) {
+  return rawRequestFixture((raw) => {
+    raw.sourceEvidence = {
+      ...raw.sourceEvidence,
+      foundationModel: structuredClone(foundationModel),
+      foundationResult: structuredClone(foundationResult),
+    };
+    raw.screeningCases = [{
+      screeningCaseId: 'CASE-WRC-R0',
+      mechanicalTerms: [{ loadCaseId: 'LC-1', factor: 1 }],
+      pressureDefinitionId: 'P-CLOSED',
+      pressureFactor: 1,
+      axialPressureThrustBasis: AXIAL_PRESSURE_THRUST_BASES.EXCLUDES_PRESSURE_THRUST,
+      sourceReference: 'EMP1-13/R0-SOURCE-AUTHORITY',
+    }];
+  });
+}
 
 function expectCode(fn, code) {
   let error = null;

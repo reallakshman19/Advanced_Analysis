@@ -4,6 +4,7 @@ import {
   emp1CBoundedRoute,
 } from '../core/emp1/emp1-c-bounded-route-registry.js';
 import {
+  EMP1_WRC537_GAMMA5_ZERO_DP_BENCHMARK_QUALIFICATION,
   EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_AUTHORIZED,
   EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_SUSPENSION_REASONS,
 } from '../core/emp1/emp1-wrc537-gamma5-zero-dp-route.js';
@@ -56,8 +57,9 @@ export async function executeEmp1WorkbenchProduct(options = {}) {
 /**
  * Return the live bounded-route authority and a deterministic semantic snapshot.
  * The snapshot intentionally contains no timestamp or UI text. It binds the
- * route module state and the retained registry method/scope/qualification data
- * that can change whether an otherwise identical C result remains reportable.
+ * route module state, frozen oracle identity and retained registry
+ * method/scope/qualification data that can change whether an otherwise
+ * identical C result remains reportable.
  */
 export function currentEmp1WorkbenchRouteAuthority() {
   const registry = emp1CBoundedRoute(EMP1_C_WRC537_GAMMA5_ZERO_DP_ROUTE_ID);
@@ -85,6 +87,8 @@ export function currentEmp1WorkbenchRouteAuthority() {
     routeModuleSuspensionReasons: uniqueSorted(
       EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_SUSPENSION_REASONS,
     ),
+    postAuthorityOracleSemanticHash:
+      EMP1_WRC537_GAMMA5_ZERO_DP_BENCHMARK_QUALIFICATION.benchmarkHash,
     registry: registry ? {
       schema: registry.schema ?? null,
       routeId: registry.routeId ?? null,
