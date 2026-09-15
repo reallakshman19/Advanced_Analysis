@@ -5,6 +5,7 @@ ISSUE_CURRENT_STATE_ENDPOINT: EP-0008
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1763
 STATE: BLOCKED_A4_LEG004_VALIDATION_INFRASTRUCTURE_RECONFIRMED_POSTMERGE
 PR: #1792 MERGED_HARNESS_ONLY
+CONTROL_PR: #1807 OPEN_DRAFT
 MERGE_COMMIT: 6306879e7b1e7fc57ba58715cafdfa8fb48396e3
 POSTMERGE_CONTROL_PR: #1806 MERGED
 CURRENT_MAIN: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
@@ -69,8 +70,8 @@ A4 engineering qualification remains incomplete. Merges do not promote B5/B6 or 
 ## Issue control-plane synchronization
 CHAIN_ROOT_COMMENT_ID: 5653984900
 ACTIVE_HANDOVER_COMMENT_ID: 5653983722
-LATEST_ENDPOINT_COMMENT_ID: PENDING_EP0008_PUBLICATION
-SYNC_STATUS: STALE_PENDING_EP0008_PUBLICATION
+LATEST_ENDPOINT_COMMENT_ID: 5674410672
+SYNC_STATUS: IN_SYNC_EP0008
 
 ## Administrative incident
 Issue #1794 was accidentally created during an earlier connector operation, immediately retitled accidental/no-engineering-work and closed `not_planned`; it carries no A4 authority or evidence.
