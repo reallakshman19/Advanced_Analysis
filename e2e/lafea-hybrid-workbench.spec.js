@@ -31,8 +31,10 @@ test.describe('LAFEA hybrid workbench Phase 6 browser validation', () => {
     await expect(liveRoot.locator('[data-node-id]')).toHaveCount(3);
     await expect(liveRoot.locator('[data-element-id="E1"]')).toHaveCount(1);
     await expect(liveRoot.locator('[data-role="lafea-live-result-blocked-status"]')).toContainText(
-      'LAFEA_RENDER_PACKET_NOT_SUPPLIED',
+      'No result data has been produced yet',
     );
+    await expect(liveRoot.locator('[data-role="lafea-live-result-blocked-technical"]'))
+      .toContainText('LAFEA_RENDER_PACKET_NOT_SUPPLIED');
 
     const canvasReady = await liveRoot.locator('canvas[data-layer="webgl"]').evaluate(
       (canvas) => canvas.dataset.ready ?? null,
