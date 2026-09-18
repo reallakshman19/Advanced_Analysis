@@ -90,6 +90,46 @@ export function buildEmp1ProfessionalResultPresentation({
   });
 }
 
+/**
+ * Typographic form of a governed unit token. The retained token stays
+ * authoritative; this only substitutes superscripts and middots for the ASCII
+ * spelling carried by the numerics contract.
+ */
+const UNIT_DISPLAY = Object.freeze({
+  'N/mm^2': 'N/mm²',
+  'N*mm': 'N·mm',
+});
+
+export function emp1UnitLabel(token) {
+  if (typeof token !== 'string' || token === '') return null;
+  return UNIT_DISPLAY[token] ?? token;
+}
+
+/**
+ * Column/row label carrying its governed unit. A missing unit is stated rather
+ * than silently omitted, because an unlabelled stress cannot be checked.
+ */
+export function emp1UnitedLabel(label, token) {
+  const unit = emp1UnitLabel(token);
+  return `${label} (${unit ?? 'unit unresolved'})`;
+}
+
+/**
+ * Engineer-facing stress magnitude at four significant figures. The exact
+ * retained value travels beside it (data-emp1-exact-value and the full-precision
+ * disclosure); display rounding is never calculation authority.
+ */
+export function emp1StressDisplayNumber(value) {
+  if (!Number.isFinite(value)) return '—';
+  return Number(value.toPrecision(4)).toString();
+}
+
+/** Exact retained magnitude, unrounded, for technical disclosure and export. */
+export function emp1StressExactNumber(value) {
+  if (!Number.isFinite(value)) return '—';
+  return String(value);
+}
+
 export function governingEightPointStressIntensity(values) {
   if (!Array.isArray(values) || values.length !== WRC_LOCATIONS.length
     || values.some((value) => !Number.isFinite(value))) {
