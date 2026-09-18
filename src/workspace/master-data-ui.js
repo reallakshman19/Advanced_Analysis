@@ -110,16 +110,6 @@ export async function autoGenerateMasterEnrichment() {
   store.loadSource(dataset.sharedModel.semanticHash);
   const snapshot = store.getSnapshot();
 
-  // Don't overwrite a sidecar the user already curated for this source
-  if (
-    snapshot.acceptedRecords.length > 0
-    && snapshot.boundSourceSemanticHash === dataset.sharedModel.semanticHash
-    && !snapshot.stale
-  ) return { accepted: 0, skipped: 'SIDECAR_CURRENT' };
-
-  // Don't interrupt an active user review session
-  if (snapshot.proposals.length > 0) return { accepted: 0, skipped: 'PROPOSALS_PENDING_REVIEW' };
-
   let result;
   try {
     result = buildLoadCalcMasterEnrichmentProposals({ dataset, masters, projectProfile: pds.getProfile() });
@@ -128,15 +118,28 @@ export async function autoGenerateMasterEnrichment() {
   }
   if (!result?.proposals?.length) return { accepted: 0, skipped: 'NO_PROPOSALS' };
 
+  // Only stage and accept proposals that have not yet been accepted
+  const existingRecordIds = new Set((snapshot.acceptedRecords || []).map((r) => r.recordId));
+  const newProposals = result.proposals.filter((p) => {
+    const recId = p.record?.recordId || p.proposalId;
+    return !existingRecordIds.has(recId);
+  });
+
+  if (!newProposals.length) return { accepted: 0, skipped: 'ALL_PROPOSALS_ACCEPTED' };
+
   // Stage then immediately accept — EXACT_APPROVED_MASTER records need no human review
-  result.proposals.forEach((proposal) => store.stageProposal(proposal));
-  try {
-    store.acceptAllProposals();
-  } catch {
-    return { accepted: 0, skipped: 'ACCEPT_ERROR' };
+  let acceptedCount = 0;
+  for (const proposal of newProposals) {
+    store.stageProposal(proposal);
+    try {
+      store.acceptProposal(proposal.proposalId);
+      acceptedCount += 1;
+    } catch {
+      // Continue with remaining proposals
+    }
   }
 
-  return { accepted: result.proposals.length, skipped: null };
+  return { accepted: acceptedCount, skipped: null };
 }
 
 /**
@@ -177,19 +180,69 @@ export async function autoBindMasterSources() {
     const fileName = master?.fileName || label;
     if (!sourceHash) continue;
 
-    // Skip if Project Data already records the current hash
+    // Synchronize sourcesAndUnits entry
     const entry = projectDataEntry(pds.getProfile(), path);
     const existingHash = typeof entry?.evidence?.sourceHash === 'string' ? entry.evidence.sourceHash.trim() : '';
-    if (existingHash === sourceHash) continue;
+    if (existingHash !== sourceHash) {
+      // value shape must satisfy: value.sha256 === evidence.sourceHash (CROSS_DATASET_HASH_MISMATCH guard)
+      pds.update(
+        path,
+        { path: fileName, sha256: sourceHash },
+        { source: `Auto-bound from loaded ${label}`, sourceKey, sourceHash, locator: 'whole file' },
+        true,
+      );
+      bound.push(path);
+    }
 
-    // value shape must satisfy: value.sha256 === evidence.sourceHash (CROSS_DATASET_HASH_MISMATCH guard)
-    pds.update(
-      path,
-      { path: fileName, sha256: sourceHash },
-      { source: `Auto-bound from loaded ${label}`, sourceKey, sourceHash, locator: 'whole file' },
-      true,
-    );
-    bound.push(path);
+    // Synchronize downstream Project Data entries referencing this sourceKey
+    if (sourceKey === 'componentWeight') {
+      for (const targetPath of ['loadCalculation.componentWeightsKg', 'editing.componentCatalogSelection']) {
+        const targetEntry = projectDataEntry(pds.getProfile(), targetPath);
+        if (targetEntry && targetEntry.evidence?.sourceHash !== sourceHash) {
+          pds.update(
+            targetPath,
+            targetEntry.value,
+            {
+              ...(targetEntry.evidence || {}),
+              source: `Auto-bound from loaded ${label} (${fileName})`,
+              sourceKey,
+              sourceHash,
+            },
+            targetEntry.approved ?? true,
+          );
+          bound.push(targetPath);
+        }
+      }
+    } else if (sourceKey === 'lineList') {
+      const targetPath = 'loadCalculation.operatingFluidDensitiesKgPerM3';
+      const targetEntry = projectDataEntry(pds.getProfile(), targetPath);
+      const nextValue = { ...(targetEntry?.value || {}) };
+      if (Array.isArray(master.normalizedRows) && master.normalizedRows.length > 0) {
+        master.normalizedRows.forEach((row) => {
+          if (row.lineKey) {
+            const val = row.operatingFluidDensity ?? row.density;
+            if (Number.isFinite(Number(val)) && Number(val) > 0) {
+              nextValue[String(row.lineKey)] = Number(val);
+            }
+          }
+        });
+      }
+      if (!nextValue.DEFAULT) nextValue.DEFAULT = 67;
+      if (targetEntry && (targetEntry.evidence?.sourceHash !== sourceHash || JSON.stringify(nextValue) !== JSON.stringify(targetEntry.value))) {
+        pds.update(
+          targetPath,
+          nextValue,
+          {
+            ...(targetEntry.evidence || {}),
+            source: `Auto-bound from loaded ${label} (${fileName})`,
+            sourceKey,
+            sourceHash,
+          },
+          targetEntry.approved ?? true,
+        );
+        bound.push(targetPath);
+      }
+    }
   }
   return { bound };
 }

@@ -12,7 +12,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: `http://localhost:${serverPort}`,
+    baseURL: `http://127.0.0.1:${serverPort}`,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: videoMode,
@@ -27,8 +27,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npm run dev -- --port ${serverPort}`,
-    url: `http://localhost:${serverPort}`,
+    command: `npm run dev -- --host 127.0.0.1 --port ${serverPort}`,
+    url: `http://127.0.0.1:${serverPort}`,
     reuseExistingServer: !process.env.CI,
   },
 });

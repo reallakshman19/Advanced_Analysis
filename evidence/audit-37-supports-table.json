@@ -1,0 +1,594 @@
+[
+  {
+    "index": 1,
+    "tag": "PS-12244",
+    "primaryId": "=1006649732/51230",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 423170.971,
+      "y": -1141125,
+      "z": 1184.15
+    },
+    "emptyFzN": 3096.5,
+    "opeFzN": 3118.3,
+    "hydFzN": 3421.3,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 2,
+    "tag": "PS-12246",
+    "primaryId": "=1006649732/51240",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 425680.971,
+      "y": -1141125,
+      "z": 1184.15
+    },
+    "emptyFzN": 2711.4,
+    "opeFzN": 2730.4,
+    "hydFzN": 2994.7,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 3,
+    "tag": "PS-12247",
+    "primaryId": "=1006649732/51245",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 427515.392,
+      "y": -1141125,
+      "z": 1184.15
+    },
+    "emptyFzN": 1838.8,
+    "opeFzN": 1859.6,
+    "hydFzN": 2148.9,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 4,
+    "tag": "=1006649732/51254",
+    "primaryId": "=1006649732/51254",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "RESTRAINT",
+    "pos": {
+      "x": 428650.592,
+      "y": -1141125,
+      "z": 1184.15
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 5,
+    "tag": "PS-12248",
+    "primaryId": "=1006649732/51257",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 430800.971,
+      "y": -1141125,
+      "z": 1184.15
+    },
+    "emptyFzN": 2013.7,
+    "opeFzN": 2038.5,
+    "hydFzN": 2383.8,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 6,
+    "tag": "PS-12248",
+    "primaryId": "=1006649732/51260",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "LINESTOP",
+    "pos": {
+      "x": 430800.766,
+      "y": -1141125,
+      "z": 1184.15
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 7,
+    "tag": "PS-12249",
+    "primaryId": "=1006649732/51269",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 432932.594,
+      "y": -1141125,
+      "z": 1144.45
+    },
+    "emptyFzN": 2347.5,
+    "opeFzN": 2373,
+    "hydFzN": 2729.3,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 8,
+    "tag": "PS-12250",
+    "primaryId": "=1006649732/51278",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 436573.021,
+      "y": -1141125,
+      "z": 1144.45
+    },
+    "emptyFzN": 2500.7,
+    "opeFzN": 2527.5,
+    "hydFzN": 2900.4,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 9,
+    "tag": "PS-12231",
+    "primaryId": "=1006649732/51345",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 438023.221,
+      "y": -1140070.762,
+      "z": 1184.15
+    },
+    "emptyFzN": 1634.4,
+    "opeFzN": 1659,
+    "hydFzN": 2001.9,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 10,
+    "tag": "PS-12311",
+    "primaryId": "=1006649732/51353",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 438023.221,
+      "y": -1136824.031,
+      "z": 1184.15
+    },
+    "emptyFzN": 1296.5,
+    "opeFzN": 1326.1,
+    "hydFzN": 1738.4,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 11,
+    "tag": "PS-12321",
+    "primaryId": "=1006649732/51357",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 438688.25,
+      "y": -1135075,
+      "z": 1184.15
+    },
+    "emptyFzN": 1461.7,
+    "opeFzN": 1495.6,
+    "hydFzN": 1967.9,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 12,
+    "tag": "PS-12295",
+    "primaryId": "=1006649732/51362",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 443023.151,
+      "y": -1135075,
+      "z": 1184.15
+    },
+    "emptyFzN": 1601,
+    "opeFzN": 1641.9,
+    "hydFzN": 2210.2,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 13,
+    "tag": "PS-12267",
+    "primaryId": "=1006649732/51367",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 445515.151,
+      "y": -1134225,
+      "z": 1184.15
+    },
+    "emptyFzN": 1316.1,
+    "opeFzN": 1346.1,
+    "hydFzN": 1763.1,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 14,
+    "tag": "PS-12268",
+    "primaryId": "=1006649732/51371",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 445515.151,
+      "y": -1131525,
+      "z": 1184.15
+    },
+    "emptyFzN": 1720.1,
+    "opeFzN": 1750.2,
+    "hydFzN": 2169.4,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 15,
+    "tag": "=1006649732/51378",
+    "primaryId": "=1006649732/51378",
+    "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7",
+    "type": "RESTRAINT",
+    "pos": {
+      "x": 445515.151,
+      "y": -1130505.016,
+      "z": 1184.15
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 16,
+    "tag": "PS-12228, =1006657924/39571",
+    "primaryId": "=1006657924/39570",
+    "branchId": "/ASIM-1885-6\"-S8810112-91261M7-HC-01/B6",
+    "type": "REST",
+    "pos": {
+      "x": 440660.219,
+      "y": -1160775,
+      "z": 3114
+    },
+    "emptyFzN": 1825.6,
+    "opeFzN": 1867.4,
+    "hydFzN": 2450.3,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 17,
+    "tag": "PS-12034",
+    "primaryId": "=1006657924/39574",
+    "branchId": "/ASIM-1885-6\"-S8810112-91261M7-HC-01/B6",
+    "type": "REST",
+    "pos": {
+      "x": 440660.219,
+      "y": -1163935.927,
+      "z": 3114
+    },
+    "emptyFzN": 1936.9,
+    "opeFzN": 1972.8,
+    "hydFzN": 2471.9,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 18,
+    "tag": "=1006657924/39580",
+    "primaryId": "=1006657924/39580",
+    "branchId": "/ASIM-1885-6\"-S8810112-91261M7-HC-01/B6",
+    "type": "RESTRAINT",
+    "pos": {
+      "x": 440660.219,
+      "y": -1165244.984,
+      "z": 3114
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 19,
+    "tag": "PS-12061",
+    "primaryId": "=1006649732/51400",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 436479.221,
+      "y": -1144825,
+      "z": 2184.15
+    },
+    "emptyFzN": 1332.8,
+    "opeFzN": 1368.1,
+    "hydFzN": 1859.6,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 20,
+    "tag": "PS-12240",
+    "primaryId": "=1006649732/51403",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 431723.221,
+      "y": -1144825,
+      "z": 2184.15
+    },
+    "emptyFzN": 1963.1,
+    "opeFzN": 2015,
+    "hydFzN": 2739,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 21,
+    "tag": "PS-12242",
+    "primaryId": "=1006649732/51406",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 427073.221,
+      "y": -1144825,
+      "z": 2184.15
+    },
+    "emptyFzN": 1602.3,
+    "opeFzN": 1644.7,
+    "hydFzN": 2235.6,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 22,
+    "tag": "PS-12263",
+    "primaryId": "=1006649732/51412",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 424045.97,
+      "y": -1144825,
+      "z": 2184.15
+    },
+    "emptyFzN": 1803.6,
+    "opeFzN": 1838.6,
+    "hydFzN": 2326.1,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 23,
+    "tag": "PS-12243",
+    "primaryId": "=1006649732/51417",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 421773.221,
+      "y": -1142982,
+      "z": 1184.15
+    },
+    "emptyFzN": 1859,
+    "opeFzN": 1895,
+    "hydFzN": 2396.7,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 24,
+    "tag": "=1006649732/51422",
+    "primaryId": "=1006649732/51422",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1",
+    "type": "RESTRAINT",
+    "pos": {
+      "x": 421773.221,
+      "y": -1141354,
+      "z": 1184.15
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 25,
+    "tag": "PS-12156",
+    "primaryId": "=1006649732/51204",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 438667.219,
+      "y": -1159925,
+      "z": 1157.2
+    },
+    "emptyFzN": 1851.4,
+    "opeFzN": 1884.9,
+    "hydFzN": 2351.9,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 26,
+    "tag": "PS-12170",
+    "primaryId": "=1006649732/51209",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 437523.219,
+      "y": -1158821.227,
+      "z": 2184.15
+    },
+    "emptyFzN": 2113.5,
+    "opeFzN": 2162.9,
+    "hydFzN": 2850.7,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 27,
+    "tag": "PS-12169",
+    "primaryId": "=1006649732/51213",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 437523.219,
+      "y": -1152235,
+      "z": 2184.15
+    },
+    "emptyFzN": 2337.5,
+    "opeFzN": 2399.4,
+    "hydFzN": 3261.4,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 28,
+    "tag": "PS-12165",
+    "primaryId": "=1006649732/51218",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2",
+    "type": "REST",
+    "pos": {
+      "x": 437523.219,
+      "y": -1147621.2,
+      "z": 2184.15
+    },
+    "emptyFzN": 2279.6,
+    "opeFzN": 2333.5,
+    "hydFzN": 3083.8,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 29,
+    "tag": "PS-12297",
+    "primaryId": "=1006649732/51225",
+    "branchId": "/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2",
+    "type": "RESTRAINT",
+    "pos": {
+      "x": 437523.219,
+      "y": -1145574.8,
+      "z": 2184.15
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 30,
+    "tag": "PS-12228",
+    "primaryId": "=1006649732/51430",
+    "branchId": "/ASIM-1885-8\"-S8810103-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 445580.151,
+      "y": -1160775,
+      "z": 3209.55
+    },
+    "emptyFzN": 2736,
+    "opeFzN": 2804.6,
+    "hydFzN": 3759.7,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 31,
+    "tag": "PS-12034",
+    "primaryId": "=1006649732/51434",
+    "branchId": "/ASIM-1885-8\"-S8810103-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 445580.151,
+      "y": -1163935.927,
+      "z": 3209.55
+    },
+    "emptyFzN": 2660,
+    "opeFzN": 2723.4,
+    "hydFzN": 3606.6,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 32,
+    "tag": "PS-12060",
+    "primaryId": "=1006649732/51445",
+    "branchId": "/ASIM-1885-10\"-S8810101-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 442973.151,
+      "y": -1163710,
+      "z": 3209.55
+    },
+    "emptyFzN": 3151.1,
+    "opeFzN": 3252.7,
+    "hydFzN": 4667.5,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 33,
+    "tag": "PS-12059",
+    "primaryId": "=1006649732/51451",
+    "branchId": "/ASIM-1885-10\"-S8810101-91261M7-HC-01/B1",
+    "type": "REST",
+    "pos": {
+      "x": 442973.151,
+      "y": -1161085,
+      "z": 3209.55
+    },
+    "emptyFzN": 3195.9,
+    "opeFzN": 3306.5,
+    "hydFzN": 4846,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 34,
+    "tag": "=1006649732/51465",
+    "primaryId": "=1006649732/51465",
+    "branchId": "/ASIM-1885-10\"-S8810101-91261M7-HC-01/B3",
+    "type": "RESTRAINT",
+    "pos": {
+      "x": 443198.681,
+      "y": -1159925,
+      "z": 1775.55
+    },
+    "emptyFzN": 0,
+    "opeFzN": 0,
+    "hydFzN": 0,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 35,
+    "tag": "=1006649732/51478",
+    "primaryId": "=1006649732/51478",
+    "branchId": "/ASIM-1885-10\"-S8810101-91261M7-HC-01/B4",
+    "type": "REST",
+    "pos": {
+      "x": 443962.832,
+      "y": -1159925.031,
+      "z": 1775.547
+    },
+    "emptyFzN": 3946,
+    "opeFzN": 3953.9,
+    "hydFzN": 4064.1,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 36,
+    "tag": "PS-12171",
+    "primaryId": "=1006649732/51487",
+    "branchId": "/ASIM-1885-10\"-S8810101-91261M7-HC-01/B6",
+    "type": "REST",
+    "pos": {
+      "x": 444039.151,
+      "y": -1159925,
+      "z": 1209.55
+    },
+    "emptyFzN": 1672.5,
+    "opeFzN": 1732.9,
+    "hydFzN": 2573.5,
+    "cantileverMomentNmm": 0
+  },
+  {
+    "index": 37,
+    "tag": "PS-12166",
+    "primaryId": "=1006649732/51496",
+    "branchId": "/ASIM-1885-10\"-S8810101-91261M7-HC-01/B7",
+    "type": "REST",
+    "pos": {
+      "x": 441437.5,
+      "y": -1159925,
+      "z": 1209.55
+    },
+    "emptyFzN": 1988.6,
+    "opeFzN": 2044.8,
+    "hydFzN": 2827.2,
+    "cantileverMomentNmm": 0
+  }
+]

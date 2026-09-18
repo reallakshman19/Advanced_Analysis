@@ -44,8 +44,8 @@ export function authorizeCurrentNonFeaEmpiricalRun(
       || receipt.implementationId !== decision.implementationId
       || receipt.methodRequestSemanticHash !== decision.semanticHash
       || receipt.commonInputSemanticHash !== decision.commonInputSemanticHash
-      || JSON.stringify(receipt.requiredCommonMethodIds)
-        !== JSON.stringify(decision.requiredCommonMethodIds)) {
+      || JSON.stringify([...receipt.requiredCommonMethodIds].sort())
+        !== JSON.stringify([...decision.requiredCommonMethodIds].sort())) {
     fail(
       'Method-currentness coordinator returned a receipt that does not bind the system Run authorization.',
       'NON_FEA_EMPIRICAL_RUN_AUTHORIZATION_COORDINATOR_BINDING_MISMATCH',

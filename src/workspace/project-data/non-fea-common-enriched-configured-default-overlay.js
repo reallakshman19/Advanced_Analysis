@@ -312,7 +312,9 @@ export function requireConfiguredDefaultOverlay(value) {
 }
 
 function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, provider) {
-  if (record.unit !== expectedUnit) {
+  const normRecordUnit = String(record.unit || '').replace(/³/g, '3').replace(/²/g, '2').trim();
+  const normExpectedUnit = String(expectedUnit || '').replace(/³/g, '3').replace(/²/g, '2').trim();
+  if (normRecordUnit !== normExpectedUnit) {
     return {
       value: null,
       blocker: issue(
@@ -329,7 +331,7 @@ function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, prov
       schema: COMMON_ENRICHED_FIELD_SCHEMA,
       field: fieldName,
       value: record.value,
-      unit: record.unit,
+      unit: expectedUnit,
       status: 'RESOLVED_DERIVED',
       sourceKind: 'PROJECT_CONFIGURED_DEFAULT',
       sourceKey,

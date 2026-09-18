@@ -1,0 +1,1101 @@
+{
+  "status": "CALCULATED_WITH_EXCEPTIONS",
+  "method": "CHAINAGE_TRIBUTARY_SPAN_V2",
+  "loadCases": [
+    {
+      "loadCaseId": "EMPTY",
+      "status": "CALCULATED_WITH_EXCEPTIONS",
+      "equilibrium": {
+        "status": "PASSED",
+        "passed": true,
+        "momentReference": "PER_ROUTE_CHAINAGE_ORIGIN_WITH_AGGREGATE_DIAGNOSTIC",
+        "routeChecks": [
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 6347.010707896692,
+            "reactionForceN": 6347.010707896691,
+            "unallocatedForceN": 0,
+            "forceResidualN": -9.094947017729282e-13,
+            "evaluatedMomentNmm": 24998041.550760515,
+            "reactionMomentNmm": 25540649.51914829,
+            "boundaryTransferMomentNmm": -542607.9683877693,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 24998041.550760522,
+            "momentResidualNmm": 7.450580596923828e-9
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 1379.1143362299335,
+            "reactionForceN": 0,
+            "unallocatedForceN": 1379.1143362299335,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 98088.69090332129,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 98088.69090332129,
+            "accountedMomentNmm": 98088.69090332129,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B3:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8068.768076363938,
+            "reactionForceN": 0,
+            "unallocatedForceN": 8068.768076363938,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 4971088.364584842,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 4971088.364584842,
+            "accountedMomentNmm": 4971088.364584842,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B4:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 3946.0151278741682,
+            "reactionForceN": 3946.0151278741682,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 1668617.1394193147,
+            "reactionMomentNmm": 394601.5127874168,
+            "boundaryTransferMomentNmm": 1274015.6266318979,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 1668617.1394193147,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B5:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 196.13299999999998,
+            "reactionForceN": 0,
+            "unallocatedForceN": 196.13299999999998,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 0,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 0,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B6:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 1672.5444368805945,
+            "reactionForceN": 1672.5444368805945,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 1749181.6370913363,
+            "reactionMomentNmm": 1421662.7708406379,
+            "boundaryTransferMomentNmm": 327518.8662506981,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 1749181.6370913358,
+            "momentResidualNmm": -4.656612873077393e-10
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B7:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 1988.642111264934,
+            "reactionForceN": 1988.642111264934,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 2391233.772422139,
+            "reactionMomentNmm": 1276349.2186372932,
+            "boundaryTransferMomentNmm": 1114884.5537848454,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 2391233.7724221386,
+            "momentResidualNmm": -4.656612873077393e-10
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8560.7516746515,
+            "reactionForceN": 8560.7516746515,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 80702795.56537299,
+            "reactionMomentNmm": 81117313.28945787,
+            "boundaryTransferMomentNmm": -414517.72408487793,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 80702795.56537299,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8581.995490403628,
+            "reactionForceN": 8581.995490403626,
+            "unallocatedForceN": 0,
+            "forceResidualN": -1.8189894035458565e-12,
+            "evaluatedMomentNmm": 84922285.25483797,
+            "reactionMomentNmm": 85568486.26191728,
+            "boundaryTransferMomentNmm": -646201.007079302,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 84922285.25483797,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810112-91261M7-HC-01/B6:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 3762.5231081780253,
+            "reactionForceN": 3762.5231081780253,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 15808411.712998325,
+            "reactionMomentNmm": 15640439.089400897,
+            "boundaryTransferMomentNmm": 167972.62359743007,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 15808411.712998327,
+            "momentResidualNmm": 1.862645149230957e-9
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 14508.625560887323,
+            "reactionForceN": 14508.625560887323,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 108790462.37457658,
+            "reactionMomentNmm": 108270802.9156002,
+            "boundaryTransferMomentNmm": 519659.4589763643,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 108790462.37457655,
+            "momentResidualNmm": -2.9802322387695312e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 9029.790812372197,
+            "reactionForceN": 9029.790812372197,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 79978647.7958634,
+            "reactionMomentNmm": 79212677.71933512,
+            "boundaryTransferMomentNmm": 765970.0765282586,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 79978647.79586339,
+            "momentResidualNmm": -1.4901161193847656e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-8\"-S8810103-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 5396.021439815351,
+            "reactionForceN": 5396.021439815351,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 23165503.594732802,
+            "reactionMomentNmm": 23649550.873541225,
+            "boundaryTransferMomentNmm": -484047.27880842856,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 23165503.594732795,
+            "momentResidualNmm": -7.450580596923828e-9
+          }
+        ],
+        "appliedForceN": 73437.93588281832,
+        "evaluatedForceN": 73437.93588281832,
+        "reactionN": 63793.92047022441,
+        "reactionForceN": 63793.92047022441,
+        "unallocatedForceN": 9644.015412593872,
+        "forceResidualN": -4.3655745685100555e-11,
+        "appliedMomentNmm": 429244357.4535635,
+        "evaluatedMomentNmm": 429244357.4535635,
+        "reactionMomentNmm": 422092533.1706661,
+        "boundaryTransferMomentNmm": 2082647.227409116,
+        "unallocatedMomentNmm": 5069177.055488163,
+        "accountedMomentNmm": 429244357.4535634,
+        "momentResidualNmm": -1.1920928955078125e-7,
+        "blockers": []
+      },
+      "blockerCount": 0,
+      "blockers": [],
+      "excludedCount": 0,
+      "excludedInputs": [],
+      "contributionsCount": 124,
+      "supportResultsCount": 37,
+      "supportResults": [
+        {
+          "verticalForceN": 3096.5297533426833
+        },
+        {
+          "verticalForceN": 2711.4192408910876
+        },
+        {
+          "verticalForceN": 1838.8068315825328
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2013.699435937819
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2347.4624712199025
+        },
+        {
+          "verticalForceN": 2500.707827913298
+        },
+        {
+          "verticalForceN": 1634.364985739361
+        },
+        {
+          "verticalForceN": 1296.4944966798453
+        },
+        {
+          "verticalForceN": 1461.6717581598916
+        },
+        {
+          "verticalForceN": 1601.0388008578857
+        },
+        {
+          "verticalForceN": 1316.1293752156369
+        },
+        {
+          "verticalForceN": 1720.0913957195764
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1825.574216072962
+        },
+        {
+          "verticalForceN": 1936.9488921050627
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1332.7755648424993
+        },
+        {
+          "verticalForceN": 1963.0590064429562
+        },
+        {
+          "verticalForceN": 1602.2641633290755
+        },
+        {
+          "verticalForceN": 1803.625192466991
+        },
+        {
+          "verticalForceN": 1859.0277475699775
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1851.4000920890699
+        },
+        {
+          "verticalForceN": 2113.474472430928
+        },
+        {
+          "verticalForceN": 2337.477554194587
+        },
+        {
+          "verticalForceN": 2279.6433716890433
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2736.0060335965336
+        },
+        {
+          "verticalForceN": 2660.0154062188176
+        },
+        {
+          "verticalForceN": 3151.0877138715664
+        },
+        {
+          "verticalForceN": 3195.9229940251253
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 3946.0151278741682
+        },
+        {
+          "verticalForceN": 1672.5444368805945
+        },
+        {
+          "verticalForceN": 1988.642111264934
+        }
+      ]
+    },
+    {
+      "loadCaseId": "OPE",
+      "status": "CALCULATED_WITH_EXCEPTIONS",
+      "equilibrium": {
+        "status": "PASSED",
+        "passed": true,
+        "momentReference": "PER_ROUTE_CHAINAGE_ORIGIN_WITH_AGGREGATE_DIAGNOSTIC",
+        "routeChecks": [
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 6559.164202280449,
+            "reactionForceN": 6559.164202280449,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 25799788.01500614,
+            "reactionMomentNmm": 26384580.534240305,
+            "boundaryTransferMomentNmm": -584792.5192341644,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 25799788.01500614,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 1379.7470636214746,
+            "reactionForceN": 0,
+            "unallocatedForceN": 1379.7470636214746,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 98133.1083662075,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 98133.1083662075,
+            "accountedMomentNmm": 98133.1083662075,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B3:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8077.998018932658,
+            "reactionForceN": 0,
+            "unallocatedForceN": 8077.998018932658,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 4974379.978202662,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 4974379.978202662,
+            "accountedMomentNmm": 4974379.978202662,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B4:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 3953.924220268433,
+            "reactionForceN": 3953.924220268433,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 1669605.775968598,
+            "reactionMomentNmm": 395392.4220268433,
+            "boundaryTransferMomentNmm": 1274213.3539417544,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 1669605.7759685977,
+            "momentResidualNmm": -2.3283064365386963e-10
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B5:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 196.13299999999998,
+            "reactionForceN": 0,
+            "unallocatedForceN": 196.13299999999998,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 0,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 0,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B6:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 1732.9066300551865,
+            "reactionForceN": 1732.9066300551865,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 1806767.1694004685,
+            "reactionMomentNmm": 1472970.6350207122,
+            "boundaryTransferMomentNmm": 333796.5343797561,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 1806767.1694004682,
+            "momentResidualNmm": -2.3283064365386963e-10
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B7:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 2044.826152360661,
+            "reactionForceN": 2044.826152360661,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 2451547.591476674,
+            "reactionMomentNmm": 1312409.22991142,
+            "boundaryTransferMomentNmm": 1139138.3615652542,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 2451547.591476674,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8761.497238858632,
+            "reactionForceN": 8761.497238858632,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 82739361.48478891,
+            "reactionMomentNmm": 83164856.99817449,
+            "boundaryTransferMomentNmm": -425495.51338556566,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 82739361.48478892,
+            "momentResidualNmm": 1.4901161193847656e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8780.706537888831,
+            "reactionForceN": 8780.706537888833,
+            "unallocatedForceN": 0,
+            "forceResidualN": 1.8189894035458565e-12,
+            "evaluatedMomentNmm": 86794482.85050425,
+            "reactionMomentNmm": 87458193.91257414,
+            "boundaryTransferMomentNmm": -663711.0620698888,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 86794482.85050425,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810112-91261M7-HC-01/B6:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 3840.221377841882,
+            "reactionForceN": 3840.221377841882,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 16100963.92486644,
+            "reactionMomentNmm": 15950288.791732904,
+            "boundaryTransferMomentNmm": 150675.13313353737,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 16100963.924866442,
+            "momentResidualNmm": 1.862645149230957e-9
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 14647.303618676277,
+            "reactionForceN": 14647.303618676275,
+            "unallocatedForceN": 0,
+            "forceResidualN": -1.8189894035458565e-12,
+            "evaluatedMomentNmm": 109930009.09872289,
+            "reactionMomentNmm": 109413811.70831186,
+            "boundaryTransferMomentNmm": 516197.3904110157,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 109930009.09872288,
+            "momentResidualNmm": -1.4901161193847656e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 9218.804831045296,
+            "reactionForceN": 9218.804831045296,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 81681777.72373743,
+            "reactionMomentNmm": 80907404.92393677,
+            "boundaryTransferMomentNmm": 774372.7998006454,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 81681777.72373742,
+            "momentResidualNmm": -1.4901161193847656e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-8\"-S8810103-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 5528.027893618508,
+            "reactionForceN": 5528.027893618508,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 23717551.87848982,
+            "reactionMomentNmm": 24222878.609466653,
+            "boundaryTransferMomentNmm": -505326.7309768369,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 23717551.878489815,
+            "momentResidualNmm": -3.725290298461914e-9
+          }
+        ],
+        "appliedForceN": 74721.26078544829,
+        "evaluatedForceN": 74721.26078544829,
+        "reactionN": 65067.38270289416,
+        "reactionForceN": 65067.38270289416,
+        "unallocatedForceN": 9653.878082554133,
+        "forceResidualN": 0,
+        "appliedMomentNmm": 437764368.59953034,
+        "evaluatedMomentNmm": 437764368.59953034,
+        "reactionMomentNmm": 430682787.76539594,
+        "boundaryTransferMomentNmm": 2009067.747565508,
+        "unallocatedMomentNmm": 5072513.08656887,
+        "accountedMomentNmm": 437764368.59953034,
+        "momentResidualNmm": 0,
+        "blockers": []
+      },
+      "blockerCount": 0,
+      "blockers": [],
+      "excludedCount": 0,
+      "excludedInputs": [],
+      "contributionsCount": 124,
+      "supportResultsCount": 37,
+      "supportResults": [
+        {
+          "verticalForceN": 3118.291527321318
+        },
+        {
+          "verticalForceN": 2730.3986565310884
+        },
+        {
+          "verticalForceN": 1859.5848823814772
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2038.4957252247661
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2373.047283553659
+        },
+        {
+          "verticalForceN": 2527.4855436639705
+        },
+        {
+          "verticalForceN": 1658.9873107156327
+        },
+        {
+          "verticalForceN": 1326.1020948372256
+        },
+        {
+          "verticalForceN": 1495.5916926073298
+        },
+        {
+          "verticalForceN": 1641.8548894566122
+        },
+        {
+          "verticalForceN": 1346.076664033942
+        },
+        {
+          "verticalForceN": 1750.1921793945542
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1867.4286040824963
+        },
+        {
+          "verticalForceN": 1972.7927737593848
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1368.0718344248112
+        },
+        {
+          "verticalForceN": 2015.047249418872
+        },
+        {
+          "verticalForceN": 1644.6973751486687
+        },
+        {
+          "verticalForceN": 1838.6316440033297
+        },
+        {
+          "verticalForceN": 1895.0491358629502
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1884.9353804731509
+        },
+        {
+          "verticalForceN": 2162.866528024647
+        },
+        {
+          "verticalForceN": 2399.3816287228474
+        },
+        {
+          "verticalForceN": 2333.523000668186
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2804.592369608592
+        },
+        {
+          "verticalForceN": 2723.4355240099153
+        },
+        {
+          "verticalForceN": 3252.687914768291
+        },
+        {
+          "verticalForceN": 3306.4762875121573
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 3953.924220268433
+        },
+        {
+          "verticalForceN": 1732.9066300551865
+        },
+        {
+          "verticalForceN": 2044.826152360661
+        }
+      ]
+    },
+    {
+      "loadCaseId": "HYD",
+      "status": "CALCULATED_WITH_EXCEPTIONS",
+      "equilibrium": {
+        "status": "PASSED",
+        "passed": true,
+        "momentReference": "PER_ROUTE_CHAINAGE_ORIGIN_WITH_AGGREGATE_DIAGNOSTIC",
+        "routeChecks": [
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 9513.480773325915,
+            "reactionForceN": 9513.480773325915,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 36964406.68875493,
+            "reactionMomentNmm": 38136634.81902919,
+            "boundaryTransferMomentNmm": -1172228.130274261,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 36964406.68875493,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 1388.5580286409959,
+            "reactionForceN": 0,
+            "unallocatedForceN": 1388.5580286409959,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 98751.63811057799,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 98751.63811057799,
+            "accountedMomentNmm": 98751.63811057799,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B3:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 8206.528413210503,
+            "reactionForceN": 0,
+            "unallocatedForceN": 8206.528413210503,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 5020216.9260448525,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 5020216.9260448525,
+            "accountedMomentNmm": 5020216.9260448525,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B4:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 4064.0612830124483,
+            "reactionForceN": 4064.0612830124483,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 1683372.9088115997,
+            "reactionMomentNmm": 406406.1283012448,
+            "boundaryTransferMomentNmm": 1276966.7805103548,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 1683372.9088115995,
+            "momentResidualNmm": -2.3283064365386963e-10
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B5:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 196.13299999999998,
+            "reactionForceN": 0,
+            "unallocatedForceN": 196.13299999999998,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 0,
+            "reactionMomentNmm": 0,
+            "boundaryTransferMomentNmm": 0,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 0,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B6:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 2573.4726932177896,
+            "reactionForceN": 2573.4726932177896,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 2608667.1939440584,
+            "reactionMomentNmm": 2187451.788453688,
+            "boundaryTransferMomentNmm": 421215.4054903708,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 2608667.193944059,
+            "momentResidualNmm": 4.656612873077393e-10
+          },
+          {
+            "routeId": "route:/ASIM-1885-10\"-S8810101-91261M7-HC-01/B7:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 2827.2098888130918,
+            "reactionForceN": 2827.2098888130918,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 3291440.026967438,
+            "reactionMomentNmm": 1814558.342131718,
+            "boundaryTransferMomentNmm": 1476881.6848357199,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 3291440.026967438,
+            "momentResidualNmm": 0
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810111-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 11556.954125504217,
+            "reactionForceN": 11556.954125504217,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 111099301.82531205,
+            "reactionMomentNmm": 111677667.15089974,
+            "boundaryTransferMomentNmm": -578365.3255876807,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 111099301.82531206,
+            "momentResidualNmm": 1.4901161193847656e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810111-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 11547.832020033531,
+            "reactionForceN": 11547.832020033531,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 112865532.95134947,
+            "reactionMomentNmm": 113773078.0627659,
+            "boundaryTransferMomentNmm": -907545.1114164157,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 112865532.95134948,
+            "momentResidualNmm": 1.4901161193847656e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8810112-91261M7-HC-01/B6:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 4922.198774802748,
+            "reactionForceN": 4922.198774802748,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 20174862.636403028,
+            "reactionMomentNmm": 20265061.512266684,
+            "boundaryTransferMomentNmm": -90198.87586364918,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 20174862.636403035,
+            "momentResidualNmm": 7.450580596923828e-9
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 16578.44731893143,
+            "reactionForceN": 16578.447318931427,
+            "unallocatedForceN": 0,
+            "forceResidualN": -3.637978807091713e-12,
+            "evaluatedMomentNmm": 125798622.43646185,
+            "reactionMomentNmm": 125330635.64263992,
+            "boundaryTransferMomentNmm": 467986.7938219076,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 125798622.43646182,
+            "momentResidualNmm": -2.9802322387695312e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-6\"-S8811951-91261M7-HC-01/B7:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 11850.8955686871,
+            "reactionForceN": 11850.8955686871,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 105398497.46562493,
+            "reactionMomentNmm": 104507113.60891177,
+            "boundaryTransferMomentNmm": 891383.8567131367,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 105398497.4656249,
+            "momentResidualNmm": -2.9802322387695312e-8
+          },
+          {
+            "routeId": "route:/ASIM-1885-8\"-S8810103-91261M7-HC-01/B1:1",
+            "momentReference": "ROUTE_CHAINAGE_ORIGIN",
+            "schema": "support-load-static-accounting/v1",
+            "status": "PASSED",
+            "passed": true,
+            "evaluatedForceN": 7366.267018966936,
+            "reactionForceN": 7366.267018966936,
+            "unallocatedForceN": 0,
+            "forceResidualN": 0,
+            "evaluatedMomentNmm": 31405030.217971887,
+            "reactionMomentNmm": 32206681.260487895,
+            "boundaryTransferMomentNmm": -801651.0425160042,
+            "unallocatedMomentNmm": 0,
+            "accountedMomentNmm": 31405030.21797189,
+            "momentResidualNmm": 3.725290298461914e-9
+          }
+        ],
+        "appliedForceN": 92592.03890714681,
+        "evaluatedForceN": 92592.03890714681,
+        "reactionN": 82800.8194652952,
+        "reactionForceN": 82800.8194652952,
+        "unallocatedForceN": 9791.2194418515,
+        "forceResidualN": -1.1641532182693481e-10,
+        "appliedMomentNmm": 556408702.9157565,
+        "evaluatedMomentNmm": 556408702.9157565,
+        "reactionMomentNmm": 550305288.3158876,
+        "boundaryTransferMomentNmm": 984446.0357134795,
+        "unallocatedMomentNmm": 5118968.5641554305,
+        "accountedMomentNmm": 556408702.9157565,
+        "momentResidualNmm": 0,
+        "blockers": []
+      },
+      "blockerCount": 0,
+      "blockers": [],
+      "excludedCount": 0,
+      "excludedInputs": [],
+      "contributionsCount": 124,
+      "supportResultsCount": 37,
+      "supportResults": [
+        {
+          "verticalForceN": 3421.3323500387164
+        },
+        {
+          "verticalForceN": 2994.694101189601
+        },
+        {
+          "verticalForceN": 2148.9269927608107
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2383.793305892257
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2729.3253418729805
+        },
+        {
+          "verticalForceN": 2900.375227177063
+        },
+        {
+          "verticalForceN": 2001.862373444909
+        },
+        {
+          "verticalForceN": 1738.3989467899971
+        },
+        {
+          "verticalForceN": 1967.9394364798613
+        },
+        {
+          "verticalForceN": 2210.2341530776794
+        },
+        {
+          "verticalForceN": 1763.1038351903385
+        },
+        {
+          "verticalForceN": 2169.3568237043137
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2450.2665744242167
+        },
+        {
+          "verticalForceN": 2471.93220037853
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 1859.585558608343
+        },
+        {
+          "verticalForceN": 2739.002931456624
+        },
+        {
+          "verticalForceN": 2235.5956830244977
+        },
+        {
+          "verticalForceN": 2326.1095437556287
+        },
+        {
+          "verticalForceN": 2396.660408659124
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 2351.926784388794
+        },
+        {
+          "verticalForceN": 2850.66933203867
+        },
+        {
+          "verticalForceN": 3261.418965064144
+        },
+        {
+          "verticalForceN": 3083.816938541924
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 3759.6826904929276
+        },
+        {
+          "verticalForceN": 3606.5843284740085
+        },
+        {
+          "verticalForceN": 4667.508622777911
+        },
+        {
+          "verticalForceN": 4845.972150548002
+        },
+        {
+          "verticalForceN": 0
+        },
+        {
+          "verticalForceN": 4064.0612830124483
+        },
+        {
+          "verticalForceN": 2573.4726932177896
+        },
+        {
+          "verticalForceN": 2827.2098888130918
+        }
+      ]
+    }
+  ]
+}

@@ -69,8 +69,11 @@ export function rebuildWorkspaceDataset(dataset, entities, editAudit) {
 }
 
 function normalizePackageRoot(rawPackage) {
-  if (Array.isArray(rawPackage)) return { schema: MANAGED_STAGE_SCHEMA, objects: rawPackage };
+  if (Array.isArray(rawPackage)) return { schema: MANAGED_STAGE_SCHEMA, unit: 'mm', objects: rawPackage };
   if (!isRecord(rawPackage)) throw new TypeError('Workspace import must be a JSON object or array.');
+  if (rawPackage.schema === MANAGED_STAGE_SCHEMA && !rawPackage.unit && !rawPackage.units?.length) {
+    return { ...rawPackage, unit: 'mm' };
+  }
   return rawPackage;
 }
 

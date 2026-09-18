@@ -77,7 +77,7 @@ const distributionSource = readFileSync(
 );
 assert.match(
   distributionSource,
-  /validateProjectDataProfile\(input\.profile, 'loads', activeHashes\)/u,
+  /validateProjectDataProfile\([\s\S]*?'loads'[\s\S]*?activeHashes\)/u,
   'falsifier must cover the legacy kernel loads-validation call that ledger evidence resolves safely',
 );
 

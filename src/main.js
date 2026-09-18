@@ -56,6 +56,7 @@ import {
 
 const applicationRoot = document.getElementById('root');
 const coreWorkspace = bootstrapAnalysisWorkspace(applicationRoot);
+globalThis.AnalysisWorkspace = coreWorkspace;
 const authorizedEnrichmentApi = createAuthorizedEnrichmentWorkspaceApi({
   documentRef: applicationRoot.ownerDocument,
   controller: authorizedEnrichmentConsumerController,
