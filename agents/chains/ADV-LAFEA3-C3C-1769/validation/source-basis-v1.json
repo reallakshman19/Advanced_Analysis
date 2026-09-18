@@ -80,8 +80,8 @@
     },
     {
       "gapId": "C3C-G002",
-      "state": "MERGED_CANDIDATE_NOT_RUN_INFRASTRUCTURE",
-      "description": "Force/moment custody for constant and source-linear straight traction is previously qualified. Straight-source-region BODY_FORCE T6/Q8 custody is merged, but its exact aggregate campaign produced zero job steps and remains NOT_RUN_INFRASTRUCTURE. Curved-region body-force certification remains fail-closed."
+      "state": "QUALIFIED_BOUNDED_CURVED_REGION_NOT_CLAIMED",
+      "description": "Force/moment custody for constant and source-linear straight traction is qualified. Straight-source-region BODY_FORCE T6/Q8 resultant custody is qualified: C3C-BODY-FORCE-RESULTANT executes and passes on this exact head, so the prior NOT_RUN_INFRASTRUCTURE state reflected an unexecuted campaign rather than a failing one. Curved-region body-force resultant certification is an explicit non-claim: it is not qualified, it fails closed, and no curved-region body-force result may be relied upon."
     },
     {
       "gapId": "C3C-G003",
@@ -90,18 +90,23 @@
     },
     {
       "gapId": "C3C-G004",
-      "state": "MERGED_COMPILER_CANDIDATE_NOT_RUN_INFRASTRUCTURE",
-      "description": "Source-pressure primitive is qualified. Ordinary compiler/resultant source-normal pressure wiring is merged on main, but hosted exact-head campaigns failed before job steps and therefore remain NOT_RUN_INFRASTRUCTURE, not PASS."
+      "state": "QUALIFIED_BOUNDED",
+      "description": "Source-normal pressure is qualified for straight source segments on T6/Q8. Both the primitive (C3C-G004-SOURCE-PRESSURE-PRIMITIVE) and the ordinary compiler/resultant wiring (C3C-G004-SOURCE-PRESSURE-COMPILER) execute and pass on this exact head; the prior NOT_RUN_INFRASTRUCTURE state reflected hosted campaigns that produced zero job steps, not a numerical failure. Because the compiled route now integrates pressure on analytic source geometry rather than through the kernel, compiled-vs-legacy agreement is held to the frozen numeric-parity contract plus an independent source-resultant oracle rather than to bit-exactness. Curved-boundary and hole-orientation pressure evidence remains outside this bounded claim."
     },
     {
       "gapId": "C3C-G005",
-      "state": "MERGED_CANDIDATE_NOT_RUN_INFRASTRUCTURE",
-      "description": "Governed CONSTANT_ALPHA_DELTA_T_V1 lowering is merged on main. Diagnostic carrier #1804 produced zero job steps, so the exact G005 campaign remains NOT_RUN_INFRASTRUCTURE. PLANE_STRAIN_BBAR thermal authority remains explicitly unqualified."
+      "state": "QUALIFIED_BOUNDED_PLANE_STRAIN_BBAR_NOT_CLAIMED",
+      "description": "Governed CONSTANT_ALPHA_DELTA_T_V1 lowering is qualified: C3C-G005-DELTA-T executes and passes on this exact head, so the prior NOT_RUN_INFRASTRUCTURE state reflected diagnostic carrier #1804 producing zero job steps rather than a numerical failure. PLANE_STRAIN_BBAR thermal authority is an explicit non-claim: it is not qualified, it fails closed, and no plane-strain B-bar thermal result may be relied upon."
     },
     {
       "gapId": "C3C-G006",
-      "state": "AXIS_ALIGNED_SOURCE_NORMAL_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION",
-      "description": "SOURCE_NORMAL restraints on straight globally horizontal/vertical source segments are candidate-lowered exactly to global UY/UX zero constraints with projection contribution custody for T6/Q8. Existing global ux/uy restraints remain unchanged. Oblique or curved source-normal rollers require a linear/MPC constraint authority not present in the current solver and therefore remain fail-closed."
+      "state": "QUALIFIED_BOUNDED_OBLIQUE_AND_CURVED_NOT_CLAIMED",
+      "description": "SOURCE_NORMAL restraints on straight globally axis-aligned source segments are qualified for T6/Q8: horizontal maps exactly to UY=0, vertical to UX=0, on every mapped segment node, with projection contribution IDs and compiled constraint IDs sharing one governed source-geometry classifier. Existing global ux/uy restraints are unchanged. C3C-G006-LOCAL-RESTRAINT executes and passes on this exact head. Oblique and curved source-normal restraints are an explicit non-claim: they fail closed with LAFEA_CONTINUUM_LOCAL_RESTRAINT_LINEAR_CONSTRAINT_AUTHORITY_REQUIRED because the current local-continuum solver has no general linear/MPC constraint row, and no such restraint may be relied upon."
+    },
+    {
+      "gapId": "C3C-G007",
+      "state": "QUALIFIED_BOUNDED",
+      "description": "Compiled-vs-legacy execution parity is contract-classified. TRACTION, BODY_FORCE and IMPOSED_DISPLACEMENT are EXACT_KERNEL_PARITY and remain bit-exact. PRESSURE is COMPILER_LOWERED_PARITY and is held to a frozen 1e-12 relative tolerance with exact structural comparison, plus an independent source-geometry resultant oracle that neither execution path computes. Ten negative controls assert the comparator still rejects sign inversion, factor-of-two, doubled reactions, relative perturbations down to 1e-10, near-zero floor breaches, and every structural mutation. The frozen tolerance is asserted to remain at or below 1e-10."
     }
   ],
   "claimBoundary": {
