@@ -232,6 +232,22 @@ function renderIdentityRegister(documentRef, documentValue, descriptor) {
 }
 
 const VECTOR_AXES = Object.freeze(['X', 'Y', 'Z']);
+/**
+ * A vector family collapses to one identity row only when it is complete for its
+ * own dimensionality: exactly X/Y for a planar quantity such as a LAFEA.3 node,
+ * or exactly X/Y/Z for a spatial one. A partial family (X alone, or X and Z)
+ * falls back to scalar rows rather than reshaping on a guess.
+ */
+const VECTOR_AXIS_SETS = Object.freeze([
+  Object.freeze(['X', 'Y', 'Z']),
+  Object.freeze(['X', 'Y']),
+]);
+
+function completeVectorAxes(entry) {
+  const present = VECTOR_AXES.filter((axis) => entry.axes[axis]);
+  return VECTOR_AXIS_SETS.find((axes) => axes.length === present.length
+    && axes.every((axis) => Boolean(entry.axes[axis]))) ?? null;
+}
 
 /**
  * Identify descriptors that are the X/Y/Z components of one vector quantity.
@@ -262,8 +278,10 @@ export function collectVectorTriples(descriptors) {
 
   const triples = new Map();
   candidates.forEach((entry) => {
-    if (!VECTOR_AXES.every((axis) => entry.axes[axis])) return;
-    VECTOR_AXES.forEach((axis) => triples.set(entry.axes[axis].descriptorId, entry));
+    const axes = completeVectorAxes(entry);
+    if (!axes) return;
+    entry.orderedAxes = axes;
+    axes.forEach((axis) => triples.set(entry.axes[axis].descriptorId, entry));
   });
   return triples;
 }
@@ -293,7 +311,7 @@ export function collectRenderableMatrixPresentation(descriptors) {
           collectionPath: basis.target.collectionPath,
           identityKey: basis.target.identityKey,
         }),
-        columns: Object.freeze(VECTOR_AXES.map((axis) => Object.freeze({
+        columns: Object.freeze(triple.orderedAxes.map((axis) => Object.freeze({
           columnId: axis,
           label: axis,
           descriptor: triple.axes[axis],
