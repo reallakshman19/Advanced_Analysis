@@ -42,7 +42,7 @@ export function buildLafeaAnalysisSettingsViewModel(stageValue, registryEntryVal
     row('Result presenter', registry.presenterRole),
     row('Lifecycle profile', textValue(stage.lifecycle?.profileId)),
     row('Lifecycle source binding', textValue(stage.lifecycleBinding?.status)),
-    row('Qualification profile', textValue(profile?.identity)),
+    row('Qualification profile', qualificationProfileLabel(profile)),
     row('Source schema', textValue(documentValue?.schema)),
   ]);
 
@@ -50,7 +50,7 @@ export function buildLafeaAnalysisSettingsViewModel(stageValue, registryEntryVal
     row('Solver route', solverRouteLabel(registry.enginePackage)),
     row('Availability', registry.engineState ? statusLabel(registry.engineState) : null),
     row('Source binding', stage.lifecycleBinding?.status ? statusLabel(stage.lifecycleBinding.status) : null),
-    row('Qualification profile', profile?.identity ? 'Configured' : null),
+    row('Qualification profile', governedToleranceEntries(profile).length || profile?.identity ? 'Configured' : null),
   ]);
 
   return freeze({
@@ -431,19 +431,51 @@ function allowableValueSummary(documentValue) {
   return null;
 }
 
+/**
+ * Two governed profile shapes reach this view and only one carries a name.
+ * The LAFEA.3 continuum profile is `{schema, identity, tolerances}`; the
+ * LAFEA.4 shell profile is a flat record of governed tolerance entries with no
+ * schema, identity or wrapper. Reading `identity` alone reported a shell run
+ * whose every acceptance gate is governed -- choleskyPivot, freeDofResidual,
+ * force/moment equilibrium, strainEnergyReconstruction -- as "Not declared",
+ * which says the opposite of the truth. Name it when it has a name, and
+ * otherwise say how many entries govern the run.
+ */
+function qualificationProfileLabel(profile) {
+  const identity = textValue(profile?.identity);
+  if (identity) return identity;
+  const entries = governedToleranceEntries(profile);
+  if (!entries.length) return null;
+  return `Declared — ${entries.length} governed ${entries.length === 1 ? 'tolerance' : 'tolerances'}`;
+}
+
+/** Governed tolerance entries from either profile shape, nested or flat. */
+function governedToleranceEntries(profile) {
+  if (!profile || typeof profile !== 'object') return [];
+  const source = profile.tolerances && typeof profile.tolerances === 'object'
+    ? profile.tolerances
+    : profile;
+  return Object.entries(source).filter(([quantity, rule]) => (
+    quantity !== 'tolerances'
+    && rule
+    && typeof rule === 'object'
+    && !Array.isArray(rule)
+    && ['absolute', 'relative', 'minimum'].some((key) => Number.isFinite(rule[key]))
+  ));
+}
+
 function qualificationDetails(profile) {
   if (!profile || typeof profile !== 'object') return [];
   const rows = [];
   if (typeof profile.schema === 'string') rows.push(`Schema: ${profile.schema}`);
   if (Number.isFinite(profile.frameMinimumSine)) rows.push(`Frame minimum sine: ${profile.frameMinimumSine}`);
   if (Number.isFinite(profile.handednessMinimumAlignment)) rows.push(`Handedness minimum alignment: ${profile.handednessMinimumAlignment}`);
-  if (profile.tolerances && typeof profile.tolerances === 'object') {
-    for (const [quantity, rule] of Object.entries(profile.tolerances)) {
-      if (!rule || typeof rule !== 'object') continue;
-      const absolute = Number.isFinite(rule.absolute) ? rule.absolute : 'n/a';
-      const relative = Number.isFinite(rule.relative) ? rule.relative : 'n/a';
-      rows.push(`${quantity} tolerance — absolute: ${absolute}, relative: ${relative}`);
-    }
+  for (const [quantity, rule] of governedToleranceEntries(profile)) {
+    const parts = [];
+    if (Number.isFinite(rule.absolute)) parts.push(`absolute: ${rule.absolute}`);
+    if (Number.isFinite(rule.relative)) parts.push(`relative: ${rule.relative}`);
+    if (Number.isFinite(rule.minimum)) parts.push(`minimum: ${rule.minimum}`);
+    rows.push(`${quantity} tolerance — ${parts.join(', ')}`);
   }
   return rows;
 }

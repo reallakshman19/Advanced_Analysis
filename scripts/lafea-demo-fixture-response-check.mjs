@@ -21,6 +21,7 @@ import {
   calculateLocalShell,
   createCanonicalMitcProductionModel,
 } from '../src/core/local-shell/index.js';
+import { buildLafeaAnalysisSettingsViewModel } from '../src/workspace/lafea-analysis-settings-view.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FIXTURES = path.join(ROOT, 'public', 'fixtures');
@@ -35,6 +36,10 @@ const report = {
     checkShellDemo(),
     checkContinuumDemo(),
     checkTrunnionDemo(),
+  ],
+  qualificationProfilePresentation: [
+    checkProfilePresented('LAFEA.4', 'lafea-4-shell-mitc-b5-demo.json'),
+    checkProfilePresented('LAFEA.3', 'lafea-3-continuum-bm005-demo.json'),
   ],
   releaseQualified: false,
 };
@@ -142,6 +147,38 @@ function checkTrunnionDemo() {
     finiteElementModel: false,
     responseOracle: 'NOT_APPLICABLE_WORKFLOW_SOURCE_NOT_AN_FE_MODEL',
     disposition: 'PASS_STRUCTURAL_ONLY_NO_RESPONSE_CLAIMED',
+  });
+}
+
+/**
+ * A governed profile must not be presented as absent. Two profile shapes reach
+ * the settings view: the LAFEA.3 continuum profile carries an `identity`, the
+ * LAFEA.4 shell profile is a flat tolerance record with none. Reading identity
+ * alone reported a shell run governed by 19 tolerances -- among them
+ * choleskyPivot and strainEnergyReconstruction, which decide solver
+ * admissibility and the thin-limit boundary -- as "Not declared". #1842 D4.
+ */
+function checkProfilePresented(stageId, fixture) {
+  const source = load(fixture);
+  const view = buildLafeaAnalysisSettingsViewModel({ stageId, document: source });
+  const detail = view.solverRows.find((entry) => entry.label === 'Qualification profile');
+  const summary = view.solverSummaryRows.find((entry) => entry.label === 'Qualification profile');
+
+  assert.ok(detail?.value, `${stageId}: a declared qualification profile must not render as absent`);
+  assert.equal(summary?.value, 'Configured', `${stageId}: solver summary must report the profile as configured`);
+  assert.ok(
+    view.qualificationDetails.length > 0,
+    `${stageId}: governed tolerances must be surfaced, not hidden behind an unrecognised profile shape`,
+  );
+
+  return Object.freeze({
+    stage: stageId,
+    fixture,
+    profileShape: source.qualificationProfile?.identity ? 'IDENTIFIED' : 'FLAT_TOLERANCE_RECORD',
+    presentedAs: detail.value,
+    summary: summary.value,
+    governedToleranceLines: view.qualificationDetails.length,
+    disposition: 'PASS_GOVERNED_PROFILE_PRESENTED_TRUTHFULLY',
   });
 }
 
