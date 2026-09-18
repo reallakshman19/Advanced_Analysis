@@ -60,7 +60,7 @@ The earlier `NOT_RUN / INFRASTRUCTURE` classification is superseded. LEG-001/002
 ## Authority / validation truth
 A4 engineering qualification is now complete except for B6. B5 is PASS over the evidence-backed envelope `t/L` in [0.01, 0.2] for MITC3 and MITC4, with thin-limit authority below 0.01 explicitly not claimed because production fails closed there. B6 severe/near-singular distortion remains `BLOCKED_AUTHORITY`; no normalized-Jacobian or distortion threshold is invented. Issue #1763 remains OPEN pending B6 and Owner disposition. Release qualification remains `RELEASE_NOT_QUALIFIED / HOLD`; A7 owns promotion. Do not change MITC formulation, shear correction, constitutive behavior, solver tolerance, benchmark oracle/tolerance, workflow, registry or release state on the basis of this leg.
 
-Referred to Owner: `scripts/lafea.4-production-adoption-aggregate-check.mjs` is invoked by no `package.json` script and no workflow, so no CI entry point enforces any A4 gate. Wiring it is a gate-surface change outside this leg's bounded delta.
+`scripts/lafea.4-production-adoption-aggregate-check.mjs` IS reached by CI: `scripts/lafea.4-contract-check.mjs` imports it, and that checker runs in `check:lafea-core`, which the `lafea4-shell-pr-validation` and `lafea4-a3-cst-dkt-vv` workflows execute. The import has been present since #1667. The consequence is that `main` has been RED since #1792 merged this checker with an unsatisfiable solver assertion; this leg repairs it.
 
 ## Issue control-plane synchronization
 CHAIN_ROOT_COMMENT_ID: 5653984900

@@ -5,8 +5,8 @@ ACTIVE_ENDPOINT: EP-0010
 ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0010.md
 MATERIAL_HISTORY_ROOT_BASE: bd25d9edb55786a7358ae3abccd016bb96cf176e
 MATERIAL_LEG_PREWORK_ENDPOINT_FILE: agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0001.md
-PR: #1792 MERGED_HARNESS_ONLY; #1808 OPEN_DRAFT_CONTROL_PLANE_EP0010
-BRANCH: claude/awesome-faraday-ur8llt
+PR: #1792 MERGED_HARNESS_ONLY; trunk-green carrier PR pending
+BRANCH: fix/lafea4-trunk-green-b5-execution
 ENGINEERING_EVIDENCE_HEAD: c6778559c1586a9b233c789b322976fe244f7193
 HARNESS_MERGE_COMMIT: 6306879e7b1e7fc57ba58715cafdfa8fb48396e3
 STATE: LEG004_EXECUTED_B5_QUALIFIED_OVER_EXECUTABLE_ENVELOPE
@@ -80,4 +80,4 @@ LIVE_MAIN: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
 STACK_BASE: main
 STACK_BASE_PR: NONE_A1_A2_A3_A4_HARNESS_MERGED
 ADMINISTRATIVE_INCIDENT: issue #1794 was accidentally created during an earlier connector operation, immediately retitled accidental/no-engineering-work and closed not_planned; it carries no A4 authority, evidence or custody.
-EXACT_NEXT_ACTION: Owner disposition of the control-plane PR carrying EP-0010. A4 remaining engineering blocker is B6 severe-distortion authority only; B5 no longer blocks A5 (#1764) over the qualified envelope. Do not invent a B6 distortion threshold or change RELEASE_QUALIFIED. Separately referred to Owner: no package.json script or workflow invokes scripts/lafea.4-production-adoption-aggregate-check.mjs, so no CI entry point enforces any A4 gate.
+EXACT_NEXT_ACTION: Owner disposition of the control-plane PR carrying EP-0010. A4 remaining engineering blocker is B6 severe-distortion authority only; B5 no longer blocks A5 (#1764) over the qualified envelope. Do not invent a B6 distortion threshold or change RELEASE_QUALIFIED. The A4 aggregate is already CI-reached via scripts/lafea.4-contract-check.mjs inside check:lafea-core; main has been RED since #1792 and this leg repairs it.
