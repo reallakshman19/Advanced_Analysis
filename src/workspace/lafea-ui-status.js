@@ -35,6 +35,7 @@ const PRESENTATIONS = Object.freeze({
   MESH_REQUIRED: Object.freeze({ label: 'Mesh required', tone: 'warning' }),
   MESH_REGENERATION_REQUIRED: Object.freeze({ label: 'Mesh regeneration required', tone: 'warning' }),
   QUALIFIED_NOT_CURRENT: Object.freeze({ label: 'Previous result — stale', tone: 'warning' }),
+  QUALIFIED_NOT_PUBLISHED: Object.freeze({ label: 'Computed — not published', tone: 'warning' }),
   ENGINE_NOT_IMPLEMENTED: Object.freeze({ label: 'Unavailable', tone: 'neutral' }),
   QUALIFIED_ROUTE_REGISTERED: Object.freeze({ label: 'Engine available', tone: 'positive' }),
   EXACT_HEAD_QUALIFICATION_REQUIRED: Object.freeze({ label: 'External qualification required', tone: 'warning' }),

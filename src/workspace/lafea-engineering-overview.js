@@ -35,10 +35,16 @@ export function buildLafeaEngineeringOverview(stageValue, registryEntryValue) {
       && stage.lifecycleReadiness?.calculationState === 'CALCULATION_ACCEPTED_BY_STAGE_CONTRACT'
       && stage.lifecycleReadiness?.resultReady === true
     : historicalAccepted;
+  // A qualified execution that the stage contract has accepted is current; it is
+  // simply not published yet, which is a different fact from a stale result left
+  // over from an earlier revision. Reporting both as "Previous result — stale"
+  // told an operator their successful run had gone stale.
+  const contractAccepted = stage.lifecycleReadiness?.calculationState
+    === 'CALCULATION_ACCEPTED_BY_STAGE_CONTRACT';
   const executionStatus = governedRoute
     && execution?.status === 'QUALIFIED'
     && !currentAccepted
-    ? 'QUALIFIED_NOT_CURRENT'
+    ? (contractAccepted ? 'QUALIFIED_NOT_PUBLISHED' : 'QUALIFIED_NOT_CURRENT')
     : text(execution?.status, 'NOT_RUN');
 
   return freeze({

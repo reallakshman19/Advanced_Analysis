@@ -57,6 +57,12 @@ export class ApplicationShellController {
       this.eventBus.subscribe(APPLICATION_EVENTS.CONTEXT_CHANGED, ({ context }) => this.handleContext(context)),
       this.eventBus.subscribe(APPLICATION_EVENTS.CHANGE_REQUESTED, (payload) => this.handleRequest(payload)),
       this.eventBus.subscribe(EVENT_TOPICS.DATASET_LOADED, () => this.handleDatasetReplacement()),
+      // The staged workbenches load documents without an application-level
+      // context change, so the dataset indicator has to follow their own state
+      // or it stays stale until the next view switch.
+      ...[this.lafeaController, this.empiricalController]
+        .filter((controller) => typeof controller?.subscribe === 'function')
+        .map((controller) => controller.subscribe(() => this.updateActiveDatasetIndicator())),
     ];
     this.view.render(this.state, this.readiness);
     this.updateActiveDatasetIndicator();
@@ -117,18 +123,17 @@ export class ApplicationShellController {
   updateActiveDatasetIndicator() {
     const label = this.rootElement?.querySelector('[data-role="topbar-dataset"]');
     if (!label) return;
+    queueMicrotask(() => { label.title = label.textContent ?? ''; });
     const viewId = this.state?.activeViewId;
     if (viewId === CONSUMER_IDS.WORKSPACE || viewId === CONSUMER_IDS.LOAD_CALC) {
       label.textContent = this.context?.datasetId || 'None loaded';
     } else if (viewId === CONSUMER_IDS.LAFEA) {
-      const doc = this.lafeaController?.getState()?.document;
-      label.textContent = doc?.documentId || doc?.name || 'None loaded';
+      label.textContent = activeStageDocumentLabel(this.lafeaController);
     } else if (viewId === CONSUMER_IDS.LFEA) {
       const pkg = this.lfeaController?.getState()?.packageValue;
       label.textContent = pkg?.packageIdentity || 'None loaded';
     } else if (viewId === CONSUMER_IDS.EMPIRICAL) {
-      const emp = this.empiricalController?.getState()?.document;
-      label.textContent = emp?.documentId || emp?.name || 'None loaded';
+      label.textContent = activeStageDocumentLabel(this.empiricalController);
     } else {
       label.textContent = 'None loaded';
     }
@@ -315,6 +320,19 @@ export class ApplicationShellView {
     this.views.forEach((element, id) => setViewVisibility(element, id === CONSUMER_IDS.WORKSPACE));
     if (this.statusElement) this.statusElement.textContent = '';
   }
+}
+
+/**
+ * The LAFEA / EMP.1 workbench state is staged: the loaded document lives under
+ * `stages[activeStageId]`, not at the top level, and its identity field is
+ * `modelIdentity`. Reading `state.document` returned undefined for every stage,
+ * so the indicator reported "None loaded" beside a model that was loaded,
+ * meshed and solved.
+ */
+function activeStageDocumentLabel(controller) {
+  const state = controller?.getState?.();
+  const document = state?.stages?.[state?.activeStageId]?.document ?? state?.document;
+  return document?.modelIdentity || document?.documentId || document?.name || 'None loaded';
 }
 
 function isDatasetBoundary(previous, current) {

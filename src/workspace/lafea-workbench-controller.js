@@ -629,6 +629,9 @@ export class LafeaWorkbenchController {
   redo() { return this.store.redo(); }
   getState() { return this.store.getState(); }
 
+  /** Observe workbench state without reaching into the store from outside. */
+  subscribe(listener) { return this.store.subscribe(listener); }
+
   downloadDocument() {
     const value = this.exportDocument();
     downloadLafeaJson(this.documentRef, value, `${lafeaStageFilename(value.stageId)}-document.json`);
