@@ -89,7 +89,7 @@ export const EMP1_TASK_SHELL_TASK_SURFACES = Object.freeze({
 export const EMP1_TASK_SHELL_INPUT_GROUPS = Object.freeze({
   BASIS_SOURCE: Object.freeze([]),
   GEOMETRY: Object.freeze(['PIPE_GEOMETRY', 'THICKNESS']),
-  LOADS: Object.freeze(['PRESSURE', 'LOAD_CASES']),
+  LOADS: Object.freeze(['PRESSURE', 'PRESSURE_RADII', 'LOAD_CASES']),
   LOAD_TRANSFER: Object.freeze(['REFERENCE_POINTS']),
   SECTION_SCREENING: Object.freeze(['SCREENING_CASES', 'EVALUATION_LOCATIONS']),
   LOCAL_CORRELATION: Object.freeze([]),

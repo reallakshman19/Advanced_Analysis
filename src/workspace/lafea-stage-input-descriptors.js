@@ -52,6 +52,15 @@ const ALL_ENGINEERING_DESCENDANTS = Object.freeze([
   'REPORT',
 ]);
 
+/**
+ * Editable surface for the pressure result-request radii.
+ *
+ * Bounded to the canonical inner/outer pair carried by every retained LAFEA.1
+ * source. A request holding further radii keeps them in custody, but they stay
+ * outside this declared surface, as the module contract requires.
+ */
+export const LAFEA_EDITABLE_PRESSURE_RADII = 2;
+
 const MODEL_DESCENDANTS = Object.freeze([
   'CANONICAL_MODEL',
   'EXECUTION',
@@ -120,6 +129,13 @@ const DEFINITIONS = Object.freeze({
       labelPrefix: 'Load moment', groupId: 'LOAD_CASES', order: 70,
       dimension: 'MOMENT', unitSourcePath: ['units', 'moment'],
       invalidationClass: 'LOAD_OR_BC', descendants: MODEL_DESCENDANTS,
+    }),
+    ...requestedRadiusDescriptors({
+      descriptorPrefix: 'LAFEA.1.pressure.requestedRadius', stageId: 'LAFEA.1',
+      collectionPath: 'resultRequests.pressure', identityKey: 'identity',
+      labelPrefix: 'Pressure evaluation radius', groupId: 'PRESSURE_RADII', order: 55,
+      dimension: 'LENGTH', unitSourcePath: ['units', 'length'],
+      invalidationClass: 'GEOMETRY', descendants: ALL_ENGINEERING_DESCENDANTS,
     }),
     ...vectorDescriptors({
       descriptorPrefix: 'LAFEA.1.referencePoint', stageId: 'LAFEA.1',
@@ -302,6 +318,7 @@ export const LAFEA_COLLECTION_IDENTITY_KEYS = deepFreeze({
     pressureDefinitions: 'identity',
     loadReferencePoints: 'identity',
     loadCases: 'identity',
+    'resultRequests.pressure': 'identity',
   },
   'LAFEA.2': {
     screeningCases: 'screeningCaseId',
@@ -423,6 +440,23 @@ function vectorDescriptors(options) {
       propertyPath: [...options.propertyPrefix, index],
       label: `${options.labelPrefix} ${axis}`,
       order: options.order + index,
+    },
+  ));
+}
+
+function requestedRadiusDescriptors(options) {
+  return Array.from({ length: LAFEA_EDITABLE_PRESSURE_RADII }, (unused, index) => collectionScalar(
+    `${options.descriptorPrefix}.${index + 1}`,
+    options.stageId,
+    {
+      ...options,
+      propertyPath: ['requestedRadii', index],
+      scalarWrapperKey: 'value',
+      sourceRefPath: ['requestedRadii', index, 'sourceRef'],
+      label: `${options.labelPrefix} ${index + 1}`,
+      helpText: 'Radius at which elastic pressure stress is reported. Must lie inside the current pipe wall.',
+      order: options.order + index,
+      minimum: 0, minimumExclusive: true,
     },
   ));
 }

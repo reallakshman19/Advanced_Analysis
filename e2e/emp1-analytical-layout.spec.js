@@ -59,7 +59,7 @@ test('EMP.1 split console bounds work, inspector and evidence without responsive
 
   await professionalStep(workflow, 3, 'Loads').click();
   await expect(analytical).toHaveAttribute('data-emp1-professional-task', 'LOADS');
-  await assertVisibleInputGroups(analytical, ['PRESSURE', 'LOAD_CASES']);
+  await assertVisibleInputGroups(analytical, ['PRESSURE', 'PRESSURE_RADII', 'LOAD_CASES']);
   await assertSingleVisibleInspector(analytical, 'engineeringEvidence');
   await expect(analytical.locator('[data-role="emp1-c-run-configuration"]')).toBeHidden();
 
