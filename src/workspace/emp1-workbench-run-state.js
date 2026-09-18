@@ -218,10 +218,20 @@ export function projectEmp1WorkbenchCState({
   const sourceReady = readiness?.state === 'READY';
   const productionUseAuthorized = routeAuthority?.productionUseAuthorized === true;
   const numericalC = execution?.authority?.boundedLocalRouteExecuted === true;
-  const executionRouteSuspensionReasons = execution?.status === 'BLOCKED'
-    && currentness?.state === EMP1_WORKBENCH_EXECUTION_CURRENTNESS.CURRENT
-    ? unique(execution?.authority?.routeSuspensionReasons ?? [])
+  const executionBlockedAndCurrent = execution?.status === 'BLOCKED'
+    && currentness?.state === EMP1_WORKBENCH_EXECUTION_CURRENTNESS.CURRENT;
+  // A route can be perfectly sound while these inputs fall outside the domain it
+  // is qualified for. That refusal is carried by the local-correlation result
+  // rather than by the route, so without it the engineer is offered a run that
+  // returns BLOCKED every time and is never told which bound it missed.
+  const executionScopeBlockReasons = executionBlockedAndCurrent
+    && execution?.result?.localCorrelation?.state === 'BLOCKED'
+    ? unique(execution.result.localCorrelation.reasons ?? [])
     : [];
+  const executionRouteSuspensionReasons = unique([
+    ...(executionBlockedAndCurrent ? (execution?.authority?.routeSuspensionReasons ?? []) : []),
+    ...executionScopeBlockReasons,
+  ]);
   const executionRouteSuspended = executionRouteSuspensionReasons.length > 0;
   const reportable = numericalC
     && currentness?.cReportable === true
