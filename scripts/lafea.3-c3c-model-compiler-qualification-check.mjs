@@ -47,6 +47,7 @@ const steps = [
   step('C3C-G004-SOURCE-PRESSURE-PRIMITIVE', process.execPath, ['scripts/lafea.3-c3c-source-pressure-lowering-check.mjs'], 'C3C_2_G004'),
   step('C3C-G004-SOURCE-PRESSURE-COMPILER', process.execPath, ['scripts/lafea.3-c3c-source-pressure-compiler-check.mjs'], 'C3C_1_C3C_2_G004'),
   step('C3C-COMPILED-LOAD-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-load-parity-check.mjs'], 'C3C_2'),
+  step('C3C-COMPILED-LOAD-PARITY-NEGATIVE', process.execPath, ['scripts/lafea-continuum-compiled-load-parity-negative-check.mjs'], 'C3C_2'),
   step('C3C-COMPILED-EXECUTION-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-execution-check.mjs'], 'C3C_5'),
   step('C3C-SEVEN-STATE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-currentness-check.mjs'], 'C3C_6'),
   step('C3C-PHYSICAL-PROBE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-g4-physical-probe-diagnostic.mjs'], 'C3C_4'),
