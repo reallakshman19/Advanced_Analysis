@@ -1,6 +1,10 @@
 /** Read-only EMP.1 engineering custody presentation. No DOM value is calculation authority. */
 import {
   EMP1_PROFESSIONAL_WRC_LOCATIONS,
+  emp1StressDisplayNumber,
+  emp1StressExactNumber,
+  emp1UnitLabel,
+  emp1UnitedLabel,
   governingEightPointStressIntensity,
 } from './emp1-professional-result-presentation.js';
 import { card, element } from './lafea-workbench-dom.js';
@@ -243,28 +247,35 @@ export function renderEmp1CorrelationResultEvidence(root, localCorrelation) {
       ['Axis source SHA-256', axis.sourceDocumentSha256],
     ]));
   }
+  const units = numerics?.units;
   if (numerics?.wrcLoads) {
     result.body.append(sectionHeading(root, 'WRC attachment-reference loads'));
-    result.body.append(keyValueTable(root,
-      ['P', 'Vc', 'Vl', 'Mc', 'Ml', 'Mt'].map((key) => [key, numerics.wrcLoads[key]])));
+    result.body.append(keyValueTable(root, [
+      ['P', units?.force], ['Vc', units?.force], ['Vl', units?.force],
+      ['Mc', units?.moment], ['Ml', units?.moment], ['Mt', units?.moment],
+    ].map(([key, unit]) => [emp1UnitedLabel(key, unit), numerics.wrcLoads[key]])));
   }
   const stresses = localCorrelation.stresses;
   if (stresses?.stressIntensity?.length === WRC_LOCATIONS.length) {
     result.body.append(sectionHeading(root, 'Eight-location shell stress trace'));
-    result.body.append(wrcStressTable(root, stresses));
+    result.body.append(wrcStressTable(root, stresses, units?.stress));
+    result.body.append(wrcStressFullPrecisionDetails(root, stresses, units?.stress));
     result.body.append(renderWrcProfessionalScope(
       root,
       governingEightPointStressIntensity(stresses.stressIntensity),
+      units?.stress,
     ));
   }
   return result.section;
 }
 
-function renderWrcProfessionalScope(root, governing) {
+function renderWrcProfessionalScope(root, governing, stressUnit) {
   const scope = element(root, 'div', 'lafea-workbench__authority');
   scope.dataset.role = 'emp1-c-eight-point-governing';
   const governingValue = governing.state === 'AVAILABLE'
-    ? `${governing.location} · stress intensity ${engineeringNumber(governing.stressIntensity)}`
+    ? `${governing.location} · stress intensity `
+      + `${emp1StressDisplayNumber(governing.stressIntensity)} `
+      + `${emp1UnitLabel(stressUnit) ?? 'unit unresolved'}`
     : `UNRESOLVED · ${human(governing.reason)}`;
   scope.append(
     element(root, 'strong', null, 'Professional WRC result scope'),
@@ -441,21 +452,61 @@ function pressureTable(root, rows) {
   return table;
 }
 
-function wrcStressTable(root, stresses) {
+function stressRowValues(stresses, index) {
+  return [
+    stresses.circumferential?.[index],
+    stresses.longitudinal?.[index],
+    stresses.shear?.[index],
+    stresses.stressIntensity?.[index],
+  ];
+}
+
+/**
+ * Engineer-facing Table-5 recovery. Every stress column states its governed
+ * unit and shows four significant figures; the exact retained magnitude stays on
+ * each cell and in the full-precision disclosure below.
+ */
+function wrcStressTable(root, stresses, stressUnit) {
+  const table = element(root, 'table', 'lafea-result-table');
+  table.dataset.role = 'emp1-c-eight-point-stress';
+  appendHeader(root, table, ['Location',
+    emp1UnitedLabel('σφ', stressUnit),
+    emp1UnitedLabel('σx', stressUnit),
+    emp1UnitedLabel('τ', stressUnit),
+    emp1UnitedLabel('Stress intensity', stressUnit)]);
+  WRC_LOCATIONS.forEach((location, index) => {
+    const tr = element(root, 'tr');
+    const identity = element(root, 'th', null, location);
+    identity.scope = 'row';
+    tr.append(identity, ...stressRowValues(stresses, index).map((value) => {
+      const cell = element(root, 'td', null, emp1StressDisplayNumber(value));
+      if (Number.isFinite(value)) cell.dataset.emp1ExactValue = emp1StressExactNumber(value);
+      return cell;
+    }));
+    table.append(tr);
+  });
+  return table;
+}
+
+function wrcStressFullPrecisionDetails(root, stresses, stressUnit) {
+  const details = element(root, 'details', 'lafea-workbench__custody-details');
+  details.dataset.emp1RawTechnical = 'true';
+  details.dataset.role = 'emp1-c-eight-point-stress-full-precision';
   const table = element(root, 'table', 'lafea-result-table');
   appendHeader(root, table, ['Location', 'σφ', 'σx', 'τ', 'Stress intensity']);
   WRC_LOCATIONS.forEach((location, index) => {
     const tr = element(root, 'tr');
     const identity = element(root, 'th', null, location);
     identity.scope = 'row';
-    tr.append(identity,
-      element(root, 'td', null, engineeringNumber(stresses.circumferential?.[index])),
-      element(root, 'td', null, engineeringNumber(stresses.longitudinal?.[index])),
-      element(root, 'td', null, engineeringNumber(stresses.shear?.[index])),
-      element(root, 'td', null, engineeringNumber(stresses.stressIntensity?.[index])));
+    tr.append(identity, ...stressRowValues(stresses, index)
+      .map((value) => element(root, 'td', null, emp1StressExactNumber(value))));
     table.append(tr);
   });
-  return table;
+  details.append(
+    element(root, 'summary', null,
+      emp1UnitedLabel('Full-precision retained stress values', stressUnit)),
+    table);
+  return details;
 }
 
 function keyValueTable(root, rows) {
