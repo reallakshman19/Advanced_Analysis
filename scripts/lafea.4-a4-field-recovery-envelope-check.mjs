@@ -47,6 +47,7 @@ const moderateThickness = [
 ];
 
 const distortion = inspectNearSingularQ4();
+const tyingPointInversion = checkTyingPointInversionRejected();
 const pressure = checkDeformableDistortedPressure();
 
 const b8Classification = Object.freeze([
@@ -67,6 +68,7 @@ console.log(JSON.stringify({
   controlledBending: bending,
   moderateThickness,
   distortion,
+  tyingPointInversion,
   deformablePressure: pressure,
   b8Classification,
   blockers: [
@@ -329,6 +331,61 @@ function inspectNearSingularQ4() {
     canonicalModelAcceptsNearSingularPositiveJacobian: true,
     a4Disposition: 'BLOCKED_NO_OWNER_AUTHORIZED_NORMALIZED_JACOBIAN_QUALITY_THRESHOLD',
     productionPatchAuthorized: false,
+  });
+}
+
+// B6 mandatory negative: inverted/invalid Q4 Jacobian, at the MITC tying points.
+//
+// A bilinear Q4 map varies over the element, so a positive determinant at every
+// Gauss point does not imply a valid map at the mid-edge tying points where the
+// MITC shear field is sampled. This control is a self-intersecting quad whose
+// top edge runs backwards: positive at all four Gauss points, negative at tying
+// point C. Production accepted it and returned a displacement until
+// covariantShearRow began validating where it actually samples the map.
+function checkTyingPointInversionRejected() {
+  const corners = [[0, 0], [2, 0], [0.9, 1], [1.1, 1]];
+  const gauss = MITC4_GAUSS_POINTS.map((point) => {
+    const { dNdXi, dNdEta } = q4ShapeFunctionsAndDerivatives(point.xi, point.eta);
+    return jacobianAt(corners, dNdXi, dNdEta).determinant;
+  });
+  const tying = MITC4_TYING_POINTS.map((point) => {
+    const { dNdXi, dNdEta } = q4ShapeFunctionsAndDerivatives(point.xi, point.eta);
+    return jacobianAt(corners, dNdXi, dNdEta).determinant;
+  });
+  assert.ok(gauss.every((value) => value > 0), 'control must stay positive at every Gauss point');
+  assert.ok(tying.some((value) => value <= 0), 'control must be non-positive at a tying point');
+
+  // The map is only evaluated when the stiffness is built, so the rejection
+  // surfaces from the solve as a rejected result, not from model construction.
+  const nodes = corners.map(([x, y], index) => flatNode(String.fromCharCode(65 + index), x, y));
+  const result = calculateLocalShell(createCanonicalMitcProductionModel(singleElementSource({
+    modelIdentity: 'MITC4-A4-TYING-POINT-INVERSION',
+    nodes,
+    formulation: MITC4_FORMULATION,
+    topology: MITC4_TOPOLOGY,
+    thickness: 1,
+    constraints: nodes.flatMap((node) => prescribed(node.nodeId, [0, 0, 0, 0, 0])),
+  })));
+  assert.equal(
+    result.qualification.accepted,
+    false,
+    'production must reject a Q4 whose map is inverted at a tying point',
+  );
+  assert.match(
+    result.qualification.summary,
+    /Jacobian determinant must be positive at tying point/,
+    `rejection must name the tying point; got ${result.qualification.summary}`,
+  );
+
+  return Object.freeze({
+    corners,
+    gaussDeterminants: gauss,
+    tyingDeterminants: tying,
+    positiveAtEveryGaussPoint: true,
+    nonPositiveAtTyingPoint: true,
+    productionRejects: true,
+    rejectionSummary: result.qualification.summary,
+    disposition: 'PASS_INVERTED_TYING_POINT_MAP_IS_REJECTED',
   });
 }
 

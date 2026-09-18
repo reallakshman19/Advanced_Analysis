@@ -141,10 +141,18 @@ export function bendingBMatrixAt(nodes, xi, eta) {
  * Covariant transverse shear row at one tying point:
  * `gamma_(dir)zeta = dw/d(dir) + betaX * dx/d(dir) + betaY * dy/d(dir)`,
  * expressed as a 20-length row acting on the element DOF vector.
+ *
+ * The tying points are mid-edge, not integration points, and a bilinear Q4 map
+ * varies over the element, so a positive determinant at every Gauss point does
+ * NOT imply a valid map here. A self-intersecting quad can be positive at all
+ * four Gauss points while inverted at a tying point; the row would then be
+ * built from an inverted map and tied into the shear field unchecked. Validate
+ * where the map is actually sampled.
  */
 function covariantShearRow(nodes, xi, eta, direction) {
   const { N, dNdXi, dNdEta } = q4ShapeFunctionsAndDerivatives(xi, eta);
   const jacobian = jacobianAt(nodes, dNdXi, dNdEta);
+  requirePositiveJacobian(jacobian.determinant, `tying point (${xi},${eta})`);
   const dNd = direction === 'XI' ? dNdXi : dNdEta;
   const dxd = direction === 'XI' ? jacobian.dxDxi : jacobian.dxDeta;
   const dyd = direction === 'XI' ? jacobian.dyDxi : jacobian.dyDeta;
