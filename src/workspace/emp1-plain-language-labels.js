@@ -85,7 +85,7 @@ const STATE_LABELS = Object.freeze({
   EMP1_WORKBENCH_LOAD_CASE_IDENTITY_REQUIRED: 'Select a load case before running the local check.',
   EMP1_WORKBENCH_PRESSURE_RESULT_IDENTITY_REQUIRED: 'Select a pressure result before running the local check.',
   EMP1_WORKBENCH_LAFEA_1_REQUESTED_RADIUS_OUTSIDE_WALL:
-    'Pressure evaluation radii no longer fit inside the current pipe wall. Use Undo to restore the previous geometry, or import coordinated assessment data before calculating.',
+    'Pressure evaluation radii no longer fit inside the current pipe wall. Edit them under Loads, or use "Set radii to current wall" to place them on the bore and outer surface.',
   EMP1_WORKBENCH_ROUTE_AUTHORITY_CHANGED:
     'Method authority changed after the retained result; recalculate before relying on it.',
   EMP1_WORKBENCH_C_CURRENT_ROUTE_AUTHORITY_REQUIRED:
