@@ -225,6 +225,21 @@ export function renderLafeaWorkbenchContent(root, state, stage, options) {
 
   main.append(nextActionBanner, engineeringOverview, caeWorkspace, context);
 
+  if (!stage.document) {
+    const emptyNotice = element(root, 'div', 'lafea-empty-state-notice');
+    emptyNotice.innerHTML = `
+      <div class="lafea-empty-state-card" role="region" aria-label="LAFEA Model Requirements">
+        <h3>Local-Attachment FEA (LAFEA) — No Document Loaded</h3>
+        <p>LAFEA analyzes specialized 2D continuum and shell local-attachment domains. Workspace 3D piping models are not evaluated here. To begin, load a demonstration model or import a local FEA document (.json) using the toolbar above.</p>
+      </div>
+    `;
+    main.prepend(emptyNotice);
+    discretizationCard.section.hidden = true;
+    preflightCard.section.hidden = true;
+    convergenceCard.section.hidden = true;
+    evidenceCard.section.hidden = true;
+  }
+
   return Object.freeze({
     element: shell,
     viewport: activeViewport,

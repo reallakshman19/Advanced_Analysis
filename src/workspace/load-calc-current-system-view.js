@@ -9,14 +9,14 @@ const PRODUCT_PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'en
 const LEGACY_ADVANCED_VIEW_COUNT = 11;
 
 export const LOAD_CALC_PRIMARY_WORKFLOW_V1 = Object.freeze([
-  Object.freeze({ id: 'import',     label: 'Import',                 selector: '[data-load-calc-import]',              tab: null }),
-  Object.freeze({ id: 'topology',   label: 'Check Topology',         selector: '[data-load-calc-tab="topology"]',      tab: 'topology' }),
-  Object.freeze({ id: 'defaults',   label: 'Calculation Defaults',   selector: '[data-load-calc-tab="project-data"]',  tab: 'project-data' }),
-  Object.freeze({ id: 'masters',    label: 'Master Data',            selector: '[data-load-calc-tab="masters"]',       tab: 'masters' }),
-  Object.freeze({ id: 'enrichment', label: 'Enrichment & Overrides', selector: '[data-load-calc-tab="enrichment"]',    tab: 'enrichment' }),
-  Object.freeze({ id: 'preflight',  label: 'Input Check',            selector: '[data-load-calc-tab="preflight"]',     tab: 'preflight' }),
-  Object.freeze({ id: 'run',        label: 'Run',                    selector: '[data-load-calc-tab="verify"]',        tab: 'verify' }),
-  Object.freeze({ id: 'results',    label: 'Results',                selector: '[data-load-calc-tab="loads"]',         tab: 'loads' }),
+  Object.freeze({ id: 'import',     label: 'Import',     selector: '[data-load-calc-import]',              tab: null }),
+  Object.freeze({ id: 'topology',   label: 'Topology',   selector: '[data-load-calc-tab="topology"]',      tab: 'topology' }),
+  Object.freeze({ id: 'defaults',   label: 'Project',    selector: '[data-load-calc-tab="project-data"]',  tab: 'project-data' }),
+  Object.freeze({ id: 'masters',    label: 'Masters',    selector: '[data-load-calc-tab="masters"]',       tab: 'masters' }),
+  Object.freeze({ id: 'enrichment', label: 'Overrides',  selector: '[data-load-calc-tab="enrichment"]',    tab: 'enrichment' }),
+  Object.freeze({ id: 'preflight',  label: 'Validate',   selector: '[data-load-calc-tab="preflight"]',     tab: 'preflight' }),
+  Object.freeze({ id: 'run',        label: 'Run Calc',   selector: '[data-load-calc-tab="verify"]',        tab: 'verify' }),
+  Object.freeze({ id: 'results',    label: 'View Loads', selector: '[data-load-calc-tab="loads"]',         tab: 'loads' }),
 ]);
 
 /** Tabs moved into the primary workflow bar; ADV no longer promotes them. */
@@ -217,7 +217,7 @@ function convergeFiveStepWorkflow(section, state) {
       '<button type="button" class="empirical-load-calc__workflow-step" ' +
       'data-load-calc-tab="enrichment" data-step-state="pending" aria-current="false">' +
       '<span class="empirical-load-calc__workflow-index">?</span>' +
-      '<span class="empirical-load-calc__workflow-label">Enrichment &amp; Overrides</span>' +
+      '<span class="empirical-load-calc__workflow-label">Overrides</span>' +
       '<span class="empirical-load-calc__workflow-status">Available</span>' +
       '</button>',
     );
@@ -267,7 +267,7 @@ function convergeFiveStepWorkflow(section, state) {
   const advancedLabel = summary.querySelector('.empirical-load-calc__workflow-label');
   const advancedStatus = summary.querySelector('.empirical-load-calc__workflow-status');
   if (advancedIndex) advancedIndex.textContent = 'ADV';
-  if (advancedLabel) advancedLabel.textContent = 'Advanced tools';
+  if (advancedLabel) advancedLabel.textContent = 'Advanced';
   if (advancedStatus && !advancedActive) {
     advancedStatus.textContent = `${LEGACY_ADVANCED_VIEW_COUNT} views`;
   }

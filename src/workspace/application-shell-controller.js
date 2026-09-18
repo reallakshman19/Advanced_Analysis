@@ -23,6 +23,7 @@ import { LoadCalcConsumerController } from './load-calc-consumer-controller.js';
  */
 export class ApplicationShellController {
   constructor(rootElement, consumerController, eventBus, options) {
+    this.rootElement = rootElement;
     this.eventBus = eventBus;
     this.consumerController = consumerController;
     this.settingsController = options.settingsController;
@@ -58,6 +59,7 @@ export class ApplicationShellController {
       this.eventBus.subscribe(EVENT_TOPICS.DATASET_LOADED, () => this.handleDatasetReplacement()),
     ];
     this.view.render(this.state, this.readiness);
+    this.updateActiveDatasetIndicator();
   }
 
   handleContext(context) {
@@ -74,7 +76,10 @@ export class ApplicationShellController {
     } else if (readinessChanged) {
       this.state = refreshApplicationViewStateV12(this.state, this.readiness);
     }
-    if (datasetBoundary || readinessChanged) this.view.render(this.state, this.readiness);
+    if (datasetBoundary || readinessChanged) {
+      this.view.render(this.state, this.readiness);
+      this.updateActiveDatasetIndicator();
+    }
     if (previous !== this.state.activeViewId) {
       this.publishChanged(previous, datasetBoundary ? 'dataset-replaced' : 'readiness-lost');
     }
@@ -88,6 +93,7 @@ export class ApplicationShellController {
       version: this.state.version + 1,
     });
     this.view.render(this.state, this.readiness);
+    this.updateActiveDatasetIndicator();
     this.publishChanged(previous, 'dataset-replaced');
   }
 
@@ -101,9 +107,30 @@ export class ApplicationShellController {
       if (!result.activated) throw viewError('VIEW_NOT_AVAILABLE', `${descriptor.label} is unavailable.`);
       this.state = result.state;
       this.view.render(this.state, this.readiness);
+      this.updateActiveDatasetIndicator();
       this.publishChanged(previous, source);
     } catch (error) {
       this.publishFailed(viewId, error);
+    }
+  }
+
+  updateActiveDatasetIndicator() {
+    const label = this.rootElement?.querySelector('[data-role="topbar-dataset"]');
+    if (!label) return;
+    const viewId = this.state?.activeViewId;
+    if (viewId === CONSUMER_IDS.WORKSPACE || viewId === CONSUMER_IDS.LOAD_CALC) {
+      label.textContent = this.context?.datasetId || 'None loaded';
+    } else if (viewId === CONSUMER_IDS.LAFEA) {
+      const doc = this.lafeaController?.getState()?.document;
+      label.textContent = doc?.documentId || doc?.name || 'None loaded';
+    } else if (viewId === CONSUMER_IDS.LFEA) {
+      const pkg = this.lfeaController?.getState()?.packageValue;
+      label.textContent = pkg?.packageIdentity || 'None loaded';
+    } else if (viewId === CONSUMER_IDS.EMPIRICAL) {
+      const emp = this.empiricalController?.getState()?.document;
+      label.textContent = emp?.documentId || emp?.name || 'None loaded';
+    } else {
+      label.textContent = 'None loaded';
     }
   }
 
@@ -224,7 +251,22 @@ export class ApplicationShellView {
     button.type = 'button';
     button.dataset.applicationNav = descriptor.consumerId;
     const icons = { WORKSPACE: 'W', LOAD_CALC: 'L', LAFEA: 'A', LFEA: 'F', EMPIRICAL: 'E' };
-    button.innerHTML = `<span class="nav-tab-icon" aria-hidden="true">${icons[descriptor.consumerId]}</span><span>${descriptor.label}</span>`;
+    const DISPLAY_LABELS = {
+      WORKSPACE: 'Workspace (Piping)',
+      LOAD_CALC: 'Piping Model & Load Calc',
+      LAFEA: '2D/3D Local FEA (LAFEA)',
+      LFEA: 'Linear Piping FEA (LFEA)',
+      EMPIRICAL: 'Local Attachment (EMP.1)',
+    };
+    const displayLabel = DISPLAY_LABELS[descriptor.consumerId] || descriptor.label;
+    button.setAttribute('aria-label', displayLabel);
+    const iconSpan = documentRef.createElement('span');
+    iconSpan.className = 'nav-tab-icon';
+    iconSpan.setAttribute('aria-hidden', 'true');
+    iconSpan.textContent = icons[descriptor.consumerId] || '';
+    const labelSpan = documentRef.createElement('span');
+    labelSpan.textContent = displayLabel;
+    button.append(iconSpan, labelSpan);
     button.addEventListener('click', () => this.requestChange(descriptor.consumerId));
     const reason = documentRef.createElement('span');
     reason.id = `application-nav-reason-${descriptor.consumerId.toLowerCase()}`;
