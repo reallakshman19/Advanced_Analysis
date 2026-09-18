@@ -1,14 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
-import fs from 'node:fs';
 
 const browserChannel = process.env.PLAYWRIGHT_BROWSER_CHANNEL || 'chromium';
 const videoMode = process.env.PLAYWRIGHT_ENABLE_VIDEO === '1' ? 'retain-on-failure' : 'off';
 const serverPort = process.env.PLAYWRIGHT_SERVER_PORT || '5173';
 
-const localChromium = 'C:\\Users\\reall\\AppData\\Local\\ms-playwright\\chromium-1181\\chrome-win\\chrome.exe';
-const chromeExe = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const detectedExecutable = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
-  || (fs.existsSync(localChromium) ? localChromium : (fs.existsSync(chromeExe) ? chromeExe : undefined));
+// Set PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH when the pinned Playwright build does
+// not match the browser actually installed, which is the usual case on a
+// sandbox where `playwright install` cannot run. Left unset, Playwright
+// resolves the browser itself from `channel`.
+const detectedExecutable = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined;
 
 export default defineConfig({
   testDir: './e2e',
