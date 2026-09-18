@@ -1,15 +1,26 @@
 # ADV-LAFEA3-C3C-1769 — Current State
 
-STATUS: G005_CONSTANT_ALPHA_DELTA_T_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION
+STATUS: G006_AXIS_ALIGNED_SOURCE_NORMAL_CANDIDATE_NOT_RUN_NO_AUTHORIZED_EXECUTOR
+
+## Control plane
+
+- Common protocol basis: `734286a3da99133c0f16faa29bb641103e29ada0`.
+- Work item: `github:reallaksh19/Advanced_Analysis#1769` (`EXCLUSIVE`).
+- Chain: `ADV-LAFEA3-C3C-1769`.
+- Product PR: #1805 (`OPEN_DRAFT`).
+- Current material branch: `engineering/lafea3-c3c-1769-local-restraint`.
+- Candidate base / reviewed main: `8f620ef74638af56dcba1f1bc519adef39b90a0e`.
+- Source basis: `C3C-SOURCE-BASIS-0013`.
+- Merge authority: `OWNER_ONLY`; no merge authorization was granted by the current `proceed next` command.
+- Workflow mutation authority: not granted in this progression.
+- Question pack remains suppressed by the standing Owner waiver for this same C3-C scope; no new question pack is generated.
 
 ## Main-current dependency state
 
-- Common protocol basis: `734286a3da99133c0f16faa29bb641103e29ada0`.
 - C3-B PR #1782 merged as `2170593fe8155cf2cacd9fd810b989171c41195f`; issue #1766 is closed completed.
 - Prior C3-C PR #1789 merged as `ea2a2e5842a5ae1931544b20f7dcb97184d7cec1`.
-- G002 body-force PR #1801 merged as `f90b0d9f43ed8cee6abd0a5b8a2df9965162ef68` under Owner authorization.
-- Current G005 batch branches from reviewed `main@5d170f7a8870426d081efb7a49bdc74511a64f6a`.
-- Drift from the G002 merge to this base is 28 commits of LAFEA.4 shell/WRC/control-plane work; no LAFEA.3 continuum compiler/material/load path changed.
+- G002 body-force PR #1801 merged as `f90b0d9f43ed8cee6abd0a5b8a2df9965162ef68`.
+- G005 ΔT PR #1803 merged as `8f620ef74638af56dcba1f1bc519adef39b90a0e`.
 
 ## Validation truth carried forward
 
@@ -17,33 +28,37 @@ STATUS: G005_CONSTANT_ALPHA_DELTA_T_CANDIDATE_PENDING_EXACT_HEAD_QUALIFICATION
 - C3C-G002 constant + source-linear straight-traction `Fx/Fy/Mz`: previously qualified bounded.
 - C3C-G003 source-linear traction T6/Q8: previously qualified bounded.
 - C3C-G004 source-pressure primitive: previously exact-head qualified.
-- C3C-G004 ordinary compiler/resultant wiring is merged but its exact-head hosted campaign remains `NOT_RUN_INFRASTRUCTURE` because all carrier attempts ended before job steps.
-- C3C-G002 straight-region body-force custody is merged but carrier #1802 run `34820663282` / job `103901277207` created zero job steps; exact aggregate execution therefore remains `NOT_RUN_INFRASTRUCTURE`, not PASS.
-- C3C-G006 local-feature support/roller semantics remain open.
+- C3C-G004 ordinary compiler/resultant wiring is merged but its exact-head hosted campaign remains `NOT_RUN_INFRASTRUCTURE` because carrier attempts ended before job steps.
+- C3C-G002 straight-region body-force custody is merged but carrier #1802 run `34820663282` / job `103901277207` created zero job steps; exact aggregate execution remains `NOT_RUN_INFRASTRUCTURE`, not PASS.
+- C3C-G005 governed `CONSTANT_ALPHA_DELTA_T_V1` lowering is merged, but carrier #1804 run `34852608259` / job `104004060502` created zero job steps; exact aggregate execution remains `NOT_RUN_INFRASTRUCTURE`, not PASS.
 
-## Current material batch — G005 governed ΔT semantics
+## Current material batch — G006 bounded local-feature restraint semantics
 
-Source basis: `C3C-SOURCE-BASIS-0012`.
+The candidate adds only the exactly representable subset of source-feature roller semantics:
 
-The candidate adds a bounded domain-first thermal authority bridge without altering kernel thermal mechanics:
+1. Existing global restraint payloads `{ux, uy}` are preserved unchanged.
+2. A segment restraint may declare `{ mode: "SOURCE_NORMAL" }`.
+3. Projection evidence retains the source segment geometry and derives the exact constrained global DOF from that source geometry.
+4. A straight globally horizontal source segment has source-normal displacement represented exactly by `UY = 0` on all mapped segment nodes.
+5. A straight globally vertical source segment has source-normal displacement represented exactly by `UX = 0` on all mapped segment nodes.
+6. Projection `compiledContributionIds` and compiled constraint IDs are required to match the derived DOF and mapped node set.
+7. T6 and Q8 focused qualification fixtures exercise both axis-aligned directions plus unchanged legacy global restraint behavior.
+8. Oblique straight segments and curved segments are deliberately rejected with `LAFEA_CONTINUUM_LOCAL_RESTRAINT_LINEAR_CONSTRAINT_AUTHORITY_REQUIRED` because the current local-continuum solver has only scalar global `UX`/`UY` prescribed constraints and no general linear/MPC constraint row.
 
-1. `TEMPERATURE` payload `value` remains a temperature **increment**, never an implicit strain.
-2. A qualified path additionally requires `thermalMaterialAuthority` with schema `lafea-continuum-thermal-material-authority/v1`, law `CONSTANT_ALPHA_DELTA_T_V1`, mapped `materialRef`, constant `coefficientPerKelvin`, `referenceTemperatureKelvin`, and immutable source evidence.
-3. Compiler lowering is exactly `thermalStrain = coefficientPerKelvin × deltaTemperature` and emits the kernel's existing `temperatureLoads` contract.
-4. Celsius and kelvin increments have identical magnitude; unsupported units fail closed.
-5. Missing authority preserves the historical diagnostic `LAFEA_CONTINUUM_COMPILED_TEMPERATURE_SEMANTICS_NOT_QUALIFIED`.
-6. Material mismatch and tampered source evidence fail closed.
-7. Candidate qualification covers T6 plane stress and Q8 plane strain; `PLANE_STRAIN_BBAR` thermal authority remains explicitly unqualified and fail-closed.
-8. Alpha/reference-authority mutations change the hash-addressed solver model; no separate hidden thermal default is introduced.
+No solver partition formulation, stiffness/load assembly, element formulation, constitutive matrix, mesh threshold, benchmark oracle/tolerance, recovery convention, workflow, release or publication authority is changed.
 
-The inherited `C3C-SOURCE-BASIS-0011` also contained one custody-manifest error: its body-force production-kernel path was paired with the body-force **test script** blob. Basis 0012 corrects only that pin to the actual unchanged production kernel blob `c7394b19c7623145834d641c7cb7a26516d4a010`.
+## PR / review / execution truth
 
-No element formulation, constitutive matrix, kernel thermal-strain formulation, quadrature, mesh quality threshold, benchmark oracle/tolerance, recovery, workflow, release or publication authority is changed.
-
-## Execution truth
-
-`NOT_RUN` for the G005 exact-head campaign until the current product head executes in a clean hosted checkout. Mechanical mergeability does not constitute engineering PASS.
+- PR #1805 changed-file boundary: exactly nine intended G006 helper/compiler/projection/qualification/custody files; no workflow or kernel-solver file changes.
+- GitHub mergeability: `MERGEABLE` at last observation.
+- Submitted reviews: none.
+- Inline review threads: none.
+- Focused `scripts/lafea.3-c3c-local-restraint-check.mjs`: `NOT_RUN`.
+- Full `scripts/lafea.3-c3c-model-compiler-qualification-check.mjs`: `NOT_RUN`.
+- Existing automatic run `34874282257` (`LAFEA visible workbench qualification`) job `104077494271`: failure before any job step materialized; not C3-C G006 evidence.
+- Existing automatic run `34874282248` (`LAFEA B01 final exact-head qualification`) job `104077494590`: failure before any job step materialized; not C3-C G006 evidence.
+- Therefore G006 qualification state is `NOT_RUN_NO_AUTHORIZED_EXECUTOR`, not FAIL and not PASS.
 
 ## Exact next action
 
-Open the G005 product PR to `main`, execute the full C3-C aggregate on its exact head through a never-merge one-workflow carrier, and classify the first executable result. If Actions again creates zero steps, retain `NOT_RUN_INFRASTRUCTURE`; if a named engineering gate fails, repair that first boundary. Under the Owner's current explicit merge authorization, merge only when GitHub reports the product PR mergeable and there is no observed engineering FAIL, while preserving any `NOT_RUN_INFRASTRUCTURE` label exactly. After promotion, begin G006 local-feature support/roller semantics with a fresh main-current authority reconciliation.
+Obtain an authorized exact-head executor for PR #1805. If Owner explicitly authorizes a disposable workflow carrier, run the focused G006 gate and the full C3-C aggregate on one exact product head; otherwise use another permitted exact checkout executor if one becomes available. Preserve zero-step execution as `NOT_RUN_INFRASTRUCTURE`. If a materialized engineering step fails, repair the first failing G006/compiler boundary without changing solver constraint authority. Do not merge without a new explicit Owner merge authorization.
