@@ -202,7 +202,10 @@ export function selectEmp1TaskShellTask(selectionHost, shell, stepId) {
   state.inspectorView = TASK_DEFAULT_INSPECTOR[stepId];
   state.evidenceView = TASK_DEFAULT_EVIDENCE[stepId] ?? state.evidenceView;
   state.consoleMode = stepId === 'REVIEW_EVIDENCE' ? 'EVIDENCE' : 'WORK';
-  state.evidenceOpen = stepId === 'REVIEW_EVIDENCE';
+  // Local check is the step that produces the WRC result, so its evidence opens
+  // with the step. Leaving it collapsed put the eight-point stress table behind
+  // a disclosure on the one step whose whole purpose is to show it.
+  state.evidenceOpen = stepId === 'REVIEW_EVIDENCE' || stepId === 'LOCAL_CORRELATION';
   const runtime = TASK_SHELL_RUNTIME.get(shell);
   if (runtime) {
     collapseTransientDetails(runtime);
