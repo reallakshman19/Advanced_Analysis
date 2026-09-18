@@ -128,10 +128,11 @@ function resolveInsulation(component) {
   const odMm = evidenceNumber(evidence.outerDiameterMm);
   if ([direct, thicknessMm, density, odMm].some(isNegative)) return blocked(AUDIT_CODES.INVALID_NEGATIVE_VALUE);
   if (direct !== null) return sourceMass('INSULATION', direct, evidence.insulationWeightKgPerM);
-  // Thickness is genuinely unspecified (as opposed to an explicit 0) when the
-  // Line List's per-line insulation column isn't wired into component
-  // evidence yet; assumed zero rather than blocking the whole calculation.
-  // This can understate weight for a line that is actually insulated.
+  // Pipe components get thickness from the Line List's InsThk column via a
+  // per-line enrichment proposal; other component types (fittings) have no
+  // such source yet, so their thickness is genuinely unspecified rather than
+  // an explicit 0. Assumed zero rather than blocking the whole calculation —
+  // this can understate weight for a fitting on a line that is insulated.
   if (thicknessMm === 0 || thicknessMm === null) return sourceMass('INSULATION', 0, evidence.insulationThicknessMm);
   if (density === null || odMm === null) return blocked(AUDIT_CODES.MISSING_INSULATION_INPUT);
   const result = insulationMassPerLength(odMm / 1000, thicknessMm / 1000, density, [

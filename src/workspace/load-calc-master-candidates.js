@@ -274,6 +274,16 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
         masters,
       ));
     }
+    const insulationThicknessMm = finite(lineRow.insThk);
+    if (insulationThicknessMm !== null) {
+      proposals.push(proposalFor(
+        'INSULATION_THICKNESS',
+        insulationThicknessMm,
+        'mm',
+        { ...context, fluidDensitySource: null },
+        masters,
+      ));
+    }
     if (match.needsReview) {
       reviewRequired.push({
         targetId,
@@ -305,7 +315,7 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
  */
 function proposalFor(fieldId, value, unit, context, masters) {
   const { targetId, boreMm, requestedClass, match, lineRow, fluidDensitySource, sourceDescription } = context;
-  const fromLineList = fieldId === 'OPERATING_FLUID_DENSITY';
+  const fromLineList = fieldId === 'OPERATING_FLUID_DENSITY' || fieldId === 'INSULATION_THICKNESS';
   const fromWeightMaster = fieldId === 'COMPONENT_WEIGHT';
   const master = fromLineList
     ? masters?.lineList
@@ -315,9 +325,11 @@ function proposalFor(fieldId, value, unit, context, masters) {
   const approximate = !fromLineList && !fromWeightMaster && Boolean(match?.needsReview);
   return createNonFeaEnrichmentProposal({
     proposalId: `loadcalc-master:${fieldId}:${targetId}`,
-    rationale: fromLineList
+    rationale: fieldId === 'OPERATING_FLUID_DENSITY'
       ? `Operating fluid density for line ${lineRow?.lineKey || 'DEFAULT'} from the Line List (${fluidDensitySource || 'linelist'}).`
-      : fromWeightMaster
+      : fieldId === 'INSULATION_THICKNESS'
+        ? `Insulation thickness for line ${lineRow?.lineKey || 'DEFAULT'} from the Line List (InsThk).`
+        : fromWeightMaster
         ? `Approved master component weight for ${targetId} at DN${boreMm} (${sourceDescription || 'component weight master'}).`
         : approximate
           ? `Approved master value for ${fieldId} at DN${boreMm}. Piping class ${requestedClass} resolved approximately to ${match.resolvedPipingClass} (${match.method}, confidence ${round(match.confidence)}); confirm the class is correct before accepting.`
