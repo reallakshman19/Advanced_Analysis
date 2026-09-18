@@ -21,6 +21,10 @@ import {
   revealLafeaGuidedTarget,
 } from './lafea-workbench-evidence.js';
 import { focusLafeaRetainedMeshElement } from './lafea-canvas/retained-mesh-overlay.js';
+import {
+  getLafeaDemoDescriptor,
+  hasLafeaDemoModel,
+} from './lafea-demo-catalog.js';
 
 export function renderLafeaWorkbenchContent(root, state, stage, options) {
   const workflow = buildLafeaGuidedWorkflow(state);
@@ -308,7 +312,42 @@ function renderNextActionBanner(root, stage, discretization, workflow, options, 
 
   if (!stage.document) {
     banner.dataset.intent = 'model';
+    if (stage.stageId === 'LAFEA.6') {
+      banner.dataset.intent = 'unimplemented';
+      banner.append(
+        element(root, 'strong', null, 'Weld profile analysis is not implemented'),
+        element(
+          root,
+          'span',
+          'lafea-next-action-banner__message',
+          'Weld profile analysis is not implemented; no demonstration model or solver is available for this stage.',
+        ),
+      );
+      return banner;
+    }
     banner.append(element(root, 'strong', null, 'Step 1: Load a model to begin'));
+    if (hasLafeaDemoModel(stage.stageId)) {
+      const descriptor = getLafeaDemoDescriptor(stage.stageId);
+      if (descriptor?.description) {
+        banner.append(element(
+          root,
+          'span',
+          'lafea-next-action-banner__description',
+          descriptor.description,
+        ));
+      }
+      const demoBtn = element(
+        root,
+        'button',
+        'lafea-next-action-banner__button lafea-next-action-banner__button--primary',
+        `Load demonstration model (${stage.stageId})`,
+      );
+      demoBtn.type = 'button';
+      demoBtn.dataset.role = 'lafea-load-demo';
+      demoBtn.title = descriptor?.title ? `Load demonstration model: ${descriptor.title}` : 'Load demonstration model';
+      demoBtn.onclick = () => options.handlers.onLoadDemo?.(stage.stageId);
+      banner.append(demoBtn);
+    }
     return banner;
   }
 

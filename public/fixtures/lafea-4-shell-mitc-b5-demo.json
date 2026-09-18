@@ -1,0 +1,1068 @@
+{
+  "schema": "local-shell-model/v2",
+  "modelIdentity": "LAFEA4-B5-CANTILEVER-STRIP-DEMO",
+  "modelVersion": "2",
+  "sourceAncestry": [
+    "qualification/a4-leg004/v1",
+    "demo/lafea4-b5-timoshenko/v1"
+  ],
+  "units": {
+    "length": "mm",
+    "force": "N",
+    "moment": "N*mm",
+    "pressure": "MPa",
+    "modulus": "MPa",
+    "rotation": "rad"
+  },
+  "formulationFamily": "MITC_REISSNER_MINDLIN_5DOF_V1",
+  "materials": [
+    {
+      "materialId": "MAT",
+      "elasticModulus": 200000,
+      "poissonRatio": 0,
+      "sourceReference": "MAT-SRC"
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "N0-0",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-0-SRC"
+    },
+    {
+      "nodeId": "N0-1",
+      "position": [
+        1.25,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-1-SRC"
+    },
+    {
+      "nodeId": "N0-2",
+      "position": [
+        2.5,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-2-SRC"
+    },
+    {
+      "nodeId": "N0-3",
+      "position": [
+        3.75,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-3-SRC"
+    },
+    {
+      "nodeId": "N0-4",
+      "position": [
+        5,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-4-SRC"
+    },
+    {
+      "nodeId": "N0-5",
+      "position": [
+        6.25,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-5-SRC"
+    },
+    {
+      "nodeId": "N0-6",
+      "position": [
+        7.5,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-6-SRC"
+    },
+    {
+      "nodeId": "N0-7",
+      "position": [
+        8.75,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-7-SRC"
+    },
+    {
+      "nodeId": "N0-8",
+      "position": [
+        10,
+        0,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N0-8-SRC"
+    },
+    {
+      "nodeId": "N1-0",
+      "position": [
+        0,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-0-SRC"
+    },
+    {
+      "nodeId": "N1-1",
+      "position": [
+        1.25,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-1-SRC"
+    },
+    {
+      "nodeId": "N1-2",
+      "position": [
+        2.5,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-2-SRC"
+    },
+    {
+      "nodeId": "N1-3",
+      "position": [
+        3.75,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-3-SRC"
+    },
+    {
+      "nodeId": "N1-4",
+      "position": [
+        5,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-4-SRC"
+    },
+    {
+      "nodeId": "N1-5",
+      "position": [
+        6.25,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-5-SRC"
+    },
+    {
+      "nodeId": "N1-6",
+      "position": [
+        7.5,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-6-SRC"
+    },
+    {
+      "nodeId": "N1-7",
+      "position": [
+        8.75,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-7-SRC"
+    },
+    {
+      "nodeId": "N1-8",
+      "position": [
+        10,
+        1,
+        0
+      ],
+      "director": [
+        0,
+        0,
+        1
+      ],
+      "rotationBasis1": [
+        1,
+        0,
+        0
+      ],
+      "rotationBasis2": [
+        0,
+        1,
+        0
+      ],
+      "sourceReference": "N1-8-SRC"
+    }
+  ],
+  "elements": [
+    {
+      "elementId": "Q0",
+      "formulation": "MITC4_QUAD4_SHELL_V1",
+      "topology": "QUAD4",
+      "nodeIds": [
+        "N0-0",
+        "N0-1",
+        "N1-1",
+        "N1-0"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "Q0-SRC"
+    },
+    {
+      "elementId": "T1A",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-1",
+        "N0-2",
+        "N1-2"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T1A-SRC"
+    },
+    {
+      "elementId": "T1B",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-1",
+        "N1-2",
+        "N1-1"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T1B-SRC"
+    },
+    {
+      "elementId": "Q2",
+      "formulation": "MITC4_QUAD4_SHELL_V1",
+      "topology": "QUAD4",
+      "nodeIds": [
+        "N0-2",
+        "N0-3",
+        "N1-3",
+        "N1-2"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "Q2-SRC"
+    },
+    {
+      "elementId": "T3A",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-3",
+        "N0-4",
+        "N1-4"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T3A-SRC"
+    },
+    {
+      "elementId": "T3B",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-3",
+        "N1-4",
+        "N1-3"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T3B-SRC"
+    },
+    {
+      "elementId": "Q4",
+      "formulation": "MITC4_QUAD4_SHELL_V1",
+      "topology": "QUAD4",
+      "nodeIds": [
+        "N0-4",
+        "N0-5",
+        "N1-5",
+        "N1-4"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "Q4-SRC"
+    },
+    {
+      "elementId": "T5A",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-5",
+        "N0-6",
+        "N1-6"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T5A-SRC"
+    },
+    {
+      "elementId": "T5B",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-5",
+        "N1-6",
+        "N1-5"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T5B-SRC"
+    },
+    {
+      "elementId": "Q6",
+      "formulation": "MITC4_QUAD4_SHELL_V1",
+      "topology": "QUAD4",
+      "nodeIds": [
+        "N0-6",
+        "N0-7",
+        "N1-7",
+        "N1-6"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "Q6-SRC"
+    },
+    {
+      "elementId": "T7A",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-7",
+        "N0-8",
+        "N1-8"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T7A-SRC"
+    },
+    {
+      "elementId": "T7B",
+      "formulation": "MITC3_TRI3_SHELL_V1",
+      "topology": "TRI3",
+      "nodeIds": [
+        "N0-7",
+        "N1-8",
+        "N1-7"
+      ],
+      "materialId": "MAT",
+      "thickness": 0.1,
+      "sourceReference": "T7B-SRC"
+    }
+  ],
+  "constraints": [
+    {
+      "constraintId": "C-N0-0-UX",
+      "nodeId": "N0-0",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-0-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-0-UY",
+      "nodeId": "N0-0",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-0-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-0-UZ",
+      "nodeId": "N0-0",
+      "dof": "UZ",
+      "value": 0,
+      "sourceReference": "C-N0-0-UZ-SRC"
+    },
+    {
+      "constraintId": "C-N0-0-R1",
+      "nodeId": "N0-0",
+      "dof": "R1",
+      "value": 0,
+      "sourceReference": "C-N0-0-R1-SRC"
+    },
+    {
+      "constraintId": "C-N0-0-R2",
+      "nodeId": "N0-0",
+      "dof": "R2",
+      "value": 0,
+      "sourceReference": "C-N0-0-R2-SRC"
+    },
+    {
+      "constraintId": "C-N0-1-UX",
+      "nodeId": "N0-1",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-1-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-1-UY",
+      "nodeId": "N0-1",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-1-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-2-UX",
+      "nodeId": "N0-2",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-2-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-2-UY",
+      "nodeId": "N0-2",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-2-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-3-UX",
+      "nodeId": "N0-3",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-3-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-3-UY",
+      "nodeId": "N0-3",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-3-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-4-UX",
+      "nodeId": "N0-4",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-4-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-4-UY",
+      "nodeId": "N0-4",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-4-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-5-UX",
+      "nodeId": "N0-5",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-5-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-5-UY",
+      "nodeId": "N0-5",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-5-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-6-UX",
+      "nodeId": "N0-6",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-6-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-6-UY",
+      "nodeId": "N0-6",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-6-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-7-UX",
+      "nodeId": "N0-7",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-7-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-7-UY",
+      "nodeId": "N0-7",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-7-UY-SRC"
+    },
+    {
+      "constraintId": "C-N0-8-UX",
+      "nodeId": "N0-8",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N0-8-UX-SRC"
+    },
+    {
+      "constraintId": "C-N0-8-UY",
+      "nodeId": "N0-8",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-8-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-0-UX",
+      "nodeId": "N1-0",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-0-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-0-UY",
+      "nodeId": "N1-0",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-0-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-0-UZ",
+      "nodeId": "N1-0",
+      "dof": "UZ",
+      "value": 0,
+      "sourceReference": "C-N1-0-UZ-SRC"
+    },
+    {
+      "constraintId": "C-N1-0-R1",
+      "nodeId": "N1-0",
+      "dof": "R1",
+      "value": 0,
+      "sourceReference": "C-N1-0-R1-SRC"
+    },
+    {
+      "constraintId": "C-N1-0-R2",
+      "nodeId": "N1-0",
+      "dof": "R2",
+      "value": 0,
+      "sourceReference": "C-N1-0-R2-SRC"
+    },
+    {
+      "constraintId": "C-N1-1-UX",
+      "nodeId": "N1-1",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-1-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-1-UY",
+      "nodeId": "N1-1",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-1-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-2-UX",
+      "nodeId": "N1-2",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-2-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-2-UY",
+      "nodeId": "N1-2",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-2-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-3-UX",
+      "nodeId": "N1-3",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-3-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-3-UY",
+      "nodeId": "N1-3",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-3-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-4-UX",
+      "nodeId": "N1-4",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-4-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-4-UY",
+      "nodeId": "N1-4",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-4-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-5-UX",
+      "nodeId": "N1-5",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-5-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-5-UY",
+      "nodeId": "N1-5",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-5-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-6-UX",
+      "nodeId": "N1-6",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-6-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-6-UY",
+      "nodeId": "N1-6",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-6-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-7-UX",
+      "nodeId": "N1-7",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-7-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-7-UY",
+      "nodeId": "N1-7",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-7-UY-SRC"
+    },
+    {
+      "constraintId": "C-N1-8-UX",
+      "nodeId": "N1-8",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N1-8-UX-SRC"
+    },
+    {
+      "constraintId": "C-N1-8-UY",
+      "nodeId": "N1-8",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-8-UY-SRC"
+    }
+  ],
+  "loadCases": [
+    {
+      "loadCaseId": "TIP_LOAD",
+      "nodalLoads": [
+        {
+          "loadId": "F-N0-8",
+          "nodeId": "N0-8",
+          "fx": 0,
+          "fy": 0,
+          "fz": 0.5,
+          "m1": 0,
+          "m2": 0,
+          "sourceReference": "F-N0-8-SRC"
+        },
+        {
+          "loadId": "F-N1-8",
+          "nodeId": "N1-8",
+          "fx": 0,
+          "fy": 0,
+          "fz": 0.5,
+          "m1": 0,
+          "m2": 0,
+          "sourceReference": "F-N1-8-SRC"
+        }
+      ],
+      "pressureLoads": [],
+      "sourceReference": "TIP_LOAD-SRC"
+    }
+  ],
+  "resultRequests": {
+    "stressSurfaces": [
+      "BOTTOM",
+      "MIDSURFACE",
+      "TOP"
+    ],
+    "retainElementMatrices": true,
+    "retainTransverseShear": true
+  },
+  "qualificationProfile": {
+    "minimumFacetArea": {
+      "absolute": 1e-12,
+      "relative": 1e-12
+    },
+    "nodeBasisUnit": {
+      "absolute": 1e-10,
+      "relative": 1e-10
+    },
+    "nodeBasisOrthogonality": {
+      "absolute": 1e-10,
+      "relative": 1e-10
+    },
+    "nodeBasisHandedness": {
+      "absolute": 1e-10,
+      "relative": 1e-10
+    },
+    "elementNormalDirectorAlignment": {
+      "minimum": 0.8
+    },
+    "rotationMappingRank": {
+      "absolute": 1e-12,
+      "relative": 1e-12
+    },
+    "membraneConstitutiveSymmetry": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "bendingConstitutiveSymmetry": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "elementStiffnessSymmetry": {
+      "absolute": 1e-7,
+      "relative": 1e-11
+    },
+    "globalStiffnessSymmetry": {
+      "absolute": 1e-7,
+      "relative": 1e-11
+    },
+    "rigidTranslation": {
+      "absolute": 1e-7,
+      "relative": 1e-10
+    },
+    "rigidRotation": {
+      "absolute": 1e-9,
+      "relative": 1e-9
+    },
+    "choleskyPivot": {
+      "absolute": 1e-12,
+      "relative": 1e-13
+    },
+    "freeDofResidual": {
+      "absolute": 1e-7,
+      "relative": 1e-9
+    },
+    "forceEquilibrium": {
+      "absolute": 1e-7,
+      "relative": 1e-9
+    },
+    "momentEquilibrium": {
+      "absolute": 0.000001,
+      "relative": 1e-9
+    },
+    "strainEnergyReconstruction": {
+      "absolute": 1e-7,
+      "relative": 1e-9
+    },
+    "membranePatchResponse": {
+      "absolute": 1e-10,
+      "relative": 1e-10
+    },
+    "bendingPatchResponse": {
+      "absolute": 1e-9,
+      "relative": 1e-9
+    }
+  },
+  "mitcQualification": {
+    "quadPlanarity": {
+      "absolute": 1e-9,
+      "relative": 1e-8
+    },
+    "rigidBodyEnergy": {
+      "absolute": 1e-9,
+      "relative": 1e-9
+    }
+  },
+  "limitations": [
+    "NO_DRILLING_DOF",
+    "NO_DRILLING_PENALTY_OR_ARTIFICIAL_STIFFNESS",
+    "NO_TRANSVERSE_NORMAL_STRESS",
+    "NO_THICKNESS_STRETCHING",
+    "NO_CONTACT_OR_FRICTION",
+    "NO_LARGE_DISPLACEMENT",
+    "NO_FOLLOWER_PRESSURE",
+    "NO_PLASTICITY",
+    "NO_MATERIAL_NONLINEARITY",
+    "NO_BUCKLING",
+    "NO_FATIGUE",
+    "NO_CRACK_OR_FRACTURE",
+    "NO_AUTOMATIC_OR_ADAPTIVE_MESHING",
+    "NO_ATTACHMENT_TEMPLATE",
+    "NO_WELD_STRESS",
+    "NO_CODE_COMPLIANCE",
+    "NO_NODAL_STRESS",
+    "NO_STRESS_AVERAGING_OR_SMOOTHING",
+    "NO_STRESS_EXTRAPOLATION",
+    "NO_CONTOUR_AUTHORITY",
+    "Demonstration model based on the qualified B5 cantilever strip benchmark (EP-0010 envelope).",
+    "Exercises MITC4 QUAD4 and MITC3 TRI3 dispatch against closed-form Timoshenko reference.",
+    "Demonstration only; not qualified for production engineering release."
+  ]
+}

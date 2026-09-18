@@ -39,6 +39,8 @@ import {
   canReuseLafeaWorkbenchViewport,
   createLafeaWorkbenchViewportDependencies,
 } from './lafea-workbench-viewport-lifecycle.js';
+import { revealLafeaGuidedTarget } from './lafea-workbench-evidence.js';
+import { hasLafeaDemoModel } from './lafea-demo-catalog.js';
 
 const VIEW_RENDER_DEPENDENCIES = new WeakMap();
 const DEFAULT_ANALYTICAL_CALC_STAGE_ID = 'LAFEA.1';
@@ -88,6 +90,11 @@ export class LafeaWorkbenchView {
 
   setBenchmarkHost(hostElement) { this.benchmarkHost = hostElement; }
   init(handlers) { this.handlers = handlers; }
+
+  revealTarget(targetName) {
+    const target = this.rootElement?.querySelector(`[data-guided-target="${targetName}"]`);
+    return revealLafeaGuidedTarget(target);
+  }
 
   render(state) {
     if (!this.rootElement || !this.handlers) return;
@@ -295,13 +302,14 @@ export class LafeaWorkbenchView {
       block.append(message);
     }
     if (custody) block.append(custody);
+    const feStatus = stage.execution?.status ?? state.status;
     const statusText = modes.analyticalMode
       ? modes.emp1AssessmentState?.outcome?.label ?? 'Not ready'
-      : state.status;
+      : feStatus;
     const status = element(this.rootElement, 'output', 'lafea-workbench__status', statusText);
     status.dataset.status = modes.analyticalMode
       ? modes.emp1AssessmentState?.outcome?.state ?? 'NOT_READY'
-      : state.status;
+      : feStatus;
     status.dataset.role = modes.analyticalMode ? 'emp1-header-status' : 'lafea-stage-status';
     status.setAttribute('aria-live', 'polite');
     header.append(block, status);
@@ -377,7 +385,6 @@ export class LafeaWorkbenchView {
       );
       button.dataset.stageId = definition.stageId;
       button.dataset.method = 'FEA';
-      if (disabled) button.setAttribute('aria-disabled', 'true');
       button.setAttribute('aria-current', definition.stageId === state.activeStageId ? 'step' : 'false');
       navigation.append(button);
     }
@@ -417,14 +424,15 @@ export class LafeaWorkbenchView {
     if (analyticalMode) return this.analyticalToolbar(stageId, stage, emp1);
 
     const toolbar = element(this.rootElement, 'div', 'lafea-workbench__toolbar');
+    const canLoadDemo = hasLafeaDemoModel(stageId);
     const mock = actionButton(
       this.rootElement,
-      `[SIMULATED] Load ${stageId} demonstration source`,
-      () => this.handlers.onMock(stageId),
+      `Load demonstration model (${stageId})`,
+      () => (this.handlers.onLoadDemo ? this.handlers.onLoadDemo(stageId) : this.handlers.onMock(stageId)),
     );
     mock.dataset.role = 'lafea-mock';
-    mock.dataset.mockData = 'true';
-    if (stage?.document) mock.style.display = 'none';
+    mock.dataset.roleDemo = 'lafea-load-demo';
+    if (stage?.document || !canLoadDemo) mock.style.display = 'none';
 
     const file = element(this.rootElement, 'input');
     const fileLabel = element(this.rootElement, 'label', null, 'Import stage JSON');
@@ -451,13 +459,17 @@ export class LafeaWorkbenchView {
     const benchmark = actionButton(this.rootElement, 'Run available verification suite', this.handlers.onBenchmark);
     benchmark.dataset.role = 'lafea-benchmark';
     benchmark.disabled = !executionSupported;
+    if (!executionSupported) benchmark.title = 'Execution is not supported for this stage.';
     const exportButton = actionButton(this.rootElement, 'Export source document', this.handlers.onExport);
     exportButton.disabled = !stage.document;
+    if (!stage.document) exportButton.title = 'Load or author a source document to export.';
     const undo = actionButton(this.rootElement, 'Undo', this.handlers.onUndo);
     undo.disabled = !stage.past.length;
+    if (!stage.past.length) undo.title = 'No edits to undo.';
     const redo = actionButton(this.rootElement, 'Redo', this.handlers.onRedo);
     redo.disabled = !stage.future.length;
-    const showMock = !this.rootElement?.hasAttribute?.('data-lafea-app-root');
+    if (!stage.future.length) redo.title = 'No edits to redo.';
+    const showMock = canLoadDemo && !this.rootElement?.hasAttribute?.('data-lafea-app-root');
     toolbar.append(
       ...(showMock ? [mock] : []),
       fileLabel,

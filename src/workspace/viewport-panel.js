@@ -171,7 +171,28 @@ export class ViewportPanel {
 
   updateCapabilities() {
     const capabilities = this.renderer.getCapabilities();
-    this.rootElement.querySelectorAll('[data-viewport-action]').forEach((button) => { button.disabled = capabilityFor(button.dataset.viewportAction, capabilities) === false; });
+    const hasSelection = Boolean(this.selectedEntityId);
+    this.rootElement.querySelectorAll('[data-viewport-action]').forEach((button) => {
+      const action = button.dataset.viewportAction;
+      let isSupported = capabilityFor(action, capabilities) !== false;
+      let disabledReason = '';
+      if (!isSupported) {
+        disabledReason = 'Control requires 3D WebGL viewport backend.';
+      } else if ((action === 'fit-selection' || action === 'pivot-selection') && !hasSelection) {
+        isSupported = false;
+        disabledReason = 'Requires an entity to be selected in the viewport.';
+      }
+      button.disabled = !isSupported;
+      if (!isSupported) {
+        button.title = disabledReason;
+        button.dataset.disabledReason = disabledReason;
+        button.setAttribute('aria-label', `${button.textContent.trim()} (${disabledReason})`);
+      } else {
+        button.removeAttribute('title');
+        delete button.dataset.disabledReason;
+        button.setAttribute('aria-label', button.textContent.trim());
+      }
+    });
   }
 
   importFailure(message) { this.statusElement.textContent = `Import failed: ${message}`; }

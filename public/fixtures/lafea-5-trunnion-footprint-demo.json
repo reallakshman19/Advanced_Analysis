@@ -1,0 +1,3476 @@
+{
+  "schema": "local-trunnion-footprint-source/v1",
+  "workflowIdentity": "TRUNNION-FOOTPRINT-DEMO-V1",
+  "workflowVersion": "LAFEA.5",
+  "sourceAncestry": {
+    "attachmentCanonicalModelSemanticHash": "fnv1a64:67da86b1183e062d",
+    "attachmentResultPayloadSemanticHash": "fnv1a64:a0c0eaf5f5d39b05",
+    "shellTemplateSemanticHash": "fnv1a64:736c3600644fa054",
+    "sourceReference": "demo/lafea5-trunnion-footprint/v1"
+  },
+  "attachmentEvidence": {
+    "model": {
+      "schema": "local-attachment-foundation-model/v1",
+      "modelIdentity": "ATTACHMENT-1",
+      "modelVersion": "1",
+      "sourceAncestry": {
+        "sourceModelIdentity": "ATTACHMENT-SOURCE",
+        "sourceVersion": "1",
+        "adapterIdentity": "LAFEA5-TEST-ADAPTER",
+        "adapterVersion": "1",
+        "sourceSemanticHash": "fnv1a64:6a4b625fd8024919",
+        "transformationEvidenceHash": "fnv1a64:75fda5cb727ccbb7",
+        "canonicalModelSemanticHash": "fnv1a64:67da86b1183e062d"
+      },
+      "sourceEvidence": {
+        "schema": "local-attachment-source-evidence/v1",
+        "modelIdentity": "ATTACHMENT-1",
+        "modelVersion": "1",
+        "sourceAncestry": {
+          "sourceModelIdentity": "ATTACHMENT-SOURCE",
+          "sourceVersion": "1",
+          "adapterIdentity": "LAFEA5-TEST-ADAPTER",
+          "adapterVersion": "1"
+        },
+        "units": {
+          "length": "mm",
+          "force": "N",
+          "moment": "N·mm",
+          "pressure": "MPa",
+          "stress": "MPa"
+        },
+        "pipeGeometry": {
+          "outsideDiameter": {
+            "value": 20,
+            "sourceRef": "ATTACHMENT-SOURCE@1#pipe.outsideDiameter"
+          }
+        },
+        "pipeCoordinateSystem": {
+          "identity": "PIPE-CS",
+          "origin": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.origin"
+          },
+          "axialDirection": {
+            "value": [
+              0,
+              0,
+              1
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.axial"
+          },
+          "radialHint": {
+            "value": [
+              1,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.radial"
+          },
+          "circumferentialHint": {
+            "value": [
+              0,
+              -1,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.circumferential"
+          }
+        },
+        "materials": [
+          {
+            "identity": "PIPE-MATERIAL",
+            "role": "PIPE",
+            "sourceRef": "ATTACHMENT-SOURCE@1#materials.pipe"
+          }
+        ],
+        "thicknessBasis": {
+          "policy": "NOMINAL_MINUS_CORROSION",
+          "nominalPipeThickness": {
+            "value": 1,
+            "sourceRef": "ATTACHMENT-SOURCE@1#thickness.nominal"
+          },
+          "corrosionAllowance": {
+            "value": 0,
+            "sourceRef": "ATTACHMENT-SOURCE@1#thickness.corrosion"
+          },
+          "wearPadThickness": {
+            "value": 0,
+            "sourceRef": "ATTACHMENT-SOURCE@1#thickness.pad"
+          },
+          "cradleThickness": {
+            "value": 0,
+            "sourceRef": "ATTACHMENT-SOURCE@1#thickness.cradle"
+          },
+          "effectiveAnalyticalThickness": {
+            "value": 1,
+            "sourceRef": "ATTACHMENT-SOURCE@1#thickness.effective"
+          },
+          "assessmentPipeThickness": {
+            "value": 1,
+            "sourceRef": "ATTACHMENT-SOURCE@1#thickness.assessment"
+          }
+        },
+        "pressureDefinitions": [
+          {
+            "identity": "P-CLOSED",
+            "internalPressure": {
+              "value": 0,
+              "sourceRef": "ATTACHMENT-SOURCE@1#pressure.internal"
+            },
+            "externalPressure": {
+              "value": 0,
+              "sourceRef": "ATTACHMENT-SOURCE@1#pressure.external"
+            },
+            "endCondition": "CLOSED_END"
+          }
+        ],
+        "loadReferencePoints": [
+          {
+            "identity": "SOURCE",
+            "coordinateSystem": "GLOBAL",
+            "point": {
+              "value": [
+                5,
+                -3,
+                2
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#points.source"
+            }
+          },
+          {
+            "identity": "TARGET",
+            "coordinateSystem": "GLOBAL",
+            "point": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#points.target"
+            }
+          }
+        ],
+        "loadCases": [
+          {
+            "identity": "COMBINED",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                120,
+                -80,
+                60
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.COMBINED.force"
+            },
+            "moment": {
+              "value": [
+                700,
+                -500,
+                900
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.COMBINED.moment"
+            }
+          },
+          {
+            "identity": "FX",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                100,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.FX.force"
+            },
+            "moment": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.FX.moment"
+            }
+          },
+          {
+            "identity": "FY",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                0,
+                100,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.FY.force"
+            },
+            "moment": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.FY.moment"
+            }
+          },
+          {
+            "identity": "FZ",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                0,
+                0,
+                100
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.FZ.force"
+            },
+            "moment": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.FZ.moment"
+            }
+          },
+          {
+            "identity": "MX",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.MX.force"
+            },
+            "moment": {
+              "value": [
+                1000,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.MX.moment"
+            }
+          },
+          {
+            "identity": "MY",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.MY.force"
+            },
+            "moment": {
+              "value": [
+                0,
+                1000,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.MY.moment"
+            }
+          },
+          {
+            "identity": "MZ",
+            "sourceCoordinateSystem": "GLOBAL",
+            "sourceReferencePointIdentity": "SOURCE",
+            "targetReferencePointIdentity": "TARGET",
+            "actionSense": "SUPPORT_ON_PIPE",
+            "force": {
+              "value": [
+                0,
+                0,
+                0
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.MZ.force"
+            },
+            "moment": {
+              "value": [
+                0,
+                0,
+                1000
+              ],
+              "sourceRef": "ATTACHMENT-SOURCE@1#loads.MZ.moment"
+            }
+          }
+        ],
+        "resultRequests": {
+          "requestedAnalyses": [
+            "LOAD_TRANSFER"
+          ],
+          "transformedLoadCaseIdentities": [
+            "COMBINED",
+            "FX",
+            "FY",
+            "FZ",
+            "MX",
+            "MY",
+            "MZ"
+          ],
+          "pressure": []
+        },
+        "qualificationProfile": {
+          "schema": "local-attachment-qualification-profile/v1",
+          "identity": "LAFEA1_BASELINE_SCALE_AWARE_V1",
+          "frameMinimumSine": 1e-10,
+          "handednessMinimumAlignment": 1e-8,
+          "tolerances": {
+            "dimensionless": {
+              "absolute": 1e-12,
+              "relative": 1e-12
+            },
+            "length": {
+              "absolute": 1e-9,
+              "relative": 1e-12
+            },
+            "force": {
+              "absolute": 1e-8,
+              "relative": 1e-12
+            },
+            "moment": {
+              "absolute": 0.00001,
+              "relative": 1e-12
+            },
+            "stress": {
+              "absolute": 1e-10,
+              "relative": 1e-12
+            }
+          }
+        },
+        "limitations": []
+      },
+      "units": {
+        "declared": {
+          "length": "mm",
+          "force": "N",
+          "moment": "N·mm",
+          "pressure": "MPa",
+          "stress": "MPa"
+        },
+        "canonical": {
+          "length": "mm",
+          "force": "N",
+          "moment": "N·mm",
+          "pressure": "MPa",
+          "stress": "MPa"
+        },
+        "conversionFactors": {
+          "length": 1,
+          "force": 1,
+          "moment": 1,
+          "pressure": 1,
+          "stress": 1
+        }
+      },
+      "pipeGeometry": {
+        "outsideDiameter": {
+          "value": 20,
+          "sourceRef": "ATTACHMENT-SOURCE@1#pipe.outsideDiameter",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        }
+      },
+      "pipeCoordinateSystem": {
+        "identity": "PIPE-CS",
+        "origin": {
+          "value": [
+            0,
+            0,
+            0
+          ],
+          "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.origin",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        },
+        "axialDirection": {
+          "value": [
+            0,
+            0,
+            1
+          ],
+          "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.axial"
+        },
+        "radialHint": {
+          "value": [
+            1,
+            0,
+            0
+          ],
+          "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.radial"
+        },
+        "circumferentialHint": {
+          "value": [
+            0,
+            -1,
+            0
+          ],
+          "sourceRef": "ATTACHMENT-SOURCE@1#coordinates.circumferential"
+        }
+      },
+      "materials": [
+        {
+          "identity": "PIPE-MATERIAL",
+          "role": "PIPE",
+          "sourceRef": "ATTACHMENT-SOURCE@1#materials.pipe"
+        }
+      ],
+      "thicknessBasis": {
+        "policy": "NOMINAL_MINUS_CORROSION",
+        "nominalPipeThickness": {
+          "value": 1,
+          "sourceRef": "ATTACHMENT-SOURCE@1#thickness.nominal",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        },
+        "corrosionAllowance": {
+          "value": 0,
+          "sourceRef": "ATTACHMENT-SOURCE@1#thickness.corrosion",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        },
+        "assessmentPipeThickness": {
+          "value": 1,
+          "sourceRef": "ATTACHMENT-SOURCE@1#thickness.nominal+ATTACHMENT-SOURCE@1#thickness.corrosion",
+          "derivation": "NOMINAL_MINUS_CORROSION",
+          "tolerance": 1.0010000000000002e-9
+        },
+        "wearPadThickness": {
+          "value": 0,
+          "sourceRef": "ATTACHMENT-SOURCE@1#thickness.pad",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        },
+        "cradleThickness": {
+          "value": 0,
+          "sourceRef": "ATTACHMENT-SOURCE@1#thickness.cradle",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        },
+        "effectiveAnalyticalThickness": {
+          "value": 1,
+          "sourceRef": "ATTACHMENT-SOURCE@1#thickness.effective",
+          "sourceUnit": "mm",
+          "canonicalUnit": "mm"
+        },
+        "pressureWallBasis": "ASSESSMENT_PIPE_THICKNESS_ONLY"
+      },
+      "pressureDefinitions": [
+        {
+          "identity": "P-CLOSED",
+          "internalPressure": {
+            "value": 0,
+            "sourceRef": "ATTACHMENT-SOURCE@1#pressure.internal",
+            "sourceUnit": "MPa",
+            "canonicalUnit": "MPa"
+          },
+          "externalPressure": {
+            "value": 0,
+            "sourceRef": "ATTACHMENT-SOURCE@1#pressure.external",
+            "sourceUnit": "MPa",
+            "canonicalUnit": "MPa"
+          },
+          "endCondition": "CLOSED_END"
+        }
+      ],
+      "loadReferencePoints": [
+        {
+          "identity": "SOURCE",
+          "coordinateSystem": "GLOBAL",
+          "point": {
+            "value": [
+              5,
+              -3,
+              2
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#points.source",
+            "sourceUnit": "mm",
+            "canonicalUnit": "mm"
+          }
+        },
+        {
+          "identity": "TARGET",
+          "coordinateSystem": "GLOBAL",
+          "point": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#points.target",
+            "sourceUnit": "mm",
+            "canonicalUnit": "mm"
+          }
+        }
+      ],
+      "loadCases": [
+        {
+          "identity": "COMBINED",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              120,
+              -80,
+              60
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.COMBINED.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              700,
+              -500,
+              900
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.COMBINED.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        },
+        {
+          "identity": "FX",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              100,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.FX.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.FX.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        },
+        {
+          "identity": "FY",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              0,
+              100,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.FY.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.FY.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        },
+        {
+          "identity": "FZ",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              0,
+              0,
+              100
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.FZ.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.FZ.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        },
+        {
+          "identity": "MX",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.MX.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              1000,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.MX.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        },
+        {
+          "identity": "MY",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.MY.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              0,
+              1000,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.MY.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        },
+        {
+          "identity": "MZ",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "actionSense": "SUPPORT_ON_PIPE",
+          "force": {
+            "value": [
+              0,
+              0,
+              0
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.MZ.force",
+            "sourceUnit": "N",
+            "canonicalUnit": "N"
+          },
+          "moment": {
+            "value": [
+              0,
+              0,
+              1000
+            ],
+            "sourceRef": "ATTACHMENT-SOURCE@1#loads.MZ.moment",
+            "sourceUnit": "N·mm",
+            "canonicalUnit": "N·mm"
+          }
+        }
+      ],
+      "resultRequests": {
+        "requestedAnalyses": [
+          "LOAD_TRANSFER"
+        ],
+        "transformedLoadCaseIdentities": [
+          "COMBINED",
+          "FX",
+          "FY",
+          "FZ",
+          "MX",
+          "MY",
+          "MZ"
+        ],
+        "pressure": []
+      },
+      "qualificationProfile": {
+        "schema": "local-attachment-qualification-profile/v1",
+        "identity": "LAFEA1_BASELINE_SCALE_AWARE_V1",
+        "frameMinimumSine": 1e-10,
+        "handednessMinimumAlignment": 1e-8,
+        "tolerances": {
+          "dimensionless": {
+            "absolute": 1e-12,
+            "relative": 1e-12
+          },
+          "length": {
+            "absolute": 1e-9,
+            "relative": 1e-12
+          },
+          "force": {
+            "absolute": 1e-8,
+            "relative": 1e-12
+          },
+          "moment": {
+            "absolute": 0.00001,
+            "relative": 1e-12
+          },
+          "stress": {
+            "absolute": 1e-10,
+            "relative": 1e-12
+          }
+        }
+      },
+      "limitations": [
+        "NO_CODE_COMPLIANCE",
+        "NO_CONTACT",
+        "NO_FEA",
+        "NO_LOCAL_ATTACHMENT_STRESS",
+        "NO_SHELL_BENDING",
+        "NO_WELD_STRESS"
+      ],
+      "transformationEvidence": {
+        "schema": "local-attachment-transformation-evidence/v1",
+        "sourceSemanticHash": "fnv1a64:6a4b625fd8024919",
+        "adapterIdentity": "LAFEA5-TEST-ADAPTER",
+        "adapterVersion": "1",
+        "units": {
+          "declared": {
+            "length": "mm",
+            "force": "N",
+            "moment": "N·mm",
+            "pressure": "MPa",
+            "stress": "MPa"
+          },
+          "canonical": {
+            "length": "mm",
+            "force": "N",
+            "moment": "N·mm",
+            "pressure": "MPa",
+            "stress": "MPa"
+          },
+          "conversionFactors": {
+            "length": 1,
+            "force": 1,
+            "moment": 1,
+            "pressure": 1,
+            "stress": 1
+          }
+        },
+        "sourceReferences": [
+          "ATTACHMENT-SOURCE@1#coordinates.axial",
+          "ATTACHMENT-SOURCE@1#coordinates.circumferential",
+          "ATTACHMENT-SOURCE@1#coordinates.origin",
+          "ATTACHMENT-SOURCE@1#coordinates.radial",
+          "ATTACHMENT-SOURCE@1#loads.COMBINED.force",
+          "ATTACHMENT-SOURCE@1#loads.COMBINED.moment",
+          "ATTACHMENT-SOURCE@1#loads.FX.force",
+          "ATTACHMENT-SOURCE@1#loads.FX.moment",
+          "ATTACHMENT-SOURCE@1#loads.FY.force",
+          "ATTACHMENT-SOURCE@1#loads.FY.moment",
+          "ATTACHMENT-SOURCE@1#loads.FZ.force",
+          "ATTACHMENT-SOURCE@1#loads.FZ.moment",
+          "ATTACHMENT-SOURCE@1#loads.MX.force",
+          "ATTACHMENT-SOURCE@1#loads.MX.moment",
+          "ATTACHMENT-SOURCE@1#loads.MY.force",
+          "ATTACHMENT-SOURCE@1#loads.MY.moment",
+          "ATTACHMENT-SOURCE@1#loads.MZ.force",
+          "ATTACHMENT-SOURCE@1#loads.MZ.moment",
+          "ATTACHMENT-SOURCE@1#materials.pipe",
+          "ATTACHMENT-SOURCE@1#pipe.outsideDiameter",
+          "ATTACHMENT-SOURCE@1#points.source",
+          "ATTACHMENT-SOURCE@1#points.target",
+          "ATTACHMENT-SOURCE@1#pressure.external",
+          "ATTACHMENT-SOURCE@1#pressure.internal",
+          "ATTACHMENT-SOURCE@1#thickness.assessment",
+          "ATTACHMENT-SOURCE@1#thickness.corrosion",
+          "ATTACHMENT-SOURCE@1#thickness.cradle",
+          "ATTACHMENT-SOURCE@1#thickness.effective",
+          "ATTACHMENT-SOURCE@1#thickness.nominal",
+          "ATTACHMENT-SOURCE@1#thickness.pad"
+        ]
+      },
+      "semanticHash": "fnv1a64:67da86b1183e062d"
+    },
+    "result": {
+      "schema": "local-attachment-foundation-result/v1",
+      "modelIdentity": "ATTACHMENT-1",
+      "modelVersion": "1",
+      "sourceAncestry": {
+        "sourceModelIdentity": "ATTACHMENT-SOURCE",
+        "sourceVersion": "1",
+        "adapterIdentity": "LAFEA5-TEST-ADAPTER",
+        "adapterVersion": "1",
+        "sourceSemanticHash": "fnv1a64:6a4b625fd8024919",
+        "transformationEvidenceHash": "fnv1a64:75fda5cb727ccbb7",
+        "canonicalModelSemanticHash": "fnv1a64:67da86b1183e062d"
+      },
+      "qualification": {
+        "state": "ACCEPTED",
+        "engineeringLevel": "LOAD_TRANSFER_AND_PRESSURE_BASELINE_ONLY",
+        "qualificationProfile": {
+          "schema": "local-attachment-qualification-profile/v1",
+          "identity": "LAFEA1_BASELINE_SCALE_AWARE_V1",
+          "frameMinimumSine": 1e-10,
+          "handednessMinimumAlignment": 1e-8,
+          "tolerances": {
+            "dimensionless": {
+              "absolute": 1e-12,
+              "relative": 1e-12
+            },
+            "length": {
+              "absolute": 1e-9,
+              "relative": 1e-12
+            },
+            "force": {
+              "absolute": 1e-8,
+              "relative": 1e-12
+            },
+            "moment": {
+              "absolute": 0.00001,
+              "relative": 1e-12
+            },
+            "stress": {
+              "absolute": 1e-10,
+              "relative": 1e-12
+            }
+          }
+        }
+      },
+      "coordinateSystemEvidence": {
+        "identity": "PIPE-CS",
+        "originGlobal": [
+          0,
+          0,
+          0
+        ],
+        "axesGlobal": {
+          "eX": [
+            0,
+            0,
+            1
+          ],
+          "eY": [
+            0,
+            -1,
+            0
+          ],
+          "eZ": [
+            1,
+            0,
+            0
+          ]
+        },
+        "rotationGlobalToLocal": [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            -1,
+            0
+          ],
+          [
+            1,
+            0,
+            0
+          ]
+        ],
+        "constructionRule": "PROJECT_RADIAL_HINT_THEN_NORMALIZE_AND_SET_EY_EQUALS_EZ_CROSS_EX",
+        "conditioning": 1,
+        "circumferentialHintAlignment": 1,
+        "handedness": 1,
+        "orthogonalityResidual": 0,
+        "tolerance": 2e-12,
+        "formulaIds": [
+          "PIPE_BASIS_PROJECTED_RADIAL_NORMALIZATION_V1"
+        ]
+      },
+      "transformedLoadCases": [
+        {
+          "identity": "COMBINED",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            120,
+            -80,
+            60
+          ],
+          "sourceMomentGlobal": [
+            700,
+            -500,
+            900
+          ],
+          "canonicalForceGlobal": [
+            120,
+            -80,
+            60
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            700,
+            -500,
+            900
+          ],
+          "transformedForceGlobal": [
+            120,
+            -80,
+            60
+          ],
+          "transformedMomentGlobal": [
+            680,
+            -560,
+            860
+          ],
+          "transformedForceLocal": [
+            60,
+            80,
+            120
+          ],
+          "transformedMomentLocal": [
+            860,
+            560,
+            680
+          ],
+          "reconstructedForceGlobal": [
+            120,
+            -80,
+            60
+          ],
+          "reconstructedMomentGlobal": [
+            680,
+            -560,
+            860
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.012e-8,
+            "moment": 0.00001000086,
+            "commonOriginMoment": 0.00001000086
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.COMBINED.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.COMBINED.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        },
+        {
+          "identity": "FX",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            100,
+            0,
+            0
+          ],
+          "sourceMomentGlobal": [
+            0,
+            0,
+            0
+          ],
+          "canonicalForceGlobal": [
+            100,
+            0,
+            0
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "transformedForceGlobal": [
+            100,
+            0,
+            0
+          ],
+          "transformedMomentGlobal": [
+            0,
+            200,
+            300
+          ],
+          "transformedForceLocal": [
+            0,
+            0,
+            100
+          ],
+          "transformedMomentLocal": [
+            300,
+            -200,
+            0
+          ],
+          "reconstructedForceGlobal": [
+            100,
+            0,
+            0
+          ],
+          "reconstructedMomentGlobal": [
+            0,
+            200,
+            300
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.01e-8,
+            "moment": 0.000010000300000000001,
+            "commonOriginMoment": 0.000010000300000000001
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.FX.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.FX.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        },
+        {
+          "identity": "FY",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            0,
+            100,
+            0
+          ],
+          "sourceMomentGlobal": [
+            0,
+            0,
+            0
+          ],
+          "canonicalForceGlobal": [
+            0,
+            100,
+            0
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "transformedForceGlobal": [
+            0,
+            100,
+            0
+          ],
+          "transformedMomentGlobal": [
+            -200,
+            0,
+            500
+          ],
+          "transformedForceLocal": [
+            0,
+            -100,
+            0
+          ],
+          "transformedMomentLocal": [
+            500,
+            0,
+            -200
+          ],
+          "reconstructedForceGlobal": [
+            0,
+            100,
+            0
+          ],
+          "reconstructedMomentGlobal": [
+            -200,
+            0,
+            500
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.01e-8,
+            "moment": 0.0000100005,
+            "commonOriginMoment": 0.0000100005
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.FY.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.FY.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        },
+        {
+          "identity": "FZ",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            0,
+            0,
+            100
+          ],
+          "sourceMomentGlobal": [
+            0,
+            0,
+            0
+          ],
+          "canonicalForceGlobal": [
+            0,
+            0,
+            100
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "transformedForceGlobal": [
+            0,
+            0,
+            100
+          ],
+          "transformedMomentGlobal": [
+            -300,
+            -500,
+            0
+          ],
+          "transformedForceLocal": [
+            100,
+            0,
+            0
+          ],
+          "transformedMomentLocal": [
+            0,
+            500,
+            -300
+          ],
+          "reconstructedForceGlobal": [
+            0,
+            0,
+            100
+          ],
+          "reconstructedMomentGlobal": [
+            -300,
+            -500,
+            0
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.01e-8,
+            "moment": 0.0000100005,
+            "commonOriginMoment": 0.0000100005
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.FZ.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.FZ.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        },
+        {
+          "identity": "MX",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "sourceMomentGlobal": [
+            1000,
+            0,
+            0
+          ],
+          "canonicalForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            1000,
+            0,
+            0
+          ],
+          "transformedForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "transformedMomentGlobal": [
+            1000,
+            0,
+            0
+          ],
+          "transformedForceLocal": [
+            0,
+            0,
+            0
+          ],
+          "transformedMomentLocal": [
+            0,
+            0,
+            1000
+          ],
+          "reconstructedForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "reconstructedMomentGlobal": [
+            1000,
+            0,
+            0
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.0001e-8,
+            "moment": 0.000010001000000000001,
+            "commonOriginMoment": 0.000010001000000000001
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.MX.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.MX.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        },
+        {
+          "identity": "MY",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "sourceMomentGlobal": [
+            0,
+            1000,
+            0
+          ],
+          "canonicalForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            0,
+            1000,
+            0
+          ],
+          "transformedForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "transformedMomentGlobal": [
+            0,
+            1000,
+            0
+          ],
+          "transformedForceLocal": [
+            0,
+            0,
+            0
+          ],
+          "transformedMomentLocal": [
+            0,
+            -1000,
+            0
+          ],
+          "reconstructedForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "reconstructedMomentGlobal": [
+            0,
+            1000,
+            0
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.0001e-8,
+            "moment": 0.000010001000000000001,
+            "commonOriginMoment": 0.000010001000000000001
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.MY.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.MY.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        },
+        {
+          "identity": "MZ",
+          "sourceCoordinateSystem": "GLOBAL",
+          "sourceReferencePointIdentity": "SOURCE",
+          "targetReferencePointIdentity": "TARGET",
+          "inputActionSense": "SUPPORT_ON_PIPE",
+          "canonicalActionSense": "SUPPORT_ON_PIPE",
+          "actionMultiplier": 1,
+          "sourcePointGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "targetPointGlobal": [
+            0,
+            0,
+            0
+          ],
+          "leverArmGlobal": [
+            5,
+            -3,
+            2
+          ],
+          "sourceForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "sourceMomentGlobal": [
+            0,
+            0,
+            1000
+          ],
+          "canonicalForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "canonicalMomentAtSourceGlobal": [
+            0,
+            0,
+            1000
+          ],
+          "transformedForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "transformedMomentGlobal": [
+            0,
+            0,
+            1000
+          ],
+          "transformedForceLocal": [
+            0,
+            0,
+            0
+          ],
+          "transformedMomentLocal": [
+            1000,
+            0,
+            0
+          ],
+          "reconstructedForceGlobal": [
+            0,
+            0,
+            0
+          ],
+          "reconstructedMomentGlobal": [
+            0,
+            0,
+            1000
+          ],
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.0001e-8,
+            "moment": 0.000010001000000000001,
+            "commonOriginMoment": 0.000010001000000000001
+          },
+          "sourceReferences": {
+            "force": "ATTACHMENT-SOURCE@1#loads.MZ.force",
+            "moment": "ATTACHMENT-SOURCE@1#loads.MZ.moment"
+          },
+          "formulaIds": [
+            "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+            "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+            "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+            "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+            "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+          ]
+        }
+      ],
+      "pressureStressResults": [],
+      "forceMomentAccounting": [
+        {
+          "loadCaseIdentity": "COMBINED",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.012e-8,
+            "moment": 0.00001000086,
+            "commonOriginMoment": 0.00001000086
+          },
+          "accepted": true
+        },
+        {
+          "loadCaseIdentity": "FX",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.01e-8,
+            "moment": 0.000010000300000000001,
+            "commonOriginMoment": 0.000010000300000000001
+          },
+          "accepted": true
+        },
+        {
+          "loadCaseIdentity": "FY",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.01e-8,
+            "moment": 0.0000100005,
+            "commonOriginMoment": 0.0000100005
+          },
+          "accepted": true
+        },
+        {
+          "loadCaseIdentity": "FZ",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.01e-8,
+            "moment": 0.0000100005,
+            "commonOriginMoment": 0.0000100005
+          },
+          "accepted": true
+        },
+        {
+          "loadCaseIdentity": "MX",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.0001e-8,
+            "moment": 0.000010001000000000001,
+            "commonOriginMoment": 0.000010001000000000001
+          },
+          "accepted": true
+        },
+        {
+          "loadCaseIdentity": "MY",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.0001e-8,
+            "moment": 0.000010001000000000001,
+            "commonOriginMoment": 0.000010001000000000001
+          },
+          "accepted": true
+        },
+        {
+          "loadCaseIdentity": "MZ",
+          "forceResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "momentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "commonOriginMomentResidualGlobal": [
+            0,
+            0,
+            0
+          ],
+          "tolerances": {
+            "force": 1.0001e-8,
+            "moment": 0.000010001000000000001,
+            "commonOriginMoment": 0.000010001000000000001
+          },
+          "accepted": true
+        }
+      ],
+      "formulaTrace": [
+        "FORCE_COMPONENT_RECONSTRUCTION_RESIDUAL_V1",
+        "GLOBAL_TO_PIPE_LOCAL_ORTHONORMAL_TRANSFORM_V1",
+        "MOMENT_COMMON_ORIGIN_CONSERVATION_RESIDUAL_V1",
+        "PIPE_BASIS_PROJECTED_RADIAL_NORMALIZATION_V1",
+        "PIPE_LOCAL_TO_GLOBAL_ORTHONORMAL_RECONSTRUCTION_V1",
+        "RESULTANT_REFERENCE_POINT_TRANSFER_V1"
+      ],
+      "diagnostics": [],
+      "limitations": [
+        "NO_CODE_COMPLIANCE",
+        "NO_CONTACT",
+        "NO_FEA",
+        "NO_LOCAL_ATTACHMENT_STRESS",
+        "NO_SHELL_BENDING",
+        "NO_WELD_STRESS"
+      ],
+      "semanticHashes": {
+        "sourceSemanticHash": "fnv1a64:6a4b625fd8024919",
+        "canonicalModelSemanticHash": "fnv1a64:67da86b1183e062d",
+        "resultPayloadSemanticHash": "fnv1a64:a0c0eaf5f5d39b05",
+        "executionEvidenceHash": "fnv1a64:0dbfc1e04211d9f3",
+        "qualificationEvidenceHash": "fnv1a64:f4cf75f74264b21f"
+      }
+    }
+  },
+  "shellTemplate": {
+    "modelIdentity": "SHELL-PATCH-1",
+    "modelVersion": "1",
+    "sourceAncestry": [
+      "caller-shell-template-1"
+    ],
+    "units": {
+      "length": "mm",
+      "force": "N",
+      "moment": "N*mm",
+      "pressure": "MPa",
+      "modulus": "MPa",
+      "rotation": "rad"
+    },
+    "formulation": "CST_DKT_TRI3_THIN_SHELL_V1",
+    "materials": [
+      {
+        "materialId": "M1",
+        "elasticModulus": 200000,
+        "poissonRatio": 0.3,
+        "sourceReference": "steel"
+      }
+    ],
+    "nodes": [
+      {
+        "nodeId": "F00",
+        "position": [
+          0,
+          10,
+          0
+        ],
+        "director": [
+          0,
+          1,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          1,
+          0,
+          0
+        ],
+        "sourceReference": "mesh-F00"
+      },
+      {
+        "nodeId": "O00",
+        "position": [
+          0,
+          10,
+          5
+        ],
+        "director": [
+          0,
+          1,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          1,
+          0,
+          0
+        ],
+        "sourceReference": "mesh-O00"
+      },
+      {
+        "nodeId": "F01",
+        "position": [
+          4.999999999999999,
+          8.660254037844387,
+          4.999999999999999
+        ],
+        "director": [
+          0.4999999999999999,
+          0.8660254037844387,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.8660254037844387,
+          -0.4999999999999999,
+          0
+        ],
+        "sourceReference": "mesh-F01"
+      },
+      {
+        "nodeId": "O01",
+        "position": [
+          4.999999999999999,
+          8.660254037844387,
+          10
+        ],
+        "director": [
+          0.4999999999999999,
+          0.8660254037844387,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.8660254037844387,
+          -0.4999999999999999,
+          0
+        ],
+        "sourceReference": "mesh-O01"
+      },
+      {
+        "nodeId": "F02",
+        "position": [
+          8.660254037844386,
+          5.000000000000001,
+          8.660254037844386
+        ],
+        "director": [
+          0.8660254037844386,
+          0.5000000000000001,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.5000000000000001,
+          -0.8660254037844386,
+          0
+        ],
+        "sourceReference": "mesh-F02"
+      },
+      {
+        "nodeId": "O02",
+        "position": [
+          8.660254037844386,
+          5.000000000000001,
+          13.660254037844386
+        ],
+        "director": [
+          0.8660254037844386,
+          0.5000000000000001,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.5000000000000001,
+          -0.8660254037844386,
+          0
+        ],
+        "sourceReference": "mesh-O02"
+      },
+      {
+        "nodeId": "F03",
+        "position": [
+          10,
+          6.123233995736766e-16,
+          10
+        ],
+        "director": [
+          1,
+          6.123233995736766e-17,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          6.123233995736766e-17,
+          -1,
+          0
+        ],
+        "sourceReference": "mesh-F03"
+      },
+      {
+        "nodeId": "O03",
+        "position": [
+          10,
+          6.123233995736766e-16,
+          15
+        ],
+        "director": [
+          1,
+          6.123233995736766e-17,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          6.123233995736766e-17,
+          -1,
+          0
+        ],
+        "sourceReference": "mesh-O03"
+      },
+      {
+        "nodeId": "F04",
+        "position": [
+          8.660254037844387,
+          -4.999999999999998,
+          8.660254037844387
+        ],
+        "director": [
+          0.8660254037844387,
+          -0.49999999999999983,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.49999999999999983,
+          -0.8660254037844387,
+          0
+        ],
+        "sourceReference": "mesh-F04"
+      },
+      {
+        "nodeId": "O04",
+        "position": [
+          8.660254037844387,
+          -4.999999999999998,
+          13.660254037844387
+        ],
+        "director": [
+          0.8660254037844387,
+          -0.49999999999999983,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.49999999999999983,
+          -0.8660254037844387,
+          0
+        ],
+        "sourceReference": "mesh-O04"
+      },
+      {
+        "nodeId": "F05",
+        "position": [
+          4.999999999999999,
+          -8.660254037844387,
+          4.999999999999999
+        ],
+        "director": [
+          0.4999999999999999,
+          -0.8660254037844387,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.8660254037844387,
+          -0.4999999999999999,
+          0
+        ],
+        "sourceReference": "mesh-F05"
+      },
+      {
+        "nodeId": "O05",
+        "position": [
+          4.999999999999999,
+          -8.660254037844387,
+          10
+        ],
+        "director": [
+          0.4999999999999999,
+          -0.8660254037844387,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.8660254037844387,
+          -0.4999999999999999,
+          0
+        ],
+        "sourceReference": "mesh-O05"
+      },
+      {
+        "nodeId": "F06",
+        "position": [
+          1.2246467991473533e-15,
+          -10,
+          1.2246467991473533e-15
+        ],
+        "director": [
+          1.2246467991473532e-16,
+          -1,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -1,
+          -1.2246467991473532e-16,
+          0
+        ],
+        "sourceReference": "mesh-F06"
+      },
+      {
+        "nodeId": "O06",
+        "position": [
+          1.2246467991473533e-15,
+          -10,
+          5.000000000000001
+        ],
+        "director": [
+          1.2246467991473532e-16,
+          -1,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -1,
+          -1.2246467991473532e-16,
+          0
+        ],
+        "sourceReference": "mesh-O06"
+      },
+      {
+        "nodeId": "F07",
+        "position": [
+          -4.999999999999997,
+          -8.660254037844389,
+          -4.999999999999997
+        ],
+        "director": [
+          -0.4999999999999997,
+          -0.8660254037844389,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.8660254037844389,
+          0.4999999999999997,
+          0
+        ],
+        "sourceReference": "mesh-F07"
+      },
+      {
+        "nodeId": "O07",
+        "position": [
+          -4.999999999999997,
+          -8.660254037844389,
+          2.6645352591003757e-15
+        ],
+        "director": [
+          -0.4999999999999997,
+          -0.8660254037844389,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.8660254037844389,
+          0.4999999999999997,
+          0
+        ],
+        "sourceReference": "mesh-O07"
+      },
+      {
+        "nodeId": "F08",
+        "position": [
+          -8.660254037844386,
+          -5.000000000000004,
+          -8.660254037844386
+        ],
+        "director": [
+          -0.8660254037844386,
+          -0.5000000000000004,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.5000000000000004,
+          0.8660254037844386,
+          0
+        ],
+        "sourceReference": "mesh-F08"
+      },
+      {
+        "nodeId": "O08",
+        "position": [
+          -8.660254037844386,
+          -5.000000000000004,
+          -3.6602540378443855
+        ],
+        "director": [
+          -0.8660254037844386,
+          -0.5000000000000004,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -0.5000000000000004,
+          0.8660254037844386,
+          0
+        ],
+        "sourceReference": "mesh-O08"
+      },
+      {
+        "nodeId": "F09",
+        "position": [
+          -10,
+          -1.8369701987210296e-15,
+          -10
+        ],
+        "director": [
+          -1,
+          -1.8369701987210297e-16,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -1.8369701987210297e-16,
+          1,
+          0
+        ],
+        "sourceReference": "mesh-F09"
+      },
+      {
+        "nodeId": "O09",
+        "position": [
+          -10,
+          -1.8369701987210296e-15,
+          -5
+        ],
+        "director": [
+          -1,
+          -1.8369701987210297e-16,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          -1.8369701987210297e-16,
+          1,
+          0
+        ],
+        "sourceReference": "mesh-O09"
+      },
+      {
+        "nodeId": "F10",
+        "position": [
+          -8.660254037844386,
+          5.000000000000001,
+          -8.660254037844386
+        ],
+        "director": [
+          -0.8660254037844386,
+          0.5000000000000001,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.5000000000000001,
+          0.8660254037844386,
+          0
+        ],
+        "sourceReference": "mesh-F10"
+      },
+      {
+        "nodeId": "O10",
+        "position": [
+          -8.660254037844386,
+          5.000000000000001,
+          -3.6602540378443855
+        ],
+        "director": [
+          -0.8660254037844386,
+          0.5000000000000001,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.5000000000000001,
+          0.8660254037844386,
+          0
+        ],
+        "sourceReference": "mesh-O10"
+      },
+      {
+        "nodeId": "F11",
+        "position": [
+          -5.000000000000004,
+          8.660254037844384,
+          -5.000000000000004
+        ],
+        "director": [
+          -0.5000000000000004,
+          0.8660254037844384,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.8660254037844384,
+          0.5000000000000004,
+          0
+        ],
+        "sourceReference": "mesh-F11"
+      },
+      {
+        "nodeId": "O11",
+        "position": [
+          -5.000000000000004,
+          8.660254037844384,
+          -4.440892098500626e-15
+        ],
+        "director": [
+          -0.5000000000000004,
+          0.8660254037844384,
+          0
+        ],
+        "rotationBasis1": [
+          0,
+          0,
+          1
+        ],
+        "rotationBasis2": [
+          0.8660254037844384,
+          0.5000000000000004,
+          0
+        ],
+        "sourceReference": "mesh-O11"
+      }
+    ],
+    "elements": [
+      {
+        "elementId": "E01-A",
+        "nodeIds": [
+          "F00",
+          "O00",
+          "O01"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E01-A"
+      },
+      {
+        "elementId": "E01-B",
+        "nodeIds": [
+          "F00",
+          "O01",
+          "F01"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E01-B"
+      },
+      {
+        "elementId": "E02-A",
+        "nodeIds": [
+          "F01",
+          "O01",
+          "O02"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E02-A"
+      },
+      {
+        "elementId": "E02-B",
+        "nodeIds": [
+          "F01",
+          "O02",
+          "F02"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E02-B"
+      },
+      {
+        "elementId": "E03-A",
+        "nodeIds": [
+          "F02",
+          "O02",
+          "O03"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E03-A"
+      },
+      {
+        "elementId": "E03-B",
+        "nodeIds": [
+          "F02",
+          "O03",
+          "F03"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E03-B"
+      },
+      {
+        "elementId": "E04-A",
+        "nodeIds": [
+          "F03",
+          "O03",
+          "O04"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E04-A"
+      },
+      {
+        "elementId": "E04-B",
+        "nodeIds": [
+          "F03",
+          "O04",
+          "F04"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E04-B"
+      },
+      {
+        "elementId": "E05-A",
+        "nodeIds": [
+          "F04",
+          "O04",
+          "O05"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E05-A"
+      },
+      {
+        "elementId": "E05-B",
+        "nodeIds": [
+          "F04",
+          "O05",
+          "F05"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E05-B"
+      },
+      {
+        "elementId": "E06-A",
+        "nodeIds": [
+          "F05",
+          "O05",
+          "O06"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E06-A"
+      },
+      {
+        "elementId": "E06-B",
+        "nodeIds": [
+          "F05",
+          "O06",
+          "F06"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E06-B"
+      },
+      {
+        "elementId": "E07-A",
+        "nodeIds": [
+          "F06",
+          "O06",
+          "O07"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E07-A"
+      },
+      {
+        "elementId": "E07-B",
+        "nodeIds": [
+          "F06",
+          "O07",
+          "F07"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E07-B"
+      },
+      {
+        "elementId": "E08-A",
+        "nodeIds": [
+          "F07",
+          "O07",
+          "O08"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E08-A"
+      },
+      {
+        "elementId": "E08-B",
+        "nodeIds": [
+          "F07",
+          "O08",
+          "F08"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E08-B"
+      },
+      {
+        "elementId": "E09-A",
+        "nodeIds": [
+          "F08",
+          "O08",
+          "O09"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E09-A"
+      },
+      {
+        "elementId": "E09-B",
+        "nodeIds": [
+          "F08",
+          "O09",
+          "F09"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E09-B"
+      },
+      {
+        "elementId": "E10-A",
+        "nodeIds": [
+          "F09",
+          "O09",
+          "O10"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E10-A"
+      },
+      {
+        "elementId": "E10-B",
+        "nodeIds": [
+          "F09",
+          "O10",
+          "F10"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E10-B"
+      },
+      {
+        "elementId": "E11-A",
+        "nodeIds": [
+          "F10",
+          "O10",
+          "O11"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E11-A"
+      },
+      {
+        "elementId": "E11-B",
+        "nodeIds": [
+          "F10",
+          "O11",
+          "F11"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E11-B"
+      },
+      {
+        "elementId": "E12-A",
+        "nodeIds": [
+          "F11",
+          "O11",
+          "O00"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E12-A"
+      },
+      {
+        "elementId": "E12-B",
+        "nodeIds": [
+          "F11",
+          "O00",
+          "F00"
+        ],
+        "materialId": "M1",
+        "thickness": 1,
+        "sourceReference": "mesh-E12-B"
+      }
+    ],
+    "constraints": [
+      {
+        "constraintId": "C-O00-UX",
+        "nodeId": "O00",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O00-UY",
+        "nodeId": "O00",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O00-UZ",
+        "nodeId": "O00",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O00-R1",
+        "nodeId": "O00",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O00-R2",
+        "nodeId": "O00",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O01-UX",
+        "nodeId": "O01",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O01-UY",
+        "nodeId": "O01",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O01-UZ",
+        "nodeId": "O01",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O01-R1",
+        "nodeId": "O01",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O01-R2",
+        "nodeId": "O01",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O02-UX",
+        "nodeId": "O02",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O02-UY",
+        "nodeId": "O02",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O02-UZ",
+        "nodeId": "O02",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O02-R1",
+        "nodeId": "O02",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O02-R2",
+        "nodeId": "O02",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O03-UX",
+        "nodeId": "O03",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O03-UY",
+        "nodeId": "O03",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O03-UZ",
+        "nodeId": "O03",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O03-R1",
+        "nodeId": "O03",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O03-R2",
+        "nodeId": "O03",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O04-UX",
+        "nodeId": "O04",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O04-UY",
+        "nodeId": "O04",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O04-UZ",
+        "nodeId": "O04",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O04-R1",
+        "nodeId": "O04",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O04-R2",
+        "nodeId": "O04",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O05-UX",
+        "nodeId": "O05",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O05-UY",
+        "nodeId": "O05",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O05-UZ",
+        "nodeId": "O05",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O05-R1",
+        "nodeId": "O05",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O05-R2",
+        "nodeId": "O05",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O06-UX",
+        "nodeId": "O06",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O06-UY",
+        "nodeId": "O06",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O06-UZ",
+        "nodeId": "O06",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O06-R1",
+        "nodeId": "O06",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O06-R2",
+        "nodeId": "O06",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O07-UX",
+        "nodeId": "O07",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O07-UY",
+        "nodeId": "O07",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O07-UZ",
+        "nodeId": "O07",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O07-R1",
+        "nodeId": "O07",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O07-R2",
+        "nodeId": "O07",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O08-UX",
+        "nodeId": "O08",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O08-UY",
+        "nodeId": "O08",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O08-UZ",
+        "nodeId": "O08",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O08-R1",
+        "nodeId": "O08",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O08-R2",
+        "nodeId": "O08",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O09-UX",
+        "nodeId": "O09",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O09-UY",
+        "nodeId": "O09",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O09-UZ",
+        "nodeId": "O09",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O09-R1",
+        "nodeId": "O09",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O09-R2",
+        "nodeId": "O09",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O10-UX",
+        "nodeId": "O10",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O10-UY",
+        "nodeId": "O10",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O10-UZ",
+        "nodeId": "O10",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O10-R1",
+        "nodeId": "O10",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O10-R2",
+        "nodeId": "O10",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O11-UX",
+        "nodeId": "O11",
+        "dof": "UX",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O11-UY",
+        "nodeId": "O11",
+        "dof": "UY",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O11-UZ",
+        "nodeId": "O11",
+        "dof": "UZ",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O11-R1",
+        "nodeId": "O11",
+        "dof": "R1",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      },
+      {
+        "constraintId": "C-O11-R2",
+        "nodeId": "O11",
+        "dof": "R2",
+        "value": 0,
+        "sourceReference": "engineering-sample-outer-ring-boundary"
+      }
+    ],
+    "qualificationProfile": {
+      "minimumFacetArea": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "nodeBasisUnit": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "nodeBasisOrthogonality": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "nodeBasisHandedness": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "elementNormalDirectorAlignment": {
+        "minimum": 0.8
+      },
+      "rotationMappingRank": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "membraneConstitutiveSymmetry": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "bendingConstitutiveSymmetry": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "elementStiffnessSymmetry": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "globalStiffnessSymmetry": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "rigidTranslation": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "rigidRotation": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "choleskyPivot": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "freeDofResidual": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "forceEquilibrium": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "momentEquilibrium": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "strainEnergyReconstruction": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "membranePatchResponse": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "bendingPatchResponse": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      }
+    },
+    "resultRequests": {
+      "stressSurfaces": [
+        "BOTTOM",
+        "MIDSURFACE",
+        "TOP"
+      ],
+      "dktIntegrationRule": "FIXED_THREE_POINT_DEGREE_TWO",
+      "retainElementMatrices": true
+    },
+    "limitations": [
+      "NO_DRILLING_DOF",
+      "NO_DRILLING_PENALTY_OR_ARTIFICIAL_STIFFNESS",
+      "NO_REISSNER_MINDLIN_TRANSVERSE_SHEAR",
+      "NO_SHEAR_CORRECTION_FACTOR",
+      "NO_THICK_SHELL_CLAIM",
+      "NO_CONTACT_OR_FRICTION",
+      "NO_LARGE_DISPLACEMENT",
+      "NO_PLASTICITY",
+      "NO_MATERIAL_NONLINEARITY",
+      "NO_BUCKLING",
+      "NO_FATIGUE",
+      "NO_CRACK_OR_FRACTURE",
+      "NO_AUTOMATIC_OR_ADAPTIVE_MESHING",
+      "NO_ATTACHMENT_TEMPLATE",
+      "NO_WELD_STRESS",
+      "NO_CODE_COMPLIANCE",
+      "NO_NODAL_STRESS",
+      "NO_STRESS_AVERAGING_OR_SMOOTHING",
+      "NO_STRESS_EXTRAPOLATION",
+      "NO_CONTOUR_AUTHORITY",
+      "NO_UI_OR_APPLICATION_INTEGRATION"
+    ]
+  },
+  "pipeGeometry": {
+    "axisPoint": [
+      0,
+      0,
+      0
+    ],
+    "axisDirection": [
+      0,
+      0,
+      1
+    ],
+    "midsurfaceRadius": 10,
+    "radialTolerance": 1e-8,
+    "sourceReference": "pipe-cylinder-1"
+  },
+  "trunnionGeometry": {
+    "axisPoint": [
+      0,
+      0,
+      0
+    ],
+    "axisDirection": [
+      1,
+      0,
+      0
+    ],
+    "outerRadius": 10,
+    "intersectionTolerance": 1e-8,
+    "sourceReference": "trunnion-cylinder-1"
+  },
+  "footprint": {
+    "footprintIdentity": "FP-1",
+    "orderedNodeIds": [
+      "F00",
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11"
+    ],
+    "referencePoint": [
+      0,
+      0,
+      0
+    ],
+    "sourceReference": "footprint-loop-1"
+  },
+  "loadCaseMappings": [
+    {
+      "workflowLoadCaseId": "WF-COMB",
+      "attachmentLoadCaseId": "COMBINED",
+      "shellLoadCaseId": "SHELL-COMB",
+      "mechanicalScaleFactor": 1,
+      "sourceReference": "mapping-combined"
+    }
+  ],
+  "assessmentRegions": [
+    {
+      "regionId": "R-FOOTPRINT",
+      "elementIds": [
+        "E01-A",
+        "E01-B",
+        "E02-A",
+        "E02-B",
+        "E03-A",
+        "E03-B",
+        "E04-A",
+        "E04-B",
+        "E05-A",
+        "E05-B",
+        "E06-A",
+        "E06-B",
+        "E07-A",
+        "E07-B",
+        "E08-A",
+        "E08-B",
+        "E09-A",
+        "E09-B",
+        "E10-A",
+        "E10-B",
+        "E11-A",
+        "E11-B",
+        "E12-A",
+        "E12-B"
+      ],
+      "classification": "FOOTPRINT_ADJACENT",
+      "sourceReference": "region-footprint"
+    },
+    {
+      "regionId": "R-NEAR",
+      "elementIds": [
+        "E01-A",
+        "E01-B",
+        "E02-A",
+        "E02-B",
+        "E03-A",
+        "E03-B",
+        "E04-A",
+        "E04-B"
+      ],
+      "classification": "NEAR_FIELD",
+      "sourceReference": "region-near"
+    },
+    {
+      "regionId": "R-FAR",
+      "elementIds": [
+        "E09-A",
+        "E09-B",
+        "E10-A",
+        "E10-B",
+        "E11-A",
+        "E11-B",
+        "E12-A",
+        "E12-B"
+      ],
+      "classification": "FAR_FIELD",
+      "sourceReference": "region-far"
+    },
+    {
+      "regionId": "R-BOUNDARY",
+      "elementIds": [
+        "E01-A",
+        "E02-A",
+        "E03-A",
+        "E04-A",
+        "E05-A",
+        "E06-A",
+        "E07-A",
+        "E08-A",
+        "E09-A",
+        "E10-A",
+        "E11-A",
+        "E12-A"
+      ],
+      "classification": "BOUNDARY_INFLUENCED",
+      "sourceReference": "region-boundary"
+    }
+  ],
+  "qualificationProfile": {
+    "schema": "local-trunnion-footprint-qualification-profile/v1",
+    "identity": "LAFEA5-TEST",
+    "axisUnitVector": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "axisNonParallel": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "pipeRadialDistance": {
+      "absolute": 1e-8,
+      "relative": 1e-12
+    },
+    "pipeDirectorAlignment": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "trunnionIntersection": {
+      "absolute": 1e-8,
+      "relative": 1e-12
+    },
+    "footprintMinimumEdge": {
+      "absolute": 1e-8,
+      "relative": 1e-12
+    },
+    "footprintPerimeter": {
+      "absolute": 1e-8,
+      "relative": 1e-12
+    },
+    "resultantFitPivot": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "forceReconstruction": {
+      "absolute": 1e-8,
+      "relative": 1e-12
+    },
+    "momentReconstruction": {
+      "absolute": 0.00001,
+      "relative": 1e-12
+    },
+    "referenceTransfer": {
+      "absolute": 0.00001,
+      "relative": 1e-12
+    },
+    "shellHashReconstruction": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    },
+    "assessmentEnvelope": {
+      "absolute": 1e-10,
+      "relative": 1e-12
+    }
+  },
+  "resultRequests": {
+    "retainGeneratedShellModel": true,
+    "retainRawShellResult": true,
+    "governingMetric": "COMBINED_VON_MISES"
+  },
+  "limitations": [
+    "NO_TRUNNION_STIFFNESS",
+    "NO_WELD_STRESS",
+    "NO_CONTACT",
+    "NO_PRESSURE_SUPERPOSITION",
+    "NO_CODE_COMPLIANCE",
+    "RAW_SHELL_STRESS_ONLY",
+    "FOOTPRINT_ADJACENT_PEAKS_ARE_LOAD_INTRODUCTION_SENSITIVE"
+  ]
+}
