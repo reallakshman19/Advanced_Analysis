@@ -255,11 +255,13 @@ test('comprehensive professional engineering audit of Load Calc with Sjson.json'
     };
   });
 
+  const packageState = preflightState.evaluationReport?.report?.packageState;
   auditLog.steps.step6_preflight = {
-    status: 'PASS',
+    status: packageState === 'READY' ? 'PASS' : 'BLOCKED',
     preflightState,
   };
   await page.screenshot({ path: path.join(AUDIT_SCREENSHOTS_DIR, 'step6_preflight.png'), fullPage: true });
+  expect(packageState, `preflight must reach READY; blockers: ${JSON.stringify(preflightState.evaluationReport?.report?.blockers)}`).toBe('READY');
 
   log('=== Step 7: Run Load Calculation ===');
   await consumer.locator('[data-load-calc-tab="verify"]').first().click();
@@ -271,10 +273,11 @@ test('comprehensive professional engineering audit of Load Calc with Sjson.json'
       const runRes = executeCurrentCommonInputEmpiricalRun();
       return { ok: true, distStatus: runRes?.supportExecution?.distribution?.status };
     } catch (e) {
-      return { ok: false, error: e.message, code: e.code, details: e.details };
+      return { ok: false, error: e.message, code: e.code, details: e.details, stack: e.stack };
     }
   });
   log('Calculation diagnostic: ' + JSON.stringify(calcDiagnostic));
+  expect(calcDiagnostic.ok, `calculation must execute without throwing: ${calcDiagnostic.error}\n${calcDiagnostic.stack}`).toBe(true);
 
   const runButton = consumer.locator('[data-load-calc-run]');
   if (await runButton.count() > 0 && await runButton.isEnabled()) {
@@ -323,10 +326,9 @@ test('comprehensive professional engineering audit of Load Calc with Sjson.json'
     return dist.loadCases.map((lc) => ({
       loadCaseId: lc.loadCaseId,
       status: lc.status,
-      totalSystemWeightN: lc.totalSystemWeightN ?? null,
-      totalSupportReactionN: lc.totalSupportReactionN ?? null,
+      totalSystemWeightN: lc.equilibrium?.evaluatedForceN ?? null,
+      totalSupportReactionN: lc.equilibrium?.reactionForceN ?? null,
       equilibrium: lc.equilibrium ?? null,
-      centerOfGravity: lc.centerOfGravity ?? null,
       supportResultCount: lc.supportResults?.length ?? 0,
       supportResults: (lc.supportResults || []).map((sr) => ({
         supportId: sr.supportId || sr.supportSiteId,
@@ -346,6 +348,9 @@ test('comprehensive professional engineering audit of Load Calc with Sjson.json'
     loadCases: loadCasesData,
   };
 
+  expect(loadCasesData, 'load cases must be produced by the run').not.toBeNull();
+  expect(loadCasesData.length, 'expected EMPTY/OPERATING/HYDROTEST load cases').toBeGreaterThan(0);
+
   if (loadCasesData && loadCasesData.length > 0) {
     for (const lc of loadCasesData) {
       auditLog.equilibrium[lc.loadCaseId] = {
@@ -354,13 +359,16 @@ test('comprehensive professional engineering audit of Load Calc with Sjson.json'
         deltaN: lc.totalSystemWeightN !== null && lc.totalSupportReactionN !== null
           ? Math.abs(lc.totalSystemWeightN - lc.totalSupportReactionN)
           : null,
-        equilibriumStatus: lc.equilibrium?.balanced ? 'BALANCED' : 'VERIFIED',
+        equilibriumStatus: lc.equilibrium?.passed ? 'BALANCED' : 'FAILED',
       };
       auditLog.supportReactions[lc.loadCaseId] = lc.supportResults.map((sr) => ({
         supportId: sr.supportId,
         verticalReactionN: sr.verticalReactionN,
         supportType: sr.supportType,
       }));
+
+      expect(lc.equilibrium?.passed, `load case ${lc.loadCaseId} equilibrium must close within tolerance: ${JSON.stringify(lc.equilibrium)}`).toBe(true);
+      expect(lc.supportResultCount, `load case ${lc.loadCaseId} must report all 37 support locations`).toBe(37);
     }
   }
 

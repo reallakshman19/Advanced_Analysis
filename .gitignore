@@ -65,3 +65,9 @@ _Loadcalc/
 # Runtime-only B02D V2 governing-response exact-head envelope.
 # Keep this path exact: other B02D response/RCA evidence must remain visible to Git custody.
 /reports/qualification/B02D/v2-governing-response-exact-head.json
+
+# Runtime-only raw Playwright audit log for the Load Calc Sjson walkthrough.
+# Regenerated per run by e2e/audit-loadcalc-sjson.spec.js; the curated summaries in
+# evidence/audit-37-supports-table.json and evidence/audit-distribution-details.json
+# remain visible to Git custody.
+/evidence/audit-loadcalc-sjson-report.json

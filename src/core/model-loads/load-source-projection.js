@@ -49,6 +49,7 @@ function projectComponent(component, lengthUnit, factor) {
     ? pointToMeters(component.geometry.center, lengthUnit)
     : null;
   const cog = pointToMeters(component.loadEvidence?.componentCog?.value, component.loadEvidence?.componentCog?.unit || lengthUnit);
+  const midpointFallback = midpoint(start, end);
   const ports = (component.geometry?.ports || []).map((port) => ({
     portKey: port.portKey,
     position: pointToMeters(port.position, lengthUnit),
@@ -57,17 +58,30 @@ function projectComponent(component, lengthUnit, factor) {
   const sourceLengthM = distanceM(start, end);
   const declaredLengthM = lengthFromEvidence(component, factor);
   const diagnostics = projectionDiagnostics(component.componentKey, factor, start, end, sourceLengthM, declaredLengthM);
+  if (!cog && !center && midpointFallback) {
+    diagnostics.push(diagnostic(AUDIT_CODES.DERIVED_APPLICATION_POINT_MIDPOINT, component.componentKey));
+  }
   return deepFreeze({
     componentKey: component.componentKey,
     sourceEntityId: component.sourceEntityId ?? null,
     type: stringValue(component.type).toUpperCase() || 'UNKNOWN',
     identity: component.identity || {},
-    geometry: { start, end, center, ports, applicationPoint: cog || center, sourceLengthM, declaredLengthM },
+    geometry: {
+      start, end, center, ports,
+      applicationPoint: cog || center || midpointFallback,
+      applicationPointSource: cog ? 'EXPLICIT_COG' : center ? 'EXPLICIT_CENTER' : midpointFallback ? 'derived.midpoint' : null,
+      sourceLengthM, declaredLengthM,
+    },
     engineeringProperties: component.engineeringProperties || {},
     loadEvidence: component.loadEvidence || {},
     sourceReferences: component.sourceReferences || {},
     diagnostics,
   });
+}
+
+function midpoint(start, end) {
+  if (!start || !end) return null;
+  return deepFreeze({ x: (start.x + end.x) / 2, y: (start.y + end.y) / 2, z: (start.z + end.z) / 2 });
 }
 
 function projectionDiagnostics(componentKey, factor, start, end, sourceLengthM, declaredLengthM) {
