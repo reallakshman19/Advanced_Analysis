@@ -54,8 +54,15 @@ export function renderLafeaDescriptorForm({
       (descriptor) => descriptor.valueContract.domainType === 'NUMBER',
     );
     entityDescriptors.forEach((descriptor) => {
+      // When the group's own table already lists every instance of this
+      // collection in its identity column, the register is a second copy of the
+      // same identities. Keep it reachable, but out of the primary scroll.
+      const duplicated = scalarDescriptors.some(
+        (scalar) => scalar.target?.collectionPath === descriptor.target?.collectionPath
+          && scalar.target?.identityKey === descriptor.target?.identityKey,
+      );
       section.append(
-        renderIdentityRegister(documentRef, documentValue, descriptor),
+        renderIdentityRegister(documentRef, documentValue, descriptor, duplicated),
       );
     });
 
@@ -206,10 +213,10 @@ function renderGroupAction({ documentRef, wrapper, groupId, onSetScalarBatch }) 
   return action;
 }
 
-function renderIdentityRegister(documentRef, documentValue, descriptor) {
-  const wrapper = documentRef.createElement('div');
+function renderIdentityRegister(documentRef, documentValue, descriptor, collapsed = false) {
+  const wrapper = documentRef.createElement(collapsed ? 'details' : 'div');
   wrapper.className = 'lafea-doc-identity-register';
-  const heading = documentRef.createElement('h5');
+  const heading = documentRef.createElement(collapsed ? 'summary' : 'h5');
   heading.textContent = descriptor.presentation.label;
   const note = documentRef.createElement('p');
   note.textContent = 'Exact engineering identities. Creation and deletion require governed entity commands; array position is not authority.';
@@ -287,6 +294,27 @@ export function collectVectorTriples(descriptors) {
 }
 
 /**
+ * Group scalar descriptors that address the same collection under the same
+ * identity key, so an entity is one row and each governed property is a column
+ * instead of each property being its own full-width row. Descriptor order is
+ * preserved as column order. Descriptors without a collection target, or whose
+ * target is incomplete, are not grouped.
+ */
+export function collectCollectionFamilies(descriptors) {
+  const families = new Map();
+  descriptors.forEach((descriptor) => {
+    const collectionPath = descriptor.target?.collectionPath;
+    const identityKey = descriptor.target?.identityKey;
+    if (typeof collectionPath !== 'string' || typeof identityKey !== 'string') return;
+    const familyId = `${collectionPath}#${identityKey}`;
+    const entry = families.get(familyId) ?? { familyId, collectionPath, identityKey, members: [] };
+    entry.members.push(descriptor);
+    families.set(familyId, entry);
+  });
+  return families;
+}
+
+/**
  * Build one conservative matrix presentation for a complete batch group.
  *
  * Declared matrices are already compatibility-checked by their presentation
@@ -320,6 +348,25 @@ export function collectRenderableMatrixPresentation(descriptors) {
       vectorMatrices.set(triple.groupKey, matrix);
     }
     byDescriptor.set(descriptorId, matrix);
+  });
+
+  collectCollectionFamilies(descriptors).forEach((family) => {
+    if (family.members.some((member) => byDescriptor.has(member.descriptorId))) return;
+    const matrix = Object.freeze({
+      familyId: family.familyId,
+      rowLabel: family.members[0].presentation?.label ?? family.collectionPath,
+      legacyVector: false,
+      target: Object.freeze({
+        collectionPath: family.collectionPath,
+        identityKey: family.identityKey,
+      }),
+      columns: Object.freeze(family.members.map((member) => Object.freeze({
+        columnId: member.descriptorId,
+        label: member.presentation?.label ?? member.descriptorId,
+        descriptor: member,
+      }))),
+    });
+    family.members.forEach((member) => byDescriptor.set(member.descriptorId, matrix));
   });
 
   if (!descriptors.length || byDescriptor.size !== descriptors.length) return null;

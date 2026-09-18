@@ -95,19 +95,47 @@ export function lafeaTechnicalComponentRegistered(kind, componentId) {
 
 function normalizeFoundation(input, mode = 'document') {
   const { cleanInput, meshConfig } = prepareInput(input);
-  if (mode === 'edit') removeStaleDerivedAssessmentThickness(cleanInput);
+  const assessmentThicknessStripped = mode === 'edit'
+    && removeStaleDerivedAssessmentThickness(cleanInput);
   const source = isRecord(cleanInput.sourceEvidence)
     ? {
       ...validateCanonicalLocalAttachmentFoundationModel(cleanInput).sourceEvidence,
       schema: ATTACHMENT_MODEL_SCHEMA,
     }
     : cleanInput;
-  const retained = createCanonicalLocalAttachmentFoundationModel(source).sourceEvidence;
+  const canonical = createCanonicalLocalAttachmentFoundationModel(source);
+  const retained = canonical.sourceEvidence;
   return freezeClone({
     ...retained,
+    ...restoredAssessmentThickness(assessmentThicknessStripped, canonical, retained),
     schema: ATTACHMENT_MODEL_SCHEMA,
     ...(meshConfig ? { meshConfig } : {}),
   });
+}
+
+/**
+ * A nominal-thickness edit strips the stale derived assessment thickness so the
+ * canonical model re-derives it under the NOMINAL_MINUS_CORROSION policy. The
+ * canonical model does re-derive it, but only onto itself -- `sourceEvidence`
+ * echoes the stripped input, so the retained document lost the field entirely
+ * and every consumer reading `thicknessBasis.assessmentPipeThickness.value`
+ * (pressure-radius validation, screening section properties, EMP.1 evidence)
+ * saw `undefined`.
+ *
+ * Put the canonical value back into the retained document. The derivation stays
+ * the canonical model's: nothing is recomputed here, and the field is restored
+ * only when this edit is what stripped it.
+ */
+function restoredAssessmentThickness(stripped, canonical, retained) {
+  if (!stripped) return {};
+  const derived = canonical?.thicknessBasis?.assessmentPipeThickness;
+  if (!isRecord(derived) || !isRecord(retained?.thicknessBasis)) return {};
+  return {
+    thicknessBasis: {
+      ...retained.thicknessBasis,
+      assessmentPipeThickness: { value: derived.value, sourceRef: derived.sourceRef },
+    },
+  };
 }
 
 function normalizeScreening(input, mode = 'document') {
@@ -210,8 +238,10 @@ function stripWorkbenchFields(input) {
 
 function removeStaleDerivedAssessmentThickness(source) {
   const thickness = source?.thicknessBasis;
-  if (!isRecord(thickness) || thickness.policy !== 'NOMINAL_MINUS_CORROSION') return;
+  if (!isRecord(thickness) || thickness.policy !== 'NOMINAL_MINUS_CORROSION') return false;
+  if (!(thickness.assessmentPipeThickness !== undefined)) return false;
   delete thickness.assessmentPipeThickness;
+  return true;
 }
 
 function editableScreening(input) {
