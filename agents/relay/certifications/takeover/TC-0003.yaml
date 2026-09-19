@@ -1,0 +1,65 @@
+{
+  "schema_version": "relay-v2.5-takeover-certification",
+  "id": "TC-0003",
+  "candidate": {
+    "agent_instance_id": "chatgpt-continuing-v25-20260919"
+  },
+  "prepared_by": {
+    "agent_instance_id": "chatgpt-continuing-v25-20260919"
+  },
+  "evaluated_by": {
+    "type": "DETERMINISTIC_VALIDATOR",
+    "identity": "validate_takeover_certification.py",
+    "basis": [
+      "Candidate-authored TC record; Common deterministic validator reopens current route, EP, DISC and basis. Document authorship is not certification authority."
+    ]
+  },
+  "self_certification": {
+    "allowed": false
+  },
+  "route": {
+    "route_key": "SERIAL:EP-0001",
+    "mode": "SERIAL",
+    "execution_ref": "EP-0001",
+    "ep_id": "EP-0001",
+    "ep_path": "agents/relay/execution-packages/EP-0001.yaml",
+    "plan_id": null,
+    "plan_path": null,
+    "lane_id": null
+  },
+  "basis": {
+    "roadmap_id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
+    "roadmap_revision": "RM-0002",
+    "relay_protocol_basis_ref": "d9b84069683977b5c370f536f1c50095de926338",
+    "material_ref": "676a40a490326364e1ea22d5bbbd8a20a9e6488a",
+    "ep_contract_digest": "sha256:92c3d118de25618dcfe6dcd22747c001b0183da8996dbf9a48947341b46d67d7",
+    "repo_profile_digest": "sha256:b88e07dc862aca7725a39ba152025af8754d7c53b650f9ecc3592d77541804e1",
+    "predecessor_baton": {
+      "type": "NONE",
+      "id": "NONE",
+      "path": null,
+      "digest": null
+    }
+  },
+  "discovery_receipt": {
+    "id": "DISC-0003",
+    "path": "agents/relay/certifications/discovery/DISC-0003.yaml"
+  },
+  "qualification": {
+    "required": false,
+    "status": "NOT_REQUIRED",
+    "receipt_id": null,
+    "receipt_path": null,
+    "receipt_digest": null
+  },
+  "checks": {
+    "baton_semantics": "PASS",
+    "repository_discovery": "PASS",
+    "route_grounding": "PASS",
+    "input_oracle_readiness": "PASS",
+    "scope_understood": "PASS",
+    "report_successor_contract": "PASS"
+  },
+  "result": "PASS",
+  "conversation_context_used": false
+}
