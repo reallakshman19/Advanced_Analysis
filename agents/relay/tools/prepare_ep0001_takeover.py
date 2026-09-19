@@ -71,7 +71,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(
         description=(
             "Assemble a deterministic TC/admission record for EP-0001 "
-            "after a zero-context candidate has produced a PASS DISC receipt. Canonical Common "
+            "after a repository/provider-grounded candidate has produced a PASS DISC receipt. Canonical Common "
             "validators are invoked before repository admission is mutated."
         )
     )
