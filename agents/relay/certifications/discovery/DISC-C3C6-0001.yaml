@@ -1,0 +1,84 @@
+schema_version: relay-v2.5-discovery
+id: DISC-C3C6-0001
+candidate:
+  agent_instance_id: chatgpt-gpt5.6-sol-c3c6-20260919
+route:
+  route_key: SERIAL:EP-LAFEA3-C3C6-1856
+    mode: SERIAL
+    execution_ref: EP-LAFEA3-C3C6-1856
+    ep_id: EP-LAFEA3-C3C6-1856
+    ep_path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
+    plan_id: null
+    plan_path: null
+    lane_id: null
+basis:
+  roadmap_id: RM-LAFEA-MESH-COMPLETION
+    roadmap_revision: RM-0005
+    relay_protocol_basis_ref: github:reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
+    material_ref: 9096417914c47a5d417ed6a6ee68bb970c0f196d
+    ep_contract_digest: sha256:3dac43859ea5b8153c46b3dcaffffd84099c6713588aa6638577e5a73d0d213e
+    repo_profile_digest: sha256:12b2e258033da2bc37d434e196dd9676dd80718f968a288db916a71fa9a47d9e
+    predecessor_baton:
+      type: NONE
+      id: NONE
+      path: null
+      digest: null
+steps:
+  - id: DSTEP-C3C6-ROUTE
+    status: PASS
+    basis:
+      - agents/relay/REPO_STATE.yaml@blob:f1013d8f9b27674e68ff855258e8f80a6404f1f4
+      - agents/relay/roadmap/OVERALL_ROADMAP.yaml@blob:aa02d2613dd362afd46766faf3bd8ad5b88191d6
+    outputs:
+      - name: roadmap revision
+        value: RM-0005
+        basis:
+          - agents/relay/REPO_STATE.yaml@blob:f1013d8f9b27674e68ff855258e8f80a6404f1f4
+      - name: current work package
+        value: WP-1769
+        basis:
+          - agents/relay/roadmap/OVERALL_ROADMAP.yaml@blob:aa02d2613dd362afd46766faf3bd8ad5b88191d6
+      - name: execution package id
+        value: EP-LAFEA3-C3C6-1856
+        basis:
+          - agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml@blob:076d0d122f9aea6411197634b642ab385db7c451
+  - id: DSTEP-C3C6-CANDIDATE
+    status: PASS
+    basis:
+      - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs@blob:871fa1b70ec7921fa8696bf49e8a8802c0788318
+      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs@blob:2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3
+      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:961808a0f702c8176cac3c78a275f177afd1a423
+    outputs:
+      - name: matrix blob identity
+        value: 871fa1b70ec7921fa8696bf49e8a8802c0788318
+        basis:
+          - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs@blob:871fa1b70ec7921fa8696bf49e8a8802c0788318
+      - name: aggregate step identity
+        value: C3C-EDIT-INVALIDATION-MATRIX in aggregate blob 2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3
+        basis:
+          - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs@blob:2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3
+      - name: source basis id
+        value: C3C-SOURCE-BASIS-0016
+        basis:
+          - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:961808a0f702c8176cac3c78a275f177afd1a423
+  - id: DSTEP-C3C6-DELIVERY
+    status: PASS
+    basis:
+      - .github/workflows/lafea3-c3c-qualification.yml@blob:356d63d2b9d48c49bb3071211cf069e985649822
+      - github-actions-run:35447885390
+    outputs:
+      - name: workflow path
+        value: .github/workflows/lafea3-c3c-qualification.yml
+        basis:
+          - .github/workflows/lafea3-c3c-qualification.yml@blob:356d63d2b9d48c49bb3071211cf069e985649822
+      - name: execution commands
+        value: Node 22 syntax checks, standalone edit-invalidation matrix, then exact-head 19-step C3-C aggregate
+        basis:
+          - .github/workflows/lafea3-c3c-qualification.yml@blob:356d63d2b9d48c49bb3071211cf069e985649822
+      - name: artifact contract
+        value: Upload retained C3-C evidence artifact when runner steps execute; current exact-head run 35447885390 executed zero steps and produced no artifact
+        basis:
+          - .github/workflows/lafea3-c3c-qualification.yml@blob:356d63d2b9d48c49bb3071211cf069e985649822
+          - github-actions-run:35447885390:runner_id=0:steps=0
+result: PASS
+conversation_context_used: false
