@@ -16,7 +16,7 @@
     "base_branch": "main",
     "base_observed_ref": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
     "drift_policy": "RECHECK_BEFORE_WRITE",
-    "drift_receipt": null
+    "drift_receipt": "agents/relay/drift/DRIFT-0001.yaml"
   },
   "roadmap_source": {
     "roadmap_id": "RM-LAFEA4-QUALIFICATION-PRODUCT",

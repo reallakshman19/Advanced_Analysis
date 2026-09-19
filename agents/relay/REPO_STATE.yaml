@@ -40,22 +40,7 @@
     "id": null,
     "path": null
   },
-  "takeover_admissions": [
-    {
-      "route_key": "SERIAL:EP-0001",
-      "candidate": {
-        "agent_instance_id": "chatgpt-continuing-v25-20260919"
-      },
-      "discovery_receipt": {
-        "id": "DISC-0003",
-        "path": "agents/relay/certifications/discovery/DISC-0003.yaml"
-      },
-      "certification": {
-        "id": "TC-0003",
-        "path": "agents/relay/certifications/takeover/TC-0003.yaml"
-      }
-    }
-  ],
+  "takeover_admissions": [],
   "progress": {
     "overall_percent": 0,
     "phase_percent": 0,
@@ -64,10 +49,10 @@
   },
   "status_planes": {
     "execution": {
-      "state": "READY",
-      "can_continue": true,
-      "material_authority": "WRITE",
-      "next_action": "Run TEST-08 deterministic takeover certification for DISC-0003/TC-0003 in an executable repository environment, then TEST-09 material_write_ready. If both pass, first material fix is B5-EVID-001: correct the executed fail-closed row disposition without changing numerical authority."
+      "state": "WAITING",
+      "can_continue": false,
+      "material_authority": "READ_ONLY",
+      "next_action": "Resolve DRIFT-0001 / WRITE_COLLISION before any WP-001 material edit. Either allow the active main SERIAL EP-LAFEA3-C3C6-1856 to relinquish WRITE, or obtain explicit Owner authority for a valid V2.5 parallel/replan topology; then regenerate DISC/TC and rerun material_write_ready against the current main base."
     },
     "quality": {
       "state": "NEEDS_ATTENTION",
@@ -75,12 +60,13 @@
         "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication.",
         "Revised V2.5 basis d9b84069683977b5c370f536f1c50095de926338 permits a continuing candidate to produce repository-grounded DISC/TC records; document authorship is not certification authority. The deterministic validator remains certification authority, and live material_write_ready remains mandatory.",
         "DOBS-0001 is point-in-time provider evidence at PR head b54f014de3dc7af388d5ba008d01dff282cbdbd5. The observation commit itself advances the branch; refresh provider delivery evidence before any review-ready or merge-ready claim.",
-        "WP-001 harness finding B5-EVID-001: runFailClosedBoundary executes production and asserts the expected NUMERICAL_FAILURE/recovery-energy rejection, but the returned row is labeled disposition=NOT_RUN_PRODUCTION_FAILS_CLOSED. NOT_RUN is invalid for an executed negative test. After TEST-08 and TEST-09 pass, change only the harness evidence disposition to an executed expected-rejection PASS semantic; do not change mechanics, oracle, tolerances, thickness envelope, B6 authority, or production release evidenceState."
+        "WP-001 harness finding B5-EVID-001: runFailClosedBoundary executes production and asserts the expected NUMERICAL_FAILURE/recovery-energy rejection, but the returned row is labeled disposition=NOT_RUN_PRODUCTION_FAILS_CLOSED. NOT_RUN is invalid for an executed negative test. After TEST-08 and TEST-09 pass, change only the harness evidence disposition to an executed expected-rejection PASS semantic; do not change mechanics, oracle, tolerances, thickness envelope, B6 authority, or production release evidenceState.",
+        "DRIFT-0001: main changed the repository-wide V2.5 control plane and activated EP-LAFEA3-C3C6-1856 in SERIAL WRITE mode. This overlaps EP-0001 authority and is a WRITE_COLLISION; B5-EVID-001 remains identified but uncommitted."
       ]
     },
     "evidence": {
       "state": "PARTIAL",
-      "summary": "DISC-0003 remains the current EP-0001 takeover evidence basis. TEST-08 and TEST-09 remain NOT_RUN because no executable repository shell is exposed here. Static review identified B5-EVID-001: an executed expected-rejection row is mislabeled NOT_RUN; the material patch is blocked until write readiness is proven.",
+      "summary": "DISC-0003 / TC-0003 remain historical takeover evidence for the pre-drift EP contract. A local material_write_ready invocation on reconstructed c58e45b base returned true, but subsequent live provider readback showed main at 4b4a214 with an overlapping active SERIAL writer; therefore no current TEST-09 write-ready claim is retained. DRIFT-0001 withdraws current material authority.",
       "not_run": [
         {
           "id": "EP0001-EXACT-HEAD-GATES",
@@ -93,17 +79,27 @@
           "cause": "INFRASTRUCTURE"
         },
         {
-          "id": "EP0001-TAKEOVER-VALIDATOR",
-          "reason": "DISC-0003 is current takeover evidence, but this connected GitHub environment has no executable repository shell for Common TEST-08; deterministic takeover validation remains NOT_RUN.",
-          "cause": "UNAVAILABLE_TOOL"
+          "id": "EP0001-CURRENT-TAKEOVER",
+          "reason": "The EP contract now references DRIFT-0001, changing its contract digest and invalidating TC-0003 as current admission evidence. A fresh DISC/TC is required after collision resolution.",
+          "cause": "DEPENDENCY_WAIT"
+        },
+        {
+          "id": "EP0001-LIVE-WRITE-GATE",
+          "reason": "No current material_write_ready PASS exists against live main 4b4a214118d22f27a2e934c0d75cd346fa16b63c; the active main SERIAL EP owns repository-wide WRITE authority.",
+          "cause": "DEPENDENCY_WAIT"
         }
       ]
     },
     "stop": {
-      "active": false,
-      "category": "NONE",
-      "reason": "",
-      "basis": []
+      "active": true,
+      "category": "WRITE_COLLISION",
+      "reason": "Live main advanced to 4b4a214118d22f27a2e934c0d75cd346fa16b63c and now carries active SERIAL EP-LAFEA3-C3C6-1856 with material_authority WRITE in the repository-wide agents/relay control plane. EP-0001 cannot retain concurrent write authority under the current serial topology.",
+      "basis": [
+        "GitHub main provider readback: 4b4a214118d22f27a2e934c0d75cd346fa16b63c",
+        "main agents/relay/REPO_STATE.yaml: active_ep EP-LAFEA3-C3C6-1856, execution_policy SERIAL, material_authority WRITE",
+        "GitHub compare c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50...4b4a214118d22f27a2e934c0d75cd346fa16b63c changes repository-wide agents/relay/REPO_STATE.yaml, REPO_PROFILE.yaml and roadmap authority files",
+        "PR #1847 provider readback: mergeable=false after main drift"
+      ]
     }
   },
   "projection": {

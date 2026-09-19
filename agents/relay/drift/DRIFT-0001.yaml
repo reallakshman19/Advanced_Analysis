@@ -1,0 +1,51 @@
+{
+  "schema_version": "relay-v2.5-drift",
+  "id": "DRIFT-0001",
+  "from_base": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
+  "to_base": "4b4a214118d22f27a2e934c0d75cd346fa16b63c",
+  "classification": "OVERLAPPING",
+  "changed_paths": [
+    ".github/workflows/lafea3-c3c-qualification.yml",
+    "agents/chains/ADV-LAFEA3-C3C-1769/CURRENT-STATE.md",
+    "agents/chains/ADV-LAFEA3-C3C-1769/endpoints/EP-G006-CANDIDATE.md",
+    "agents/chains/ADV-LAFEA3-C3C-1769/material-legs/LEG-006.md",
+    "agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json",
+    "agents/relay/REPO_PROFILE.yaml",
+    "agents/relay/REPO_STATE.yaml",
+    "agents/relay/certifications/discovery/DISC-C3C6-0001.yaml",
+    "agents/relay/certifications/takeover/TC-C3C6-0001.yaml",
+    "agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml",
+    "agents/relay/roadmap/ISSUE_GRAPH.yaml",
+    "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+    "agents/relay/roadmap/PROGRESS.yaml",
+    "agents/relay/roadmap/owner-decisions/ODR-0001.yaml",
+    "agents/relay/roadmap/revisions/RM-0002.yaml",
+    "agents/relay/roadmap/revisions/RM-0003.yaml",
+    "agents/relay/roadmap/revisions/RM-0004.yaml",
+    "agents/relay/roadmap/revisions/RM-0005.yaml",
+    "scripts/lafea-continuum-compiled-load-parity-check.mjs",
+    "scripts/lafea-continuum-compiled-load-parity-negative-check.mjs",
+    "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs",
+    "scripts/lafea.3-c3c-local-restraint-check.mjs",
+    "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs",
+    "scripts/lafea.3-c3c-probe-invariance-check.mjs",
+    "scripts/lib/lafea-numeric-parity.mjs",
+    "src/workspace/lafea-continuum-compiled-input.js",
+    "src/workspace/lafea-continuum-local-restraint.js",
+    "src/workspace/lafea-continuum-projection-evidence.js"
+  ],
+  "affected_scope": [
+    "agents/relay/** — repository-wide execution authority, roadmap, profile and takeover state overlap EP-0001 control-plane writes"
+  ],
+  "rationale": "The source delta does not touch the LAFEA.4 B5 checker or src/core/local-shell, but it changes the repository-wide V2.5 control plane and establishes a different active SERIAL EP with WRITE authority. Because EP-0001 also relies on and writes agents/relay/**, concurrent material execution would violate serial custody and exact route authority.",
+  "qualification": {
+    "basis": [
+      "No LAFEA.4 B5 checker or src/core/local-shell path appears in the main delta.",
+      "The main delta does change global agents/relay authority paths used by EP-0001."
+    ],
+    "confirmation": "REQUIRED",
+    "confirmation_basis": [
+      "Owner-approved parallel/replan authority, or completion/relinquishment of the main SERIAL writer, is required before EP-0001 can regain WRITE."
+    ]
+  }
+}
