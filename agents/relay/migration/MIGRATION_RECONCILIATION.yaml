@@ -1,6 +1,6 @@
 {
   "schema_version": "relay-v2.5-migration-reconciliation",
-  "status": "READY_FOR_FIRST_V25_EP",
+  "status": "ACTIVE_RM0003_PARTIAL_VALIDATION",
   "source_inventory": "agents/relay/migration/V2_INVENTORY.yaml",
   "source_evidence": {
     "active_chain_state": [
@@ -647,16 +647,17 @@
   },
   "owner_intent": {
     "authoritative_sources": [
-      "agents/relay/roadmap/owner-decisions/ODR-0001.yaml — applied Owner decision adopting engineering-pr-delivery-v2.5.",
-      "github:reallaksh19/Advanced_Analysis#1830 — live EMP.1/WRC audit projection; creates no engineering authority.",
-      "github:reallaksh19/Advanced_Analysis#1854 — current EMP.1/WRC open-items sequencing projection.",
+      "agents/relay/roadmap/owner-decisions/ODR-0001.yaml — Owner adoption of engineering-pr-delivery-v2.5.",
+      "agents/relay/roadmap/owner-decisions/ODR-0003.yaml — Owner programme expansion to solve the listed EMP.1/WRC issues serially under revised V2.5.",
+      "github:reallaksh19/Advanced_Analysis#1854 — current open-items sequencing/control projection.",
+      "github:reallaksh19/Advanced_Analysis#1768 — first engineering successor: exact-head gamma=5 evidence and anti-drift.",
       "github:reallaksh19/Advanced_Analysis#1834 — Owner-reserved gamma policy decision remains pending.",
       "github:reallaksh19/Advanced_Analysis#1852 — Owner-reserved resultHash authority decision remains pending."
     ],
     "unresolved_questions": [
-      "Owner disposition for #1834 remains pending and is outside WP-001.",
-      "Owner disposition for #1852 remains pending and is outside WP-001.",
-      "Repository-wide engineering roadmap beyond the initial migration objective must be discovered and proposed by WP-001; it is not inferred from legacy chain counts."
+      "Owner disposition for #1834 remains pending and is outside WP-001/WP-002 numerical evidence scope.",
+      "Owner disposition for #1852 remains pending and is outside WP-001/WP-002 numerical evidence scope.",
+      "#54 remains external GitHub Actions runner/infrastructure work; repository workflow mutation is not authorized absent source-controlled root cause."
     ]
   },
   "roadmap_mapping": {
@@ -664,22 +665,38 @@
       {
         "id": "OBJ-001",
         "title": "Establish durable V2.5 repository custody without changing engineering authority",
-        "source": "ODR-0001 plus V2.5 migration requirement"
+        "source": "ODR-0001 plus revised V2.5 migration requirement"
+      },
+      {
+        "id": "OBJ-002",
+        "title": "Resolve the current bounded EMP.1/WRC open-item programme without silent authority expansion",
+        "source": "ODR-0003"
       }
     ],
     "phases": [
       {
         "id": "PHASE-001",
         "title": "Legacy relay inventory and roadmap reconciliation",
-        "source": "RM-0002 V2.5 migration transaction"
+        "source": "RM-0003 V2.5 migration transaction"
+      },
+      {
+        "id": "PHASE-002",
+        "title": "Current-route evidence and release preparation",
+        "source": "RM-0003 owner-intent mutation"
       }
     ],
     "work_packages": [
       {
         "id": "WP-001",
-        "title": "Reconcile legacy delivery custody, Owner intent, and the first executable frontier",
+        "title": "Reconcile legacy delivery custody and establish the first V2.5 execution contract",
         "source": "V2.5 migration requirement",
         "current_status": "DETAILED_EXECUTABLE_FRONTIER"
+      },
+      {
+        "id": "WP-002",
+        "title": "Generate genuine gamma=5 exact-head evidence 01-12 and prove current-main anti-drift",
+        "source": "ODR-0003 plus issue #1768",
+        "current_status": "DETAILED_WAITING_ON_WP-001"
       }
     ]
   },
@@ -702,12 +719,6 @@
       "role": "migration material basis"
     },
     {
-      "id": "IN-EMP1-1854",
-      "source": "github:reallaksh19/Advanced_Analysis#1854",
-      "state": "READY",
-      "role": "current EMP.1/WRC sequencing projection"
-    },
-    {
       "id": "IN-EMP1-1834",
       "source": "github:reallaksh19/Advanced_Analysis#1834",
       "state": "OWNER_DECISION_PENDING",
@@ -718,6 +729,30 @@
       "source": "github:reallaksh19/Advanced_Analysis#1852",
       "state": "OWNER_DECISION_PENDING",
       "role": "resultHash authority"
+    },
+    {
+      "id": "IN-EMP1-1854",
+      "source": "github:reallaksh19/Advanced_Analysis#1854",
+      "state": "READY",
+      "role": "current EMP.1/WRC sequencing/control projection"
+    },
+    {
+      "id": "IN-EMP1-1768",
+      "source": "github:reallaksh19/Advanced_Analysis#1768",
+      "state": "READY_AFTER_WP-001",
+      "role": "first engineering successor; historical exact-head evidence and current-main anti-drift"
+    },
+    {
+      "id": "IN-EMP1-1768-STAGE-A",
+      "source": "git:a59547c8554b6244b2ea94aedd4d59fa0fb15d1f",
+      "state": "FUTURE_STEP",
+      "role": "required historical Stage-A exact head for 01-10"
+    },
+    {
+      "id": "IN-EMP1-1768-STAGE-B",
+      "source": "git:14c648d485cf386f28c6817a068b7eb5da1f7689",
+      "state": "FUTURE_STEP",
+      "role": "required historical Stage-B exact head for 11-12"
     }
   ],
   "benchmarks": [
@@ -750,24 +785,19 @@
   },
   "unresolved_work": [
     {
-      "item": "#1834",
-      "classification": "OWNER_DECISION_REQUIRED",
-      "may_block": "real-vessel gamma route / whether bounded release expansion is worth funding"
+      "item": "#1768",
+      "classification": "NEXT_ENGINEERING_WORK_PACKAGE",
+      "may_block": "current numerical evidence and #1775 release closure"
     },
     {
       "item": "#54",
-      "classification": "ACTIONABLE_INFRASTRUCTURE",
-      "may_block": "hosted exact-head execution evidence"
+      "classification": "EXTERNAL_INFRASTRUCTURE",
+      "may_block": "hosted exact-head execution and professional release evidence; fresh 2026-09-19 run still failed before step creation"
     },
     {
-      "item": "#1768",
-      "classification": "ACTIONABLE_EVIDENCE",
-      "may_block": "historical 01-12 exact-head evidence; local route may proceed if sanctioned"
-    },
-    {
-      "item": "#1832/#1833",
-      "classification": "ACTIONABLE_UI_AFTER_RECONCILIATION",
-      "may_block": "remaining engineering meaning/navigation acceptance"
+      "item": "#1834",
+      "classification": "OWNER_DECISION_REQUIRED",
+      "may_block": "non-tabulated-gamma product/method direction; not selected by ODR-0003"
     },
     {
       "item": "#1852",
@@ -778,24 +808,25 @@
       "item": "#1775",
       "classification": "GATED_RELEASE_CLOSURE",
       "may_block": "professional bounded release"
+    },
+    {
+      "item": "#1830/#1854",
+      "classification": "CONTROL_PROJECTIONS",
+      "may_block": "none directly; coordinate the programme and must reflect repository truth"
     }
   ],
   "first_v25_ep": {
-    "create_only_after": [
-      "owner intent reconciled",
-      "current roadmap revision established",
-      "executable frontier computed",
-      "scope and acceptance made self-contained",
-      "cold-start inputs complete"
-    ],
     "ep_id": "EP-0001",
-    "candidate_frontier_note": "EP-0001 is relay/control-plane migration only. It may reconcile issue graph and protocol metadata but may not resolve #1834/#1852, alter engineering mechanics, or grant release authority."
+    "candidate_frontier_note": "EP-0001 is relay/control-plane migration only. RM-0003 adds WP-002/#1768 as the dependency-gated first engineering successor; EP-0001 may not execute WP-002 engineering work.",
+    "current_progress": "AC-01 and AC-02 COMPLETE; AC-03 and AC-04 unresolved."
   },
   "notes": [
     "Legacy files are evidence/context only; no V2 endpoint is automatically executable as V2.5.",
     "Progress must be recalculated from an explicit V2.5 basis rather than copied from narrative history.",
     "AGENTS.md currently references an older Common protocol basis; this is a migration finding, not authority to modify protected engineering domains.",
     "No product code, engineering source, numerical method, benchmark expected value, tolerance, result hash, workflow file, route authorization, code-compliance state, or release authority is changed by this reconciliation.",
-    "RM-0002 and PB-0002 establish one DETAILED migration frontier; candidate-specific takeover is still required before material execution."
+    "RM-0003/PB-0003 preserve WP-001 as the sole executable frontier and add WP-002/#1768 as detailed future work.",
+    "Historical #1768 Stage-A and Stage-B heads are a59547c8554b6244b2ea94aedd4d59fa0fb15d1f and 14c648d485cf386f28c6817a068b7eb5da1f7689 respectively; current-main re-observation cannot substitute for those historical receipts.",
+    "Current-authority exact-head re-observation is a separate authorized-route evidence chain and explicitly does not create missing historical 01-12 evidence."
   ]
 }
