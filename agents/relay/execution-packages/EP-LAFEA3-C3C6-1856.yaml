@@ -1,0 +1,547 @@
+schema_version: relay-v2.5
+identity:
+  ep_id: EP-LAFEA3-C3C6-1856
+  branch: engineering/lafea3-c3c6-edit-invalidation-1856
+  base_ref: a69ca9b770f70c12d29bd63a7ab82f8cad6d89dd
+  execution_state: DRAFT
+  previous_checkpoint: NONE
+git_basis:
+  expected_branch: engineering/lafea3-c3c6-edit-invalidation-1856
+  material_ref: a69ca9b770f70c12d29bd63a7ab82f8cad6d89dd
+  base_branch: engineering/lafea3-c3c-1769-closure
+  base_observed_ref: ab75b5be68bd998c5657aa475143eb40ebb82d94
+  drift_policy: RECHECK_BEFORE_WRITE
+  drift_receipt: null
+roadmap_source:
+  roadmap_id: RM-LAFEA-MESH-COMPLETION
+  roadmap_revision: RM-0002
+  objective: OBJ-1710
+  phase: PH-1711
+  work_package: WP-1769
+  generated_from_frontier: false
+outcome:
+  user_visible:
+    - Issue #1856 is resolved only after the seven-class edit-invalidation matrix and 19-step aggregate execute on the current candidate and retain truthful evidence.
+  engineering:
+    - Prove currentness invalidation across reachable governed edits without changing solver formulation, assembly, recovery, oracle, tolerance, or release authority.
+context_capsule:
+  product_goal: Complete the LAFEA.3 physical-intent-to-solver compiler/currentness boundary under issue #1769.
+  roadmap_position: "OBJ-1710 / PH-1711 / WP-1769; current unresolved slice is GitHub issue #1856."
+  why_this_work_exists: Issue #1769 requires the seven edit classes to exercise real currentness invalidation, including edit-after-solve and edit-during-run ordering.
+  current_architecture: LAFEA.3 uses a governed workbench store with source/domain/geometry/mesh/profile/preflight/execution/recovery lineage and a domain-first compiled solver route.
+  prior_owner_decisions:
+    - ODR-0001
+  current_implementation_state: PR #1857 contains the matrix check, aggregate wiring, source-basis pin, and a dedicated exact-head workflow; dynamic execution has not occurred because GitHub Actions attempts received no runner.
+  known_problems:
+    - Standalone C3-C.6 matrix execution is NOT_RUN on the current delivery vehicle.
+    - The 19-step C3-C aggregate is NOT_RUN on the current delivery vehicle.
+  deliberate_non_goals:
+    - No solver formulation, stiffness/load assembly, recovery convention, coordinate/sign convention, benchmark oracle, tolerance, mesh threshold, release authority, or merge authorization change.
+  terminology:
+    CURRENT_RESULT: Result with exact current ancestry and current authority.
+    explicit_non_claim: A fail-closed statement that a requested edit class is not represented by a governed editable store surface.
+repository_discovery:
+  - id: DSTEP-C3C6-ROUTE
+    action: VERIFY
+    target: agents/relay/REPO_STATE.yaml
+    question: Does repository custody still identify WP-1769 and this C3-C.6 execution package as the intended next route after activation?
+    expected_outputs:
+      - roadmap revision
+      - current work package
+      - execution package id
+    receipt_required: true
+    on_failure: Keep the relay non-executable and reconcile custody before engineering writes.
+  - id: DSTEP-C3C6-CANDIDATE
+    action: INSPECT
+    targets:
+      - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json
+    question: Does the candidate contain seven edit-class rows, explicit unsupported-surface non-claims, ordering coverage, aggregate wiring, and exact source-basis custody?
+    expected_outputs:
+      - matrix blob identity
+      - aggregate step identity
+      - source basis id
+    receipt_required: true
+    on_failure: Do not promote the route; repair only qualification/custody surfaces within scope.
+  - id: DSTEP-C3C6-DELIVERY
+    action: VERIFY_GIT
+    target: .github/workflows/lafea3-c3c-qualification.yml
+    question: Does the delivery surface execute exact-head syntax, standalone matrix, aggregate, artifact retention, and result propagation without changing mechanics?
+    expected_outputs:
+      - workflow path
+      - execution commands
+      - artifact contract
+    receipt_required: true
+    on_failure: Keep dynamic evidence NOT_RUN and reconcile the delivery surface without weakening qualification assertions.
+inputs:
+  - id: INPUT-ODR-0001
+    name: Owner execution authorization
+    description: Durable authorization to solve the listed issue chain leaf-first while preserving existing engineering boundaries.
+    authority: Owner Decision Record
+    source: agents/relay/roadmap/owner-decisions/ODR-0001.yaml
+    resolution_method: Read the applied ODR and verify its affected issue/work-package scope.
+    type: mapping
+    units: NA
+    editable: false
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-C3C6-FINISH
+    validation:
+      - ODR authority is OWNER, status is APPLIED, and scope names issues 1856, 1769, and 1711.
+    stale_if:
+      - Owner supersedes or revokes the issue-chain authorization.
+  - id: INPUT-C3C6-SOURCE-BASIS
+    name: C3-C source custody
+    description: Exact source-basis registry that pins the C3-C aggregate sources including the edit-invalidation matrix.
+    authority: C3-C qualification source basis
+    source: agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json
+    resolution_method: Read basisId and verify Q020 pins the current matrix blob.
+    type: JSON source registry
+    units: NA
+    editable: true
+    applicability: CURRENT_STEP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-C3C6-FINISH
+    validation:
+      - basisId is C3C-SOURCE-BASIS-0016 and Q020 identifies the current edit-invalidation matrix blob.
+    stale_if:
+      - Any pinned qualification source changes without repinning the basis.
+benchmarks:
+  - id: BENCH-C3C6-MATRIX-CONTRACT
+    name: Seven-class invalidation contract
+    purpose: Independently define the expected invalidation/non-invalidation behavior before observing runtime results.
+    source: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
+    oracle_class: MANUAL_RECONSTRUCTION
+    payload: "Seven classes: GEOMETRY, MATERIAL, LOAD, SUPPORT, MESH_PROFILE, SOLVER_CONFIGURATION, PROBE; reachable governed edits must exercise store currentness, unsupported editable surfaces must be explicit non-claims, and edit-after-solve/edit-during-run must not preserve false CURRENT_RESULT authority."
+    expected: Governed ancestor edits revoke dependent current authority; legitimate non-descendants remain current; unsupported surfaces are explicit non-claims; edit during RUNNING yields no old current result.
+    tolerance: null
+    independence: The expected state transitions are frozen in the EP acceptance contract and may not be changed based on observed candidate results.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-C3C6-1
+      - AC-C3C6-2
+      - AC-C3C6-3
+      - AC-C3C6-4
+      - AC-C3C6-5
+    stale_if:
+      - Owner or governing currentness contract changes the accepted edit classes or lineage semantics.
+  - id: BENCH-C3C6-AGGREGATE
+    name: Exact-head C3-C aggregate
+    purpose: Verify the new matrix step does not regress the complete C3-C qualification suite.
+    source: scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+    oracle_class: OBSERVATIONAL
+    payload: 19 declared C3-C steps with source-custody verification and exact-head check.
+    expected: Aggregate process exits 0 and every declared step reports PASS on the current exact head.
+    tolerance: null
+    independence: The aggregate includes previously established C3-C checks and source custody outside the new matrix assertions.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-C3C6-6
+      - AC-C3C6-7
+    stale_if:
+      - Aggregate step list, source basis, or exact candidate head changes.
+scope:
+  allowed:
+    - path: scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+      reason: C3-C.6 qualification implementation only.
+    - path: scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+      reason: Aggregate wiring/custody only.
+    - path: agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json
+      reason: Exact source-basis repinning only.
+    - path: .github/workflows/lafea3-c3c-qualification.yml
+      reason: Exact-head execution evidence surface explicitly authorized for this issue.
+    - path: agents/relay
+      reason: V2.5 custody, evidence, checkpoint, progress, and delivery reconciliation.
+  allowed_reads:
+    - path: src/workspace
+      reason: Trace governed store mutations/currentness behavior without changing production mechanics.
+    - path: src/core
+      reason: Read current profile/continuum contracts needed by qualification.
+    - path: scripts
+      reason: Reuse existing C3-C qualification and import checks.
+  protected:
+    - invariant: Existing seven-state currentness and ancestry rules remain unchanged.
+      reason: Issue #1856 is a proof task, not authority to relax currentness.
+    - invariant: Solver formulation, stiffness/load assembly, and recovery conventions remain unchanged.
+      reason: Explicit issue boundary.
+    - invariant: Existing benchmark oracle/tolerances and release authority remain unchanged.
+      reason: Prevent evidence-blind tuning.
+  prohibited:
+    - domain: production solver numerics
+      reason: Outside #1856 and requires separate engineering authority.
+    - domain: benchmark oracle or tolerance changes
+      reason: Would invalidate independent verification.
+    - domain: unrelated EMP.1, LAFEA.4+, piping, or load-calculation work
+      reason: Preserve surgical scope.
+  owner_reserved:
+    - decision: Merge PR #1857 or grant release authority.
+      reason: Requires explicit exact-head Owner authorization under V2.5.
+    - decision: Expand C3-C.6 into new production edit surfaces or change currentness semantics.
+      reason: Changes engineering/product scope beyond proof of the existing contract.
+anti_drift:
+  do_not:
+    - id: ADR-C3C6-1
+      restriction: Do not weaken matrix assertions or convert unsupported edit surfaces into synthetic PASS cases.
+      reason: Preserve fail-closed acceptance.
+    - id: ADR-C3C6-2
+      restriction: Do not treat zero-step/unassigned-runner workflow failures as engineering FAIL or PASS.
+      reason: Evidence truth must distinguish infrastructure NOT_RUN from executed results.
+  stale_if:
+    - id: STALE-C3C6-1
+      condition: PR #1857 head changes any matrix, aggregate, source-basis, workflow, or production dependency relevant to the test.
+      effect: RECONCILE
+      rationale: Exact-head evidence and custody must be re-established.
+    - id: STALE-C3C6-2
+      condition: Base PR #1850 head or stacked base changes.
+      effect: RECONCILE
+      rationale: The inherited C3-C qualification basis has moved.
+implementation_plan:
+  - id: STEP-C3C6-FINISH
+    objective: Obtain exact-head dynamic evidence for the implemented edit-invalidation matrix and the complete 19-step C3-C aggregate without changing production mechanics.
+    targets:
+      - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+      - .github/workflows/lafea3-c3c-qualification.yml
+    reads:
+      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json
+      - src/workspace
+      - src/core
+    writes:
+      - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json
+      - .github/workflows/lafea3-c3c-qualification.yml
+      - agents/relay
+    inputs:
+      - INPUT-ODR-0001
+      - INPUT-C3C6-SOURCE-BASIS
+    acceptance:
+      - AC-C3C6-1
+      - AC-C3C6-2
+      - AC-C3C6-3
+      - AC-C3C6-4
+      - AC-C3C6-5
+      - AC-C3C6-6
+      - AC-C3C6-7
+    tests:
+      - TEST-C3C6-MATRIX
+      - TEST-C3C6-AGGREGATE
+      - TEST-C3C6-DIFF
+    expected_state: Issue #1856 acceptance is fully evidenced on one current exact head, or a real executed finding is retained without weakening the contract.
+    stop_conditions:
+      - Stop material edits if route/candidate write readiness is not established.
+      - Stop and classify a real protected-invariant violation instead of changing the oracle or currentness rule.
+next_work:
+  phase_transition: false
+  steps:
+    - order: 1
+      action: Execute the standalone C3-C.6 matrix and 19-step aggregate on the current exact PR head, retaining stdout/stderr/exit status and source custody.
+      targets:
+        - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+        - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+      inputs:
+        - INPUT-C3C6-SOURCE-BASIS
+      tests:
+        - TEST-C3C6-MATRIX
+        - TEST-C3C6-AGGREGATE
+      benchmarks:
+        - BENCH-C3C6-MATRIX-CONTRACT
+        - BENCH-C3C6-AGGREGATE
+      acceptance:
+        - AC-C3C6-1
+        - AC-C3C6-2
+        - AC-C3C6-3
+        - AC-C3C6-4
+        - AC-C3C6-5
+        - AC-C3C6-7
+      expected_result: Standalone matrix and aggregate both execute on the exact current head; actual PASS/FAIL evidence replaces infrastructure NOT_RUN.
+      stop_if:
+        - Exact head/base drifts before execution.
+        - The execution environment cannot run the commands; preserve NOT_RUN with cause INFRASTRUCTURE.
+      execution_requirement:
+        id: EXECREQ-C3C6-EXACT-HEAD
+        type: EXTERNAL_ENVIRONMENT
+        actor: GitHub Actions runner or equivalent exact-checkout Node 22 environment
+        environment:
+          kind: Linux Node 22
+          description: Full repository checkout with Git history and npm dependencies available.
+        command: "node scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs && node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs --expected-head $(git rev-parse HEAD)"
+        instruction: null
+        working_directory: repository root
+        required_basis:
+          - current PR #1857 exact head
+          - base PR #1850 exact head
+          - C3C-SOURCE-BASIS-0016
+        unavailable_here_reason: Connected GitHub Actions attempts received runner_id 0 with zero steps, and the local container cannot clone github.com.
+        expected_evidence:
+          - TEST-C3C6-MATRIX
+          - TEST-C3C6-AGGREGATE
+        blocks:
+          - AC-C3C6-1
+          - AC-C3C6-2
+          - AC-C3C6-3
+          - AC-C3C6-4
+          - AC-C3C6-5
+          - AC-C3C6-7
+        success_condition: Both commands actually execute on the exact current head and retain truthful exit/result evidence.
+        clears:
+          - C3-C.6 dynamic NOT_RUN
+          - C3-C aggregate dynamic NOT_RUN
+    - order: 2
+      action: If exact-head evidence passes, perform applicable quality review, checkpoint #1856 acceptance, and reconcile progress/issues before considering #1769 closure.
+      targets:
+        - agents/relay/quality
+        - agents/relay/checkpoints
+        - agents/relay/roadmap/PROGRESS.yaml
+        - agents/relay/roadmap/ISSUE_GRAPH.yaml
+      inputs:
+        - INPUT-ODR-0001
+      tests:
+        - TEST-C3C6-DIFF
+      benchmarks:
+        - BENCH-C3C6-MATRIX-CONTRACT
+      acceptance:
+        - AC-C3C6-6
+        - AC-C3C6-7
+      expected_result: A backward-looking exact-basis checkpoint records PASS/FAIL/NOT_RUN truth and computes the next frontier.
+      stop_if:
+        - Dynamic evidence remains NOT_RUN or FAIL.
+        - Quality review finds a protected-invariant or unsafe-engineering condition.
+qualification_boundary:
+  required: false
+quality:
+  applicable:
+    - blueprint: coding
+      reason: The qualification script and workflow are executable repository code.
+      review_focus:
+        - maintainability and accidental production coupling
+    - blueprint: testing
+      reason: Issue closure depends on executable assertions and retained receipts.
+      review_focus:
+        - positive/negative invalidation coverage and ordering cases
+    - blueprint: engineering-numerics
+      reason: The matrix verifies finite-element workbench currentness around solved engineering state.
+      review_focus:
+        - ancestry/currentness invariants without numerical-method changes
+    - blueprint: code-review
+      reason: The candidate changes qualification/custody code that can create misleading evidence if incorrect.
+      review_focus:
+        - source-custody accuracy and fail-closed behavior
+    - blueprint: github-delivery
+      reason: PR #1857 and its exact-head workflow are the delivery/evidence vehicle.
+      review_focus:
+        - exact-head checks, artifact truth, review state, and issue correlation
+  not_applicable:
+    - blueprint: software-design
+      reason: No production architecture or state-owner design is changed by this proof slice.
+    - blueprint: ui-ux
+      reason: No user-interface behavior is changed.
+    - blueprint: accessibility
+      reason: No accessibility surface is changed.
+    - blueprint: performance
+      reason: Performance characteristics are not an acceptance dimension for this bounded qualification.
+    - blueprint: migration
+      reason: No data/schema migration is performed.
+  review_contract:
+    required: true
+    required_before_checkpoint: true
+    receipt_namespace: QRV-
+    required_outputs:
+      - procedure_results
+      - findings
+      - owner_report
+      - successor_handover
+  findings_policy: Ordinary quality findings remain quality state unless they map to an existing true hard-stop category.
+  ordinary_findings_are_hard_stops: false
+acceptance:
+  - id: AC-C3C6-1
+    description: All seven edit classes are represented; every currently governed editable surface is exercised through the real store and unsupported surfaces are not silently skipped.
+    weight: 20
+    verification:
+      - TEST-C3C6-MATRIX
+      - BENCH-C3C6-MATRIX-CONTRACT
+  - id: AC-C3C6-2
+    description: Each represented class proves both required invalidation and legitimate non-invalidation.
+    weight: 15
+    verification:
+      - TEST-C3C6-MATRIX
+      - BENCH-C3C6-MATRIX-CONTRACT
+  - id: AC-C3C6-3
+    description: No ancestor edit leaves a dependent prior result presenting as CURRENT_RESULT.
+    weight: 15
+    verification:
+      - TEST-C3C6-MATRIX
+  - id: AC-C3C6-4
+    description: Edit after successful solve and edit during RUNNING ordering cases are explicitly exercised.
+    weight: 15
+    verification:
+      - TEST-C3C6-MATRIX
+  - id: AC-C3C6-5
+    description: Unreachable governed edit classes are retained as explicit fail-closed non-claims.
+    weight: 10
+    verification:
+      - TEST-C3C6-MATRIX
+  - id: AC-C3C6-6
+    description: The matrix check is wired into the C3-C aggregate and pinned in the C3-C source basis.
+    weight: 10
+    verification:
+      - TEST-C3C6-DIFF
+  - id: AC-C3C6-7
+    description: The complete C3-C aggregate remains green with the new matrix step included.
+    weight: 15
+    verification:
+      - TEST-C3C6-AGGREGATE
+      - BENCH-C3C6-AGGREGATE
+validation:
+  - id: TEST-C3C6-MATRIX
+    class: MUST_PASS
+    method: node scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+    proves:
+      - AC-C3C6-1
+      - AC-C3C6-2
+      - AC-C3C6-3
+      - AC-C3C6-4
+      - AC-C3C6-5
+  - id: TEST-C3C6-AGGREGATE
+    class: MUST_PASS
+    method: node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs --expected-head $(git rev-parse HEAD)
+    proves:
+      - AC-C3C6-7
+  - id: TEST-C3C6-DIFF
+    class: MUST_PASS
+    method: Verify aggregate wiring and Q020 source-basis pin against the exact candidate blobs; run git diff --check against the stacked base when executable.
+    proves:
+      - AC-C3C6-6
+failure_and_stop_conditions:
+  hard_stop_categories:
+    - PROTECTED_INVARIANT_FAILURE
+    - UNSAFE_ENGINEERING_RESULT
+    - AUTHORITY_VIOLATION
+    - ROADMAP_CONFLICT
+report_contract:
+  sections:
+    - "Executive state"
+    - "Overall / phase / EP progress"
+    - "Work completed"
+    - "Files changed"
+    - "Acceptance matrix"
+    - "Tests and evidence"
+    - "Quality findings"
+    - "Known limitations"
+    - "Owner decisions required"
+    - "GitHub issue changes"
+    - "Roadmap changes"
+    - "Exact next actions"
+    - "Successor EP"
+  payloads:
+  - id: RPT-01
+    section: "Executive state"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-02
+    section: "Overall / phase / EP progress"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-03
+    section: "Work completed"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-04
+    section: "Files changed"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-05
+    section: "Acceptance matrix"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-06
+    section: "Tests and evidence"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-07
+    section: "Quality findings"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-08
+    section: "Known limitations"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-09
+    section: "Owner decisions required"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-10
+    section: "GitHub issue changes"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-11
+    section: "Roadmap changes"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-12
+    section: "Exact next actions"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+  - id: RPT-13
+    section: "Successor EP"
+    sources:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/PROGRESS.yaml
+    required_fields:
+      - reconciled_value
+checkpoint_contract:
+  required: true
+successor_relay:
+  required: true
+  duties:
+    - compute next executable frontier
+    - run cold-start check
+    - update REPO_STATE
+    - carry forward exact NOT_RUN/FAIL evidence and open issue obligations
+  required_outputs:
+    - checkpoint
+    - progress_reconciliation
+    - issue_projection_disposition
+    - next_frontier
+    - successor_ep_or_terminal_disposition

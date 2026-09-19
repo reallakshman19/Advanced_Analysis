@@ -1,26 +1,92 @@
 schema_version: relay-v2.5
 progress_basis:
-  id: PB-0001
-  roadmap_revision: RM-0001
+  id: PB-0002
+  roadmap_revision: RM-0002
 overall:
-  earned_weight: 0
-  total_weight: 0
-  percent: 0
+  earned_weight: 10
+  total_weight: 100
+  percent: 10
 objectives:
   - id: OBJ-1710
-    earned_weight: 0
-    total_weight: 0
-    percent: 0
+    earned_weight: 10
+    total_weight: 100
+    percent: 10
 phases:
   - id: PH-1711
-    earned_weight: 0
-    total_weight: 0
-    percent: 0
+    earned_weight: 10
+    total_weight: 100
+    percent: 10
 work_packages:
   - id: WP-1769
+    earned_weight: 10
+    total_weight: 100
+    percent: 10
+execution_packages:
+  - id: EP-LAFEA3-C3C6-1856
+    earned_weight: 10
+    total_weight: 100
+    percent: 10
+implementation_steps:
+  - id: STEP-C3C6-FINISH
+    ep_id: EP-LAFEA3-C3C6-1856
+    earned_weight: 10
+    total_weight: 100
+    percent: 10
+acceptance_criteria:
+  - id: AC-C3C6-1
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: NOT_RUN
     earned_weight: 0
-    total_weight: 0
+    total_weight: 20
     percent: 0
-execution_packages: []
-implementation_steps: []
-acceptance_criteria: []
+    basis:
+      - Dynamic matrix execution has not run on the current delivery head.
+  - id: AC-C3C6-2
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: NOT_RUN
+    earned_weight: 0
+    total_weight: 15
+    percent: 0
+    basis:
+      - Dynamic positive/negative invalidation assertions have not executed on the current delivery head.
+  - id: AC-C3C6-3
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: NOT_RUN
+    earned_weight: 0
+    total_weight: 15
+    percent: 0
+    basis:
+      - Dynamic stale-result rejection has not executed on the current delivery head.
+  - id: AC-C3C6-4
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: NOT_RUN
+    earned_weight: 0
+    total_weight: 15
+    percent: 0
+    basis:
+      - Edit-after-solve and edit-during-run assertions are present but have not executed on the current delivery head.
+  - id: AC-C3C6-5
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: NOT_RUN
+    earned_weight: 0
+    total_weight: 10
+    percent: 0
+    basis:
+      - Unsupported-surface non-claim assertions are present but have not executed on the current delivery head.
+  - id: AC-C3C6-6
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: COMPLETE
+    earned_weight: 10
+    total_weight: 10
+    percent: 100
+    basis:
+      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs contains C3C-EDIT-INVALIDATION-MATRIX.
+      - C3C-SOURCE-BASIS-0016 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
+  - id: AC-C3C6-7
+    ep_id: EP-LAFEA3-C3C6-1856
+    status: NOT_RUN
+    earned_weight: 0
+    total_weight: 15
+    percent: 0
+    basis:
+      - The 19-step aggregate has not executed on the current delivery head.

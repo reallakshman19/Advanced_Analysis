@@ -1,8 +1,25 @@
 schema_version: relay-v2.5
 repository_type: application
 default_branch: main
-important_paths: {}
-commands: {}
-protected_domains: []
+important_paths:
+  source:
+    - src
+  qualification:
+    - scripts
+    - agents/chains
+  relay:
+    - agents/relay
+commands:
+  c3c6_matrix: node scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+  c3c_aggregate: node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs --expected-head $(git rev-parse HEAD)
+  import_check: npm run check:imports
+  diff_check: git diff --check
+protected_domains:
+  - solver formulation
+  - stiffness and load assembly
+  - recovery convention
+  - benchmark oracle and tolerance
+  - release authority
 generated_paths: []
-repository_rules: []
+repository_rules:
+  - AGENTS.md
