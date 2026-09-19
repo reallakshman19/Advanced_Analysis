@@ -1,0 +1,38 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0003
+  from_revision: RM-0002
+  to_revision: RM-0003
+  classification: OWNER_INTENT_MUTATION
+  trigger:
+    type: OWNER_DECISION
+    ref: ODR-0003
+    path: agents/relay/roadmap/owner-decisions/ODR-0003.yaml
+changes:
+  added:
+    - id: OBJ-002
+      change: Add bounded EMP.1/WRC open-item closure as a future programme objective.
+    - id: PHASE-002
+      change: Add current-route evidence and release-preparation phase under OBJ-002.
+    - id: WP-002
+      change: Add detailed #1768 gamma=5 exact-head evidence and anti-drift work, dependent on WP-001.
+  removed: []
+  changed:
+    - id: WP-001
+      change: Re-ground active migration work to the revised V2.5 protocol and make its successor explicit.
+  unaffected: []
+invalidated_execution_packages:
+  - id: EP-0001
+    disposition: REISSUE_ON_RM-0003_AND_REVISED_PROTOCOL_BASIS
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0002
+  new_basis: PB-0003
+  old_total_weight: 100
+  new_total_weight: 200
+frontier_after:
+  - WP-001
+notes:
+  - WP-002 is detailed future work but cannot enter the computed frontier until WP-001 is COMPLETE.
+  - "#1834 and #1852 remain Owner-reserved and are not promoted to executable work by this revision."
+  - "#54 remains an external infrastructure obligation; no workflow mutation is authorized."
