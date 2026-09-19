@@ -1,0 +1,31 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0006
+  from_revision: RM-0005
+  to_revision: RM-0006
+  classification: EXECUTION_DERIVED_STATUS
+  trigger:
+    type: POST_MERGE_RECONCILIATION
+    ref: github:reallaksh19/Advanced_Analysis@4b4a214118d22f27a2e934c0d75cd346fa16b63c
+changes:
+  added: []
+  removed: []
+  changed:
+    - WP-1769
+  unaffected:
+    - OBJ-1710
+    - PH-1711
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0005
+  new_basis: PB-0006
+  old_total_weight: 0
+  new_total_weight: 0
+frontier_after:
+  - WP-1769
+notes:
+  - PR #1857 and PR #1850 are merged; exact main is 4b4a214118d22f27a2e934c0d75cd346fa16b63c.
+  - The merged main tree is f0d2e0f1b9b6436e61886e29ca73c2983c0692d0, identical to the pre-merge integration head c9604e5b7223988ed09cfbda317477902ce43c2a.
+  - C3-C.6 matrix and current 19-step aggregate remain NOT_RUN / INFRASTRUCTURE; no closure state is advanced.
+  - WP-1769 remains the sole serial frontier until executable evidence resolves #1856.

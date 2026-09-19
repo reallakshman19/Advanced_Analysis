@@ -1,9 +1,9 @@
 schema_version: relay-v2.5
 roadmap:
   id: RM-LAFEA-MESH-COMPLETION
-  revision: RM-0005
+  revision: RM-0006
   title: FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery
-  revision_record: agents/relay/roadmap/revisions/RM-0005.yaml
+  revision_record: agents/relay/roadmap/revisions/RM-0006.yaml
 objectives:
   - id: OBJ-1710
     title: FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery
