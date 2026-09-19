@@ -1,13 +1,17 @@
 schema_version: relay-v2.5
 progress_basis:
-  id: PB-0002
-  roadmap_revision: RM-0002
+  id: PB-0003
+  roadmap_revision: RM-0003
 overall:
   earned_weight: 0
-  total_weight: 100
+  total_weight: 200
   percent: 0
 objectives:
   - id: OBJ-001
+    earned_weight: 0
+    total_weight: 100
+    percent: 0
+  - id: OBJ-002
     earned_weight: 0
     total_weight: 100
     percent: 0
@@ -16,8 +20,16 @@ phases:
     earned_weight: 0
     total_weight: 100
     percent: 0
+  - id: PHASE-002
+    earned_weight: 0
+    total_weight: 100
+    percent: 0
 work_packages:
   - id: WP-001
+    earned_weight: 0
+    total_weight: 100
+    percent: 0
+  - id: WP-002
     earned_weight: 0
     total_weight: 100
     percent: 0
