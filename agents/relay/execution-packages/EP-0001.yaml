@@ -78,17 +78,17 @@
     {
       "id": "DSTEP-02",
       "action": "VERIFY_GIT",
-      "target": "live checkout",
-      "question": "Does the checked-out branch, HEAD, material-ref ancestry and main base match EP-0001 git_basis?",
+      "target": "live carrier branch and GitHub repository state",
+      "question": "Does the carrier branch/head, material-ref ancestry and current main base match EP-0001 git_basis before runtime write gating?",
       "expected_outputs": [
-        "checked-out branch",
-        "current HEAD",
+        "carrier branch",
+        "current carrier HEAD",
         "material-ref ancestry result",
         "current main base ref",
         "base drift result"
       ],
       "receipt_required": true,
-      "on_failure": "Drop material WRITE authority and reconcile Git drift before execution."
+      "on_failure": "Do not seek material-write readiness; reconcile branch/material/base drift first."
     },
     {
       "id": "DSTEP-03",
@@ -690,7 +690,7 @@
       },
       {
         "order": 2,
-        "action": "Run material_write_ready.py for the certified candidate on the live carrier branch before any material edit.",
+        "action": "Run material_write_ready.py for the certified candidate on a real live checkout of the carrier branch before any material edit.",
         "targets": [
           "live checkout",
           "agents/relay/REPO_STATE.yaml",
@@ -714,7 +714,36 @@
           "material_write_ready is false.",
           "Base drift is unqualified.",
           "A hard stop or write collision is active."
-        ]
+        ],
+        "execution_requirement": {
+          "id": "EXECREQ-EP0001-LIVE-GIT",
+          "type": "EXTERNAL_ENVIRONMENT",
+          "actor": "certified EP-0001 execution candidate",
+          "environment": {
+            "kind": "LIVE_GIT_CHECKOUT",
+            "description": "A real checkout of reallaksh19/Advanced_Analysis on fix/lafea4-trunk-green-b5-execution with Git object ancestry available and Common checked out at the pinned relay_protocol.basis_ref."
+          },
+          "command": "python <common>/skills/engineering-pr-delivery-v2.5/scripts/material_write_ready.py . --candidate-id <agent-instance-id>",
+          "working_directory": "repository root of the live fix/lafea4-trunk-green-b5-execution checkout",
+          "required_basis": [
+            "current EP-0001 material_ref and expected branch",
+            "current REPO_STATE takeover admission",
+            "Common relay_protocol.basis_ref"
+          ],
+          "unavailable_here_reason": "This connected GitHub control environment can read and mutate repository/provider state but does not expose the required live Git worktree/object database to material_write_ready.py.",
+          "expected_evidence": [
+            "material_write_ready.py JSON with material_write_ready=true",
+            "live branch/head/base/material ancestry receipt"
+          ],
+          "blocks": [
+            "EP-0001 STEP-01 engineering execution",
+            "any engineering-material write"
+          ],
+          "success_condition": "material_write_ready.py exits 0 for the certified candidate on the exact live EP-0001 route with no unresolved drift or hard stop.",
+          "clears": [
+            "runtime live-Git write gate for EP-0001"
+          ]
+        }
       },
       {
         "order": 3,

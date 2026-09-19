@@ -46,7 +46,7 @@ def vr(p):
 
 def main():
  a=argparse.ArgumentParser(); a.add_argument('repo_root',nargs='?',default='.'); a.add_argument('--common-root',required=True); a.add_argument('--candidate-id',required=True); a.add_argument('--disc-id'); a.add_argument('--output'); x=a.parse_args()
- root=Path(x.repo_root).resolve(); common=Path(x.common_root).resolve(); cand=x.candidate_id.strip(); req(cand and cand!=PREP,'invalid candidate id')
+ root=Path(x.repo_root).resolve(); common=Path(x.common_root).resolve(); cand=x.candidate_id.strip(); req(cand,'invalid candidate id')
  scripts=common/'skills/engineering-pr-delivery-v2.5/scripts'; req(scripts.is_dir(),f'missing Common scripts: {scripts}'); sys.path.insert(0,str(scripts))
  tl=importlib.import_module('takeoverlib'); vd=importlib.import_module('validate_discovery_receipt')
  st=load(root/'agents/relay/REPO_STATE.yaml'); pin=str((st.get('relay_protocol') or {}).get('basis_ref') or ''); req(pin,'missing protocol basis'); ch=git(common,'rev-parse','HEAD').stdout.strip(); req(ch==pin,f'Common HEAD {ch} != pinned {pin}')

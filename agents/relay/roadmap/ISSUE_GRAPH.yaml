@@ -1,6 +1,6 @@
 {
   "schema_version": "relay-v2.5",
-  "graph_revision": "IG-0001",
+  "graph_revision": "IG-0002",
   "nodes": [
     {
       "id": "ISSUE-1756",
@@ -18,7 +18,8 @@
       "github": {
         "issue_number": 1763,
         "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1763"
-      }
+      },
+      "roadmap_node": "WP-001"
     },
     {
       "id": "PR-1847",
@@ -27,8 +28,7 @@
       "github": {
         "issue_number": 1847,
         "url": "https://github.com/reallaksh19/Advanced_Analysis/pull/1847"
-      },
-      "roadmap_node": "WP-001"
+      }
     }
   ],
   "relationships": [

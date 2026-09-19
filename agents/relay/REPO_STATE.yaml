@@ -7,7 +7,7 @@
   },
   "relay_protocol": {
     "version": "2.5",
-    "basis_ref": "1f4e9956e89f394fda5e4e730e13ecd8709c8f04"
+    "basis_ref": "d9b84069683977b5c370f536f1c50095de926338"
   },
   "roadmap": {
     "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
@@ -52,26 +52,22 @@
       "state": "READY",
       "can_continue": true,
       "material_authority": "WRITE",
-      "next_action": "A zero-context execution environment must run agents/relay/tools/discover_ep0001.py against the exact pinned Common basis, then run prepare_ep0001_takeover.py, Common takeover validation, and material_write_ready.py before any engineering-material write."
+      "next_action": "A continuing or incoming candidate may create repository-grounded DISC/TC evidence for SERIAL:EP-0001. Before any engineering-material write, run the live checkout material_write_ready.py gate on the exact carrier branch/head."
     },
     "quality": {
       "state": "NEEDS_ATTENTION",
       "findings": [
         "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication.",
-        "Protocol basis advanced from 7ec21cd100211935267e4cec15dbb3e7edaefd68 to 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1; intervening changes are confined to three-pass-generator dispatch/schema/validation and do not alter ENGINEERING_DELIVERY semantics.",
-        "Common main advanced to 1f4e9956e89f394fda5e4e730e13ecd8709c8f04; intervening changes isolate three-pass generation from engineering delivery and do not change EP-0001 takeover/write semantics.",
-        "EP-0001 includes a frozen outgoing-preparer TC assembler. It is not authority: Common discovery/takeover validators and material_write_ready.py remain mandatory.",
-        "Candidate launch hardening: standalone DISC validation must use Common validate_discovery_receipt.validate_file before admission because the validator CLI only traverses already-admitted discovery receipts.",
-        "EP-0001 now has a deterministic repository-only DISC producer. It performs DSTEP-01..06 from live files/Git/GitHub, pins the exact Common basis, validates the standalone DISC with Common before publishing it, and never mutates takeover admissions."
+        "Revised V2.5 basis d9b84069683977b5c370f536f1c50095de926338 permits a continuing candidate to produce repository-grounded DISC/TC records; document authorship is not certification authority. The deterministic validator remains certification authority, and live material_write_ready remains mandatory."
       ]
     },
     "evidence": {
       "state": "PARTIAL",
-      "summary": "Historical exact-head A4 evidence is preserved. No V2.5-certified candidate has executed the WP-001 local gate set, so no B5 PASS is authorized. Retained hosted observations include zero-step LAFEA.4 jobs on heads 0332d4f2fcea34c444f9ffe7262a54bd94f071f6 and 55c77999235fa021f194b744ebf4dfb3627a17fc; these are NOT_RUN / INFRASTRUCTURE. DSTEP-06 must always re-observe the live PR head and its current jobs rather than transfer a prior-head disposition.",
+      "summary": "Historical exact-head A4 evidence is preserved. No current candidate has executed the WP-001 local gate set under a certified takeover plus live material-write gate, so no B5 PASS is authorized. Hosted zero-step observations remain NOT_RUN / INFRASTRUCTURE and are head-bounded.",
       "not_run": [
         {
           "id": "EP0001-EXACT-HEAD-GATES",
-          "reason": "No zero-context candidate has yet been admitted to execute the local WP-001 gate set under V2.5.",
+          "reason": "No candidate has yet executed the local WP-001 gate set after certified takeover and a live material_write_ready PASS.",
           "cause": "NOT_SCHEDULED"
         },
         {

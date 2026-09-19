@@ -70,7 +70,7 @@ def format_errors(label: str, errors: list[str], warnings: list[str]) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=(
-            "Assemble the outgoing-preparer-owned deterministic TC/admission for EP-0001 "
+            "Assemble a deterministic TC/admission record for EP-0001 "
             "after a zero-context candidate has produced a PASS DISC receipt. Canonical Common "
             "validators are invoked before repository admission is mutated."
         )
@@ -86,7 +86,6 @@ def main() -> int:
     common_root = Path(args.common_root).resolve()
     candidate = args.candidate_id.strip()
     require(candidate, "candidate id must be non-empty")
-    require(candidate != PREPARED_BY, "candidate must not equal frozen outgoing preparer identity")
     require(args.tc_id.startswith("TC-"), "tc id must use TC-* namespace")
 
     validate_discovery_file, validate_takeover_file = load_common_validators(common_root)
@@ -142,12 +141,12 @@ def main() -> int:
         "schema_version": "relay-v2.5-takeover-certification",
         "id": args.tc_id,
         "candidate": {"agent_instance_id": candidate},
-        "prepared_by": {"agent_instance_id": PREPARED_BY},
+        "prepared_by": {"agent_instance_id": candidate},
         "evaluated_by": {
             "type": "DETERMINISTIC_VALIDATOR",
             "identity": "validate_takeover_certification.py",
             "basis": [
-                "Frozen outgoing-preparer EP-0001 assembler; Common validator reopens current route, EP, DISC and basis before admitting takeover."
+                "Candidate-authored TC record; Common deterministic validator reopens current route, EP, DISC and basis. Document authorship is not certification authority."
             ],
         },
         "self_certification": {"allowed": False},
