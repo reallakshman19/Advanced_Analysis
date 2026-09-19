@@ -1,0 +1,32 @@
+schema_version: relay-v2.5
+id: ODR-0002
+decision:
+  authority: OWNER
+  kind: AUTHORIZATION
+  statement: Authorize the incoming candidate to take over EP-0001 and proceed with the bounded V2.5 migration work package after a valid discovery receipt and takeover certification, without deciding any Owner-reserved engineering policy.
+  source: "Owner instruction dated 2026-09-19T06:02:49Z: take over, proceed next"
+effects:
+  requirement_disposition: NOT_APPLICABLE
+  grants_material_write_authority: true
+  pending_items:
+    - "#1834 gamma/interpolation product-method disposition remains undecided."
+    - "#1852 authority-bearing resultHash policy remains undecided."
+impact:
+  class:
+    - EXECUTION_AUTHORIZATION
+affected:
+  objectives:
+    - OBJ-001
+  phases:
+    - PHASE-001
+  work_packages:
+    - WP-001
+  execution_packages:
+    - EP-0001
+  issues:
+    - 1858
+required_reconciliation:
+  - Admit only a candidate with current DISC and TC evidence for SERIAL:EP-0001.
+  - Material WRITE applies only to EP-0001 allowed scope and disappears on route, EP, protocol, base, stop, or authority drift.
+  - Do not resolve or implement #1834 or #1852 under this authorization.
+status: APPLIED
