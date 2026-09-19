@@ -51,6 +51,7 @@ const steps = [
   step('C3C-COMPILED-LOAD-PARITY-NEGATIVE', process.execPath, ['scripts/lafea-continuum-compiled-load-parity-negative-check.mjs'], 'C3C_2'),
   step('C3C-COMPILED-EXECUTION-PARITY', process.execPath, ['scripts/lafea-continuum-compiled-execution-check.mjs'], 'C3C_5'),
   step('C3C-SEVEN-STATE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-currentness-check.mjs'], 'C3C_6'),
+  step('C3C-EDIT-INVALIDATION-MATRIX', process.execPath, ['scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs'], 'C3C_6'),
   step('C3C-PHYSICAL-PROBE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-g4-physical-probe-diagnostic.mjs'], 'C3C_4'),
   step('C3C-PHYSICAL-PROBE-FAIL-CLOSED', process.execPath, ['scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs'], 'C3C_4_C3C_6'),
   step('C3C-PROBE-REFINEMENT-INVARIANCE', process.execPath, ['scripts/lafea.3-c3c-probe-invariance-check.mjs'], 'C3C_4'),

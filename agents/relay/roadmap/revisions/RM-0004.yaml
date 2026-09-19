@@ -1,0 +1,29 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0004
+  from_revision: RM-0003
+  to_revision: RM-0004
+  classification: EXECUTION_DERIVED_STATUS
+  trigger:
+    type: VALIDATION_FINDING
+    ref: UNSUPPORTED_PROGRESS_DENOMINATOR
+changes:
+  added: []
+  removed: []
+  changed: []
+  unaffected:
+    - OBJ-1710
+    - PH-1711
+    - WP-1769
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0003
+  new_basis: PB-0004
+  old_total_weight: 100
+  new_total_weight: 0
+frontier_after: []
+notes:
+  - Removes an unsupported top-level completion denominator introduced during relay catch-up.
+  - The bounded #1856 EP/step/acceptance rows retain their own explicit 100-point slice accounting; that slice is not promoted into #1769, #1711, #1710 or overall programme percentage until historical acceptance is reconstructed.
+  - No engineering acceptance, issue state, source custody, or numerical authority changed.

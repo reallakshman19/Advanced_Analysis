@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0015",
+  "basisId": "C3C-SOURCE-BASIS-0016",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,7 +11,7 @@
     "disposition": "MERGED_MAIN_CURRENT"
   },
   "reviewedMainSha": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
-  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_AND_COMPILER_QUALIFIED_G002_STRAIGHT_BODY_FORCE_QUALIFIED_G005_CONSTANT_ALPHA_DELTA_T_QUALIFIED_G006_AXIS_ALIGNED_SOURCE_NORMAL_RESTRAINT_QUALIFIED_COMPILED_LOAD_PARITY_CONTRACT_REPAIRED",
+  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_AND_COMPILER_QUALIFIED_G002_STRAIGHT_BODY_FORCE_QUALIFIED_G005_CONSTANT_ALPHA_DELTA_T_QUALIFIED_G006_AXIS_ALIGNED_SOURCE_NORMAL_RESTRAINT_QUALIFIED_COMPILED_LOAD_PARITY_CONTRACT_REPAIRED_C3C6_EDIT_INVALIDATION_MATRIX_CANDIDATE_WITH_EXPLICIT_NON_CLAIMS_PENDING_EXECUTION",
   "diagnosticProvenance": {
     "priorC3cMergedPullRequest": "github:reallaksh19/Advanced_Analysis#1789",
     "priorC3cMergeCommit": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
@@ -66,12 +66,13 @@
     { "sourceId": "C3C-Q011", "role": "sourceNormalPressurePrimitiveQualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs", "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989" },
     { "sourceId": "C3C-Q012", "role": "sourceNormalPressureCompilerT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-compiler-check.mjs", "blobSha": "90701e34f512478d103e45cdf0b829171bffae81" },
     { "sourceId": "C3C-Q013", "role": "straightRegionBodyForceT6Q8ResultantQualificationCheck", "path": "scripts/lafea.3-c3c-body-force-resultant-check.mjs", "blobSha": "4a0b7361920c8e953e819b742dd1c9c9f09b25e3" },
-    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "66bfcae8ea8a4e2deadd24273ba16e2d6a044d24" },
+    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3" },
     { "sourceId": "C3C-Q015", "role": "governedDeltaTT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-temperature-delta-check.mjs", "blobSha": "b5a2d2a2e48cf123b97413bfe5996b62a004f282" },
     { "sourceId": "C3C-Q016", "role": "sourceNormalAxisAlignedRestraintT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-local-restraint-check.mjs", "blobSha": "c163985bcd86b75b61d5d829c61590cf216e942d" },
     { "sourceId": "C3C-Q017", "role": "numericParityContract", "path": "scripts/lib/lafea-numeric-parity.mjs", "blobSha": "28eedcaa8a87fd69a3718cbe4b40a909f322c0e3" },
     { "sourceId": "C3C-Q018", "role": "numericParityNegativeControls", "path": "scripts/lafea-continuum-compiled-load-parity-negative-check.mjs", "blobSha": "5cb4dfe8e70f215b6b59aeddcb1b8ba14b39a24e" },
-    { "sourceId": "C3C-Q019", "role": "probeRefinementInvarianceCheck", "path": "scripts/lafea.3-c3c-probe-invariance-check.mjs", "blobSha": "29ce652b6d4f390598ce4ccfc716ab63bf488a32" }
+    { "sourceId": "C3C-Q019", "role": "probeRefinementInvarianceCheck", "path": "scripts/lafea.3-c3c-probe-invariance-check.mjs", "blobSha": "29ce652b6d4f390598ce4ccfc716ab63bf488a32" },
+    { "sourceId": "C3C-Q020", "role": "editInvalidationMatrixQualificationCheck", "path": "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs", "blobSha": "871fa1b70ec7921fa8696bf49e8a8802c0788318" }
   ],
   "confirmedOpenSemantics": [
     {
