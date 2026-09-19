@@ -1,0 +1,30 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0005
+  from_revision: RM-0004
+  to_revision: RM-0005
+  classification: EXECUTION_DERIVED_STATUS
+  trigger:
+    type: ROUTE_ACTIVATION
+    ref: ODR-0001
+changes:
+  added: []
+  removed: []
+  changed:
+    - WP-1769
+  unaffected:
+    - OBJ-1710
+    - PH-1711
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0004
+  new_basis: PB-0005
+  old_total_weight: 0
+  new_total_weight: 0
+frontier_after:
+  - WP-1769
+notes:
+  - Activates exactly one serial frontier work package under the existing Owner authorization.
+  - EP-LAFEA3-C3C6-1856 is bound to material ref 9096417914c47a5d417ed6a6ee68bb970c0f196d and stacked base ab75b5be68bd998c5657aa475143eb40ebb82d94.
+  - No production mechanics, qualification assertions, source basis, or merge/release authority changed.

@@ -1,0 +1,28 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0002
+  from_revision: RM-0001
+  to_revision: RM-0002
+  classification: EXECUTION_DERIVED_STATUS
+  trigger:
+    type: OWNER_DECISION
+    ref: ODR-0001
+changes:
+  added: []
+  removed: []
+  changed:
+    - OBJ-1710
+    - PH-1711
+    - WP-1769
+  unaffected: []
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0001
+  new_basis: PB-0002
+  old_total_weight: 0
+  new_total_weight: 100
+frontier_after: []
+notes:
+  - This revision details the existing issue-derived concept/work boundary without changing its engineering scope.
+  - The relay remains INITIALIZING until the prepared EP and route are deterministically validated; therefore no executable frontier is exposed yet.

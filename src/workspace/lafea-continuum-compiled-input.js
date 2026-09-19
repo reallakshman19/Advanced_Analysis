@@ -4,6 +4,10 @@ import { lafeaUnitFactor } from '../core/lafea-common-input/units.js';
 import { integrateLafeaAnalyticalEdgeTraction } from './lafea-analytical-traction-lowering.js';
 import { integrateLafeaSourcePressure } from './lafea-source-pressure-lowering.js';
 import { appendLafeaDeltaTemperatureLoads } from './lafea-continuum-temperature-lowering.js';
+import {
+  LAFEA_CONTINUUM_SOURCE_NORMAL_RESTRAINT_MODE,
+  appendLafeaSourceNormalRestraintConstraints,
+} from './lafea-continuum-local-restraint.js';
 
 export function buildLafeaContinuumCompiledExecutionInput(model) {
   const sections = new Map(model.sections.map((row) => [row.sectionId, row]));
@@ -20,7 +24,7 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
       if (!sameIds(attachment.physicalCaseIds, allCaseIds)) {
         fail('LAFEA_CONTINUUM_COMPILED_CASE_SPECIFIC_RESTRAINT_UNSUPPORTED');
       }
-      appendRestraints(constraints, attachment);
+      appendRestraints(constraints, attachment, model);
       continue;
     }
     for (const caseId of attachment.physicalCaseIds) {
@@ -33,6 +37,10 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
   );
   const hasSourcePressure = model.attachments.some((row) => row.kind === 'PRESSURE');
   const hasTemperature = model.attachments.some((row) => row.kind === 'TEMPERATURE');
+  const hasSourceNormalRestraint = model.attachments.some(
+    (row) => row.kind === 'RESTRAINT'
+      && row.payload?.mode === LAFEA_CONTINUUM_SOURCE_NORMAL_RESTRAINT_MODE,
+  );
   return {
     schema: MODEL_SCHEMA,
     modelIdentity: model.sourceModel.modelIdentity,
@@ -54,6 +62,7 @@ export function buildLafeaContinuumCompiledExecutionInput(model) {
       ...(hasAnalyticalTraction ? ['ANALYTICAL_TRACTION_CONSISTENT_NODAL_LOWERING_V1'] : []),
       ...(hasSourcePressure ? ['SOURCE_NORMAL_PRESSURE_CONSISTENT_NODAL_LOWERING_V1'] : []),
       ...(hasTemperature ? ['GOVERNED_CONSTANT_ALPHA_DELTA_T_LOWERING_V1'] : []),
+      ...(hasSourceNormalRestraint ? ['SOURCE_NORMAL_AXIS_ALIGNED_RESTRAINT_V1'] : []),
     ])].sort(compare),
   };
 }
@@ -100,7 +109,10 @@ function elementInputs(model, sections) {
   });
 }
 
-function appendRestraints(output, attachment) {
+function appendRestraints(output, attachment, model) {
+  if (attachment.payload?.mode === LAFEA_CONTINUUM_SOURCE_NORMAL_RESTRAINT_MODE) {
+    return appendLafeaSourceNormalRestraintConstraints({ output, attachment, model });
+  }
   const payload = payloadObject(attachment, ['ux', 'uy'], []);
   const active = ['ux', 'uy'].filter((key) => payload[key] === true);
   for (const key of ['ux', 'uy']) {

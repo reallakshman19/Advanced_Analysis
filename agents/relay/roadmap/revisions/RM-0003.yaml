@@ -1,0 +1,29 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0003
+  from_revision: RM-0002
+  to_revision: RM-0003
+  classification: EXECUTION_DERIVED_STATUS
+  trigger:
+    type: VALIDATION_FINDING
+    ref: INITIALIZING_FRONTIER_CONFLICT
+changes:
+  added: []
+  removed: []
+  changed:
+    - WP-1769
+  unaffected:
+    - OBJ-1710
+    - PH-1711
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0002
+  new_basis: PB-0003
+  old_total_weight: 100
+  new_total_weight: 100
+frontier_after: []
+notes:
+  - Corrects relay metadata only: an INITIALIZING relay cannot expose a computed executable frontier.
+  - WP-1769 remains the intended next work package but is OWNER_REVIEW_REQUIRED until its prepared EP is validated and promotion to ACTIVE is reconciled.
+  - No engineering acceptance, source custody, issue scope, or numerical authority changed.

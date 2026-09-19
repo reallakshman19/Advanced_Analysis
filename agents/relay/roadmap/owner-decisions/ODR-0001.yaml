@@ -1,0 +1,34 @@
+schema_version: relay-v2.5
+id: ODR-0001
+decision:
+  authority: OWNER
+  kind: AUTHORIZATION
+  statement: Solve the listed GitHub issue chain leaf-first (#1856, then #1769, then #1711) under the revised V2.5 relay, preserving each issue's existing engineering boundaries and without expanding solver/numerical/release authority.
+  source: owner-message:2026-09-19T09:27:22Z
+effects:
+  requirement_disposition: NOT_APPLICABLE
+  grants_material_write_authority: true
+  pending_items: []
+impact:
+  class:
+    - EP
+    - SCOPE
+affected:
+  objectives:
+    - OBJ-1710
+  phases:
+    - PH-1711
+  work_packages:
+    - WP-1769
+  execution_packages:
+    - EP-LAFEA3-C3C6-1856
+  issues:
+    - ISSUE-1856
+    - ISSUE-1769
+    - ISSUE-1711
+required_reconciliation:
+  - reconcile the existing issue chain into V2.5 roadmap and issue graph
+  - prepare a bounded semantic EP for the current #1856 acceptance slice
+  - establish candidate admission before any further engineering-material write
+  - retain exact dynamic PASS/FAIL/NOT_RUN evidence before issue closure
+status: APPLIED

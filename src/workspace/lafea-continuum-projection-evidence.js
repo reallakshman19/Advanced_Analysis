@@ -1,5 +1,9 @@
 /** Hash-addressed source-feature -> mesh -> compiled-contribution custody for LAFEA.3. */
 import { canonicalLafeaSha256 } from './lafea-canonical-sha256.js';
+import {
+  LAFEA_CONTINUUM_SOURCE_NORMAL_RESTRAINT_MODE,
+  sourceNormalRestraintDof,
+} from './lafea-continuum-local-restraint.js';
 
 export const LAFEA_CONTINUUM_PROJECTION_EVIDENCE_SCHEMA =
   'lafea-continuum-feature-projection-evidence/v1';
@@ -25,17 +29,29 @@ export function createLafeaContinuumProjectionEvidence(options) {
   const entries = domain.attachments.map((attachment) => {
     const target = targetMap.get(attachment.attachmentId);
     if (!target) fail('LAFEA_CONTINUUM_PROJECTION_ATTACHMENT_TARGET_MISSING');
+    const projectedSourceFeature = sourceFeature(
+      attachment,
+      domain,
+      geometry,
+      vertexMap,
+      segmentMap,
+      segmentLoops,
+    );
     return freeze({
       projectionId: `${attachment.attachmentId}/PROJECTION`,
       attachmentId: attachment.attachmentId,
       kind: attachment.kind,
-      sourceFeature: sourceFeature(attachment, domain, geometry, vertexMap, segmentMap, segmentLoops),
+      sourceFeature: projectedSourceFeature,
       meshEntities: freeze({
         nodeIds: [...target.nodeIds],
         edgeNodePaths: target.edgeNodePaths.map((row) => [...row]),
         elementIds: [...target.elementIds],
       }),
-      compiledContributionIds: compiledContributionIds(attachment, target),
+      compiledContributionIds: compiledContributionIds(
+        attachment,
+        target,
+        projectedSourceFeature,
+      ),
     });
   }).sort((a, b) => compare(a.attachmentId, b.attachmentId));
   const base = freeze({
@@ -146,7 +162,7 @@ function collectSegmentLoops(loops) {
   return map;
 }
 
-function compiledContributionIds(attachment, target) {
+function compiledContributionIds(attachment, target, projectedSourceFeature) {
   const id = attachment.attachmentId;
   if (attachment.kind === 'CONCENTRATED_LOAD') return freeze([id]);
   if ((attachment.kind === 'TRACTION' && typeof attachment.payload?.law === 'string')
@@ -161,6 +177,13 @@ function compiledContributionIds(attachment, target) {
     return freeze(target.elementIds.map((elementId) => `${id}/${elementId}`));
   }
   if (attachment.kind === 'RESTRAINT') {
+    if (attachment.payload?.mode === LAFEA_CONTINUUM_SOURCE_NORMAL_RESTRAINT_MODE) {
+      if (projectedSourceFeature.targetType !== 'SEGMENT') {
+        fail('LAFEA_CONTINUUM_LOCAL_RESTRAINT_SEGMENT_REQUIRED');
+      }
+      const dof = sourceNormalRestraintDof(projectedSourceFeature.geometry);
+      return freeze(target.nodeIds.map((nodeId) => `${id}/${nodeId}/${dof}`));
+    }
     const active = ['ux', 'uy'].filter((key) => attachment.payload?.[key] === true);
     return freeze(target.nodeIds.flatMap((nodeId) =>
       active.map((key) => `${id}/${nodeId}/${key.toUpperCase()}`)));
