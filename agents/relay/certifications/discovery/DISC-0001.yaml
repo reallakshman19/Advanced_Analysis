@@ -1,0 +1,341 @@
+{
+  "schema_version": "relay-v2.5-discovery",
+  "id": "DISC-0001",
+  "candidate": {
+    "agent_instance_id": "chatgpt-continuing-v25-20260919"
+  },
+  "route": {
+    "route_key": "SERIAL:EP-0001",
+    "mode": "SERIAL",
+    "execution_ref": "EP-0001",
+    "ep_id": "EP-0001",
+    "ep_path": "agents/relay/execution-packages/EP-0001.yaml",
+    "plan_id": null,
+    "plan_path": null,
+    "lane_id": null
+  },
+  "basis": {
+    "roadmap_id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
+    "roadmap_revision": "RM-0002",
+    "relay_protocol_basis_ref": "d9b84069683977b5c370f536f1c50095de926338",
+    "material_ref": "676a40a490326364e1ea22d5bbbd8a20a9e6488a",
+    "ep_contract_digest": "sha256:e87837753daf6a750785c7bdf96b50156cb281e49c2e491b549da6f4c25d2374",
+    "repo_profile_digest": "sha256:b88e07dc862aca7725a39ba152025af8754d7c53b650f9ecc3592d77541804e1",
+    "predecessor_baton": {
+      "type": "NONE",
+      "id": "NONE",
+      "path": null,
+      "digest": null
+    }
+  },
+  "steps": [
+    {
+      "id": "DSTEP-01",
+      "status": "PASS",
+      "outputs": [
+        {
+          "name": "active EP id and path",
+          "value": {
+            "id": "EP-0001",
+            "path": "agents/relay/execution-packages/EP-0001.yaml"
+          },
+          "basis": [
+            "REPO_STATE at 1ae942bc55a283f3a15b85890a8e4c994275b987"
+          ]
+        },
+        {
+          "name": "roadmap id and revision",
+          "value": {
+            "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
+            "revision": "RM-0002"
+          },
+          "basis": [
+            "REPO_STATE at 1ae942bc55a283f3a15b85890a8e4c994275b987"
+          ]
+        },
+        {
+          "name": "current work package",
+          "value": "WP-001",
+          "basis": [
+            "REPO_STATE current_position"
+          ]
+        },
+        {
+          "name": "material authority",
+          "value": "WRITE",
+          "basis": [
+            "REPO_STATE status_planes.execution"
+          ]
+        }
+      ],
+      "basis": [
+        "Repository state read from carrier head 1ae942bc55a283f3a15b85890a8e4c994275b987"
+      ]
+    },
+    {
+      "id": "DSTEP-02",
+      "status": "PASS",
+      "outputs": [
+        {
+          "name": "carrier branch",
+          "value": "fix/lafea4-trunk-green-b5-execution",
+          "basis": [
+            "GitHub branch provider readback"
+          ]
+        },
+        {
+          "name": "current carrier HEAD",
+          "value": "1ae942bc55a283f3a15b85890a8e4c994275b987",
+          "basis": [
+            "GitHub branch provider readback"
+          ]
+        },
+        {
+          "name": "material-ref ancestry result",
+          "value": true,
+          "basis": [
+            "GitHub compare 676a40a490326364e1ea22d5bbbd8a20a9e6488a...1ae942bc55a283f3a15b85890a8e4c994275b987 status=ahead, behind_by=0"
+          ]
+        },
+        {
+          "name": "current main base ref",
+          "value": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
+          "basis": [
+            "GitHub main branch provider readback"
+          ]
+        },
+        {
+          "name": "base drift result",
+          "value": "UNCHANGED_FROM_EP_BASE_OBSERVED_REF",
+          "basis": [
+            "EP git_basis.base_observed_ref equals live main"
+          ]
+        }
+      ],
+      "basis": [
+        "GitHub branch and compare readback; live worktree enforcement deferred to EXECREQ-EP0001-LIVE-GIT"
+      ]
+    },
+    {
+      "id": "DSTEP-03",
+      "status": "PASS",
+      "outputs": [
+        {
+          "name": "changed file list",
+          "value": [
+            "agents/chains/ADV-LAFEA4-A4-1763/ACTIVE.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0010.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/issue-state/CURRENT.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/material-legs/LEG-004.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0010.md",
+            "agents/relay/REPO_PROFILE.yaml",
+            "agents/relay/REPO_STATE.yaml",
+            "agents/relay/delivery/DOBS-0001.yaml",
+            "agents/relay/execution-packages/EP-0001.yaml",
+            "agents/relay/generated/EP-0001-CANDIDATE-LAUNCH.md",
+            "agents/relay/migration/BOOTSTRAP_MANIFEST.yaml",
+            "agents/relay/migration/INV-0001.yaml",
+            "agents/relay/migration/MIG-0001.yaml",
+            "agents/relay/roadmap/ISSUE_GRAPH.yaml",
+            "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+            "agents/relay/roadmap/PROGRESS.yaml",
+            "agents/relay/roadmap/owner-decisions/ODR-0001.yaml",
+            "agents/relay/roadmap/revisions/RM-0002.yaml",
+            "agents/relay/tools/discover_ep0001.py",
+            "agents/relay/tools/prepare_ep0001_takeover.py",
+            "scripts/lafea.4-a4-thickness-applicability-check.mjs"
+          ],
+          "basis": [
+            "GitHub PR #1847 changed-file readback"
+          ]
+        },
+        {
+          "name": "presence or absence of src/core changes",
+          "value": {
+            "present": false,
+            "files": []
+          },
+          "basis": [
+            "No changed path begins src/core/"
+          ]
+        },
+        {
+          "name": "B5 checker delta",
+          "value": {
+            "status": "modified",
+            "additions": 83,
+            "deletions": 9,
+            "changes": 92
+          },
+          "basis": [
+            "GitHub compare c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50...1ae942bc55a283f3a15b85890a8e4c994275b987"
+          ]
+        },
+        {
+          "name": "custody/relay delta",
+          "value": [
+            "agents/chains/ADV-LAFEA4-A4-1763/ACTIVE.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/endpoints/EP-0010.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/issue-state/CURRENT.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/material-legs/LEG-004.md",
+            "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0010.md",
+            "agents/relay/REPO_PROFILE.yaml",
+            "agents/relay/REPO_STATE.yaml",
+            "agents/relay/delivery/DOBS-0001.yaml",
+            "agents/relay/execution-packages/EP-0001.yaml",
+            "agents/relay/generated/EP-0001-CANDIDATE-LAUNCH.md",
+            "agents/relay/migration/BOOTSTRAP_MANIFEST.yaml",
+            "agents/relay/migration/INV-0001.yaml",
+            "agents/relay/migration/MIG-0001.yaml",
+            "agents/relay/roadmap/ISSUE_GRAPH.yaml",
+            "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+            "agents/relay/roadmap/PROGRESS.yaml",
+            "agents/relay/roadmap/owner-decisions/ODR-0001.yaml",
+            "agents/relay/roadmap/revisions/RM-0002.yaml",
+            "agents/relay/tools/discover_ep0001.py",
+            "agents/relay/tools/prepare_ep0001_takeover.py"
+          ],
+          "basis": [
+            "GitHub PR #1847 changed-file classification"
+          ]
+        }
+      ],
+      "basis": [
+        "GitHub compare/PR file readback"
+      ]
+    },
+    {
+      "id": "DSTEP-04",
+      "status": "PASS",
+      "outputs": [
+        {
+          "name": "direct solver evidence keys",
+          "value": [
+            "method",
+            "pivots",
+            "pivotScale",
+            "pivotTolerance",
+            "minimumPivot",
+            "maximumPivot",
+            "pivotRatio"
+          ],
+          "basis": [
+            "src/core/local-shell/result-validation.js at 1ae942bc55a283f3a15b85890a8e4c994275b987"
+          ]
+        },
+        {
+          "name": "iterative evidence acceptance fields",
+          "value": [
+            "accepted",
+            "finalResidualInfinity",
+            "convergenceTarget"
+          ],
+          "basis": [
+            "PCG_SOLVER_EVIDENCE and PCG validation at carrier head"
+          ]
+        },
+        {
+          "name": "repaired solverSnapshot rule",
+          "value": "PCG requires accepted/residual evidence; deterministic dense Cholesky omits accepted and is assessed from direct pivot evidence",
+          "basis": [
+            "scripts/lafea.4-a4-thickness-applicability-check.mjs at carrier head"
+          ]
+        },
+        {
+          "name": "retained shear-fraction variable name",
+          "value": "shearFractionAbsoluteError",
+          "basis": [
+            "B5 retained row binds shearEnergyFractionAbsoluteError: shearFractionAbsoluteError"
+          ]
+        }
+      ],
+      "basis": [
+        "Production result contract and B5 checker source inspection"
+      ]
+    },
+    {
+      "id": "DSTEP-05",
+      "status": "PASS",
+      "outputs": [
+        {
+          "name": "historical PASS heads",
+          "value": [
+            "c894c48d7f6db765658b950fc629aa482e32d612",
+            "85a09e0bf52677729a9b7b601dc4c682c22a7089",
+            "608c97ed7e8e77930c3c4d947ccc0a57f6d0d121"
+          ],
+          "basis": [
+            "VR-0001/VR-0002/VR-0003"
+          ]
+        },
+        {
+          "name": "historical zero-step NOT_RUN basis",
+          "value": {
+            "head": "c6778559c1586a9b233c789b322976fe244f7193",
+            "disposition": "NOT_RUN_INFRASTRUCTURE"
+          },
+          "basis": [
+            "VR-0004"
+          ]
+        },
+        {
+          "name": "current VR-0010 disposition",
+          "value": {
+            "execution_head": "NOT_ASSIGNED_PENDING_REEXECUTION",
+            "result": "NOT_RUN_PENDING_EXACT_HEAD_REEXECUTION"
+          },
+          "basis": [
+            "VR-0010"
+          ]
+        }
+      ],
+      "basis": [
+        "A4 validation receipts read from current carrier tree"
+      ]
+    },
+    {
+      "id": "DSTEP-06",
+      "status": "PASS",
+      "outputs": [
+        {
+          "name": "live PR head SHA",
+          "value": "1ae942bc55a283f3a15b85890a8e4c994275b987",
+          "basis": [
+            "GitHub PR #1847 provider readback"
+          ]
+        },
+        {
+          "name": "workflow run ids",
+          "value": [
+            35434998572
+          ],
+          "basis": [
+            "GitHub Actions runs for exact carrier head"
+          ]
+        },
+        {
+          "name": "job step presence/absence",
+          "value": [
+            {
+              "run_id": 35434998572,
+              "job_id": 105876042204,
+              "job_name": "exact-head",
+              "step_count": 0,
+              "has_executable_steps": false,
+              "conclusion": "failure",
+              "engineering_disposition": "NOT_RUN_INFRASTRUCTURE"
+            }
+          ],
+          "basis": [
+            "GitHub Actions job readback; steps=[]"
+          ]
+        }
+      ],
+      "basis": [
+        "GitHub PR and Actions provider readback"
+      ]
+    }
+  ],
+  "result": "PASS",
+  "conversation_context_used": false
+}
