@@ -1,0 +1,22 @@
+schema_version: relay-v2.5
+roadmap:
+  id: ADV-V25-MIGRATION
+  revision: RM-0001
+  title: Advanced_Analysis delivery-state migration to engineering-pr-delivery v2.5
+objectives:
+  - id: OBJ-001
+    title: Establish durable V2.5 repository custody without changing engineering authority
+    state: ACTIVE
+    definition: PARTIALLY_DEFINED
+    phases:
+      - id: PHASE-001
+        title: Legacy relay inventory and roadmap reconciliation
+        state: PLANNED
+        definition: OWNER_REVIEW_REQUIRED
+        work_packages:
+          - id: WP-001
+            title: Reconcile legacy delivery custody, Owner intent, and the first executable frontier
+            state: PLANNED
+            definition: OWNER_REVIEW_REQUIRED
+            execution_status: WAITING
+            depends_on: []
