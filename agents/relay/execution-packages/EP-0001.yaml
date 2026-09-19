@@ -1,0 +1,649 @@
+schema_version: relay-v2.5
+identity:
+  ep_id: EP-0001
+  branch: agent/relay-v25-bootstrap-1854
+  base_ref: 0147972e201cbc77b97fe23fd7619cffe001d717
+  execution_state: EXECUTABLE
+  previous_checkpoint: NONE
+  previous_join: null
+  previous_replan: null
+replan_inheritance: null
+git_basis:
+  expected_branch: agent/relay-v25-bootstrap-1854
+  material_ref: 0147972e201cbc77b97fe23fd7619cffe001d717
+  base_branch: main
+  base_observed_ref: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
+  drift_policy: RECHECK_BEFORE_WRITE
+  drift_receipt: null
+roadmap_source:
+  roadmap_id: ADV-V25-MIGRATION
+  roadmap_revision: RM-0002
+  objective: OBJ-001
+  phase: PHASE-001
+  work_package: WP-001
+  generated_from_frontier: true
+outcome:
+  user_visible:
+    - Advanced_Analysis has one durable V2.5 execution contract whose purpose, authority, issue state, tests, and next work can be recovered without chat.
+  engineering:
+    - Delivery-protocol migration changes no engineering method, numerical result, source authority, benchmark tolerance, route authorization, or release state.
+context_capsule:
+  product_goal: Establish trustworthy engineering-delivery custody before additional EMP.1/WRC or other engineering material work is authorized.
+  roadmap_position: OBJ-001 / PHASE-001 / WP-001 is the sole RM-0002 executable frontier.
+  why_this_work_exists: The repository has extensive legacy V2 chain evidence but no V2.5 execution contract; ODR-0001 adopts V2.5 while preserving existing engineering authority boundaries.
+  current_architecture: agents/relay is the new V2.5 custody root; agents/chains remains read-only provenance; GitHub issues are coordination projections rather than roadmap authority.
+  prior_owner_decisions:
+    - ODR-0001 adopts engineering-pr-delivery-v2.5 and grants no material write authority.
+    - The gamma/interpolation choice in #1834 remains Owner-reserved.
+    - The authority-bearing resultHash choice in #1852 remains Owner-reserved.
+  current_implementation_state: PR #1858 contains the INITIALIZING scaffold, full V2 inventory, RM-0002 roadmap transaction, PB-0002 progress basis, and migration reconciliation; product code is unchanged.
+  known_problems:
+    - AGENTS.md still names the older Common delivery protocol and canonical-v3 path wording.
+    - ISSUE_GRAPH is still empty even though current EMP.1/WRC and infrastructure issues have been re-observed.
+    - Common V2.5 conformance and cold-start execution have not yet been recorded on this exact EP basis.
+  deliberate_non_goals:
+    - Do not decide or implement gamma interpolation policy.
+    - Do not decide or change resultHash semantics.
+    - Do not alter engineering mechanics, standards evidence, benchmark values, tolerances, workflows, route authorization, code compliance, or release authority.
+  terminology:
+    V2: Legacy engineering-pr-delivery-v2 chain artifacts under agents/chains.
+    V2.5: Repository-roadmap/EP/takeover protocol rooted at agents/relay.
+    Owner-reserved: A choice requiring a separate explicit Owner decision before its engineering scope may change.
+repository_discovery:
+  - id: DSTEP-01
+    action: VERIFY
+    target: agents/relay/REPO_STATE.yaml
+    question: Does repository state still route to EP-0001 on RM-0002 / WP-001?
+    expected_outputs:
+      - active EP id and path
+      - roadmap id and revision
+      - current work package
+      - material authority
+    receipt_required: true
+    on_failure: Reconcile repository custody before any material execution.
+  - id: DSTEP-02
+    action: VERIFY_GIT
+    target: live checkout
+    question: Does the checked-out branch and material ancestry satisfy the EP git basis, and has main drifted from the observed base?
+    expected_outputs:
+      - checked-out branch
+      - current HEAD
+      - material-ref ancestry result
+      - current main ref
+      - base drift classification
+    receipt_required: true
+    on_failure: Keep material authority read-only and reconcile route or drift before execution.
+  - id: DSTEP-03
+    action: INSPECT
+    targets:
+      - agents/relay/migration/V2_INVENTORY.yaml
+      - agents/relay/migration/MIGRATION_RECONCILIATION.yaml
+      - agents/relay/roadmap/owner-decisions/ODR-0001.yaml
+      - AGENTS.md
+    question: Do the inventory, applied Owner decision, migration worksheet, and repository overlay support the bounded migration scope without implying engineering-authority changes?
+    expected_outputs:
+      - legacy evidence inventory basis
+      - Owner decision effect
+      - stale protocol-pointer finding
+      - protected engineering boundaries
+    receipt_required: true
+    on_failure: Stop scope expansion and reconcile the migration contract before writing.
+  - id: DSTEP-04
+    action: VERIFY
+    targets:
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/1830
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/1834
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/1852
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/1854
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/54
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/1768
+      - https://github.com/reallaksh19/Advanced_Analysis/issues/1775
+    question: What are the currently verified GitHub states and coordination relationships for the migration-relevant open work?
+    expected_outputs:
+      - issue number and verified state for each target
+      - ownership or dependency relationship supported by issue text
+      - explicit separation of Owner decisions from actionable engineering or infrastructure work
+    receipt_required: true
+    on_failure: Leave uncertain issue states UNKNOWN in ISSUE_GRAPH and do not invent relationships.
+inputs:
+  - id: INPUT-01
+    name: V2.5 protocol basis
+    description: Pinned Common protocol that defines the relay schemas, validators, readiness gates, and migration rules.
+    authority: ODR-0001 and pinned Common repository source
+    source: reallaksh19/Common@1f4e9956e89f394fda5e4e730e13ecd8709c8f04/skills/engineering-pr-delivery-v2.5
+    value: 1f4e9956e89f394fda5e4e730e13ecd8709c8f04
+    type: git commit
+    units: NA
+    editable: false
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-01
+      - STEP-03
+      - STEP-04
+    validation:
+      - Re-observe Common main and require the pinned commit unless a roadmap/protocol reconciliation is performed.
+    stale_if:
+      - The governing V2.5 protocol basis is superseded or Owner intent changes.
+  - id: INPUT-02
+    name: Applied Owner protocol decision
+    description: Durable Owner authority adopting V2.5 without granting engineering or material-write authority.
+    authority: OWNER
+    source: agents/relay/roadmap/owner-decisions/ODR-0001.yaml
+    value: ODR-0001
+    type: owner decision record
+    units: NA
+    editable: false
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-01
+      - STEP-03
+      - STEP-04
+    validation:
+      - validate_owner_decision.py must accept the record and status must remain APPLIED.
+    stale_if:
+      - ODR-0001 is superseded or its retained/invalidated behavior changes.
+  - id: INPUT-03
+    name: Legacy relay inventory and migration worksheet
+    description: Repository-wide V2 evidence inventory plus explicit non-promotion reconciliation.
+    authority: Repository evidence at the frozen migration basis
+    source: agents/relay/migration/V2_INVENTORY.yaml and agents/relay/migration/MIGRATION_RECONCILIATION.yaml
+    resolution_method: Read both files and verify their source Git basis and migration rules.
+    type: migration evidence set
+    units: NA
+    editable: true
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-01
+      - STEP-02
+      - STEP-04
+    validation:
+      - Inventory counts and paths must remain evidence discovery only; no legacy endpoint may be promoted automatically.
+    stale_if:
+      - Legacy relay inventory changes materially without reconciliation.
+      - A new current delivery source is discovered that changes the first frontier.
+  - id: INPUT-04
+    name: Current coordination issue set
+    description: GitHub issue projections used to populate the initial V2.5 issue graph.
+    authority: Verified GitHub issue state and issue text, as coordination evidence only
+    source: issues #1830 #1834 #1852 #1854 #54 #1768 #1775
+    value:
+      - 1830
+      - 1834
+      - 1852
+      - 1854
+      - 54
+      - 1768
+      - 1775
+    type: issue locator set
+    units: NA
+    editable: false
+    applicability: CURRENT_STEP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-01
+      - STEP-02
+    validation:
+      - Re-read every issue before recording github_state or relationship.
+    stale_if:
+      - Any target issue changes state or materially changes its ownership/dependency statement before STEP-01 completes.
+  - id: INPUT-05
+    name: Project agent overlay
+    description: Project-specific criticality, protected engineering domains, and current legacy Common protocol pointer.
+    authority: Repository project policy
+    source: AGENTS.md
+    resolution_method: Read AGENTS.md at the live material head and preserve all engineering/project protections while changing only delivery-protocol metadata.
+    type: repository policy
+    units: NA
+    editable: true
+    applicability: CURRENT_STEP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-03
+    validation:
+      - Diff must show only the protocol source/reference/minimum-basis/path wording needed for V2.5 migration.
+    stale_if:
+      - AGENTS.md changes on main or this branch before STEP-03.
+benchmarks: []
+scope:
+  allowed:
+    - path: agents/relay/**
+      reason: WP-001 exists to reconcile V2.5 custody, roadmap, issue graph, evidence, quality, checkpoints, and successor state.
+    - path: AGENTS.md
+      reason: ODR-0001 requires the stale delivery-protocol pointer to be reconciled; only delivery-protocol metadata/wiring may change.
+  allowed_reads:
+    - path: agents/chains/**
+      reason: Legacy V2 artifacts are migration evidence and provenance only.
+    - path: docs/emp1/**
+      reason: EMP.1 source/authority documents may be read to avoid misclassifying current issue relationships; they are not writable in this EP.
+    - path: validation/emp1/**
+      reason: Existing benchmark/oracle custody may be read to preserve authority boundaries.
+    - domain: GitHub issues #1830 #1834 #1852 #1854 #54 #1768 #1775
+      reason: The initial issue graph must reflect verified coordination state.
+    - domain: reallaksh19/Common engineering-pr-delivery-v2.5
+      reason: Validators, schemas, and migration rules are governed by the pinned protocol basis.
+  protected:
+    - invariant: Existing engineering calculations, source-qualified methods, applicability, numerical values, benchmarks, oracles, and tolerances remain byte-for-byte outside this EP's write scope.
+      reason: Delivery migration cannot create engineering authority.
+    - invariant: "#1834 and #1852 remain unresolved Owner decisions unless separate applied ODRs explicitly decide them."
+      reason: Migration must not silently answer product/method or result-contract choices.
+    - invariant: Legacy agents/chains and workreport artifacts remain unmodified provenance.
+      reason: V2 evidence must be preserved rather than rewritten into apparent V2.5 authority.
+    - invariant: AGENTS.md project-specific engineering criticality and protected-domain rules are retained.
+      reason: Updating the protocol pointer must not weaken stricter project policy.
+  prohibited:
+    - domain: src/**
+      reason: No production or engineering implementation change belongs to the migration WP.
+    - domain: validation expected values, oracle payloads, or tolerances
+      reason: Migration evidence cannot tune engineering acceptance.
+    - domain: .github/workflows/**
+      reason: Workflow-file changes require separate explicit authorization.
+    - domain: WRC/EMP.1/LAFEA/load-calculation method or source authority
+      reason: Protocol migration is not an engineering-method qualification.
+    - domain: result semantic hashes, route authorization, code-compliance, professional-release, or deployment authority
+      reason: These protected trust contracts require their own authorized engineering work.
+  owner_reserved:
+    - decision: "#1834 gamma/interpolation product-method disposition"
+      reason: The owner has not selected a real-vessel gamma policy.
+    - decision: "#1852 authority-bearing resultHash policy"
+      reason: Cross-engine semantic identity requires an explicit owner disposition before hash-bearing changes.
+    - decision: Merge, professional release, code-compliance, or deployment authorization
+      reason: ODR-0001 grants no such authority.
+anti_drift:
+  do_not:
+    - id: ADR-01
+      restriction: Do not change any path outside agents/relay/** except the delivery-protocol metadata in AGENTS.md.
+      reason: Preserve a surgical migration boundary.
+    - id: ADR-02
+      restriction: Do not convert issue, benchmark, CAUx, or legacy-chain agreement into engineering-method authority.
+      reason: Coordination/evidence projections do not outrank controlled engineering authority.
+    - id: ADR-03
+      restriction: Do not mark #1834 or #1852 satisfied, declined, or deferred without a separate applied Owner decision.
+      reason: Those choices are explicitly reserved.
+  stale_if:
+    - id: STALE-01
+      condition: Common main changes the governing V2.5 protocol basis before material execution.
+      effect: RECONCILE
+      rationale: The semantic contract must be re-grounded against the live protocol selected by the Owner.
+    - id: STALE-02
+      condition: Advanced_Analysis main changes any AGENTS.md or agents/relay path from the EP base-observed ref.
+      effect: RECONCILE
+      rationale: Base drift overlaps the authorized migration write domain.
+    - id: STALE-03
+      condition: A separate Owner decision resolves #1834 or #1852 before this EP checkpoints.
+      effect: OWNER_REVIEW
+      rationale: The successor roadmap and issue graph may materially change, although this EP still may not implement those engineering choices.
+    - id: STALE-04
+      condition: RM-0002 changes WP-001 scope, dependencies, acceptance, or protected invariants.
+      effect: STALE
+      rationale: The active forward contract would no longer match roadmap authority.
+implementation_plan:
+  - id: STEP-01
+    objective: Populate the initial V2.5 issue graph from re-observed current GitHub state without making issue prose roadmap authority.
+    targets:
+      - agents/relay/roadmap/ISSUE_GRAPH.yaml
+    reads:
+      - INPUT-04 issue locators
+      - RM-0002 and ODR-0001
+    writes:
+      - agents/relay/roadmap/ISSUE_GRAPH.yaml
+    inputs:
+      - INPUT-02
+      - INPUT-04
+    acceptance:
+      - AC-01
+    tests:
+      - TEST-01
+    expected_state: ISSUE_GRAPH records verified issue states and only evidence-supported coordination relationships; roadmap authority remains OVERALL_ROADMAP.
+    stop_conditions:
+      - Stop and mark a GitHub state UNKNOWN if current external state cannot be re-observed.
+      - Stop relationship creation when issue text does not support the proposed parent/dependency/ownership edge.
+  - id: STEP-02
+    objective: Complete the migration worksheet and propose the next repository roadmap frontier from durable evidence without auto-promoting legacy chains.
+    targets:
+      - agents/relay/migration/MIGRATION_RECONCILIATION.yaml
+      - agents/relay/roadmap/**
+    reads:
+      - INPUT-03 migration evidence
+      - STEP-01 issue graph
+    writes:
+      - agents/relay/migration/MIGRATION_RECONCILIATION.yaml
+      - agents/relay/roadmap/** only through valid V2.5 roadmap transactions
+    inputs:
+      - INPUT-03
+      - INPUT-04
+    acceptance:
+      - AC-04
+    tests:
+      - TEST-04
+    expected_state: The checkpoint can state an exact next frontier or truthful idle/owner-decision disposition without deriving authority from legacy ACTIVE.md files.
+    stop_conditions:
+      - Stop before applying any Owner-intent roadmap mutation that lacks an APPLIED ODR.
+      - Stop before scheduling engineering work whose current authority, inputs, or acceptance cannot be reconstructed from repository state.
+  - id: STEP-03
+    objective: Reconcile the project overlay from the legacy Common protocol pointer to the Owner-selected V2.5 protocol while retaining stricter engineering protections.
+    targets:
+      - AGENTS.md
+    reads:
+      - INPUT-01 pinned protocol
+      - INPUT-02 Owner decision
+      - INPUT-05 project overlay
+    writes:
+      - AGENTS.md delivery-protocol source/reference/minimum-basis and relay-path wording only
+    inputs:
+      - INPUT-01
+      - INPUT-02
+      - INPUT-05
+    acceptance:
+      - AC-02
+    tests:
+      - TEST-02
+    expected_state: AGENTS.md points future delivery at V2.5 and preserves all project criticality, validation truth, protected engineering domains, and merge/release restrictions.
+    stop_conditions:
+      - Stop if the diff changes a project engineering protection rather than delivery-protocol wiring.
+      - Stop if the live Common protocol no longer matches INPUT-01.
+  - id: STEP-04
+    objective: Execute V2.5 conformance/cold-start checks, record quality evidence, checkpoint WP-001, calculate progress, and publish the exact successor disposition.
+    targets:
+      - agents/relay/quality/**
+      - agents/relay/checkpoints/**
+      - agents/relay/roadmap/PROGRESS.yaml
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/reports/**
+    reads:
+      - INPUT-01 protocol validators
+      - all WP-001 outputs
+    writes:
+      - agents/relay/quality/**
+      - agents/relay/checkpoints/**
+      - agents/relay/roadmap/PROGRESS.yaml
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/reports/**
+    inputs:
+      - INPUT-01
+      - INPUT-02
+      - INPUT-03
+    acceptance:
+      - AC-03
+      - AC-04
+    tests:
+      - TEST-03
+      - TEST-04
+    expected_state: WP-001 ends with truthful validator evidence, a bound QRV/checkpoint, calculated progress, and one exact successor frontier or non-executable disposition.
+    stop_conditions:
+      - Do not convert unavailable validator execution into PASS.
+      - Do not checkpoint with a true blocking quality finding or an unresolved protected-invariant failure.
+next_work:
+  phase_transition: false
+  steps:
+    - order: 1
+      action: Execute STEP-01 after candidate-specific takeover and live material-write readiness succeed.
+      targets:
+        - agents/relay/roadmap/ISSUE_GRAPH.yaml
+      inputs:
+        - INPUT-02
+        - INPUT-04
+      tests:
+        - TEST-01
+      benchmarks: []
+      acceptance:
+        - AC-01
+      expected_result: Verified current issue state is represented as coordination projection without altering roadmap or engineering authority.
+      stop_if:
+        - Current issue state cannot be re-observed.
+        - Material-write readiness is false.
+    - order: 2
+      action: Execute STEP-02 and derive only evidence-supported roadmap proposals/status updates.
+      targets:
+        - agents/relay/migration/MIGRATION_RECONCILIATION.yaml
+        - agents/relay/roadmap/**
+      inputs:
+        - INPUT-03
+        - INPUT-04
+      tests:
+        - TEST-04
+      benchmarks: []
+      acceptance:
+        - AC-04
+      expected_result: Migration reconciliation names the exact next frontier or a truthful non-executable disposition.
+      stop_if:
+        - A required Owner-intent mutation lacks an APPLIED ODR.
+        - Legacy evidence cannot support the proposed current position.
+    - order: 3
+      action: Execute STEP-03 and change only the stale V2 delivery-protocol pointer in AGENTS.md.
+      targets:
+        - AGENTS.md
+      inputs:
+        - INPUT-01
+        - INPUT-02
+        - INPUT-05
+      tests:
+        - TEST-02
+      benchmarks: []
+      acceptance:
+        - AC-02
+      expected_result: Project overlay routes future material delivery through V2.5 while project engineering protections remain unchanged.
+      stop_if:
+        - AGENTS.md has overlapping drift.
+        - The proposed diff weakens a protected engineering rule.
+    - order: 4
+      action: Execute STEP-04 quality, conformance, checkpoint, progress, and successor reconciliation.
+      targets:
+        - agents/relay/**
+      inputs:
+        - INPUT-01
+        - INPUT-02
+        - INPUT-03
+      tests:
+        - TEST-03
+        - TEST-04
+      benchmarks: []
+      acceptance:
+        - AC-03
+        - AC-04
+      expected_result: WP-001 has durable evidence and an exact successor disposition; no engineering authority is inferred.
+      stop_if:
+        - A MUST_PASS conformance check fails.
+        - A hard-stop quality or authority condition is active.
+qualification_boundary:
+  required: false
+  trigger: null
+  from_phase: null
+  to_phase: null
+  changed_dimensions: []
+  basis:
+    - WP-001 changes delivery custody and repository protocol metadata only; it does not cross a production-path, engineering-authority, numerical-method, protected engineering invariant, engineering input-authority, or engineering verification-oracle boundary.
+  question_set: null
+quality:
+  applicable:
+    - blueprint: software-design
+      reason: WP-001 changes repository state ownership and execution-contract architecture.
+      review_focus:
+        - authority ownership
+        - state-plane separation
+        - roadmap/frontier consistency
+    - blueprint: testing
+      reason: V2.5 conformance, cold-start, and anti-drift behavior require executable verification before checkpoint.
+      review_focus:
+        - validator coverage
+        - NOT_RUN truthfulness
+        - acceptance mapping
+    - blueprint: migration
+      reason: This EP migrates durable delivery custody from legacy V2 artifacts to V2.5 without auto-promoting history.
+      review_focus:
+        - evidence preservation
+        - non-promotion of legacy endpoints
+        - progress-basis correctness
+    - blueprint: github-delivery
+      reason: Current GitHub issues and PR #1858 are coordination projections that must remain consistent with repository truth.
+      review_focus:
+        - verified issue states
+        - projection versus authority separation
+        - draft PR custody
+  not_applicable:
+    - blueprint: coding
+      reason: WP-001 changes YAML/Markdown delivery metadata only and does not alter production or protocol implementation code.
+    - blueprint: ui-ux
+      reason: No product interface or user journey is changed.
+    - blueprint: engineering-numerics
+      reason: Engineering calculations, algorithms, tolerances, or numerical authority are prohibited from this EP.
+    - blueprint: code-review
+      reason: The slice does not modify executable application/protocol code; migration and GitHub-delivery quality procedures cover the changed metadata contracts.
+    - blueprint: accessibility
+      reason: No user interface or accessibility surface is modified.
+    - blueprint: performance
+      reason: No runtime or performance-sensitive behavior is modified.
+  review_contract:
+    required: true
+    required_before_checkpoint: true
+    receipt_namespace: QRV-
+    required_outputs:
+      - procedure_results
+      - findings
+      - owner_report
+      - successor_handover
+  findings_policy: Quality findings remain quality state unless they map to an existing acceptance, authority, protected-invariant, repository-conflict, or safety hard-stop condition.
+  ordinary_findings_are_hard_stops: false
+acceptance:
+  - id: AC-01
+    description: Initial ISSUE_GRAPH contains re-observed GitHub state and evidence-supported relationships for the migration-relevant issue set, without treating issues as roadmap or engineering authority.
+    weight: 25
+    verification:
+      - TEST-01
+  - id: AC-02
+    description: AGENTS.md points to the pinned V2.5 delivery protocol and retains all project-specific engineering criticality/protection rules unchanged in substance.
+    weight: 25
+    verification:
+      - TEST-02
+  - id: AC-03
+    description: Applicable V2.5 conformance/cold-start checks and quality procedures have truthful bound evidence; required checks are not reported PASS unless executed successfully.
+    weight: 25
+    verification:
+      - TEST-03
+  - id: AC-04
+    description: WP-001 ends with calculated progress, checkpoint custody, and an exact next frontier or truthful idle/Owner-decision disposition derived from repository state.
+    weight: 25
+    verification:
+      - TEST-04
+validation:
+  - id: TEST-01
+    class: MUST_PASS
+    method: Validate ISSUE_GRAPH structure and manually re-open every recorded GitHub locator to confirm github_state and relationship evidence.
+    proves:
+      - AC-01
+  - id: TEST-02
+    class: MUST_PASS
+    method: Inspect the AGENTS.md diff and verify only V2-to-V2.5 delivery-protocol metadata changed; all protected project rules remain substantively identical.
+    proves:
+      - AC-02
+  - id: TEST-03
+    class: MUST_PASS
+    method: Execute the pinned Common V2.5 validate_relay_conformance.py, cold_start_check.py, validate_baton_readiness.py, and applicable quality validation on the checkpoint material ref.
+    proves:
+      - AC-03
+  - id: TEST-04
+    class: MUST_PASS
+    method: Execute roadmap/progress/checkpoint validation and independently recompute the frontier from the resulting OVERALL_ROADMAP before successor publication.
+    proves:
+      - AC-04
+failure_and_stop_conditions:
+  hard_stop_categories:
+    - OWNER_DECISION_REQUIRED
+    - ESSENTIAL_INPUT_MISSING
+    - AUTHORITY_VIOLATION
+    - PROTECTED_INVARIANT_FAILURE
+    - WRITE_COLLISION
+    - SUPERSEDED_EP
+    - ROADMAP_CONFLICT
+    - REPOSITORY_STATE_CONFLICT
+    - UNSAFE_ENGINEERING_RESULT
+report_contract:
+  sections:
+    - Executive state
+    - Overall / phase / EP progress
+    - Work completed
+    - Files changed
+    - Acceptance matrix
+    - Tests and evidence
+    - Quality findings
+    - Known limitations
+    - Owner decisions required
+    - GitHub issue changes
+    - Roadmap changes
+    - Exact next actions
+    - Successor EP
+  payloads:
+    - id: RPT-STATE
+      section: Executive state
+      sources: [REPO_STATE]
+      required_fields: [relay_state, current_position, execution_state, material_authority, stop]
+    - id: RPT-PROGRESS
+      section: Overall / phase / EP progress
+      sources: [PROGRESS, OVERALL_ROADMAP, EP]
+      required_fields: [progress_basis, overall, phase, work_package, step, acceptance]
+    - id: RPT-WORK
+      section: Work completed
+      sources: [EP, CP]
+      required_fields: [completed_steps, implementation_result]
+    - id: RPT-FILES
+      section: Files changed
+      sources: [CP]
+      required_fields: [files_changed]
+    - id: RPT-AC
+      section: Acceptance matrix
+      sources: [EP, PROGRESS, CP]
+      required_fields: [criterion, status, percent, basis]
+    - id: RPT-EVIDENCE
+      section: Tests and evidence
+      sources: [EP, CP, REPO_STATE]
+      required_fields: [validation_id, obligation_class, status, basis_ref, not_run_reason]
+    - id: RPT-QUALITY
+      section: Quality findings
+      sources: [EP, QRV, CP, REPO_STATE]
+      required_fields: [quality_review, procedures, findings, disposition, execution_effect]
+    - id: RPT-LIMITS
+      section: Known limitations
+      sources: [EP, CP, REPO_STATE]
+      required_fields: [limitations, evidence_gaps, deferred_items]
+    - id: RPT-OWNER
+      section: Owner decisions required
+      sources: [ODR, REPO_STATE]
+      required_fields: [decision_required, pending_items, authority_effect]
+    - id: RPT-ISSUES
+      section: GitHub issue changes
+      sources: [ISSUE_GRAPH, REPO_STATE]
+      required_fields: [operations, relationships, projection_state]
+    - id: RPT-ROADMAP
+      section: Roadmap changes
+      sources: [OVERALL_ROADMAP, ROADMAP_REVISION, PROGRESS]
+      required_fields: [revision, topology_or_status_change, frontier_after, progress_basis_effect]
+    - id: RPT-NEXT
+      section: Exact next actions
+      sources: [EP]
+      required_fields: [ordered_actions, targets, inputs, tests, benchmarks, acceptance, expected_result, stop_conditions]
+    - id: RPT-SUCCESSOR
+      section: Successor EP
+      sources: [CP, OVERALL_ROADMAP, REPO_STATE]
+      required_fields: [successor_mode, next_frontier, ep_or_terminal_disposition]
+checkpoint_contract:
+  required: true
+successor_relay:
+  required: true
+  duties:
+    - reconcile current roadmap node
+    - create checkpoint
+    - update progress
+    - update issue projection when applicable
+    - compute next executable frontier
+    - create successor EP when work continues
+    - validate successor EP
+    - run cold-start check
+    - update REPO_STATE
+  required_outputs:
+    - checkpoint
+    - progress_reconciliation
+    - issue_projection_disposition
+    - next_frontier
+    - successor_ep_or_terminal_disposition
