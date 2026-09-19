@@ -30,7 +30,16 @@ predecessor_join:
 predecessor_replan:
   id: null
   path: null
-takeover_admissions: []
+takeover_admissions:
+  - route_key: SERIAL:EP-0001
+    candidate:
+      agent_instance_id: chatgpt-gpt56sol:takeover-1858-20260919T060249Z
+    discovery_receipt:
+      id: DISC-0001
+      path: agents/relay/certifications/discovery/DISC-0001.yaml
+    certification:
+      id: TC-0001
+      path: agents/relay/certifications/takeover/TC-0001.yaml
 progress:
   overall_percent: 0
   phase_percent: 0
@@ -40,8 +49,8 @@ status_planes:
   execution:
     state: READY
     can_continue: true
-    material_authority: READ_ONLY
-    next_action: A zero-context incoming candidate must execute EP-0001 discovery steps, produce a current DISC receipt, obtain independent TC takeover certification, and only then run material_write_ready before STEP-01.
+    material_authority: WRITE
+    next_action: Run the canonical live material_write_ready gate for candidate chatgpt-gpt56sol:takeover-1858-20260919T060249Z before STEP-01; no EP material write is permitted unless it returns PASS.
   quality:
     state: NEEDS_ATTENTION
     findings:
@@ -49,10 +58,13 @@ status_planes:
       - Full Common V2.5 validator execution has not been run on this exact active-EP branch state in the current connector-only environment.
   evidence:
     state: PARTIAL
-    summary: ODR-0001, RM-0002, PB-0002, migration inventory/reconciliation, and EP-0001 are durably present; execution evidence for EP-0001 has not started.
+    summary: Candidate takeover is admitted through DISC-0001, TC-0001, and ODR-0002; EP-0001 material execution has not started because the live material-write gate remains to be executed.
     not_run:
       - id: VAL-V25-ACTIVE-BATON
         reason: Full pinned Common V2.5 conformance/cold-start validator execution is unavailable in the current connector-only environment; semantic files were prepared but executable PASS is not claimed.
+        cause: UNAVAILABLE_TOOL
+      - id: MATERIAL-WRITE-READY-EP-0001
+        reason: The canonical material_write_ready.py requires a live Git checkout/worktree. The current environment can inspect GitHub refs and ancestry but cannot execute against a live checkout, so PASS is not claimed.
         cause: UNAVAILABLE_TOOL
   stop:
     active: false
