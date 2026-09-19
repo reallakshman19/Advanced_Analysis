@@ -1,0 +1,121 @@
+schema_version: relay-v2.5-discovery
+id: DISC-0001
+candidate:
+  agent_instance_id: chatgpt-gpt56sol:takeover-1858-20260919T060249Z
+route:
+  route_key: SERIAL:EP-0001
+  mode: SERIAL
+  execution_ref: EP-0001
+  ep_id: EP-0001
+  ep_path: agents/relay/execution-packages/EP-0001.yaml
+  plan_id: null
+  plan_path: null
+  lane_id: null
+basis:
+  roadmap_id: ADV-V25-MIGRATION
+  roadmap_revision: RM-0002
+  relay_protocol_basis_ref: 1f4e9956e89f394fda5e4e730e13ecd8709c8f04
+  material_ref: 0147972e201cbc77b97fe23fd7619cffe001d717
+  ep_contract_digest: sha256:b6db108ed46922fd5137e7c17feb9e3ff1a5f81786e8a6e8335c162ddb23221f
+  repo_profile_digest: sha256:9dccd13c817fb88cab3b91aea41cb54a61f11dd9bc183a97dc7585edd1fa170b
+  predecessor_baton:
+    type: NONE
+    id: NONE
+    path: null
+    digest: null
+steps:
+  - id: DSTEP-01
+    status: PASS
+    outputs:
+      - name: active EP id and path
+        value: EP-0001 at agents/relay/execution-packages/EP-0001.yaml
+        basis:
+          - agents/relay/REPO_STATE.yaml@b9229c1b4aee059191b47b57d3c212099534f503
+      - name: roadmap id and revision
+        value: ADV-V25-MIGRATION / RM-0002
+        basis:
+          - agents/relay/REPO_STATE.yaml@b9229c1b4aee059191b47b57d3c212099534f503
+          - agents/relay/roadmap/OVERALL_ROADMAP.yaml@9224531688ff7d8935a52299b4461bcf10159b1f
+      - name: current work package
+        value: WP-001
+        basis:
+          - agents/relay/REPO_STATE.yaml@b9229c1b4aee059191b47b57d3c212099534f503
+      - name: material authority
+        value: READ_ONLY before takeover admission
+        basis:
+          - agents/relay/REPO_STATE.yaml@b9229c1b4aee059191b47b57d3c212099534f503
+    basis:
+      - Repository state re-opened from branch agent/relay-v25-bootstrap-1854 with no use of legacy ACTIVE.md as execution authority.
+  - id: DSTEP-02
+    status: PASS
+    outputs:
+      - name: checked-out branch
+        value: agent/relay-v25-bootstrap-1854
+        basis:
+          - GitHub branch ref observed at head 8f66ce1ec0371930e6219a50cab4fddda966a4ca
+      - name: current HEAD
+        value: 8f66ce1ec0371930e6219a50cab4fddda966a4ca
+        basis:
+          - GitHub branch ref observation
+      - name: material-ref ancestry result
+        value: PASS; 0147972e201cbc77b97fe23fd7619cffe001d717 is the merge base and branch is 2 commits ahead, 0 behind
+        basis:
+          - GitHub compare 0147972e201cbc77b97fe23fd7619cffe001d717...8f66ce1ec0371930e6219a50cab4fddda966a4ca
+      - name: current main ref
+        value: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
+        basis:
+          - GitHub main branch ref observation
+      - name: base drift classification
+        value: UNCHANGED
+        basis:
+          - GitHub compare c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50...main returned identical
+    basis:
+      - EP git_basis re-observed through GitHub refs and compare metadata; no base drift exists.
+  - id: DSTEP-03
+    status: PASS
+    outputs:
+      - name: legacy evidence inventory basis
+        value: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50; 42 active-chain records, 32 issue-basis records, 29 CURRENT issue-state records, 411 endpoints, 116 material-leg artifacts, 0 qualification artifacts
+        basis:
+          - agents/relay/migration/V2_INVENTORY.yaml
+      - name: Owner decision effect
+        value: ODR-0001 is APPLIED; V2.5 delivery custody is adopted; no engineering or material-write authority is created; #1834 and #1852 remain pending
+        basis:
+          - agents/relay/roadmap/owner-decisions/ODR-0001.yaml@d8cb9bbf1b4ee84068853fb5544152b54893538c
+      - name: stale protocol-pointer finding
+        value: AGENTS.md still points COMMON_POLICY_SOURCE/REFERENCE and reusable delivery semantics to engineering-pr-delivery-v2 and says new material takeovers use canonical v3 paths
+        basis:
+          - AGENTS.md@9666e6930492a8afe601ea88470c3f0ec7023985
+      - name: protected engineering boundaries
+        value: Solver/mechanics, coordinate/sign/load transport, WRC/EMP.1/LAFEA source/applicability, benchmark/oracle/tolerance, result hashes, publication/release/deployment authority, and workflows remain protected; only relay custody plus AGENTS.md delivery-protocol wiring are writable
+        basis:
+          - agents/relay/REPO_PROFILE.yaml@7012e4183f60ff69684835a708ee4d8f2d444cfb
+          - AGENTS.md@9666e6930492a8afe601ea88470c3f0ec7023985
+          - agents/relay/execution-packages/EP-0001.yaml
+    basis:
+      - Migration evidence, ODR-0001, project overlay, and EP scope were re-opened from repository state.
+  - id: DSTEP-04
+    status: PASS
+    outputs:
+      - name: issue number and verified state for each target
+        value: "#1830 OPEN; #1834 OPEN; #1852 OPEN; #1854 OPEN; #54 OPEN; #1768 OPEN; #1775 OPEN"
+        basis:
+          - GitHub issue re-observation on 2026-09-19
+      - name: ownership or dependency relationship supported by issue text
+        value: "#1834, #1852 and #1854 are under #1830; #54 is the infrastructure blocker for hosted EMP.1 evidence; #1768 owns exact-head gamma5 qualification evidence; #1775 is professional release closure and explicitly lists #1768 among its release prerequisites"
+        basis:
+          - GitHub issue #1830 body
+          - GitHub issue #1834 body
+          - GitHub issue #1852 body
+          - GitHub issue #1854 body
+          - GitHub issue #1768 body
+          - GitHub issue #1775 body
+      - name: explicit separation of Owner decisions from actionable engineering or infrastructure work
+        value: "OWNER_DECISION_REQUIRED: #1834 and #1852; ACTIONABLE_INFRASTRUCTURE: #54; ACTIONABLE_EVIDENCE: #1768; GATED_RELEASE_CLOSURE: #1775; CONTROL/SEQUENCING PROJECTIONS: #1830 and #1854"
+        basis:
+          - agents/relay/migration/MIGRATION_RECONCILIATION.yaml
+          - re-observed issue bodies
+    basis:
+      - All target issues were re-opened before takeover; no issue was treated as engineering authority.
+result: PASS
+conversation_context_used: false
