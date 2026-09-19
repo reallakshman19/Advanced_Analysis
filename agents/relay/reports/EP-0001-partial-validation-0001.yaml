@@ -1,0 +1,40 @@
+schema_version: relay-v2.5
+report_id: RPT-EP-0001-PARTIAL-VALIDATION-0001
+ep_id: EP-0001
+roadmap_revision: RM-0003
+protocol_basis: d9b84069683977b5c370f536f1c50095de926338
+material_branch: agent/relay-v25-bootstrap-1854
+validation_results:
+  - id: TEST-01
+    status: PASS
+    method: Executed the exact Common validate_issue_graph.py implementation from the pinned protocol basis against provider-read RM-0003 OVERALL_ROADMAP, REPO_STATE, and IG-0002 ISSUE_GRAPH in an isolated local reconstruction.
+    evidence:
+      - Common validate_issue_graph.py blob 07e89fd6f1e9d01202a863ec5b934f6e085352c8
+      - Common relaylib.py from Common@d9b84069683977b5c370f536f1c50095de926338
+      - validator stdout: PASS
+      - GitHub issue #54, #1768, #1775, #1830, #1834, #1852, and #1854 were re-opened on 2026-09-19 before IG-0002 publication and each remained OPEN
+    proves:
+      - AC-01
+  - id: TEST-02
+    status: PASS
+    method: Inspected the provider-read PR #1858 AGENTS.md patch against main and verified the diff is limited to delivery-protocol source/reference/basis/custody terminology and legacy-provenance routing.
+    evidence:
+      - PR #1858 AGENTS.md patch changes Common source from engineering-pr-delivery-v2 to engineering-pr-delivery-v2.5
+      - protocol floor changes to Common@d9b84069683977b5c370f536f1c50095de926338
+      - canonical new custody path changes from narrative canonical-v3 wording to agents/relay/
+      - project engineering criticality, numerical/source/benchmark/hash/workflow/release protections remain substantively unchanged
+    proves:
+      - AC-02
+  - id: TEST-03
+    status: NOT_RUN
+    reason: Full validate_relay_conformance.py, cold_start_check.py, validate_baton_readiness.py, zero-context, quality, and related current-protocol dependency set has not executed against a complete live checkout of the exact branch state.
+    proves:
+      - AC-03
+  - id: TEST-04
+    status: NOT_RUN
+    reason: WP-001 cannot checkpoint/recompute its post-completion frontier until TEST-03 and quality/checkpoint obligations are satisfied.
+    proves:
+      - AC-04
+engineering_authority_effect:
+  changed: false
+  statement: This partial validation proves control-plane structure and overlay scope only; it creates no WRC/EMP.1 numerical, source, route, code-compliance, release, deployment, or hash authority.
