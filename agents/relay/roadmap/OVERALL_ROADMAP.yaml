@@ -1,9 +1,9 @@
 schema_version: relay-v2.5
 roadmap:
   id: ADV-V25-MIGRATION
-  revision: RM-0002
-  title: Advanced_Analysis delivery-state migration to engineering-pr-delivery v2.5
-  revision_record: agents/relay/roadmap/revisions/RM-0002.yaml
+  revision: RM-0003
+  title: Advanced_Analysis V2.5 custody and bounded EMP.1/WRC open-item closure
+  revision_record: agents/relay/roadmap/revisions/RM-0003.yaml
 objectives:
   - id: OBJ-001
     title: Establish durable V2.5 repository custody without changing engineering authority
@@ -16,14 +16,16 @@ objectives:
         definition: DEFINED
         work_packages:
           - id: WP-001
+            issue: 1854
             title: Reconcile legacy delivery custody and establish the first V2.5 execution contract
             state: PLANNED
             definition: DETAILED
             execution_status: EXECUTABLE
             depends_on: []
             outcome:
-              - Replace bootstrap-only custody with one self-contained V2.5 migration execution contract.
+              - Replace bootstrap-only custody with one self-contained revised-V2.5 migration execution contract.
               - Preserve all engineering authority boundaries while making future takeover independent of chat and legacy ACTIVE.md state.
+              - Hand the serial frontier to the first authorized engineering successor rather than ending the programme at migration.
             scope:
               allowed:
                 - agents/relay/**
@@ -37,6 +39,55 @@ objectives:
                 - route/code-compliance/release authorization
             acceptance:
               - AC-01: Current migration-relevant issue state is represented in ISSUE_GRAPH without inventing engineering authority.
-              - AC-02: AGENTS.md delivery-protocol pointer is reconciled to the pinned V2.5 basis without weakening project-specific protections.
+              - AC-02: AGENTS.md delivery-protocol pointer is reconciled to the pinned revised V2.5 basis without weakening project-specific protections.
               - AC-03: V2.5 relay validators/cold-start obligations have truthful PASS/FAIL/NOT_RUN evidence.
               - AC-04: WP-001 finishes with checkpoint, calculated progress, and an exact next frontier or terminal/idle disposition.
+  - id: OBJ-002
+    title: Resolve the current bounded EMP.1/WRC open-item programme without silent authority expansion
+    state: PLANNED
+    definition: DEFINED
+    phases:
+      - id: PHASE-002
+        title: Current-route evidence and release preparation
+        state: PLANNED
+        definition: DEFINED
+        work_packages:
+          - id: WP-002
+            issue: 1768
+            title: Generate genuine gamma=5 exact-head evidence 01-12 and prove current-main anti-drift
+            state: PLANNED
+            definition: DETAILED
+            execution_status: WAITING
+            depends_on:
+              - WP-001
+            outcome:
+              - Reproduce the historical bounded gamma=5 qualification evidence only from the exact heads required by #1768, with no fabricated or relabeled receipts.
+              - Prove the current bounded gamma=5 implementation still matches the retained source/oracle authority or create a truthful new qualification epoch if the governed contract requires it.
+              - Leave global EMP.1.C, code-compliance, professional-release, non-tabulated-gamma, and hash-policy authority unchanged.
+            scope:
+              allowed:
+                - scripts/emp1-wrc-gamma5-requalification-*
+                - scripts/emp1-wrc-gamma5-post-promotion-*
+                - validation/emp1/wrc537-2013/**
+                - agents/relay/**
+              protected:
+                - WRC curve coefficients/table values
+                - frozen expected values and numerical tolerances
+                - WRC sign/recovery semantics unless separately source-authorized
+                - gamma/beta/dP/SCF/shape/shell applicability
+                - global EMP.1.C and code-compliance state
+                - resultHash policy
+              prohibited:
+                - .github/workflows/**
+                - fabricated historical 01-12 evidence
+                - expected-value replacement from production output
+                - tolerance widening to obtain PASS
+                - non-tabulated-gamma authorization
+                - professional-release or deployment authorization
+            acceptance:
+              - Genuine historical files 01-10 are produced only by exact required-head execution, or remain truthfully NOT_RUN if that exact checkout cannot execute.
+              - 6/6 physical WRC loads and 32/32 numerical comparisons PASS within the frozen issue-defined tolerances when the governed exact-head suite executes.
+              - Observation anti-forgery, independent replay, review falsifiers, and proposal integrity checks PASS on their bound material head.
+              - Genuine files 11-12 are produced only from the required post-promotion exact head using genuine predecessor evidence.
+              - Current-main drift is explicitly classified against the current source/oracle/qualification identities.
+              - Unsupported-domain falsifiers remain fail-closed and global EMP.1.C/code-compliance authority remain false.
