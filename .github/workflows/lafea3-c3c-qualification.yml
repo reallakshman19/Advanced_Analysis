@@ -1,0 +1,106 @@
+name: LAFEA.3 C3-C exact-head qualification
+
+on:
+  pull_request:
+    paths:
+      - 'agents/chains/ADV-LAFEA3-C3C-1769/**'
+      - 'scripts/lafea.3-c3c-*.mjs'
+      - 'scripts/lafea-continuum-*.mjs'
+      - 'scripts/lafea-b02-*.mjs'
+      - 'src/core/local-continuum/**'
+      - 'src/workspace/lafea-*.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/lafea3-c3c-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c3c-exact-head:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      C3C_EVIDENCE_DIR: /tmp/lafea3-c3c-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Verify exact head and clean tree
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+          git diff --check
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check C3-C qualification syntax
+        run: |
+          node --check scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs
+          node --check scripts/lafea.3-c3c-model-compiler-qualification-check.mjs
+
+      - name: Execute C3-C.6 edit-invalidation matrix
+        id: matrix
+        continue-on-error: true
+        shell: bash
+        run: |
+          rm -rf "$C3C_EVIDENCE_DIR"
+          mkdir -p "$C3C_EVIDENCE_DIR"
+          set +e
+          node scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs \
+            > "$C3C_EVIDENCE_DIR/c3c6-matrix.stdout.json" \
+            2> "$C3C_EVIDENCE_DIR/c3c6-matrix.stderr.txt"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$C3C_EVIDENCE_DIR/c3c6-matrix.exit-code.txt"
+          exit "$status"
+
+      - name: Execute 19-step C3-C aggregate
+        id: aggregate
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p "$C3C_EVIDENCE_DIR"
+          set +e
+          node scripts/lafea.3-c3c-model-compiler-qualification-check.mjs \
+            --expected-head "$EXPECTED_HEAD" \
+            > "$C3C_EVIDENCE_DIR/c3c-aggregate.stdout.json" \
+            2> "$C3C_EVIDENCE_DIR/c3c-aggregate.stderr.txt"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$C3C_EVIDENCE_DIR/c3c-aggregate.exit-code.txt"
+          exit "$status"
+
+      - name: Upload exact-head C3-C evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lafea3-c3c-${{ env.EXPECTED_HEAD }}
+          path: ${{ env.C3C_EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Propagate C3-C qualification result
+        if: always()
+        shell: bash
+        run: |
+          test -f "$C3C_EVIDENCE_DIR/c3c6-matrix.exit-code.txt"
+          test -f "$C3C_EVIDENCE_DIR/c3c-aggregate.exit-code.txt"
+          matrix_status=$(cat "$C3C_EVIDENCE_DIR/c3c6-matrix.exit-code.txt")
+          aggregate_status=$(cat "$C3C_EVIDENCE_DIR/c3c-aggregate.exit-code.txt")
+          if [ "$matrix_status" -ne 0 ] || [ "$aggregate_status" -ne 0 ]; then
+            echo "C3-C qualification failed: matrix=$matrix_status aggregate=$aggregate_status"
+            exit 1
+          fi
+          echo 'C3-C.6 matrix and 19-step exact-head aggregate passed; retained artifact is candidate evidence only.'
