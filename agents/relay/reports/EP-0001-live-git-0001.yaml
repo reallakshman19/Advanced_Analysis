@@ -1,0 +1,31 @@
+schema_version: relay-v2.5
+report_id: RPT-EP-0001-LIVE-GIT-0001
+ep_id: EP-0001
+roadmap_revision: RM-0003
+protocol_basis: d9b84069683977b5c370f536f1c50095de926338
+candidate_id: chatgpt-gpt56sol:rm0003-20260919T092733Z
+observed_repository_head: fdd339de7614df1bdc8897098a2a6b7a718509f8
+check:
+  id: LIVE-GIT-CONTEXT
+  status: PASS
+  executable: inspect_git_context.py
+  executable_basis: reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5/scripts/inspect_git_context.py
+  reconstruction:
+    method: Reconstructed the exact Git commit object chain from GitHub Git-data commit objects and verified each reconstructed unsigned commit object reproduced its provider SHA before executing the canonical inspector.
+    shallow_boundary: 0147972e201cbc77b97fe23fd7619cffe001d717
+    note: The shallow boundary is the EP material_ref itself; it preserves the required material_ref-to-HEAD ancestry check and does not manufacture any descendant commit.
+  result:
+    branch: agent/relay-v25-bootstrap-1854
+    head: fdd339de7614df1bdc8897098a2a6b7a718509f8
+    material_ref: 0147972e201cbc77b97fe23fd7619cffe001d717
+    material_ref_is_ancestor: true
+    base_branch: main
+    base_observed_ref: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
+    current_base_ref: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
+    base_drift: UNCHANGED
+    route: SERIAL
+    route_ep_id: EP-0001
+limitations:
+  - This proves the canonical live Git/route portion only.
+  - Full material_write_ready.py is not claimed PASS until its BATON_READY and candidate-certification dependencies execute successfully against the complete relay state.
+  - No EMP.1/WRC numerical or release authority is created by this check.
