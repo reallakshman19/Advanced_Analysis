@@ -40,7 +40,7 @@ context_capsule:
   current_implementation_state: PR #1858 contains the V2.5 relay inventory/reconciliation, RM-0003 programme roadmap, PB-0003 progress basis, verified issue graph, revised project overlay, and active migration EP; product engineering code remains unchanged.
   known_problems:
     - Full Common V2.5 conformance, cold-start, zero-context, delivery-correlation, and quality validation have not yet been recorded on the revised EP contract.
-    - Existing DISC-0001 / TC-0001 were bound to the superseded Common protocol basis and must not be used for current material-write readiness.
+    - Any discovery/takeover receipt bound to a superseded protocol, roadmap revision, EP digest, profile digest, predecessor basis, or material ref is invalid for current material-write readiness.
     - Hosted GitHub Actions still exhibits the #54 pre-step runner failure; this is infrastructure NOT_RUN evidence and does not authorize workflow or engineering changes.
   deliberate_non_goals:
     - Do not decide or implement gamma interpolation policy.
@@ -130,7 +130,7 @@ inputs:
     name: Applied Owner protocol decision
     description: Durable Owner protocol authority; ODR-0001 adopts V2.5 and ODR-0003 defines the post-migration listed-issues programme without deciding protected policy choices.
     authority: OWNER
-    source: agents/relay/roadmap/owner-decisions/ODR-0001.yaml
+    source: agents/relay/roadmap/owner-decisions/ODR-0001.yaml and agents/relay/roadmap/owner-decisions/ODR-0003.yaml
     value: ODR-0001 + ODR-0003
     type: owner decision record
     units: NA
