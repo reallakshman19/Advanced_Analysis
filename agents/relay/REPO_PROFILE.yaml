@@ -1,0 +1,37 @@
+schema_version: relay-v2.5
+repository_type: application
+default_branch: main
+important_paths:
+  source:
+    - src
+  engineering_validation:
+    - validation
+    - scripts
+  engineering_docs:
+    - docs
+  legacy_relay:
+    - agents/chains
+commands:
+  non_fea: node scripts/run-non-fea-checks.mjs
+  imports: npm run check:imports
+  build: npm run build
+  emp1_ui: npm run check:emp1-ui
+  emp1_gamma_interpolation: npm run check:emp1-gamma-interpolation
+protected_domains:
+  - solver formulation and stiffness/load assembly
+  - recovery and coordinate/sign/end conventions
+  - load and moment reference-point transport
+  - governing code and engineering methodology
+  - WRC/EMP.1/LAFEA applicability and source authority
+  - benchmark/oracle authority and tolerances
+  - engineering master-data authority
+  - result semantic hashes and evidence custody
+  - publication/trust/release/deployment authority
+  - workflow files unless explicitly authorized
+generated_paths:
+  - agents/relay/generated
+  - agents/relay/reports
+repository_rules:
+  - AGENTS.md project overlay remains applicable where it is stricter and does not conflict with the Owner-selected V2.5 protocol basis.
+  - Legacy relay/workreport artifacts are provenance only and must not be mass-rewritten or auto-promoted.
+  - PASS, FAIL, NOT_RUN and NOT_APPLICABLE evidence states must remain truthful.
