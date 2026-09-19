@@ -1,0 +1,61 @@
+schema_version: relay-v2.5
+id: ODR-0003
+decision:
+  authority: OWNER
+  kind: INTENT_MUTATION
+  statement: After reconciling the repository to the revised engineering-pr-delivery-v2.5 protocol, begin solving the listed EMP.1/WRC GitHub issues serially, starting with the executable gamma=5 exact-head evidence work while preserving explicit Owner-only policy decisions.
+  source: "Owner instructions dated 2026-09-19: follow revised https://github.com/reallaksh19/Common/tree/main/skills/engineering-pr-delivery-v2.5; start fixing, solve the github issued listed ones"
+effects:
+  requirement_disposition: NOT_APPLICABLE
+  grants_material_write_authority: false
+  pending_items:
+    - "#1834 remains an Owner decision on non-tabulated-gamma product/method policy; no option is selected by this ODR."
+    - "#1852 remains an Owner decision on authority-bearing resultHash policy; no option is selected by this ODR."
+    - "#54 remains an external GitHub Actions runner/infrastructure obligation unless repository evidence identifies a source-controlled defect."
+impact:
+  class:
+    - PROGRAMME_SCOPE
+    - ENGINEERING_DELIVERY_SEQUENCE
+affected:
+  objectives:
+    - OBJ-001
+    - OBJ-002
+  phases:
+    - PHASE-001
+    - PHASE-002
+  work_packages:
+    - WP-001
+    - WP-002
+  execution_packages:
+    - EP-0001
+  issues:
+    - 54
+    - 1768
+    - 1775
+    - 1830
+    - 1834
+    - 1852
+    - 1854
+change_intake:
+  previous_concept: Establish V2.5 repository custody first, with repository-wide engineering work beyond the migration objective still unresolved.
+  requested_concept: Use the revised V2.5 control plane to execute the listed EMP.1/WRC open work serially, beginning with genuine gamma=5 exact-head evidence and then reconciling the remaining policy/release work from repository truth.
+  retained_behavior:
+    - Existing WRC/EMP.1 source authority, numerical methods, route applicability, benchmark/oracle expected values and tolerances remain unchanged unless a later authorized engineering work package explicitly changes them.
+    - "#1834 and #1852 remain Owner-reserved choices and cannot be decided by issue prose, benchmark agreement, or this programme authorization."
+    - Workflow-file changes remain prohibited unless separately and explicitly authorized.
+    - Global EMP.1.C, code-compliance, professional-release, deployment, and merge authority remain distinct and fail closed.
+    - Hosted zero-step/no-log workflow failures remain NOT_RUN infrastructure evidence, not engineering PASS or FAIL.
+  invalidated_behavior:
+    - Completion of the relay migration is no longer the end of the current programme.
+    - The listed open issues may not remain only as legacy-chain narrative after the V2.5 migration is complete.
+  new_scope:
+    - Add a future engineering objective for bounded EMP.1/WRC open-item closure.
+    - Make #1768 the first detailed engineering successor after WP-001.
+    - Keep #54 as an externally constrained infrastructure obligation while using sanctioned complete-checkout evidence where issue contracts permit it.
+    - Reconcile #1834, #1852, and #1775 only through later authorized work/decision transactions after their prerequisites are current.
+required_reconciliation:
+  - Create RM-0003 adding a future #1768 work package without displacing WP-001 from the current serial frontier.
+  - Create a new Progress Basis reflecting the added future work denominator.
+  - Populate ISSUE_GRAPH with verified current issue states and map #1854 to WP-001 and #1768 to WP-002.
+  - Re-ground EP-0001 and candidate admission to Common@d9b84069683977b5c370f536f1c50095de926338 before further material execution.
+status: APPLIED
