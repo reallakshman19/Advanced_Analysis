@@ -4,25 +4,25 @@ candidate:
   agent_instance_id: chatgpt-gpt5.6-sol-c3c6-20260919
 route:
   route_key: SERIAL:EP-LAFEA3-C3C6-1856
-    mode: SERIAL
-    execution_ref: EP-LAFEA3-C3C6-1856
-    ep_id: EP-LAFEA3-C3C6-1856
-    ep_path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
-    plan_id: null
-    plan_path: null
-    lane_id: null
+  mode: SERIAL
+  execution_ref: EP-LAFEA3-C3C6-1856
+  ep_id: EP-LAFEA3-C3C6-1856
+  ep_path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
+  plan_id: null
+  plan_path: null
+  lane_id: null
 basis:
   roadmap_id: RM-LAFEA-MESH-COMPLETION
-    roadmap_revision: RM-0005
-    relay_protocol_basis_ref: github:reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
-    material_ref: 9096417914c47a5d417ed6a6ee68bb970c0f196d
-    ep_contract_digest: sha256:3dac43859ea5b8153c46b3dcaffffd84099c6713588aa6638577e5a73d0d213e
-    repo_profile_digest: sha256:12b2e258033da2bc37d434e196dd9676dd80718f968a288db916a71fa9a47d9e
-    predecessor_baton:
-      type: NONE
-      id: NONE
-      path: null
-      digest: null
+  roadmap_revision: RM-0005
+  relay_protocol_basis_ref: github:reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
+  material_ref: 9096417914c47a5d417ed6a6ee68bb970c0f196d
+  ep_contract_digest: sha256:3dac43859ea5b8153c46b3dcaffffd84099c6713588aa6638577e5a73d0d213e
+  repo_profile_digest: sha256:12b2e258033da2bc37d434e196dd9676dd80718f968a288db916a71fa9a47d9e
+  predecessor_baton:
+    type: NONE
+    id: NONE
+    path: null
+    digest: null
 steps:
   - id: DSTEP-C3C6-ROUTE
     status: PASS
