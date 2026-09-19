@@ -1,0 +1,44 @@
+schema_version: relay-v2.5
+id: ODR-0001
+decision:
+  authority: OWNER
+  kind: INTENT_MUTATION
+  statement: Adopt engineering-pr-delivery-v2.5 from reallaksh19/Common as the delivery protocol for the next Advanced_Analysis engineering work, beginning with a safe repository relay migration.
+  source: "Owner instruction dated 2026-09-19 referencing https://github.com/reallaksh19/Common/tree/main/skills/engineering-pr-delivery-v2.5"
+effects:
+  requirement_disposition: NOT_APPLICABLE
+  grants_material_write_authority: false
+  pending_items:
+    - "#1834 gamma/interpolation product-method disposition remains undecided."
+    - "#1852 authority-bearing resultHash policy remains undecided."
+impact:
+  class:
+    - REPOSITORY_DELIVERY_PROTOCOL
+affected:
+  objectives:
+    - OBJ-001
+  phases:
+    - PHASE-001
+  work_packages:
+    - WP-001
+  execution_packages: []
+  issues:
+    - 1858
+change_intake:
+  previous_concept: Advanced_Analysis used legacy engineering-pr-delivery-v2 chain artifacts and an AGENTS.md overlay pointing to the older protocol.
+  requested_concept: Use engineering-pr-delivery-v2.5 repository-state, roadmap, semantic EP, takeover, quality, progress, and projection contracts for future material delivery.
+  retained_behavior:
+    - Existing engineering source custody, numerical authority, benchmarks, tolerances, and release boundaries remain unchanged.
+    - Legacy agents/chains and workreport artifacts remain provenance and are not mass-rewritten.
+    - Owner-only engineering decisions remain Owner-reserved.
+  invalidated_behavior:
+    - Legacy V2 endpoint or ACTIVE.md state may not itself grant V2.5 execution authority.
+    - Chat context or issue prose may not substitute for V2.5 roadmap/EP/takeover custody.
+  new_scope:
+    - agents/relay becomes the V2.5 deterministic repository custody root.
+    - New material execution must pass V2.5 baton, takeover, live Git, and material-write readiness gates.
+required_reconciliation:
+  - Create a V2.5 roadmap revision that promotes only the bounded migration work package to a DETAILED executable frontier.
+  - Prepare a semantic first EP without changing engineering mechanics or resolving #1834/#1852 by implication.
+  - Reconcile the stale AGENTS.md delivery-protocol pointer only inside an authorized V2.5 execution package.
+status: APPLIED
