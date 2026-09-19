@@ -1,16 +1,16 @@
 # Advanced_Analysis project agent overlay
 
 COMMON_POLICY_SOURCE:
-`reallaksh19/Common/skills/engineering-pr-delivery-v2/`
+`reallaksh19/Common/skills/engineering-pr-delivery-v2.5/`
 
 COMMON_POLICY_REFERENCE:
-`reallaksh19/Common/skills/engineering-pr-delivery-v2/references/repository-agent-policy.md`
+`reallaksh19/Common/skills/engineering-pr-delivery-v2.5/SKILL.md`
 
-COMMON_PROTOCOL_MINIMUM_BASIS: `36068fde5b860ca1870311b166d28077b4c0bcf8`
+COMMON_PROTOCOL_MINIMUM_BASIS: `d9b84069683977b5c370f536f1c50095de926338`
 LOCAL_POLICY_SCOPE: PROJECT_ONLY
 LEGACY_RELAY_WRITES: FORBIDDEN
 
-All reusable relay, qualification, crash-recovery, chain-state, Q1–Q5, AUTO, validation-integrity, roadmap-governance, and merge semantics are owned by the live Common `engineering-pr-delivery-v2` skill. Re-ground live Common before every new material leg. Do not copy or locally fork those generic rules here.
+All reusable relay, qualification, crash-recovery, roadmap-governance, takeover, validation-integrity, progress, projection, quality, handover, and merge semantics are owned by the live Common `engineering-pr-delivery-v2.5` skill. Re-ground live Common before every new material execution slice. Do not copy or locally fork those generic rules here.
 
 ## Project identity / criticality
 
@@ -30,7 +30,7 @@ Treat work affecting any of the following as `ENGINEERING_CRITICAL` unless a str
 
 ## Project governing inputs / source custody
 
-Use the owning issue/chain artifacts and repository engineering source ledgers for each domain. Existing controlled source files, benchmark/oracle artifacts, validation fixtures and source-authority documents retain their recorded custody; this project overlay does not create new engineering authority.
+Use the owning issue/relay artifacts and repository engineering source ledgers for each domain. Existing controlled source files, benchmark/oracle artifacts, validation fixtures and source-authority documents retain their recorded custody; this project overlay does not create new engineering authority.
 
 For WRC/EMP.1/LAFEA/load-calculation work, preserve the exact source-custody, applicability, coordinate/sign, load-reference, benchmark/oracle and publication boundaries recorded by the owning engineering artifacts.
 
@@ -42,9 +42,10 @@ agents/agentchain/**
 agents/PR*_workreport.md
 agents/status/**
 agents/claims/**
+agents/chains/**
 ```
 
-Do not delete or mass-rewrite them. New material legs/takeovers use the canonical v3 paths defined by Common.
+Do not delete or mass-rewrite them. New V2.5 material execution, takeover, checkpoint, progress, and handover custody uses the canonical `agents/relay/` paths defined by Common.
 
 ## Protected project domains
 
@@ -101,7 +102,7 @@ AUTO progression must stop when continuing requires an unapproved change to:
 - benchmark/oracle/tolerance authority;
 - engineering master-data authority;
 - result publication/trust/release/deployment authority;
-- another active chain's protected engineering domain.
+- another active route's protected engineering domain.
 
 An independent analytical/reference/cross-solver contradiction may authorize bounded diagnosis, not automatic authority change.
 
