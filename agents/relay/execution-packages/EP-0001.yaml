@@ -671,7 +671,8 @@
           "INPUT-06"
         ],
         "tests": [
-          "TEST-01"
+          "TEST-01",
+          "TEST-08"
         ],
         "benchmarks": [
           "BENCH-02",
@@ -704,9 +705,7 @@
           ],
           "unavailable_here_reason": "The connected GitHub control environment exposes provider/repository APIs but does not expose an executable repository filesystem where Common's Python validator can reopen the committed relay files.",
           "expected_evidence": [
-            "TC-0001 with deterministic evaluator identity validate_takeover_certification.py",
-            "validate_takeover_certification.py PASS",
-            "one takeover_admissions locator for SERIAL:EP-0001 and candidate chatgpt-continuing-v25-20260919"
+            "TEST-08"
           ],
           "blocks": [
             "TAKEOVER_CERTIFIED(SERIAL:EP-0001,candidate)",
@@ -731,7 +730,8 @@
           "INPUT-03"
         ],
         "tests": [
-          "TEST-01"
+          "TEST-01",
+          "TEST-09"
         ],
         "benchmarks": [
           "BENCH-03"
@@ -762,8 +762,7 @@
           ],
           "unavailable_here_reason": "This connected GitHub control environment can read and mutate repository/provider state but does not expose the required live Git worktree/object database to material_write_ready.py.",
           "expected_evidence": [
-            "material_write_ready.py JSON with material_write_ready=true",
-            "live branch/head/base/material ancestry receipt"
+            "TEST-09"
           ],
           "blocks": [
             "EP-0001 STEP-01 engineering execution",
@@ -926,7 +925,9 @@
       "weight": 20,
       "verification": [
         "TEST-01",
-        "BENCH-03"
+        "BENCH-03",
+        "TEST-08",
+        "TEST-09"
       ]
     },
     {
@@ -949,7 +950,8 @@
       "verification": [
         "TEST-01",
         "TEST-07",
-        "BENCH-03"
+        "BENCH-03",
+        "TEST-08"
       ]
     },
     {
@@ -1017,6 +1019,23 @@
       "method": "Inspect current #1847 GitHub Actions jobs and retain whether executable steps exist; zero steps => NOT_RUN / INFRASTRUCTURE, never engineering PASS/FAIL.",
       "proves": [
         "AC-03"
+      ]
+    },
+    {
+      "id": "TEST-08",
+      "class": "MUST_PASS",
+      "method": "Run Common validate_takeover_certification.py against the committed DISC/TC/admission for the EP-0001 candidate; validator must exit 0.",
+      "proves": [
+        "AC-01",
+        "AC-03"
+      ]
+    },
+    {
+      "id": "TEST-09",
+      "class": "MUST_PASS",
+      "method": "Run Common material_write_ready.py on the live EP-0001 checkout for the certified candidate; material_write_ready must be true.",
+      "proves": [
+        "AC-01"
       ]
     }
   ],
