@@ -1,0 +1,54 @@
+schema_version: relay-v2.5-takeover-certification
+id: TC-0001
+candidate:
+  agent_instance_id: chatgpt-gpt56sol:takeover-1858-20260919T060249Z
+prepared_by:
+  agent_instance_id: chatgpt-gpt56sol:preparer-1858-20260919T0545Z
+evaluated_by:
+  type: OWNER
+  identity: reallaksh19
+  basis:
+    - agents/relay/roadmap/owner-decisions/ODR-0002.yaml
+    - agents/relay/certifications/discovery/DISC-0001.yaml
+    - agents/relay/execution-packages/EP-0001.yaml
+self_certification:
+  allowed: false
+route:
+  route_key: SERIAL:EP-0001
+  mode: SERIAL
+  execution_ref: EP-0001
+  ep_id: EP-0001
+  ep_path: agents/relay/execution-packages/EP-0001.yaml
+  plan_id: null
+  plan_path: null
+  lane_id: null
+basis:
+  roadmap_id: ADV-V25-MIGRATION
+  roadmap_revision: RM-0002
+  relay_protocol_basis_ref: 1f4e9956e89f394fda5e4e730e13ecd8709c8f04
+  material_ref: 0147972e201cbc77b97fe23fd7619cffe001d717
+  ep_contract_digest: sha256:b6db108ed46922fd5137e7c17feb9e3ff1a5f81786e8a6e8335c162ddb23221f
+  repo_profile_digest: sha256:9dccd13c817fb88cab3b91aea41cb54a61f11dd9bc183a97dc7585edd1fa170b
+  predecessor_baton:
+    type: NONE
+    id: NONE
+    path: null
+    digest: null
+discovery_receipt:
+  id: DISC-0001
+  path: agents/relay/certifications/discovery/DISC-0001.yaml
+qualification:
+  required: false
+  status: NOT_REQUIRED
+  receipt_id: null
+  receipt_path: null
+  receipt_digest: null
+checks:
+  baton_semantics: PASS
+  repository_discovery: PASS
+  route_grounding: PASS
+  input_oracle_readiness: PASS
+  scope_understood: PASS
+  report_successor_contract: PASS
+result: PASS
+conversation_context_used: false
