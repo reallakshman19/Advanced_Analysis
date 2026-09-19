@@ -1,22 +1,42 @@
 schema_version: relay-v2.5
 roadmap:
   id: ADV-V25-MIGRATION
-  revision: RM-0001
+  revision: RM-0002
   title: Advanced_Analysis delivery-state migration to engineering-pr-delivery v2.5
+  revision_record: agents/relay/roadmap/revisions/RM-0002.yaml
 objectives:
   - id: OBJ-001
     title: Establish durable V2.5 repository custody without changing engineering authority
     state: ACTIVE
-    definition: PARTIALLY_DEFINED
+    definition: DEFINED
     phases:
       - id: PHASE-001
         title: Legacy relay inventory and roadmap reconciliation
-        state: PLANNED
-        definition: OWNER_REVIEW_REQUIRED
+        state: ACTIVE
+        definition: DEFINED
         work_packages:
           - id: WP-001
-            title: Reconcile legacy delivery custody, Owner intent, and the first executable frontier
+            title: Reconcile legacy delivery custody and establish the first V2.5 execution contract
             state: PLANNED
-            definition: OWNER_REVIEW_REQUIRED
-            execution_status: WAITING
+            definition: DETAILED
+            execution_status: EXECUTABLE
             depends_on: []
+            outcome:
+              - Replace bootstrap-only custody with one self-contained V2.5 migration execution contract.
+              - Preserve all engineering authority boundaries while making future takeover independent of chat and legacy ACTIVE.md state.
+            scope:
+              allowed:
+                - agents/relay/**
+                - AGENTS.md delivery-protocol metadata only
+              prohibited:
+                - src/**
+                - validation expected values or tolerances
+                - workflow files
+                - engineering method/source authority
+                - result semantic hashes
+                - route/code-compliance/release authorization
+            acceptance:
+              - AC-01: Current migration-relevant issue state is represented in ISSUE_GRAPH without inventing engineering authority.
+              - AC-02: AGENTS.md delivery-protocol pointer is reconciled to the pinned V2.5 basis without weakening project-specific protections.
+              - AC-03: V2.5 relay validators/cold-start obligations have truthful PASS/FAIL/NOT_RUN evidence.
+              - AC-04: WP-001 finishes with checkpoint, calculated progress, and an exact next frontier or terminal/idle disposition.
