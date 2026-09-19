@@ -1,0 +1,66 @@
+{
+  "schema_version": "relay-v2.5-delivery-observation",
+  "id": "DOBS-0001",
+  "provider": "GITHUB",
+  "repository": "reallaksh19/Advanced_Analysis",
+  "vehicle": {
+    "kind": "PULL_REQUEST",
+    "number": 1847,
+    "url": "https://github.com/reallaksh19/Advanced_Analysis/pull/1847",
+    "lifecycle": "DRAFT",
+    "head": {
+      "ref": "fix/lafea4-trunk-green-b5-execution",
+      "sha": "b54f014de3dc7af388d5ba008d01dff282cbdbd5"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50"
+    }
+  },
+  "mergeability": {
+    "state": "MERGEABLE"
+  },
+  "checks": {
+    "state": "NOT_RUN",
+    "head_sha": "b54f014de3dc7af388d5ba008d01dff282cbdbd5",
+    "required": [
+      "LAFEA.4 shell scalability exact-head validation"
+    ],
+    "observations": [
+      {
+        "name": "LAFEA.4 shell scalability exact-head validation",
+        "run_id": 35434703441,
+        "job_id": 105875290996,
+        "state": "NOT_RUN",
+        "reason": "GitHub Actions job completed with steps=[]; no repository command executed."
+      }
+    ]
+  },
+  "review": {
+    "state": "CLEAR",
+    "unresolved_threads": 0,
+    "change_requests": 0
+  },
+  "description_contract": {
+    "marker": "<!-- relay-pr-correlation:v1 -->",
+    "marker_present": true,
+    "body_digest": "sha256:dc685913e16916db1e2e2b5c153cb3e4bc706a3ed8424e40c0c9b994a5cf1362",
+    "correlations": [
+      {
+        "issue_node": "ISSUE-1763",
+        "issue_number": 1763,
+        "ep_id": "EP-0001",
+        "ep_path": "agents/relay/execution-packages/EP-0001.yaml",
+        "work_package": "WP-001",
+        "relationship": "IMPLEMENTS",
+        "meaning": "EP-0001 delivers the authorized work for WP-001 owned by GitHub issue #1763."
+      }
+    ]
+  },
+  "readback_basis": [
+    "GitHub PR #1847 provider readback at head b54f014de3dc7af388d5ba008d01dff282cbdbd5 after canonical correlation publication.",
+    "GitHub Actions run 35434703441 / job 105875290996 returned steps=[]; classified NOT_RUN / INFRASTRUCTURE.",
+    "GitHub provider readback returned draft=true, mergeable=true, zero reviews, and zero unresolved review threads.",
+    "This observation is point-in-time evidence; committing it advances the PR branch and requires refresh before any later review/merge claim."
+  ]
+}
