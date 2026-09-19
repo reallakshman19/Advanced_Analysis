@@ -1,6 +1,6 @@
 {
   "schema_version": "relay-v2.5-migration-reconciliation",
-  "status": "NEEDS_RECONCILIATION",
+  "status": "READY_FOR_FIRST_V25_EP",
   "source_inventory": "agents/relay/migration/V2_INVENTORY.yaml",
   "source_evidence": {
     "active_chain_state": [
@@ -647,16 +647,16 @@
   },
   "owner_intent": {
     "authoritative_sources": [
-      "User instruction in current session: follow reallaksh19/Common engineering-pr-delivery-v2.5 and proceed with the next safe delivery step.",
-      "github:reallaksh19/Advanced_Analysis#1830 — live EMP.1/WRC audit control plane, no new engineering authority.",
-      "github:reallaksh19/Advanced_Analysis#1854 — current open-items sequencing after P0 fixes.",
-      "github:reallaksh19/Advanced_Analysis#1834 — Owner-reserved gamma policy decision.",
-      "github:reallaksh19/Advanced_Analysis#1852 — Owner-reserved resultHash authority decision."
+      "agents/relay/roadmap/owner-decisions/ODR-0001.yaml — applied Owner decision adopting engineering-pr-delivery-v2.5.",
+      "github:reallaksh19/Advanced_Analysis#1830 — live EMP.1/WRC audit projection; creates no engineering authority.",
+      "github:reallaksh19/Advanced_Analysis#1854 — current EMP.1/WRC open-items sequencing projection.",
+      "github:reallaksh19/Advanced_Analysis#1834 — Owner-reserved gamma policy decision remains pending.",
+      "github:reallaksh19/Advanced_Analysis#1852 — Owner-reserved resultHash authority decision remains pending."
     ],
     "unresolved_questions": [
-      "Owner disposition for #1834: hold gamma=5 authority, qualify a separate bounded non-tabulated-gamma policy, acquire primary-source interpolation authority, or another explicit disposition.",
-      "Owner disposition for #1852: authority-bearing resultHash execution/hash policy.",
-      "Repository-wide roadmap scope beyond the currently inspected EMP.1/WRC programme remains to be reconciled before this relay can claim an overall engineering roadmap."
+      "Owner disposition for #1834 remains pending and is outside WP-001.",
+      "Owner disposition for #1852 remains pending and is outside WP-001.",
+      "Repository-wide engineering roadmap beyond the initial migration objective must be discovered and proposed by WP-001; it is not inferred from legacy chain counts."
     ]
   },
   "roadmap_mapping": {
@@ -664,14 +664,14 @@
       {
         "id": "OBJ-001",
         "title": "Establish durable V2.5 repository custody without changing engineering authority",
-        "source": "Owner-selected V2.5 protocol plus existing repository custody"
+        "source": "ODR-0001 plus V2.5 migration requirement"
       }
     ],
     "phases": [
       {
         "id": "PHASE-001",
         "title": "Legacy relay inventory and roadmap reconciliation",
-        "source": "V2.5 migration requirement"
+        "source": "RM-0002 V2.5 migration transaction"
       }
     ],
     "work_packages": [
@@ -679,7 +679,7 @@
         "id": "WP-001",
         "title": "Reconcile legacy delivery custody, Owner intent, and the first executable frontier",
         "source": "V2.5 migration requirement",
-        "current_status": "WAITING_OWNER_REVIEW_REQUIRED"
+        "current_status": "DETAILED_EXECUTABLE_FRONTIER"
       }
     ]
   },
@@ -788,13 +788,14 @@
       "scope and acceptance made self-contained",
       "cold-start inputs complete"
     ],
-    "ep_id": null,
-    "candidate_frontier_note": "Do not create a material EMP.1 EP while #1834/#1852 owner choices are being silently assumed. A relay-only reconciliation EP may be defined once WP-001 is made DETAILED."
+    "ep_id": "EP-0001",
+    "candidate_frontier_note": "EP-0001 is relay/control-plane migration only. It may reconcile issue graph and protocol metadata but may not resolve #1834/#1852, alter engineering mechanics, or grant release authority."
   },
   "notes": [
     "Legacy files are evidence/context only; no V2 endpoint is automatically executable as V2.5.",
     "Progress must be recalculated from an explicit V2.5 basis rather than copied from narrative history.",
     "AGENTS.md currently references an older Common protocol basis; this is a migration finding, not authority to modify protected engineering domains.",
-    "No product code, engineering source, numerical method, benchmark expected value, tolerance, result hash, workflow file, route authorization, code-compliance state, or release authority is changed by this reconciliation."
+    "No product code, engineering source, numerical method, benchmark expected value, tolerance, result hash, workflow file, route authorization, code-compliance state, or release authority is changed by this reconciliation.",
+    "RM-0002 and PB-0002 establish one DETAILED migration frontier; candidate-specific takeover is still required before material execution."
   ]
 }
