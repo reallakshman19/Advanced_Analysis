@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import os
+import sys
 import tempfile
 from pathlib import Path
 
@@ -25,9 +27,8 @@ def load_mapping(path: Path) -> dict:
     return data
 
 
-def dump_json_yaml_atomic(path: Path, value: dict) -> None:
+def atomic_write_text(path: Path, payload: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(value, indent=2, ensure_ascii=False) + "\n"
     fd, tmp_name = tempfile.mkstemp(prefix=path.name + ".", dir=path.parent)
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as handle:
@@ -41,30 +42,54 @@ def dump_json_yaml_atomic(path: Path, value: dict) -> None:
         raise
 
 
+def dump_json_yaml_atomic(path: Path, value: dict) -> None:
+    atomic_write_text(path, json.dumps(value, indent=2, ensure_ascii=False) + "\n")
+
+
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def load_common_validators(common_root: Path):
+    scripts = common_root / "skills/engineering-pr-delivery-v2.5/scripts"
+    require(scripts.is_dir(), f"Common V2.5 scripts directory does not exist: {scripts}")
+    sys.path.insert(0, str(scripts))
+    disc_mod = importlib.import_module("validate_discovery_receipt")
+    tc_mod = importlib.import_module("validate_takeover_certification")
+    return disc_mod.validate_file, tc_mod.validate_file
+
+
+def format_errors(label: str, errors: list[str], warnings: list[str]) -> str:
+    parts = [f"{label} rejected by Common validator:"]
+    parts.extend(f"FAIL: {item}" for item in errors)
+    parts.extend(f"WARN: {item}" for item in warnings)
+    return "\n".join(parts)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=(
             "Assemble the outgoing-preparer-owned deterministic TC/admission for EP-0001 "
-            "after a zero-context candidate has produced a PASS DISC receipt. This tool does "
-            "not validate or authorize takeover; Common validators remain authoritative."
+            "after a zero-context candidate has produced a PASS DISC receipt. Canonical Common "
+            "validators are invoked before repository admission is mutated."
         )
     )
     ap.add_argument("repo_root", nargs="?", default=".")
+    ap.add_argument("--common-root", required=True)
     ap.add_argument("--candidate-id", required=True)
     ap.add_argument("--disc-path", required=True)
     ap.add_argument("--tc-id", default="TC-0001")
     args = ap.parse_args()
 
     root = Path(args.repo_root).resolve()
+    common_root = Path(args.common_root).resolve()
     candidate = args.candidate_id.strip()
     require(candidate, "candidate id must be non-empty")
     require(candidate != PREPARED_BY, "candidate must not equal frozen outgoing preparer identity")
     require(args.tc_id.startswith("TC-"), "tc id must use TC-* namespace")
+
+    validate_discovery_file, validate_takeover_file = load_common_validators(common_root)
 
     state_path = root / "agents/relay/REPO_STATE.yaml"
     state = load_mapping(state_path)
@@ -98,6 +123,10 @@ def main() -> int:
     require(route.get("ep_id") == EXPECTED_EP_ID, "DISC ep_id mismatch")
     require(route.get("ep_path") == EXPECTED_EP_PATH, "DISC ep_path mismatch")
     require(route.get("plan_id") is None and route.get("plan_path") is None and route.get("lane_id") is None, "serial DISC must not carry parallel route fields")
+
+    # Canonical Common validation happens before any TC/admission mutation.
+    disc_errors, disc_warnings = validate_discovery_file(root, disc_path, state, None, candidate)
+    require(not disc_errors, format_errors("DISC", disc_errors, disc_warnings))
 
     admissions = state.get("takeover_admissions") or []
     require(isinstance(admissions, list), "REPO_STATE.takeover_admissions must be a list")
@@ -153,7 +182,14 @@ def main() -> int:
         "conversation_context_used": False,
     }
 
+    # Write the candidate TC first, validate it against current repository truth,
+    # and only then mutate REPO_STATE.takeover_admissions.
     dump_json_yaml_atomic(tc_path, tc)
+    tc_errors, tc_warnings = validate_takeover_file(root, tc_path, state, None, candidate)
+    if tc_errors:
+        tc_path.unlink(missing_ok=True)
+        raise ValueError(format_errors("TC", tc_errors, tc_warnings))
+
     admission = {
         "route_key": EXPECTED_ROUTE_KEY,
         "candidate": {"agent_instance_id": candidate},
@@ -170,7 +206,10 @@ def main() -> int:
         "route_key": EXPECTED_ROUTE_KEY,
         "discovery_receipt": rel_disc,
         "takeover_certification": tc_path_rel,
-        "authority": "NOT_YET_AUTHORIZED_RUN_COMMON_VALIDATORS_AND_MATERIAL_WRITE_READY",
+        "common_root": str(common_root),
+        "pre_admission_discovery_validation": "PASS",
+        "pre_admission_takeover_validation": "PASS",
+        "authority": "NOT_YET_MATERIAL_WRITE_READY_RUN_COMMON_AGGREGATE_VALIDATOR_AND_RUNTIME_GATE",
     }, indent=2))
     return 0
 

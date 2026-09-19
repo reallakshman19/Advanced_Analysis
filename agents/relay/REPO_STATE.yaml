@@ -60,12 +60,13 @@
         "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication.",
         "Protocol basis advanced from 7ec21cd100211935267e4cec15dbb3e7edaefd68 to 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1; intervening changes are confined to three-pass-generator dispatch/schema/validation and do not alter ENGINEERING_DELIVERY semantics.",
         "Common main advanced to 1f4e9956e89f394fda5e4e730e13ecd8709c8f04; intervening changes isolate three-pass generation from engineering delivery and do not change EP-0001 takeover/write semantics.",
-        "EP-0001 includes a frozen outgoing-preparer TC assembler. It is not authority: Common discovery/takeover validators and material_write_ready.py remain mandatory."
+        "EP-0001 includes a frozen outgoing-preparer TC assembler. It is not authority: Common discovery/takeover validators and material_write_ready.py remain mandatory.",
+        "Candidate launch hardening: standalone DISC validation must use Common validate_discovery_receipt.validate_file before admission because the validator CLI only traverses already-admitted discovery receipts."
       ]
     },
     "evidence": {
       "state": "PARTIAL",
-      "summary": "Historical exact-head A4 evidence is preserved. The corrected #1847 head has not yet executed the local WP-001 gate set under a V2.5-certified candidate. Hosted run 35420570862 and its retry both produced zero-step jobs, so hosted evidence for 0332d4f2fcea34c444f9ffe7262a54bd94f071f6 is NOT_RUN / INFRASTRUCTURE. No B5 PASS is currently authorized.",
+      "summary": "Historical exact-head A4 evidence is preserved. No V2.5-certified candidate has executed the WP-001 local gate set, so no B5 PASS is authorized. Retained hosted observations include zero-step LAFEA.4 jobs on heads 0332d4f2fcea34c444f9ffe7262a54bd94f071f6 and 55c77999235fa021f194b744ebf4dfb3627a17fc; these are NOT_RUN / INFRASTRUCTURE. DSTEP-06 must always re-observe the live PR head and its current jobs rather than transfer a prior-head disposition.",
       "not_run": [
         {
           "id": "EP0001-EXACT-HEAD-GATES",
@@ -73,8 +74,8 @@
           "cause": "NOT_SCHEDULED"
         },
         {
-          "id": "HOSTED-LAFEA4-0332D4F2",
-          "reason": "GitHub Actions run 35420570862 for head 0332d4f2fcea34c444f9ffe7262a54bd94f071f6 produced exact-head job 105837350687 with steps=[]; rerun job 105837419453 also completed with steps=[]. No checkout or repository command executed.",
+          "id": "HOSTED-LAFEA4-ZERO-STEP-OBSERVATIONS",
+          "reason": "Observed LAFEA.4 exact-head jobs on 0332d4f2fcea34c444f9ffe7262a54bd94f071f6 (run 35420570862; jobs 105837350687 and retry 105837419453) and 55c77999235fa021f194b744ebf4dfb3627a17fc (run 35424657907; job 105848411060) all had steps=[]. No repository command executed. These observations are head-bounded and do not classify future heads.",
           "cause": "INFRASTRUCTURE"
         }
       ]

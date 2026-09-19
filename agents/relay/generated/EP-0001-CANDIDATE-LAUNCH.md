@@ -12,7 +12,7 @@ This file is a generated/preparer-side operating aid. Repository authority remai
 
 ## Candidate sequence
 
-1. Run the Common baton/conformance checks before preparing candidate evidence:
+1. Run the Common baton/conformance checks:
 
    ```bash
    python <common>/skills/engineering-pr-delivery-v2.5/scripts/validate_relay_conformance.py .
@@ -30,24 +30,22 @@ This file is a generated/preparer-side operating aid. Repository authority remai
 
    It must use the live route `SERIAL:EP-0001`, current basis/digests, `result: PASS` only if every required discovery step passed, and `conversation_context_used: false`.
 
-4. Validate the DISC before any admission is assembled:
-
-   ```bash
-   python <common>/skills/engineering-pr-delivery-v2.5/scripts/validate_discovery_receipt.py .
-   ```
-
-5. Use the frozen outgoing-preparer assembler. The candidate supplies identity and the already-created DISC only; the assembler owns TC preparation and Common owns deterministic evaluation:
+4. Run the frozen outgoing-preparer assembler. It imports Common's canonical `validate_discovery_receipt.validate_file` and refuses to create an admission unless that exact standalone DISC validates against current repository truth:
 
    ```bash
    python agents/relay/tools/prepare_ep0001_takeover.py . \
+     --common-root <common> \
      --candidate-id <agent-instance-id> \
      --disc-path agents/relay/certifications/discovery/DISC-<candidate>.yaml \
      --tc-id TC-<candidate>
    ```
 
-6. Validate takeover and derive live write readiness:
+   The assembler writes the TC, calls Common's canonical `validate_takeover_certification.validate_file` against the still-unmodified `REPO_STATE`, deletes the TC if validation fails, and only then appends the admission locator.
+
+5. Validate the resulting admitted state and derive live write readiness:
 
    ```bash
+   python <common>/skills/engineering-pr-delivery-v2.5/scripts/validate_discovery_receipt.py .
    python <common>/skills/engineering-pr-delivery-v2.5/scripts/validate_takeover_certification.py .
    python <common>/skills/engineering-pr-delivery-v2.5/scripts/material_write_ready.py . \
      --candidate-id <agent-instance-id>
@@ -55,13 +53,13 @@ This file is a generated/preparer-side operating aid. Repository authority remai
    python <common>/skills/engineering-pr-delivery-v2.5/scripts/inspect_git_context.py .
    ```
 
-7. Only when `material_write_ready.py` passes may the candidate execute EP-0001 STEP-01 onward and make engineering-material changes.
+6. Only when `material_write_ready.py` passes may the candidate execute EP-0001 STEP-01 onward and make engineering-material changes.
 
 ## Frozen preparer boundary
 
 `prepare_ep0001_takeover.py` is deliberately limited to `SERIAL:EP-0001`, refuses qualification-required routes, refuses duplicate route admissions, requires a pre-existing PASS repository-only DISC, and records the outgoing preparer as `chatgpt-preparer-ep0001-20260919`.
 
-The helper does **not** establish takeover authority by itself. `validate_takeover_certification.py` reopens the current EP, route, basis and DISC; `material_write_ready.py` additionally checks live Git/drift/write authority.
+The helper does **not** establish material-write authority by itself. Common validates the standalone DISC before mutation, validates the TC before admission mutation, then the aggregate takeover validator and `material_write_ready.py` re-open current evidence and live Git/drift/write authority.
 
 ## EP-0001 engineering execution after admission
 
