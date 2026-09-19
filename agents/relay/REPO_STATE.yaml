@@ -33,9 +33,9 @@ predecessor_replan:
   path: null
 takeover_admissions: []
 progress:
-  overall_percent: 0
-  phase_percent: 0
-  ep_percent: 0
+  overall_percent: 25
+  phase_percent: 50
+  ep_percent: 50
   basis_revision: PB-0003
 status_planes:
   execution:
@@ -50,7 +50,7 @@ status_planes:
       - DOBS-0001 is a provider readback snapshot; PR delivery must be read back again at task/checkpoint close because subsequent relay commits advance the PR head.
   evidence:
     state: PARTIAL
-    summary: RM-0003, PB-0003, ODR-0003, the verified listed-issue graph, revised AGENTS.md overlay, reissued EP-0001, PR correlation, and DOBS-0001 are durable. Prior DISC/TC evidence is superseded by the protocol/roadmap/EP changes. A fresh #54 workflow observation still shows pre-step infrastructure failure with no engineering command executed.
+    summary: RM-0003, PB-0003, ODR-0003, the verified listed-issue graph, revised AGENTS.md overlay, reissued EP-0001, PR correlation, and DOBS-0001 are durable. TEST-01 and TEST-02 are PASS with retained source-inspection/validator evidence, completing AC-01 and AC-02; WP-001/EP-0001 are 50% complete and overall programme progress is 25%. Prior DISC/TC evidence is superseded by the protocol/roadmap/EP changes. A fresh #54 workflow observation still shows pre-step infrastructure failure with no engineering command executed.
     not_run:
       - id: VAL-V25-RM0003-CONFORMANCE
         reason: Full pinned Common V2.5 conformance/cold-start/zero-context execution has not run against an actual live checkout of this exact RM-0003 branch state.
