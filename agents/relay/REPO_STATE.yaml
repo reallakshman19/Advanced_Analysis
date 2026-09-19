@@ -5,10 +5,10 @@ repository:
   remote: reallaksh19/Advanced_Analysis
 relay_protocol:
   version: "2.5"
-  basis_ref: 1f4e9956e89f394fda5e4e730e13ecd8709c8f04
+  basis_ref: d9b84069683977b5c370f536f1c50095de926338
 roadmap:
   id: ADV-V25-MIGRATION
-  revision: RM-0002
+  revision: RM-0003
   path: agents/relay/roadmap/OVERALL_ROADMAP.yaml
 current_position:
   objective: OBJ-001
@@ -21,6 +21,7 @@ active_ep:
   id: EP-0001
   path: agents/relay/execution-packages/EP-0001.yaml
   state: EXECUTABLE
+  continuity_receipt: null
 last_checkpoint:
   id: NONE
   path: null
@@ -30,42 +31,33 @@ predecessor_join:
 predecessor_replan:
   id: null
   path: null
-takeover_admissions:
-  - route_key: SERIAL:EP-0001
-    candidate:
-      agent_instance_id: chatgpt-gpt56sol:takeover-1858-20260919T060249Z
-    discovery_receipt:
-      id: DISC-0001
-      path: agents/relay/certifications/discovery/DISC-0001.yaml
-    certification:
-      id: TC-0001
-      path: agents/relay/certifications/takeover/TC-0001.yaml
+takeover_admissions: []
 progress:
   overall_percent: 0
   phase_percent: 0
   ep_percent: 0
-  basis_revision: PB-0002
+  basis_revision: PB-0003
 status_planes:
   execution:
     state: READY
     can_continue: true
     material_authority: WRITE
-    next_action: Run the canonical live material_write_ready gate for candidate chatgpt-gpt56sol:takeover-1858-20260919T060249Z before STEP-01; no EP material write is permitted unless it returns PASS.
+    next_action: Reconstruct current RM-0003 repository discovery, issue a current DISC/TC admission, and run the live material_write_ready predicate before any further EP material execution.
   quality:
     state: NEEDS_ATTENTION
     findings:
-      - AGENTS.md still references the older Common engineering-pr-delivery-v2 protocol and canonical-v3 path wording; EP-0001 STEP-03 owns the bounded correction after takeover.
-      - Full Common V2.5 validator execution has not been run on this exact active-EP branch state in the current connector-only environment.
+      - Full revised-V2.5 relay conformance, cold-start, zero-context reconstruction, quality, and task-close delivery validation have not yet executed on this exact RM-0003 branch state.
+      - DOBS-0001 is a provider readback snapshot; PR delivery must be read back again at task/checkpoint close because subsequent relay commits advance the PR head.
   evidence:
     state: PARTIAL
-    summary: Candidate takeover is admitted through DISC-0001, TC-0001, and ODR-0002; EP-0001 material execution has not started because the live material-write gate remains to be executed.
+    summary: RM-0003, PB-0003, ODR-0003, the verified listed-issue graph, revised AGENTS.md overlay, reissued EP-0001, PR correlation, and DOBS-0001 are durable. Prior DISC/TC evidence is superseded by the protocol/roadmap/EP changes. A fresh #54 workflow observation still shows pre-step infrastructure failure with no engineering command executed.
     not_run:
-      - id: VAL-V25-ACTIVE-BATON
-        reason: Full pinned Common V2.5 conformance/cold-start validator execution is unavailable in the current connector-only environment; semantic files were prepared but executable PASS is not claimed.
+      - id: VAL-V25-RM0003-CONFORMANCE
+        reason: Full pinned Common V2.5 conformance/cold-start/zero-context execution has not run against an actual live checkout of this exact RM-0003 branch state.
         cause: UNAVAILABLE_TOOL
-      - id: MATERIAL-WRITE-READY-EP-0001
-        reason: The canonical material_write_ready.py requires a live Git checkout/worktree. The current environment can inspect GitHub refs and ancestry but cannot execute against a live checkout, so PASS is not claimed.
-        cause: UNAVAILABLE_TOOL
+      - id: MATERIAL-WRITE-READY-RM0003
+        reason: No current candidate admission exists after the RM-0003 / protocol / EP reissue, and the canonical live-git predicate has not executed on this basis.
+        cause: NOT_SCHEDULED
   stop:
     active: false
     category: NONE
@@ -76,10 +68,19 @@ projection:
   state: NOT_REQUIRED
   operation_id: null
   target: null
-  roadmap_revision: RM-0002
+  roadmap_revision: RM-0003
   execution_ref: EP-0001
   receipt: null
   basis: []
+delivery:
+  required: true
+  provider: GITHUB
+  observation:
+    id: DOBS-0001
+    path: agents/relay/delivery/DOBS-0001.yaml
+  observations:
+    - id: DOBS-0001
+      path: agents/relay/delivery/DOBS-0001.yaml
 relay_readiness:
   baton_ready: true
   projection_ready: true
