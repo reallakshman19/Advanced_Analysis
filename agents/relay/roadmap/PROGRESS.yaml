@@ -3,71 +3,73 @@ progress_basis:
   id: PB-0003
   roadmap_revision: RM-0003
 overall:
-  earned_weight: 0
+  earned_weight: 50
   total_weight: 200
-  percent: 0
+  percent: 25
 objectives:
   - id: OBJ-001
-    earned_weight: 0
+    earned_weight: 50
     total_weight: 100
-    percent: 0
+    percent: 50
   - id: OBJ-002
     earned_weight: 0
     total_weight: 100
     percent: 0
 phases:
   - id: PHASE-001
-    earned_weight: 0
+    earned_weight: 50
     total_weight: 100
-    percent: 0
+    percent: 50
   - id: PHASE-002
     earned_weight: 0
     total_weight: 100
     percent: 0
 work_packages:
   - id: WP-001
-    earned_weight: 0
+    earned_weight: 50
     total_weight: 100
-    percent: 0
+    percent: 50
   - id: WP-002
     earned_weight: 0
     total_weight: 100
     percent: 0
 execution_packages:
   - id: EP-0001
-    earned_weight: 0
+    earned_weight: 50
     total_weight: 100
-    percent: 0
+    percent: 50
 implementation_steps:
   - id: STEP-01
-    earned_weight: 0
+    earned_weight: 25
     total_weight: 25
-    percent: 0
+    percent: 100
   - id: STEP-02
     earned_weight: 0
     total_weight: 25
     percent: 0
   - id: STEP-03
-    earned_weight: 0
+    earned_weight: 25
     total_weight: 25
-    percent: 0
+    percent: 100
   - id: STEP-04
     earned_weight: 0
     total_weight: 25
     percent: 0
 acceptance_criteria:
   - id: AC-01
-    earned_weight: 0
+    earned_weight: 25
     total_weight: 25
-    percent: 0
-    status: NOT_STARTED
-    basis: []
+    percent: 100
+    status: COMPLETE
+    basis:
+      - agents/relay/reports/EP-0001-partial-validation-0001.yaml#TEST-01
   - id: AC-02
-    earned_weight: 0
+    earned_weight: 25
     total_weight: 25
-    percent: 0
-    status: NOT_STARTED
-    basis: []
+    percent: 100
+    status: COMPLETE
+    basis:
+      - agents/relay/reports/EP-0001-partial-validation-0001.yaml#TEST-02
   - id: AC-03
     earned_weight: 0
     total_weight: 25
