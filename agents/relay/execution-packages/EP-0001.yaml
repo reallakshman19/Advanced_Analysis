@@ -17,7 +17,7 @@ git_basis:
   drift_receipt: null
 roadmap_source:
   roadmap_id: ADV-V25-MIGRATION
-  roadmap_revision: RM-0002
+  roadmap_revision: RM-0003
   objective: OBJ-001
   phase: PHASE-001
   work_package: WP-001
@@ -29,18 +29,19 @@ outcome:
     - Delivery-protocol migration changes no engineering method, numerical result, source authority, benchmark tolerance, route authorization, or release state.
 context_capsule:
   product_goal: Establish trustworthy engineering-delivery custody before additional EMP.1/WRC or other engineering material work is authorized.
-  roadmap_position: OBJ-001 / PHASE-001 / WP-001 is the sole RM-0002 executable frontier.
+  roadmap_position: OBJ-001 / PHASE-001 / WP-001 is the sole RM-0003 executable frontier; OBJ-002 / PHASE-002 / WP-002 is detailed future work gated on WP-001 completion.
   why_this_work_exists: The repository has extensive legacy V2 chain evidence but no V2.5 execution contract; ODR-0001 adopts V2.5 while preserving existing engineering authority boundaries.
   current_architecture: agents/relay is the new V2.5 custody root; agents/chains remains read-only provenance; GitHub issues are coordination projections rather than roadmap authority.
   prior_owner_decisions:
     - ODR-0001 adopts engineering-pr-delivery-v2.5 and grants no material write authority.
+    - ODR-0003 expands the post-migration programme to the listed EMP.1/WRC issues and makes #1768 the first engineering successor.
     - The gamma/interpolation choice in #1834 remains Owner-reserved.
     - The authority-bearing resultHash choice in #1852 remains Owner-reserved.
-  current_implementation_state: PR #1858 contains the INITIALIZING scaffold, full V2 inventory, RM-0002 roadmap transaction, PB-0002 progress basis, and migration reconciliation; product code is unchanged.
+  current_implementation_state: PR #1858 contains the V2.5 relay inventory/reconciliation, RM-0003 programme roadmap, PB-0003 progress basis, verified issue graph, revised project overlay, and active migration EP; product engineering code remains unchanged.
   known_problems:
-    - AGENTS.md still names the older Common delivery protocol and canonical-v3 path wording.
-    - ISSUE_GRAPH is still empty even though current EMP.1/WRC and infrastructure issues have been re-observed.
-    - Common V2.5 conformance and cold-start execution have not yet been recorded on this exact EP basis.
+    - Full Common V2.5 conformance, cold-start, zero-context, delivery-correlation, and quality validation have not yet been recorded on the revised EP contract.
+    - Existing DISC-0001 / TC-0001 were bound to the superseded Common protocol basis and must not be used for current material-write readiness.
+    - Hosted GitHub Actions still exhibits the #54 pre-step runner failure; this is infrastructure NOT_RUN evidence and does not authorize workflow or engineering changes.
   deliberate_non_goals:
     - Do not decide or implement gamma interpolation policy.
     - Do not decide or change resultHash semantics.
@@ -53,7 +54,7 @@ repository_discovery:
   - id: DSTEP-01
     action: VERIFY
     target: agents/relay/REPO_STATE.yaml
-    question: Does repository state still route to EP-0001 on RM-0002 / WP-001?
+    question: Does repository state still route to EP-0001 on RM-0003 / WP-001?
     expected_outputs:
       - active EP id and path
       - roadmap id and revision
@@ -110,8 +111,8 @@ inputs:
     name: V2.5 protocol basis
     description: Pinned Common protocol that defines the relay schemas, validators, readiness gates, and migration rules.
     authority: ODR-0001 and pinned Common repository source
-    source: reallaksh19/Common@1f4e9956e89f394fda5e4e730e13ecd8709c8f04/skills/engineering-pr-delivery-v2.5
-    value: 1f4e9956e89f394fda5e4e730e13ecd8709c8f04
+    source: reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
+    value: d9b84069683977b5c370f536f1c50095de926338
     type: git commit
     units: NA
     editable: false
@@ -124,13 +125,13 @@ inputs:
     validation:
       - Re-observe Common main and require the pinned commit unless a roadmap/protocol reconciliation is performed.
     stale_if:
-      - The governing V2.5 protocol basis is superseded or Owner intent changes.
+      - Common main moves from d9b84069683977b5c370f536f1c50095de926338 or Owner intent changes.
   - id: INPUT-02
     name: Applied Owner protocol decision
-    description: Durable Owner authority adopting V2.5 without granting engineering or material-write authority.
+    description: Durable Owner protocol authority; ODR-0001 adopts V2.5 and ODR-0003 defines the post-migration listed-issues programme without deciding protected policy choices.
     authority: OWNER
     source: agents/relay/roadmap/owner-decisions/ODR-0001.yaml
-    value: ODR-0001
+    value: ODR-0001 + ODR-0003
     type: owner decision record
     units: NA
     editable: false
@@ -141,9 +142,9 @@ inputs:
       - STEP-03
       - STEP-04
     validation:
-      - validate_owner_decision.py must accept the record and status must remain APPLIED.
+      - validate_owner_decision.py must accept ODR-0001 and ODR-0003 and both statuses must remain APPLIED.
     stale_if:
-      - ODR-0001 is superseded or its retained/invalidated behavior changes.
+      - ODR-0001 or ODR-0003 is superseded, or their retained/invalidated behavior changes.
   - id: INPUT-03
     name: Legacy relay inventory and migration worksheet
     description: Repository-wide V2 evidence inventory plus explicit non-promotion reconciliation.
@@ -276,7 +277,7 @@ anti_drift:
       effect: OWNER_REVIEW
       rationale: The successor roadmap and issue graph may materially change, although this EP still may not implement those engineering choices.
     - id: STALE-04
-      condition: RM-0002 changes WP-001 scope, dependencies, acceptance, or protected invariants.
+      condition: RM-0003 changes WP-001 scope, dependencies, acceptance, or protected invariants.
       effect: STALE
       rationale: The active forward contract would no longer match roadmap authority.
 implementation_plan:
@@ -286,7 +287,7 @@ implementation_plan:
       - agents/relay/roadmap/ISSUE_GRAPH.yaml
     reads:
       - INPUT-04 issue locators
-      - RM-0002 and ODR-0001
+      - RM-0003 and ODR-0001
     writes:
       - agents/relay/roadmap/ISSUE_GRAPH.yaml
     inputs:
@@ -296,7 +297,7 @@ implementation_plan:
       - AC-01
     tests:
       - TEST-01
-    expected_state: ISSUE_GRAPH records verified issue states and only evidence-supported coordination relationships; roadmap authority remains OVERALL_ROADMAP.
+    expected_state: ISSUE_GRAPH records #1854 as WP-001 owner, #1768 as WP-002 owner, and the other listed issues as verified coordination/decision/dependency nodes without becoming engineering authority.
     stop_conditions:
       - Stop and mark a GitHub state UNKNOWN if current external state cannot be re-observed.
       - Stop relationship creation when issue text does not support the proposed parent/dependency/ownership edge.
@@ -318,7 +319,7 @@ implementation_plan:
       - AC-04
     tests:
       - TEST-04
-    expected_state: The checkpoint can state an exact next frontier or truthful idle/owner-decision disposition without deriving authority from legacy ACTIVE.md files.
+    expected_state: The checkpoint computes WP-002/#1768 as the exact serial successor frontier without deriving authority from legacy ACTIVE.md files.
     stop_conditions:
       - Stop before applying any Owner-intent roadmap mutation that lacks an APPLIED ODR.
       - Stop before scheduling engineering work whose current authority, inputs, or acceptance cannot be reconstructed from repository state.
@@ -407,7 +408,7 @@ next_work:
       benchmarks: []
       acceptance:
         - AC-04
-      expected_result: Migration reconciliation names the exact next frontier or a truthful non-executable disposition.
+      expected_result: Migration reconciliation names WP-002/#1768 as the exact successor once WP-001 is complete.
       stop_if:
         - A required Owner-intent mutation lacks an APPLIED ODR.
         - Legacy evidence cannot support the proposed current position.
@@ -523,7 +524,7 @@ acceptance:
     verification:
       - TEST-03
   - id: AC-04
-    description: WP-001 ends with calculated progress, checkpoint custody, and an exact next frontier or truthful idle/Owner-decision disposition derived from repository state.
+    description: WP-001 ends with calculated progress, checkpoint custody, and WP-002/#1768 as the exact dependency-unlocked serial successor derived from RM-0003.
     weight: 25
     verification:
       - TEST-04
