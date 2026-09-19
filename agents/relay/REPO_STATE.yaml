@@ -52,7 +52,7 @@
       "state": "READY",
       "can_continue": true,
       "material_authority": "WRITE",
-      "next_action": "DISC-0002 is current evidence. Execute TEST-08 deterministic takeover certification against DISC-0002/TC-0002, then TEST-09 material_write_ready before any engineering-material edit."
+      "next_action": "DISC-0003 is the frozen current discovery receipt. Execute TEST-08 against DISC-0003/TC-0003; after deterministic takeover PASS run TEST-09 material_write_ready before any material edit."
     },
     "quality": {
       "state": "NEEDS_ATTENTION",
@@ -64,7 +64,7 @@
     },
     "evidence": {
       "state": "PARTIAL",
-      "summary": "DISC-0002 records the revised EP-0001 discovery basis after the external-evidence mapping fix. TEST-08 takeover validation, TEST-09 live material-write readiness, and B5 exact-head execution remain unclaimed.",
+      "summary": "DISC-0003 is bound to the final EP-0001 contract. TEST-08 deterministic takeover validation, TEST-09 live material-write readiness, and exact-head B5/core execution remain pending.",
       "not_run": [
         {
           "id": "EP0001-EXACT-HEAD-GATES",
@@ -78,7 +78,7 @@
         },
         {
           "id": "EP0001-TAKEOVER-VALIDATOR",
-          "reason": "DISC-0002 is current but TEST-08 has not yet executed against TC-0002/admission.",
+          "reason": "DISC-0003 is current; TEST-08 has not yet executed against TC-0003/admission.",
           "cause": "EXTERNAL_EXECUTION_REQUIRED"
         }
       ]
