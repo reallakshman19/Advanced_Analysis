@@ -49,6 +49,7 @@ matrix.push(await exerciseLoadReachability());
 matrix.push(await exerciseSourceEdit({
   editClass: 'SUPPORT',
   expectedChangeClass: 'LOAD_OR_BC',
+  qualifiedSurface: 'PRESCRIBED_CONSTRAINT_VALUE',
   mutate: ({ store, before }) => {
     const constraint = before.document.constraints[0];
     assert.ok(constraint);
@@ -72,6 +73,11 @@ assert.deepEqual(
 );
 assert.equal(matrix.filter((row) => row.storeMutationQualified === true).length, 4);
 assert.equal(matrix.filter((row) => row.explicitNonClaim === true).length, 3);
+assert.equal(
+  matrix.filter((row) => row.storeMutationQualified === true)
+    .every((row) => row.orderingCase === 'EDIT_AFTER_SUCCESSFUL_SOLVE'),
+  true,
+);
 assert.equal(ordering.editObservedWhileRunning, true);
 assert.notEqual(ordering.after.computationalState, 'CURRENT_RESULT');
 assert.equal(ordering.after.currentAuthority, false);
@@ -83,6 +89,8 @@ console.log(JSON.stringify({
   stageId: STAGE_ID,
   qualificationBoundary: 'REACHABLE_GOVERNED_STORE_MUTATIONS_PLUS_EXPLICIT_NON_CLAIMS',
   sevenClassesPresent: true,
+  afterSuccessfulSolveCovered: true,
+  editDuringSolveCovered: true,
   qualifiedStoreMutationClasses: matrix
     .filter((row) => row.storeMutationQualified)
     .map((row) => row.editClass),
@@ -98,7 +106,12 @@ console.log(JSON.stringify({
   benchmarkOracleOrToleranceChanged: false,
 }, null, 2));
 
-async function exerciseSourceEdit({ editClass, expectedChangeClass, mutate }) {
+async function exerciseSourceEdit({
+  editClass,
+  expectedChangeClass,
+  mutate,
+  qualifiedSurface = null,
+}) {
   const run = await solvedWorkbench(editClass);
   try {
     const before = run.store.getState().stages[STAGE_ID];
@@ -118,6 +131,8 @@ async function exerciseSourceEdit({ editClass, expectedChangeClass, mutate }) {
       storeMutationQualified: true,
       explicitNonClaim: false,
       mutationClassification: expectedChangeClass,
+      qualifiedSurface,
+      orderingCase: 'EDIT_AFTER_SUCCESSFUL_SOLVE',
       before: beforeSnapshot,
       after: snapshot(after),
       descendantDisposition: descendants(beforeSnapshot, snapshot(after), probeRejection),
@@ -201,6 +216,8 @@ async function exerciseMeshProfileEdit() {
       storeMutationQualified: true,
       explicitNonClaim: false,
       mutationClassification: 'ANALYSIS_MESH_PROFILE',
+      qualifiedSurface: 'BOUND_ANALYSIS_MESH_PROFILE',
+      orderingCase: 'EDIT_AFTER_SUCCESSFUL_SOLVE',
       before: beforeSnapshot,
       after: afterSnapshot,
       descendantDisposition: Object.freeze([
@@ -252,6 +269,7 @@ async function exerciseLoadReachability() {
       storeMutationQualified: false,
       explicitNonClaim: true,
       nonClaimReason: 'NO_LAFEA3_GOVERNED_LOAD_DESCRIPTOR_OR_LOAD_CLASS_MUTATION',
+      orderingCase: 'EDIT_AFTER_SUCCESSFUL_SOLVE_FALLBACK_ONLY',
       fallbackMutationObserved: Object.freeze({
         physicalLoadValueChanged: true,
         classifiedAs: after.lastSourceAuthorityEvent?.changeClass ?? null,
@@ -283,6 +301,7 @@ async function exerciseSolverConfigurationReachability() {
       storeMutationQualified: false,
       explicitNonClaim: true,
       nonClaimReason: 'NO_PUBLIC_GOVERNED_SOLVER_CONFIGURATION_MUTATOR',
+      orderingCase: 'NOT_APPLICABLE_NO_MUTATOR',
       publicSolverNamedMethods: solverNamedMethods,
       before: snapshot(before, run.probeEvidence),
       after: null,
@@ -337,6 +356,7 @@ async function exerciseProbeDefinitionChange() {
       storeMutationQualified: false,
       explicitNonClaim: true,
       nonClaimReason: 'PROBE_DEFINITION_IS_NOT_RETAINED_EDITABLE_WORKBENCH_STATE',
+      orderingCase: 'EVALUATION_AFTER_SUCCESSFUL_SOLVE',
       publicProbeNamedMethods: probeNamedMethods,
       before: beforeSnapshot,
       after: afterSnapshot,
