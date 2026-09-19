@@ -7,7 +7,7 @@
   },
   "relay_protocol": {
     "version": "2.5",
-    "basis_ref": "7ec21cd100211935267e4cec15dbb3e7edaefd68"
+    "basis_ref": "8bb224ab384879d0ae42485aa5ac1b2973ff6ed1"
   },
   "roadmap": {
     "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
@@ -51,18 +51,19 @@
     "execution": {
       "state": "READY",
       "can_continue": true,
-      "material_authority": "READ_ONLY",
-      "next_action": "A zero-context incoming candidate must execute EP-0001 discovery, obtain Takeover Certification, and pass material_write_ready.py before any further material write."
+      "material_authority": "WRITE",
+      "next_action": "A zero-context incoming candidate must execute EP-0001 discovery, obtain valid Takeover Certification, then pass material_write_ready.py on the live carrier branch before any material engineering write."
     },
     "quality": {
       "state": "NEEDS_ATTENTION",
       "findings": [
-        "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication."
+        "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication.",
+        "Protocol basis advanced from 7ec21cd100211935267e4cec15dbb3e7edaefd68 to 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1; intervening changes are confined to three-pass-generator dispatch/schema/validation and do not alter ENGINEERING_DELIVERY semantics."
       ]
     },
     "evidence": {
       "state": "PARTIAL",
-      "summary": "Historical exact-head A4 evidence is preserved. The corrected #1847 head has not yet been executed under V2.5; no B5 PASS is currently authorized.",
+      "summary": "Historical exact-head A4 evidence is preserved. The corrected #1847 head has not yet been executed under V2.5; no B5 PASS is currently authorized. Repository WRITE authority is only a prerequisite and does not authorize any candidate without valid takeover certification and live write readiness.",
       "not_run": [
         {
           "id": "EP0001-EXACT-HEAD-GATES",

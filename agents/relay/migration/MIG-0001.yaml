@@ -57,8 +57,8 @@
     },
     {
       "id": "MIG-IN-03",
-      "source": "7ec21cd100211935267e4cec15dbb3e7edaefd68",
-      "disposition": "PINNED_V2_5_PROTOCOL_BASIS"
+      "source": "8bb224ab384879d0ae42485aa5ac1b2973ff6ed1",
+      "disposition": "PINNED_V2_5_PROTOCOL_BASIS_CURRENT_MAIN"
     }
   ],
   "benchmarks": [
@@ -112,6 +112,8 @@
   },
   "notes": [
     "Progress was re-baselined to PB-0002; no narrative V2 percentage was copied.",
-    "EP-0001 is READ_ONLY at repository state until a zero-context candidate earns takeover certification and live material-write readiness."
+    "EP-0001 is READ_ONLY at repository state until a zero-context candidate earns takeover certification and live material-write readiness.",
+    "Protocol basis reconciled to Common main 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1 before takeover; the intervening upstream delta is confined to three-pass-generator behavior.",
+    "REPO_STATE material_authority is WRITE as a prerequisite only; takeover_admissions remains empty, so no candidate has material-write permission until TAKEOVER_CERTIFIED and material_write_ready.py pass."
   ]
 }
