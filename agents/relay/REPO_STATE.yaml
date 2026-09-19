@@ -52,7 +52,7 @@
       "state": "READY",
       "can_continue": true,
       "material_authority": "WRITE",
-      "next_action": "A zero-context incoming candidate must execute EP-0001 DSTEP discovery, validate its DISC, use agents/relay/tools/prepare_ep0001_takeover.py to assemble the outgoing-preparer-owned deterministic TC/admission, then pass Common validate_takeover_certification.py and material_write_ready.py before any engineering-material write."
+      "next_action": "A zero-context execution environment must run agents/relay/tools/discover_ep0001.py against the exact pinned Common basis, then run prepare_ep0001_takeover.py, Common takeover validation, and material_write_ready.py before any engineering-material write."
     },
     "quality": {
       "state": "NEEDS_ATTENTION",
@@ -61,7 +61,8 @@
         "Protocol basis advanced from 7ec21cd100211935267e4cec15dbb3e7edaefd68 to 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1; intervening changes are confined to three-pass-generator dispatch/schema/validation and do not alter ENGINEERING_DELIVERY semantics.",
         "Common main advanced to 1f4e9956e89f394fda5e4e730e13ecd8709c8f04; intervening changes isolate three-pass generation from engineering delivery and do not change EP-0001 takeover/write semantics.",
         "EP-0001 includes a frozen outgoing-preparer TC assembler. It is not authority: Common discovery/takeover validators and material_write_ready.py remain mandatory.",
-        "Candidate launch hardening: standalone DISC validation must use Common validate_discovery_receipt.validate_file before admission because the validator CLI only traverses already-admitted discovery receipts."
+        "Candidate launch hardening: standalone DISC validation must use Common validate_discovery_receipt.validate_file before admission because the validator CLI only traverses already-admitted discovery receipts.",
+        "EP-0001 now has a deterministic repository-only DISC producer. It performs DSTEP-01..06 from live files/Git/GitHub, pins the exact Common basis, validates the standalone DISC with Common before publishing it, and never mutates takeover admissions."
       ]
     },
     "evidence": {

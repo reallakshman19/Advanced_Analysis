@@ -42,7 +42,7 @@ This file is a generated/preparer-side operating aid. Repository authority remai
 
    The assembler writes the TC, calls Common's canonical `validate_takeover_certification.validate_file` against the still-unmodified `REPO_STATE`, deletes the TC if validation fails, and only then appends the admission locator.
 
-5. Validate the resulting admitted state and derive live write readiness:
+4. Validate the resulting admitted state and derive live write readiness:
 
    ```bash
    python <common>/skills/engineering-pr-delivery-v2.5/scripts/validate_discovery_receipt.py .
@@ -53,7 +53,7 @@ This file is a generated/preparer-side operating aid. Repository authority remai
    python <common>/skills/engineering-pr-delivery-v2.5/scripts/inspect_git_context.py .
    ```
 
-6. Only when `material_write_ready.py` passes may the candidate execute EP-0001 STEP-01 onward and make engineering-material changes.
+5. Only when `material_write_ready.py` passes may the candidate execute EP-0001 STEP-01 onward and make engineering-material changes.
 
 ## Frozen preparer boundary
 
