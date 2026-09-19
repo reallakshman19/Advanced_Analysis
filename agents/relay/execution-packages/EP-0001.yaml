@@ -657,7 +657,7 @@
     "steps": [
       {
         "order": 1,
-        "action": "A zero-context incoming candidate executes DSTEP-01 through DSTEP-06, writes a PASS Discovery Receipt, and obtains independent/deterministic Takeover Certification for SERIAL:EP-0001.",
+        "action": "A continuing or incoming execution candidate establishes repository/provider-grounded DSTEP-01 through DSTEP-06 evidence, writes a PASS Discovery Receipt, and obtains deterministic Takeover Certification for SERIAL:EP-0001.",
         "targets": [
           "agents/relay/certifications/discovery",
           "agents/relay/certifications/takeover"
@@ -681,10 +681,10 @@
           "AC-01",
           "AC-03"
         ],
-        "expected_result": "TAKEOVER_CERTIFIED(SERIAL:EP-0001,candidate) is true without using conversation context.",
+        "expected_result": "TAKEOVER_CERTIFIED(SERIAL:EP-0001,candidate) is established from repository/provider-grounded evidence; conversation_context_used:false records evidence authority, not absence of prior chat history.",
         "stop_if": [
           "Discovery finds route/material/base mismatch.",
-          "Candidate cannot establish repository-only understanding.",
+          "Candidate cannot establish repository/provider-grounded understanding.",
           "Takeover validation fails."
         ]
       },
