@@ -1,0 +1,67 @@
+schema_version: relay-v2.5
+report_id: RPT-WP-002-PREFLIGHT-ORACLE-0001
+roadmap_revision: RM-0003
+related_work_package: WP-002
+related_issue: 1768
+classification: READ_ONLY_ENGINEERING_PREFLIGHT
+historical_basis:
+  required_stage_a_head: a59547c8554b6244b2ea94aedd4d59fa0fb15d1f
+  frozen_oracle_path: validation/emp1/wrc537-2013/gamma5-full-table5-oracle-v1.json
+  frozen_oracle_semantic_hash: 5daeb3a84828cf19017e6d1d0a70bd3478929713973948f875f21cec463a80aa
+  reviewed_interpretation_hash: 654e33f7fa7124c78e827bffeae06570d7feb401624291c823a6218b6bd012d2
+case:
+  gamma: 5
+  beta: 0.155
+  mean_radius_mm: 100
+  shell_thickness_mm: 20
+  attachment_radius_mm: 17.714285714285715
+  Kn: 1
+  Kb: 1
+  loads:
+    P_N: -1000
+    Vc_N: 250
+    Vl_N: -400
+    Mc_Nmm: 500000
+    Ml_Nmm: -600000
+    Mt_Nmm: 700000
+replay:
+  method: Independently re-evaluated the retained Table-5 scale factors, algebraic component superposition, and plane-stress Tresca stress intensity from the frozen curve ordinates and separately retained reviewed sign matrix.
+  production_code_imported: false
+  production_observation_used: false
+  comparison_policy:
+    absolute: 1.0e-12
+    relative: 1.0e-11
+    formula: max(absolute, max(1, abs(expected)) * relative)
+  comparisons_required: 32
+  comparisons_passed: 32
+  maximum_tolerance_ratio: 0.00001292313189806294
+  governing_comparison:
+    family: circumferential
+    location: Bl
+    expected: 27.491119852556956
+    actual: 27.491119852556952
+    absolute_delta: 3.552713678800501e-15
+    tolerance: 2.7491119852556954e-10
+  scale_factors:
+    pMem: 0.5
+    pBend: 15
+    mcMem: 16.129032258064516
+    mcBend: 483.8709677419355
+    mlMem: 19.35483870967742
+    mlBend: 580.6451612903226
+    vcShear: 0.2246138309764652
+    vlShear: 0.3593821295623443
+    mtShear: 17.751738254591604
+result: PASS_DIAGNOSTIC_INDEPENDENT_ORACLE_ARITHMETIC
+authority_effect:
+  historical_files_01_12_generated: false
+  production_route_qualified: false
+  current_route_qualified: false
+  engineering_authority_changed: false
+  global_emp1_c_authority: false
+  code_compliance_authorized: false
+  release_qualified: false
+limitations:
+  - This is not a substitute for Stage-A exact-head production execution at a59547c8554b6244b2ea94aedd4d59fa0fb15d1f.
+  - It does not create files 01-10, perform production/oracle comparison, anti-forgery, independent replay, review falsifiers, or authorization-proposal checks.
+  - It does not satisfy WP-002 acceptance by itself; it only establishes that the retained independent numerical oracle arithmetic is reproducible before the governed exact-head run.
