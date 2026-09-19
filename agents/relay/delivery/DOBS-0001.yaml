@@ -1,0 +1,41 @@
+schema_version: relay-v2.5-delivery-observation
+id: DOBS-0001
+provider: GITHUB
+repository: reallaksh19/Advanced_Analysis
+vehicle:
+  kind: PULL_REQUEST
+  number: 1858
+  url: https://github.com/reallaksh19/Advanced_Analysis/pull/1858
+  lifecycle: DRAFT
+  head:
+    ref: agent/relay-v25-bootstrap-1854
+    sha: 918aed38d0694be791df9144a1e37984258499ae
+  base:
+    ref: main
+    sha: c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50
+mergeability:
+  state: MERGEABLE
+checks:
+  state: UNKNOWN
+  head_sha: null
+  required: []
+  observations: []
+review:
+  state: UNKNOWN
+  unresolved_threads: null
+  change_requests: null
+description_contract:
+  marker: "<!-- relay-pr-correlation:v1 -->"
+  marker_present: true
+  body_digest: sha256:4ad5d8741a3f9e7acc3972e5b1a4d3df7f78d2ad03cf49ce09b9a8214fc0bdb9
+  correlations:
+    - issue_node: ISSUE-1854
+      issue_number: 1854
+      ep_id: EP-0001
+      ep_path: agents/relay/execution-packages/EP-0001.yaml
+      work_package: WP-001
+      relationship: IMPLEMENTS
+      meaning: EP-0001 establishes the revised V2.5 delivery control plane used to execute and reconcile the #1854 open-items programme without changing engineering authority.
+readback_basis:
+  - GitHub PR #1858 provider readback at head 918aed38d0694be791df9144a1e37984258499ae on 2026-09-19T09:39:53Z.
+  - PR body readback contained relay-pr-correlation:v1 and the #1854 / EP-0001 / WP-001 correlation row.
