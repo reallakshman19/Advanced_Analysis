@@ -1,0 +1,22 @@
+schema_version: relay-v2.5
+roadmap:
+  id: RM-LAFEA-MESH-COMPLETION
+  revision: RM-0001
+  title: FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery
+objectives:
+  - id: OBJ-1710
+    title: FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery
+    state: ACTIVE
+    definition: PARTIALLY_DEFINED
+    phases:
+      - id: PH-1711
+        title: LAFEA.3 meshing completion — production continuum route, curved boundaries and independent benchmarks
+        state: PLANNED
+        definition: OWNER_REVIEW_REQUIRED
+        work_packages:
+          - id: WP-1769
+            title: Project physical features to mesh, compile loads/BCs/probes, and enforce execution currentness
+            state: PLANNED
+            definition: OWNER_REVIEW_REQUIRED
+            execution_status: WAITING
+            depends_on: []

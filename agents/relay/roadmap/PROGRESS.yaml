@@ -1,0 +1,26 @@
+schema_version: relay-v2.5
+progress_basis:
+  id: PB-0001
+  roadmap_revision: RM-0001
+overall:
+  earned_weight: 0
+  total_weight: 0
+  percent: 0
+objectives:
+  - id: OBJ-1710
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+phases:
+  - id: PH-1711
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+work_packages:
+  - id: WP-1769
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+execution_packages: []
+implementation_steps: []
+acceptance_criteria: []

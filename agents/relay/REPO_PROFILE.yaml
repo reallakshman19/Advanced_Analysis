@@ -1,0 +1,8 @@
+schema_version: relay-v2.5
+repository_type: application
+default_branch: main
+important_paths: {}
+commands: {}
+protected_domains: []
+generated_paths: []
+repository_rules: []
