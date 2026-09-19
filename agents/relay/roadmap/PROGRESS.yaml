@@ -1,26 +1,27 @@
 schema_version: relay-v2.5
 progress_basis:
-  id: PB-0003
-  roadmap_revision: RM-0003
+  id: PB-0004
+  roadmap_revision: RM-0004
+  note: Top-level #1710/#1711/#1769 denominator is intentionally unclaimed until historical acceptance is reconstructed; current #1856 EP accounting remains bounded below.
 overall:
-  earned_weight: 10
-  total_weight: 100
-  percent: 10
+  earned_weight: 0
+  total_weight: 0
+  percent: 0
 objectives:
   - id: OBJ-1710
-    earned_weight: 10
-    total_weight: 100
-    percent: 10
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
 phases:
   - id: PH-1711
-    earned_weight: 10
-    total_weight: 100
-    percent: 10
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
 work_packages:
   - id: WP-1769
-    earned_weight: 10
-    total_weight: 100
-    percent: 10
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
 execution_packages:
   - id: EP-LAFEA3-C3C6-1856
     earned_weight: 10

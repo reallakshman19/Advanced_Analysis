@@ -14,7 +14,7 @@ git_basis:
   drift_receipt: null
 roadmap_source:
   roadmap_id: RM-LAFEA-MESH-COMPLETION
-  roadmap_revision: RM-0003
+  roadmap_revision: RM-0004
   objective: OBJ-1710
   phase: PH-1711
   work_package: WP-1769
