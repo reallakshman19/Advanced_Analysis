@@ -2,23 +2,23 @@ schema_version: relay-v2.5
 identity:
   ep_id: EP-LAFEA3-C3C6-1856
   branch: engineering/lafea3-c3c6-edit-invalidation-1856
-  base_ref: a69ca9b770f70c12d29bd63a7ab82f8cad6d89dd
-  execution_state: DRAFT
+  base_ref: 9096417914c47a5d417ed6a6ee68bb970c0f196d
+  execution_state: ACTIVE
   previous_checkpoint: NONE
 git_basis:
   expected_branch: engineering/lafea3-c3c6-edit-invalidation-1856
-  material_ref: a69ca9b770f70c12d29bd63a7ab82f8cad6d89dd
+  material_ref: 9096417914c47a5d417ed6a6ee68bb970c0f196d
   base_branch: engineering/lafea3-c3c-1769-closure
   base_observed_ref: ab75b5be68bd998c5657aa475143eb40ebb82d94
   drift_policy: RECHECK_BEFORE_WRITE
   drift_receipt: null
 roadmap_source:
   roadmap_id: RM-LAFEA-MESH-COMPLETION
-  roadmap_revision: RM-0004
+  roadmap_revision: RM-0005
   objective: OBJ-1710
   phase: PH-1711
   work_package: WP-1769
-  generated_from_frontier: false
+  generated_from_frontier: true
 outcome:
   user_visible:
     - Issue #1856 is resolved only after the seven-class edit-invalidation matrix and 19-step aggregate execute on the current candidate and retain truthful evidence.
