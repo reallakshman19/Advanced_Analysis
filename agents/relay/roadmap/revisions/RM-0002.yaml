@@ -1,0 +1,46 @@
+{
+  "schema_version": "relay-v2.5",
+  "revision": {
+    "id": "RM-0002",
+    "from_revision": "RM-0001",
+    "to_revision": "RM-0002",
+    "classification": "OWNER_INTENT_MUTATION",
+    "trigger": {
+      "type": "OWNER_DECISION",
+      "path": "agents/relay/roadmap/owner-decisions/ODR-0001.yaml"
+    }
+  },
+  "changes": {
+    "added": [
+      "WP-002",
+      "WP-003",
+      "WP-004",
+      "WP-005",
+      "WP-006",
+      "WP-007",
+      "WP-008",
+      "WP-009"
+    ],
+    "removed": [],
+    "changed": [
+      "OBJ-001",
+      "PHASE-001",
+      "WP-001"
+    ],
+    "unaffected": []
+  },
+  "invalidated_execution_packages": [],
+  "issue_graph_reconciled": true,
+  "progress_basis_change": {
+    "old_basis": "PB-0001",
+    "new_basis": "PB-0002",
+    "old_total_weight": 0,
+    "new_total_weight": 100
+  },
+  "frontier_after": [
+    "WP-001"
+  ],
+  "notes": [
+    "Legacy V2 chain status is retained as evidence/context only. The first executable frontier is bounded to exact-head B5 evidence/trunk recovery."
+  ]
+}

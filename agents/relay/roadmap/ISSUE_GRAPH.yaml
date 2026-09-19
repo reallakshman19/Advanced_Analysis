@@ -1,5 +1,46 @@
 {
   "schema_version": "relay-v2.5",
-  "nodes": [],
-  "relationships": []
+  "graph_revision": "IG-0001",
+  "nodes": [
+    {
+      "id": "ISSUE-1756",
+      "state": "ACTIVE",
+      "github_state": "OPEN",
+      "github": {
+        "issue_number": 1756,
+        "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1756"
+      }
+    },
+    {
+      "id": "ISSUE-1763",
+      "state": "ACTIVE",
+      "github_state": "OPEN",
+      "github": {
+        "issue_number": 1763,
+        "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1763"
+      }
+    },
+    {
+      "id": "PR-1847",
+      "state": "ACTIVE",
+      "github_state": "OPEN",
+      "github": {
+        "issue_number": 1847,
+        "url": "https://github.com/reallaksh19/Advanced_Analysis/pull/1847"
+      },
+      "roadmap_node": "WP-001"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "ISSUE-1763",
+      "to": "ISSUE-1756",
+      "relation": "RELATES_TO"
+    },
+    {
+      "from": "PR-1847",
+      "to": "ISSUE-1763",
+      "relation": "INTEGRATED_BY"
+    }
+  ]
 }

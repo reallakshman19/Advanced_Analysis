@@ -1,19 +1,19 @@
 {
   "schema_version": "relay-v2.5",
   "progress_basis": {
-    "id": "PB-0001",
-    "roadmap_revision": "RM-0001"
+    "id": "PB-0002",
+    "roadmap_revision": "RM-0002"
   },
   "overall": {
     "earned_weight": 0,
-    "total_weight": 0,
+    "total_weight": 100,
     "percent": 0
   },
   "objectives": [
     {
       "id": "OBJ-001",
       "earned_weight": 0,
-      "total_weight": 0,
+      "total_weight": 100,
       "percent": 0
     }
   ],
@@ -21,7 +21,7 @@
     {
       "id": "PHASE-001",
       "earned_weight": 0,
-      "total_weight": 0,
+      "total_weight": 100,
       "percent": 0
     }
   ],
@@ -29,11 +29,118 @@
     {
       "id": "WP-001",
       "earned_weight": 0,
-      "total_weight": 0,
+      "total_weight": 20,
+      "percent": 0
+    },
+    {
+      "id": "WP-002",
+      "earned_weight": 0,
+      "total_weight": 10,
+      "percent": 0
+    },
+    {
+      "id": "WP-003",
+      "earned_weight": 0,
+      "total_weight": 10,
+      "percent": 0
+    },
+    {
+      "id": "WP-004",
+      "earned_weight": 0,
+      "total_weight": 10,
+      "percent": 0
+    },
+    {
+      "id": "WP-005",
+      "earned_weight": 0,
+      "total_weight": 10,
+      "percent": 0
+    },
+    {
+      "id": "WP-006",
+      "earned_weight": 0,
+      "total_weight": 15,
+      "percent": 0
+    },
+    {
+      "id": "WP-007",
+      "earned_weight": 0,
+      "total_weight": 10,
+      "percent": 0
+    },
+    {
+      "id": "WP-008",
+      "earned_weight": 0,
+      "total_weight": 10,
+      "percent": 0
+    },
+    {
+      "id": "WP-009",
+      "earned_weight": 0,
+      "total_weight": 5,
       "percent": 0
     }
   ],
-  "execution_packages": [],
-  "implementation_steps": [],
-  "acceptance_criteria": []
+  "execution_packages": [
+    {
+      "id": "EP-0001",
+      "earned_weight": 0,
+      "total_weight": 100,
+      "percent": 0
+    }
+  ],
+  "implementation_steps": [
+    {
+      "id": "STEP-01",
+      "earned_weight": 0,
+      "total_weight": 35,
+      "percent": 0
+    },
+    {
+      "id": "STEP-02",
+      "earned_weight": 0,
+      "total_weight": 30,
+      "percent": 0
+    },
+    {
+      "id": "STEP-03",
+      "earned_weight": 0,
+      "total_weight": 35,
+      "percent": 0
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC-01",
+      "earned_weight": 0,
+      "total_weight": 20,
+      "percent": 0,
+      "status": "NOT_STARTED",
+      "basis": []
+    },
+    {
+      "id": "AC-02",
+      "earned_weight": 0,
+      "total_weight": 35,
+      "percent": 0,
+      "status": "NOT_STARTED",
+      "basis": []
+    },
+    {
+      "id": "AC-03",
+      "earned_weight": 0,
+      "total_weight": 25,
+      "percent": 0,
+      "status": "NOT_STARTED",
+      "basis": []
+    },
+    {
+      "id": "AC-04",
+      "earned_weight": 0,
+      "total_weight": 20,
+      "percent": 0,
+      "status": "NOT_STARTED",
+      "basis": []
+    }
+  ]
 }

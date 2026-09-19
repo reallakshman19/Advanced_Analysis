@@ -2,29 +2,135 @@
   "schema_version": "relay-v2.5",
   "roadmap": {
     "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
-    "revision": "RM-0001",
-    "title": "LAFEA.4 shell analysis — qualification and product programme"
+    "revision": "RM-0002",
+    "title": "LAFEA.4 shell analysis — qualification and product programme",
+    "revision_record": "agents/relay/roadmap/revisions/RM-0002.yaml"
   },
   "objectives": [
     {
       "id": "OBJ-001",
       "title": "Deliver shell-analysis results a pressure-equipment engineer can defensibly rely on",
       "state": "ACTIVE",
-      "definition": "PARTIALLY_DEFINED",
+      "definition": "DEFINED",
+      "weight": 100,
       "phases": [
         {
           "id": "PHASE-001",
-          "title": "V2→V2.5 evidence reconciliation and trunk recovery",
-          "state": "PLANNED",
-          "definition": "OWNER_REVIEW_REQUIRED",
+          "title": "Qualification/product recovery to releasable bounded shell capability",
+          "state": "ACTIVE",
+          "definition": "DEFINED",
+          "weight": 100,
           "work_packages": [
             {
               "id": "WP-001",
-              "title": "Reconcile legacy custody and establish the first executable repair package",
+              "title": "Restore exact-head B5 evidence and green the LAFEA.4 core trunk",
+              "state": "ACTIVE",
+              "definition": "DETAILED",
+              "execution_status": "EXECUTABLE",
+              "weight": 20,
+              "depends_on": [],
+              "issue": null
+            },
+            {
+              "id": "WP-002",
+              "title": "Install durable trunk-health execution and merge protection",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 10,
+              "depends_on": [
+                "WP-001"
+              ],
+              "issue": null
+            },
+            {
+              "id": "WP-003",
+              "title": "Clear the independent LAFEA workbench red baseline",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 10,
+              "depends_on": [],
+              "issue": null
+            },
+            {
+              "id": "WP-004",
+              "title": "Reject invalid MITC4 maps at every shear tying point used by production",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 10,
+              "depends_on": [
+                "WP-001"
+              ],
+              "issue": null
+            },
+            {
+              "id": "WP-005",
+              "title": "Resolve A4 B6 distortion applicability authority without inventing a threshold",
               "state": "PLANNED",
               "definition": "OWNER_REVIEW_REQUIRED",
               "execution_status": "WAITING",
-              "depends_on": []
+              "weight": 10,
+              "depends_on": [
+                "WP-004"
+              ],
+              "issue": null
+            },
+            {
+              "id": "WP-006",
+              "title": "Complete A5 shell backend equivalence, diagnostics, determinism and resource envelope",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 15,
+              "depends_on": [
+                "WP-001"
+              ],
+              "issue": null
+            },
+            {
+              "id": "WP-007",
+              "title": "Land a meaningful zero-to-first-result shell demonstration",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 10,
+              "depends_on": [
+                "WP-001"
+              ],
+              "issue": null
+            },
+            {
+              "id": "WP-008",
+              "title": "Qualify the actual A6 engineer-facing Model→Mesh→Analyse→Output route",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 10,
+              "depends_on": [
+                "WP-005",
+                "WP-006",
+                "WP-007"
+              ],
+              "issue": null
+            },
+            {
+              "id": "WP-009",
+              "title": "Perform A7 one-head release qualification and claim-level closure",
+              "state": "PLANNED",
+              "definition": "DEFINED",
+              "execution_status": "WAITING",
+              "weight": 5,
+              "depends_on": [
+                "WP-002",
+                "WP-003",
+                "WP-004",
+                "WP-005",
+                "WP-006",
+                "WP-008"
+              ],
+              "issue": null
             }
           ]
         }

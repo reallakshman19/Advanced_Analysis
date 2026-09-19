@@ -1,0 +1,1207 @@
+{
+  "schema_version": "relay-v2.5",
+  "identity": {
+    "ep_id": "EP-0001",
+    "branch": "fix/lafea4-trunk-green-b5-execution",
+    "base_ref": "676a40a490326364e1ea22d5bbbd8a20a9e6488a",
+    "execution_state": "EXECUTABLE",
+    "previous_checkpoint": "NONE",
+    "previous_join": null,
+    "previous_replan": null
+  },
+  "replan_inheritance": null,
+  "git_basis": {
+    "expected_branch": "fix/lafea4-trunk-green-b5-execution",
+    "material_ref": "676a40a490326364e1ea22d5bbbd8a20a9e6488a",
+    "base_branch": "main",
+    "base_observed_ref": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
+    "drift_policy": "RECHECK_BEFORE_WRITE",
+    "drift_receipt": null
+  },
+  "roadmap_source": {
+    "roadmap_id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
+    "roadmap_revision": "RM-0002",
+    "objective": "OBJ-001",
+    "phase": "PHASE-001",
+    "work_package": "WP-001",
+    "generated_from_frontier": true
+  },
+  "outcome": {
+    "user_visible": [
+      "No user-facing shell capability is promoted by this EP; its observable outcome is a trustworthy green/red trunk signal for the existing LAFEA.4 qualification gate."
+    ],
+    "engineering": [
+      "The corrected A4 B5 harness is executed on one exact identified head and its receipt names those exact bytes.",
+      "The LAFEA.4 core gate is green on the corrected head without changing production shell mechanics, governed tolerances, B6 authority, or release state."
+    ]
+  },
+  "context_capsule": {
+    "product_goal": "Enable a pressure-equipment engineer to obtain shell results whose numerical evidence, applicability and release status are defensible.",
+    "roadmap_position": "OBJ-001 / PHASE-001 / WP-001: exact-head B5 evidence and trunk recovery before production, solver, product or release work advances.",
+    "why_this_work_exists": "Current main contains a deterministic B5 qualification-harness failure, while a prior replacement receipt claimed PASS on a SHA that did not contain the repair. The first safe slice is to make the evidence identity and trunk gate truthful before any broader shell change.",
+    "current_architecture": "LAFEA.4 production dispatch includes MITC3/MITC4 and CST/DKT shell routes; A4 qualification is transitively reached by lafea.4-contract-check.mjs inside check:lafea-core. Current main is c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50; PR #1847 carries a harness-only B5 repair plus custody corrections and V2.5 migration control-plane files.",
+    "prior_owner_decisions": [
+      "ODR-0001 adopts engineering-pr-delivery-v2.5 and does not grant material-write authority."
+    ],
+    "current_implementation_state": "The #1847 branch contains a family-aware direct/iterative solver admissibility repair and the retained-row variable fix. The prior VR-0010 PASS was withdrawn because its execution SHA did not contain the repair. No corrected-head execution receipt exists yet.",
+    "known_problems": [
+      "Hosted GitHub Actions can fail before step creation; zero-step jobs are NOT_RUN, not engineering FAIL.",
+      "Current main's B5 checker asserts evidence.accepted for dense Cholesky even though the direct evidence schema has no such field.",
+      "The prior VR-0010 exact-head identity was inconsistent with the repaired checker bytes."
+    ],
+    "deliberate_non_goals": [
+      "No MITC formulation, solver dispatch, tolerance, B6 distortion threshold, UI/product route, or release promotion.",
+      "No attempt to convert hosted zero-step infrastructure events into PASS or engineering FAIL."
+    ],
+    "terminology": {
+      "NOT_RUN": "No relevant executable command/job ran; requires positive evidence.",
+      "exact-head": "Evidence bound to the exact Git commit whose bytes executed.",
+      "B5": "A4 MITC thickness/locking/applicability sweep.",
+      "B6": "A4 distorted-element/applicability authority."
+    }
+  },
+  "repository_discovery": [
+    {
+      "id": "DSTEP-01",
+      "action": "VERIFY",
+      "target": "agents/relay/REPO_STATE.yaml",
+      "question": "Does repository state still route to EP-0001 on roadmap RM-0002 / WP-001?",
+      "expected_outputs": [
+        "active EP id and path",
+        "roadmap id and revision",
+        "current work package",
+        "material authority"
+      ],
+      "receipt_required": true,
+      "on_failure": "Do not perform material work; reconcile repository custody first."
+    },
+    {
+      "id": "DSTEP-02",
+      "action": "VERIFY_GIT",
+      "target": "live checkout",
+      "question": "Does the checked-out branch, HEAD, material-ref ancestry and main base match EP-0001 git_basis?",
+      "expected_outputs": [
+        "checked-out branch",
+        "current HEAD",
+        "material-ref ancestry result",
+        "current main base ref",
+        "base drift result"
+      ],
+      "receipt_required": true,
+      "on_failure": "Drop material WRITE authority and reconcile Git drift before execution."
+    },
+    {
+      "id": "DSTEP-03",
+      "action": "COMPARE",
+      "targets": [
+        "main@c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
+        "fix/lafea4-trunk-green-b5-execution"
+      ],
+      "question": "What files differ, and are production src/core files absent from the #1847 trunk-repair delta?",
+      "expected_outputs": [
+        "changed file list",
+        "presence or absence of src/core changes",
+        "B5 checker delta",
+        "custody/relay delta"
+      ],
+      "receipt_required": true,
+      "on_failure": "Stop if the branch contains unplanned production mechanics or unrelated material changes."
+    },
+    {
+      "id": "DSTEP-04",
+      "action": "INSPECT",
+      "targets": [
+        "src/core/local-shell/result-validation.js",
+        "scripts/lafea.4-a4-thickness-applicability-check.mjs"
+      ],
+      "question": "Does the direct Cholesky evidence contract omit accepted, and does the repaired B5 checker use solver-family-specific admissibility and the correct shear-fraction binding?",
+      "expected_outputs": [
+        "direct solver evidence keys",
+        "iterative evidence acceptance fields",
+        "repaired solverSnapshot rule",
+        "retained shear-fraction variable name"
+      ],
+      "receipt_required": true,
+      "on_failure": "Do not execute or publish B5 PASS until the contract/checker mismatch is resolved within EP scope."
+    },
+    {
+      "id": "DSTEP-05",
+      "action": "INSPECT",
+      "targets": [
+        "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0001.md",
+        "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0002.md",
+        "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0003.md",
+        "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0004.md",
+        "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0010.md"
+      ],
+      "question": "Which historical A4 claims have real exact-head execution, which are NOT_RUN, and what does current VR-0010 authorize?",
+      "expected_outputs": [
+        "historical PASS heads",
+        "historical zero-step NOT_RUN basis",
+        "current VR-0010 disposition"
+      ],
+      "receipt_required": true,
+      "on_failure": "Preserve historical evidence boundaries; do not inherit a disposition that cannot be proven."
+    },
+    {
+      "id": "DSTEP-06",
+      "action": "VERIFY",
+      "target": "https://github.com/reallaksh19/Advanced_Analysis/pull/1847",
+      "question": "What is the live PR head and do current hosted jobs contain executable steps?",
+      "expected_outputs": [
+        "live PR head SHA",
+        "workflow run ids",
+        "job step presence/absence"
+      ],
+      "receipt_required": true,
+      "on_failure": "Record hosted evidence as unavailable/NOT_RUN and rely only on separately authorized executed evidence."
+    }
+  ],
+  "inputs": [
+    {
+      "id": "INPUT-01",
+      "name": "Owner protocol authority",
+      "description": "Owner instruction establishing engineering-pr-delivery-v2.5 as the governing delivery method for this repair.",
+      "authority": "OWNER",
+      "source": "agents/relay/roadmap/owner-decisions/ODR-0001.yaml",
+      "value": "Use engineering-pr-delivery-v2.5; no material write authority is granted by the ODR itself.",
+      "type": "decision",
+      "units": "NA",
+      "editable": false,
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "consumers": [
+        "STEP-01",
+        "STEP-02",
+        "STEP-03"
+      ],
+      "validation": [
+        "ODR-0001 must validate and remain APPLIED."
+      ],
+      "stale_if": [
+        "ODR-0001 is superseded or Owner changes the delivery protocol."
+      ]
+    },
+    {
+      "id": "INPUT-02",
+      "name": "Observed main basis",
+      "description": "Default-branch source basis against which the trunk repair is judged.",
+      "authority": "GIT",
+      "source": "github:reallaksh19/Advanced_Analysis main",
+      "value": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
+      "type": "git-commit",
+      "units": "NA",
+      "editable": false,
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "consumers": [
+        "STEP-01",
+        "STEP-02"
+      ],
+      "validation": [
+        "Re-observe main before material write; base drift requires reconciliation."
+      ],
+      "stale_if": [
+        "origin/main no longer resolves to the recorded base and no valid drift receipt authorizes WRITE."
+      ]
+    },
+    {
+      "id": "INPUT-03",
+      "name": "EP material basis",
+      "description": "Branch commit that includes the withdrawn misbound receipt and V2.5 bootstrap before this semantic EP was prepared.",
+      "authority": "GIT",
+      "source": "github:reallaksh19/Advanced_Analysis@676a40a490326364e1ea22d5bbbd8a20a9e6488a",
+      "value": "676a40a490326364e1ea22d5bbbd8a20a9e6488a",
+      "type": "git-commit",
+      "units": "NA",
+      "editable": false,
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "consumers": [
+        "STEP-01",
+        "STEP-02",
+        "STEP-03"
+      ],
+      "validation": [
+        "Must be an ancestor of live HEAD on the expected branch."
+      ],
+      "stale_if": [
+        "The live branch is rebased so this material ref is no longer an ancestor."
+      ]
+    },
+    {
+      "id": "INPUT-04",
+      "name": "Direct solver evidence schema",
+      "description": "Production result contract defining admissible direct Cholesky evidence fields.",
+      "authority": "PRODUCTION_CONTRACT",
+      "source": "src/core/local-shell/result-validation.js",
+      "resolution_method": "Read DIRECT_SOLVER_EVIDENCE and iterative evidence validation from the exact material head.",
+      "type": "schema-contract",
+      "units": "NA",
+      "editable": false,
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "consumers": [
+        "STEP-01",
+        "STEP-02"
+      ],
+      "validation": [
+        "Confirm direct evidence excludes accepted while iterative PCG carries convergence/acceptance fields."
+      ],
+      "stale_if": [
+        "The production result-validation contract changes."
+      ]
+    },
+    {
+      "id": "INPUT-05",
+      "name": "Frozen B5 acceptance contract",
+      "description": "Pre-existing B5 analytical/oracle quantities and governed tolerances; this EP may execute them but not move them.",
+      "authority": "A4_QUALIFICATION_CONTRACT",
+      "source": "scripts/lafea.4-a4-thickness-applicability-check.mjs and agents/chains/ADV-LAFEA4-A4-1763/material-legs/LEG-004.md",
+      "resolution_method": "Read the exact material-head checker and retained LEG-004 definitions before execution.",
+      "type": "benchmark-contract",
+      "units": "dimensionless/energy as declared by fixture",
+      "editable": false,
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "consumers": [
+        "STEP-01",
+        "STEP-02",
+        "STEP-03"
+      ],
+      "validation": [
+        "No expected value or tolerance may change within EP-0001."
+      ],
+      "stale_if": [
+        "The B5 fixture, oracle definition, expected values or tolerances change."
+      ]
+    },
+    {
+      "id": "INPUT-06",
+      "name": "Historical A4 exact-head evidence",
+      "description": "Previously executed hosted receipts that remain valid only for their exact heads and bounded claims.",
+      "authority": "EXECUTED_EVIDENCE",
+      "source": "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0001.md through VR-0004.md",
+      "resolution_method": "Read each receipt and verify its exact material head/run/job disposition.",
+      "type": "evidence-set",
+      "units": "NA",
+      "editable": false,
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "consumers": [
+        "STEP-01",
+        "STEP-03"
+      ],
+      "validation": [
+        "Do not transfer PASS/NOT_RUN across material heads."
+      ],
+      "stale_if": [
+        "A receipt is altered, superseded, or its referenced run/head no longer matches retained evidence."
+      ]
+    }
+  ],
+  "benchmarks": [
+    {
+      "id": "BENCH-01",
+      "name": "Independent Timoshenko B5 oracle",
+      "purpose": "Verify MITC3/MITC4 thickness-sweep response without using CST/DKT or the implementation under test as the sole expected value.",
+      "source": "Frozen analytical definitions in the A4 B5 checker / LEG-004",
+      "oracle_class": "ANALYTICAL",
+      "payload": {
+        "t_over_L": [
+          0.2,
+          0.1,
+          0.01
+        ],
+        "quantities": [
+          "normalized deflection",
+          "total energy",
+          "transverse-shear energy fraction",
+          "cross-thickness spread"
+        ]
+      },
+      "expected": "Normalized deflection relative to closed-form Timoshenko reference remains within the frozen acceptance band; total-energy and shear-fraction errors satisfy the pre-existing governed limits; no new thinner-shell authority is inferred from rejected rows.",
+      "tolerance": {
+        "deflection_relative": 0.02,
+        "total_energy_relative": 0.02,
+        "shear_fraction_absolute": 0.01,
+        "spread": 0.01
+      },
+      "independence": "Closed-form Timoshenko response is derived independently of the MITC element implementation and CST/DKT production route.",
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "verifies": [
+        "AC-02",
+        "TEST-02",
+        "TEST-03"
+      ],
+      "stale_if": [
+        "Any oracle formula, payload geometry/load, expected value or tolerance changes."
+      ]
+    },
+    {
+      "id": "BENCH-02",
+      "name": "Production direct-solver evidence contract",
+      "purpose": "Verify that the qualification harness tests the actual direct-solver evidence schema instead of demanding a field production forbids.",
+      "source": "src/core/local-shell/result-validation.js",
+      "oracle_class": "REFERENCE_DATA",
+      "payload": {
+        "direct_required_keys": [
+          "method",
+          "pivots",
+          "pivotScale",
+          "pivotTolerance",
+          "minimumPivot",
+          "maximumPivot",
+          "pivotRatio"
+        ],
+        "forbidden_assumption": "evidence.accepted exists for deterministic dense Cholesky"
+      },
+      "expected": "Direct Cholesky admissibility is established from successful factorization/pivot evidence; the B5 checker does not require evidence.accepted for that family.",
+      "tolerance": null,
+      "independence": "The production result schema is a separate contract from the B5 qualification checker being repaired.",
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "verifies": [
+        "AC-02",
+        "TEST-01",
+        "TEST-02"
+      ],
+      "stale_if": [
+        "The production result evidence schema changes."
+      ]
+    },
+    {
+      "id": "BENCH-03",
+      "name": "Exact-head receipt identity",
+      "purpose": "Prevent a repaired checker from being reported as executed on a commit whose tree does not contain the repair.",
+      "source": "Git object identity plus clean-tree observation",
+      "oracle_class": "MANUAL_RECONSTRUCTION",
+      "payload": {
+        "execution_head": "actual git rev-parse HEAD captured immediately before execution",
+        "tree_state": "git status --porcelain must be empty",
+        "receipt_rule": "VR execution head must equal the actual executed HEAD"
+      },
+      "expected": "The PASS/FAIL/NOT_RUN receipt identifies exactly the bytes that executed; no clean-tree PASS is attributed to c58e45b if the repair exists only on a descendant.",
+      "tolerance": null,
+      "independence": "Git object identity is independent of the prose/custody record it validates.",
+      "applicability": "CURRENT_EP_REQUIRED",
+      "resolution": "READY",
+      "verifies": [
+        "AC-01",
+        "AC-03",
+        "TEST-01"
+      ],
+      "stale_if": [
+        "The execution head changes or the working tree is modified after identity capture."
+      ]
+    }
+  ],
+  "scope": {
+    "allowed": [
+      {
+        "path": "scripts/lafea.4-a4-thickness-applicability-check.mjs",
+        "reason": "Only the B5 qualification harness may be repaired if exact-head execution demonstrates a remaining harness defect."
+      },
+      {
+        "path": "agents/chains/ADV-LAFEA4-A4-1763/{validation/VR-0010.md,endpoints/EP-0010.md,issue-state/CURRENT.md,ACTIVE.md,material-legs/LEG-004.md}",
+        "reason": "These legacy custody projections may be reconciled to actual execution truth."
+      },
+      {
+        "path": "agents/relay/**",
+        "reason": "V2.5 checkpoint, progress, quality and successor custody must be written as required by the protocol."
+      }
+    ],
+    "allowed_reads": [
+      {
+        "path": "src/core/local-shell/**",
+        "reason": "Read production evidence schemas and shell contracts without changing them."
+      },
+      {
+        "path": "scripts/lafea.4-*.mjs",
+        "reason": "Read and execute A4 qualification gates and frozen oracles."
+      },
+      {
+        "path": "package.json and .github/workflows/**",
+        "reason": "Trace aggregate reachability and hosted execution surfaces."
+      },
+      {
+        "domain": "GitHub issues/PRs/actions for #1756/#1763/#1847",
+        "reason": "Verify current coordination and execution evidence; GitHub text remains a projection."
+      }
+    ],
+    "protected": [
+      {
+        "invariant": "No production src/core shell formulation, assembly, solver, recovery or dispatch changes in WP-001.",
+        "reason": "This work package is an evidence/harness trunk repair, not a mechanics change."
+      },
+      {
+        "invariant": "No governed B5 oracle, expected value or tolerance moves after observing production results.",
+        "reason": "Preserve independent numerical acceptance."
+      },
+      {
+        "invariant": "B6 severe-distortion applicability remains unauthorised.",
+        "reason": "Owner has not selected a response-accuracy criterion."
+      },
+      {
+        "invariant": "RELEASE_QUALIFIED remains false/HOLD.",
+        "reason": "A7 owns release promotion."
+      }
+    ],
+    "prohibited": [
+      {
+        "domain": "MITC/CST-DKT production mechanics",
+        "reason": "Owned by later engineering work packages and outside WP-001."
+      },
+      {
+        "domain": "solver dispatch, PCG tolerances, iteration caps or sparse-direct adoption",
+        "reason": "A5 architecture/equivalence work is not part of trunk evidence repair."
+      },
+      {
+        "domain": "UI/demo/product-route changes",
+        "reason": "Owned by later product work packages."
+      },
+      {
+        "domain": "release promotion",
+        "reason": "Only A7 may recommend release promotion."
+      }
+    ],
+    "owner_reserved": [
+      {
+        "decision": "B6 distortion-response applicability criterion",
+        "reason": "Evidence exists but threshold/mode policy requires explicit Owner authority."
+      },
+      {
+        "decision": "Shell large-system backend architecture",
+        "reason": "Sparse-direct adoption versus bounded PCG envelope requires Owner/A5 disposition."
+      },
+      {
+        "decision": "Shipping product surface and MITC product-route exposure",
+        "reason": "Product authority belongs to A6/Product Owner."
+      },
+      {
+        "decision": "Release qualification",
+        "reason": "A7/release authority remains separate from numerical acceptance."
+      }
+    ]
+  },
+  "anti_drift": {
+    "do_not": [
+      {
+        "id": "ADR-01",
+        "restriction": "Do not implement work outside WP-001, even when a nearby open PR already contains a plausible fix.",
+        "reason": "V2.5 material execution is serial by default and one WP maps to one EP."
+      },
+      {
+        "id": "ADR-02",
+        "restriction": "Do not infer PASS from source inspection, PR description, mergeability, or a zero-step hosted failure.",
+        "reason": "Evidence status must come from execution truth."
+      },
+      {
+        "id": "ADR-03",
+        "restriction": "Do not repair the B5 gate by changing production mechanics, benchmark expected values, tolerances or release flags.",
+        "reason": "Those are protected authorities outside this EP."
+      }
+    ],
+    "stale_if": [
+      {
+        "id": "STALE-01",
+        "condition": "Roadmap revision changes WP-001 scope, dependencies, acceptance or protected invariants.",
+        "effect": "STALE",
+        "rationale": "The forward contract no longer matches the governing roadmap."
+      },
+      {
+        "id": "STALE-02",
+        "condition": "main moves from c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50 without a validated drift receipt authorizing WRITE.",
+        "effect": "RECONCILE",
+        "rationale": "The trunk baseline may have changed the failure or repair surface."
+      },
+      {
+        "id": "STALE-03",
+        "condition": "The production direct-solver evidence schema or B5 oracle/tolerance contract changes.",
+        "effect": "STALE",
+        "rationale": "The harness repair and benchmark contract must be re-derived against the new authority."
+      },
+      {
+        "id": "STALE-04",
+        "condition": "Another writer changes the #1847 material branch or the allowed files after takeover certification.",
+        "effect": "STOP",
+        "rationale": "Concurrent write collision invalidates exact-head custody."
+      }
+    ]
+  },
+  "implementation_plan": [
+    {
+      "id": "STEP-01",
+      "objective": "Execute repository discovery and the full corrected B5/A4/core validation set on one exact clean branch head before making another material change.",
+      "targets": [
+        "#1847 carrier branch",
+        "VR-0010 execution identity"
+      ],
+      "reads": [
+        "REPO_STATE/EP/ODR",
+        "B5 checker",
+        "production result schema",
+        "historical A4 receipts"
+      ],
+      "writes": [
+        "agents/relay/certifications/** and execution logs/receipts required by takeover/execution"
+      ],
+      "inputs": [
+        "INPUT-01",
+        "INPUT-02",
+        "INPUT-03",
+        "INPUT-04",
+        "INPUT-05",
+        "INPUT-06"
+      ],
+      "acceptance": [
+        "AC-01",
+        "AC-02",
+        "AC-03"
+      ],
+      "tests": [
+        "TEST-01",
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05",
+        "TEST-07"
+      ],
+      "expected_state": "One exact clean HEAD is identified; every required local command has a retained exit status; hosted zero-step jobs, if present, are classified separately as NOT_RUN.",
+      "stop_conditions": [
+        "Stop if the live route, branch, material ancestry or main base does not match the EP.",
+        "Stop if production src/core files appear in the WP-001 diff.",
+        "Stop if an oracle/tolerance differs from the frozen contract."
+      ]
+    },
+    {
+      "id": "STEP-02",
+      "objective": "If and only if exact-head execution exposes a remaining first-boundary defect inside the authorized B5 harness/custody scope, repair that boundary without moving protected engineering authority.",
+      "targets": [
+        "scripts/lafea.4-a4-thickness-applicability-check.mjs",
+        "A4 LEG-004/VR-0010 custody files"
+      ],
+      "reads": [
+        "failure output from STEP-01",
+        "production result-validation contract",
+        "frozen B5 oracle"
+      ],
+      "writes": [
+        "authorized B5 harness/custody files only"
+      ],
+      "inputs": [
+        "INPUT-04",
+        "INPUT-05"
+      ],
+      "acceptance": [
+        "AC-02",
+        "AC-04"
+      ],
+      "tests": [
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05",
+        "TEST-06"
+      ],
+      "expected_state": "The first demonstrated harness/custody defect is removed; no production shell source, numerical tolerance, B6 authority or release state changes.",
+      "stop_conditions": [
+        "Stop if the first failing boundary lies in production mechanics or another roadmap WP.",
+        "Stop if passing would require changing an oracle, expected value or governed tolerance."
+      ]
+    },
+    {
+      "id": "STEP-03",
+      "objective": "Publish exact execution truth into VR-0010/V2.5 checkpoint/progress and prepare the successor frontier without cross-head evidence transfer.",
+      "targets": [
+        "agents/chains/ADV-LAFEA4-A4-1763/validation/VR-0010.md",
+        "agents/relay/checkpoints/**",
+        "agents/relay/roadmap/PROGRESS.yaml",
+        "agents/relay/quality/**",
+        "agents/relay/REPO_STATE.yaml"
+      ],
+      "reads": [
+        "actual executed HEAD",
+        "command exit codes",
+        "quality review",
+        "roadmap/progress authority"
+      ],
+      "writes": [
+        "authorized custody and V2.5 successor artifacts"
+      ],
+      "inputs": [
+        "INPUT-01",
+        "INPUT-03",
+        "INPUT-05",
+        "INPUT-06"
+      ],
+      "acceptance": [
+        "AC-01",
+        "AC-03",
+        "AC-04"
+      ],
+      "tests": [
+        "TEST-01",
+        "TEST-06"
+      ],
+      "expected_state": "The receipt identifies the exact executed bytes and actual PASS/FAIL/NOT_RUN outcome; progress is calculated; unresolved work transfers exactly; no release or B6 authority is promoted.",
+      "stop_conditions": [
+        "Stop if any required validation did not actually run and lacks an explicit NOT_RUN reason.",
+        "Stop if the successor would need authority not represented in the roadmap/ODR."
+      ]
+    }
+  ],
+  "next_work": {
+    "phase_transition": false,
+    "steps": [
+      {
+        "order": 1,
+        "action": "A zero-context incoming candidate executes DSTEP-01 through DSTEP-06, writes a PASS Discovery Receipt, and obtains independent/deterministic Takeover Certification for SERIAL:EP-0001.",
+        "targets": [
+          "agents/relay/certifications/discovery",
+          "agents/relay/certifications/takeover"
+        ],
+        "inputs": [
+          "INPUT-01",
+          "INPUT-02",
+          "INPUT-03",
+          "INPUT-04",
+          "INPUT-05",
+          "INPUT-06"
+        ],
+        "tests": [
+          "TEST-01"
+        ],
+        "benchmarks": [
+          "BENCH-02",
+          "BENCH-03"
+        ],
+        "acceptance": [
+          "AC-01",
+          "AC-03"
+        ],
+        "expected_result": "TAKEOVER_CERTIFIED(SERIAL:EP-0001,candidate) is true without using conversation context.",
+        "stop_if": [
+          "Discovery finds route/material/base mismatch.",
+          "Candidate cannot establish repository-only understanding.",
+          "Takeover validation fails."
+        ]
+      },
+      {
+        "order": 2,
+        "action": "Run material_write_ready.py for the certified candidate on the live carrier branch before any material edit.",
+        "targets": [
+          "live checkout",
+          "agents/relay/REPO_STATE.yaml",
+          "agents/relay/execution-packages/EP-0001.yaml"
+        ],
+        "inputs": [
+          "INPUT-02",
+          "INPUT-03"
+        ],
+        "tests": [
+          "TEST-01"
+        ],
+        "benchmarks": [
+          "BENCH-03"
+        ],
+        "acceptance": [
+          "AC-01"
+        ],
+        "expected_result": "MATERIAL_WRITE_READY is true for exactly one candidate and route, or execution remains READ_ONLY.",
+        "stop_if": [
+          "material_write_ready is false.",
+          "Base drift is unqualified.",
+          "A hard stop or write collision is active."
+        ]
+      },
+      {
+        "order": 3,
+        "action": "Execute STEP-01, then STEP-02 only if a first-boundary defect remains, and complete STEP-03 with exact-head evidence.",
+        "targets": [
+          "#1847 branch",
+          "B5/A4/core gates",
+          "VR-0010 and V2.5 checkpoint"
+        ],
+        "inputs": [
+          "INPUT-03",
+          "INPUT-04",
+          "INPUT-05",
+          "INPUT-06"
+        ],
+        "tests": [
+          "TEST-02",
+          "TEST-03",
+          "TEST-04",
+          "TEST-05",
+          "TEST-06",
+          "TEST-07"
+        ],
+        "benchmarks": [
+          "BENCH-01",
+          "BENCH-02",
+          "BENCH-03"
+        ],
+        "acceptance": [
+          "AC-01",
+          "AC-02",
+          "AC-03",
+          "AC-04"
+        ],
+        "expected_result": "WP-001 completes with a truthful exact-head disposition and green required local gates, while protected numerical/applicability/release authority remains unchanged.",
+        "stop_if": [
+          "Any required command fails in production mechanics outside EP scope.",
+          "Passing requires moving protected authority.",
+          "The branch or main basis changes without reconciliation."
+        ]
+      }
+    ]
+  },
+  "qualification_boundary": {
+    "required": false,
+    "trigger": null,
+    "from_phase": null,
+    "to_phase": null,
+    "changed_dimensions": [],
+    "basis": [
+      "WP-001 repairs qualification harness/evidence custody only; it does not change production path, numerical method, protected engineering invariant, input authority or verification/oracle class."
+    ],
+    "question_set": null
+  },
+  "quality": {
+    "applicable": [
+      {
+        "blueprint": "coding",
+        "reason": "The branch contains a qualification-harness code repair that must be reviewed for contract correctness and failure semantics.",
+        "review_focus": [
+          "solver-family evidence handling",
+          "undefined binding repair",
+          "no hidden weakening"
+        ]
+      },
+      {
+        "blueprint": "testing",
+        "reason": "WP-001 exists to execute and preserve exact test evidence.",
+        "review_focus": [
+          "exact-head execution",
+          "exit codes",
+          "negative/fail-closed behavior",
+          "NOT_RUN classification"
+        ]
+      },
+      {
+        "blueprint": "engineering-numerics",
+        "reason": "B5 is a shell numerical applicability/locking benchmark whose oracle and tolerances must remain independent and frozen.",
+        "review_focus": [
+          "Timoshenko oracle independence",
+          "locking interpretation",
+          "applicability non-overclaim",
+          "tolerance immutability"
+        ]
+      },
+      {
+        "blueprint": "code-review",
+        "reason": "The harness repair and evidence custody require independent diff review before checkpoint.",
+        "review_focus": [
+          "scope containment",
+          "production-source absence",
+          "receipt/head identity"
+        ]
+      },
+      {
+        "blueprint": "migration",
+        "reason": "Legacy V2 chain custody is being reconciled into V2.5 without auto-promoting prior endpoints.",
+        "review_focus": [
+          "evidence preservation",
+          "authority non-promotion",
+          "progress re-baselining"
+        ]
+      },
+      {
+        "blueprint": "github-delivery",
+        "reason": "The active repair is carried by PR #1847 and current hosted jobs may fail before step creation.",
+        "review_focus": [
+          "PR head identity",
+          "hosted step presence",
+          "merge/readiness claims versus executed evidence"
+        ]
+      }
+    ],
+    "not_applicable": [
+      {
+        "blueprint": "software-design",
+        "reason": "WP-001 does not change application architecture or state ownership; it repairs a bounded qualification harness and evidence custody."
+      },
+      {
+        "blueprint": "ui-ux",
+        "reason": "No user interface or engineer journey is changed in WP-001."
+      },
+      {
+        "blueprint": "accessibility",
+        "reason": "No UI/accessibility surface changes in WP-001."
+      },
+      {
+        "blueprint": "performance",
+        "reason": "WP-001 does not modify runtime algorithms or make performance claims; A5 owns resource/scalability work."
+      }
+    ],
+    "review_contract": {
+      "required": true,
+      "required_before_checkpoint": true,
+      "receipt_namespace": "QRV-",
+      "required_outputs": [
+        "procedure_results",
+        "findings",
+        "owner_report",
+        "successor_handover"
+      ]
+    },
+    "findings_policy": "Quality findings remain quality state unless they map to an existing acceptance, authority, protected-invariant or safety hard-stop condition.",
+    "ordinary_findings_are_hard_stops": false
+  },
+  "acceptance": [
+    {
+      "id": "AC-01",
+      "description": "The execution receipt is bound to the exact clean HEAD that actually ran; no cross-head or dirty-tree PASS is possible.",
+      "weight": 20,
+      "verification": [
+        "TEST-01",
+        "BENCH-03"
+      ]
+    },
+    {
+      "id": "AC-02",
+      "description": "The corrected B5 checker, A4 aggregate, lafea.4 contract, check:lafea-core and supporting gates execute successfully on the exact head without changing frozen numerical acceptance.",
+      "weight": 35,
+      "verification": [
+        "TEST-02",
+        "TEST-03",
+        "TEST-04",
+        "TEST-05",
+        "BENCH-01",
+        "BENCH-02"
+      ]
+    },
+    {
+      "id": "AC-03",
+      "description": "PASS/FAIL/NOT_RUN are represented from execution truth; hosted jobs with zero steps are never treated as engineering PASS or FAIL, and current VR-0010 does not claim evidence from another head.",
+      "weight": 25,
+      "verification": [
+        "TEST-01",
+        "TEST-07",
+        "BENCH-03"
+      ]
+    },
+    {
+      "id": "AC-04",
+      "description": "WP-001 changes no production shell mechanics, solver tolerances, B6 distortion authority or RELEASE_QUALIFIED state.",
+      "weight": 20,
+      "verification": [
+        "TEST-06"
+      ]
+    }
+  ],
+  "validation": [
+    {
+      "id": "TEST-01",
+      "class": "MUST_PASS",
+      "method": "git status --porcelain; git rev-parse HEAD; verify material_ref ancestry and main base; bind the observed HEAD into the execution receipt",
+      "proves": [
+        "AC-01",
+        "AC-03"
+      ]
+    },
+    {
+      "id": "TEST-02",
+      "class": "MUST_PASS",
+      "method": "node scripts/lafea.4-a4-thickness-applicability-check.mjs",
+      "proves": [
+        "AC-02"
+      ]
+    },
+    {
+      "id": "TEST-03",
+      "class": "MUST_PASS",
+      "method": "node scripts/lafea.4-production-adoption-aggregate-check.mjs && node scripts/lafea.4-contract-check.mjs",
+      "proves": [
+        "AC-02"
+      ]
+    },
+    {
+      "id": "TEST-04",
+      "class": "MUST_PASS",
+      "method": "npm run check:lafea-core",
+      "proves": [
+        "AC-02"
+      ]
+    },
+    {
+      "id": "TEST-05",
+      "class": "MUST_PASS",
+      "method": "npm run check:lafea-meshing && node scripts/import-check.mjs && node scripts/advanced-shell-contract-check.mjs && npm run build && git diff --check",
+      "proves": [
+        "AC-02"
+      ]
+    },
+    {
+      "id": "TEST-06",
+      "class": "MUST_PASS",
+      "method": "git diff --name-only main...HEAD and targeted diff review prove no unauthorized src/core, oracle/tolerance, B6-authority or release mutation in WP-001",
+      "proves": [
+        "AC-04"
+      ]
+    },
+    {
+      "id": "TEST-07",
+      "class": "SHOULD_RUN",
+      "method": "Inspect current #1847 GitHub Actions jobs and retain whether executable steps exist; zero steps => NOT_RUN / INFRASTRUCTURE, never engineering PASS/FAIL.",
+      "proves": [
+        "AC-03"
+      ]
+    }
+  ],
+  "failure_and_stop_conditions": {
+    "hard_stop_categories": [
+      "OWNER_DECISION_REQUIRED",
+      "ESSENTIAL_INPUT_MISSING",
+      "AUTHORITY_VIOLATION",
+      "PROTECTED_INVARIANT_FAILURE",
+      "WRITE_COLLISION",
+      "SUPERSEDED_EP",
+      "ROADMAP_CONFLICT",
+      "REPOSITORY_STATE_CONFLICT",
+      "UNSAFE_ENGINEERING_RESULT"
+    ]
+  },
+  "report_contract": {
+    "sections": [
+      "Executive state",
+      "Overall / phase / EP progress",
+      "Work completed",
+      "Files changed",
+      "Acceptance matrix",
+      "Tests and evidence",
+      "Quality findings",
+      "Known limitations",
+      "Owner decisions required",
+      "GitHub issue changes",
+      "Roadmap changes",
+      "Exact next actions",
+      "Successor EP"
+    ],
+    "payloads": [
+      {
+        "id": "RPT-STATE",
+        "section": "Executive state",
+        "sources": [
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "relay_state",
+          "current_position",
+          "execution_state",
+          "material_authority",
+          "stop"
+        ]
+      },
+      {
+        "id": "RPT-PROGRESS",
+        "section": "Overall / phase / EP progress",
+        "sources": [
+          "PROGRESS",
+          "OVERALL_ROADMAP",
+          "EP"
+        ],
+        "required_fields": [
+          "progress_basis",
+          "overall",
+          "phase",
+          "work_package",
+          "step",
+          "acceptance"
+        ]
+      },
+      {
+        "id": "RPT-WORK",
+        "section": "Work completed",
+        "sources": [
+          "EP",
+          "CP"
+        ],
+        "required_fields": [
+          "completed_steps",
+          "implementation_result"
+        ]
+      },
+      {
+        "id": "RPT-FILES",
+        "section": "Files changed",
+        "sources": [
+          "CP"
+        ],
+        "required_fields": [
+          "files_changed"
+        ]
+      },
+      {
+        "id": "RPT-AC",
+        "section": "Acceptance matrix",
+        "sources": [
+          "EP",
+          "PROGRESS",
+          "CP"
+        ],
+        "required_fields": [
+          "criterion",
+          "status",
+          "percent",
+          "basis"
+        ]
+      },
+      {
+        "id": "RPT-EVIDENCE",
+        "section": "Tests and evidence",
+        "sources": [
+          "EP",
+          "CP",
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "validation_id",
+          "obligation_class",
+          "status",
+          "basis_ref",
+          "not_run_reason"
+        ]
+      },
+      {
+        "id": "RPT-QUALITY",
+        "section": "Quality findings",
+        "sources": [
+          "EP",
+          "QRV",
+          "CP",
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "quality_review",
+          "procedures",
+          "findings",
+          "disposition",
+          "execution_effect"
+        ]
+      },
+      {
+        "id": "RPT-LIMITS",
+        "section": "Known limitations",
+        "sources": [
+          "EP",
+          "CP",
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "limitations",
+          "evidence_gaps",
+          "deferred_items"
+        ]
+      },
+      {
+        "id": "RPT-OWNER",
+        "section": "Owner decisions required",
+        "sources": [
+          "ODR",
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "decision_required",
+          "pending_items",
+          "authority_effect"
+        ]
+      },
+      {
+        "id": "RPT-ISSUES",
+        "section": "GitHub issue changes",
+        "sources": [
+          "ISSUE_GRAPH",
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "operations",
+          "relationships",
+          "projection_state"
+        ]
+      },
+      {
+        "id": "RPT-ROADMAP",
+        "section": "Roadmap changes",
+        "sources": [
+          "OVERALL_ROADMAP",
+          "ROADMAP_REVISION",
+          "PROGRESS"
+        ],
+        "required_fields": [
+          "revision",
+          "topology_or_status_change",
+          "frontier_after",
+          "progress_basis_effect"
+        ]
+      },
+      {
+        "id": "RPT-NEXT",
+        "section": "Exact next actions",
+        "sources": [
+          "EP"
+        ],
+        "required_fields": [
+          "ordered_actions",
+          "targets",
+          "inputs",
+          "tests",
+          "benchmarks",
+          "acceptance",
+          "expected_result",
+          "stop_conditions"
+        ]
+      },
+      {
+        "id": "RPT-SUCCESSOR",
+        "section": "Successor EP",
+        "sources": [
+          "CP",
+          "OVERALL_ROADMAP",
+          "REPO_STATE"
+        ],
+        "required_fields": [
+          "successor_mode",
+          "next_frontier",
+          "ep_or_terminal_disposition"
+        ]
+      }
+    ]
+  },
+  "checkpoint_contract": {
+    "required": true
+  },
+  "successor_relay": {
+    "required": true,
+    "duties": [
+      "reconcile current roadmap node",
+      "create checkpoint",
+      "update progress",
+      "update issue projection when applicable",
+      "compute next executable frontier",
+      "create successor EP when work continues",
+      "validate successor EP",
+      "run cold-start check",
+      "update REPO_STATE"
+    ],
+    "required_outputs": [
+      "checkpoint",
+      "progress_reconciliation",
+      "issue_projection_disposition",
+      "next_frontier",
+      "successor_ep_or_terminal_disposition"
+    ]
+  }
+}

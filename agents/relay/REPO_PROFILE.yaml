@@ -2,9 +2,52 @@
   "schema_version": "relay-v2.5",
   "repository_type": "engineering-analysis application",
   "default_branch": "main",
-  "important_paths": {},
-  "commands": {},
-  "protected_domains": [],
-  "generated_paths": [],
-  "repository_rules": []
+  "important_paths": {
+    "source": [
+      "src/core/local-shell",
+      "src/core/lafea-linear-solve",
+      "src/core/lafea-meshing",
+      "src/workspace"
+    ],
+    "tests": [
+      "scripts/lafea.4-*.mjs",
+      "scripts/lafea-workbench-check.mjs",
+      "e2e"
+    ],
+    "documentation": [
+      "agents/chains",
+      "agents/relay",
+      "docs"
+    ],
+    "engineering_specs": [
+      "agents/chains/ADV-LAFEA4-A4-1763",
+      "docs/conceptcumroadmapLAFEA.md",
+      "docs/IntegratedLAFEAroadmap.md"
+    ]
+  },
+  "commands": {
+    "unit_test": "npm run check:lafea-core",
+    "e2e_test": "npm run check:lafea-e2e",
+    "lint": "git diff --check",
+    "typecheck": "",
+    "build": "npm run build",
+    "meshing": "npm run check:lafea-meshing",
+    "imports": "node scripts/import-check.mjs",
+    "advanced_shell": "node scripts/advanced-shell-contract-check.mjs"
+  },
+  "protected_domains": [
+    "src/core/local-shell numerical formulation unless the active EP explicitly authorizes it",
+    "governed numerical tolerances and independent benchmark expected values",
+    "B6 distortion applicability authority",
+    "RELEASE_QUALIFIED / release promotion"
+  ],
+  "generated_paths": [
+    "dist/"
+  ],
+  "repository_rules": [
+    "PASS, FAIL and NOT_RUN are distinct; NOT_RUN requires positive evidence that the relevant command or job did not execute.",
+    "Evidence from one material head must not be silently applied to another head.",
+    "GitHub issue/PR text is a coordination projection, not engineering authority.",
+    "main is currently observed unprotected; workflow existence must not be treated as a required-check guarantee."
+  ]
 }

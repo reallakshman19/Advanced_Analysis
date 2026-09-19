@@ -1,0 +1,64 @@
+{
+  "schema_version": "relay-v2.5",
+  "id": "ODR-0001",
+  "decision": {
+    "authority": "OWNER",
+    "kind": "INTENT_MUTATION",
+    "statement": "Adopt Common engineering-pr-delivery-v2.5 as the governing delivery protocol for the LAFEA.4 repair and proceed with the fix under that protocol.",
+    "source": "Owner messages 2026-09-19T03:46:48Z ('ok start fix') and 2026-09-19T03:48:09Z ('follow https://github.com/reallaksh19/Common/tree/main/skills/engineering-pr-delivery-v2.5'), captured verbatim in this durable ODR."
+  },
+  "effects": {
+    "requirement_disposition": "NOT_APPLICABLE",
+    "grants_material_write_authority": false,
+    "pending_items": []
+  },
+  "impact": {
+    "class": [
+      "PROGRAM",
+      "ENGINEERING_AUTHORITY"
+    ]
+  },
+  "affected": {
+    "objectives": [
+      "OBJ-001"
+    ],
+    "phases": [
+      "PHASE-001"
+    ],
+    "work_packages": [
+      "WP-001"
+    ],
+    "execution_packages": [
+      "EP-0001"
+    ],
+    "issues": [
+      "github:reallaksh19/Advanced_Analysis#1756",
+      "github:reallaksh19/Advanced_Analysis#1763",
+      "github:reallaksh19/Advanced_Analysis#1847"
+    ]
+  },
+  "change_intake": {
+    "previous_concept": "Legacy V2 agents/chains custody and issue/PR prose could directly drive repair work and evidence disposition.",
+    "requested_concept": "Use engineering-pr-delivery-v2.5 as repository authority: dynamic roadmap, semantic EP, zero-context takeover certification, runtime material-write gate, exact evidence, and source-derived handover.",
+    "retained_behavior": [
+      "Preserve valid historical exact-head evidence only for the exact heads and claims it actually proves.",
+      "Keep numerical acceptance, applicability authority, solver tolerances, B6 distortion authority, and release authority unchanged unless separately authorized."
+    ],
+    "invalidated_behavior": [
+      "Legacy V2 endpoints are no longer executable authority merely because they are marked active.",
+      "The pre-protocol custody commit 636d51f92f809266f1ada4b7af5efcad5cdb25cc is context/evidence only and does not itself grant material-write authority."
+    ],
+    "new_scope": [
+      "Establish one serial V2.5 frontier for restoring exact-head B5 evidence and a green LAFEA.4 core trunk.",
+      "Require candidate DISC/TC and runtime MATERIAL_WRITE_READY before any further material edit."
+    ]
+  },
+  "required_reconciliation": [
+    "Reconcile legacy V2 inventory without auto-promoting endpoints.",
+    "Create an explicit V2.5 Progress Basis and detailed roadmap frontier.",
+    "Create one semantic EP for the #1847 exact-head evidence/trunk repair.",
+    "Keep execution READ_ONLY until candidate takeover certification and live Git write readiness pass.",
+    "Reconcile GitHub issue/PR references as coordination projections, not engineering authority."
+  ],
+  "status": "APPLIED"
+}

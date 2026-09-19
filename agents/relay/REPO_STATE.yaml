@@ -1,6 +1,6 @@
 {
   "schema_version": "relay-v2.5",
-  "relay_state": "INITIALIZING",
+  "relay_state": "ACTIVE",
   "repository": {
     "name": "Advanced_Analysis",
     "remote": "reallaksh19/Advanced_Analysis"
@@ -11,7 +11,7 @@
   },
   "roadmap": {
     "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
-    "revision": "RM-0001",
+    "revision": "RM-0002",
     "path": "agents/relay/roadmap/OVERALL_ROADMAP.yaml"
   },
   "current_position": {
@@ -24,9 +24,9 @@
     "mode": "SERIAL"
   },
   "active_ep": {
-    "id": null,
-    "path": null,
-    "state": "NONE"
+    "id": "EP-0001",
+    "path": "agents/relay/execution-packages/EP-0001.yaml",
+    "state": "EXECUTABLE"
   },
   "last_checkpoint": {
     "id": "NONE",
@@ -45,25 +45,31 @@
     "overall_percent": 0,
     "phase_percent": 0,
     "ep_percent": 0,
-    "basis_revision": "PB-0001"
+    "basis_revision": "PB-0002"
   },
   "status_planes": {
     "execution": {
-      "state": "WAITING",
-      "can_continue": false,
-      "material_authority": "NONE",
-      "next_action": "Reconcile Owner intent and legacy V2 evidence, establish an explicit V2.5 Progress Basis, compute the DETAILED executable frontier, and create one semantic V2.5 EP before any further material write."
+      "state": "READY",
+      "can_continue": true,
+      "material_authority": "READ_ONLY",
+      "next_action": "A zero-context incoming candidate must execute EP-0001 discovery, obtain Takeover Certification, and pass material_write_ready.py before any further material write."
     },
     "quality": {
-      "state": "OWNER_REVIEW_REQUIRED",
+      "state": "NEEDS_ATTENTION",
       "findings": [
-        "An out-of-protocol custody-only commit 636d51f92f809266f1ada4b7af5efcad5cdb25cc exists on the carrier branch and must be reconciled as evidence/context only until a valid V2.5 route authorizes subsequent material work."
+        "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication."
       ]
     },
     "evidence": {
-      "state": "NA",
-      "summary": "Relay bootstrap created; no executable V2.5 engineering evidence exists yet.",
-      "not_run": []
+      "state": "PARTIAL",
+      "summary": "Historical exact-head A4 evidence is preserved. The corrected #1847 head has not yet been executed under V2.5; no B5 PASS is currently authorized.",
+      "not_run": [
+        {
+          "id": "EP0001-EXACT-HEAD-GATES",
+          "reason": "V2.5 takeover/material-write gate has not yet admitted a zero-context candidate to execute WP-001.",
+          "cause": "NOT_SCHEDULED"
+        }
+      ]
     },
     "stop": {
       "active": false,
@@ -77,18 +83,18 @@
     "state": "NOT_REQUIRED",
     "operation_id": null,
     "target": null,
-    "roadmap_revision": "RM-0001",
-    "execution_ref": "NONE",
+    "roadmap_revision": "RM-0002",
+    "execution_ref": "EP-0001",
     "receipt": null,
-    "basis": []
+    "basis": [
+      "Existing GitHub issues/PRs are read as coordination inputs; no external projection mutation is required to prepare the V2.5 baton."
+    ]
   },
   "relay_readiness": {
-    "baton_ready": false,
+    "baton_ready": true,
     "projection_ready": true,
-    "handover_ready": false,
-    "reasons": [
-      "Relay initialization is incomplete; no executable frontier/EP exists."
-    ]
+    "handover_ready": true,
+    "reasons": []
   },
   "chat_context_required": false
 }
