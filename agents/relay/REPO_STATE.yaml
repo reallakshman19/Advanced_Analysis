@@ -7,7 +7,7 @@
   },
   "relay_protocol": {
     "version": "2.5",
-    "basis_ref": "8bb224ab384879d0ae42485aa5ac1b2973ff6ed1"
+    "basis_ref": "1f4e9956e89f394fda5e4e730e13ecd8709c8f04"
   },
   "roadmap": {
     "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
@@ -52,13 +52,15 @@
       "state": "READY",
       "can_continue": true,
       "material_authority": "WRITE",
-      "next_action": "A zero-context incoming candidate must execute EP-0001 discovery, obtain valid Takeover Certification, then pass material_write_ready.py on the live carrier branch before any material engineering write."
+      "next_action": "A zero-context incoming candidate must execute EP-0001 DSTEP discovery, validate its DISC, use agents/relay/tools/prepare_ep0001_takeover.py to assemble the outgoing-preparer-owned deterministic TC/admission, then pass Common validate_takeover_certification.py and material_write_ready.py before any engineering-material write."
     },
     "quality": {
       "state": "NEEDS_ATTENTION",
       "findings": [
         "EP-0001 quality procedures are routed but QRV-0001 is not due until before checkpoint publication.",
-        "Protocol basis advanced from 7ec21cd100211935267e4cec15dbb3e7edaefd68 to 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1; intervening changes are confined to three-pass-generator dispatch/schema/validation and do not alter ENGINEERING_DELIVERY semantics."
+        "Protocol basis advanced from 7ec21cd100211935267e4cec15dbb3e7edaefd68 to 8bb224ab384879d0ae42485aa5ac1b2973ff6ed1; intervening changes are confined to three-pass-generator dispatch/schema/validation and do not alter ENGINEERING_DELIVERY semantics.",
+        "Common main advanced to 1f4e9956e89f394fda5e4e730e13ecd8709c8f04; intervening changes isolate three-pass generation from engineering delivery and do not change EP-0001 takeover/write semantics.",
+        "EP-0001 includes a frozen outgoing-preparer TC assembler. It is not authority: Common discovery/takeover validators and material_write_ready.py remain mandatory."
       ]
     },
     "evidence": {
