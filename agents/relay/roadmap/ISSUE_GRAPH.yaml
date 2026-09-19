@@ -1,5 +1,5 @@
 schema_version: relay-v2.5
-graph_revision: IG-0001
+graph_revision: IG-0002
 nodes:
   - id: ISSUE-1710
     role: ROADMAP_PARENT
@@ -27,6 +27,7 @@ nodes:
       url: https://github.com/reallaksh19/Advanced_Analysis/issues/1769
   - id: ISSUE-1856
     role: EXECUTION_SLICE
+    roadmap_node: WP-1769
     state: ACTIVE
     github_state: OPEN
     github:
