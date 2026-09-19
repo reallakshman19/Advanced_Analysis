@@ -72,7 +72,7 @@
     { "sourceId": "C3C-Q017", "role": "numericParityContract", "path": "scripts/lib/lafea-numeric-parity.mjs", "blobSha": "28eedcaa8a87fd69a3718cbe4b40a909f322c0e3" },
     { "sourceId": "C3C-Q018", "role": "numericParityNegativeControls", "path": "scripts/lafea-continuum-compiled-load-parity-negative-check.mjs", "blobSha": "5cb4dfe8e70f215b6b59aeddcb1b8ba14b39a24e" },
     { "sourceId": "C3C-Q019", "role": "probeRefinementInvarianceCheck", "path": "scripts/lafea.3-c3c-probe-invariance-check.mjs", "blobSha": "29ce652b6d4f390598ce4ccfc716ab63bf488a32" },
-    { "sourceId": "C3C-Q020", "role": "editInvalidationMatrixQualificationCheck", "path": "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs", "blobSha": "ad606ef94c68f8b353707e0cedaf503c1cf34409" }
+    { "sourceId": "C3C-Q020", "role": "editInvalidationMatrixQualificationCheck", "path": "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs", "blobSha": "871fa1b70ec7921fa8696bf49e8a8802c0788318" }
   ],
   "confirmedOpenSemantics": [
     {
