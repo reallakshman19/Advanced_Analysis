@@ -59,7 +59,7 @@ This file is a generated/preparer-side operating aid. Repository authority remai
 
 ## Frozen preparer boundary
 
-`prepare_ep0001_takeover.py` is deliberately limited to `SERIAL:QP-0001`, refuses qualification-required routes, refuses duplicate route admissions, requires a pre-existing PASS repository-only DISC, and records the outgoing preparer as `chatgpt-preparer-ep0001-20260919`.
+`prepare_ep0001_takeover.py` is deliberately limited to `SERIAL:EP-0001`, refuses qualification-required routes, refuses duplicate route admissions, requires a pre-existing PASS repository-only DISC, and records the outgoing preparer as `chatgpt-preparer-ep0001-20260919`.
 
 The helper does **not** establish takeover authority by itself. `validate_takeover_certification.py` reopens the current EP, route, basis and DISC; `material_write_ready.py` additionally checks live Git/drift/write authority.
 
