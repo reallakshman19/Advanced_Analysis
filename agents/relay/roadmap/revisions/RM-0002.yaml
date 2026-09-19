@@ -1,0 +1,33 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0002
+  from_revision: RM-0001
+  to_revision: RM-0002
+  classification: OWNER_INTENT_MUTATION
+  trigger:
+    type: OWNER_DECISION
+    ref: ODR-0001
+    path: agents/relay/roadmap/owner-decisions/ODR-0001.yaml
+changes:
+  added: []
+  removed: []
+  changed:
+    - id: OBJ-001
+      change: Definition reconciled from bootstrap partial definition to a defined migration objective.
+    - id: PHASE-001
+      change: Definition reconciled from Owner-review-required bootstrap placeholder to a defined migration phase.
+    - id: WP-001
+      change: Promoted from Owner-review-required WAITING placeholder to one DETAILED executable migration work package with bounded acceptance and no engineering-authority mutation.
+  unaffected: []
+invalidated_execution_packages: []
+issue_graph_reconciled: false
+progress_basis_change:
+  old_basis: PB-0001
+  new_basis: PB-0002
+  old_total_weight: 0
+  new_total_weight: 100
+frontier_after:
+  - WP-001
+notes:
+  - ODR-0001 authorizes the delivery-protocol migration only; it does not decide #1834 or #1852.
+  - The first executable frontier is relay/control-plane migration only.
