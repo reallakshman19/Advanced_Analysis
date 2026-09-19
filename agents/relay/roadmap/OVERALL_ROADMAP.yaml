@@ -1,0 +1,34 @@
+{
+  "schema_version": "relay-v2.5",
+  "roadmap": {
+    "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
+    "revision": "RM-0001",
+    "title": "LAFEA.4 shell analysis — qualification and product programme"
+  },
+  "objectives": [
+    {
+      "id": "OBJ-001",
+      "title": "Deliver shell-analysis results a pressure-equipment engineer can defensibly rely on",
+      "state": "ACTIVE",
+      "definition": "PARTIALLY_DEFINED",
+      "phases": [
+        {
+          "id": "PHASE-001",
+          "title": "V2→V2.5 evidence reconciliation and trunk recovery",
+          "state": "PLANNED",
+          "definition": "OWNER_REVIEW_REQUIRED",
+          "work_packages": [
+            {
+              "id": "WP-001",
+              "title": "Reconcile legacy custody and establish the first executable repair package",
+              "state": "PLANNED",
+              "definition": "OWNER_REVIEW_REQUIRED",
+              "execution_status": "WAITING",
+              "depends_on": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

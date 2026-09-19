@@ -1,0 +1,39 @@
+{
+  "schema_version": "relay-v2.5",
+  "progress_basis": {
+    "id": "PB-0001",
+    "roadmap_revision": "RM-0001"
+  },
+  "overall": {
+    "earned_weight": 0,
+    "total_weight": 0,
+    "percent": 0
+  },
+  "objectives": [
+    {
+      "id": "OBJ-001",
+      "earned_weight": 0,
+      "total_weight": 0,
+      "percent": 0
+    }
+  ],
+  "phases": [
+    {
+      "id": "PHASE-001",
+      "earned_weight": 0,
+      "total_weight": 0,
+      "percent": 0
+    }
+  ],
+  "work_packages": [
+    {
+      "id": "WP-001",
+      "earned_weight": 0,
+      "total_weight": 0,
+      "percent": 0
+    }
+  ],
+  "execution_packages": [],
+  "implementation_steps": [],
+  "acceptance_criteria": []
+}

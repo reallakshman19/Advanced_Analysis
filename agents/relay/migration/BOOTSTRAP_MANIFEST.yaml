@@ -1,0 +1,37 @@
+{
+  "schema_version": "relay-v2.5-bootstrap",
+  "repository": {
+    "name": "Advanced_Analysis",
+    "remote": "reallaksh19/Advanced_Analysis",
+    "repository_type": "engineering-analysis application",
+    "default_branch": "main"
+  },
+  "relay_protocol": {
+    "basis_ref": "7ec21cd100211935267e4cec15dbb3e7edaefd68"
+  },
+  "roadmap": {
+    "id": "RM-LAFEA4-QUALIFICATION-PRODUCT",
+    "revision": "RM-0001",
+    "title": "LAFEA.4 shell analysis — qualification and product programme"
+  },
+  "initial_position": {
+    "objective": {
+      "id": "OBJ-001",
+      "title": "Deliver shell-analysis results a pressure-equipment engineer can defensibly rely on"
+    },
+    "phase": {
+      "id": "PHASE-001",
+      "title": "V2→V2.5 evidence reconciliation and trunk recovery"
+    },
+    "work_package": {
+      "id": "WP-001",
+      "title": "Reconcile legacy custody and establish the first executable repair package"
+    }
+  },
+  "initialization": {
+    "next_action": "Reconcile Owner intent and legacy V2 evidence, establish an explicit V2.5 Progress Basis, compute the DETAILED executable frontier, and create one semantic V2.5 EP before any further material write.",
+    "notes": [
+      "An out-of-protocol custody-only commit 636d51f92f809266f1ada4b7af5efcad5cdb25cc exists on the carrier branch and must be reconciled as evidence/context only until a valid V2.5 route authorizes subsequent material work."
+    ]
+  }
+}
