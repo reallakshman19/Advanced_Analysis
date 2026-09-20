@@ -1,0 +1,50 @@
+schema_version: relay-v2.5
+id: ODR-0002
+decision:
+  authority: OWNER
+  kind: INTENT_MUTATION
+  statement: Preserve the current LAFEA serial route and its unresolved NOT_RUN infrastructure evidence, while preparing the EMP.1/WRC issue programme as the next bounded engineering programme without bypassing source, qualification, hash, release, or workflow authority gates.
+  source: owner-message:2026-09-20T06:07:29Z
+effects:
+  requirement_disposition: NOT_APPLICABLE
+  grants_material_write_authority: false
+  pending_items:
+    - Current WP-1769 remains the sole executable frontier until it is checkpointed or explicitly re-planned.
+    - EMP.1 WP-1765 is future custody only until it becomes the computed frontier and receives a fresh Q1-Q5 qualification package and takeover admission.
+    - Issue #1834 remains an Owner decision on non-tabulated-gamma policy.
+    - Issue #1852 remains an Owner decision on authority-bearing resultHash policy.
+impact:
+  class:
+    - PROGRAMME_SCOPE
+    - SUCCESSOR_PLANNING
+affected:
+  objectives:
+    - OBJ-1710
+    - OBJ-1760
+  phases:
+    - PH-1711
+    - PH-WRC-P0
+  work_packages:
+    - WP-1769
+    - WP-1765
+    - WP-1768
+    - WP-1772
+    - WP-1775
+  issues:
+    - ISSUE-54
+    - ISSUE-1760
+    - ISSUE-1765
+    - ISSUE-1768
+    - ISSUE-1772
+    - ISSUE-1775
+    - ISSUE-1830
+    - ISSUE-1834
+    - ISSUE-1852
+    - ISSUE-1854
+required_reconciliation:
+  - Keep WP-1769 ACTIVE and the only computed serial frontier.
+  - Add the EMP.1/WRC bounded professional-release programme as FUTURE roadmap custody.
+  - Preserve the architecture ordering #1765 -> #1768, with #1772 retained as an independent-evidence prerequisite for #1775.
+  - Keep #54 external infrastructure and keep #1834/#1852 Owner-reserved.
+  - Prepare, but do not activate, a self-contained draft EP for #1765 that requires fresh Q1-Q5 qualification before material write.
+status: APPLIED
