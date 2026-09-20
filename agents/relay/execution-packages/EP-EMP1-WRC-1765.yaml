@@ -1,0 +1,406 @@
+schema_version: relay-v2.5
+identity:
+  ep_id: EP-EMP1-WRC-1765
+  branch: engineering/emp1-wrc-source-semantics-1765
+  base_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
+  execution_state: DRAFT
+  previous_checkpoint: NONE
+  previous_join: null
+  previous_replan: null
+replan_inheritance: null
+git_basis:
+  expected_branch: engineering/emp1-wrc-source-semantics-1765
+  material_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
+  base_branch: main
+  base_observed_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
+  drift_policy: RECHECK_BEFORE_WRITE
+  drift_receipt: null
+roadmap_source:
+  roadmap_id: RM-LAFEA-MESH-COMPLETION
+  roadmap_revision: RM-0008
+  objective: OBJ-1760
+  phase: PH-WRC-P0
+  work_package: WP-1765
+  generated_from_frontier: false
+outcome:
+  user_visible:
+    - The bounded gamma=5 WRC route gains one auditable source-semantics profile only where existing primary-source records actually support it; unresolved source facts remain visibly fail-closed.
+  engineering:
+    - Consume the closed focused source issues into one bounded profile without changing WRC equations, curve data, expected stresses, tolerances, load signs, route envelope, resultHash policy, or release authority.
+context_capsule:
+  product_goal: Close WRC-02 source semantics before WRC-03 exact-head numerical qualification.
+  roadmap_position: FUTURE OBJ-1760 / PH-WRC-P0 / WP-1765 under RM-0008; current serial frontier remains WP-1769.
+  why_this_work_exists: Issue #1765 requires one bounded source-semantics integration profile over the already-closed focused source issues before professional numerical/release claims can advance.
+  current_architecture: The bounded route is WRC 537 (2013), cylindrical, round, Original, gamma=5 exact row, beta 0.05..0.50, dP=0, Kn=Kb=1, Au..Dl host-shell recovery only.
+  prior_owner_decisions:
+    - ODR-0002
+  current_implementation_state: Focused issues #1361/#1368/#1370/#1373/#1375/#1377/#1379/#1381/#1383/#1385 are closed, but the aggregate P0 source-semantics gate still reports nine blocked rows and direct pinned-PDF page observation is unavailable in the current connector/runtime.
+  known_problems:
+    - The pinned WRC PDF is present at Git blob ce861233928154145a9257efbbf8dbef3f5a17d1 with raw SHA-256 698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2, but connector binary transport does not expose its bytes.
+    - The only retained Poppler source-render artifact identified in repository evidence, artifact 9402093459, expired on 2026-09-19 and cannot be downloaded.
+    - Current GitHub Actions reruns continue to fail before step creation, so the historical source-render workflow cannot presently regenerate the artifact.
+    - #1834 and #1852 remain Owner-reserved and are outside this source-semantics EP.
+  deliberate_non_goals:
+    - No WRC numerical-method, interpolation, oracle, tolerance, load-sign, stress-recovery, route-authority, hash-policy, code-compliance, professional-release, deployment, or workflow mutation.
+repository_discovery:
+  - id: DSTEP-WRC02-INPUTS
+    action: INSPECT
+    targets:
+      - validation/emp1/wrc537-2013
+      - validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json
+      - docs/emp1
+    question: Which #1765 fields are already source-qualified by retained focused artifacts, and which remain explicitly unresolved?
+    expected_outputs:
+      - exact source-qualified claims
+      - exact unresolved claims
+      - source hashes and locators
+      - authority/non-authority classification
+    receipt_required: true
+    on_failure: Keep the corresponding profile field unresolved and fail-closed.
+  - id: DSTEP-WRC02-PDF
+    action: VERIFY
+    target: docs/emp1/WRC537_2013.pdf
+    question: Can the controlled pinned PDF be directly rendered/re-observed with byte identity proven before any blocked source claim is promoted?
+    expected_outputs:
+      - raw SHA-256 verification
+      - exact page/section/table/figure locator
+      - direct observation record or truthful NOT_RUN
+    receipt_required: true
+    on_failure: External readable renderings remain observation-only and may not close the source gate.
+  - id: DSTEP-WRC02-CURRENTNESS
+    action: VERIFY_GIT
+    target: live checkout
+    question: Is the activation candidate based on current main with no source/profile drift and a current qualified takeover candidate?
+    expected_outputs:
+      - exact HEAD/base
+      - relevant changed-file set
+      - clean-tree state
+      - material-write readiness
+    receipt_required: true
+    on_failure: Keep EP DRAFT or READ_ONLY and reconcile before material writes.
+inputs:
+  - id: INPUT-WRC02-SOURCE
+    name: Controlled WRC 537 source
+    description: Repository-pinned WRC Bulletin 537 (2013) primary source.
+    authority: Controlled primary source
+    source: docs/emp1/WRC537_2013.pdf
+    resolution_method: Verify Git blob and raw SHA-256, then use direct page rendering for any newly promoted claim.
+    type: PDF
+    units: NA
+    editable: false
+    applicability: CURRENT_EP_REQUIRED
+    resolution: PARTIAL_BINARY_TRANSPORT_BLOCKED
+    consumers:
+      - STEP-WRC02-RECONCILE
+      - STEP-WRC02-PROFILE
+    validation:
+      - Git blob is ce861233928154145a9257efbbf8dbef3f5a17d1.
+      - Raw SHA-256 is 698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2.
+    stale_if:
+      - Controlled source identity changes.
+  - id: INPUT-WRC02-FOCUSED
+    name: Focused source-qualification records
+    description: Closed issue artifacts for geometry, applicability, recovery, stress intensity, material and code-boundary semantics.
+    authority: Retained focused source qualification
+    source: validation/emp1/wrc537-2013/**
+    resolution_method: Consume exact retained claims and unresolved fields; do not reclassify BLOCKED claims without new primary-source basis.
+    type: artifact set
+    units: NA
+    editable: true
+    applicability: CURRENT_STEP_REQUIRED
+    resolution: READY_FOR_RECONCILIATION
+    consumers:
+      - STEP-WRC02-RECONCILE
+      - STEP-WRC02-PROFILE
+    validation:
+      - Source SHA custody remains consistent with INPUT-WRC02-SOURCE.
+    stale_if:
+      - Any focused source artifact changes.
+benchmarks:
+  - id: BENCH-WRC02-GEOMETRY
+    name: Bounded geometry semantic reconstruction
+    purpose: Prove Rm=100 mm, T=20 mm, r0=17.714285714285715 mm, beta=0.155 and gamma=5 reconstruct only from qualified profile inputs and transformations.
+    source: issue #1765 BM-SOURCE-01
+    oracle_class: MANUAL_RECONSTRUCTION
+    payload: Frozen bounded geometry case from #1765.
+    expected: Qualified fields reconstruct exactly; unqualified nominal/corroded/measured/local policy variants remain blocked rather than silently mapped.
+    tolerance: exact semantic mapping; numerical arithmetic within existing floating-point policy only
+    independence: Expected geometry semantics are defined by source records and issue contract, not candidate production output.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-WRC02-1
+      - AC-WRC02-2
+  - id: BENCH-WRC02-SIGNS
+    name: Source-qualified sign and same-location reconstruction
+    purpose: Preserve signed P/Vc/Vl/Mc/Ml/Mt and Au..Dl common-point semantics.
+    source: issue #1765 BM-SOURCE-02 through BM-SOURCE-05
+    oracle_class: MANUAL_RECONSTRUCTION
+    payload: Isolated load polarity, zero-load collapse, common-location superposition and independent stress-intensity reconstruction.
+    expected: Only source-qualified sign/location operations may be asserted; unresolved physical surface/common-point claims remain blocked.
+    tolerance: Existing frozen numerical tolerance only where arithmetic is exercised.
+    independence: Production output cannot define sign or recovery authority.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: PARTIAL_SOURCE_AUTHORITY
+    verifies:
+      - AC-WRC02-3
+      - AC-WRC02-4
+  - id: BENCH-WRC02-SCOPE
+    name: Result-scope falsifier
+    purpose: Prevent valid host-shell WRC results from being relabeled as nozzle/weld/global/code-compliant outputs.
+    source: issue #1765 BM-SOURCE-07
+    oracle_class: CONTRACT
+    payload: NOZZLE_WALL_STRESS, WELD_STRESS, WRC297_RESULT, CODE_COMPLIANT, GLOBAL_ABSOLUTE_MAXIMUM relabel attempts.
+    expected: Each unauthorized claim is rejected or explicitly classified outside authority.
+    tolerance: null
+    independence: Scope boundary is source/contract authority, not candidate numerical agreement.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-WRC02-5
+scope:
+  allowed:
+    - path: validation/emp1/wrc537-2013/**
+      reason: Reconcile source semantics and add a bounded profile only from retained or newly direct-observed source authority.
+    - path: validation/emp1/release/**
+      reason: Update the aggregate P0 source-semantics projection only when its underlying rows genuinely change.
+    - path: docs/emp1/**
+      reason: Retain source locators/profile documentation without rewriting the controlled PDF.
+    - path: scripts/emp1-wrc537-*
+      reason: Add/repair source-semantics consistency and falsifier checks only.
+    - path: scripts/emp1-professional-p0-source-semantics-check.mjs
+      reason: Reconcile aggregate readiness logic only after genuine row closure.
+    - path: agents/relay/**
+      reason: V2.5 qualification, takeover, progress, quality, checkpoint and delivery custody.
+  allowed_reads:
+    - path: src/core/emp1/**
+      reason: Verify current route consumes the same bounded semantics without changing mechanics.
+  protected:
+    - invariant: WRC equations, curve/coefficient data, expected stresses, benchmark/oracle values and tolerances remain unchanged.
+      reason: #1765 is semantic source integration, not numerical requalification.
+    - invariant: Gamma=5 exact-row, beta 0.05..0.50, dP=0, Kn=Kb=1 and host-shell-only route boundaries remain unchanged.
+      reason: Wider capability belongs to separate qualification/Owner decisions.
+    - invariant: Code compliance remains NOT_ASSESSED and professional release remains false.
+      reason: Source semantics closure is not downstream code or release authorization.
+  prohibited:
+    - domain: .github/workflows/**
+      reason: Workflow mutation is not authorized by this future EP.
+    - domain: non-tabulated-gamma interpolation authority
+      reason: Owner decision #1834 remains pending.
+    - domain: resultHash authority
+      reason: Owner decision #1852 remains pending.
+    - domain: expected-value/tolerance modification
+      reason: Cannot close source semantics by fitting numerical evidence.
+  owner_reserved:
+    - decision: Any engineering-policy assumption used to replace absent WRC primary-source authority.
+      reason: #1765 requires source authority or explicit policy; the candidate may not invent one.
+implementation_plan:
+  - id: STEP-WRC02-RECONCILE
+    objective: Build an exact field-by-field ledger from the ten closed focused issues and classify each #1765 requirement as qualified, outside bounded profile, or still blocked.
+    targets:
+      - validation/emp1/wrc537-2013/**
+      - validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json
+    reads:
+      - INPUT-WRC02-SOURCE
+      - INPUT-WRC02-FOCUSED
+    writes:
+      - agents/relay/**
+      - bounded reconciliation artifact under validation/emp1/wrc537-2013 only after activation
+    inputs:
+      - INPUT-WRC02-SOURCE
+      - INPUT-WRC02-FOCUSED
+    acceptance:
+      - AC-WRC02-1
+      - AC-WRC02-2
+      - AC-WRC02-3
+      - AC-WRC02-4
+      - AC-WRC02-5
+    tests:
+      - TEST-WRC02-LEDGER
+    expected_state: Every required semantic field has one explicit authority state and exact durable basis; no BLOCKED row is promoted from secondary/OCR/production evidence.
+    stop_conditions:
+      - Stop on any contradiction between retained focused records and the pinned source.
+      - Stop if closure would require an unrecorded engineering policy.
+  - id: STEP-WRC02-PROFILE
+    objective: If and only if sufficient direct source authority exists, create the immutable bounded source-semantics profile and reconcile the aggregate gate/checker.
+    targets:
+      - validation/emp1/wrc537-2013
+      - validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json
+      - scripts/emp1-professional-p0-source-semantics-check.mjs
+    reads:
+      - STEP-WRC02-RECONCILE evidence
+    writes:
+      - bounded source profile
+      - aggregate projection/checker
+      - documentation and relay custody
+    inputs:
+      - INPUT-WRC02-SOURCE
+      - INPUT-WRC02-FOCUSED
+    acceptance:
+      - AC-WRC02-6
+      - AC-WRC02-7
+    tests:
+      - TEST-WRC02-PROFILE
+      - TEST-WRC02-FALSIFIERS
+    expected_state: Professional P0 source semantics is either genuinely READY for the bounded profile or remains explicitly BLOCKED with exact unresolved fields.
+    stop_conditions:
+      - Do not promote a field without pinned-source or explicitly authorized policy basis.
+next_work:
+  phase_transition: true
+  steps:
+    - order: 1
+      action: When WP-1765 becomes the computed frontier, obtain a fresh independent Q1-Q5 question set and qualification receipt, then perform takeover certification before any material source-semantics write.
+      targets:
+        - agents/relay/certifications/qualification
+        - agents/relay/certifications/discovery
+        - agents/relay/certifications/takeover
+      inputs:
+        - INPUT-WRC02-SOURCE
+        - INPUT-WRC02-FOCUSED
+      tests:
+        - TEST-WRC02-LEDGER
+      benchmarks:
+        - BENCH-WRC02-GEOMETRY
+        - BENCH-WRC02-SIGNS
+        - BENCH-WRC02-SCOPE
+      acceptance:
+        - AC-WRC02-1
+      expected_result: A qualified candidate can explain the production/source boundary and first safe reconciliation slice without relying on conversation context.
+      stop_if:
+        - WP-1765 is not the computed frontier.
+        - Candidate prepared its own QSET or self-evaluated.
+qualification_boundary:
+  required: true
+  trigger: PHASE_CHANGED
+  from_phase: PH-1711
+  to_phase: PH-WRC-P0
+  changed_dimensions:
+    - ENGINEERING_AUTHORITY
+    - INPUT_AUTHORITY
+    - PROTECTED_INVARIANT
+    - VERIFICATION_ORACLE
+  basis:
+    - https://github.com/reallaksh19/Advanced_Analysis/issues/1765
+    - agents/relay/roadmap/owner-decisions/ODR-0002.yaml
+    - agents/relay/roadmap/OVERALL_ROADMAP.yaml@RM-0008
+  question_set: null
+quality:
+  applicable:
+    - blueprint: engineering-numerics
+      reason: Source semantics control the meaning/applicability of engineering quantities even though numerical formulas are protected.
+      review_focus:
+        - geometry basis
+        - signed recovery/common-point semantics
+        - stress-intensity meaning
+        - scope non-expansion
+    - blueprint: testing
+      reason: Closure requires falsifiers and exact source/profile consistency checks.
+      review_focus:
+        - source/projection drift
+        - fail-closed unresolved states
+    - blueprint: code-review
+      reason: Incorrect custody can silently create engineering authority.
+      review_focus:
+        - source locators
+        - authority separation
+        - immutable historical evidence
+    - blueprint: github-delivery
+      reason: Exact issue/EP/source-evidence correlation is required.
+      review_focus:
+        - issue mapping
+        - source hashes
+        - evidence truth
+  not_applicable:
+    - blueprint: ui-ux
+      reason: No UI change is in this source-semantics EP.
+    - blueprint: accessibility
+      reason: No accessibility surface changes.
+    - blueprint: performance
+      reason: Performance is not an acceptance dimension.
+    - blueprint: migration
+      reason: No persisted data migration is planned.
+acceptance:
+  - id: AC-WRC02-1
+    description: T, Rm and r0 have explicit bounded source meanings, transformations and unresolved assessment-policy boundaries.
+    weight: 15
+    verification:
+      - TEST-WRC02-LEDGER
+      - BENCH-WRC02-GEOMETRY
+  - id: AC-WRC02-2
+    description: Allowed attachment class, physical reference axis and isolation requirements are explicit and fail closed outside qualified scope.
+    weight: 15
+    verification:
+      - TEST-WRC02-LEDGER
+  - id: AC-WRC02-3
+    description: P,Vc,Vl,Mc,Ml,Mt and Au..Dl signed recovery/common-point semantics are source-qualified or explicitly unresolved.
+    weight: 20
+    verification:
+      - TEST-WRC02-LEDGER
+      - BENCH-WRC02-SIGNS
+  - id: AC-WRC02-4
+    description: Stress-intensity reconstruction authority is explicit and does not infer unqualified plane-stress/principal-stress details.
+    weight: 15
+    verification:
+      - TEST-WRC02-LEDGER
+      - BENCH-WRC02-SIGNS
+  - id: AC-WRC02-5
+    description: Material/theory, host-shell-only result scope and code boundary are explicit; code compliance remains NOT_ASSESSED.
+    weight: 15
+    verification:
+      - TEST-WRC02-LEDGER
+      - BENCH-WRC02-SCOPE
+  - id: AC-WRC02-6
+    description: Every resolved profile datum retains exact document/hash/page/section/table/figure/equation basis, and every unresolved release-critical datum remains blocked.
+    weight: 10
+    verification:
+      - TEST-WRC02-PROFILE
+  - id: AC-WRC02-7
+    description: The aggregate source-semantics gate/checker truthfully reflects the underlying profile without changing production numerics or release authority.
+    weight: 10
+    verification:
+      - TEST-WRC02-PROFILE
+      - TEST-WRC02-FALSIFIERS
+validation:
+  - id: TEST-WRC02-LEDGER
+    class: MUST_PASS
+    method: Reconcile all retained focused source artifacts against #1765 requirements and the pinned WRC source identity; no BLOCKED claim may be promoted from secondary/OCR/production evidence.
+    proves:
+      - AC-WRC02-1
+      - AC-WRC02-2
+      - AC-WRC02-3
+      - AC-WRC02-4
+      - AC-WRC02-5
+  - id: TEST-WRC02-PROFILE
+    class: MUST_PASS
+    method: Execute the bounded source-semantics profile/checker on the exact activation head after direct source evidence is available.
+    proves:
+      - AC-WRC02-6
+      - AC-WRC02-7
+  - id: TEST-WRC02-FALSIFIERS
+    class: MUST_PASS
+    method: Run geometry/sign/scope falsifiers and prove unauthorized domains remain fail-closed without oracle/tolerance changes.
+    proves:
+      - AC-WRC02-2
+      - AC-WRC02-3
+      - AC-WRC02-5
+      - AC-WRC02-7
+failure_and_stop_conditions:
+  hard_stop_categories:
+    - OWNER_DECISION_REQUIRED
+    - ESSENTIAL_INPUT_MISSING
+    - AUTHORITY_VIOLATION
+    - PROTECTED_INVARIANT_FAILURE
+    - WRITE_COLLISION
+    - SUPERSEDED_EP
+    - ROADMAP_CONFLICT
+    - REPOSITORY_STATE_CONFLICT
+    - UNSAFE_ENGINEERING_RESULT
+checkpoint_contract:
+  required: true
+successor_relay:
+  required: true
+  duties:
+    - reconcile source-semantics acceptance
+    - compute whether WP-1768 and WP-1772 become eligible
+    - retain unresolved source blockers without authority inflation
+    - update issue projection and progress
