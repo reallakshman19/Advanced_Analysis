@@ -8,7 +8,7 @@ relay_protocol:
   basis_ref: github:reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
 roadmap:
   id: RM-LAFEA-MESH-COMPLETION
-  revision: RM-0007
+  revision: RM-0008
   path: agents/relay/roadmap/OVERALL_ROADMAP.yaml
 current_position:
   objective: OBJ-1710
@@ -21,6 +21,7 @@ active_ep:
   id: EP-LAFEA3-C3C6-1856
   path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
   state: ACTIVE
+  continuity_receipt: agents/relay/roadmap/continuity/RC-0001.yaml
 last_checkpoint:
   id: NONE
   path: null
@@ -35,22 +36,23 @@ progress:
   overall_percent: 0
   phase_percent: 0
   ep_percent: 10
-  basis_revision: PB-0007
+  basis_revision: PB-0008
 status_planes:
   execution:
     state: ACTIVE
     can_continue: true
     material_authority: WRITE
-    next_action: Execute the C3-C.6 matrix and 19-step aggregate on the post-merge verification PR. WP-1771 is the first prepared successor after WP-1769; WP-1773 remains owner-review-required so SERIAL policy exposes no parallel material frontier.
+    next_action: Execute the C3-C.6 matrix and 19-step aggregate on the post-merge verification basis. EMP.1/WRC WP-1765 is retained as FUTURE successor custody only; it cannot activate until the serial frontier changes and fresh Q1-Q5 qualification/takeover is complete.
   quality:
     state: NEEDS_ATTENTION
     findings:
       - Applicable V2.5 quality procedures have not yet been reviewed on an exact checkpoint basis.
       - Top-level #1710/#1711 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
-      - C3-D/E/F/G successor work packages are now represented, but none is active while WP-1769 remains unresolved.
+      - C3-D/E/F/G successor work packages are represented, but none is active while WP-1769 remains unresolved.
+      - EMP.1/WRC WP-1765/WP-1768/WP-1772/WP-1775 are now retained as FUTURE programme custody under RM-0008 and do not create a parallel material route.
   evidence:
     state: PARTIAL
-    summary: C3-C implementation is merged to main at 4b4a214118d22f27a2e934c0d75cd346fa16b63c; dynamic C3-C.6 matrix and aggregate evidence remain NOT_RUN because available GitHub Actions attempts received no runner.
+    summary: C3-C implementation is merged; dynamic C3-C.6 matrix and aggregate evidence remain NOT_RUN because available GitHub Actions attempts received no runner. RM-0008 adds future EMP.1/WRC successor custody without changing the active WP-1769 route.
     not_run:
       - id: TEST-C3C6-MATRIX
         reason: Dedicated exact-head workflow attempts executed zero steps because no runner was assigned.
@@ -68,7 +70,7 @@ projection:
   state: NOT_REQUIRED
   operation_id: null
   target: null
-  roadmap_revision: RM-0007
+  roadmap_revision: RM-0008
   execution_ref: NONE
   receipt: null
   basis: []
