@@ -1,5 +1,5 @@
 schema_version: relay-v2.5
-graph_revision: IG-0002
+graph_revision: IG-0003
 nodes:
   - id: ISSUE-1710
     role: ROADMAP_PARENT
@@ -34,6 +34,42 @@ nodes:
       issue_number: 1856
       issue_id: null
       url: https://github.com/reallaksh19/Advanced_Analysis/issues/1856
+  - id: ISSUE-1771
+    role: WORK_PACKAGE
+    roadmap_node: WP-1771
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1771
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1771
+  - id: ISSUE-1773
+    role: WORK_PACKAGE
+    roadmap_node: WP-1773
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1773
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1773
+  - id: ISSUE-1774
+    role: WORK_PACKAGE
+    roadmap_node: WP-1774
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1774
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1774
+  - id: ISSUE-1776
+    role: WORK_PACKAGE
+    roadmap_node: WP-1776
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1776
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1776
 relationships:
   - from: ISSUE-1710
     relation: PARENT_OF
@@ -44,3 +80,30 @@ relationships:
   - from: ISSUE-1769
     relation: PARENT_OF
     to: ISSUE-1856
+  - from: ISSUE-1711
+    relation: PARENT_OF
+    to: ISSUE-1771
+  - from: ISSUE-1711
+    relation: PARENT_OF
+    to: ISSUE-1773
+  - from: ISSUE-1711
+    relation: PARENT_OF
+    to: ISSUE-1774
+  - from: ISSUE-1711
+    relation: PARENT_OF
+    to: ISSUE-1776
+  - from: ISSUE-1771
+    relation: DEPENDS_ON
+    to: ISSUE-1769
+  - from: ISSUE-1773
+    relation: DEPENDS_ON
+    to: ISSUE-1769
+  - from: ISSUE-1774
+    relation: DEPENDS_ON
+    to: ISSUE-1771
+  - from: ISSUE-1774
+    relation: DEPENDS_ON
+    to: ISSUE-1773
+  - from: ISSUE-1776
+    relation: DEPENDS_ON
+    to: ISSUE-1774

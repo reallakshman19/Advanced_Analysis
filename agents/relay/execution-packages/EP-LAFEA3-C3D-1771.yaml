@@ -1,0 +1,701 @@
+schema_version: relay-v2.5
+identity:
+  ep_id: EP-LAFEA3-C3D-1771
+  branch: engineering/lafea3-c3d-1771
+  base_ref: 4b4a214118d22f27a2e934c0d75cd346fa16b63c
+  execution_state: DRAFT
+  previous_checkpoint: NONE
+  previous_join: null
+  previous_replan: null
+replan_inheritance: null
+git_basis:
+  expected_branch: engineering/lafea3-c3d-1771
+  material_ref: 4b4a214118d22f27a2e934c0d75cd346fa16b63c
+  base_branch: main
+  base_observed_ref: 4b4a214118d22f27a2e934c0d75cd346fa16b63c
+  drift_policy: RECHECK_BEFORE_WRITE
+  drift_receipt: null
+roadmap_source:
+  roadmap_id: RM-LAFEA-MESH-COMPLETION
+  roadmap_revision: RM-0007
+  objective: OBJ-1710
+  phase: PH-1711
+  work_package: WP-1771
+  generated_from_frontier: false
+outcome:
+  user_visible:
+    - C3-D is qualified only for production-route continuum response, solver robustness and convergence that actually execute through the governed LAFEA.3 route.
+  engineering:
+    - Reuse the existing B02, BM-005, B01 high-order and B-bar evidence surfaces; add orchestration or production repair only at a demonstrated missing or failing boundary.
+context_capsule:
+  product_goal: Complete the LAFEA.3 architecture path with production-route numerical response evidence rather than kernel-only evidence.
+  roadmap_position: OBJ-1710 / PH-1711 / planned WP-1771 after unresolved WP-1769.
+  why_this_work_exists: Issue #1771 requires B02 response, equilibrium, distorted quadratic mapping, near-incompressible plane-strain and convergence evidence on the ordinary production route.
+  current_architecture: The repository already has the B02 production sequence, BM-005 ordinary-route workbench harness, B01 high-order element qualification and a separately bounded plane-strain B-bar route.
+  prior_owner_decisions:
+    - ODR-0001
+  current_implementation_state: Existing scripts cover most requested C3-D mechanics and benchmark cases, but no current exact-head C3-D composition execution has been retained and C3-C predecessor acceptance remains NOT_RUN / INFRASTRUCTURE.
+  known_problems:
+    - WP-1769 / issue #1769 is still unresolved because C3-C.6 and the current 19-step aggregate have not executed.
+    - Hosted GitHub Actions jobs continue to receive runner_id 0 and execute zero steps.
+    - No dedicated C3-D aggregate/workflow has been established as current authority; existing constituent checks must first be reconciled by fresh qualification.
+  deliberate_non_goals:
+    - No tolerance relaxation, oracle fitting, solver formulation change, mesh-quality relaxation, stress-smoothing promotion, or release-authority change.
+    - Do not duplicate already-qualified B01 element mechanics merely to satisfy C3-D.
+  terminology:
+    ordinary_route: Source/domain intent through retained mesh, canonical model, governed solve/recovery, fixed physical probes and convergence/result custody.
+    no_patch: Existing production and qualification surfaces are sufficient once composed/executed; no mechanics mutation is justified.
+repository_discovery:
+  - id: DSTEP-C3D-ROUTE
+    action: VERIFY
+    target: agents/relay/REPO_STATE.yaml
+    question: Is WP-1771 actually on the computed serial frontier after WP-1769 completes, with this EP promoted from DRAFT only after predecessor reconciliation?
+    expected_outputs:
+      - current roadmap revision
+      - computed frontier
+      - predecessor WP-1769 disposition
+      - active execution package
+    receipt_required: true
+    on_failure: Keep EP-LAFEA3-C3D-1771 non-executable and reconcile predecessor/roadmap custody.
+  - id: DSTEP-C3D-EXISTING-EVIDENCE
+    action: INSPECT
+    targets:
+      - scripts/lafea-b02-production-sequence-check.mjs
+      - scripts/lafea.3-bm005-ordinary-route-check.mjs
+      - scripts/lafea-b01-final-qualification.mjs
+      - scripts/lafea-plane-strain-bbar-lame-check.mjs
+    question: Which #1771 acceptance obligations are already represented by existing production-route or independent qualification surfaces, and where is a composition gap still real?
+    expected_outputs:
+      - B02A-B02E coverage map
+      - BM-005 route/custody map
+      - distorted T6/Q8 evidence map
+      - near-incompressible plane-strain evidence map
+      - explicit NO_PATCH or first missing composition boundary
+    receipt_required: true
+    on_failure: Do not create a new aggregate or modify mechanics until the missing surface is identified exactly.
+  - id: DSTEP-C3D-GIT
+    action: VERIFY_GIT
+    target: live checkout
+    question: Does the activation candidate match the declared main/material basis with no qualification-relevant drift?
+    expected_outputs:
+      - branch
+      - exact HEAD
+      - main/base SHA
+      - relevant changed-file set
+      - clean-tree state
+    receipt_required: true
+    on_failure: Drop material WRITE authority and reconcile the candidate before execution.
+inputs:
+  - id: INPUT-C3D-PREDECESSOR
+    name: C3-C predecessor acceptance
+    description: C3-D may not become executable until WP-1769 is reconciled and the #1856 currentness slice has actual executable disposition.
+    authority: Roadmap dependency plus issues #1769 and #1856
+    source: agents/relay/roadmap/OVERALL_ROADMAP.yaml
+    resolution_method: Resolve WP-1769 state, #1856 state and the latest exact-head C3-C evidence from repository/GitHub custody.
+    type: dependency state
+    units: NA
+    editable: false
+    applicability: CURRENT_EP_REQUIRED
+    resolution: MISSING_BLOCKING
+    consumers:
+      - STEP-C3D-BASELINE
+      - STEP-C3D-DISPOSITION
+    validation:
+      - WP-1769 must be COMPLETE or otherwise explicitly reconciled before EP-LAFEA3-C3D-1771 is promoted to executable.
+    stale_if:
+      - WP-1769 or #1856 state changes.
+      - Current C3-C evidence basis changes.
+  - id: INPUT-C3D-ISSUE
+    name: C3-D acceptance contract
+    description: Owner-authored issue #1771 defines the response, equilibrium, mapping, incompressibility and convergence obligations.
+    authority: GitHub issue #1771 under #1711
+    source: https://github.com/reallaksh19/Advanced_Analysis/issues/1771
+    resolution_method: Read the current issue body and reconcile any changed acceptance before activation.
+    type: issue contract
+    units: NA
+    editable: false
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-C3D-BASELINE
+      - STEP-C3D-DISPOSITION
+    validation:
+      - Issue remains open and its predecessor/dependency declarations still match RM-0007.
+    stale_if:
+      - Issue #1771 acceptance, predecessor or claim boundary changes.
+  - id: INPUT-C3D-EXISTING
+    name: Existing production qualification surfaces
+    description: Current B02 production sequence, BM-005, B01 final qualification and B-bar Lamé route are the first surfaces to reuse.
+    authority: Repository current-main source
+    source: main@4b4a214118d22f27a2e934c0d75cd346fa16b63c
+    resolution_method: Re-resolve exact blobs for the declared scripts and their frozen benchmark definitions before activation.
+    type: source custody set
+    units: NA
+    editable: true
+    applicability: CURRENT_STEP_REQUIRED
+    resolution: READY
+    consumers:
+      - STEP-C3D-BASELINE
+    validation:
+      - Each named script and required benchmark definition exists on the activation basis.
+    stale_if:
+      - Any named script, benchmark definition, oracle source or main basis changes.
+benchmarks:
+  - id: BENCH-C3D-B02
+    name: B02 production response sequence
+    purpose: Exercise B02A bending, B02B shear, B02C Kirsch/hole, B02D lug/pinhole and B02E convergence policy through existing production qualification surfaces.
+    source: scripts/lafea-b02-production-sequence-check.mjs
+    oracle_class: REFERENCE_DATA
+    payload: Existing frozen B02 definitions and their production sequence; production output may not redefine expected values or tolerances.
+    expected: Constituent checks emit PASS and the sequence emits the B02E production qualification receipt without granting release authority.
+    tolerance: Existing frozen B02 tolerances only.
+    independence: Frozen definitions/oracles predate current C3-D observation and individual cases include analytical or independently reconstructed references.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-C3D-1
+      - AC-C3D-2
+      - AC-C3D-5
+    stale_if:
+      - B02 frozen definitions, production sequence, oracle authority or tolerances change.
+  - id: BENCH-C3D-BM005
+    name: BM-005 ordinary-route Lamé audit
+    purpose: Prove source/domain to mesh, solve/recovery, fixed-probe convergence and report custody on one ordinary production case.
+    source: scripts/lafea.3-bm005-ordinary-route-check.mjs
+    oracle_class: ANALYTICAL
+    payload: Frozen BM-005 Lamé thick-cylinder definition, independent source registry, four-level mesh ladder and report contract.
+    expected: Exact candidate head and clean-tree evidence with PASS route/probe/convergence report and releaseQualified false.
+    tolerance: Frozen BM-005 report/benchmark tolerances only.
+    independence: Lamé oracle is source-controlled independently of production output and report custody rejects stale or self-selected evidence.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-C3D-1
+      - AC-C3D-2
+      - AC-C3D-5
+      - AC-C3D-6
+    stale_if:
+      - BM-005 benchmark, source registry, report contract or route implementation changes.
+  - id: BENCH-C3D-MAPPING
+    name: Distorted T6/Q8 mapping baseline
+    purpose: Preserve existing high-order mapping, affine consistency and non-positive-Jacobian fail-closed evidence while C3-D exercises production response.
+    source: scripts/lafea-b01-final-qualification.mjs
+    oracle_class: MANUAL_RECONSTRUCTION
+    payload: Existing B01 T6/Q8 distorted/affine mapping and Jacobian qualification; C3-D must consume rather than weaken it.
+    expected: Current high-order mapping qualification remains passing on an executed basis and invalid mappings remain rejected before accepted response.
+    tolerance: Existing B01 qualification tolerances only.
+    independence: Mapping expectations are derived from element geometry/interpolation identities independently of B02 production outputs.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-C3D-3
+    stale_if:
+      - T6/Q8 formulation, integration rule, Jacobian gate or B01 mapping fixtures change.
+  - id: BENCH-C3D-BBAR
+    name: Near-incompressible plane-strain B-bar qualification
+    purpose: Bound the supported near-incompressible plane-strain regime without silently accepting locking-prone displacement-only behavior.
+    source: scripts/lafea-plane-strain-bbar-lame-check.mjs
+    oracle_class: ANALYTICAL
+    payload: Frozen plane-strain B-bar Lamé definition, nu ladder, T6/Q8 mesh ladders, distortion matrix and fixed probes.
+    expected: Qualified B-bar cases satisfy their frozen error/convergence envelope and unsupported formulation/load combinations fail closed.
+    tolerance: Frozen plane-strain B-bar qualification tolerances only.
+    independence: Analytical Lamé reference and frozen nu/mesh/probe definitions are not selected from candidate output.
+    applicability: CURRENT_EP_REQUIRED
+    resolution: READY
+    verifies:
+      - AC-C3D-4
+    stale_if:
+      - B-bar formulation, nu envelope, benchmark definition, mesh ladder, oracle or tolerance changes.
+scope:
+  allowed:
+    - path: scripts/lafea.3-c3d-*
+      reason: C3-D-only orchestration/qualification may be added if fresh qualification proves existing composition insufficient.
+    - path: agents/relay
+      reason: V2.5 qualification, takeover, progress, quality, checkpoint and successor custody.
+    - path: agents/chains/ADV-LAFEA3-C3D-1771
+      reason: C3-D-specific source/evidence custody if needed.
+  allowed_reads:
+    - path: scripts/lafea-b02*
+      reason: Reuse B02 production response and convergence surfaces.
+    - path: scripts/lafea.3-bm005-*
+      reason: Reuse ordinary-route Lamé audit and report contract.
+    - path: scripts/lafea-b01*
+      reason: Reuse high-order mapping/element baseline rather than duplicate it.
+    - path: scripts/lafea-plane-strain-bbar-*
+      reason: Reuse near-incompressible plane-strain qualification.
+    - path: src/core/local-continuum
+      reason: Trace first wrong numerical owner only after a real executed failure.
+    - path: src/workspace
+      reason: Trace ordinary-route/currentness/custody behavior.
+  protected:
+    - invariant: Existing frozen B02, BM-005, B01 and B-bar oracles/tolerances remain independent of observed C3-D output.
+      reason: Prevent benchmark fitting.
+    - invariant: T6/Q8 production element policy and current Jacobian fail-closed rules remain unchanged unless a fresh qualified failure proves the owning implementation is wrong.
+      reason: C3-D is production response qualification, not permission to weaken element mechanics.
+    - invariant: Authoritative stress/recovery semantics remain owned by C3-E; C3-D may consume fixed declared quantities but may not promote display smoothing to authority.
+      reason: Preserve #1773 scope boundary.
+  prohibited:
+    - domain: tolerance or oracle relaxation
+      reason: Cannot obtain qualification by moving acceptance.
+    - domain: display-only smoothing/projection as numerical authority
+      reason: Owned by C3-E and explicitly prohibited by #1771/#1773.
+    - domain: release/registry claim promotion
+      reason: Owned by C3-G.
+    - domain: unrelated LAFEA.4+, EMP.1, piping or non-FEA work
+      reason: Preserve one-WP scope.
+  owner_reserved:
+    - decision: Promote this DRAFT EP to executable before WP-1769 is reconciled.
+      reason: Would violate the serial dependency frontier.
+    - decision: Add or change GitHub workflow YAML for C3-D.
+      reason: Repository AGENTS policy requires explicit workflow-file authorization at the time of material execution.
+anti_drift:
+  do_not:
+    - id: ADR-C3D-1
+      restriction: Do not write production mechanics before fresh C3-D qualification and a real executed failure identify the first wrong owner.
+      reason: Existing qualification estate may already satisfy the issue once composed and executed.
+    - id: ADR-C3D-2
+      restriction: Do not substitute kernel-only PASS, historical PASS or zero-step workflow outcomes for current production-route execution.
+      reason: C3-D requires actual ordinary-route response/convergence evidence.
+    - id: ADR-C3D-3
+      restriction: Do not change B02/BM-005/B01/B-bar expected values or tolerances based on observed production results.
+      reason: Preserve anti-circularity.
+  stale_if:
+    - id: STALE-C3D-1
+      condition: WP-1769 disposition or RM-0007 dependencies change before activation.
+      effect: RECONCILE
+      rationale: Successor routing basis changed.
+    - id: STALE-C3D-2
+      condition: Main changes a C3-D constituent script, benchmark/oracle definition, local-continuum numerical implementation or workbench route before activation.
+      effect: RECONCILE
+      rationale: Draft source inventory and material basis are no longer current.
+implementation_plan:
+  - id: STEP-C3D-BASELINE
+    objective: After predecessor completion and fresh qualification, execute the strongest existing C3-D constituent surfaces before creating new orchestration or production code.
+    targets:
+      - scripts/lafea-b02-production-sequence-check.mjs
+      - scripts/lafea.3-bm005-ordinary-route-check.mjs
+      - scripts/lafea-b01-final-qualification.mjs
+      - scripts/lafea-plane-strain-bbar-lame-check.mjs
+    reads:
+      - validation/lafea-b02-definitions
+      - validation/lafea-benchmark-data/BM005
+      - validation/lafea-incompressible
+    writes:
+      - agents/chains/ADV-LAFEA3-C3D-1771
+      - agents/relay
+    inputs:
+      - INPUT-C3D-PREDECESSOR
+      - INPUT-C3D-ISSUE
+      - INPUT-C3D-EXISTING
+    acceptance:
+      - AC-C3D-1
+      - AC-C3D-2
+      - AC-C3D-3
+      - AC-C3D-4
+      - AC-C3D-5
+      - AC-C3D-6
+    tests:
+      - TEST-C3D-B02
+      - TEST-C3D-BM005
+      - TEST-C3D-B01
+      - TEST-C3D-BBAR
+    expected_state: Current executable evidence either establishes a NO_PATCH composition path or isolates the first real C3-D gap/failure without changing authority.
+    stop_conditions:
+      - Stop if predecessor C3-C remains unresolved.
+      - Stop if fresh qualification has not produced an independent PASS receipt.
+      - Stop on a protected-invariant or unsafe-engineering finding.
+  - id: STEP-C3D-DISPOSITION
+    objective: Apply only the minimum qualification/orchestration or production repair justified by STEP-C3D-BASELINE, then rerun the full current C3-D acceptance set.
+    targets:
+      - scripts/lafea.3-c3d-*
+      - first demonstrated owning production boundary if and only if execution proves a defect
+    reads:
+      - STEP-C3D-BASELINE retained receipts
+      - issue #1771 acceptance
+    writes:
+      - scripts/lafea.3-c3d-*
+      - agents/chains/ADV-LAFEA3-C3D-1771
+      - agents/relay
+    inputs:
+      - INPUT-C3D-ISSUE
+      - INPUT-C3D-EXISTING
+    acceptance:
+      - AC-C3D-1
+      - AC-C3D-2
+      - AC-C3D-3
+      - AC-C3D-4
+      - AC-C3D-5
+      - AC-C3D-6
+      - AC-C3D-7
+    tests:
+      - TEST-C3D-B02
+      - TEST-C3D-BM005
+      - TEST-C3D-B01
+      - TEST-C3D-BBAR
+      - TEST-C3D-IMPORTS
+      - TEST-C3D-DIFF
+    expected_state: #1771 has exact-head PASS/FAIL/NOT_RUN evidence for every claimed C3-D obligation, with no acceptance weakening.
+    stop_conditions:
+      - Stop before production mutation if the observed failure belongs to C3-E result authority or another work package.
+      - Stop rather than relax an oracle/tolerance or bypass currentness.
+next_work:
+  phase_transition: false
+  steps:
+    - order: 1
+      action: After WP-1769 is checkpointed, obtain a fresh independent FEA Q1-Q5 question set and qualification receipt for EP-LAFEA3-C3D-1771 before promoting it from DRAFT.
+      targets:
+        - agents/relay/certifications/qualification
+        - agents/relay/execution-packages/EP-LAFEA3-C3D-1771.yaml
+      inputs:
+        - INPUT-C3D-PREDECESSOR
+        - INPUT-C3D-ISSUE
+        - INPUT-C3D-EXISTING
+      tests:
+        - TEST-C3D-B02
+      benchmarks:
+        - BENCH-C3D-B02
+        - BENCH-C3D-BM005
+        - BENCH-C3D-MAPPING
+        - BENCH-C3D-BBAR
+      acceptance:
+        - AC-C3D-1
+      expected_result: Independent qualification defines the exact activation boundary and either confirms the reuse-first/NO_PATCH strategy or identifies a specific missing C3-D surface.
+      stop_if:
+        - WP-1769 remains unresolved.
+        - Candidate attempts to author its own QSET or self-certify the qualification.
+qualification_boundary:
+  required: true
+  trigger: MATERIAL_QUALIFICATION_BOUNDARY_CHANGE
+  from_phase: PH-1711/C3-C
+  to_phase: PH-1711/C3-D
+  changed_dimensions:
+    - ordinary production response and equilibrium authority
+    - convergence classification and uncertainty evidence
+    - distorted quadratic mapping under production response
+    - near-incompressible plane-strain support boundary
+  basis:
+    - https://github.com/reallaksh19/Advanced_Analysis/issues/1771
+    - agents/relay/roadmap/OVERALL_ROADMAP.yaml@RM-0007
+  question_set: null
+quality:
+  applicable:
+    - blueprint: coding
+      reason: C3-D may add qualification orchestration and conditionally repair an executed production defect.
+      review_focus:
+        - minimal owning boundary
+        - failure semantics
+        - no benchmark-specific production branching
+    - blueprint: testing
+      reason: C3-D acceptance is dominated by executable ordinary-route benchmark and negative evidence.
+      review_focus:
+        - B02/BM-005 coverage
+        - deterministic replay
+        - negative/fail-closed behavior
+    - blueprint: engineering-numerics
+      reason: C3-D qualifies continuum response, equilibrium, convergence, distorted mapping and near-incompressible behavior.
+      review_focus:
+        - force and moment equilibrium
+        - final residual
+        - energy consistency
+        - mesh-order/Richardson/GCI validity
+        - locking and Jacobian envelopes
+    - blueprint: code-review
+      reason: Numerical and qualification changes require independent review against frozen authority.
+      review_focus:
+        - anti-circularity
+        - source custody
+        - first-wrong-boundary isolation
+    - blueprint: github-delivery
+      reason: Exact-head execution and artifacts are required for issue closure.
+      review_focus:
+        - exact-head custody
+        - PASS/FAIL/NOT_RUN truth
+        - issue/PR correlation
+  not_applicable:
+    - blueprint: software-design
+      reason: This draft assumes no architecture/state-owner redesign; reclassify if fresh qualification proves one is required.
+    - blueprint: ui-ux
+      reason: C3-D owns numerical production-route qualification, not the workbench presentation design.
+    - blueprint: accessibility
+      reason: No accessibility surface is in C3-D scope.
+    - blueprint: performance
+      reason: Runtime performance is not a C3-D acceptance criterion unless a demonstrated solver robustness defect explicitly requires it.
+    - blueprint: migration
+      reason: No persisted schema/data migration is planned.
+  review_contract:
+    required: true
+    required_before_checkpoint: true
+    receipt_namespace: QRV-
+    required_outputs:
+      - procedure_results
+      - findings
+      - owner_report
+      - successor_handover
+  findings_policy: Quality findings remain quality state unless they map to an existing acceptance, authority, protected-invariant, or safety hard-stop condition.
+  ordinary_findings_are_hard_stops: false
+acceptance:
+  - id: AC-C3D-1
+    description: B02A-B02E and at least one BM-005 ordinary-route case execute through retained source/domain/mesh/model/currentness ancestry rather than benchmark-only preassembled arrays.
+    weight: 20
+    verification:
+      - TEST-C3D-B02
+      - TEST-C3D-BM005
+      - BENCH-C3D-B02
+      - BENCH-C3D-BM005
+  - id: AC-C3D-2
+    description: Accepted production-route cases retain final solver residual, force and moment equilibrium, energy evidence and deterministic replay without tolerance relaxation.
+    weight: 15
+    verification:
+      - TEST-C3D-B02
+      - TEST-C3D-BM005
+  - id: AC-C3D-3
+    description: Distorted but valid T6/Q8 mapping remains qualified and non-positive or unsupported mapping fails closed before accepted response.
+    weight: 15
+    verification:
+      - TEST-C3D-B01
+      - BENCH-C3D-MAPPING
+  - id: AC-C3D-4
+    description: The declared near-incompressible plane-strain envelope is either explicitly qualified through B-bar or rejected fail-closed; ordinary displacement-only behavior is not overclaimed.
+    weight: 15
+    verification:
+      - TEST-C3D-BBAR
+      - BENCH-C3D-BBAR
+  - id: AC-C3D-5
+    description: Convergence uses at least three executed retained levels sorted by realized h, fixed physical quantities and reconstructible order/Richardson/GCI classification only where assumptions apply.
+    weight: 15
+    verification:
+      - TEST-C3D-B02
+      - TEST-C3D-BM005
+  - id: AC-C3D-6
+    description: Exact-head evidence preserves source/geometry/mesh/model/solver/result custody and distinguishes current execution from historical or zero-step evidence.
+    weight: 10
+    verification:
+      - TEST-C3D-BM005
+      - TEST-C3D-DIFF
+  - id: AC-C3D-7
+    description: Imports/diff hygiene and applicable regressions remain green on the exact candidate with no oracle/tolerance/release-authority change.
+    weight: 10
+    verification:
+      - TEST-C3D-IMPORTS
+      - TEST-C3D-DIFF
+validation:
+  - id: TEST-C3D-B02
+    class: MUST_PASS
+    method: node scripts/lafea-b02-production-sequence-check.mjs
+    proves:
+      - AC-C3D-1
+      - AC-C3D-2
+      - AC-C3D-5
+  - id: TEST-C3D-BM005
+    class: MUST_PASS
+    method: node scripts/lafea.3-bm005-ordinary-route-check.mjs
+    proves:
+      - AC-C3D-1
+      - AC-C3D-2
+      - AC-C3D-5
+      - AC-C3D-6
+  - id: TEST-C3D-B01
+    class: MUST_PASS
+    method: node scripts/lafea-b01-final-qualification.mjs
+    proves:
+      - AC-C3D-3
+  - id: TEST-C3D-BBAR
+    class: MUST_PASS
+    method: node scripts/lafea-plane-strain-bbar-lame-check.mjs
+    proves:
+      - AC-C3D-4
+  - id: TEST-C3D-IMPORTS
+    class: MUST_PASS
+    method: npm run check:imports
+    proves:
+      - AC-C3D-7
+  - id: TEST-C3D-DIFF
+    class: MUST_PASS
+    method: git diff --check and exact-head changed-file/source-custody review
+    proves:
+      - AC-C3D-6
+      - AC-C3D-7
+failure_and_stop_conditions:
+  hard_stop_categories:
+    - OWNER_DECISION_REQUIRED
+    - ESSENTIAL_INPUT_MISSING
+    - AUTHORITY_VIOLATION
+    - PROTECTED_INVARIANT_FAILURE
+    - WRITE_COLLISION
+    - SUPERSEDED_EP
+    - ROADMAP_CONFLICT
+    - REPOSITORY_STATE_CONFLICT
+    - UNSAFE_ENGINEERING_RESULT
+report_contract:
+  sections:
+    - Executive state
+    - Overall / phase / EP progress
+    - Work completed
+    - Files changed
+    - Acceptance matrix
+    - Tests and evidence
+    - Quality findings
+    - Known limitations
+    - Owner decisions required
+    - GitHub issue changes
+    - Roadmap changes
+    - Exact next actions
+    - Successor EP
+    - Qualification Q1-Q5 when applicable
+  payloads:
+    - id: RPT-C3D-STATE
+      section: Executive state
+      sources:
+        - REPO_STATE
+        - EP
+      required_fields:
+        - relay_state
+        - current_position
+        - execution_state
+        - material_authority
+        - stop
+    - id: RPT-C3D-PROGRESS
+      section: Overall / phase / EP progress
+      sources:
+        - PROGRESS
+        - OVERALL_ROADMAP
+        - EP
+      required_fields:
+        - progress_basis
+        - overall
+        - phase
+        - work_package
+        - step
+        - acceptance
+    - id: RPT-C3D-WORK
+      section: Work completed
+      sources:
+        - EP
+        - CP
+      required_fields:
+        - completed_steps
+        - implementation_result
+    - id: RPT-C3D-FILES
+      section: Files changed
+      sources:
+        - CP
+      required_fields:
+        - files_changed
+    - id: RPT-C3D-AC
+      section: Acceptance matrix
+      sources:
+        - EP
+        - PROGRESS
+        - CP
+      required_fields:
+        - criterion
+        - status
+        - percent
+        - basis
+    - id: RPT-C3D-EVIDENCE
+      section: Tests and evidence
+      sources:
+        - EP
+        - CP
+        - REPO_STATE
+      required_fields:
+        - validation_id
+        - obligation_class
+        - status
+        - basis_ref
+        - not_run_reason
+    - id: RPT-C3D-QUALITY
+      section: Quality findings
+      sources:
+        - EP
+        - QRV
+        - CP
+        - REPO_STATE
+      required_fields:
+        - quality_review
+        - procedures
+        - findings
+        - disposition
+        - execution_effect
+    - id: RPT-C3D-LIMITS
+      section: Known limitations
+      sources:
+        - EP
+        - CP
+        - REPO_STATE
+      required_fields:
+        - limitations
+        - evidence_gaps
+        - deferred_items
+    - id: RPT-C3D-OWNER
+      section: Owner decisions required
+      sources:
+        - ODR
+        - REPO_STATE
+      required_fields:
+        - decision_required
+        - pending_items
+        - authority_effect
+    - id: RPT-C3D-ISSUES
+      section: GitHub issue changes
+      sources:
+        - ISSUE_GRAPH
+        - REPO_STATE
+      required_fields:
+        - operations
+        - relationships
+        - projection_state
+    - id: RPT-C3D-ROADMAP
+      section: Roadmap changes
+      sources:
+        - OVERALL_ROADMAP
+        - ROADMAP_REVISION
+        - PROGRESS
+      required_fields:
+        - revision
+        - topology_or_status_change
+        - frontier_after
+        - progress_basis_effect
+    - id: RPT-C3D-NEXT
+      section: Exact next actions
+      sources:
+        - EP
+      required_fields:
+        - ordered_actions
+        - targets
+        - inputs
+        - tests
+        - benchmarks
+        - acceptance
+        - expected_result
+        - stop_conditions
+    - id: RPT-C3D-SUCCESSOR
+      section: Successor EP
+      sources:
+        - CP
+        - OVERALL_ROADMAP
+        - REPO_STATE
+      required_fields:
+        - successor_mode
+        - next_frontier
+        - ep_or_terminal_disposition
+checkpoint_contract:
+  required: true
+successor_relay:
+  required: true
+  duties:
+    - reconcile current roadmap node
+    - create checkpoint
+    - update progress
+    - update issue projection when applicable
+    - compute next executable frontier
+    - create successor EP when work continues
+    - validate successor EP
+    - run cold-start check
+    - update REPO_STATE
+  required_outputs:
+    - checkpoint
+    - progress_reconciliation
+    - issue_projection_disposition
+    - next_frontier
+    - successor_ep_or_terminal_disposition

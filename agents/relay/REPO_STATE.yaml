@@ -8,7 +8,7 @@ relay_protocol:
   basis_ref: github:reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
 roadmap:
   id: RM-LAFEA-MESH-COMPLETION
-  revision: RM-0005
+  revision: RM-0007
   path: agents/relay/roadmap/OVERALL_ROADMAP.yaml
 current_position:
   objective: OBJ-1710
@@ -30,35 +30,27 @@ predecessor_join:
 predecessor_replan:
   id: null
   path: null
-takeover_admissions:
-  - route_key: SERIAL:EP-LAFEA3-C3C6-1856
-    candidate:
-      agent_instance_id: chatgpt-gpt5.6-sol-c3c6-20260919
-    discovery_receipt:
-      id: DISC-C3C6-0001
-      path: agents/relay/certifications/discovery/DISC-C3C6-0001.yaml
-    certification:
-      id: TC-C3C6-0001
-      path: agents/relay/certifications/takeover/TC-C3C6-0001.yaml
+takeover_admissions: []
 progress:
   overall_percent: 0
   phase_percent: 0
   ep_percent: 10
-  basis_revision: PB-0005
+  basis_revision: PB-0007
 status_planes:
   execution:
     state: ACTIVE
     can_continue: true
     material_authority: WRITE
-    next_action: Execute the exact-head C3-C.6 matrix and 19-step aggregate on the active candidate basis; if execution produces a real engineering failure, repair only the first demonstrated owning boundary without weakening acceptance.
+    next_action: Execute the C3-C.6 matrix and 19-step aggregate on the post-merge verification PR. WP-1771 is the first prepared successor after WP-1769; WP-1773 remains owner-review-required so SERIAL policy exposes no parallel material frontier.
   quality:
     state: NEEDS_ATTENTION
     findings:
       - Applicable V2.5 quality procedures have not yet been reviewed on an exact checkpoint basis.
-      - Top-level #1710/#1711/#1769 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
+      - Top-level #1710/#1711 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
+      - C3-D/E/F/G successor work packages are now represented, but none is active while WP-1769 remains unresolved.
   evidence:
     state: PARTIAL
-    summary: Static aggregate/source-basis wiring is accepted; dynamic C3-C.6 matrix and aggregate evidence remain NOT_RUN because available GitHub Actions attempts received no runner.
+    summary: C3-C implementation is merged to main at 4b4a214118d22f27a2e934c0d75cd346fa16b63c; dynamic C3-C.6 matrix and aggregate evidence remain NOT_RUN because available GitHub Actions attempts received no runner.
     not_run:
       - id: TEST-C3C6-MATRIX
         reason: Dedicated exact-head workflow attempts executed zero steps because no runner was assigned.
@@ -76,7 +68,7 @@ projection:
   state: NOT_REQUIRED
   operation_id: null
   target: null
-  roadmap_revision: RM-0005
+  roadmap_revision: RM-0007
   execution_ref: NONE
   receipt: null
   basis: []
@@ -84,5 +76,6 @@ relay_readiness:
   baton_ready: true
   projection_ready: true
   handover_ready: true
-  reasons: []
+  reasons:
+    - Candidate-specific takeover must be refreshed after post-merge Git-basis reconciliation before any new engineering-material write.
 chat_context_required: false
