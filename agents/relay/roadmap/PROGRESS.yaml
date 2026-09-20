@@ -40,56 +40,56 @@ work_packages:
     percent: 0
 execution_packages:
   - id: EP-LAFEA3-C3C6-1856
-    earned_weight: 10
+    earned_weight: 85
     total_weight: 100
-    percent: 10
+    percent: 85
 implementation_steps:
   - id: STEP-C3C6-FINISH
     ep_id: EP-LAFEA3-C3C6-1856
-    earned_weight: 10
+    earned_weight: 85
     total_weight: 100
-    percent: 10
+    percent: 85
 acceptance_criteria:
   - id: AC-C3C6-1
     ep_id: EP-LAFEA3-C3C6-1856
-    status: NOT_RUN
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 20
     total_weight: 20
-    percent: 0
+    percent: 100
     basis:
-      - Dynamic matrix execution has not run on the current delivery head.
+      - Exact main 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0: standalone matrix exit 0 under local clean-checkout evidence comment 5748430858.
   - id: AC-C3C6-2
     ep_id: EP-LAFEA3-C3C6-1856
-    status: NOT_RUN
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 15
     total_weight: 15
-    percent: 0
+    percent: 100
     basis:
-      - Dynamic positive/negative invalidation assertions have not executed on the current delivery head.
+      - Matrix receipt reports required invalidation and legitimate non-invalidation across governed mutation rows.
   - id: AC-C3C6-3
     ep_id: EP-LAFEA3-C3C6-1856
-    status: NOT_RUN
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 15
     total_weight: 15
-    percent: 0
+    percent: 100
     basis:
-      - Dynamic stale-result rejection has not executed on the current delivery head.
+      - Matrix PASS confirms dependent prior results do not retain CURRENT_RESULT authority after governed ancestor edits.
   - id: AC-C3C6-4
     ep_id: EP-LAFEA3-C3C6-1856
-    status: NOT_RUN
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 15
     total_weight: 15
-    percent: 0
+    percent: 100
     basis:
-      - Edit-after-solve and edit-during-run assertions are present but have not executed on the current delivery head.
+      - Matrix PASS includes edit-after-successful-solve and edit-during-RUNNING transaction supersession.
   - id: AC-C3C6-5
     ep_id: EP-LAFEA3-C3C6-1856
-    status: NOT_RUN
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 10
     total_weight: 10
-    percent: 0
+    percent: 100
     basis:
-      - Unsupported-surface non-claim assertions are present but have not executed on the current delivery head.
+      - Matrix PASS retains explicit fail-closed non-claims for LOAD, SOLVER_CONFIGURATION, and PROBE editable state.
   - id: AC-C3C6-6
     ep_id: EP-LAFEA3-C3C6-1856
     status: COMPLETE
@@ -101,9 +101,9 @@ acceptance_criteria:
       - C3C-SOURCE-BASIS-0016 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
   - id: AC-C3C6-7
     ep_id: EP-LAFEA3-C3C6-1856
-    status: NOT_RUN
+    status: IN_PROGRESS
     earned_weight: 0
     total_weight: 15
     percent: 0
     basis:
-      - The 19-step aggregate has not executed on the current delivery head.
+      - Local evidence reports 19/19 PASS on exact main, but checkpoint acceptance is pending clarification that the checked-in aggregate blob executed unmodified under the noted Windows shell workaround and correction of the source-custody count from 20/20 to the 41 entries actually iterated by basis.sources.
