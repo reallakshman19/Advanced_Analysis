@@ -562,8 +562,36 @@ report_contract:
         - EP
       required_fields:
         - progress_basis
+        - overall
+        - phase
         - work_package
+        - step
         - acceptance
+    - id: RPT-C3D-WORK
+      section: Work completed
+      sources:
+        - EP
+        - CP
+      required_fields:
+        - completed_steps
+        - implementation_result
+    - id: RPT-C3D-FILES
+      section: Files changed
+      sources:
+        - CP
+      required_fields:
+        - files_changed
+    - id: RPT-C3D-AC
+      section: Acceptance matrix
+      sources:
+        - EP
+        - PROGRESS
+        - CP
+      required_fields:
+        - criterion
+        - status
+        - percent
+        - basis
     - id: RPT-C3D-EVIDENCE
       section: Tests and evidence
       sources:
@@ -572,9 +600,85 @@ report_contract:
         - REPO_STATE
       required_fields:
         - validation_id
+        - obligation_class
         - status
         - basis_ref
         - not_run_reason
+    - id: RPT-C3D-QUALITY
+      section: Quality findings
+      sources:
+        - EP
+        - QRV
+        - CP
+        - REPO_STATE
+      required_fields:
+        - quality_review
+        - procedures
+        - findings
+        - disposition
+        - execution_effect
+    - id: RPT-C3D-LIMITS
+      section: Known limitations
+      sources:
+        - EP
+        - CP
+        - REPO_STATE
+      required_fields:
+        - limitations
+        - evidence_gaps
+        - deferred_items
+    - id: RPT-C3D-OWNER
+      section: Owner decisions required
+      sources:
+        - ODR
+        - REPO_STATE
+      required_fields:
+        - decision_required
+        - pending_items
+        - authority_effect
+    - id: RPT-C3D-ISSUES
+      section: GitHub issue changes
+      sources:
+        - ISSUE_GRAPH
+        - REPO_STATE
+      required_fields:
+        - operations
+        - relationships
+        - projection_state
+    - id: RPT-C3D-ROADMAP
+      section: Roadmap changes
+      sources:
+        - OVERALL_ROADMAP
+        - ROADMAP_REVISION
+        - PROGRESS
+      required_fields:
+        - revision
+        - topology_or_status_change
+        - frontier_after
+        - progress_basis_effect
+    - id: RPT-C3D-NEXT
+      section: Exact next actions
+      sources:
+        - EP
+      required_fields:
+        - ordered_actions
+        - targets
+        - inputs
+        - tests
+        - benchmarks
+        - acceptance
+        - expected_result
+        - stop_conditions
+    - id: RPT-C3D-SUCCESSOR
+      section: Successor EP
+      sources:
+        - CP
+        - OVERALL_ROADMAP
+        - REPO_STATE
+      required_fields:
+        - successor_mode
+        - next_frontier
+        - ep_or_terminal_disposition
 checkpoint_contract:
   required: true
 successor_relay:
