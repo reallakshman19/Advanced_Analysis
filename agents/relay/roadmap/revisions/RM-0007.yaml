@@ -1,0 +1,36 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0007
+  from_revision: RM-0006
+  to_revision: RM-0007
+  classification: OWNER_ROADMAP_ALIGNMENT
+  trigger:
+    type: ISSUE_GRAPH_RECONCILIATION
+    ref: github:reallaksh19/Advanced_Analysis/issues/1711
+changes:
+  added:
+    - WP-1771
+    - WP-1773
+    - WP-1774
+    - WP-1776
+  removed: []
+  changed: []
+  unaffected:
+    - OBJ-1710
+    - PH-1711
+    - WP-1769
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0006
+  new_basis: PB-0007
+  old_total_weight: 0
+  new_total_weight: 0
+frontier_after:
+  - WP-1769
+notes:
+  - Adds the existing #1711 C3-D/E/F/G issues to durable V2.5 roadmap custody without activating them.
+  - WP-1771 is DETAILED but depends on unresolved WP-1769, so it is not executable yet.
+  - WP-1773 remains OWNER_REVIEW_REQUIRED even though #1773 permits parallelism with #1771; SERIAL execution policy is preserved and no parallel plan is implied.
+  - WP-1774 depends on WP-1771 and WP-1773; WP-1776 depends on WP-1774.
+  - The active C3-C.6 EP is reconciled to RM-0007 in the same transaction. No FE mechanics, benchmark/oracle, tolerance, workflow, issue closure, or runtime evidence state changed.

@@ -1,8 +1,8 @@
 schema_version: relay-v2.5
 progress_basis:
-  id: PB-0006
-  roadmap_revision: RM-0006
-  note: Top-level #1710/#1711/#1769 denominator is intentionally unclaimed until historical acceptance is reconstructed; current #1856 EP accounting remains bounded below.
+  id: PB-0007
+  roadmap_revision: RM-0007
+  note: Top-level #1710/#1711 and work-package denominators remain intentionally unclaimed until historical acceptance is reconstructed. C3-D/E/F/G are planned successors only; current #1856 EP accounting remains bounded below.
 overall:
   earned_weight: 0
   total_weight: 0
@@ -19,6 +19,22 @@ phases:
     percent: 0
 work_packages:
   - id: WP-1769
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1771
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1773
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1774
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1776
     earned_weight: 0
     total_weight: 0
     percent: 0
