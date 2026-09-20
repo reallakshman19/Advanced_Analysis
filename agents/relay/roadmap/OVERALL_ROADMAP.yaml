@@ -1,9 +1,9 @@
 schema_version: relay-v2.5
 roadmap:
   id: RM-LAFEA-MESH-COMPLETION
-  revision: RM-0007
-  title: FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery
-  revision_record: agents/relay/roadmap/revisions/RM-0007.yaml
+  revision: RM-0008
+  title: Active engineering programme roadmap — LAFEA completion with bounded EMP.1/WRC successor custody
+  revision_record: agents/relay/roadmap/revisions/RM-0008.yaml
 objectives:
   - id: OBJ-1710
     title: FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery
@@ -23,21 +23,21 @@ objectives:
             depends_on: []
           - id: WP-1771
             title: Qualify production-route continuum response, solver robustness, and convergence
-            state: OPEN
+            state: PLANNED
             definition: DETAILED
             execution_status: WAITING
             depends_on:
               - WP-1769
           - id: WP-1773
             title: Define canonical stress/result recovery and engineering-output authority
-            state: OPEN
+            state: PLANNED
             definition: OWNER_REVIEW_REQUIRED
             execution_status: WAITING
             depends_on:
               - WP-1769
           - id: WP-1774
             title: Build independent hand-calculation and auditable V&V package
-            state: OPEN
+            state: PLANNED
             definition: OWNER_REVIEW_REQUIRED
             execution_status: WAITING
             depends_on:
@@ -45,8 +45,51 @@ objectives:
               - WP-1773
           - id: WP-1776
             title: Integrate workbench evidence, align docs/registry, and close qualification claims
-            state: OPEN
+            state: PLANNED
             definition: OWNER_REVIEW_REQUIRED
             execution_status: WAITING
             depends_on:
               - WP-1774
+  - id: OBJ-1760
+    title: Close the bounded EMP.1/WRC professional-use evidence path without silent authority expansion
+    state: FUTURE
+    definition: DEFINED
+    phases:
+      - id: PH-WRC-P0
+        title: Bounded WRC source semantics, exact-head numerical evidence, independent benchmark and release closure
+        state: FUTURE
+        definition: DETAILED
+        work_packages:
+          - id: WP-1765
+            issue: 1765
+            title: Close bounded WRC 537 primary-source semantics for the professional gamma=5 route
+            state: FUTURE
+            definition: DETAILED
+            execution_status: WAITING
+            depends_on: []
+          - id: WP-1768
+            issue: 1768
+            title: Generate genuine gamma5 exact-head qualification evidence 01–12 and prove current-main anti-drift
+            state: FUTURE
+            definition: DETAILED
+            execution_status: WAITING
+            depends_on:
+              - WP-1765
+          - id: WP-1772
+            issue: 1772
+            title: Consolidate independent WRC hand-calculation and CAUx/PV Elite benchmark evidence
+            state: FUTURE
+            definition: DETAILED
+            execution_status: WAITING
+            depends_on:
+              - WP-1765
+          - id: WP-1775
+            issue: 1775
+            title: Close professional EMP.1 product/release path — trace, replay, browser, manifest and deployed-artifact evidence
+            state: FUTURE
+            definition: DETAILED
+            execution_status: WAITING
+            depends_on:
+              - WP-1765
+              - WP-1768
+              - WP-1772
