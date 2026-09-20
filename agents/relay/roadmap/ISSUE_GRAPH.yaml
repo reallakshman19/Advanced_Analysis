@@ -1,5 +1,5 @@
 schema_version: relay-v2.5
-graph_revision: IG-0003
+graph_revision: IG-0004
 nodes:
   - id: ISSUE-1710
     role: ROADMAP_PARENT
@@ -70,6 +70,90 @@ nodes:
       issue_number: 1776
       issue_id: null
       url: https://github.com/reallaksh19/Advanced_Analysis/issues/1776
+  - id: ISSUE-1760
+    role: ROADMAP_PARENT
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1760
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1760
+  - id: ISSUE-1765
+    role: WORK_PACKAGE
+    roadmap_node: WP-1765
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1765
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1765
+  - id: ISSUE-1768
+    role: WORK_PACKAGE
+    roadmap_node: WP-1768
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1768
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1768
+  - id: ISSUE-1772
+    role: WORK_PACKAGE
+    roadmap_node: WP-1772
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1772
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1772
+  - id: ISSUE-1775
+    role: WORK_PACKAGE
+    roadmap_node: WP-1775
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1775
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1775
+  - id: ISSUE-54
+    role: EXTERNAL_INFRASTRUCTURE
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 54
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/54
+  - id: ISSUE-1830
+    role: AUDIT_CONTROL
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1830
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1830
+  - id: ISSUE-1834
+    role: OWNER_DECISION
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1834
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1834
+  - id: ISSUE-1852
+    role: OWNER_DECISION
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1852
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1852
+  - id: ISSUE-1854
+    role: PROGRAMME_CONTROL
+    state: OPEN
+    github_state: OPEN
+    github:
+      issue_number: 1854
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1854
 relationships:
   - from: ISSUE-1710
     relation: PARENT_OF
@@ -107,3 +191,42 @@ relationships:
   - from: ISSUE-1776
     relation: DEPENDS_ON
     to: ISSUE-1774
+  - from: ISSUE-1760
+    relation: PARENT_OF
+    to: ISSUE-1765
+  - from: ISSUE-1760
+    relation: PARENT_OF
+    to: ISSUE-1768
+  - from: ISSUE-1760
+    relation: PARENT_OF
+    to: ISSUE-1772
+  - from: ISSUE-1760
+    relation: PARENT_OF
+    to: ISSUE-1775
+  - from: ISSUE-1768
+    relation: DEPENDS_ON
+    to: ISSUE-1765
+  - from: ISSUE-1772
+    relation: DEPENDS_ON
+    to: ISSUE-1765
+  - from: ISSUE-1775
+    relation: DEPENDS_ON
+    to: ISSUE-1765
+  - from: ISSUE-1775
+    relation: DEPENDS_ON
+    to: ISSUE-1768
+  - from: ISSUE-1775
+    relation: DEPENDS_ON
+    to: ISSUE-1772
+  - from: ISSUE-54
+    relation: BLOCKS
+    to: ISSUE-1775
+  - from: ISSUE-1834
+    relation: RELATES_TO
+    to: ISSUE-1775
+  - from: ISSUE-1852
+    relation: BLOCKS
+    to: ISSUE-1775
+  - from: ISSUE-1854
+    relation: RELATES_TO
+    to: ISSUE-1760
