@@ -1,0 +1,20 @@
+schema_version: relay-v2.5-roadmap-continuity
+id: RC-0001
+ep_id: EP-LAFEA3-C3C6-1856
+work_package: WP-1769
+from_revision: RM-0007
+to_revision: RM-0008
+revision_chain:
+  - path: agents/relay/roadmap/revisions/RM-0008.yaml
+disposition: CONTINUE_UNCHANGED
+impact_checks:
+  work_package_definition_changed: false
+  dependencies_changed: false
+  acceptance_changed: false
+  scope_authority_changed: false
+  protected_invariants_changed: false
+basis:
+  - RM-0008 explicitly lists WP-1769 as unaffected.
+  - RM-0008 frontier_after remains WP-1769.
+  - ODR-0002 states that current WP-1769 remains the sole executable frontier.
+  - EMP.1 nodes introduced by RM-0008 are state FUTURE and cannot enter the current computed frontier.
