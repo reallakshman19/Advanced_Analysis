@@ -1,8 +1,8 @@
 schema_version: relay-v2.5
 progress_basis:
-  id: PB-0007
-  roadmap_revision: RM-0007
-  note: Top-level #1710/#1711 and work-package denominators remain intentionally unclaimed until historical acceptance is reconstructed. C3-D/E/F/G are planned successors only; current #1856 EP accounting remains bounded below.
+  id: PB-0008
+  roadmap_revision: RM-0008
+  note: Existing LAFEA programme denominators remain intentionally unclaimed. EMP.1/WRC successor nodes are future custody only and carry zero claimed progress until activated under a fresh qualification/takeover basis.
 overall:
   earned_weight: 0
   total_weight: 0
@@ -12,8 +12,16 @@ objectives:
     earned_weight: 0
     total_weight: 0
     percent: 0
+  - id: OBJ-1760
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
 phases:
   - id: PH-1711
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: PH-WRC-P0
     earned_weight: 0
     total_weight: 0
     percent: 0
@@ -35,6 +43,22 @@ work_packages:
     total_weight: 0
     percent: 0
   - id: WP-1776
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1765
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1768
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1772
+    earned_weight: 0
+    total_weight: 0
+    percent: 0
+  - id: WP-1775
     earned_weight: 0
     total_weight: 0
     percent: 0
