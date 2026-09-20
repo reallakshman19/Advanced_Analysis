@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -17,6 +18,29 @@ const WRC_SHA256 = '698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c
 
 const gate = await readJson('validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json');
 const profile = await readJson(gate.releaseProfilePath);
+const boundedSourceProfileCheck = JSON.parse(execFileSync(
+  process.execPath,
+  ['scripts/emp1-wrc537-bounded-source-semantics-profile-check.mjs'],
+  { cwd: repoRoot, encoding: 'utf8' },
+));
+
+assert.equal(
+  boundedSourceProfileCheck.schema,
+  'emp1-wrc537-bounded-source-semantics-profile-check/v1',
+);
+assert.equal(
+  boundedSourceProfileCheck.status,
+  'PASS_PROFILE_INTEGRITY_EXTERNAL_CASE_PREREQUISITES_SEPARATED_THREE_PRIMARY_METHOD_GAPS_FAIL_CLOSED',
+);
+assert.equal(boundedSourceProfileCheck.sourceSha256, WRC_SHA256);
+assert.equal(boundedSourceProfileCheck.sourceBindingCount, 9);
+assert.equal(boundedSourceProfileCheck.externalPrerequisiteCount, 4);
+assert.equal(boundedSourceProfileCheck.unresolvedPrimaryMethodSemanticCount, 3);
+assert.equal(boundedSourceProfileCheck.professionalSourceSemanticsReady, false);
+assert.equal(boundedSourceProfileCheck.codeCompliance, 'NOT_ASSESSED');
+assert.equal(boundedSourceProfileCheck.globalEmp1CRouteAuthority, false);
+assert.equal(boundedSourceProfileCheck.releaseQualified, false);
+assert.equal(boundedSourceProfileCheck.authorityCreatedByThisCheck, false);
 
 assert.equal(gate.schema, 'emp1-wrc537-gamma5-p0-source-semantics-gate/v1');
 assert.equal(gate.issue, 1389);
@@ -125,11 +149,19 @@ assert.equal(gate.currentLiveRouteState.releaseQualified, registry.releaseQualif
 assert.equal(gate.currentLiveRouteState.codeComplianceAuthorized, profile.codeCompliance.authorized);
 
 const result = {
-  schema: 'emp1-professional-p0-source-semantics-check/v1',
-  status: 'PASS_P0_GATE_CURRENT_AUTHORIZED_ROUTE_SOURCE_SEMANTICS_STILL_BLOCKED',
+  schema: 'emp1-professional-p0-source-semantics-check/v2',
+  status: 'PASS_P0_GATE_CURRENT_AUTHORIZED_ROUTE_SOURCE_SEMANTICS_STILL_BLOCKED_BOUNDED_PROFILE_INTEGRITY_PASS',
   releaseProfileId: gate.releaseProfileId,
   blockerCount: observed.length,
   blockers: observed,
+  boundedSourceSemanticProfile: {
+    semanticHash: boundedSourceProfileCheck.profileSemanticHash,
+    sourceBindingCount: boundedSourceProfileCheck.sourceBindingCount,
+    externalPrerequisiteCount: boundedSourceProfileCheck.externalPrerequisiteCount,
+    unresolvedPrimaryMethodSemanticCount: boundedSourceProfileCheck.unresolvedPrimaryMethodSemanticCount,
+    unresolvedPrimaryMethodSemantics: boundedSourceProfileCheck.unresolvedPrimaryMethodSemantics,
+    falsifierClassesDetected: boundedSourceProfileCheck.falsifierClassesDetected,
+  },
   gateAuthorityGranted: gate.authority,
   currentRuntimeAuthority: {
     routeAuthorized: EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_AUTHORIZED,
@@ -141,6 +173,7 @@ const result = {
     codeComplianceAuthorized: profile.codeCompliance.authorized,
   },
   professionalP0SourceSemanticsReady: false,
+  authorityCreatedByThisCheck: false,
   requireReady,
 };
 
