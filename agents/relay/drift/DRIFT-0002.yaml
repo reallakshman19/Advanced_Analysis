@@ -1,0 +1,32 @@
+{
+  "schema_version": "relay-v2.5-drift",
+  "id": "DRIFT-0002",
+  "from_base": "4b4a214118d22f27a2e934c0d75cd346fa16b63c",
+  "to_base": "3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0",
+  "classification": "OVERLAPPING",
+  "changed_paths": [
+    "agents/chains/ADV-LAFEA3-C3C-1769/validation/POSTMERGE-C3C6-QUALIFICATION-REQUEST.md",
+    "agents/relay/REPO_STATE.yaml",
+    "agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml",
+    "agents/relay/execution-packages/EP-LAFEA3-C3D-1771.yaml",
+    "agents/relay/roadmap/ISSUE_GRAPH.yaml",
+    "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+    "agents/relay/roadmap/PROGRESS.yaml",
+    "agents/relay/roadmap/revisions/RM-0006.yaml",
+    "agents/relay/roadmap/revisions/RM-0007.yaml"
+  ],
+  "affected_scope": [
+    "agents/relay/** — repository-wide serial routing, roadmap/frontier, EP and write-authority state remain overlapping with EP-0001 custody"
+  ],
+  "rationale": "The additional main delta is custody/roadmap-only for LAFEA.3, but it continues to occupy the repository-wide SERIAL route and advances the shared agents/relay control plane. It does not clear EP-0001's prior WRITE_COLLISION.",
+  "qualification": {
+    "basis": [
+      "No LAFEA.4 B5 checker or src/core/local-shell file is changed by this delta.",
+      "The delta changes shared relay authority and successor planning while keeping WP-1769 active."
+    ],
+    "confirmation": "REQUIRED",
+    "confirmation_basis": [
+      "EP-LAFEA3-C3C6-1856 must checkpoint/relinquish WRITE, or Owner must authorize a valid unified-roadmap replan before EP-0001 can regain material authority."
+    ]
+  }
+}
