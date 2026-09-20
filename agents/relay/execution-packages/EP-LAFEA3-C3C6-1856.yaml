@@ -1,15 +1,15 @@
 schema_version: relay-v2.5
 identity:
   ep_id: EP-LAFEA3-C3C6-1856
-  branch: engineering/lafea3-c3c-postmerge-1856
-  base_ref: 4b4a214118d22f27a2e934c0d75cd346fa16b63c
+  branch: engineering/lafea3-c3c-checkpoint-1856
+  base_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
   execution_state: ACTIVE
   previous_checkpoint: NONE
 git_basis:
-  expected_branch: engineering/lafea3-c3c-postmerge-1856
-  material_ref: 4b4a214118d22f27a2e934c0d75cd346fa16b63c
+  expected_branch: engineering/lafea3-c3c-checkpoint-1856
+  material_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
   base_branch: main
-  base_observed_ref: 4b4a214118d22f27a2e934c0d75cd346fa16b63c
+  base_observed_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
   drift_policy: RECHECK_BEFORE_WRITE
   drift_receipt: null
 roadmap_source:
@@ -31,10 +31,10 @@ context_capsule:
   current_architecture: LAFEA.3 uses a governed workbench store with source/domain/geometry/mesh/profile/preflight/execution/recovery lineage and a domain-first compiled solver route.
   prior_owner_decisions:
     - ODR-0001
-  current_implementation_state: PR #1857 and PR #1850 are merged; main@4b4a214118d22f27a2e934c0d75cd346fa16b63c contains the matrix, aggregate wiring, C3C-SOURCE-BASIS-0016, and exact-head workflow. Dynamic execution has not occurred because GitHub Actions attempts received no runner.
+  current_implementation_state: main@3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0 contains the merged C3-C.6 matrix and aggregate. Local clean-checkout evidence reports standalone matrix PASS and 19-step aggregate PASS; standalone matrix evidence is accepted, while aggregate checkpoint publication is awaiting exact clarification of the Windows shell invocation/provenance note.
   known_problems:
-    - Standalone C3-C.6 matrix execution is NOT_RUN on the current delivery vehicle.
-    - The 19-step C3-C aggregate is NOT_RUN on the current delivery vehicle.
+    - Standalone C3-C.6 matrix executed PASS on exact merged main under the local clean-checkout receipt.
+    - The 19-step C3-C aggregate is reported PASS on exact merged main, but checkpoint publication is pending confirmation that the checked-in aggregate blob executed unmodified and correction of the source-custody count metadata.
   deliberate_non_goals:
     - No solver formulation, stiffness/load assembly, recovery convention, coordinate/sign convention, benchmark oracle, tolerance, mesh threshold, release authority, or merge authorization change.
   terminology:
