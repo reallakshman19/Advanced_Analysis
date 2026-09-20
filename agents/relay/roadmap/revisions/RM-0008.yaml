@@ -1,0 +1,53 @@
+schema_version: relay-v2.5
+revision:
+  id: RM-0008
+  from_revision: RM-0007
+  to_revision: RM-0008
+  classification: OWNER_INTENT_MUTATION
+  trigger:
+    type: OWNER_DECISION
+    ref: ODR-0002
+    path: agents/relay/roadmap/owner-decisions/ODR-0002.yaml
+changes:
+  added:
+    - id: OBJ-1760
+      change: Add the bounded EMP.1/WRC professional-release programme as future roadmap custody.
+    - id: PH-WRC-P0
+      change: Add the P0/P1 source, numerical, independent-evidence and release sequence without activating it.
+    - id: WP-1765
+      change: Add WRC-02 bounded primary-source semantics closure as the first future EMP.1 work package.
+    - id: WP-1768
+      change: Add WRC-03 exact-head numerical qualification after WP-1765.
+    - id: WP-1772
+      change: Add WRC-04 independent benchmark evidence as a future prerequisite for release.
+    - id: WP-1775
+      change: Add WRC-05 professional release closure after source, numerical and independent evidence.
+  removed: []
+  changed:
+    - id: WP-1771
+      change: Normalize inherited roadmap node state OPEN to PLANNED; dependency and non-executable status unchanged.
+    - id: WP-1773
+      change: Normalize inherited roadmap node state OPEN to PLANNED; owner-review requirement unchanged.
+    - id: WP-1774
+      change: Normalize inherited roadmap node state OPEN to PLANNED; dependency and owner-review requirement unchanged.
+    - id: WP-1776
+      change: Normalize inherited roadmap node state OPEN to PLANNED; dependency and owner-review requirement unchanged.
+  unaffected:
+    - OBJ-1710
+    - PH-1711
+    - WP-1769
+invalidated_execution_packages: []
+issue_graph_reconciled: true
+progress_basis_change:
+  old_basis: PB-0007
+  new_basis: PB-0008
+  old_total_weight: 0
+  new_total_weight: 0
+frontier_after:
+  - WP-1769
+notes:
+  - This revision does not defer, complete, or supersede WP-1769.
+  - EMP.1 work packages are state FUTURE and therefore do not enter the computed frontier.
+  - #1762 authority/custody reconciliation is already closed and remains a prerequisite source input rather than a new work package.
+  - #54 remains an external execution-environment dependency.
+  - #1834 and #1852 remain Owner-reserved decisions and are not made executable by this revision.
