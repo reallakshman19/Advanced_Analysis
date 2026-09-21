@@ -35,42 +35,28 @@ takeover_admissions:
     candidate:
       agent_instance_id: chatgpt-gpt5.6-sol-c3c6-repair-20260921
     discovery_receipt:
-      id: DISC-C3C6-0002
-      path: agents/relay/certifications/discovery/DISC-C3C6-0002.yaml
+      id: DISC-C3C6-0003
+      path: agents/relay/certifications/discovery/DISC-C3C6-0003.yaml
     certification:
-      id: TC-C3C6-0002
-      path: agents/relay/certifications/takeover/TC-C3C6-0002.yaml
+      id: TC-C3C6-0003
+      path: agents/relay/certifications/takeover/TC-C3C6-0003.yaml
 progress:
   overall_percent: 0
   phase_percent: 0
-  ep_percent: 85
+  ep_percent: 100
   basis_revision: PB-0007
 status_planes:
   execution:
-    state: ACTIVE
+    state: WAITING
     can_continue: true
-    material_authority: WRITE
-    next_action: Execute the standalone matrix and complete 19-step aggregate on the exact repaired candidate using C3C-SOURCE-BASIS-0017; retain artifact/exit evidence before checkpoint publication.
+    material_authority: READ_ONLY
+    next_action: PR #1863 is acceptance-complete on exact tested material 7f2a8ae35011dade594c79ba31e656883ef52e73; obtain explicit Owner merge authorization, merge against the exact current head, then publish the backward-looking C3-C.6 checkpoint and reconcile #1856/#1769 before activating C3-D.
   quality:
-    state: NEEDS_ATTENTION
-    findings:
-      - id: QF-C3C6-EXACT-EXECUTION-PROVENANCE
-        statement: Local executor clarified 41/41 custody, Windows 11 PowerShell/cmd execution, clean worktree, and unmodified aggregate blob execution.
-        severity: MEDIUM
-        classification: DELIVERY_RISK
-        disposition: RESOLVED
-        blocks_execution: false
-      - id: QF-C3C6-WINDOWS-NPMCMD-SPAWN
-        statement: Exact unmodified aggregate execution produced 18/19 PASS because Node child_process spawnSync of npm.cmd returned EINVAL on Windows; standalone import governance passed. Candidate replaces only that process launch with direct Node execution of the pinned import-check script.
-        severity: MEDIUM
-        classification: DELIVERY_RISK
-        disposition: IN_PROGRESS
-        blocks_execution: false
-      - Top-level #1710/#1711 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
-      - C3-D/E/F/G successor work packages remain non-executable while WP-1769 is unresolved.
+    state: CLEAR
+    findings: []
   evidence:
-    state: PARTIAL
-    summary: Standalone C3-C.6 matrix PASS is durable. Exact main aggregate execution is actual FAIL at 18/19 with 41/41 source custody; the sole blocker is qualification-runner Windows npm.cmd process launch. C3C-SOURCE-BASIS-0017 contains a bounded cross-platform runner repair pending exact-head execution.
+    state: COMPLETE
+    summary: Exact tested material 7f2a8ae35011dade594c79ba31e656883ef52e73 has standalone matrix PASS, complete aggregate 19/19 PASS, C3C-SOURCE-BASIS-0017 custody 41/41 PASS, import governance PASS, diff hygiene PASS, clean worktree, and no repository mutation during execution.
     not_run: []
   stop:
     active: false
@@ -91,5 +77,5 @@ relay_readiness:
   projection_ready: true
   handover_ready: true
   reasons:
-    - Active route remains WP-1769 / EP-LAFEA3-C3C6-1856; exact-head qualification evidence is still required before checkpoint and successor activation.
+    - C3-C.6 acceptance and quality are complete on tested material 7f2a8ae35011dade594c79ba31e656883ef52e73; delivery merge and post-merge checkpoint/issue reconciliation remain before successor activation.
 chat_context_required: false

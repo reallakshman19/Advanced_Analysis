@@ -1,0 +1,82 @@
+schema_version: relay-v2.5-discovery
+id: DISC-C3C6-0003
+candidate:
+  agent_instance_id: chatgpt-gpt5.6-sol-c3c6-repair-20260921
+route:
+  route_key: SERIAL:EP-LAFEA3-C3C6-1856
+  mode: SERIAL
+  execution_ref: EP-LAFEA3-C3C6-1856
+  ep_id: EP-LAFEA3-C3C6-1856
+  ep_path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
+  plan_id: null
+  plan_path: null
+  lane_id: null
+basis:
+  roadmap_id: RM-LAFEA-MESH-COMPLETION
+  roadmap_revision: RM-0007
+  relay_protocol_basis_ref: github:reallaksh19/Common@1bc4eca6eac9d75900ddee1c338da4b44817eeec/skills/engineering-pr-delivery-v2.5
+  material_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73
+  ep_contract_digest: sha256:0d27e63f7aa59786566ab013ac7f84b0f676cbe49a0ac14c59deb3d54a362ff8
+  repo_profile_digest: sha256:12b2e258033da2bc37d434e196dd9676dd80718f968a288db916a71fa9a47d9e
+  predecessor_baton:
+    type: NONE
+    id: NONE
+    path: null
+    digest: null
+steps:
+  - id: DSTEP-C3C6-ROUTE
+    status: PASS
+    outputs:
+      - name: roadmap revision
+        value: RM-0007
+        basis:
+          - agents/relay/roadmap/OVERALL_ROADMAP.yaml
+      - name: current work package
+        value: WP-1769
+        basis:
+          - agents/relay/REPO_STATE.yaml
+      - name: execution package id
+        value: EP-LAFEA3-C3C6-1856
+        basis:
+          - agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
+    basis:
+      - agents/relay/REPO_STATE.yaml
+      - agents/relay/roadmap/OVERALL_ROADMAP.yaml
+  - id: DSTEP-C3C6-CANDIDATE
+    status: PASS
+    outputs:
+      - name: exact tested material
+        value: 7f2a8ae35011dade594c79ba31e656883ef52e73
+        basis:
+          - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5763384883
+      - name: source basis id
+        value: C3C-SOURCE-BASIS-0017
+        basis:
+          - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:3db2639c4eda104d13c01bce3ab1701ce3b24fce
+      - name: aggregate result
+        value: 19/19 PASS with 41/41 source custody
+        basis:
+          - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5763384883
+    basis:
+      - scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs@blob:871fa1b70ec7921fa8696bf49e8a8802c0788318
+      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs@blob:d5e3a291926c796f0358e390f76859e8048a12ba
+      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:3db2639c4eda104d13c01bce3ab1701ce3b24fce
+  - id: DSTEP-C3C6-DELIVERY
+    status: PASS
+    outputs:
+      - name: execution carrier
+        value: clean local exact checkout of 7f2a8ae35011dade594c79ba31e656883ef52e73; hosted GitHub Actions remained zero-step infrastructure NOT_RUN
+        basis:
+          - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5763384883
+      - name: execution commands
+        value: standalone matrix, exact-head 19-step aggregate, import check, and base-to-head diff check
+        basis:
+          - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5763384883
+      - name: result
+        value: all required executable checks PASS
+        basis:
+          - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5763384883
+    basis:
+      - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5763384883
+result: PASS
+conversation_context_used: false

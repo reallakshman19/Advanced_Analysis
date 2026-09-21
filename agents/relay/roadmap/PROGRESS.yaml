@@ -40,15 +40,15 @@ work_packages:
     percent: 0
 execution_packages:
   - id: EP-LAFEA3-C3C6-1856
-    earned_weight: 85
+    earned_weight: 100
     total_weight: 100
-    percent: 85
+    percent: 100
 implementation_steps:
   - id: STEP-C3C6-FINISH
     ep_id: EP-LAFEA3-C3C6-1856
-    earned_weight: 85
+    earned_weight: 100
     total_weight: 100
-    percent: 85
+    percent: 100
 acceptance_criteria:
   - id: AC-C3C6-1
     ep_id: EP-LAFEA3-C3C6-1856
@@ -101,11 +101,11 @@ acceptance_criteria:
       - C3C-SOURCE-BASIS-0017 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
   - id: AC-C3C6-7
     ep_id: EP-LAFEA3-C3C6-1856
-    status: IN_PROGRESS
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 15
     total_weight: 15
-    percent: 0
+    percent: 100
     basis:
-      - Exact clean-worktree main@eff897a01a52a1fede58b4037444397037a2f04c execution verified 41/41 source custody and ran all 19 steps; aggregate result was FAIL with 18 PASS / 1 FAIL.
-      - The sole blocker was C3C-IMPORT-GOVERNANCE: Node on Windows returned EINVAL when spawnSync invoked npm.cmd, while standalone npm run check:imports passed.
-      - Candidate source basis C3C-SOURCE-BASIS-0017 repins only the aggregate runner after replacing npm.cmd process launch with direct Node execution of the already-pinned scripts/import-check.mjs; exact-head execution remains required.
+      - Exact clean-worktree candidate 7f2a8ae35011dade594c79ba31e656883ef52e73: standalone matrix PASS, aggregate 19/19 PASS, and C3C-SOURCE-BASIS-0017 custody 41/41 PASS under issue #1856 comment 5763384883.
+      - C3C-IMPORT-GOVERNANCE PASS confirms the checked-in cross-platform runner executes scripts/import-check.mjs directly with Node.
+      - C3C-DIFF-HYGIENE PASS and standalone git diff --check PASS confirm the tested repair span is whitespace-clean.
