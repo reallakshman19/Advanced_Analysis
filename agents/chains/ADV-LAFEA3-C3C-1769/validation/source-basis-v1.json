@@ -1,6 +1,6 @@
 {
   "schema": "lafea3-c3c-source-basis/v1",
-  "basisId": "C3C-SOURCE-BASIS-0016",
+  "basisId": "C3C-SOURCE-BASIS-0017",
   "issue": "github:reallaksh19/Advanced_Analysis#1769",
   "architectureParent": "github:reallaksh19/Advanced_Analysis#1711",
   "stackedDependency": {
@@ -11,7 +11,7 @@
     "disposition": "MERGED_MAIN_CURRENT"
   },
   "reviewedMainSha": "c58e45b72af9e5b315c9f1a95965fcb7ffdd7c50",
-  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_AND_COMPILER_QUALIFIED_G002_STRAIGHT_BODY_FORCE_QUALIFIED_G005_CONSTANT_ALPHA_DELTA_T_QUALIFIED_G006_AXIS_ALIGNED_SOURCE_NORMAL_RESTRAINT_QUALIFIED_COMPILED_LOAD_PARITY_CONTRACT_REPAIRED_C3C6_EDIT_INVALIDATION_MATRIX_CANDIDATE_WITH_EXPLICIT_NON_CLAIMS_PENDING_EXECUTION",
+  "scope": "G001_G003_QUALIFIED_G004_PRIMITIVE_AND_COMPILER_QUALIFIED_G002_STRAIGHT_BODY_FORCE_QUALIFIED_G005_CONSTANT_ALPHA_DELTA_T_QUALIFIED_G006_AXIS_ALIGNED_SOURCE_NORMAL_RESTRAINT_QUALIFIED_COMPILED_LOAD_PARITY_CONTRACT_REPAIRED_C3C6_EDIT_INVALIDATION_MATRIX_WITH_CROSS_PLATFORM_AGGREGATE_RUNNER_PENDING_EXACT_HEAD_EXECUTION",
   "diagnosticProvenance": {
     "priorC3cMergedPullRequest": "github:reallaksh19/Advanced_Analysis#1789",
     "priorC3cMergeCommit": "ea2a2e5842a5ae1931544b20f7dcb97184d7cec1",
@@ -29,50 +29,256 @@
     "g006RepresentableBoundary": "STRAIGHT_SOURCE_SEGMENT_GLOBAL_AXIS_ALIGNED_ONLY",
     "g006ObliqueOrCurvedRequiresLinearConstraintAuthority": true,
     "g006SolverConstraintFormulationChanged": false,
-    "sourceBasis0011CustodyRepair": "C3C-S019 production body-force kernel blob corrected from inherited test-script blob to c7394b19c7623145834d641c7cb7a26516d4a010"
+    "sourceBasis0011CustodyRepair": "C3C-S019 production body-force kernel blob corrected from inherited test-script blob to c7394b19c7623145834d641c7cb7a26516d4a010",
+    "sourceBasis0017RunnerPortabilityRepair": "C3C-Q014 repinned after replacing Windows npm.cmd child-process invocation with direct Node execution of already-pinned scripts/import-check.mjs; no engineering production/oracle/tolerance source changed."
   },
   "sources": [
-    { "sourceId": "C3C-S001", "role": "analysisDomainAndFeatureIntent", "path": "src/workspace/lafea-continuum-analysis-domain.js", "blobSha": "61203e3f323504a847568b35e473ee649304dad6" },
-    { "sourceId": "C3C-S002", "role": "featureToMeshMapping", "path": "src/workspace/lafea-continuum-solver-mapping.js", "blobSha": "e7f07f2cc79c3ba430b697e3f7a7403e14be8b3d" },
-    { "sourceId": "C3C-S003", "role": "canonicalSolverModelCompilerWithProjectionParent", "path": "src/workspace/lafea-continuum-solver-model.js", "blobSha": "c3df559f07722bcecd0d7cafa795072a7e3f2468" },
-    { "sourceId": "C3C-S004", "role": "compiledLoadBcDeltaTAndLocalRestraintLowering", "path": "src/workspace/lafea-continuum-compiled-input.js", "blobSha": "a560d8be53e48e541ec512c49fb8962a976f95da" },
-    { "sourceId": "C3C-S005", "role": "analyticalTractionLowering", "path": "src/workspace/lafea-analytical-traction-lowering.js", "blobSha": "77a849107c8a13008b902903330dea6bc90a8e78" },
-    { "sourceId": "C3C-S006", "role": "kernelConsistentEdgeIntegration", "path": "src/core/local-continuum/edge-traction-loads.js", "blobSha": "889cd7ff79392247ae24c92f97d76fd4f8db8f5f" },
-    { "sourceId": "C3C-S007", "role": "kernelPressureIntegrationLowerLevelCapability", "path": "src/core/local-continuum/pressure-loads.js", "blobSha": "8c0ea676cc6420f12ca325c9e0d79f2fc72e7410" },
-    { "sourceId": "C3C-S008", "role": "kernelLoadAssemblyAndContributionEvidence", "path": "src/core/local-continuum/loads.js", "blobSha": "7f3178ba0a508f4f8f271886594391b8bb687aab" },
-    { "sourceId": "C3C-S009", "role": "workbenchSevenStateCurrentness", "path": "src/workspace/lafea-workbench-currentness.js", "blobSha": "f2db310741e38d2b48858305567e48de911816cb" },
-    { "sourceId": "C3C-S010", "role": "runTransactionHashCustody", "path": "src/workspace/lafea-workbench-run-transaction-state.js", "blobSha": "ca6db92efedbc4a31868ea6bfa3bd0e35af892b9" },
-    { "sourceId": "C3C-S011", "role": "physicalProbeMappingAndAncestry", "path": "src/workspace/lafea-continuum-physical-probe.js", "blobSha": "f1991fc17f0e799933917601b78c7a89af196df1" },
-    { "sourceId": "C3C-S012", "role": "projectionEvidenceWithLocalRestraintContributionCustody", "path": "src/workspace/lafea-continuum-projection-evidence.js", "blobSha": "8838defaa3034448683903898e680498470f0245" },
-    { "sourceId": "C3C-S013", "role": "sourceVsCompiledForceMomentEvidenceIncludingStraightRegionBodyForce", "path": "src/workspace/lafea-continuum-load-resultant-evidence.js", "blobSha": "debf58757e2996115877f493e23e9fff579efccd" },
-    { "sourceId": "C3C-S014", "role": "compiledExecutionCustodyCarrier", "path": "src/workspace/lafea-continuum-compiled-execution.js", "blobSha": "15ea7ec8764844c5f0e77eacd3062a577b8d2232" },
-    { "sourceId": "C3C-S015", "role": "authoritativeWorkbenchExecutionCustodyCarrier", "path": "src/workspace/lafea-continuum-authoritative-workbench-run.js", "blobSha": "a469259db7887aceaaf8783b7e7700046c4cddd8" },
-    { "sourceId": "C3C-S016", "role": "lifecycleExecutionCustodyValidation", "path": "src/workspace/lafea-continuum-domain-first-lifecycle-producers.js", "blobSha": "8e742dc3fa0963dba77f4eb37e2c14201fb13cea" },
-    { "sourceId": "C3C-S017", "role": "ordinaryWorkbenchCompilerRoute", "path": "src/workspace/lafea-continuum-workbench-route.js", "blobSha": "2adf4bfcd4a78a71ecb5b79ad0f4269190335455" },
-    { "sourceId": "C3C-S018", "role": "sourceGeometryPressureLoweringPrimitive", "path": "src/workspace/lafea-source-pressure-lowering.js", "blobSha": "546ed5ca4f7f8336df6e4feaa9c6d9692b542641" },
-    { "sourceId": "C3C-S019", "role": "kernelConsistentBodyForceVectorUnchanged", "path": "src/core/local-continuum/body-force-loads.js", "blobSha": "c7394b19c7623145834d641c7cb7a26516d4a010" },
-    { "sourceId": "C3C-S020", "role": "governedDeltaTMaterialAuthorityLowering", "path": "src/workspace/lafea-continuum-temperature-lowering.js", "blobSha": "09d17d343ceb1794a0b43548cb2d556a9913404f" },
-    { "sourceId": "C3C-S021", "role": "sourceNormalAxisAlignedRestraintAuthority", "path": "src/workspace/lafea-continuum-local-restraint.js", "blobSha": "0080e0e33a40e6223b9ccdde938179c523af1813" },
-    { "sourceId": "C3C-Q001", "role": "solverModelCompilerCheck", "path": "scripts/lafea-continuum-solver-model-check.mjs", "blobSha": "29ab2a73d06c4a4023c5df2d053d02c34cc330df" },
-    { "sourceId": "C3C-Q002", "role": "compiledInputAndSourcePressureLoweringCheck", "path": "scripts/lafea-continuum-compiled-input-check.mjs", "blobSha": "ea70fd3681b426fd6ae140e9aeca4eedc8188eb0" },
-    { "sourceId": "C3C-Q003", "role": "compiledLoadParityCheck", "path": "scripts/lafea-continuum-compiled-load-parity-check.mjs", "blobSha": "d7fd675d4b006fded6bd05787d62421e0b0da21d" },
-    { "sourceId": "C3C-Q004", "role": "compiledExecutionParityCheck", "path": "scripts/lafea-continuum-compiled-execution-check.mjs", "blobSha": "ff89008a2160a01445111107cb47a44d16271c71" },
-    { "sourceId": "C3C-Q005", "role": "sevenStateCurrentnessCheck", "path": "scripts/lafea-b02-currentness-check.mjs", "blobSha": "b19ec43f5547c5680d2b9751776504abf5d1993f" },
-    { "sourceId": "C3C-Q006", "role": "physicalProbeDiagnostic", "path": "scripts/lafea-b02-g4-physical-probe-diagnostic.mjs", "blobSha": "52416809f4cb6b858fc526a44012f9e2ec6b14e5" },
-    { "sourceId": "C3C-Q007", "role": "physicalProbeFailClosedDiagnostic", "path": "scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs", "blobSha": "72de567937f5b62b11076e5d708ed86738def71d" },
-    { "sourceId": "C3C-Q008", "role": "importGovernanceEntrypoint", "path": "scripts/import-check.mjs", "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2" },
-    { "sourceId": "C3C-Q009", "role": "projectionTractionAndT6BodyForceResultantCheck", "path": "scripts/lafea.3-c3c-projection-resultant-check.mjs", "blobSha": "69a9dcb8396e894bbc318ac71fe82efd32183cb5" },
-    { "sourceId": "C3C-Q010", "role": "sourceLinearT6Q8TractionQualificationCheck", "path": "scripts/lafea.3-c3c-linear-traction-check.mjs", "blobSha": "69500ea1aad432d7e08710cb2e4071bb31abb7a7" },
-    { "sourceId": "C3C-Q011", "role": "sourceNormalPressurePrimitiveQualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs", "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989" },
-    { "sourceId": "C3C-Q012", "role": "sourceNormalPressureCompilerT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-source-pressure-compiler-check.mjs", "blobSha": "90701e34f512478d103e45cdf0b829171bffae81" },
-    { "sourceId": "C3C-Q013", "role": "straightRegionBodyForceT6Q8ResultantQualificationCheck", "path": "scripts/lafea.3-c3c-body-force-resultant-check.mjs", "blobSha": "4a0b7361920c8e953e819b742dd1c9c9f09b25e3" },
-    { "sourceId": "C3C-Q014", "role": "aggregateC3cQualificationRunner", "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs", "blobSha": "2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3" },
-    { "sourceId": "C3C-Q015", "role": "governedDeltaTT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-temperature-delta-check.mjs", "blobSha": "b5a2d2a2e48cf123b97413bfe5996b62a004f282" },
-    { "sourceId": "C3C-Q016", "role": "sourceNormalAxisAlignedRestraintT6Q8QualificationCheck", "path": "scripts/lafea.3-c3c-local-restraint-check.mjs", "blobSha": "c163985bcd86b75b61d5d829c61590cf216e942d" },
-    { "sourceId": "C3C-Q017", "role": "numericParityContract", "path": "scripts/lib/lafea-numeric-parity.mjs", "blobSha": "28eedcaa8a87fd69a3718cbe4b40a909f322c0e3" },
-    { "sourceId": "C3C-Q018", "role": "numericParityNegativeControls", "path": "scripts/lafea-continuum-compiled-load-parity-negative-check.mjs", "blobSha": "5cb4dfe8e70f215b6b59aeddcb1b8ba14b39a24e" },
-    { "sourceId": "C3C-Q019", "role": "probeRefinementInvarianceCheck", "path": "scripts/lafea.3-c3c-probe-invariance-check.mjs", "blobSha": "29ce652b6d4f390598ce4ccfc716ab63bf488a32" },
-    { "sourceId": "C3C-Q020", "role": "editInvalidationMatrixQualificationCheck", "path": "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs", "blobSha": "871fa1b70ec7921fa8696bf49e8a8802c0788318" }
+    {
+      "sourceId": "C3C-S001",
+      "role": "analysisDomainAndFeatureIntent",
+      "path": "src/workspace/lafea-continuum-analysis-domain.js",
+      "blobSha": "61203e3f323504a847568b35e473ee649304dad6"
+    },
+    {
+      "sourceId": "C3C-S002",
+      "role": "featureToMeshMapping",
+      "path": "src/workspace/lafea-continuum-solver-mapping.js",
+      "blobSha": "e7f07f2cc79c3ba430b697e3f7a7403e14be8b3d"
+    },
+    {
+      "sourceId": "C3C-S003",
+      "role": "canonicalSolverModelCompilerWithProjectionParent",
+      "path": "src/workspace/lafea-continuum-solver-model.js",
+      "blobSha": "c3df559f07722bcecd0d7cafa795072a7e3f2468"
+    },
+    {
+      "sourceId": "C3C-S004",
+      "role": "compiledLoadBcDeltaTAndLocalRestraintLowering",
+      "path": "src/workspace/lafea-continuum-compiled-input.js",
+      "blobSha": "a560d8be53e48e541ec512c49fb8962a976f95da"
+    },
+    {
+      "sourceId": "C3C-S005",
+      "role": "analyticalTractionLowering",
+      "path": "src/workspace/lafea-analytical-traction-lowering.js",
+      "blobSha": "77a849107c8a13008b902903330dea6bc90a8e78"
+    },
+    {
+      "sourceId": "C3C-S006",
+      "role": "kernelConsistentEdgeIntegration",
+      "path": "src/core/local-continuum/edge-traction-loads.js",
+      "blobSha": "889cd7ff79392247ae24c92f97d76fd4f8db8f5f"
+    },
+    {
+      "sourceId": "C3C-S007",
+      "role": "kernelPressureIntegrationLowerLevelCapability",
+      "path": "src/core/local-continuum/pressure-loads.js",
+      "blobSha": "8c0ea676cc6420f12ca325c9e0d79f2fc72e7410"
+    },
+    {
+      "sourceId": "C3C-S008",
+      "role": "kernelLoadAssemblyAndContributionEvidence",
+      "path": "src/core/local-continuum/loads.js",
+      "blobSha": "7f3178ba0a508f4f8f271886594391b8bb687aab"
+    },
+    {
+      "sourceId": "C3C-S009",
+      "role": "workbenchSevenStateCurrentness",
+      "path": "src/workspace/lafea-workbench-currentness.js",
+      "blobSha": "f2db310741e38d2b48858305567e48de911816cb"
+    },
+    {
+      "sourceId": "C3C-S010",
+      "role": "runTransactionHashCustody",
+      "path": "src/workspace/lafea-workbench-run-transaction-state.js",
+      "blobSha": "ca6db92efedbc4a31868ea6bfa3bd0e35af892b9"
+    },
+    {
+      "sourceId": "C3C-S011",
+      "role": "physicalProbeMappingAndAncestry",
+      "path": "src/workspace/lafea-continuum-physical-probe.js",
+      "blobSha": "f1991fc17f0e799933917601b78c7a89af196df1"
+    },
+    {
+      "sourceId": "C3C-S012",
+      "role": "projectionEvidenceWithLocalRestraintContributionCustody",
+      "path": "src/workspace/lafea-continuum-projection-evidence.js",
+      "blobSha": "8838defaa3034448683903898e680498470f0245"
+    },
+    {
+      "sourceId": "C3C-S013",
+      "role": "sourceVsCompiledForceMomentEvidenceIncludingStraightRegionBodyForce",
+      "path": "src/workspace/lafea-continuum-load-resultant-evidence.js",
+      "blobSha": "debf58757e2996115877f493e23e9fff579efccd"
+    },
+    {
+      "sourceId": "C3C-S014",
+      "role": "compiledExecutionCustodyCarrier",
+      "path": "src/workspace/lafea-continuum-compiled-execution.js",
+      "blobSha": "15ea7ec8764844c5f0e77eacd3062a577b8d2232"
+    },
+    {
+      "sourceId": "C3C-S015",
+      "role": "authoritativeWorkbenchExecutionCustodyCarrier",
+      "path": "src/workspace/lafea-continuum-authoritative-workbench-run.js",
+      "blobSha": "a469259db7887aceaaf8783b7e7700046c4cddd8"
+    },
+    {
+      "sourceId": "C3C-S016",
+      "role": "lifecycleExecutionCustodyValidation",
+      "path": "src/workspace/lafea-continuum-domain-first-lifecycle-producers.js",
+      "blobSha": "8e742dc3fa0963dba77f4eb37e2c14201fb13cea"
+    },
+    {
+      "sourceId": "C3C-S017",
+      "role": "ordinaryWorkbenchCompilerRoute",
+      "path": "src/workspace/lafea-continuum-workbench-route.js",
+      "blobSha": "2adf4bfcd4a78a71ecb5b79ad0f4269190335455"
+    },
+    {
+      "sourceId": "C3C-S018",
+      "role": "sourceGeometryPressureLoweringPrimitive",
+      "path": "src/workspace/lafea-source-pressure-lowering.js",
+      "blobSha": "546ed5ca4f7f8336df6e4feaa9c6d9692b542641"
+    },
+    {
+      "sourceId": "C3C-S019",
+      "role": "kernelConsistentBodyForceVectorUnchanged",
+      "path": "src/core/local-continuum/body-force-loads.js",
+      "blobSha": "c7394b19c7623145834d641c7cb7a26516d4a010"
+    },
+    {
+      "sourceId": "C3C-S020",
+      "role": "governedDeltaTMaterialAuthorityLowering",
+      "path": "src/workspace/lafea-continuum-temperature-lowering.js",
+      "blobSha": "09d17d343ceb1794a0b43548cb2d556a9913404f"
+    },
+    {
+      "sourceId": "C3C-S021",
+      "role": "sourceNormalAxisAlignedRestraintAuthority",
+      "path": "src/workspace/lafea-continuum-local-restraint.js",
+      "blobSha": "0080e0e33a40e6223b9ccdde938179c523af1813"
+    },
+    {
+      "sourceId": "C3C-Q001",
+      "role": "solverModelCompilerCheck",
+      "path": "scripts/lafea-continuum-solver-model-check.mjs",
+      "blobSha": "29ab2a73d06c4a4023c5df2d053d02c34cc330df"
+    },
+    {
+      "sourceId": "C3C-Q002",
+      "role": "compiledInputAndSourcePressureLoweringCheck",
+      "path": "scripts/lafea-continuum-compiled-input-check.mjs",
+      "blobSha": "ea70fd3681b426fd6ae140e9aeca4eedc8188eb0"
+    },
+    {
+      "sourceId": "C3C-Q003",
+      "role": "compiledLoadParityCheck",
+      "path": "scripts/lafea-continuum-compiled-load-parity-check.mjs",
+      "blobSha": "d7fd675d4b006fded6bd05787d62421e0b0da21d"
+    },
+    {
+      "sourceId": "C3C-Q004",
+      "role": "compiledExecutionParityCheck",
+      "path": "scripts/lafea-continuum-compiled-execution-check.mjs",
+      "blobSha": "ff89008a2160a01445111107cb47a44d16271c71"
+    },
+    {
+      "sourceId": "C3C-Q005",
+      "role": "sevenStateCurrentnessCheck",
+      "path": "scripts/lafea-b02-currentness-check.mjs",
+      "blobSha": "b19ec43f5547c5680d2b9751776504abf5d1993f"
+    },
+    {
+      "sourceId": "C3C-Q006",
+      "role": "physicalProbeDiagnostic",
+      "path": "scripts/lafea-b02-g4-physical-probe-diagnostic.mjs",
+      "blobSha": "52416809f4cb6b858fc526a44012f9e2ec6b14e5"
+    },
+    {
+      "sourceId": "C3C-Q007",
+      "role": "physicalProbeFailClosedDiagnostic",
+      "path": "scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs",
+      "blobSha": "72de567937f5b62b11076e5d708ed86738def71d"
+    },
+    {
+      "sourceId": "C3C-Q008",
+      "role": "importGovernanceEntrypoint",
+      "path": "scripts/import-check.mjs",
+      "blobSha": "71171be2ee694c83db340c57b281af15d4ba6eb2"
+    },
+    {
+      "sourceId": "C3C-Q009",
+      "role": "projectionTractionAndT6BodyForceResultantCheck",
+      "path": "scripts/lafea.3-c3c-projection-resultant-check.mjs",
+      "blobSha": "69a9dcb8396e894bbc318ac71fe82efd32183cb5"
+    },
+    {
+      "sourceId": "C3C-Q010",
+      "role": "sourceLinearT6Q8TractionQualificationCheck",
+      "path": "scripts/lafea.3-c3c-linear-traction-check.mjs",
+      "blobSha": "69500ea1aad432d7e08710cb2e4071bb31abb7a7"
+    },
+    {
+      "sourceId": "C3C-Q011",
+      "role": "sourceNormalPressurePrimitiveQualificationCheck",
+      "path": "scripts/lafea.3-c3c-source-pressure-lowering-check.mjs",
+      "blobSha": "8ec2cf9c60c1a26ba2f6d6b51836e99979603989"
+    },
+    {
+      "sourceId": "C3C-Q012",
+      "role": "sourceNormalPressureCompilerT6Q8QualificationCheck",
+      "path": "scripts/lafea.3-c3c-source-pressure-compiler-check.mjs",
+      "blobSha": "90701e34f512478d103e45cdf0b829171bffae81"
+    },
+    {
+      "sourceId": "C3C-Q013",
+      "role": "straightRegionBodyForceT6Q8ResultantQualificationCheck",
+      "path": "scripts/lafea.3-c3c-body-force-resultant-check.mjs",
+      "blobSha": "4a0b7361920c8e953e819b742dd1c9c9f09b25e3"
+    },
+    {
+      "sourceId": "C3C-Q014",
+      "role": "aggregateC3cQualificationRunner",
+      "path": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs",
+      "blobSha": "d5e3a291926c796f0358e390f76859e8048a12ba"
+    },
+    {
+      "sourceId": "C3C-Q015",
+      "role": "governedDeltaTT6Q8QualificationCheck",
+      "path": "scripts/lafea.3-c3c-temperature-delta-check.mjs",
+      "blobSha": "b5a2d2a2e48cf123b97413bfe5996b62a004f282"
+    },
+    {
+      "sourceId": "C3C-Q016",
+      "role": "sourceNormalAxisAlignedRestraintT6Q8QualificationCheck",
+      "path": "scripts/lafea.3-c3c-local-restraint-check.mjs",
+      "blobSha": "c163985bcd86b75b61d5d829c61590cf216e942d"
+    },
+    {
+      "sourceId": "C3C-Q017",
+      "role": "numericParityContract",
+      "path": "scripts/lib/lafea-numeric-parity.mjs",
+      "blobSha": "28eedcaa8a87fd69a3718cbe4b40a909f322c0e3"
+    },
+    {
+      "sourceId": "C3C-Q018",
+      "role": "numericParityNegativeControls",
+      "path": "scripts/lafea-continuum-compiled-load-parity-negative-check.mjs",
+      "blobSha": "5cb4dfe8e70f215b6b59aeddcb1b8ba14b39a24e"
+    },
+    {
+      "sourceId": "C3C-Q019",
+      "role": "probeRefinementInvarianceCheck",
+      "path": "scripts/lafea.3-c3c-probe-invariance-check.mjs",
+      "blobSha": "29ce652b6d4f390598ce4ccfc716ab63bf488a32"
+    },
+    {
+      "sourceId": "C3C-Q020",
+      "role": "editInvalidationMatrixQualificationCheck",
+      "path": "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs",
+      "blobSha": "871fa1b70ec7921fa8696bf49e8a8802c0788318"
+    }
   ],
   "confirmedOpenSemantics": [
     {
