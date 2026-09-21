@@ -6,7 +6,7 @@
     "roadmap_revision": "RM-0007",
     "issue_graph_revision": "IG-0003",
     "execution_ref": "EP-LAFEA3-C3C6-1856",
-    "state": "PREPARED",
+    "state": "PUBLISHING",
     "supersedes_generation": null,
     "basis": [
       "agents/relay/REPO_STATE.yaml",
@@ -18,7 +18,7 @@
     {
       "id": "GHOP-HO-A59069051729",
       "kind": "CREATE",
-      "state": "PREPARED",
+      "state": "ATTEMPTED_UNCONFIRMED",
       "idempotency_key": "relay:GHGEN-HO-A59069051729:GHOP-HO-A59069051729",
       "depends_on": [],
       "subject": {
@@ -39,8 +39,13 @@
         "source_issue_number": 1856
       },
       "publication": {
-        "attempt_count": 0,
-        "last_attempt_basis": [],
+        "attempt_count": 1,
+        "last_attempt_basis": [
+          "prepared-main:d8e7407944e9b911a0a0171d01f6242259c06a51",
+          "generation:GHGEN-HO-A59069051729",
+          "operation:GHOP-HO-A59069051729",
+          "handover-key:sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388"
+        ],
         "receipt": null,
         "last_error": null
       },
