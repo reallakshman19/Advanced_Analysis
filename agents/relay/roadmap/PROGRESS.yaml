@@ -40,15 +40,15 @@ work_packages:
     percent: 0
 execution_packages:
   - id: EP-LAFEA3-C3C6-1856
-    earned_weight: 85
+    earned_weight: 100
     total_weight: 100
-    percent: 85
+    percent: 100
 implementation_steps:
   - id: STEP-C3C6-FINISH
     ep_id: EP-LAFEA3-C3C6-1856
-    earned_weight: 85
+    earned_weight: 100
     total_weight: 100
-    percent: 85
+    percent: 100
 acceptance_criteria:
   - id: AC-C3C6-1
     ep_id: EP-LAFEA3-C3C6-1856
@@ -98,12 +98,14 @@ acceptance_criteria:
     percent: 100
     basis:
       - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs contains C3C-EDIT-INVALIDATION-MATRIX.
-      - C3C-SOURCE-BASIS-0016 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
+      - C3C-SOURCE-BASIS-0017 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
   - id: AC-C3C6-7
     ep_id: EP-LAFEA3-C3C6-1856
-    status: IN_PROGRESS
-    earned_weight: 0
+    status: COMPLETE
+    earned_weight: 15
     total_weight: 15
-    percent: 0
+    percent: 100
     basis:
-      - Local evidence reports 19/19 PASS on exact main, but checkpoint acceptance is pending clarification that the checked-in aggregate blob executed unmodified under the noted Windows shell workaround and correction of the source-custody count from 20/20 to the 41 entries actually iterated by basis.sources.
+      - Exact clean-worktree candidate 7f2a8ae35011dade594c79ba31e656883ef52e73: standalone matrix PASS, aggregate 19/19 PASS, and C3C-SOURCE-BASIS-0017 custody 41/41 PASS under issue #1856 comment 5763384883.
+      - C3C-IMPORT-GOVERNANCE PASS confirms the checked-in cross-platform runner executes scripts/import-check.mjs directly with Node.
+      - C3C-DIFF-HYGIENE PASS and standalone git diff --check PASS confirm the tested repair span is whitespace-clean.
