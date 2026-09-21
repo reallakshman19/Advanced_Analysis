@@ -50,7 +50,7 @@ status_planes:
     state: ACTIVE
     can_continue: true
     material_authority: WRITE
-    next_action: Repair only the C3-C aggregate Windows npm.cmd child-process invocation, repin the changed aggregate in a new C3-C source basis, then obtain exact-head local execution evidence before checkpointing #1856.
+    next_action: Execute the patched C3-C aggregate and standalone matrix on the exact repair head using source basis C3C-SOURCE-BASIS-0017; retain 41/41 custody and PASS/FAIL truth before checkpointing #1856.
   quality:
     state: NEEDS_ATTENTION
     findings:
@@ -58,14 +58,17 @@ status_planes:
         statement: Exact clean-main execution proves a qualification-runner portability defect: direct spawnSync of npm.cmd returns EINVAL on Windows before import governance executes; standalone npm run check:imports passes.
         severity: MEDIUM
         classification: TEST_GAP
-        disposition: IN_PROGRESS
+        disposition: REPAIRED_AWAITING_EXECUTION
         blocks_execution: false
       - Top-level #1710/#1711 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
       - C3-D/E/F/G successor work packages remain non-executable while WP-1769 is unresolved.
   evidence:
     state: PARTIAL
-    summary: Exact main eff897a01a52a1fede58b4037444397037a2f04c local evidence establishes standalone matrix PASS, source custody 41/41 PASS, and unmodified aggregate 18/19 with only C3C-IMPORT-GOVERNANCE failing pre-npm due Windows spawnSync npm.cmd EINVAL; standalone import governance passes.
-    not_run: []
+    summary: Exact main eff897a01a52a1fede58b4037444397037a2f04c established matrix PASS, 41/41 source custody, and an isolated Windows qualification-runner EINVAL. The repair branch now carries a win32-only shell invocation for npm.cmd and C3C-SOURCE-BASIS-0017; post-repair dynamic evidence is NOT_RUN until an exact-head local executor runs it.
+    not_run:
+      - id: TEST-C3C6-AGGREGATE-POST-REPAIR
+        reason: Patched aggregate has not yet executed on the exact repair head.
+        cause: EXTERNAL_EXECUTION_REQUIRED
   stop:
     active: false
     category: NONE

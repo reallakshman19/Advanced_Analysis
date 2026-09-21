@@ -55,7 +55,13 @@ const steps = [
   step('C3C-PHYSICAL-PROBE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-g4-physical-probe-diagnostic.mjs'], 'C3C_4'),
   step('C3C-PHYSICAL-PROBE-FAIL-CLOSED', process.execPath, ['scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs'], 'C3C_4_C3C_6'),
   step('C3C-PROBE-REFINEMENT-INVARIANCE', process.execPath, ['scripts/lafea.3-c3c-probe-invariance-check.mjs'], 'C3C_4'),
-  step('C3C-IMPORT-GOVERNANCE', npm, ['run', 'check:imports'], 'REGRESSION'),
+  step(
+    'C3C-IMPORT-GOVERNANCE',
+    npm,
+    ['run', 'check:imports'],
+    'REGRESSION',
+    { shell: process.platform === 'win32' },
+  ),
   step('C3C-DIFF-HYGIENE', 'git', ['diff', '--check', `${args.base ?? basis.reviewedMainSha}...HEAD`], 'REGRESSION'),
 ];
 
@@ -97,12 +103,14 @@ function emit(status, blocker, steps) {
   }, null, 2)}\n`);
 }
 
-function step(stepId, command, commandArgs, evidenceClass) {
+function step(stepId, command, commandArgs, evidenceClass, spawnOptions = {}) {
   const started = process.hrtime.bigint();
+  const shellInvocation = spawnOptions.shell === true;
   const result = spawnSync(command, commandArgs, {
     cwd: ROOT,
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024,
+    shell: shellInvocation,
   });
   const elapsedMs = Number(process.hrtime.bigint() - started) / 1e6;
   const stdout = result.stdout ?? '';
@@ -111,6 +119,7 @@ function step(stepId, command, commandArgs, evidenceClass) {
     stepId,
     evidenceClass,
     command: [command, ...commandArgs],
+    shellInvocation,
     status: result.status === 0 ? 'PASS' : 'FAIL',
     exitCode: result.status,
     signal: result.signal ?? null,
