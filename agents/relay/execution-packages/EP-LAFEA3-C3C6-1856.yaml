@@ -2,14 +2,14 @@ schema_version: relay-v2.5
 identity:
   ep_id: EP-LAFEA3-C3C6-1856
   branch: engineering/lafea3-c3c-checkpoint-1856
-  base_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
+  base_ref: eff897a01a52a1fede58b4037444397037a2f04c
   execution_state: ACTIVE
   previous_checkpoint: NONE
 git_basis:
   expected_branch: engineering/lafea3-c3c-checkpoint-1856
-  material_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
+  material_ref: eff897a01a52a1fede58b4037444397037a2f04c
   base_branch: main
-  base_observed_ref: 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0
+  base_observed_ref: eff897a01a52a1fede58b4037444397037a2f04c
   drift_policy: RECHECK_BEFORE_WRITE
   drift_receipt: null
 roadmap_source:
@@ -197,7 +197,7 @@ anti_drift:
       effect: RECONCILE
       rationale: Exact-head evidence and custody must be re-established.
     - id: STALE-C3C6-2
-      condition: main advances from 4b4a214118d22f27a2e934c0d75cd346fa16b63c in a qualification-relevant path before evidence is captured.
+      condition: main advances from eff897a01a52a1fede58b4037444397037a2f04c in a qualification-relevant path before repaired-candidate evidence is captured.
       effect: RECONCILE
       rationale: The inherited C3-C qualification basis has moved.
 implementation_plan:
@@ -274,10 +274,10 @@ next_work:
         instruction: null
         working_directory: repository root
         required_basis:
-          - merged main 4b4a214118d22f27a2e934c0d75cd346fa16b63c
-          - post-merge verification PR exact head
+          - repair base main eff897a01a52a1fede58b4037444397037a2f04c
+          - repaired C3-C qualification PR exact head
           - C3C-SOURCE-BASIS-0017
-        unavailable_here_reason: Connected GitHub Actions attempts received runner_id 0 with zero steps, and the local container cannot clone github.com.
+        unavailable_here_reason: Connected GitHub Actions attempts still receive runner_id 0 with zero steps. An equivalent clean local checkout is the active execution carrier.
         expected_evidence:
           - TEST-C3C6-MATRIX
           - TEST-C3C6-AGGREGATE
