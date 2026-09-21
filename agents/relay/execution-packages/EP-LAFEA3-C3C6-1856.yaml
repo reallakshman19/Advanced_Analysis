@@ -31,10 +31,10 @@ context_capsule:
   current_architecture: LAFEA.3 uses a governed workbench store with source/domain/geometry/mesh/profile/preflight/execution/recovery lineage and a domain-first compiled solver route.
   prior_owner_decisions:
     - ODR-0001
-  current_implementation_state: main@3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0 contains the merged C3-C.6 matrix and aggregate. Local clean-checkout evidence reports standalone matrix PASS and 19-step aggregate PASS; standalone matrix evidence is accepted, while aggregate checkpoint publication is awaiting exact clarification of the Windows shell invocation/provenance note.
+  current_implementation_state: main@eff897a01a52a1fede58b4037444397037a2f04c retains the qualified matrix and source basis 0016. Exact clean-worktree Windows execution proved 41/41 custody and the unmodified aggregate blob, but the aggregate produced 18/19 PASS because Node rejected direct spawnSync of npm.cmd. The active branch replaces only that package-manager process invocation with direct Node execution of the already-pinned import-check script and advances source custody to C3C-SOURCE-BASIS-0017.
   known_problems:
     - Standalone C3-C.6 matrix executed PASS on exact merged main under the local clean-checkout receipt.
-    - The 19-step C3-C aggregate is reported PASS on exact merged main, but checkpoint publication is pending confirmation that the checked-in aggregate blob executed unmodified and correction of the source-custody count metadata.
+    - Exact main aggregate execution is a real 18/19 FAIL isolated to C3C-IMPORT-GOVERNANCE process launch on Windows; the standalone import check itself passes. A qualification-runner portability repair is committed and requires exact-head execution before AC-C3C6-7 can complete.
   deliberate_non_goals:
     - No solver formulation, stiffness/load assembly, recovery convention, coordinate/sign convention, benchmark oracle, tolerance, mesh threshold, release authority, or merge authorization change.
   terminology:
@@ -94,10 +94,10 @@ inputs:
       - Owner supersedes or revokes the issue-chain authorization.
   - id: INPUT-C3C6-SOURCE-BASIS
     name: C3-C source custody
-    description: Exact source-basis registry that pins the C3-C aggregate sources including the edit-invalidation matrix.
+    description: Exact source-basis registry that pins the C3-C aggregate sources including the edit-invalidation matrix and aggregate runner.
     authority: C3-C qualification source basis
     source: agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json
-    resolution_method: Read basisId and verify Q020 pins the current matrix blob.
+    resolution_method: Read basisId, verify Q020 pins the current matrix blob, and verify Q014 pins the current aggregate runner blob.
     type: JSON source registry
     units: NA
     editable: true
@@ -106,7 +106,7 @@ inputs:
     consumers:
       - STEP-C3C6-FINISH
     validation:
-      - basisId is C3C-SOURCE-BASIS-0016 and Q020 identifies the current edit-invalidation matrix blob.
+      - basisId is C3C-SOURCE-BASIS-0017, Q020 identifies the current edit-invalidation matrix blob, and Q014 identifies the cross-platform aggregate runner blob.
     stale_if:
       - Any pinned qualification source changes without repinning the basis.
 benchmarks:
@@ -276,7 +276,7 @@ next_work:
         required_basis:
           - merged main 4b4a214118d22f27a2e934c0d75cd346fa16b63c
           - post-merge verification PR exact head
-          - C3C-SOURCE-BASIS-0016
+          - C3C-SOURCE-BASIS-0017
         unavailable_here_reason: Connected GitHub Actions attempts received runner_id 0 with zero steps, and the local container cannot clone github.com.
         expected_evidence:
           - TEST-C3C6-MATRIX
