@@ -109,4 +109,3 @@ acceptance_criteria:
       - Exact clean-worktree main@eff897a01a52a1fede58b4037444397037a2f04c execution verified 41/41 source custody and ran all 19 steps; aggregate result was FAIL with 18 PASS / 1 FAIL.
       - The sole blocker was C3C-IMPORT-GOVERNANCE: Node on Windows returned EINVAL when spawnSync invoked npm.cmd, while standalone npm run check:imports passed.
       - Candidate source basis C3C-SOURCE-BASIS-0017 repins only the aggregate runner after replacing npm.cmd process launch with direct Node execution of the already-pinned scripts/import-check.mjs; exact-head execution remains required.
-
