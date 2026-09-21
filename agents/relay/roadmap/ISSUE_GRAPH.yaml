@@ -74,8 +74,38 @@ nodes:
     role: HANDOVER
     handover_key: sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388
     state: ACTIVE
-    github_state: ABSENT
-    github: {}
+    github_state: OPEN
+    github:
+      issue_number: 1866
+      issue_id: null
+      url: https://github.com/reallaksh19/Advanced_Analysis/issues/1866
+    published_handover_snapshot:
+      source_report_digest: sha256:6212448e2f570c19362ceef5eaef5d5bb92ef5efcd3a30037a89384e52823e65
+      intent:
+        - id: AC:AC-C3C6-7
+          kind: ACCEPTANCE
+          source_id: AC-C3C6-7
+          what_remains: The complete C3-C aggregate remains green with the new matrix step included.
+          why_it_remains: Current acceptance state is IN_PROGRESS at 0.0%.
+          basis:
+            - Local evidence reports 19/19 PASS on exact main, but checkpoint acceptance is pending clarification that the checked-in aggregate blob executed unmodified under the noted Windows shell workaround and correction of the source-custody count from 20/20 to the 41 entries actually iterated by basis.sources.
+          done_when: AC-C3C6-7 is COMPLETE on durable acceptance/evidence basis.
+        - id: NEXT:EP-LAFEA3-C3C6-1856:1
+          kind: NEXT_WORK
+          source_id: 1
+          what_remains: Execute the standalone C3-C.6 matrix and 19-step aggregate on the current exact PR head, retaining stdout/stderr/exit status and source custody.
+          why_it_remains: This is part of the current EP successor/current next-work contract.
+          basis:
+            - EP:EP-LAFEA3-C3C6-1856
+          done_when: Standalone matrix and aggregate both execute on the exact current head; actual PASS/FAIL evidence replaces infrastructure NOT_RUN.
+        - id: NEXT:EP-LAFEA3-C3C6-1856:2
+          kind: NEXT_WORK
+          source_id: 2
+          what_remains: If exact-head evidence passes, perform applicable quality review, checkpoint #1856 acceptance, and reconcile progress/issues before considering #1769 closure.
+          why_it_remains: This is part of the current EP successor/current next-work contract.
+          basis:
+            - EP:EP-LAFEA3-C3C6-1856
+          done_when: A backward-looking exact-basis checkpoint records PASS/FAIL/NOT_RUN truth and computes the next frontier.
     source_contract:
       kind: GITHUB_ISSUE
       id: ISSUE-1856

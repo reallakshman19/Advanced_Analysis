@@ -6,7 +6,7 @@
     "roadmap_revision": "RM-0007",
     "issue_graph_revision": "IG-0003",
     "execution_ref": "EP-LAFEA3-C3C6-1856",
-    "state": "PUBLISHING",
+    "state": "IN_SYNC",
     "supersedes_generation": null,
     "basis": [
       "agents/relay/REPO_STATE.yaml",
@@ -18,7 +18,7 @@
     {
       "id": "GHOP-HO-A59069051729",
       "kind": "CREATE",
-      "state": "ATTEMPTED_UNCONFIRMED",
+      "state": "VERIFIED",
       "idempotency_key": "relay:GHGEN-HO-A59069051729:GHOP-HO-A59069051729",
       "depends_on": [],
       "subject": {
@@ -46,16 +46,22 @@
           "operation:GHOP-HO-A59069051729",
           "handover-key:sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388"
         ],
-        "receipt": null,
+        "receipt": "github-issue:1866",
         "last_error": null
       },
       "verification": {
-        "status": "NOT_RUN",
-        "observed_issue_number": null,
+        "status": "PASS",
+        "observed_issue_number": 1866,
         "observed_issue_id": null,
-        "observed_github_state": null,
+        "observed_github_state": "OPEN",
         "observed_relationships": [],
-        "basis": []
+        "basis": [
+          "provider-readback:https://github.com/reallaksh19/Advanced_Analysis/issues/1866",
+          "relay-operation-marker:GHOP-HO-A59069051729:present",
+          "relay-handover-key:sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388:present",
+          "reciprocal-reference:#1856-comment-5763988564"
+        ],
+        "recovered_without_connector_receipt": false
       },
       "reconciliation": {
         "issue_graph_effects": [
