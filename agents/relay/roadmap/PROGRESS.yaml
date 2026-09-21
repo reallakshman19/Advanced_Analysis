@@ -98,7 +98,7 @@ acceptance_criteria:
     percent: 100
     basis:
       - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs contains C3C-EDIT-INVALIDATION-MATRIX.
-      - C3C-SOURCE-BASIS-0016 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
+      - C3C-SOURCE-BASIS-0017 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318.
   - id: AC-C3C6-7
     ep_id: EP-LAFEA3-C3C6-1856
     status: IN_PROGRESS
@@ -106,4 +106,7 @@ acceptance_criteria:
     total_weight: 15
     percent: 0
     basis:
-      - Local evidence reports 19/19 PASS on exact main, but checkpoint acceptance is pending clarification that the checked-in aggregate blob executed unmodified under the noted Windows shell workaround and correction of the source-custody count from 20/20 to the 41 entries actually iterated by basis.sources.
+      - Exact clean-worktree main@eff897a01a52a1fede58b4037444397037a2f04c execution verified 41/41 source custody and ran all 19 steps; aggregate result was FAIL with 18 PASS / 1 FAIL.
+      - The sole blocker was C3C-IMPORT-GOVERNANCE: Node on Windows returned EINVAL when spawnSync invoked npm.cmd, while standalone npm run check:imports passed.
+      - Candidate source basis C3C-SOURCE-BASIS-0017 repins only the aggregate runner after replacing npm.cmd process launch with direct Node execution of the already-pinned scripts/import-check.mjs; exact-head execution remains required.
+
