@@ -9,7 +9,6 @@ const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const ROOT = process.env.C3C_ROOT ? path.resolve(process.env.C3C_ROOT) : path.resolve(path.dirname(SCRIPT_PATH), '..');
 const BASIS_PATH = path.join(ROOT, 'agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json');
 const args = parseArgs(process.argv.slice(2));
-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const head = git(['rev-parse', 'HEAD']).trim();
 
 if (args.expectedHead && head !== args.expectedHead) fail(`Expected HEAD ${args.expectedHead}, observed ${head}.`);
@@ -55,7 +54,7 @@ const steps = [
   step('C3C-PHYSICAL-PROBE-CURRENTNESS', process.execPath, ['scripts/lafea-b02-g4-physical-probe-diagnostic.mjs'], 'C3C_4'),
   step('C3C-PHYSICAL-PROBE-FAIL-CLOSED', process.execPath, ['scripts/lafea-b02-g4-probe-fail-closed-diagnostic.mjs'], 'C3C_4_C3C_6'),
   step('C3C-PROBE-REFINEMENT-INVARIANCE', process.execPath, ['scripts/lafea.3-c3c-probe-invariance-check.mjs'], 'C3C_4'),
-  step('C3C-IMPORT-GOVERNANCE', npm, ['run', 'check:imports'], 'REGRESSION'),
+  step('C3C-IMPORT-GOVERNANCE', process.execPath, ['scripts/import-check.mjs'], 'REGRESSION'),
   step('C3C-DIFF-HYGIENE', 'git', ['diff', '--check', `${args.base ?? basis.reviewedMainSha}...HEAD`], 'REGRESSION'),
 ];
 
@@ -114,6 +113,7 @@ function step(stepId, command, commandArgs, evidenceClass) {
     status: result.status === 0 ? 'PASS' : 'FAIL',
     exitCode: result.status,
     signal: result.signal ?? null,
+    spawnError: result.error ? { name: result.error.name, code: result.error.code ?? null, message: result.error.message } : null,
     stdoutSha256: sha256(stdout),
     stderrSha256: sha256(stderr),
     stdoutTail: tail(stdout),
