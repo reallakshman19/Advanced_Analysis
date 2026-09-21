@@ -1,0 +1,54 @@
+schema_version: relay-v2.5-takeover-certification
+id: TC-C3C6-0002
+candidate:
+  agent_instance_id: chatgpt-gpt5.6-sol-c3c6-repair-20260921
+prepared_by:
+  agent_instance_id: chatgpt-gpt5.6-sol-c3c6-repair-20260921
+evaluated_by:
+  type: DETERMINISTIC_VALIDATOR
+  identity: validate_takeover_certification.py
+  basis:
+    - github:reallaksh19/Common@1bc4eca6eac9d75900ddee1c338da4b44817eeec/skills/engineering-pr-delivery-v2.5/scripts/validate_takeover_certification.py
+    - agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml@blob:fdab407108caa6df6f21f79590dbe8d61abcfb8e
+    - agents/relay/certifications/discovery/DISC-C3C6-0002.yaml
+self_certification:
+  allowed: false
+route:
+  route_key: SERIAL:EP-LAFEA3-C3C6-1856
+  mode: SERIAL
+  execution_ref: EP-LAFEA3-C3C6-1856
+  ep_id: EP-LAFEA3-C3C6-1856
+  ep_path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
+  plan_id: null
+  plan_path: null
+  lane_id: null
+basis:
+  roadmap_id: RM-LAFEA-MESH-COMPLETION
+  roadmap_revision: RM-0007
+  relay_protocol_basis_ref: github:reallaksh19/Common@1bc4eca6eac9d75900ddee1c338da4b44817eeec/skills/engineering-pr-delivery-v2.5
+  material_ref: eff897a01a52a1fede58b4037444397037a2f04c
+  ep_contract_digest: sha256:4932bfc7ce828ec8443aad63f1b3a16394442b31abac747c68a78e8b66cea79b
+  repo_profile_digest: sha256:12b2e258033da2bc37d434e196dd9676dd80718f968a288db916a71fa9a47d9e
+  predecessor_baton:
+    type: NONE
+    id: NONE
+    path: null
+    digest: null
+discovery_receipt:
+  id: DISC-C3C6-0002
+  path: agents/relay/certifications/discovery/DISC-C3C6-0002.yaml
+qualification:
+  required: false
+  status: NOT_REQUIRED
+  receipt_id: null
+  receipt_path: null
+  receipt_digest: null
+checks:
+  baton_semantics: PASS
+  repository_discovery: PASS
+  route_grounding: PASS
+  input_oracle_readiness: PASS
+  scope_understood: PASS
+  report_successor_contract: PASS
+result: PASS
+conversation_context_used: false

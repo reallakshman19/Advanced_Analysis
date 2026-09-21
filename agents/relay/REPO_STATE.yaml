@@ -5,7 +5,7 @@ repository:
   remote: https://github.com/reallaksh19/Advanced_Analysis
 relay_protocol:
   version: "2.5"
-  basis_ref: github:reallaksh19/Common@d9b84069683977b5c370f536f1c50095de926338/skills/engineering-pr-delivery-v2.5
+  basis_ref: github:reallaksh19/Common@1bc4eca6eac9d75900ddee1c338da4b44817eeec/skills/engineering-pr-delivery-v2.5
 roadmap:
   id: RM-LAFEA-MESH-COMPLETION
   revision: RM-0007
@@ -30,7 +30,16 @@ predecessor_join:
 predecessor_replan:
   id: null
   path: null
-takeover_admissions: []
+takeover_admissions:
+  - route_key: SERIAL:EP-LAFEA3-C3C6-1856
+    candidate:
+      agent_instance_id: chatgpt-gpt5.6-sol-c3c6-repair-20260921
+    discovery_receipt:
+      id: DISC-C3C6-0002
+      path: agents/relay/certifications/discovery/DISC-C3C6-0002.yaml
+    certification:
+      id: TC-C3C6-0002
+      path: agents/relay/certifications/takeover/TC-C3C6-0002.yaml
 progress:
   overall_percent: 0
   phase_percent: 0
@@ -38,33 +47,30 @@ progress:
   basis_revision: PB-0007
 status_planes:
   execution:
-    state: WAITING
+    state: ACTIVE
     can_continue: true
-    material_authority: READ_ONLY
-    next_action: Obtain one explicit local-executor clarification that source custody is 41/41 and whether the checked-in aggregate blob 2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3 executed unmodified; then finalize quality review/checkpoint for #1856 and reconcile #1769.
+    material_authority: WRITE
+    next_action: Repair only the C3-C aggregate Windows npm.cmd child-process invocation, repin the changed aggregate in a new C3-C source basis, then obtain exact-head local execution evidence before checkpointing #1856.
   quality:
     state: NEEDS_ATTENTION
     findings:
-      - id: QF-C3C6-EXACT-EXECUTION-PROVENANCE
-        statement: Aggregate PASS is reported, but the Windows shell-invocation note does not yet prove that the checked-in aggregate blob executed unmodified; the issue comment also reports 20/20 source custody while basis.sources contains 41 entries.
+      - id: QF-C3C6-WINDOWS-NPM-SPAWN
+        statement: Exact clean-main execution proves a qualification-runner portability defect: direct spawnSync of npm.cmd returns EINVAL on Windows before import governance executes; standalone npm run check:imports passes.
         severity: MEDIUM
-        classification: DELIVERY_RISK
-        disposition: UNRESOLVED
-        blocks_execution: true
+        classification: TEST_GAP
+        disposition: IN_PROGRESS
+        blocks_execution: false
       - Top-level #1710/#1711 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
       - C3-D/E/F/G successor work packages remain non-executable while WP-1769 is unresolved.
   evidence:
     state: PARTIAL
-    summary: Exact-main local evidence establishes standalone C3-C.6 matrix PASS. The 19-step aggregate is reported PASS, but its exact unmodified execution provenance must be clarified before checkpoint publication.
+    summary: Exact main eff897a01a52a1fede58b4037444397037a2f04c local evidence establishes standalone matrix PASS, source custody 41/41 PASS, and unmodified aggregate 18/19 with only C3C-IMPORT-GOVERNANCE failing pre-npm due Windows spawnSync npm.cmd EINVAL; standalone import governance passes.
     not_run: []
   stop:
-    active: true
-    category: ESSENTIAL_INPUT_MISSING
-    reason: Exact aggregate execution provenance is incomplete because the Windows shell-invocation workaround is not bound to the checked-in aggregate blob and the reported source-custody count conflicts with the 41-entry basis.
-    basis:
-      - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5748430858
-      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs@blob:2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3
-      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:961808a0f702c8176cac3c78a275f177afd1a423
+    active: false
+    category: NONE
+    reason: ""
+    basis: []
 projection:
   required: false
   state: NOT_REQUIRED
@@ -79,5 +85,5 @@ relay_readiness:
   projection_ready: true
   handover_ready: true
   reasons:
-    - Candidate-specific takeover must be refreshed after post-merge Git-basis reconciliation before any new engineering-material write.
+    - Candidate admission DISC-C3C6-0002 / TC-C3C6-0002 is bound to the current repair route; live Git/material readiness must still be checked at write time.
 chat_context_required: false
