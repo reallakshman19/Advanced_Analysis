@@ -70,6 +70,16 @@ nodes:
       issue_number: 1776
       issue_id: null
       url: https://github.com/reallaksh19/Advanced_Analysis/issues/1776
+  - id: HANDOVER-FFB6C99A-6212448E
+    role: HANDOVER
+    handover_key: sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388
+    state: ACTIVE
+    github_state: ABSENT
+    github: {}
+    source_contract:
+      kind: GITHUB_ISSUE
+      id: ISSUE-1856
+      work_package: WP-1769
 relationships:
   - from: ISSUE-1710
     relation: PARENT_OF
@@ -107,3 +117,6 @@ relationships:
   - from: ISSUE-1776
     relation: DEPENDS_ON
     to: ISSUE-1774
+  - from: HANDOVER-FFB6C99A-6212448E
+    relation: RELATES_TO
+    to: ISSUE-1856

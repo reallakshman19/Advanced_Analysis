@@ -1,0 +1,109 @@
+{
+  "schema_version": "relay-v2.5-github-projection",
+  "generation": {
+    "id": "GHGEN-HO-A59069051729",
+    "repository": "https://github.com/reallaksh19/Advanced_Analysis",
+    "roadmap_revision": "RM-0007",
+    "issue_graph_revision": "IG-0003",
+    "execution_ref": "EP-LAFEA3-C3C6-1856",
+    "state": "PREPARED",
+    "supersedes_generation": null,
+    "basis": [
+      "agents/relay/REPO_STATE.yaml",
+      "agents/relay/roadmap/ISSUE_GRAPH.yaml",
+      "handover-plan:sha256:6212448e2f570c19362ceef5eaef5d5bb92ef5efcd3a30037a89384e52823e65"
+    ]
+  },
+  "operations": [
+    {
+      "id": "GHOP-HO-A59069051729",
+      "kind": "CREATE",
+      "state": "PREPARED",
+      "idempotency_key": "relay:GHGEN-HO-A59069051729:GHOP-HO-A59069051729",
+      "depends_on": [],
+      "subject": {
+        "issue_node": "HANDOVER-FFB6C99A-6212448E",
+        "related_nodes": []
+      },
+      "preconditions": {
+        "repository_issue_state": "ABSENT",
+        "work_state": "ACTIVE",
+        "handover_key": "sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388"
+      },
+      "desired": {
+        "body_marker": "<!-- relay-operation:GHOP-HO-A59069051729 -->",
+        "body_projection": "<!-- relay-operation:GHOP-HO-A59069051729 -->\n<!-- relay-handover-key:sha256:ffb6c99aed1982610edae72a90266754310232ee13789a8ac3d08729eb048388 -->\n# Engineering handover intent\n\n## Source work\n- Selection: **GITHUB_ISSUE**\n- Source identity: **ISSUE-1856**\n- Work package: **WP-1769**\n- Source GitHub issue: #1856\n- Source URL: https://github.com/reallaksh19/Advanced_Analysis/issues/1856\n\n## INTENT — pending items\n- **AC:AC-C3C6-7 / ACCEPTANCE** — The complete C3-C aggregate remains green with the new matrix step included.\n  - Why pending: Current acceptance state is IN_PROGRESS at 0.0%.\n  - Done when: AC-C3C6-7 is COMPLETE on durable acceptance/evidence basis.\n- **NEXT:EP-LAFEA3-C3C6-1856:1 / NEXT_WORK** — Execute the standalone C3-C.6 matrix and 19-step aggregate on the current exact PR head, retaining stdout/stderr/exit status and source custody.\n  - Why pending: This is part of the current EP successor/current next-work contract.\n  - Done when: Standalone matrix and aggregate both execute on the exact current head; actual PASS/FAIL evidence replaces infrastructure NOT_RUN.\n- **NEXT:EP-LAFEA3-C3C6-1856:2 / NEXT_WORK** — If exact-head evidence passes, perform applicable quality review, checkpoint #1856 acceptance, and reconcile progress/issues before considering #1769 closure.\n  - Why pending: This is part of the current EP successor/current next-work contract.\n  - Done when: A backward-looking exact-basis checkpoint records PASS/FAIL/NOT_RUN truth and computes the next frontier.\n\n## Changes since prior handover\n- Initial handover publication for this ownership boundary.\n\n## Inputs\n- **INPUT-ODR-0001** — definition: `agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml#inputs/INPUT-ODR-0001`; pinned file: https://github.com/reallaksh19/Advanced_Analysis/blob/3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0/agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml; source: agents/relay/roadmap/owner-decisions/ODR-0001.yaml\n- **INPUT-C3C6-SOURCE-BASIS** — definition: `agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml#inputs/INPUT-C3C6-SOURCE-BASIS`; pinned file: https://github.com/reallaksh19/Advanced_Analysis/blob/3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0/agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml; source: agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json\n\n## Benchmarks\n- **BENCH-C3C6-MATRIX-CONTRACT** — definition: `agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml#benchmarks/BENCH-C3C6-MATRIX-CONTRACT`; pinned file: https://github.com/reallaksh19/Advanced_Analysis/blob/3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0/agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml; source: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml\n- **BENCH-C3C6-AGGREGATE** — definition: `agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml#benchmarks/BENCH-C3C6-AGGREGATE`; pinned file: https://github.com/reallaksh19/Advanced_Analysis/blob/3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0/agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml; source: scripts/lafea.3-c3c-model-compiler-qualification-check.mjs\n\n## Expected outcomes\n- User-visible: Issue #1856 is resolved only after the seven-class edit-invalidation matrix and 19-step aggregate execute on the current candidate and retain truthful evidence.\n- Engineering: Prove currentness invalidation across reachable governed edits without changing solver formulation, assembly, recovery, oracle, tolerance, or release authority.\n- Next-work result: Standalone matrix and aggregate both execute on the exact current head; actual PASS/FAIL evidence replaces infrastructure NOT_RUN.\n- Next-work result: A backward-looking exact-basis checkpoint records PASS/FAIL/NOT_RUN truth and computes the next frontier.\n\n## Textual requirements and boundaries\n- Protected: Existing seven-state currentness and ancestry rules remain unchanged — Issue #1856 is a proof task, not authority to relax currentness.\n- Protected: Solver formulation, stiffness/load assembly, and recovery conventions remain unchanged — Explicit issue boundary.\n- Protected: Existing benchmark oracle/tolerances and release authority remain unchanged — Prevent evidence-blind tuning.\n- Prohibited: production solver numerics — Outside #1856 and requires separate engineering authority.\n- Prohibited: benchmark oracle or tolerance changes — Would invalidate independent verification.\n- Prohibited: unrelated EMP.1, LAFEA.4+, piping, or load-calculation work — Preserve surgical scope.\n- Owner-reserved: Merge PR #1857 or grant release authority — Requires explicit exact-head Owner authorization under V2.5.\n- Owner-reserved: Expand C3-C.6 into new production edit surfaces or change currentness semantics — Changes engineering/product scope beyond proof of the existing contract.\n- Non-goal: No solver formulation, stiffness/load assembly, recovery convention, coordinate/sign convention, benchmark oracle, tolerance, mesh threshold, release authority, or merge authorization change.\n- Known problem: Standalone C3-C.6 matrix executed PASS on exact merged main under the local clean-checkout receipt.\n- Known problem: The 19-step C3-C aggregate is reported PASS on exact merged main, but checkpoint publication is pending confirmation that the checked-in aggregate blob executed unmodified and correction of the source-custody count metadata.\n\n## Recent concept-linked material events\n- No material event is recorded for the current objective/phase concepts.\n\n## Owner core requirements from this session\n- Use Common engineering-pr-delivery-v2.5 at exact commit 1bc4eca6eac9d75900ddee1c338da4b44817eeec for this Plan for Handover transaction; preserve truthful engineering evidence and existing authority boundaries.\n\n## Completion test\n- Every INTENT item above is complete on its governing acceptance/evidence basis or explicitly dispositioned by current authority.\n\n## Linkage rule\n- Preferred: NATIVE_SUB_ISSUE_IF_SUPPORTED_AND_VERIFIED.\n- Fallback: VERIFIED_RECIPROCAL_REFERENCE.\n- Do not claim native parent/sub-issue state before provider readback.\n",
+        "github_state": "OPEN",
+        "relationships": [],
+        "title": "Engineering handover — ISSUE-1856",
+        "source_issue_number": 1856
+      },
+      "publication": {
+        "attempt_count": 0,
+        "last_attempt_basis": [],
+        "receipt": null,
+        "last_error": null
+      },
+      "verification": {
+        "status": "NOT_RUN",
+        "observed_issue_number": null,
+        "observed_issue_id": null,
+        "observed_github_state": null,
+        "observed_relationships": [],
+        "basis": []
+      },
+      "reconciliation": {
+        "issue_graph_effects": [
+          {
+            "node": "HANDOVER-FFB6C99A-6212448E",
+            "set_github_state": "OPEN",
+            "set_issue_number": "OBSERVED",
+            "set_issue_id": "OBSERVED",
+            "set_published_handover_snapshot": {
+              "source_report_digest": "sha256:6212448e2f570c19362ceef5eaef5d5bb92ef5efcd3a30037a89384e52823e65",
+              "intent": [
+                {
+                  "id": "AC:AC-C3C6-7",
+                  "kind": "ACCEPTANCE",
+                  "source_id": "AC-C3C6-7",
+                  "what_remains": "The complete C3-C aggregate remains green with the new matrix step included.",
+                  "why_it_remains": "Current acceptance state is IN_PROGRESS at 0.0%.",
+                  "basis": [
+                    "Local evidence reports 19/19 PASS on exact main, but checkpoint acceptance is pending clarification that the checked-in aggregate blob executed unmodified under the noted Windows shell workaround and correction of the source-custody count from 20/20 to the 41 entries actually iterated by basis.sources."
+                  ],
+                  "done_when": "AC-C3C6-7 is COMPLETE on durable acceptance/evidence basis."
+                },
+                {
+                  "id": "NEXT:EP-LAFEA3-C3C6-1856:1",
+                  "kind": "NEXT_WORK",
+                  "source_id": 1,
+                  "what_remains": "Execute the standalone C3-C.6 matrix and 19-step aggregate on the current exact PR head, retaining stdout/stderr/exit status and source custody.",
+                  "why_it_remains": "This is part of the current EP successor/current next-work contract.",
+                  "basis": [
+                    "EP:EP-LAFEA3-C3C6-1856"
+                  ],
+                  "done_when": "Standalone matrix and aggregate both execute on the exact current head; actual PASS/FAIL evidence replaces infrastructure NOT_RUN."
+                },
+                {
+                  "id": "NEXT:EP-LAFEA3-C3C6-1856:2",
+                  "kind": "NEXT_WORK",
+                  "source_id": 2,
+                  "what_remains": "If exact-head evidence passes, perform applicable quality review, checkpoint #1856 acceptance, and reconcile progress/issues before considering #1769 closure.",
+                  "why_it_remains": "This is part of the current EP successor/current next-work contract.",
+                  "basis": [
+                    "EP:EP-LAFEA3-C3C6-1856"
+                  ],
+                  "done_when": "A backward-looking exact-basis checkpoint records PASS/FAIL/NOT_RUN truth and computes the next frontier."
+                }
+              ]
+            }
+          }
+        ],
+        "complete_when": [
+          "issue identity verified",
+          "relay-operation marker verified"
+        ]
+      }
+    }
+  ]
+}

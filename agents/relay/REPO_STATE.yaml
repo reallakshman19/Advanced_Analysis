@@ -66,18 +66,23 @@ status_planes:
       - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs@blob:2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3
       - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:961808a0f702c8176cac3c78a275f177afd1a423
 projection:
-  required: false
-  state: NOT_REQUIRED
-  operation_id: null
-  target: null
+  required: true
+  state: PENDING
+  operation_id: GHGEN-HO-A59069051729
+  target: github:https://github.com/reallaksh19/Advanced_Analysis:issues
+  adapter: GITHUB_ISSUES
+  plan: agents/relay/projection/generations/GHGEN-HO-A59069051729.yaml
   roadmap_revision: RM-0007
-  execution_ref: NONE
+  execution_ref: EP-LAFEA3-C3C6-1856
   receipt: null
-  basis: []
+  basis:
+    - agents/relay/REPO_STATE.yaml
+    - agents/relay/roadmap/ISSUE_GRAPH.yaml
+    - handover-plan:sha256:6212448e2f570c19362ceef5eaef5d5bb92ef5efcd3a30037a89384e52823e65
 relay_readiness:
   baton_ready: true
-  projection_ready: true
-  handover_ready: true
+  projection_ready: false
+  handover_ready: false
   reasons:
     - Candidate-specific takeover must be refreshed after post-merge Git-basis reconciliation before any new engineering-material write.
 chat_context_required: false
