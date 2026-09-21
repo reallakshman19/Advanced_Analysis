@@ -38,33 +38,36 @@ progress:
   basis_revision: PB-0007
 status_planes:
   execution:
-    state: WAITING
+    state: ACTIVE
     can_continue: true
-    material_authority: READ_ONLY
-    next_action: Obtain one explicit local-executor clarification that source custody is 41/41 and whether the checked-in aggregate blob 2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3 executed unmodified; then finalize quality review/checkpoint for #1856 and reconcile #1769.
+    material_authority: WRITE
+    next_action: Execute the standalone matrix and complete 19-step aggregate on the exact repaired candidate using C3C-SOURCE-BASIS-0017; retain artifact/exit evidence before checkpoint publication.
   quality:
     state: NEEDS_ATTENTION
     findings:
       - id: QF-C3C6-EXACT-EXECUTION-PROVENANCE
-        statement: Aggregate PASS is reported, but the Windows shell-invocation note does not yet prove that the checked-in aggregate blob executed unmodified; the issue comment also reports 20/20 source custody while basis.sources contains 41 entries.
+        statement: Local executor clarified 41/41 custody, Windows 11 PowerShell/cmd execution, clean worktree, and unmodified aggregate blob execution.
         severity: MEDIUM
         classification: DELIVERY_RISK
-        disposition: UNRESOLVED
-        blocks_execution: true
+        disposition: RESOLVED
+        blocks_execution: false
+      - id: QF-C3C6-WINDOWS-NPMCMD-SPAWN
+        statement: Exact unmodified aggregate execution produced 18/19 PASS because Node child_process spawnSync of npm.cmd returned EINVAL on Windows; standalone import governance passed. Candidate replaces only that process launch with direct Node execution of the pinned import-check script.
+        severity: MEDIUM
+        classification: DELIVERY_RISK
+        disposition: IN_PROGRESS
+        blocks_execution: false
       - Top-level #1710/#1711 progress denominator is not yet reconstructed under V2.5; no programme/WP completion percentage is claimed.
       - C3-D/E/F/G successor work packages remain non-executable while WP-1769 is unresolved.
   evidence:
     state: PARTIAL
-    summary: Exact-main local evidence establishes standalone C3-C.6 matrix PASS. The 19-step aggregate is reported PASS, but its exact unmodified execution provenance must be clarified before checkpoint publication.
+    summary: Standalone C3-C.6 matrix PASS is durable. Exact main aggregate execution is actual FAIL at 18/19 with 41/41 source custody; the sole blocker is qualification-runner Windows npm.cmd process launch. C3C-SOURCE-BASIS-0017 contains a bounded cross-platform runner repair pending exact-head execution.
     not_run: []
   stop:
-    active: true
-    category: ESSENTIAL_INPUT_MISSING
-    reason: Exact aggregate execution provenance is incomplete because the Windows shell-invocation workaround is not bound to the checked-in aggregate blob and the reported source-custody count conflicts with the 41-entry basis.
-    basis:
-      - github:reallaksh19/Advanced_Analysis/issues/1856#issuecomment-5748430858
-      - scripts/lafea.3-c3c-model-compiler-qualification-check.mjs@blob:2f46e9d9e6d50b8fc84972bee40605cdd0fb94a3
-      - agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json@blob:961808a0f702c8176cac3c78a275f177afd1a423
+    active: false
+    category: NONE
+    reason: ""
+    basis: []
 projection:
   required: false
   state: NOT_REQUIRED
@@ -79,5 +82,5 @@ relay_readiness:
   projection_ready: true
   handover_ready: true
   reasons:
-    - Candidate-specific takeover must be refreshed after post-merge Git-basis reconciliation before any new engineering-material write.
+    - Active route remains WP-1769 / EP-LAFEA3-C3C6-1856; exact-head qualification evidence is still required before checkpoint and successor activation.
 chat_context_required: false
