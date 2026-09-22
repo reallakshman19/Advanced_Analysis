@@ -221,7 +221,8 @@ function rectangleDomain(definition, sourceHash, geometry) {
 function meshProfile(definition, method, level) {
   const defaults = defaultProfileFields(PROFILE_KINDS.MESH);
   const useB02aProbeStable = definition.caseId === 'B02A';
-  const useB02bProbeStable = definition.caseId === 'B02B';
+  const useB02bProbeStable = definition.caseId === 'B02B'
+    || (definition.caseId === 'B02B-V2' && definition.supersedesCaseId === 'B02B');
   const profileIdentity = useB02aProbeStable
     ? b02aProbeStableProfileIdentity(method, level.targetElementLength)
     : useB02bProbeStable
