@@ -3,14 +3,14 @@
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
     "roadmap_revision": "RM-0011",
-    "state_digest": "sha256:46974ec9bad43f59d5155698c8926ed0c0db1ef800d0f8f82434a3261c839090",
+    "state_digest": "sha256:8f667746125cf9ee2a61d978651c5cdf685953e1688f9c95de9fa542d48cfd09",
     "material_basis": {
       "head": "1019ca26cb18332983f64258698787280b86afd1",
       "tree_digest": "sha256:8cb28903f497d198f338bb2438d0b2e96cec8729184721028c6489fa61ea577c",
-      "relevant_paths_digest": "sha256:2d3c6c95e6fcbfe75bc839cb2b7540ee8555f896e16236b3cd74afcfd6c5d821",
-      "dependency_digest": "sha256:291b21fe7cde28f8155c70e9b8e194d0d50a5d33ad329e7e088fbcb117cb4217"
+      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     },
-    "coordination_head": "b66777be9f68c705729a97edda2285240de38a97"
+    "coordination_head": "40ecb3770e942afa43470f9caf6df8ca67053400"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -28,38 +28,22 @@
     ]
   },
   "execution": {
-    "lifecycle": "ACTIVE",
-    "work_package": "WP-1771",
-    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
-    "lease": "LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
-    "executor": "chatgpt-gpt5.6-sol-c3d-v31-20260922"
+    "lifecycle": "IDLE",
+    "work_package": null,
+    "ep": null,
+    "lease": null,
+    "executor": null
   },
   "scope": {
-    "allowed_writes": [
-      "relay/EVIDENCE/C3D-DIAGNOSTIC/**"
-    ],
-    "protected": [
-      "scripts/lib/**",
-      "src/**",
-      "validation/**",
-      ".github/workflows/**"
-    ],
-    "prohibited": [
-      "any product/source modification in this EP",
-      "FE solver or element formulation changes",
-      "benchmark oracle or tolerance changes",
-      "mesh generator or mesh-quality threshold changes",
-      "recovery or result-authority changes",
-      "workflow YAML changes",
-      "release or merge authority",
-      "implementation of issue #1862 receipt composition in this EP"
-    ]
+    "allowed_writes": [],
+    "protected": [],
+    "prohibited": []
   },
   "material": {
     "base": "1019ca26cb18332983f64258698787280b86afd1",
     "head": "1019ca26cb18332983f64258698787280b86afd1",
-    "relevant_paths_digest": "sha256:2d3c6c95e6fcbfe75bc839cb2b7540ee8555f896e16236b3cd74afcfd6c5d821",
-    "dependency_digest": "sha256:291b21fe7cde28f8155c70e9b8e194d0d50a5d33ad329e7e088fbcb117cb4217"
+    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -82,16 +66,9 @@
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": "Export the V3.1 VALIDATE_ONLY local execution request for exact material head 1019ca26cb18332983f64258698787280b86afd1 and execute the four existing diagnostic commands without modifying product/source state.",
+    "immediate_material_action": null,
     "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": [
-      "Stop on HEAD_MISMATCH.",
-      "Do not modify product/source files.",
-      "Do not relax B02B tolerances or mesh-quality thresholds.",
-      "Do not reinterpret BM-005 OSCILLATORY / RESULT_NOT_READY as a benchmark defect without first-owning evidence.",
-      "Do not admit or implement #1862.",
-      "If execution is unavailable, return NOT_RUN_ENVIRONMENT or NOT_RUN_INFRASTRUCTURE."
-    ]
+    "stop_conditions": []
   },
   "handoff": {
     "zero_context_takeover_possible": true,
@@ -99,8 +76,7 @@
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
-      "relay/WORK/EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003.yaml",
-      "relay/LEASES/LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0003.yaml"
+      "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml"
     ]
   }
 }
