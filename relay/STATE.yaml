@@ -5,10 +5,10 @@
     "path": "relay/ROADMAP/ROADMAP.yaml"
   },
   "execution": {
-    "lifecycle": "ACTIVE",
-    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
-    "lease": "LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
-    "route": "SERIAL:EP-LAFEA3-C3D-DIAGNOSTIC-1771-0002"
+    "lifecycle": "IDLE",
+    "ep": null,
+    "lease": null,
+    "route": null
   },
   "accepted": {
     "checkpoint": null

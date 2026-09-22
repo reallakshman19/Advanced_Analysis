@@ -1,0 +1,43 @@
+{
+  "schema_version": "relay-v3.1-source-reconciliation/v1",
+  "authority": "MIGRATION_EVIDENCE",
+  "from": {
+    "common_commit": "edb845f06f32c87453dee6fbfcc2f84937017279",
+    "protocol_basis": "github:reallaksh19/Common@edb845f06f32c87453dee6fbfcc2f84937017279/skills/engineering-pr-delivery-v3.1"
+  },
+  "to": {
+    "common_commit": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+    "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1"
+  },
+  "owner_basis": {
+    "direct_utterance_digest": "sha256:c436cf355cfc2eaaf142602b5c13759a8b7744371d879556b6293d4d47952e42",
+    "session_timestamp": "2026-09-22T16:12:27Z"
+  },
+  "compatibility": {
+    "state_schema": "UNCHANGED",
+    "roadmap_schema": "UNCHANGED",
+    "controls_schema": "UNCHANGED",
+    "ep_schema": "UNCHANGED",
+    "lease_schema": "UNCHANGED",
+    "checkpoint_schema": "UNCHANGED",
+    "snapshot_schema": "UNCHANGED",
+    "protocol_selection_schema": "UNCHANGED",
+    "local_execution_result_schema": "UNCHANGED",
+    "local_execution_projection": "UNCHANGED"
+  },
+  "repaired_source": {
+    "local_execution_schema": "PASS",
+    "yaml_parse": "PASS",
+    "draft202012_schema_check": "PASS",
+    "intended_package_validation": "PASS",
+    "common_issue": 429,
+    "main_commit": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+    "full_common_test_suite": "NOT_RUN_PROVIDER"
+  },
+  "custody": {
+    "released_lease": "LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
+    "release_reason": "ADMINISTRATIVE",
+    "next": "Fresh V3.1 EP/lease must bind 4c0617b; old EP remains history."
+  },
+  "claim_policy": "No engineering acceptance, numerical PASS, or checkpoint is created by this source-basis reconciliation."
+}
