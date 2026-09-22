@@ -1,0 +1,47 @@
+{
+  "schema_version": "relay-v3.1-local-execution-result",
+  "authority": "EXTERNAL_EXECUTION_EVIDENCE",
+  "request_id": "LOCAL-EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003-1019ca26cb18",
+  "status": "FAIL",
+  "observed_head": "1019ca26cb18332983f64258698787280b86afd1",
+  "environment": {
+    "os": "Windows (PowerShell)",
+    "node": "v24.11.1",
+    "repository_path": "c:\\Users\\reall\\Documents\\antigravity\\Advanced_Analysis",
+    "working_tree": "CLEAN",
+    "product_source_modifications": false
+  },
+  "command_results": [
+    {
+      "step_id": "STEP-CMD-1",
+      "status": "FAIL",
+      "exit_code": 1,
+      "summary": "B02 production sequence advanced past the former B02D V1 precursor and blocked at B02B: B02B-V2/T3/B02B-PROBE-TAU-01 finest relative error 0.079990250251308 > 0.05; LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B."
+    },
+    {
+      "step_id": "STEP-CMD-2",
+      "status": "FAIL",
+      "exit_code": 1,
+      "summary": "B02B production qualification failed at T3/B02B-PROBE-TAU-01: finest relative error 0.079990250251308 > frozen 0.05 criterion."
+    },
+    {
+      "step_id": "STEP-CMD-3",
+      "status": "FAIL",
+      "exit_code": 1,
+      "summary": "Plane-strain B-bar qualification failed because T6/0.3/L1/REGULAR mesh quality returned BLOCK where the script asserts non-BLOCK."
+    },
+    {
+      "step_id": "STEP-CMD-4",
+      "status": "FAIL",
+      "exit_code": 1,
+      "summary": "BM-005 ordinary route reported OSCILLATORY convergence, asymptoticRangeAccepted=false, oracleComparison.status=FAIL, finalResultState=RESULT_NOT_READY, benchmarkQualified=false and resultPublicationQualified=false."
+    }
+  ],
+  "failures": [
+    "STEP-CMD-1: B02B-V2/T3/B02B-PROBE-TAU-01 finest relative error 0.079990250251308 > 0.05; sequence blocked at B02B.",
+    "STEP-CMD-2: B02B-V2/T3/B02B-PROBE-TAU-01 finest relative error 0.079990250251308 > 0.05.",
+    "STEP-CMD-3: T6/0.3/L1/REGULAR mesh quality blocked.",
+    "STEP-CMD-4: OSCILLATORY convergence; asymptotic range not demonstrated; oracle comparison FAIL; RESULT_NOT_READY."
+  ],
+  "artifacts": []
+}
