@@ -19,6 +19,12 @@ roadmap_source:
   phase: PH-1711
   work_package: WP-1769
   generated_from_frontier: true
+  task_admission:
+    disposition: MAPPED_EXISTING_WP
+    searched_paths:
+      - agents/relay/roadmap/OVERALL_ROADMAP.yaml
+    basis:
+      - RM-0007 contains WP-1769 under OBJ-1710 / PH-1711 and this execution package is explicitly bound to that existing work package.
 outcome:
   user_visible:
     - Issue #1856 is resolved only after the seven-class edit-invalidation matrix and 19-step aggregate execute on the current candidate and retain truthful evidence.
