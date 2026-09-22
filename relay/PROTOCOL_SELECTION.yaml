@@ -1,0 +1,21 @@
+{
+  "schema_version": "relay-v3-protocol-selection",
+  "selected_protocol": "V2_5",
+  "status": "PREPARED",
+  "legacy": {
+    "root": "agents/relay",
+    "tree_digest": "sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1",
+    "policy": "LIVE_COMPATIBILITY"
+  },
+  "v3": {
+    "state_path": "relay/STATE.yaml",
+    "validation": "PASS"
+  },
+  "cutover": {
+    "owner_authorized": false,
+    "owner_basis": null,
+    "legacy_freeze_digest": "sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1",
+    "readiness_digest": null,
+    "activated_at": null
+  }
+}

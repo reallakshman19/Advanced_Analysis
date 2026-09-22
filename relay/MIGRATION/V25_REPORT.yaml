@@ -1,0 +1,201 @@
+{
+  "schema_version": "relay-v3-migration-report",
+  "authority": "DERIVED_MIGRATION_REPORT",
+  "source_protocol": "2.5",
+  "generated_at": "2026-09-22T11:49:27Z",
+  "source": {
+    "root": ".",
+    "state_path": "agents/relay/REPO_STATE.yaml",
+    "state_digest": "sha256:1cd5b9ca70ce34c84a53c82cbe68f8cccbaf91043e68e295634764340286b9f5",
+    "roadmap_path": "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+    "legacy_tree_digest": "sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1"
+  },
+  "validation": {
+    "repo_state": "PASS",
+    "basis": [
+      "Provider readback satisfies the pinned Common c87cf87 V2.5 source-validator preconditions: relay-v2.5 IDLE state, explicit roadmap/checkpoint/projection paths, no active EP, and no active hard stop.",
+      "Migration-only checkpoint repair binds every PASS validation result to exact material 7f2a8ae35011dade594c79ba31e656883ef52e73.",
+      "Migration-only EP repair records MAPPED_EXISTING_WP admission against RM-0007/WP-1769."
+    ]
+  },
+  "legacy_inventory": {
+    "file_count": 25,
+    "category_counts": {
+      "CHECKPOINT": 1,
+      "DISCOVERY": 3,
+      "EP": 2,
+      "OTHER": 3,
+      "PROJECTION": 2,
+      "REPO_STATE": 1,
+      "ROADMAP": 10,
+      "TAKEOVER_CERTIFICATION": 3
+    },
+    "entries": [
+      {
+        "path": "agents/relay/REPO_PROFILE.yaml",
+        "digest": "sha256:3b20ddf23ad7a7e06944e5870f7f20cd2b038b2015be091f1f74c7415730098b",
+        "category": "OTHER",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/REPO_STATE.yaml",
+        "digest": "sha256:1cd5b9ca70ce34c84a53c82cbe68f8cccbaf91043e68e295634764340286b9f5",
+        "category": "REPO_STATE",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/certifications/discovery/DISC-C3C6-0001.yaml",
+        "digest": "sha256:fee90af580c967b79a5ffbb6d1909223b4aec15b747cee704ce09707487273be",
+        "category": "DISCOVERY",
+        "schema_version": "relay-v2.5-discovery"
+      },
+      {
+        "path": "agents/relay/certifications/discovery/DISC-C3C6-0002.yaml",
+        "digest": "sha256:75c6d7258225b0560fd5d3e185a6c0c927b49323371ee7cb01bd74fb664806d4",
+        "category": "DISCOVERY",
+        "schema_version": "relay-v2.5-discovery"
+      },
+      {
+        "path": "agents/relay/certifications/discovery/DISC-C3C6-0003.yaml",
+        "digest": "sha256:e1c9b7928497541d1745dec3c0d9f6f68aa026656c53ca52a6021f202480c170",
+        "category": "DISCOVERY",
+        "schema_version": "relay-v2.5-discovery"
+      },
+      {
+        "path": "agents/relay/certifications/takeover/TC-C3C6-0001.yaml",
+        "digest": "sha256:2fdd30ff8f1a3d47cdaeb10530b8063ce66949f8578c9a9f117315613912a474",
+        "category": "TAKEOVER_CERTIFICATION",
+        "schema_version": "relay-v2.5-takeover-certification"
+      },
+      {
+        "path": "agents/relay/certifications/takeover/TC-C3C6-0002.yaml",
+        "digest": "sha256:6d0867625325a00135831821eb3f89ad297aa6a679aaf7117439c6f02e42c062",
+        "category": "TAKEOVER_CERTIFICATION",
+        "schema_version": "relay-v2.5-takeover-certification"
+      },
+      {
+        "path": "agents/relay/certifications/takeover/TC-C3C6-0003.yaml",
+        "digest": "sha256:8cf7060e43e25079d8e61adca3e68a5e6a1600e74ad7a9aac7be82ff6d329fe6",
+        "category": "TAKEOVER_CERTIFICATION",
+        "schema_version": "relay-v2.5-takeover-certification"
+      },
+      {
+        "path": "agents/relay/checkpoints/CP-LAFEA3-C3C6-1856-0001.yaml",
+        "digest": "sha256:7aa21107f4d856b3ecbb019611708eeb732207f305ad9d057d280f4914d958e1",
+        "category": "CHECKPOINT",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml",
+        "digest": "sha256:d05cdf5edae54d2340c5f008bb92b46b84476c7ceb747cf4a6f7016b59f6ee15",
+        "category": "EP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/execution-packages/EP-LAFEA3-C3D-1771.yaml",
+        "digest": "sha256:4fb5cee67ed4aec8595d9b00c162725bda385c932a8d711ef38065d1ed7ed8e1",
+        "category": "EP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/projection/generations/GHGEN-HO-A59069051729.yaml",
+        "digest": "sha256:14010128557c24b0b38cff8a8e7982ff472954a06a18e544b45e31d57893f873",
+        "category": "PROJECTION",
+        "schema_version": "relay-v2.5-github-projection"
+      },
+      {
+        "path": "agents/relay/projection/observations/GHOBS-HO-A59069051729.yaml",
+        "digest": "sha256:86ca66e931c6847762c0968a41cb052c8d0dadfc0a392fd2a03713c6603e7e31",
+        "category": "PROJECTION",
+        "schema_version": "relay-v2.5-github-observation"
+      },
+      {
+        "path": "agents/relay/publication/OWNER_PUBLICATION.yaml",
+        "digest": "sha256:81b39e042ba358261c781eebaa7fa87883e659df25f8f5c3a8efd8d9ff30dcce",
+        "category": "OTHER",
+        "schema_version": "relay-v2.5-owner-publication"
+      },
+      {
+        "path": "agents/relay/quality/QRV-C3C6-1856-0001.yaml",
+        "digest": "sha256:e6f25c60cf283af8722d8da5ce0702323fb8c55178fbf10c0960c794fe66eae2",
+        "category": "OTHER",
+        "schema_version": "relay-v2.5-quality-review"
+      },
+      {
+        "path": "agents/relay/roadmap/ISSUE_GRAPH.yaml",
+        "digest": "sha256:61889a73049b4266da5319a6cfbc0f446127030c8e1ba59019c666594d8f3d19",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+        "digest": "sha256:c1734c35190e40882f25d94b1e092e0aeaadfed3db3a11bdb7d7b24058584073",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/PROGRESS.yaml",
+        "digest": "sha256:8c9aceb934abafe136709db7f4723d4c8b8020ef8319348dc97ceacadfbc875b",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/owner-decisions/ODR-0001.yaml",
+        "digest": "sha256:b7152fe25802136dee07716f770148b2b80302cdae80f64c2e90e359ab14508c",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/revisions/RM-0002.yaml",
+        "digest": "sha256:b7a3df2db49cf92cb3a08fd316442203a05ff54edbaf4e24243a8ed659f02841",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/revisions/RM-0003.yaml",
+        "digest": "sha256:9d1e3d09976f029001d96ae9099db234b7f8d139be680085bf22194652e33816",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/revisions/RM-0004.yaml",
+        "digest": "sha256:caac3e2d1e1010bd1f9376240545bcbdec02f406988beae47e82fb54693f7d4f",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/revisions/RM-0005.yaml",
+        "digest": "sha256:aa4859b6300c195aa6cc6ea407f7d3394a57bd742f03bf6ecaa2d58248b91b24",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/revisions/RM-0006.yaml",
+        "digest": "sha256:a74bb90a4e3eb059b5ca35dc389c7468db72918b97eeef2851c19162966be934",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      },
+      {
+        "path": "agents/relay/roadmap/revisions/RM-0007.yaml",
+        "digest": "sha256:df996c857a7c4d5075ba3e9069a5267336d0d06c98b42005c023015f38987a0b",
+        "category": "ROADMAP",
+        "schema_version": "relay-v2.5"
+      }
+    ]
+  },
+  "current": {
+    "relay_state": "IDLE",
+    "active_ep": null,
+    "last_checkpoint": "CP-LAFEA3-C3C6-1856-0001",
+    "roadmap_revision": "RM-0007",
+    "execution_policy": "SERIAL",
+    "delivery_required": false
+  },
+  "bootstrap": {
+    "allowed": true,
+    "lifecycle": "INITIALIZING",
+    "preserves_legacy_tree": true,
+    "creates_native_history": false,
+    "reason": "Bootstrap creates only present-day V3 authority and retains V2.5 evidence as preserved source history; no legacy checkpoint or qualification receipt is promoted into native V3 acceptance."
+  }
+}
