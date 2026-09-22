@@ -5,12 +5,12 @@
     "roadmap_revision": "RM-0010",
     "state_digest": "sha256:dc4d51d902542d0914e1e6acaa8d14605335ddfa9629cbdb535f99afa2ecd661",
     "material_basis": {
-      "head": "99776d6f190cdc70c27a632c57db74068fde9630",
-      "tree_digest": "sha256:6ddd833cdfdebd30b5c7db700a0531129ce841f5317cb638346b0b71ab36cb8f",
-      "relevant_paths_digest": "sha256:1c02a3551408cf0a3975c01cb9c18250744ed59a3e94958cb9ab2a79d34bb67a",
-      "dependency_digest": "sha256:7baa1b0fda7890a0d9d0560a10d0056368387c4985e20d3e2c37bd8a32072720"
+      "head": "1019ca26cb18332983f64258698787280b86afd1",
+      "tree_digest": "sha256:8cb28903f497d198f338bb2438d0b2e96cec8729184721028c6489fa61ea577c",
+      "relevant_paths_digest": "sha256:26656864285c76e6ced64f63d0e3833460eadca0e57f74f5780af6f245d1c531",
+      "dependency_digest": "sha256:71e7a1338da569c72ddc6ac6264fd0bf3a6aee08bdd6d7f15c6de8f73919e4b7"
     },
-    "coordination_head": "99776d6f190cdc70c27a632c57db74068fde9630"
+    "coordination_head": "1019ca26cb18332983f64258698787280b86afd1"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -57,9 +57,9 @@
   },
   "material": {
     "base": "99776d6f190cdc70c27a632c57db74068fde9630",
-    "head": "99776d6f190cdc70c27a632c57db74068fde9630",
-    "relevant_paths_digest": "sha256:1c02a3551408cf0a3975c01cb9c18250744ed59a3e94958cb9ab2a79d34bb67a",
-    "dependency_digest": "sha256:7baa1b0fda7890a0d9d0560a10d0056368387c4985e20d3e2c37bd8a32072720"
+    "head": "1019ca26cb18332983f64258698787280b86afd1",
+    "relevant_paths_digest": "sha256:26656864285c76e6ced64f63d0e3833460eadca0e57f74f5780af6f245d1c531",
+    "dependency_digest": "sha256:71e7a1338da569c72ddc6ac6264fd0bf3a6aee08bdd6d7f15c6de8f73919e4b7"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -67,9 +67,12 @@
   },
   "controls": {
     "execution_blockers": [
-      "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
+      "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW",
+      "CTRL-V31-LOCAL-EXEC-SCHEMA-429"
     ],
-    "handover_blockers": [],
+    "handover_blockers": [
+      "CTRL-V31-LOCAL-EXEC-SCHEMA-429"
+    ],
     "delivery_blockers": [
       "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
     ],

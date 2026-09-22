@@ -84,6 +84,36 @@
         "condition": "Repository-visible BASELINE-0001 raw receipts and replay custody are complete, the disposition separates confirmed versus unresolved owning boundaries without tolerance/oracle weakening, and independent review returns CLEAR.",
         "evidence": []
       }
+    },
+    {
+      "id": "CTRL-V31-LOCAL-EXEC-SCHEMA-429",
+      "kind": "DEPENDENCY",
+      "state": "OPEN",
+      "source": {
+        "type": "REPOSITORY",
+        "ref": "reallaksh19/Common#429"
+      },
+      "condition": "Pinned Engineering Relay V3.1 source edb845f06f32c87453dee6fbfcc2f84937017279 has a malformed local-execution.schema.yaml, so the canonical typed LOCAL_EXECUTION export/return path cannot validate.",
+      "blocks": [
+        "LOCAL_EXECUTION_EXPORT",
+        "CHECKPOINT"
+      ],
+      "permits": [
+        "READ",
+        "ANALYZE",
+        "MATERIAL_WRITE",
+        "TEST",
+        "HANDOVER",
+        "DRAFT_PR_UPDATE"
+      ],
+      "tracking": {
+        "kind": "KNOWN_ISSUE",
+        "id": "KI-V31-LOCAL-EXEC-SCHEMA-429"
+      },
+      "resolution": {
+        "condition": "Owner selects a repaired V3.1 Common source basis, its local-execution schema parses and validates the intended request contract, and the active EP/lease protocol basis is reconciled before typed export.",
+        "evidence": []
+      }
     }
   ]
 }
