@@ -10,7 +10,7 @@
       "relevant_paths_digest": "sha256:746e6a33f2d2eca5d4bb1256fac42d3f14908bd6873340104f8bfef45efb4067",
       "dependency_digest": "sha256:0916e29cd3d61b0b95eb847fb97fbe570ba72c2d3e24f255eb4dc646dbb567fb"
     },
-    "coordination_head": "b942aa5c420f43ffe4cbb3c06051dd5623e40185"
+    "coordination_head": "9ec4608368a4f52835996d9fc4ea879e5d90f797"
   },
   "owner": {
     "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
