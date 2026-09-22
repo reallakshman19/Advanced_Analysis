@@ -2,37 +2,42 @@
   "schema_version": "relay-v3.1-local-execution",
   "authority": "DERIVED_EXECUTION_PACKAGE",
   "generated_from": {
-    "state_digest": "sha256:65b3823ce59b9c94d09b612746e9fdbb4f9a6f5143e8ed148a4f9fb14d0cf08a",
-    "snapshot_digest": "sha256:70f2ac03fbdf48a5fbfe21ac379662958798e7d9690238eb5eaa8b79d2db1ece"
+    "state_digest": "sha256:eed9835c9dc043c50483999cadd40ff165265cb09bc606acc87f1f3406346577",
+    "snapshot_digest": "sha256:0433af3009c97fd37a9ca50db247d3ac6366083dfe3798b1aa376a9d0a215d16"
   },
   "project": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "roadmap_revision": "RM-0013",
+    "roadmap_revision": "RM-0014",
     "work_package": "WP-1771"
   },
   "execution": {
-    "ep": "EP-LAFEA3-C3D-B02B-LADDER-1771-0005",
-    "lease": "LEASE-LAFEA3-C3D-B02B-LADDER-1771-0005",
-    "executor": "chatgpt-gpt5.6-sol-c3d-b02bladder-20260922",
+    "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+    "lease": "LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+    "executor": "chatgpt-gpt5.6-sol-c3d-b02brouting-20260922",
     "branch": "relay/c3d-v31-diagnostic-1771"
   },
   "material": {
-    "base": "ad821c11bcd657a52a80c5760aad845508a2ae82",
-    "head": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
-    "relevant_paths_digest": "sha256:ac2a8371303221208ba269418c30477ece1ce9505e0656054fa4f702d1aa73c0",
-    "dependency_digest": "sha256:ac2a8371303221208ba269418c30477ece1ce9505e0656054fa4f702d1aa73c0"
+    "base": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+    "head": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+    "relevant_paths_digest": "sha256:7bfec64442e42c084ba3a37c699782430629cf56186d40eade1a99a6752c089f",
+    "dependency_digest": "sha256:7bfec64442e42c084ba3a37c699782430629cf56186d40eade1a99a6752c089f"
   },
   "scope": {
     "allowed_writes": [
-      "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
-      "relay/EVIDENCE/C3D-B02B-LADDER/**"
+      "scripts/lib/lafea-b02-production-route.mjs",
+      "relay/EVIDENCE/C3D-B02B-ROUTING/**"
     ],
-    "protected": [],
+    "protected": [
+      "src/core/lafea-meshing/**",
+      "src/workspace/lafea-mesh-producer-binding.js",
+      "validation/lafea-b02-definitions/**",
+      "scripts/lib/lafea-b02-rectangle-qualification.mjs"
+    ],
     "prohibited": [
-      "changes to expected values, v2OracleCorrection, acceptanceMode, acceptanceModeJustification or acceptance tolerances",
-      "changes to V1 historical definition or validation record",
-      "changes to qualifier or production-route scripts",
-      "solver/element/mesher/recovery changes",
+      "changes to mesh generator implementation or qualified mesh profile identity/source revision",
+      "changes to B02B V1/V2 definitions, expected values, sign correction, acceptance modes or tolerances",
+      "changes to stableWithinBand 0.02 or convergence classifier",
+      "FE solver/element/recovery changes",
       "B-bar or BM-005 changes",
       "workflow YAML changes",
       "issue #1862 implementation",
@@ -41,26 +46,35 @@
   },
   "acceptance": [
     {
-      "id": "AC-C3D-B02B-LADDER-1",
-      "statement": "V2 meshLadder.levels, levelsByMethod and levelsByMethodJustification are restored field-for-field from governed V1.",
+      "id": "AC-C3D-B02B-ROUTE-1",
+      "statement": "B02B V1 continues to select B02B probe-stable profile exactly as before.",
       "evidence_requirements": [
         {
-          "oracle": "V1/V2 ladder field equality"
+          "oracle": "source diff and focused B02B V1 route identity inspection"
         }
       ]
     },
     {
-      "id": "AC-C3D-B02B-LADDER-2",
-      "statement": "V2 sign correction, expected values, convergence-only probe dispositions, acceptance object and non-ladder fields remain unchanged from the pre-ladder-fix V2 material.",
+      "id": "AC-C3D-B02B-ROUTE-2",
+      "statement": "B02B-V2 with supersedesCaseId B02B selects the same B02B probe-stable profile identity/source revision for identical method/h inputs; unrelated rectangle cases retain prior routing.",
       "evidence_requirements": [
         {
-          "oracle": "pre/post V2 structural diff contains only the three mesh-ladder fields"
+          "oracle": "route selection source inspection plus V2 production execution"
         }
       ]
     },
     {
-      "id": "AC-C3D-B02B-LADDER-3",
-      "statement": "B02B production check executes on the repaired exact head; PASS or remaining failure is retained without modifying scripts or tolerances.",
+      "id": "AC-C3D-B02B-ROUTE-3",
+      "statement": "No benchmark definition, 2% fallback, mesh generator, solver, recovery or tolerance is changed.",
+      "evidence_requirements": [
+        {
+          "oracle": "provider diff limited to production-route selector and relay evidence"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-ROUTE-4",
+      "statement": "node scripts/lafea-b02b-production-check.mjs executes on the exact post-fix head; observed PASS or failure is retained.",
       "evidence_requirements": [
         {
           "test": "node scripts/lafea-b02b-production-check.mjs"
@@ -68,8 +82,8 @@
       ]
     },
     {
-      "id": "AC-C3D-B02B-LADDER-4",
-      "statement": "Aggregate B02 production sequence executes and either advances beyond B02B or retains the new first failing witness.",
+      "id": "AC-C3D-B02B-ROUTE-5",
+      "statement": "node scripts/lafea-b02-production-sequence-check.mjs executes and retains the next exact boundary.",
       "evidence_requirements": [
         {
           "test": "node scripts/lafea-b02-production-sequence-check.mjs"
@@ -92,64 +106,62 @@
     "handoff": null
   },
   "next": {
-    "first_action": "Copy only meshLadder.levels, meshLadder.levelsByMethod and meshLadder.levelsByMethodJustification from governed B02B V1 into active V2; preserve all V2 sign-correction and acceptance fields, then validate B02B and aggregate sequence.",
+    "first_action": "Change only the B02B probe-stable route selector so B02B-V2, when it explicitly supersedes B02B, uses the existing qualified B02B profile path; then validate B02B and aggregate sequence on the exact material head.",
     "stop_conditions": [
-      "Do not alter expected values, sign correction, acceptance modes or tolerances.",
-      "Do not alter qualifier or production scripts.",
+      "Do not alter the 2% stability fallback.",
+      "Do not alter mesh generation or benchmark definitions.",
       "Do not touch B-bar, BM-005 or #1862.",
-      "Validation must run on the exact post-fix material head."
+      "Stop if V2 cannot reuse the B02B V1 mesh strategy without changing its qualified profile contract."
     ]
   },
   "request": {
-    "id": "LOCAL-EP-LAFEA3-C3D-B02B-LADDER-1771-0005-955cbc11394c",
-    "purpose": "Validate the governed B02B V2 method-specific mesh-ladder restoration without modifying source state.",
+    "id": "LOCAL-EP-LAFEA3-C3D-B02B-ROUTING-1771-0006-ef09fc3c403c",
+    "purpose": "Validate that B02B-V2 now routes through the existing qualified B02B probe-stable mesh strategy without any tolerance, definition, mesher or solver change.",
     "mode": "VALIDATE_ONLY",
     "exact_basis": {
-      "material_head": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+      "material_head": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
       "branch": "relay/c3d-v31-diagnostic-1771",
       "work_package": "WP-1771",
-      "ep": "EP-LAFEA3-C3D-B02B-LADDER-1771-0005"
+      "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006"
     },
     "preflight": [
-      "Fetch/check out the requested work and run git rev-parse HEAD.",
-      "Compare observed HEAD with request.exact_basis.material_head.",
-      "If HEAD differs, return HEAD_MISMATCH.",
-      "Require clean product/source tree before validation."
+      "Fetch/check out the exact material HEAD.",
+      "Run git rev-parse HEAD and require exact match.",
+      "Run git status --porcelain and require no product/source modification before validation."
     ],
     "steps": [
       {
         "id": "STEP-CMD-1",
-        "instruction": "Run exactly and capture the observed result without repairing failures.",
+        "instruction": "Run this exact command and retain the observed result without repair.",
         "command": "node scripts/lafea-b02b-production-check.mjs",
         "working_directory": ".",
-        "expected_result": "B02B should now use T3 [2.5,1.25,0.625] and T6/Q8 [10,5,2.5]; retain PASS or exact remaining convergence failure."
+        "expected_result": "B02B-V2 should exercise the B02B probe-stable mesh path; capture PASS or exact remaining failure."
       },
       {
         "id": "STEP-CMD-2",
-        "instruction": "Run exactly and capture the observed result without repairing failures.",
+        "instruction": "Run this exact command and retain the observed result without repair.",
         "command": "node scripts/lafea-b02-production-sequence-check.mjs",
         "working_directory": ".",
-        "expected_result": "Aggregate sequence should advance beyond B02B if both migration omissions are repaired; retain next exact boundary if not globally PASS."
+        "expected_result": "Aggregate sequence should advance beyond B02B if the routing repair closes the migration defect; capture next exact boundary if not globally PASS."
       }
     ],
     "success_conditions": [
-      "Both commands execute on exact material head or explicit non-run status is returned.",
-      "No product/source modification occurs during validation.",
-      "No tolerance/oracle/qualifier change is made."
+      "Commands run on the exact material head.",
+      "No source change is made during validation.",
+      "Any remaining failure is returned verbatim rather than normalized."
     ],
     "stop_conditions": [
-      "Stop on HEAD_MISMATCH.",
-      "Do not modify source during validation.",
-      "Do not touch B-bar, BM-005 or #1862.",
-      "Do not change qualifier logic or tolerances."
+      "Return HEAD_MISMATCH if exact HEAD differs.",
+      "Do not modify the 2% fallback, benchmark definitions, mesh generator, solver or recovery.",
+      "Do not touch B-bar, BM-005 or #1862."
     ],
     "prohibited_actions": [
       "Do not commit or push.",
-      "Do not repair any newly observed failure during this validation run."
+      "Do not repair newly observed failures during this validation run."
     ]
   },
   "return_contract": {
-    "request_id": "LOCAL-EP-LAFEA3-C3D-B02B-LADDER-1771-0005-955cbc11394c",
+    "request_id": "LOCAL-EP-LAFEA3-C3D-B02B-ROUTING-1771-0006-ef09fc3c403c",
     "allowed_results": [
       "PASS",
       "FAIL",
@@ -166,7 +178,7 @@
       "artifacts"
     ],
     "resume_owner": {
-      "agent_id": "chatgpt-gpt5.6-sol-c3d-b02bladder-20260922",
+      "agent_id": "chatgpt-gpt5.6-sol-c3d-b02brouting-20260922",
       "responsibility": "The originating owner resumes responsibility after this bounded local result is returned; the helper does not inherit task custody."
     }
   },
