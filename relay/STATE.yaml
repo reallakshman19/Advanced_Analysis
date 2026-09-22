@@ -1,14 +1,14 @@
 {
-  "schema_version": "relay-v3",
+  "schema_version": "relay-v3.1",
   "roadmap": {
-    "revision": "RM-0008",
+    "revision": "RM-0009",
     "path": "relay/ROADMAP/ROADMAP.yaml"
   },
   "execution": {
-    "lifecycle": "ACTIVE",
-    "ep": "EP-LAFEA3-C3D-BASELINE-1771-0001",
-    "lease": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
-    "route": "SERIAL:EP-LAFEA3-C3D-BASELINE-1771-0001"
+    "lifecycle": "IDLE",
+    "ep": null,
+    "lease": null,
+    "route": null
   },
   "accepted": {
     "checkpoint": null

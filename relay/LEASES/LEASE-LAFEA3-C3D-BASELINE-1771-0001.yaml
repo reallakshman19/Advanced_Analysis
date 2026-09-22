@@ -1,5 +1,5 @@
 {
-  "schema_version": "relay-v3-lease",
+  "schema_version": "relay-v3.1-lease",
   "id": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
   "route": "SERIAL:EP-LAFEA3-C3D-BASELINE-1771-0001",
   "executor": {
@@ -36,7 +36,7 @@
       "evidence": []
     }
   },
-  "state": "ACTIVE",
+  "state": "RELEASED",
   "invalidation": {
     "reasons": []
   }

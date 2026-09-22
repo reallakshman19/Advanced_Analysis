@@ -1,10 +1,10 @@
 {
-  "schema_version": "relay-v3-roadmap",
-  "revision": "RM-0008",
+  "schema_version": "relay-v3.1-roadmap",
+  "revision": "RM-0009",
   "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
   "owner": {
-    "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Establish native V3 IDLE custody with WP-1769 complete and WP-1771 planned as the next unadmitted frontier; activate no C3-D material work until V3 continuity and task admission are proven."
+    "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
+    "current_goal": "Re-establish WP-1771 on a dedicated V3.1 execution branch, import durable local execution evidence, and separate the confirmed stale B02D V1 sequence binding from unresolved B02B, B-bar and BM-005 qualification boundaries before any #1862 receipt-projection implementation."
   },
   "work_packages": [
     {

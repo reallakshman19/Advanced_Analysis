@@ -1,0 +1,54 @@
+{
+  "schema_version": "relay-v3-to-v3.1-bridge/v1",
+  "authority": "MIGRATION_EVIDENCE",
+  "source": {
+    "protocol": "V3",
+    "repository_head": "2985ba5acea6bc1556afb4452dc643fc3728016e",
+    "protocol_basis": "github:reallaksh19/Common@c87cf87b313801e42ecd0fcc7d36af0d90c5f400/skills/engineering-pr-delivery-v3",
+    "live_object_blobs": {
+      "relay/PROTOCOL_SELECTION.yaml": "b5853205dc8d138c380dbcb94983915d8c8a0ab1",
+      "relay/STATE.yaml": "acc6c7f277a6b1570dabd7d5448070dcfd7656dd",
+      "relay/ROADMAP/ROADMAP.yaml": "64ae60c3f54b5538ac666118ab9fa85f64b87d64",
+      "relay/CONTROLS/controls.yaml": "54fc3c7f8ad7627068fad84cc86879dbc5be45fb",
+      "relay/WORK/EP-LAFEA3-C3D-BASELINE-1771-0001.yaml": "f25947a5522857487cd2a3ec96e6f994379dcb3f",
+      "relay/LEASES/LEASE-LAFEA3-C3D-BASELINE-1771-0001.yaml": "12583c63d5139d796bf911f18a59bd05adc6ceba",
+      "relay/GENERATED/CURRENT_SNAPSHOT.yaml": "7ae758737b54143250da7934174c8308c272970b",
+      "relay/EVENTS.jsonl": "2d46110ea25baba35bdc2f1afc6363fb6a1b769e"
+    },
+    "event_count": 10
+  },
+  "target": {
+    "protocol": "V3_1",
+    "protocol_basis": "github:reallaksh19/Common@edb845f06f32c87453dee6fbfcc2f84937017279/skills/engineering-pr-delivery-v3.1",
+    "owner_basis": {
+      "direct_utterance_digest": "sha256:40817b6da2e347452b652e8c8af97dc873449a815f36fbaadd3138d0bb4e6662",
+      "session_timestamp": "2026-09-22T15:49:04Z"
+    }
+  },
+  "compatibility": {
+    "live_schema_delta": "STATE/ROADMAP/CONTROLS/EP/LEASE/CHECKPOINT/SNAPSHOT differ only by schema_version constants; protocol selection replaces V3 with V3_1. LOCAL_EXECUTION adds a recipient-ready request/return contract and must be regenerated.",
+    "event_migration": "The 10 existing event payloads are preserved field-for-field except schema_version relay-v3-event -> relay-v3.1-event; a new V3_1 activation event and administrative lease-release event are appended.",
+    "claim_policy": "No accepted checkpoint is created, no numerical PASS is manufactured, and issue #1862 remains unadmitted.",
+    "legacy_policy": "agents/relay/** remains READ_ONLY_HISTORY at the existing frozen digest."
+  },
+  "custody": {
+    "old_ep": "EP-LAFEA3-C3D-BASELINE-1771-0001",
+    "old_lease": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
+    "release": "ADMINISTRATIVE",
+    "post_bridge_state": "IDLE",
+    "reason": "The unfinished V3 execution was direct-on-main; V3.1 material-drift semantics require a clean re-admission on a dedicated execution branch."
+  },
+  "controls_preserved": [
+    "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
+  ],
+  "readiness": {
+    "live_schema_compatibility": "PASS",
+    "event_payload_preservation": "PASS",
+    "legacy_digest_preserved": "PASS",
+    "owner_opt_in": "PASS",
+    "no_claim_expansion": "PASS",
+    "old_custody_released": "PASS",
+    "local_execution_regeneration_required": "PASS"
+  },
+  "ready": true
+}

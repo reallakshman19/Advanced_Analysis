@@ -1,5 +1,5 @@
 {
-  "schema_version": "relay-v3-controls",
+  "schema_version": "relay-v3.1-controls",
   "controls": [
     {
       "id": "CTRL-MIGRATION-RECONCILE",
