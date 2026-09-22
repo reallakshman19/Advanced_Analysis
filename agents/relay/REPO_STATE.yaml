@@ -1,5 +1,5 @@
 schema_version: relay-v2.5
-relay_state: ACTIVE
+relay_state: IDLE
 repository:
   name: Advanced_Analysis
   remote: https://github.com/reallaksh19/Advanced_Analysis
@@ -13,50 +13,41 @@ roadmap:
 current_position:
   objective: OBJ-1710
   phase: PH-1711
-  work_package: WP-1769
+  work_package: WP-1771
   work_packages: []
 execution_policy:
   mode: SERIAL
 active_ep:
-  id: EP-LAFEA3-C3C6-1856
-  path: agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml
-  state: ACTIVE
-last_checkpoint:
-  id: NONE
+  id: null
   path: null
+  state: NONE
+last_checkpoint:
+  id: CP-LAFEA3-C3C6-1856-0001
+  path: agents/relay/checkpoints/CP-LAFEA3-C3C6-1856-0001.yaml
 predecessor_join:
   id: null
   path: null
 predecessor_replan:
   id: null
   path: null
-takeover_admissions:
-  - route_key: SERIAL:EP-LAFEA3-C3C6-1856
-    candidate:
-      agent_instance_id: chatgpt-gpt5.6-sol-c3c6-repair-20260921
-    discovery_receipt:
-      id: DISC-C3C6-0003
-      path: agents/relay/certifications/discovery/DISC-C3C6-0003.yaml
-    certification:
-      id: TC-C3C6-0003
-      path: agents/relay/certifications/takeover/TC-C3C6-0003.yaml
+takeover_admissions: []
 progress:
   overall_percent: 0
   phase_percent: 0
-  ep_percent: 100
+  ep_percent: 0
   basis_revision: PB-0007
 status_planes:
   execution:
     state: WAITING
     can_continue: true
     material_authority: READ_ONLY
-    next_action: PR #1863 is acceptance-complete on exact tested material 7f2a8ae35011dade594c79ba31e656883ef52e73; obtain explicit Owner merge authorization, merge against the exact current head, then publish the backward-looking C3-C.6 checkpoint and reconcile #1856/#1769 before activating C3-D.
+    next_action: C3-C is checkpointed and closed. WP-1771 is the next detailed dependency frontier, but no successor EP is active; revalidate the DRAFT C3-D route and execute the existing-model baseline before any downstream material change.
   quality:
     state: CLEAR
     findings: []
   evidence:
-    state: COMPLETE
-    summary: Exact tested material 7f2a8ae35011dade594c79ba31e656883ef52e73 has standalone matrix PASS, complete aggregate 19/19 PASS, C3C-SOURCE-BASIS-0017 custody 41/41 PASS, import governance PASS, diff hygiene PASS, clean worktree, and no repository mutation during execution.
+    state: PARTIAL
+    summary: C3-C predecessor authority is complete under CP-LAFEA3-C3C6-1856-0001. No C3-D baseline has executed or been admitted on the new frontier.
     not_run: []
   stop:
     active: false
@@ -65,7 +56,7 @@ status_planes:
     basis: []
 projection:
   required: true
-  state: IN_SYNC
+  state: STALE
   operation_id: GHGEN-HO-A59069051729
   target: github:https://github.com/reallaksh19/Advanced_Analysis:issues
   adapter: GITHUB_ISSUES
@@ -79,8 +70,11 @@ projection:
     - handover-plan:sha256:6212448e2f570c19362ceef5eaef5d5bb92ef5efcd3a30037a89384e52823e65
 relay_readiness:
   baton_ready: true
-  projection_ready: true
-  handover_ready: true
+  projection_ready: false
+  handover_ready: false
   reasons:
-    - C3-C.6 acceptance and quality are complete on tested material 7f2a8ae35011dade594c79ba31e656883ef52e73; delivery merge and post-merge checkpoint/issue reconciliation remain before successor activation.
+    - CP-LAFEA3-C3C6-1856-0001 is the durable predecessor baton and #1856/#1769 are provider-verified closed.
+    - WP-1771 is the next detailed frontier, but no successor execution package is active or admitted.
+    - ISSUE_GRAPH and the immutable handover generation still project pre-closure state and must not be treated as current authority.
+    - Hosted Actions remain external NOT_RUN / INFRASTRUCTURE under #1865.
 chat_context_required: false
