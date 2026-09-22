@@ -1,0 +1,206 @@
+{
+  "schema_version": "relay-v3.1-task-admission",
+  "roadmap": {
+    "disposition": "MAPPED_EXISTING_WP",
+    "new_revision": "RM-0012",
+    "basis": [
+      "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml",
+      "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+      "GitHub issue #1771 comment 5780373310"
+    ],
+    "work_package": {
+      "id": "WP-1771",
+      "title": "Qualify production-route continuum response, solver robustness, and convergence",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": [
+        "WP-1769"
+      ]
+    }
+  },
+  "ep": {
+    "schema_version": "relay-v3.1-ep",
+    "id": "EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "work_package": "WP-1771",
+    "outcome": {
+      "statement": "Repair the confirmed B02B V2 definition-migration omission by restoring the already-governed convergence-only acceptance disposition for the two fixed probes while preserving the V2 shear-sign correction, all frozen numerical tolerances, the shared qualifier, FE mechanics, meshing and result authority."
+    },
+    "basis": {
+      "predecessor_checkpoint": null,
+      "material_base": "1019ca26cb18332983f64258698787280b86afd1",
+      "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+      "semantic_dependencies": [
+        {
+          "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+          "reason": "Defective V2 definition: sign corrected but governed probe acceptanceMode fields omitted."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+          "reason": "Preexisting governed probe acceptanceMode and acceptanceModeJustification source to preserve during V2 migration repair."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+          "reason": "Retained independent engineering rationale that the beam-theory direct comparison is a model-form mismatch and mesh convergence remains the valid authority."
+        },
+        {
+          "path": "scripts/lafea-b02b-production-check.mjs",
+          "reason": "Current V2 production qualification entry point."
+        },
+        {
+          "path": "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+          "reason": "Shared qualifier that honors FIXED_LOCATION_CONVERGENCE_ONLY without altering numerical tolerances."
+        },
+        {
+          "path": "scripts/lafea-b02-production-sequence-check.mjs",
+          "reason": "Aggregate production sequence used to prove the first failing boundary moves beyond B02B."
+        }
+      ]
+    },
+    "scope": {
+      "write": [
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+        "relay/EVIDENCE/C3D-B02B-DEFINITION/**"
+      ],
+      "read": [
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+        "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+        "scripts/lafea-b02b-production-check.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lafea-b02-production-sequence-check.mjs"
+      ],
+      "protect": [],
+      "prohibit": [
+        "changes to B02B expected values, oracle sign correction, or numerical tolerance values",
+        "changes to B02B V1 historical definition or validation record",
+        "changes to shared qualification code or production-route code",
+        "FE solver or element formulation changes",
+        "mesh generator or mesh-quality policy changes",
+        "B-bar or BM-005 definition changes",
+        "recovery or result-authority changes",
+        "workflow YAML changes",
+        "issue #1862 implementation",
+        "release or merge authority"
+      ]
+    },
+    "acceptance": [
+      {
+        "id": "AC-C3D-B02B-1",
+        "statement": "B02B V2 retains the corrected shear-stress expected value -3.54290625 and the existing v2OracleCorrection block unchanged.",
+        "evidence_requirements": [
+          {
+            "oracle": "definition diff proves no V2 expected-value or v2OracleCorrection mutation"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-2",
+        "statement": "B02B-PROBE-TAU-01 and B02B-PROBE-UY-01 in V2 each retain acceptanceMode=FIXED_LOCATION_CONVERGENCE_ONLY with the preexisting governed justification from V1.",
+        "evidence_requirements": [
+          {
+            "oracle": "field-for-field V1-to-V2 acceptanceMode/acceptanceModeJustification parity"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-3",
+        "statement": "All frozen 5% acceptance numbers remain byte-equivalent to the pre-fix V2 definition; the repair changes applicability of direct analytical comparison, not a tolerance.",
+        "evidence_requirements": [
+          {
+            "oracle": "pre/post acceptance object equality"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-4",
+        "statement": "The V2 B02B production check executes under the repaired definition and any remaining failure is retained exactly rather than bypassed.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02b-production-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-5",
+        "statement": "The aggregate B02 production sequence advances beyond B02B or, if it does not, returns the new exact first failing witness; no downstream failure is converted to PASS.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+          }
+        ]
+      }
+    ],
+    "quality_policy": {
+      "level": "HIGH_RISK",
+      "independent_review": "REQUIRED"
+    },
+    "parent_issue": {
+      "provider": "GITHUB",
+      "repository": "reallaksh19/Advanced_Analysis",
+      "number": 1771,
+      "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+      "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+      "baseline": {
+        "observed_at": "2026-09-22T17:00:38Z",
+        "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+        "acceptance_items": [
+          {
+            "id": "C3-D.1",
+            "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority."
+          },
+          {
+            "id": "C3-D.2",
+            "statement": "Establish solver robustness, residual, force/moment equilibrium, energy and deterministic replay evidence."
+          },
+          {
+            "id": "C3-D.3",
+            "statement": "Qualify distorted valid T6 mapping and fail-closed invalid geometry behavior."
+          },
+          {
+            "id": "C3-D.4",
+            "statement": "Qualify Q8 formulation, quadrature, non-rectangular mapping and supported distortion envelope."
+          },
+          {
+            "id": "C3-D.5",
+            "statement": "Establish the supported near-incompressible plane-strain envelope or an explicit fail-closed limitation."
+          },
+          {
+            "id": "C3-D.6",
+            "statement": "Establish executed mesh-refinement convergence classification using realized h and physical quantities."
+          }
+        ]
+      }
+    },
+    "offloads": [],
+    "admission_policy": {
+      "qualification": "NOT_REQUIRED",
+      "question_policy": "NONE"
+    },
+    "next": {
+      "first_action": "Restore only acceptanceMode and acceptanceModeJustification for the two V2 B02B fixed probes from the governed V1 definition; do not alter expected values, v2OracleCorrection, acceptance numbers, scripts or FE implementation.",
+      "stop_conditions": [
+        "Stop if V1 and the retained validation record no longer support the convergence-only disposition.",
+        "Stop if preserving V2 sign correction requires any oracle/tolerance rewrite beyond the two acceptance-mode fields.",
+        "Do not modify shared qualifier logic to force a pass.",
+        "Do not touch B-bar, BM-005, solver, mesher, recovery, workflow or #1862.",
+        "After the definition edit, validation must run on the resulting exact material head before checkpoint consideration."
+      ]
+    }
+  },
+  "lease": {
+    "id": "LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "executor_id": "chatgpt-gpt5.6-sol-c3d-b02bfix-20260922",
+    "method": "DETERMINISTIC",
+    "qualification": null,
+    "owner_basis": null,
+    "branch": "relay/c3d-v31-diagnostic-1771"
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "ISSUE",
+      "number": 1771
+    }
+  }
+}

@@ -2,19 +2,19 @@
   "schema_version": "relay-v3.1-snapshot",
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
-    "roadmap_revision": "RM-0011",
-    "state_digest": "sha256:8f667746125cf9ee2a61d978651c5cdf685953e1688f9c95de9fa542d48cfd09",
+    "roadmap_revision": "RM-0012",
+    "state_digest": "sha256:70e16253f5d0183035f329985b9495167e8fbae5183173fee654c589b2c4cc54",
     "material_basis": {
       "head": "1019ca26cb18332983f64258698787280b86afd1",
       "tree_digest": "sha256:8cb28903f497d198f338bb2438d0b2e96cec8729184721028c6489fa61ea577c",
-      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "relevant_paths_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2",
+      "dependency_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2"
     },
-    "coordination_head": "40ecb3770e942afa43470f9caf6df8ca67053400"
+    "coordination_head": "c35eac42429a15bfc554433cacecb3d048c6c341"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Re-establish WP-1771 on a dedicated V3.1 execution branch, import durable local execution evidence, and separate the confirmed stale B02D V1 sequence binding from unresolved B02B, B-bar and BM-005 qualification boundaries before any #1862 receipt-projection implementation."
+    "current_goal": "Repair the confirmed B02B V2 acceptance-mode migration omission without changing numerical tolerances or mechanics, validate the repaired B02B/aggregate production route, then return to the separately owned B-bar and BM-005 qualification boundaries."
   },
   "programme": {
     "accepted_progress": 0,
@@ -28,22 +28,36 @@
     ]
   },
   "execution": {
-    "lifecycle": "IDLE",
-    "work_package": null,
-    "ep": null,
-    "lease": null,
-    "executor": null
+    "lifecycle": "ACTIVE",
+    "work_package": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "lease": "LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "executor": "chatgpt-gpt5.6-sol-c3d-b02bfix-20260922"
   },
   "scope": {
-    "allowed_writes": [],
+    "allowed_writes": [
+      "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+      "relay/EVIDENCE/C3D-B02B-DEFINITION/**"
+    ],
     "protected": [],
-    "prohibited": []
+    "prohibited": [
+      "changes to B02B expected values, oracle sign correction, or numerical tolerance values",
+      "changes to B02B V1 historical definition or validation record",
+      "changes to shared qualification code or production-route code",
+      "FE solver or element formulation changes",
+      "mesh generator or mesh-quality policy changes",
+      "B-bar or BM-005 definition changes",
+      "recovery or result-authority changes",
+      "workflow YAML changes",
+      "issue #1862 implementation",
+      "release or merge authority"
+    ]
   },
   "material": {
     "base": "1019ca26cb18332983f64258698787280b86afd1",
     "head": "1019ca26cb18332983f64258698787280b86afd1",
-    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    "relevant_paths_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2",
+    "dependency_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -66,9 +80,15 @@
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": null,
+    "immediate_material_action": "Restore only acceptanceMode and acceptanceModeJustification for the two V2 B02B fixed probes from the governed V1 definition; do not alter expected values, v2OracleCorrection, acceptance numbers, scripts or FE implementation.",
     "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": []
+    "stop_conditions": [
+      "Stop if V1 and the retained validation record no longer support the convergence-only disposition.",
+      "Stop if preserving V2 sign correction requires any oracle/tolerance rewrite beyond the two acceptance-mode fields.",
+      "Do not modify shared qualifier logic to force a pass.",
+      "Do not touch B-bar, BM-005, solver, mesher, recovery, workflow or #1862.",
+      "After the definition edit, validation must run on the resulting exact material head before checkpoint consideration."
+    ]
   },
   "handoff": {
     "zero_context_takeover_possible": true,
@@ -76,6 +96,8 @@
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
+      "relay/WORK/EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml",
+      "relay/LEASES/LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml",
       "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml"
     ]
   }

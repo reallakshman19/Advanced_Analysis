@@ -1,10 +1,10 @@
 {
   "schema_version": "relay-v3.1-roadmap",
-  "revision": "RM-0011",
+  "revision": "RM-0012",
   "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Re-establish WP-1771 on a dedicated V3.1 execution branch, import durable local execution evidence, and separate the confirmed stale B02D V1 sequence binding from unresolved B02B, B-bar and BM-005 qualification boundaries before any #1862 receipt-projection implementation."
+    "current_goal": "Repair the confirmed B02B V2 acceptance-mode migration omission without changing numerical tolerances or mechanics, validate the repaired B02B/aggregate production route, then return to the separately owned B-bar and BM-005 qualification boundaries."
   },
   "work_packages": [
     {
