@@ -57,6 +57,33 @@
           "relay/GENERATED/INTELLIGENCE_CONTINUITY.yaml"
         ]
       }
+    },
+    {
+      "id": "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW",
+      "kind": "QUALITY",
+      "state": "OPEN",
+      "source": {
+        "type": "REPOSITORY",
+        "ref": "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/review/INDEPENDENT-REVIEW-0001.json"
+      },
+      "condition": "The HIGH_RISK C3-D baseline cannot be checkpointed while local raw execution receipts/replay evidence are absent from repository-visible custody and the local disposition over-collapses unresolved numerical boundaries into benchmark_definition.",
+      "blocks": [
+        "CHECKPOINT",
+        "CLOSE_TASK"
+      ],
+      "permits": [
+        "READ",
+        "ANALYZE",
+        "MATERIAL_WRITE",
+        "TEST",
+        "HANDOVER",
+        "LOCAL_EXECUTION_EXPORT",
+        "DRAFT_PR_UPDATE"
+      ],
+      "resolution": {
+        "condition": "Repository-visible BASELINE-0001 raw receipts and replay custody are complete, the disposition separates confirmed versus unresolved owning boundaries without tolerance/oracle weakening, and independent review returns CLEAR.",
+        "evidence": []
+      }
     }
   ]
 }

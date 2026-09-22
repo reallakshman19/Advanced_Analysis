@@ -10,7 +10,7 @@
       "relevant_paths_digest": "sha256:746e6a33f2d2eca5d4bb1256fac42d3f14908bd6873340104f8bfef45efb4067",
       "dependency_digest": "sha256:0916e29cd3d61b0b95eb847fb97fbe570ba72c2d3e24f255eb4dc646dbb567fb"
     },
-    "coordination_head": "9ec4608368a4f52835996d9fc4ea879e5d90f797"
+    "coordination_head": "89420e9cba7879d8e9fa172350bd4210f5d90fe0"
   },
   "owner": {
     "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -65,7 +65,9 @@
     "latest_material_validation": {}
   },
   "controls": {
-    "execution_blockers": [],
+    "execution_blockers": [
+      "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
+    ],
     "handover_blockers": [],
     "delivery_blockers": [],
     "informational": []
@@ -94,7 +96,8 @@
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
       "relay/WORK/EP-LAFEA3-C3D-BASELINE-1771-0001.yaml",
-      "relay/LEASES/LEASE-LAFEA3-C3D-BASELINE-1771-0001.yaml"
+      "relay/LEASES/LEASE-LAFEA3-C3D-BASELINE-1771-0001.yaml",
+      "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/review/INDEPENDENT-REVIEW-0001.json"
     ]
   }
 }

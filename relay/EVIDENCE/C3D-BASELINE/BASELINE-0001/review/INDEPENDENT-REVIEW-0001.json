@@ -1,0 +1,68 @@
+{
+  "schema": "lafea-c3d-baseline-independent-review/v1",
+  "authority": "INDEPENDENT_REVIEW",
+  "result": "BLOCKED",
+  "reviewedAt": "2026-09-22T15:11:59Z",
+  "reviewer": "chatgpt-gpt5.6-sol-independent-review",
+  "activeEp": "EP-LAFEA3-C3D-BASELINE-1771-0001",
+  "reviewInput": {
+    "type": "USER_SUPPLIED_LOCAL_AGENT_TRANSCRIPT",
+    "sha256": "sha256:7a85a1782ed5e040d31539240d4bdb23879c4749d8e20ef78e1d6d68153c2d72",
+    "lineCount": 916,
+    "durability": "TRANSCRIPT_DIGEST_ONLY",
+    "limitation": "The uploaded transcript reports local files and command outputs, but the raw commands/*.stdout.txt, commands/*.stderr.txt, commands/*.exit.txt and replay probe are not yet provider-visible in this repository."
+  },
+  "confirmedFindings": [
+    {
+      "id": "IR-C3D-001",
+      "classification": "CONFIRMED_SOURCE_BINDING_DEFECT",
+      "statement": "The B02 production sequence invokes scripts/lafea-b02d-probe-stable-polar-mesh-check.mjs; that check is bound to B02D-lug-pinhole.json (V1), while scripts/lafea-b02d-production-check.mjs is bound to B02D-lug-pinhole-v2.json and documents V1 as superseded by V2.",
+      "consequence": "A failing V1 polar-mesh precursor cannot be treated as evidence that the current V2 B02D production qualification is wrong."
+    },
+    {
+      "id": "IR-C3D-002",
+      "classification": "CONFIRMED_SCOPE_BOUNDARY",
+      "statement": "Issue #1862 remains unadmitted. The current EP authorizes evidence writes only under relay/EVIDENCE/C3D-BASELINE/** and prohibits production mechanics, benchmark/oracle/tolerance, mesher, recovery and result-authority changes."
+    }
+  ],
+  "reportedButNotYetProviderDurable": [
+    {
+      "id": "IR-C3D-003",
+      "statement": "Local execution reports all four primary commands returned exit code 1 and reports individual B02A/B02C/B02D passes plus a B02B T3 ~8% versus 5% criterion failure.",
+      "reviewDisposition": "REQUIRES_RAW_RECEIPTS"
+    },
+    {
+      "id": "IR-C3D-004",
+      "statement": "Local execution reports T6/nu=0.3/L1 regular B-bar mesh quality blocked and BM-005 oscillatory convergence/publication failure.",
+      "reviewDisposition": "REQUIRES_RAW_RECEIPTS"
+    },
+    {
+      "id": "IR-C3D-005",
+      "statement": "Local execution reports a two-pass deterministic replay from a scratch script outside the repository.",
+      "reviewDisposition": "NOT_DURABLE_AS_ACCEPTANCE_EVIDENCE"
+    },
+    {
+      "id": "IR-C3D-006",
+      "statement": "Local inspection reports authoritative workbench ancestry/currentness/solver diagnostics are richer than B02 emitted qualification receipts.",
+      "reviewDisposition": "SUPPORTED_DIRECTIONALLY_BUT_REQUIRES_DURABLE_FIELD_MATRIX_AND_RECEIPTS"
+    }
+  ],
+  "correctionsRequired": [
+    "Do not classify the B02B T3 7.999% versus frozen 5% result as a bad tolerance or benchmark definition without proving T3 applicability/authority. Do not relax the tolerance.",
+    "Do not classify BM-005 OSCILLATORY / RESULT_NOT_READY as a benchmark-definition defect merely because it prevents a green aggregate. Treat it as a genuine convergence/publication result until its first owning boundary is demonstrated.",
+    "Do not classify the B-bar T6/L1 mesh-quality block as a benchmark-definition defect until raw evidence and the intended supported mesh/envelope are reconciled.",
+    "Downgrade deterministic replay to PARTIAL/NOT_DURABLY_PROVED unless the replay script plus two-pass output are retained under relay/EVIDENCE/C3D-BASELINE/**.",
+    "Replace the over-broad single disposition OWNING_GAP:benchmark_definition with separate confirmed/unresolved findings: confirmed stale B02D V1 sequence binding; unresolved B02B T3 qualification envelope; unresolved B-bar T6/L1 mesh-quality boundary; unresolved BM-005 convergence/publication boundary; and a separately evidenced receipt-projection gap."
+  ],
+  "resolutionConditions": [
+    "Push the exact local BASELINE-0001 evidence directory into relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/, including the four primary stdout/stderr/exit receipts, execution-summary.json, field-completeness.json, protected-diff.txt, disposition.json and observations.md.",
+    "Retain the deterministic replay script and its two independent raw execution outputs under the admitted evidence path, or explicitly downgrade replay to not durably proved.",
+    "Revise the disposition so confirmed source-binding defects are separated from unresolved numerical/mesh/convergence findings; no oracle/tolerance weakening may be proposed as a shortcut.",
+    "Re-run independent review against repository-visible evidence. CHECKPOINT may proceed only when the HIGH_RISK quality result is CLEAR."
+  ],
+  "successorPolicy": {
+    "admitNow": false,
+    "issue1862": "UNADMITTED",
+    "nextCandidate": "A narrow diagnostic/reconciliation EP may be proposed only after this baseline is durably checkpointable; receipt projection should remain a separate later EP from numerical/mesh/convergence diagnosis."
+  }
+}
