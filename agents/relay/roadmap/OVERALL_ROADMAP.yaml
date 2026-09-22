@@ -17,9 +17,9 @@ objectives:
         work_packages:
           - id: WP-1769
             title: Project physical features to mesh, compile loads/BCs/probes, and enforce execution currentness
-            state: ACTIVE
+            state: COMPLETE
             definition: DETAILED
-            execution_status: ACTIVE
+            execution_status: COMPLETE
             depends_on: []
           - id: WP-1771
             title: Qualify production-route continuum response, solver robustness, and convergence
