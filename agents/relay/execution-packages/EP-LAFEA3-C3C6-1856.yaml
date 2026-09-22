@@ -3,7 +3,7 @@ identity:
   ep_id: EP-LAFEA3-C3C6-1856
   branch: engineering/lafea3-c3c-checkpoint-1856
   base_ref: eff897a01a52a1fede58b4037444397037a2f04c
-  execution_state: ACTIVE
+  execution_state: COMPLETE
   previous_checkpoint: NONE
 git_basis:
   expected_branch: engineering/lafea3-c3c-checkpoint-1856
@@ -34,7 +34,7 @@ context_capsule:
   current_implementation_state: Exact repaired candidate 7f2a8ae35011dade594c79ba31e656883ef52e73 executed on a clean Windows 11 checkout with Node v24.11.1. Standalone C3-C.6 matrix PASS, complete aggregate 19/19 PASS, source custody 41/41 PASS, standalone import PASS, aggregate import-governance PASS, aggregate diff-hygiene PASS, and standalone diff check PASS. Source basis is C3C-SOURCE-BASIS-0017.
   known_problems:
     - No remaining C3-C.6 engineering or qualification failure is demonstrated on exact tested material 7f2a8ae35011dade594c79ba31e656883ef52e73.
-    - Delivery is not yet merged; checkpoint publication and #1856/#1769 closure remain delivery/reconciliation work after Owner-authorized merge.
+    - PR #1863 is merged; checkpoint CP-LAFEA3-C3C6-1856-0001 is published and #1856/#1769 are closed. No remaining custody obligation is owned by this EP.
   deliberate_non_goals:
     - No solver formulation, stiffness/load assembly, recovery convention, coordinate/sign convention, benchmark oracle, tolerance, mesh threshold, release authority, or merge authorization change.
   terminology:
