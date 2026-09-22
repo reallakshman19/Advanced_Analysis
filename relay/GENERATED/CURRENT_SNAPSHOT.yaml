@@ -2,19 +2,19 @@
   "schema_version": "relay-v3.1-snapshot",
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
-    "roadmap_revision": "RM-0013",
-    "state_digest": "provider-derived-idle-after-release",
+    "roadmap_revision": "RM-0014",
+    "state_digest": "sha256:eed9835c9dc043c50483999cadd40ff165265cb09bc606acc87f1f3406346577",
     "material_basis": {
       "head": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
       "tree_digest": "sha256:2a478551571ee555b8bdfc1251984bee671907ada78e63aafdbfe9756b39da63",
-      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e187d0bf5435c8d94b24a3e",
-      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e187d0bf5435c8d94b24a3e"
+      "relevant_paths_digest": "sha256:9cc4b9fe3a1c7fbe1927d8789f472594fd565d99c580538b62b93ba68d64c6db",
+      "dependency_digest": "sha256:9cc4b9fe3a1c7fbe1927d8789f472594fd565d99c580538b62b93ba68d64c6db"
     },
-    "coordination_head": "18bdb5aaad35ff9403f17a324079bc2daa6f1ddd"
+    "coordination_head": "5405ae53eb7c8050386a5675386a8aa0997c4a2a"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Restore the governed B02B method-specific mesh ladder omitted from V2, validate B02B/aggregate production behavior, then proceed to separately owned B-bar and BM-005 boundaries without weakening qualification criteria."
+    "current_goal": "Repair B02B-V2 production-route selection so the sign-only V2 definition reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and aggregate progression, then return to separate B-bar/BM-005 boundaries."
   },
   "programme": {
     "accepted_progress": 0,
@@ -28,22 +28,39 @@
     ]
   },
   "execution": {
-    "lifecycle": "IDLE",
-    "work_package": null,
-    "ep": null,
-    "lease": null,
-    "executor": null
+    "lifecycle": "ACTIVE",
+    "work_package": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+    "lease": "LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+    "executor": "chatgpt-gpt5.6-sol-c3d-b02brouting-20260922"
   },
   "scope": {
-    "allowed_writes": [],
-    "protected": [],
-    "prohibited": []
+    "allowed_writes": [
+      "scripts/lib/lafea-b02-production-route.mjs",
+      "relay/EVIDENCE/C3D-B02B-ROUTING/**"
+    ],
+    "protected": [
+      "src/core/lafea-meshing/**",
+      "src/workspace/lafea-mesh-producer-binding.js",
+      "validation/lafea-b02-definitions/**",
+      "scripts/lib/lafea-b02-rectangle-qualification.mjs"
+    ],
+    "prohibited": [
+      "changes to mesh generator implementation or qualified mesh profile identity/source revision",
+      "changes to B02B V1/V2 definitions, expected values, sign correction, acceptance modes or tolerances",
+      "changes to stableWithinBand 0.02 or convergence classifier",
+      "FE solver/element/recovery changes",
+      "B-bar or BM-005 changes",
+      "workflow YAML changes",
+      "issue #1862 implementation",
+      "release or merge authority"
+    ]
   },
   "material": {
     "base": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
     "head": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
-    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e187d0bf5435c8d94b24a3e",
-    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e187d0bf5435c8d94b24a3e"
+    "relevant_paths_digest": "sha256:9cc4b9fe3a1c7fbe1927d8789f472594fd565d99c580538b62b93ba68d64c6db",
+    "dependency_digest": "sha256:9cc4b9fe3a1c7fbe1927d8789f472594fd565d99c580538b62b93ba68d64c6db"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -66,9 +83,14 @@
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": null,
+    "immediate_material_action": "Change only the B02B probe-stable route selector so B02B-V2, when it explicitly supersedes B02B, uses the existing qualified B02B profile path; then validate B02B and aggregate sequence on the exact material head.",
     "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": []
+    "stop_conditions": [
+      "Do not alter the 2% stability fallback.",
+      "Do not alter mesh generation or benchmark definitions.",
+      "Do not touch B-bar, BM-005 or #1862.",
+      "Stop if V2 cannot reuse the B02B V1 mesh strategy without changing its qualified profile contract."
+    ]
   },
   "handoff": {
     "zero_context_takeover_possible": true,
@@ -76,6 +98,8 @@
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
+      "relay/WORK/EP-LAFEA3-C3D-B02B-ROUTING-1771-0006.yaml",
+      "relay/LEASES/LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006.yaml",
       "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml"
     ]
   }

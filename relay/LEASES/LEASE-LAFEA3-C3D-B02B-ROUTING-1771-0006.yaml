@@ -1,0 +1,43 @@
+{
+  "schema_version": "relay-v3.1-lease",
+  "id": "LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+  "route": "SERIAL:EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+  "executor": {
+    "id": "chatgpt-gpt5.6-sol-c3d-b02brouting-20260922"
+  },
+  "basis": {
+    "ep_id": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+    "ep_digest": "sha256:d365f4be24d1a7579434d088ad63b0596aba3bb5c492a0e1be1425ec963b9260",
+    "material_base": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+    "predecessor_checkpoint": null,
+    "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1"
+  },
+  "authority": {
+    "actions": [
+      "READ",
+      "ANALYZE",
+      "MATERIAL_WRITE",
+      "TEST",
+      "CHECKPOINT",
+      "HANDOVER",
+      "LOCAL_EXECUTION_EXPORT",
+      "DRAFT_PR_UPDATE"
+    ]
+  },
+  "admission": {
+    "method": "DETERMINISTIC",
+    "result": "PASS",
+    "repository_only": true,
+    "qualification": {
+      "required": false,
+      "qset": null,
+      "evaluator": null,
+      "result": null,
+      "evidence": []
+    }
+  },
+  "state": "ACTIVE",
+  "invalidation": {
+    "reasons": []
+  }
+}

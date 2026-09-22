@@ -1,0 +1,167 @@
+{
+  "schema_version": "relay-v3.1-ep",
+  "id": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+  "work_package": "WP-1771",
+  "outcome": {
+    "statement": "Repair the confirmed B02B V2 production-route integration defect: B02B-V2 must select the already-qualified B02B probe-stable rectangle mesh strategy for the same method/h combinations as B02B V1, without changing mesh generation, convergence criteria, definition values, tolerances, solver mechanics, recovery or release authority."
+  },
+  "basis": {
+    "predecessor_checkpoint": null,
+    "material_base": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+    "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+    "semantic_dependencies": [
+      {
+        "path": "scripts/lib/lafea-b02-production-route.mjs",
+        "reason": "Current routing checks caseId === B02B; B02B-V2 therefore falls through to generic mesh profile despite superseding B02B."
+      },
+      {
+        "path": "src/core/lafea-meshing/b02b-probe-stable-rectangle-mesh.js",
+        "reason": "Already-qualified B02B probe-stable strategy; must remain unchanged."
+      },
+      {
+        "path": "src/workspace/lafea-mesh-producer-binding.js",
+        "reason": "Qualified profile identity/source-revision binding; must remain unchanged."
+      },
+      {
+        "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+        "reason": "Active V2 definition has caseId B02B-V2 and supersedesCaseId B02B while retaining V1 mesh policy."
+      },
+      {
+        "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+        "reason": "Governed V1 route that selects probe-stable B02B mesh and was verified passing with same qualifier."
+      },
+      {
+        "path": "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+        "reason": "Root-cause record for probe-stable mesh and convergence-only authority."
+      },
+      {
+        "path": "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "reason": "2% stability fallback and convergence classifier remain unchanged."
+      },
+      {
+        "path": "scripts/lafea-b02b-production-check.mjs",
+        "reason": "Focused production validation."
+      },
+      {
+        "path": "scripts/lafea-b02-production-sequence-check.mjs",
+        "reason": "Aggregate first-boundary validation."
+      }
+    ]
+  },
+  "scope": {
+    "write": [
+      "scripts/lib/lafea-b02-production-route.mjs",
+      "relay/EVIDENCE/C3D-B02B-ROUTING/**"
+    ],
+    "read": [
+      "scripts/lib/lafea-b02-production-route.mjs",
+      "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+      "src/core/lafea-meshing/b02b-probe-stable-rectangle-mesh.js",
+      "src/core/lafea-meshing/probe-stable-rectangle-core.js",
+      "src/workspace/lafea-mesh-producer-binding.js",
+      "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+      "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+      "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+      "scripts/lafea-b02b-production-check.mjs",
+      "scripts/lafea-b02-production-sequence-check.mjs"
+    ],
+    "protect": [
+      "src/core/lafea-meshing/**",
+      "src/workspace/lafea-mesh-producer-binding.js",
+      "validation/lafea-b02-definitions/**",
+      "scripts/lib/lafea-b02-rectangle-qualification.mjs"
+    ],
+    "prohibit": [
+      "changes to mesh generator implementation or qualified mesh profile identity/source revision",
+      "changes to B02B V1/V2 definitions, expected values, sign correction, acceptance modes or tolerances",
+      "changes to stableWithinBand 0.02 or convergence classifier",
+      "FE solver/element/recovery changes",
+      "B-bar or BM-005 changes",
+      "workflow YAML changes",
+      "issue #1862 implementation",
+      "release or merge authority"
+    ]
+  },
+  "acceptance": [
+    {
+      "id": "AC-C3D-B02B-ROUTE-1",
+      "statement": "B02B V1 continues to select B02B probe-stable profile exactly as before.",
+      "evidence_requirements": [
+        {
+          "oracle": "source diff and focused B02B V1 route identity inspection"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-ROUTE-2",
+      "statement": "B02B-V2 with supersedesCaseId B02B selects the same B02B probe-stable profile identity/source revision for identical method/h inputs; unrelated rectangle cases retain prior routing.",
+      "evidence_requirements": [
+        {
+          "oracle": "route selection source inspection plus V2 production execution"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-ROUTE-3",
+      "statement": "No benchmark definition, 2% fallback, mesh generator, solver, recovery or tolerance is changed.",
+      "evidence_requirements": [
+        {
+          "oracle": "provider diff limited to production-route selector and relay evidence"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-ROUTE-4",
+      "statement": "node scripts/lafea-b02b-production-check.mjs executes on the exact post-fix head; observed PASS or failure is retained.",
+      "evidence_requirements": [
+        {
+          "test": "node scripts/lafea-b02b-production-check.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-ROUTE-5",
+      "statement": "node scripts/lafea-b02-production-sequence-check.mjs executes and retains the next exact boundary.",
+      "evidence_requirements": [
+        {
+          "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+        }
+      ]
+    }
+  ],
+  "quality_policy": {
+    "level": "HIGH_RISK",
+    "independent_review": "REQUIRED"
+  },
+  "parent_issue": {
+    "provider": "GITHUB",
+    "repository": "reallaksh19/Advanced_Analysis",
+    "number": 1771,
+    "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+    "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+    "baseline": {
+      "observed_at": "2026-09-22T23:10:18Z",
+      "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+      "acceptance_items": [
+        {
+          "id": "C3-D.1",
+          "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority."
+        }
+      ]
+    }
+  },
+  "offloads": [],
+  "admission_policy": {
+    "qualification": "NOT_REQUIRED",
+    "question_policy": "NONE"
+  },
+  "next": {
+    "first_action": "Change only the B02B probe-stable route selector so B02B-V2, when it explicitly supersedes B02B, uses the existing qualified B02B profile path; then validate B02B and aggregate sequence on the exact material head.",
+    "stop_conditions": [
+      "Do not alter the 2% stability fallback.",
+      "Do not alter mesh generation or benchmark definitions.",
+      "Do not touch B-bar, BM-005 or #1862.",
+      "Stop if V2 cannot reuse the B02B V1 mesh strategy without changing its qualified profile contract."
+    ]
+  }
+}
