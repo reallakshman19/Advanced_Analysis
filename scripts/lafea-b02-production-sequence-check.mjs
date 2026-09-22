@@ -5,7 +5,7 @@ import { canonicalLafeaSha256 } from '../src/workspace/lafea-canonical-sha256.js
 
 const checks = [
   ['B02C_ANALYTICAL_TRACTION', 'scripts/lafea-b02c-analytical-traction-check.mjs'],
-  ['B02D_POLAR_MESH', 'scripts/lafea-b02d-probe-stable-polar-mesh-check.mjs'],
+  ['B02D_POLAR_MESH', 'scripts/lafea-b02d-v2-preobservation-quality-check.mjs'],
   ['B02A', 'scripts/lafea-b02a-production-check.mjs'],
   ['B02B', 'scripts/lafea-b02b-production-check.mjs'],
   ['B02C', 'scripts/lafea-b02c-production-check.mjs'],
