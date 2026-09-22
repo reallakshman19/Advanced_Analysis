@@ -2,7 +2,7 @@ schema_version: relay-v2.5
 progress_basis:
   id: PB-0007
   roadmap_revision: RM-0007
-  note: Top-level #1710/#1711 and work-package denominators remain intentionally unclaimed until historical acceptance is reconstructed. C3-D/E/F/G are planned successors only; current #1856 EP accounting remains bounded below.
+  note: Top-level #1710/#1711 and work-package denominators remain intentionally unclaimed, so no programme percentage is fabricated. WP-1769 engineering completion is established by CP-LAFEA3-C3C6-1856-0001 and provider-verified closure; C3-D/E/F/G retain independent unearned acceptance.
 overall:
   earned_weight: 0
   total_weight: 0
