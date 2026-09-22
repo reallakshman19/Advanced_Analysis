@@ -1,0 +1,234 @@
+{
+  "schema_version": "relay-v3-task-admission",
+  "roadmap": {
+    "disposition": "MAPPED_EXISTING_WP",
+    "new_revision": "RM-0008",
+    "basis": [
+      "Live V3 frontier after completed WP-1769; #1771 is the existing detailed dependency-ready work package.",
+      "Three-pass handover conclusion requires existing-model execution before any #1862 material architecture."
+    ],
+    "work_package": {
+      "id": "WP-1771",
+      "title": "Qualify production-route continuum response, solver robustness, and convergence",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": [
+        "WP-1769"
+      ]
+    }
+  },
+  "ep": {
+    "schema_version": "relay-v3-ep",
+    "id": "EP-LAFEA3-C3D-BASELINE-1771-0001",
+    "work_package": "WP-1771",
+    "outcome": {
+      "statement": "Execute and inspect the existing B02, BM-005, B01 and B-bar production qualification surfaces on the exact current basis, producing a concrete C3-D gap witness or a NO_PATCH disposition before any new C3-D architecture or mechanics is admitted."
+    },
+    "basis": {
+      "predecessor_checkpoint": null,
+      "material_base": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
+      "protocol_basis": "github:reallaksh19/Common@c87cf87b313801e42ecd0fcc7d36af0d90c5f400/skills/engineering-pr-delivery-v3",
+      "semantic_dependencies": [
+        {
+          "path": "relay/GENERATED/INTELLIGENCE_CONTINUITY.yaml",
+          "reason": "V3 cutover continuity proof preserves the frozen C3-C predecessor boundary without importing it as native checkpoint authority."
+        },
+        {
+          "path": "agents/relay/checkpoints/CP-LAFEA3-C3C6-1856-0001.yaml",
+          "reason": "Read-only legacy predecessor evidence defining the bounded C3-C claim consumed by this probe."
+        },
+        {
+          "path": "scripts/lafea-b02-production-sequence-check.mjs",
+          "reason": "Existing B02A-E production-route execution surface to test before any new composition code."
+        },
+        {
+          "path": "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+          "reason": "Existing ordinary-route continuum harness with retained lineage/currentness evidence."
+        },
+        {
+          "path": "scripts/lafea-b01-final-qualification.mjs",
+          "reason": "Existing high-order mapping qualification surface."
+        },
+        {
+          "path": "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+          "reason": "Existing near-incompressible/B-bar qualification surface."
+        },
+        {
+          "path": "scripts/lib/lafea-b02*.mjs",
+          "reason": "Existing B02 production/qualification implementation inspected for custody and solver evidence completeness."
+        },
+        {
+          "path": "src/workspace/**",
+          "reason": "Authoritative execution, currentness and runtime-diagnostics implementation consumed read-only by the baseline."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/**",
+          "reason": "Frozen B02 definitions and tolerances must remain unchanged."
+        },
+        {
+          "path": "validation/lafea-benchmark-data/**",
+          "reason": "Existing benchmark/oracle data are protected evidence inputs."
+        }
+      ]
+    },
+    "scope": {
+      "write": [
+        "relay/EVIDENCE/C3D-BASELINE/**"
+      ],
+      "read": [
+        "relay/GENERATED/INTELLIGENCE_CONTINUITY.yaml",
+        "agents/relay/checkpoints/CP-LAFEA3-C3C6-1856-0001.yaml",
+        "scripts/lafea-b02*.mjs",
+        "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+        "scripts/lafea-b01-final-qualification.mjs",
+        "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+        "scripts/lib/lafea-b02*.mjs",
+        "src/workspace/**",
+        "validation/lafea-b02-definitions/**",
+        "validation/lafea-benchmark-data/**"
+      ],
+      "protect": [
+        "scripts/**",
+        "src/workspace/**",
+        "validation/lafea-b02-definitions/**",
+        "validation/lafea-benchmark-data/**",
+        ".github/workflows/**"
+      ],
+      "prohibit": [
+        "FE solver/element formulation changes",
+        "benchmark oracle or tolerance changes",
+        "mesher or recovery/result-authority changes",
+        "workflow YAML changes",
+        "release or merge authority",
+        "implementation of issue #1862 without a positive baseline gap witness"
+      ]
+    },
+    "acceptance": [
+      {
+        "id": "AC-C3D-PROBE-1",
+        "statement": "The existing B02, BM-005, B01 and B-bar harnesses are actually executed on one exact current basis, with command, head, tree cleanliness, stdout/stderr and exit status retained; unavailable execution remains explicit NOT_RUN.",
+        "evidence_requirements": [
+          {
+            "test": "scripts/lafea-b02-production-sequence-check.mjs"
+          },
+          {
+            "test": "scripts/lafea.3-bm005-ordinary-route-check.mjs"
+          },
+          {
+            "test": "scripts/lafea-b01-final-qualification.mjs"
+          },
+          {
+            "test": "scripts/lafea-plane-strain-bbar-lame-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-PROBE-2",
+        "statement": "Existing retained output is classified field-by-field for production ancestry, solver diagnostics, CURRENT authority, equilibrium/energy/convergence evidence and deterministic replay; missing or contradictory fields have exact source witnesses.",
+        "evidence_requirements": [
+          {
+            "oracle": "C3-D lineage/solver/currentness/replay field-completeness matrix"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-PROBE-3",
+        "statement": "No FE mechanics, benchmark/oracle/tolerance, recovery, mesher or release-authority change is used to obtain the baseline result; existing numerical acceptance remains frozen.",
+        "evidence_requirements": [
+          {
+            "oracle": "frozen existing numerical authority and protected-source diff"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-PROBE-4",
+        "statement": "The probe ends with an evidence-backed disposition of NO_PATCH, NARROW_ISSUE_1862, or a separately witnessed owning gap; evidence gathering alone grants no C3-D capability authority.",
+        "evidence_requirements": [
+          {
+            "oracle": "positive-gap-witness-or-NO_PATCH disposition"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-PROBE-5",
+        "statement": "External infrastructure failures and unexecuted cases remain NOT_RUN and are not converted into engineering FAIL/PASS.",
+        "evidence_requirements": [
+          {
+            "oracle": "executed-versus-NOT_RUN evidence classification"
+          }
+        ]
+      }
+    ],
+    "quality_policy": {
+      "level": "HIGH_RISK",
+      "independent_review": "REQUIRED"
+    },
+    "parent_issue": {
+      "provider": "GITHUB",
+      "repository": "reallaksh19/Advanced_Analysis",
+      "number": 1771,
+      "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+      "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+      "baseline": {
+        "observed_at": "2026-09-22T12:51:33Z",
+        "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+        "acceptance_items": [
+          {
+            "id": "C3-D.1",
+            "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority."
+          },
+          {
+            "id": "C3-D.2",
+            "statement": "Establish solver robustness, residual, force/moment equilibrium, energy and deterministic replay evidence."
+          },
+          {
+            "id": "C3-D.3",
+            "statement": "Qualify distorted valid T6 mapping and fail-closed invalid geometry behavior."
+          },
+          {
+            "id": "C3-D.4",
+            "statement": "Qualify Q8 formulation, quadrature, non-rectangular mapping and supported distortion envelope."
+          },
+          {
+            "id": "C3-D.5",
+            "statement": "Establish the supported near-incompressible plane-strain envelope or an explicit fail-closed limitation."
+          },
+          {
+            "id": "C3-D.6",
+            "statement": "Establish executed mesh-refinement convergence classification using realized h and physical quantities."
+          }
+        ]
+      }
+    },
+    "admission_policy": {
+      "qualification": "NOT_REQUIRED",
+      "question_policy": "NONE"
+    },
+    "next": {
+      "first_action": "On a faithful exact-current checkout, run the existing B02 production sequence, BM-005 ordinary route, B01 final qualification and plane-strain B-bar Lamé checks without product changes; retain their raw receipts and inspect the authoritative outputs for the C3-D field-completeness matrix.",
+      "stop_conditions": [
+        "Stop if the current material basis cannot be reproduced exactly.",
+        "Stop product changes: this EP permits repository writes only under relay/EVIDENCE/C3D-BASELINE/**.",
+        "If an executed numerical/mechanics failure appears, identify its first owning boundary rather than changing an oracle, tolerance or formulation.",
+        "If faithful execution is unavailable, retain NOT_RUN/INFRASTRUCTURE and export a local-execution handoff instead of synthesizing evidence.",
+        "Do not admit or implement issue #1862 until this baseline produces a positive composition gap witness."
+      ]
+    }
+  },
+  "lease": {
+    "id": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
+    "executor_id": "chatgpt-gpt5.6-sol-c3d-baseline-20260922",
+    "method": "DETERMINISTIC",
+    "qualification": null,
+    "owner_basis": null,
+    "branch": null
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "ISSUE",
+      "number": 1771
+    }
+  }
+}

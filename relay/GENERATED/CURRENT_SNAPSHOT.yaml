@@ -2,15 +2,15 @@
   "schema_version": "relay-v3-snapshot",
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
-    "roadmap_revision": "RM-0007",
-    "state_digest": "sha256:de4181e81b5930fab40f34f6e9a649f8612a72155f12ec37927be5e97da6bce6",
+    "roadmap_revision": "RM-0008",
+    "state_digest": "sha256:4763f031e4cb6b456b541f0a406c45f885756b1c3141ec9805c6ad48b44ed48e",
     "material_basis": {
-      "head": "0b9244b8cd9e1fb97822d5612f5a99222b04c21a",
-      "tree_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "head": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
+      "tree_digest": "sha256:b0921b034ea978cee9539d613eac3868715e4beb5b2b657a16ed85f1368fca32",
+      "relevant_paths_digest": "sha256:746e6a33f2d2eca5d4bb1256fac42d3f14908bd6873340104f8bfef45efb4067",
+      "dependency_digest": "sha256:0916e29cd3d61b0b95eb847fb97fbe570ba72c2d3e24f255eb4dc646dbb567fb"
     },
-    "coordination_head": "0b9244b8cd9e1fb97822d5612f5a99222b04c21a"
+    "coordination_head": "b942aa5c420f43ffe4cbb3c06051dd5623e40185"
   },
   "owner": {
     "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -28,22 +28,37 @@
     ]
   },
   "execution": {
-    "lifecycle": "IDLE",
-    "work_package": null,
-    "ep": null,
-    "lease": null,
-    "executor": null
+    "lifecycle": "ACTIVE",
+    "work_package": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-BASELINE-1771-0001",
+    "lease": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
+    "executor": "chatgpt-gpt5.6-sol-c3d-baseline-20260922"
   },
   "scope": {
-    "allowed_writes": [],
-    "protected": [],
-    "prohibited": []
+    "allowed_writes": [
+      "relay/EVIDENCE/C3D-BASELINE/**"
+    ],
+    "protected": [
+      "scripts/**",
+      "src/workspace/**",
+      "validation/lafea-b02-definitions/**",
+      "validation/lafea-benchmark-data/**",
+      ".github/workflows/**"
+    ],
+    "prohibited": [
+      "FE solver/element formulation changes",
+      "benchmark oracle or tolerance changes",
+      "mesher or recovery/result-authority changes",
+      "workflow YAML changes",
+      "release or merge authority",
+      "implementation of issue #1862 without a positive baseline gap witness"
+    ]
   },
   "material": {
-    "base": "0b9244b8cd9e1fb97822d5612f5a99222b04c21a",
-    "head": "0b9244b8cd9e1fb97822d5612f5a99222b04c21a",
-    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    "base": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
+    "head": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
+    "relevant_paths_digest": "sha256:746e6a33f2d2eca5d4bb1256fac42d3f14908bd6873340104f8bfef45efb4067",
+    "dependency_digest": "sha256:0916e29cd3d61b0b95eb847fb97fbe570ba72c2d3e24f255eb4dc646dbb567fb"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -56,22 +71,30 @@
     "informational": []
   },
   "delivery": {
-    "issue": null,
+    "issue": 1771,
     "pr": null,
-    "lifecycle": "NOT_REQUIRED",
+    "lifecycle": "DECLARED",
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": null,
-    "delivery_action": null,
-    "stop_conditions": []
+    "immediate_material_action": "On a faithful exact-current checkout, run the existing B02 production sequence, BM-005 ordinary route, B01 final qualification and plane-strain B-bar Lamé checks without product changes; retain their raw receipts and inspect the authoritative outputs for the C3-D field-completeness matrix.",
+    "delivery_action": "Perform the explicitly authorized delivery transition.",
+    "stop_conditions": [
+      "Stop if the current material basis cannot be reproduced exactly.",
+      "Stop product changes: this EP permits repository writes only under relay/EVIDENCE/C3D-BASELINE/**.",
+      "If an executed numerical/mechanics failure appears, identify its first owning boundary rather than changing an oracle, tolerance or formulation.",
+      "If faithful execution is unavailable, retain NOT_RUN/INFRASTRUCTURE and export a local-execution handoff instead of synthesizing evidence.",
+      "Do not admit or implement issue #1862 until this baseline produces a positive composition gap witness."
+    ]
   },
   "handoff": {
-    "zero_context_takeover_possible": false,
+    "zero_context_takeover_possible": true,
     "reconstruction_sources": [
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
-      "relay/CONTROLS/controls.yaml"
+      "relay/CONTROLS/controls.yaml",
+      "relay/WORK/EP-LAFEA3-C3D-BASELINE-1771-0001.yaml",
+      "relay/LEASES/LEASE-LAFEA3-C3D-BASELINE-1771-0001.yaml"
     ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "relay-v3-roadmap",
-  "revision": "RM-0007",
+  "revision": "RM-0008",
   "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
   "owner": {
     "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -18,7 +18,7 @@
       "id": "WP-1771",
       "title": "Qualify production-route continuum response, solver robustness, and convergence",
       "weight": 1,
-      "state": "PLANNED",
+      "state": "ACTIVE",
       "depends_on": [
         "WP-1769"
       ]
