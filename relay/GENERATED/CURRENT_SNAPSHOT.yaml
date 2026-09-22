@@ -5,12 +5,12 @@
     "roadmap_revision": "RM-0012",
     "state_digest": "sha256:70e16253f5d0183035f329985b9495167e8fbae5183173fee654c589b2c4cc54",
     "material_basis": {
-      "head": "1019ca26cb18332983f64258698787280b86afd1",
-      "tree_digest": "sha256:8cb28903f497d198f338bb2438d0b2e96cec8729184721028c6489fa61ea577c",
-      "relevant_paths_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2",
-      "dependency_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2"
+      "head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+      "tree_digest": "sha256:ba43bf7dc5db0d2edf84ed2d937d339475c1fd9f9eb85830108784ac563a4ab5",
+      "relevant_paths_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347",
+      "dependency_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347"
     },
-    "coordination_head": "c35eac42429a15bfc554433cacecb3d048c6c341"
+    "coordination_head": "ad821c11bcd657a52a80c5760aad845508a2ae82"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -55,9 +55,9 @@
   },
   "material": {
     "base": "1019ca26cb18332983f64258698787280b86afd1",
-    "head": "1019ca26cb18332983f64258698787280b86afd1",
-    "relevant_paths_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2",
-    "dependency_digest": "sha256:079c0855ca156409802ce5f0622df2011b399c3d03911fc3c21a798c4e18a5f2"
+    "head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+    "relevant_paths_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347",
+    "dependency_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -97,8 +97,7 @@
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
       "relay/WORK/EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml",
-      "relay/LEASES/LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml",
-      "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml"
+      "relay/LEASES/LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml"
     ]
   }
 }

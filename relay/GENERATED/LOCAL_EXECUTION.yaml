@@ -2,90 +2,88 @@
   "schema_version": "relay-v3.1-local-execution",
   "authority": "DERIVED_EXECUTION_PACKAGE",
   "generated_from": {
-    "state_digest": "sha256:46974ec9bad43f59d5155698c8926ed0c0db1ef800d0f8f82434a3261c839090",
-    "snapshot_digest": "sha256:cf45f7aee7fb27eba769b3a2d4e048c37db354b19d33599b3899ec50950bce30"
+    "state_digest": "sha256:70e16253f5d0183035f329985b9495167e8fbae5183173fee654c589b2c4cc54",
+    "snapshot_digest": "sha256:d5e4ea4a351e3841aaf261c273bb975eb7ad7343f9b9b97192e5e0231b3da6a0"
   },
   "project": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "roadmap_revision": "RM-0011",
+    "roadmap_revision": "RM-0012",
     "work_package": "WP-1771"
   },
   "execution": {
-    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
-    "lease": "LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
-    "executor": "chatgpt-gpt5.6-sol-c3d-v31-20260922",
+    "ep": "EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "lease": "LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "executor": "chatgpt-gpt5.6-sol-c3d-b02bfix-20260922",
     "branch": "relay/c3d-v31-diagnostic-1771"
   },
   "material": {
     "base": "1019ca26cb18332983f64258698787280b86afd1",
-    "head": "1019ca26cb18332983f64258698787280b86afd1",
-    "relevant_paths_digest": "sha256:2d3c6c95e6fcbfe75bc839cb2b7540ee8555f896e16236b3cd74afcfd6c5d821",
-    "dependency_digest": "sha256:291b21fe7cde28f8155c70e9b8e194d0d50a5d33ad329e7e088fbcb117cb4217"
+    "head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+    "relevant_paths_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347",
+    "dependency_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347"
   },
   "scope": {
     "allowed_writes": [
-      "relay/EVIDENCE/C3D-DIAGNOSTIC/**"
+      "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+      "relay/EVIDENCE/C3D-B02B-DEFINITION/**"
     ],
-    "protected": [
-      "scripts/lib/**",
-      "src/**",
-      "validation/**",
-      ".github/workflows/**"
-    ],
+    "protected": [],
     "prohibited": [
-      "any product/source modification in this EP",
+      "changes to B02B expected values, oracle sign correction, or numerical tolerance values",
+      "changes to B02B V1 historical definition or validation record",
+      "changes to shared qualification code or production-route code",
       "FE solver or element formulation changes",
-      "benchmark oracle or tolerance changes",
-      "mesh generator or mesh-quality threshold changes",
+      "mesh generator or mesh-quality policy changes",
+      "B-bar or BM-005 definition changes",
       "recovery or result-authority changes",
       "workflow YAML changes",
-      "release or merge authority",
-      "implementation of issue #1862 receipt composition in this EP"
+      "issue #1862 implementation",
+      "release or merge authority"
     ]
   },
   "acceptance": [
     {
-      "id": "AC-C3D-DIAG-1",
-      "statement": "The exact material head contains the V2 B02D pre-observation qualification binding, not the obsolete V1 precursor, and the B02 production sequence is executed without modifying product state.",
+      "id": "AC-C3D-B02B-1",
+      "statement": "B02B V2 retains the corrected shear-stress expected value -3.54290625 and the existing v2OracleCorrection block unchanged.",
+      "evidence_requirements": [
+        {
+          "oracle": "definition diff proves no V2 expected-value or v2OracleCorrection mutation"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-2",
+      "statement": "B02B-PROBE-TAU-01 and B02B-PROBE-UY-01 in V2 each retain acceptanceMode=FIXED_LOCATION_CONVERGENCE_ONLY with the preexisting governed justification from V1.",
+      "evidence_requirements": [
+        {
+          "oracle": "field-for-field V1-to-V2 acceptanceMode/acceptanceModeJustification parity"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-3",
+      "statement": "All frozen 5% acceptance numbers remain byte-equivalent to the pre-fix V2 definition; the repair changes applicability of direct analytical comparison, not a tolerance.",
+      "evidence_requirements": [
+        {
+          "oracle": "pre/post acceptance object equality"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-4",
+      "statement": "The V2 B02B production check executes under the repaired definition and any remaining failure is retained exactly rather than bypassed.",
+      "evidence_requirements": [
+        {
+          "test": "node scripts/lafea-b02b-production-check.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02B-5",
+      "statement": "The aggregate B02 production sequence advances beyond B02B or, if it does not, returns the new exact first failing witness; no downstream failure is converted to PASS.",
       "evidence_requirements": [
         {
           "test": "node scripts/lafea-b02-production-sequence-check.mjs"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-DIAG-2",
-      "statement": "B02 sequence, B02B, B-bar and BM-005 are attempted on one exact material head with typed V3.1 result return plus raw stdout/stderr/exit receipts; FAIL/BLOCKED/NOT_RUN remain their observed states.",
-      "evidence_requirements": [
-        {
-          "oracle": "relay-v3.1-local-execution result and raw command receipts"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-DIAG-3",
-      "statement": "The execution evidence shows no frozen oracle, tolerance, FE mechanics, mesh-quality threshold, recovery or result-authority change was used to alter outcomes.",
-      "evidence_requirements": [
-        {
-          "oracle": "protected/source diff verification"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-DIAG-4",
-      "statement": "B02B T3, B-bar T6/L1 and BM-005 convergence/publication receive separate evidence-backed dispositions; receipt projection remains a distinct later issue.",
-      "evidence_requirements": [
-        {
-          "oracle": "separate-boundary diagnostic disposition"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-DIAG-5",
-      "statement": "Deterministic replay is accepted only if its script and two raw executions are durable under relay/EVIDENCE/C3D-DIAGNOSTIC/**; otherwise it is explicitly NOT_PROVED or PARTIAL.",
-      "evidence_requirements": [
-        {
-          "oracle": "durable replay receipts or explicit non-proof"
         }
       ]
     }
@@ -105,83 +103,69 @@
     "handoff": null
   },
   "next": {
-    "first_action": "Export the V3.1 VALIDATE_ONLY local execution request for exact material head 1019ca26cb18332983f64258698787280b86afd1 and execute the four existing diagnostic commands without modifying product/source state.",
+    "first_action": "Restore only acceptanceMode and acceptanceModeJustification for the two V2 B02B fixed probes from the governed V1 definition; do not alter expected values, v2OracleCorrection, acceptance numbers, scripts or FE implementation.",
     "stop_conditions": [
-      "Stop on HEAD_MISMATCH.",
-      "Do not modify product/source files.",
-      "Do not relax B02B tolerances or mesh-quality thresholds.",
-      "Do not reinterpret BM-005 OSCILLATORY / RESULT_NOT_READY as a benchmark defect without first-owning evidence.",
-      "Do not admit or implement #1862.",
-      "If execution is unavailable, return NOT_RUN_ENVIRONMENT or NOT_RUN_INFRASTRUCTURE."
+      "Stop if V1 and the retained validation record no longer support the convergence-only disposition.",
+      "Stop if preserving V2 sign correction requires any oracle/tolerance rewrite beyond the two acceptance-mode fields.",
+      "Do not modify shared qualifier logic to force a pass.",
+      "Do not touch B-bar, BM-005, solver, mesher, recovery, workflow or #1862.",
+      "After the definition edit, validation must run on the resulting exact material head before checkpoint consideration."
     ]
   },
   "request": {
-    "id": "LOCAL-EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003-1019ca26cb18",
-    "purpose": "Export the V3.1 VALIDATE_ONLY local execution request for exact material head 1019ca26cb18332983f64258698787280b86afd1 and execute the four existing diagnostic commands without modifying product/source state.",
+    "id": "LOCAL-EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004-ad821c11bcd6",
+    "purpose": "Validate the narrow B02B V2 acceptance-mode migration repair without modifying source state.",
     "mode": "VALIDATE_ONLY",
     "exact_basis": {
-      "material_head": "1019ca26cb18332983f64258698787280b86afd1",
+      "material_head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
       "branch": "relay/c3d-v31-diagnostic-1771",
       "work_package": "WP-1771",
-      "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003"
+      "ep": "EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004"
     },
     "preflight": [
       "Fetch/check out the requested work and run git rev-parse HEAD.",
       "Compare the observed HEAD with request.exact_basis.material_head before running any validation step.",
-      "If the HEAD differs, do not continue; return HEAD_MISMATCH with the observed HEAD."
+      "If the HEAD differs, do not continue; return HEAD_MISMATCH with the observed HEAD.",
+      "Run git status --short and require a clean product/source tree before validation."
     ],
     "steps": [
       {
         "id": "STEP-CMD-1",
-        "instruction": "Run this exact caller-supplied command and capture its result.",
-        "command": "node scripts/lafea-b02-production-sequence-check.mjs",
+        "instruction": "Run this exact command and retain its observed result without repairing failures.",
+        "command": "node scripts/lafea-b02b-production-check.mjs",
         "working_directory": ".",
-        "expected_result": "Capture exit status and concise output; do not silently repair failures."
+        "expected_result": "B02B V2 should exercise convergence-only probe authority; capture PASS or the exact remaining failure."
       },
       {
         "id": "STEP-CMD-2",
-        "instruction": "Run this exact caller-supplied command and capture its result.",
-        "command": "node scripts/lafea-b02b-production-check.mjs",
+        "instruction": "Run this exact command and retain its observed result without repairing failures.",
+        "command": "node scripts/lafea-b02-production-sequence-check.mjs",
         "working_directory": ".",
-        "expected_result": "Capture exit status and concise output; do not silently repair failures."
-      },
-      {
-        "id": "STEP-CMD-3",
-        "instruction": "Run this exact caller-supplied command and capture its result.",
-        "command": "node scripts/lafea-plane-strain-bbar-lame-check.mjs",
-        "working_directory": ".",
-        "expected_result": "Capture exit status and concise output; do not silently repair failures."
-      },
-      {
-        "id": "STEP-CMD-4",
-        "instruction": "Run this exact caller-supplied command and capture its result.",
-        "command": "node scripts/lafea.3-bm005-ordinary-route-check.mjs",
-        "working_directory": ".",
-        "expected_result": "Capture exit status and concise output; do not silently repair failures."
+        "expected_result": "Aggregate sequence should advance beyond B02B if the repair is correct; capture the next exact boundary rather than requiring global PASS."
       }
     ],
     "success_conditions": [
-      "Every requested step is attempted on the exact material head or an explicit non-run status is returned.",
-      "The result packet contains the required evidence fields and no unrequested product-state change is made."
+      "Both commands are attempted on the exact material head or an explicit non-run status is returned.",
+      "The B02B definition's corrected expected values and frozen numerical tolerances remain unchanged.",
+      "No product/source modification is made during validation."
     ],
     "stop_conditions": [
       "If git rev-parse HEAD does not equal request.exact_basis.material_head, stop immediately and return HEAD_MISMATCH.",
-      "Stop on HEAD_MISMATCH.",
-      "Do not modify product/source files.",
-      "Do not relax B02B tolerances or mesh-quality thresholds.",
-      "Do not reinterpret BM-005 OSCILLATORY / RESULT_NOT_READY as a benchmark defect without first-owning evidence.",
-      "Do not admit or implement #1862.",
-      "If execution is unavailable, return NOT_RUN_ENVIRONMENT or NOT_RUN_INFRASTRUCTURE."
+      "Stop if V1 and the retained validation record no longer support the convergence-only disposition.",
+      "Stop if preserving V2 sign correction requires any oracle/tolerance rewrite beyond the two acceptance-mode fields.",
+      "Do not modify shared qualifier logic to force a pass.",
+      "Do not touch B-bar, BM-005, solver, mesher, recovery, workflow or #1862.",
+      "After the definition edit, validation must run on the resulting exact material head before checkpoint consideration."
     ],
     "prohibited_actions": [
-      "Do not modify product/source files.",
+      "Do not modify product/source files during validation.",
+      "Do not change any numerical tolerance, expected value, v2OracleCorrection content, qualifier logic, solver, mesher, recovery or result authority.",
       "Do not commit or push.",
-      "Do not advance PR, merge, release, or delivery state.",
-      "Do not silently repair a failure; return the observed failure to the originating owner."
+      "Do not implement B-bar, BM-005 or #1862 fixes in this validation run."
     ]
   },
   "return_contract": {
-    "request_id": "LOCAL-EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003-1019ca26cb18",
+    "request_id": "LOCAL-EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004-ad821c11bcd6",
     "allowed_results": [
       "PASS",
       "FAIL",
@@ -198,7 +182,7 @@
       "artifacts"
     ],
     "resume_owner": {
-      "agent_id": "chatgpt-gpt5.6-sol-c3d-v31-20260922",
+      "agent_id": "chatgpt-gpt5.6-sol-c3d-b02bfix-20260922",
       "responsibility": "The originating owner resumes responsibility after this bounded local result is returned; the helper does not inherit task custody."
     }
   },
