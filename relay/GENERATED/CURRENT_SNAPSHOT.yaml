@@ -3,14 +3,14 @@
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
     "roadmap_revision": "RM-0012",
-    "state_digest": "sha256:70e16253f5d0183035f329985b9495167e8fbae5183173fee654c589b2c4cc54",
+    "state_digest": "sha256:e2a72cc862c69df7de0e33c49bb9575e2f8283c26e8d1ab935c3d661eef43f91",
     "material_basis": {
       "head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
       "tree_digest": "sha256:ba43bf7dc5db0d2edf84ed2d937d339475c1fd9f9eb85830108784ac563a4ab5",
-      "relevant_paths_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347",
-      "dependency_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347"
+      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     },
-    "coordination_head": "ad821c11bcd657a52a80c5760aad845508a2ae82"
+    "coordination_head": "abcd6d41b218dd1cc4c77e4b34d931fd0221080b"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -28,36 +28,22 @@
     ]
   },
   "execution": {
-    "lifecycle": "ACTIVE",
-    "work_package": "WP-1771",
-    "ep": "EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
-    "lease": "LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
-    "executor": "chatgpt-gpt5.6-sol-c3d-b02bfix-20260922"
+    "lifecycle": "IDLE",
+    "work_package": null,
+    "ep": null,
+    "lease": null,
+    "executor": null
   },
   "scope": {
-    "allowed_writes": [
-      "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
-      "relay/EVIDENCE/C3D-B02B-DEFINITION/**"
-    ],
+    "allowed_writes": [],
     "protected": [],
-    "prohibited": [
-      "changes to B02B expected values, oracle sign correction, or numerical tolerance values",
-      "changes to B02B V1 historical definition or validation record",
-      "changes to shared qualification code or production-route code",
-      "FE solver or element formulation changes",
-      "mesh generator or mesh-quality policy changes",
-      "B-bar or BM-005 definition changes",
-      "recovery or result-authority changes",
-      "workflow YAML changes",
-      "issue #1862 implementation",
-      "release or merge authority"
-    ]
+    "prohibited": []
   },
   "material": {
-    "base": "1019ca26cb18332983f64258698787280b86afd1",
+    "base": "ad821c11bcd657a52a80c5760aad845508a2ae82",
     "head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
-    "relevant_paths_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347",
-    "dependency_digest": "sha256:e5c0d9f554e999f601caed64ad27d44dcce8b17a18740ef5a2d1ad3a8044b347"
+    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -80,15 +66,9 @@
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": "Restore only acceptanceMode and acceptanceModeJustification for the two V2 B02B fixed probes from the governed V1 definition; do not alter expected values, v2OracleCorrection, acceptance numbers, scripts or FE implementation.",
+    "immediate_material_action": null,
     "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": [
-      "Stop if V1 and the retained validation record no longer support the convergence-only disposition.",
-      "Stop if preserving V2 sign correction requires any oracle/tolerance rewrite beyond the two acceptance-mode fields.",
-      "Do not modify shared qualifier logic to force a pass.",
-      "Do not touch B-bar, BM-005, solver, mesher, recovery, workflow or #1862.",
-      "After the definition edit, validation must run on the resulting exact material head before checkpoint consideration."
-    ]
+    "stop_conditions": []
   },
   "handoff": {
     "zero_context_takeover_possible": true,
@@ -96,8 +76,7 @@
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
-      "relay/WORK/EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml",
-      "relay/LEASES/LEASE-LAFEA3-C3D-B02B-DEFINITION-1771-0004.yaml"
+      "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml"
     ]
   }
 }
