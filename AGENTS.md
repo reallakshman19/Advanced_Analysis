@@ -1,16 +1,16 @@
 # Advanced_Analysis project agent overlay
 
 COMMON_POLICY_SOURCE:
-`reallaksh19/Common/skills/engineering-pr-delivery-v2/`
+`reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1/`
 
 COMMON_POLICY_REFERENCE:
-`reallaksh19/Common/skills/engineering-pr-delivery-v2/references/repository-agent-policy.md`
+`reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1/SKILL.md`
 
-COMMON_PROTOCOL_MINIMUM_BASIS: `36068fde5b860ca1870311b166d28077b4c0bcf8`
+COMMON_PROTOCOL_MINIMUM_BASIS: `4c0617bd2f41d25f43a5d98673abead8ca4e7686`
 LOCAL_POLICY_SCOPE: PROJECT_ONLY
 LEGACY_RELAY_WRITES: FORBIDDEN
 
-All reusable relay, qualification, crash-recovery, chain-state, Q1–Q5, AUTO, validation-integrity, roadmap-governance, and merge semantics are owned by the live Common `engineering-pr-delivery-v2` skill. Re-ground live Common before every new material leg. Do not copy or locally fork those generic rules here.
+All reusable relay, qualification, crash-recovery, chain-state, Q1–Q5, validation-integrity, roadmap-governance, migration/cutover, local-execution return, and merge semantics are governed by the pinned Common `engineering-pr-delivery-v3.1` basis above. Resolve the live/default relay protocol from `relay/PROTOCOL_SELECTION.yaml`; after cutover, preserved `agents/relay/**` is read-only history and current authority is V3.1-native. Do not copy or locally fork those generic rules here.
 
 ## Project identity / criticality
 
