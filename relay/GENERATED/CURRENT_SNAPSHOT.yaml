@@ -2,15 +2,15 @@
   "schema_version": "relay-v3.1-snapshot",
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
-    "roadmap_revision": "RM-0009",
-    "state_digest": "sha256:4db5223fb59776d7217fad606a46260341f199c322b3ad4cdef7076d4687c91d",
+    "roadmap_revision": "RM-0010",
+    "state_digest": "sha256:dc4d51d902542d0914e1e6acaa8d14605335ddfa9629cbdb535f99afa2ecd661",
     "material_basis": {
-      "head": "2985ba5acea6bc1556afb4452dc643fc3728016e",
-      "tree_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "head": "99776d6f190cdc70c27a632c57db74068fde9630",
+      "tree_digest": "sha256:6ddd833cdfdebd30b5c7db700a0531129ce841f5317cb638346b0b71ab36cb8f",
+      "relevant_paths_digest": "sha256:1c02a3551408cf0a3975c01cb9c18250744ed59a3e94958cb9ab2a79d34bb67a",
+      "dependency_digest": "sha256:7baa1b0fda7890a0d9d0560a10d0056368387c4985e20d3e2c37bd8a32072720"
     },
-    "coordination_head": "2985ba5acea6bc1556afb4452dc643fc3728016e"
+    "coordination_head": "99776d6f190cdc70c27a632c57db74068fde9630"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -28,22 +28,38 @@
     ]
   },
   "execution": {
-    "lifecycle": "IDLE",
-    "work_package": null,
-    "ep": null,
-    "lease": null,
-    "executor": null
+    "lifecycle": "ACTIVE",
+    "work_package": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
+    "lease": "LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
+    "executor": "chatgpt-gpt5.6-sol-c3d-v31-20260922"
   },
   "scope": {
-    "allowed_writes": [],
-    "protected": [],
-    "prohibited": []
+    "allowed_writes": [
+      "scripts/lafea-b02-production-sequence-check.mjs",
+      "relay/EVIDENCE/C3D-DIAGNOSTIC/**"
+    ],
+    "protected": [
+      "scripts/lib/**",
+      "src/**",
+      "validation/**",
+      ".github/workflows/**"
+    ],
+    "prohibited": [
+      "FE solver or element formulation changes",
+      "benchmark oracle or tolerance changes",
+      "mesh generator or mesh-quality threshold changes",
+      "recovery or result-authority changes",
+      "workflow YAML changes",
+      "release or merge authority",
+      "implementation of issue #1862 receipt composition in this EP"
+    ]
   },
   "material": {
-    "base": "2985ba5acea6bc1556afb4452dc643fc3728016e",
-    "head": "2985ba5acea6bc1556afb4452dc643fc3728016e",
-    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    "base": "99776d6f190cdc70c27a632c57db74068fde9630",
+    "head": "99776d6f190cdc70c27a632c57db74068fde9630",
+    "relevant_paths_digest": "sha256:1c02a3551408cf0a3975c01cb9c18250744ed59a3e94958cb9ab2a79d34bb67a",
+    "dependency_digest": "sha256:7baa1b0fda7890a0d9d0560a10d0056368387c4985e20d3e2c37bd8a32072720"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -66,16 +82,25 @@
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": null,
+    "immediate_material_action": "Change only the B02 production sequence precursor binding from scripts/lafea-b02d-probe-stable-polar-mesh-check.mjs (V1) to scripts/lafea-b02d-v2-preobservation-quality-check.mjs (V2); then export and run the V3.1 typed local validation request.",
     "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": []
+    "stop_conditions": [
+      "Stop if main moves before admission or material drift becomes RELEVANT/UNKNOWN.",
+      "Do not change the V2 frozen definition, mesh-quality thresholds, FE mechanics, solver, recovery or result authority.",
+      "Do not relax the B02B 5% criterion; classify T3 applicability from evidence.",
+      "Do not treat BM-005 OSCILLATORY / RESULT_NOT_READY as a benchmark defect without a demonstrated first owning boundary.",
+      "Do not admit or implement #1862 in this EP.",
+      "If local execution cannot run, return NOT_RUN_ENVIRONMENT or NOT_RUN_INFRASTRUCTURE rather than synthesizing evidence."
+    ]
   },
   "handoff": {
     "zero_context_takeover_possible": true,
     "reconstruction_sources": [
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
-      "relay/CONTROLS/controls.yaml"
+      "relay/CONTROLS/controls.yaml",
+      "relay/WORK/EP-LAFEA3-C3D-DIAGNOSTIC-1771-0002.yaml",
+      "relay/LEASES/LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0002.yaml"
     ]
   }
 }

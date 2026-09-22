@@ -1,0 +1,43 @@
+{
+  "schema_version": "relay-v3.1-lease",
+  "id": "LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
+  "route": "SERIAL:EP-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
+  "executor": {
+    "id": "chatgpt-gpt5.6-sol-c3d-v31-20260922"
+  },
+  "basis": {
+    "ep_id": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0002",
+    "ep_digest": "sha256:e85bc793d14a955fcc0595604cc9d3dc908e25d66ed99f3be3112603bc794fe6",
+    "material_base": "99776d6f190cdc70c27a632c57db74068fde9630",
+    "predecessor_checkpoint": null,
+    "protocol_basis": "github:reallaksh19/Common@edb845f06f32c87453dee6fbfcc2f84937017279/skills/engineering-pr-delivery-v3.1"
+  },
+  "authority": {
+    "actions": [
+      "READ",
+      "ANALYZE",
+      "MATERIAL_WRITE",
+      "TEST",
+      "CHECKPOINT",
+      "HANDOVER",
+      "LOCAL_EXECUTION_EXPORT",
+      "DRAFT_PR_UPDATE"
+    ]
+  },
+  "admission": {
+    "method": "DETERMINISTIC",
+    "result": "PASS",
+    "repository_only": true,
+    "qualification": {
+      "required": false,
+      "qset": null,
+      "evaluator": null,
+      "result": null,
+      "evidence": []
+    }
+  },
+  "state": "ACTIVE",
+  "invalidation": {
+    "reasons": []
+  }
+}
