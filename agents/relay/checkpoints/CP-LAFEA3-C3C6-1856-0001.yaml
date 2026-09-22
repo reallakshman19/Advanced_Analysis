@@ -25,12 +25,12 @@ acceptance_results:
   - {id: AC-C3C6-6, status: COMPLETE, basis: [C3C-SOURCE-BASIS-0017]}
   - {id: AC-C3C6-7, status: COMPLETE, basis: [comment-5763384883, aggregate-19-of-19-PASS]}
 validation_results:
-  - {id: TEST-C3C6-MATRIX, status: PASS, basis_ref: comment-5763384883}
-  - {id: TEST-C3C6-AGGREGATE, status: PASS, basis_ref: comment-5763384883}
-  - {id: TEST-C3C6-SOURCE-CUSTODY, status: PASS, basis_ref: C3C-SOURCE-BASIS-0017-41-of-41}
-  - {id: TEST-C3C6-IMPORTS, status: PASS, basis_ref: comment-5763384883}
-  - {id: TEST-C3C6-DIFF, status: PASS, basis_ref: comment-5763384883}
-  - {id: DELIVERY-PR-1863, status: PASS, basis_ref: e4a797f8c0bcee001faf0edaa4ca327efeedb570}
+  - {id: TEST-C3C6-MATRIX, status: PASS, basis_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73}
+  - {id: TEST-C3C6-AGGREGATE, status: PASS, basis_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73}
+  - {id: TEST-C3C6-SOURCE-CUSTODY, status: PASS, basis_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73}
+  - {id: TEST-C3C6-IMPORTS, status: PASS, basis_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73}
+  - {id: TEST-C3C6-DIFF, status: PASS, basis_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73}
+  - {id: DELIVERY-PR-1863, status: PASS, basis_ref: 7f2a8ae35011dade594c79ba31e656883ef52e73}
 quality_review:
   id: QRV-C3C6-1856-0001
   path: agents/relay/quality/QRV-C3C6-1856-0001.yaml
