@@ -1,0 +1,195 @@
+{
+  "schema_version": "relay-v3.1-task-admission",
+  "roadmap": {
+    "disposition": "MAPPED_EXISTING_WP",
+    "new_revision": "RM-0013",
+    "basis": [
+      "relay/GENERATED/LOCAL_EXECUTION_RESULT.yaml",
+      "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+      "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+      "GitHub issue #1771"
+    ],
+    "work_package": {
+      "id": "WP-1771",
+      "title": "Qualify production-route continuum response, solver robustness, and convergence",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": [
+        "WP-1769"
+      ]
+    }
+  },
+  "ep": {
+    "schema_version": "relay-v3.1-ep",
+    "id": "EP-LAFEA3-C3D-B02B-LADDER-1771-0005",
+    "work_package": "WP-1771",
+    "outcome": {
+      "statement": "Repair the second confirmed B02B V2 migration omission by restoring V1's governed method-specific mesh ladder: T3 uses [2.5,1.25,0.625] to get past early-transient behavior while T6/Q8 retain [10,5,2.5]; preserve V2 shear-sign correction, restored convergence-only acceptance modes, all tolerances, qualifier logic, FE mechanics and mesh generation code."
+    },
+    "basis": {
+      "predecessor_checkpoint": null,
+      "material_base": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+      "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+      "semantic_dependencies": [
+        {
+          "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+          "reason": "Active V2 definition missing V1 method-specific ladder despite declaring SHEAR_STRESS_SIGN_ONLY correction scope."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+          "reason": "Governed V1 source for T3 fine ladder, T6/Q8 method-specific ladder and retained justification."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+          "reason": "Retained evidence that B02B probes converge with finer T3 levels and model-form direct-oracle waiver remains justified."
+        },
+        {
+          "path": "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+          "reason": "Qualifier selects levelsByMethod when present and enforces convergence without changing tolerance."
+        },
+        {
+          "path": "scripts/lafea-b02b-production-check.mjs",
+          "reason": "Focused B02B production validation."
+        },
+        {
+          "path": "scripts/lafea-b02-production-sequence-check.mjs",
+          "reason": "Aggregate sequence validation."
+        }
+      ]
+    },
+    "scope": {
+      "write": [
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+        "relay/EVIDENCE/C3D-B02B-LADDER/**"
+      ],
+      "read": [
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+        "validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lafea-b02b-production-check.mjs",
+        "scripts/lafea-b02-production-sequence-check.mjs"
+      ],
+      "protect": [],
+      "prohibit": [
+        "changes to expected values, v2OracleCorrection, acceptanceMode, acceptanceModeJustification or acceptance tolerances",
+        "changes to V1 historical definition or validation record",
+        "changes to qualifier or production-route scripts",
+        "solver/element/mesher/recovery changes",
+        "B-bar or BM-005 changes",
+        "workflow YAML changes",
+        "issue #1862 implementation",
+        "release or merge authority"
+      ]
+    },
+    "acceptance": [
+      {
+        "id": "AC-C3D-B02B-LADDER-1",
+        "statement": "V2 meshLadder.levels, levelsByMethod and levelsByMethodJustification are restored field-for-field from governed V1.",
+        "evidence_requirements": [
+          {
+            "oracle": "V1/V2 ladder field equality"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-LADDER-2",
+        "statement": "V2 sign correction, expected values, convergence-only probe dispositions, acceptance object and non-ladder fields remain unchanged from the pre-ladder-fix V2 material.",
+        "evidence_requirements": [
+          {
+            "oracle": "pre/post V2 structural diff contains only the three mesh-ladder fields"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-LADDER-3",
+        "statement": "B02B production check executes on the repaired exact head; PASS or remaining failure is retained without modifying scripts or tolerances.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02b-production-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-B02B-LADDER-4",
+        "statement": "Aggregate B02 production sequence executes and either advances beyond B02B or retains the new first failing witness.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+          }
+        ]
+      }
+    ],
+    "quality_policy": {
+      "level": "HIGH_RISK",
+      "independent_review": "REQUIRED"
+    },
+    "parent_issue": {
+      "provider": "GITHUB",
+      "repository": "reallaksh19/Advanced_Analysis",
+      "number": 1771,
+      "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+      "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+      "baseline": {
+        "observed_at": "2026-09-22T17:23:01Z",
+        "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+        "acceptance_items": [
+          {
+            "id": "C3-D.1",
+            "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority."
+          },
+          {
+            "id": "C3-D.2",
+            "statement": "Establish solver robustness, residual, force/moment equilibrium, energy and deterministic replay evidence."
+          },
+          {
+            "id": "C3-D.3",
+            "statement": "Qualify distorted valid T6 mapping and fail-closed invalid geometry behavior."
+          },
+          {
+            "id": "C3-D.4",
+            "statement": "Qualify Q8 formulation, quadrature, non-rectangular mapping and supported distortion envelope."
+          },
+          {
+            "id": "C3-D.5",
+            "statement": "Establish the supported near-incompressible plane-strain envelope or an explicit fail-closed limitation."
+          },
+          {
+            "id": "C3-D.6",
+            "statement": "Establish executed mesh-refinement convergence classification using realized h and physical quantities."
+          }
+        ]
+      }
+    },
+    "offloads": [],
+    "admission_policy": {
+      "qualification": "NOT_REQUIRED",
+      "question_policy": "NONE"
+    },
+    "next": {
+      "first_action": "Copy only meshLadder.levels, meshLadder.levelsByMethod and meshLadder.levelsByMethodJustification from governed B02B V1 into active V2; preserve all V2 sign-correction and acceptance fields, then validate B02B and aggregate sequence.",
+      "stop_conditions": [
+        "Do not alter expected values, sign correction, acceptance modes or tolerances.",
+        "Do not alter qualifier or production scripts.",
+        "Do not touch B-bar, BM-005 or #1862.",
+        "Validation must run on the exact post-fix material head."
+      ]
+    }
+  },
+  "lease": {
+    "id": "LEASE-LAFEA3-C3D-B02B-LADDER-1771-0005",
+    "executor_id": "chatgpt-gpt5.6-sol-c3d-b02bladder-20260922",
+    "method": "DETERMINISTIC",
+    "qualification": null,
+    "owner_basis": null,
+    "branch": "relay/c3d-v31-diagnostic-1771"
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "ISSUE",
+      "number": 1771
+    }
+  }
+}

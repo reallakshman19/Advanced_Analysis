@@ -1,10 +1,10 @@
 {
   "schema_version": "relay-v3.1-roadmap",
-  "revision": "RM-0012",
+  "revision": "RM-0013",
   "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Repair the confirmed B02B V2 acceptance-mode migration omission without changing numerical tolerances or mechanics, validate the repaired B02B/aggregate production route, then return to the separately owned B-bar and BM-005 qualification boundaries."
+    "current_goal": "Restore the governed B02B method-specific mesh ladder omitted from V2, validate B02B/aggregate production behavior, then proceed to separately owned B-bar and BM-005 boundaries without weakening qualification criteria."
   },
   "work_packages": [
     {
