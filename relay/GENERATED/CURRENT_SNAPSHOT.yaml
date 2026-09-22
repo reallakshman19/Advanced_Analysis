@@ -10,7 +10,7 @@
       "relevant_paths_digest": "sha256:2d3c6c95e6fcbfe75bc839cb2b7540ee8555f896e16236b3cd74afcfd6c5d821",
       "dependency_digest": "sha256:291b21fe7cde28f8155c70e9b8e194d0d50a5d33ad329e7e088fbcb117cb4217"
     },
-    "coordination_head": "bb2babe3e5a15e1723406e8f6340f2d0affbdd2b"
+    "coordination_head": "b66777be9f68c705729a97edda2285240de38a97"
   },
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
@@ -73,9 +73,7 @@
     "delivery_blockers": [
       "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
     ],
-    "informational": [
-      "CTRL-V31-LOCAL-EXEC-SCHEMA-429"
-    ]
+    "informational": []
   },
   "delivery": {
     "issue": 1771,
@@ -102,8 +100,7 @@
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
       "relay/WORK/EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003.yaml",
-      "relay/LEASES/LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0003.yaml",
-      "relay/MIGRATION/V31_SOURCE_RECONCILIATION-0001.yaml"
+      "relay/LEASES/LEASE-LAFEA3-C3D-DIAGNOSTIC-1771-0003.yaml"
     ]
   }
 }
