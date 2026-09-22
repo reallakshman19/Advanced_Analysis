@@ -88,7 +88,7 @@
     {
       "id": "CTRL-V31-LOCAL-EXEC-SCHEMA-429",
       "kind": "DEPENDENCY",
-      "state": "OPEN",
+      "state": "RESOLVED",
       "source": {
         "type": "REPOSITORY",
         "ref": "reallaksh19/Common#429"
@@ -112,7 +112,11 @@
       },
       "resolution": {
         "condition": "Owner selects a repaired V3.1 Common source basis, its local-execution schema parses and validates the intended request contract, and the active EP/lease protocol basis is reconciled before typed export.",
-        "evidence": []
+        "evidence": [
+          "relay/MIGRATION/V31_SOURCE_RECONCILIATION-0001.yaml",
+          "reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1/schemas/local-execution.schema.yaml",
+          "reallaksh19/Common#429"
+        ]
       }
     }
   ]
