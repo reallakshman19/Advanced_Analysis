@@ -1,24 +1,32 @@
 {
   "schema_version": "relay-v3-cutover-readiness",
   "authority": "DERIVED_CUTOVER_READINESS",
-  "assessed_at": "2026-09-22T11:49:27Z",
-  "ready": false,
+  "assessed_at": "2026-09-22T12:51:33Z",
+  "ready": true,
   "checks": {
     "v3_conformance": "PASS",
     "legacy_digest_unchanged": "PASS",
     "source_validation": "PASS",
     "migration_control_resolved": "PASS",
-    "roadmap_intelligence_continuity": "FAIL",
+    "roadmap_intelligence_continuity": "PASS",
     "native_lifecycle_ready": "PASS",
     "protocol_selection_prepared": "PASS"
   },
   "basis": [
-    "v3_conformance=PASS: native ROADMAP/STATE/CONTROLS/SNAPSHOT are schema-consistent and STATE is IDLE with no native execution authority.",
-    "legacy_digest=PASS: explicit cutover freeze sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1.",
-    "source_validation=PASS: legacy REPO_STATE migration preconditions satisfied after exact-material checkpoint and roadmap-admission metadata repair.",
-    "migration_control=PASS: native V3 conceptual roadmap/frontier is reconciled without importing legacy execution history.",
-    "roadmap_intelligence_continuity=FAIL: relay/GENERATED/INTELLIGENCE_CONTINUITY.yaml has not been produced by the pinned c87cf87 Common #421 continuity projection and digest-revalidated.",
-    "native_lifecycle=PASS: IDLE.",
-    "protocol_selection=PASS: V2_5/PREPARED is retained as required until continuity passes."
+    "v3_conformance_errors=0",
+    "migration_report_errors=0",
+    "protocol_selection_errors=0",
+    "legacy_bootstrap=sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1",
+    "legacy_freeze=sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1",
+    "legacy_live=sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1",
+    "source_validation=PASS",
+    "lifecycle=IDLE",
+    "migration_control=RESOLVED",
+    "roadmap_intelligence_continuity=RESOLVED",
+    "roadmap_intelligence_evidence=1",
+    "intelligence_continuity_report=PASS",
+    "intelligence_continuity_errors=0",
+    "intelligence_continuity_recomputed=PASS",
+    "intelligence_continuity_recompute_error="
   ]
 }

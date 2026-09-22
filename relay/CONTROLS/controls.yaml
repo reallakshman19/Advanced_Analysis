@@ -38,7 +38,7 @@
     {
       "id": "CTRL-V25-INTELLIGENCE-CONTINUITY",
       "kind": "PROTOCOL",
-      "state": "OPEN",
+      "state": "RESOLVED",
       "source": {
         "type": "REPOSITORY",
         "ref": "Common#421"
@@ -53,7 +53,9 @@
       ],
       "resolution": {
         "condition": "Common#421 continuity acceptance is evidenced: governed roadmap/event/checkpoint/progress intelligence remains semantically intact across the selected V3 authority boundary.",
-        "evidence": []
+        "evidence": [
+          "relay/GENERATED/INTELLIGENCE_CONTINUITY.yaml"
+        ]
       }
     }
   ]

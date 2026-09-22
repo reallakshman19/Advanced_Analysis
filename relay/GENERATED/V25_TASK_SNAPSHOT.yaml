@@ -1,0 +1,327 @@
+{
+  "schema_version": "relay-v3-task-snapshot",
+  "authority": "DERIVED_READ_MODEL",
+  "source_protocol": "V2_5",
+  "identity": {
+    "work_package": "WP-1769",
+    "ep": "EP-LAFEA3-C3C6-1856",
+    "issue": null,
+    "delivery_vehicle": null
+  },
+  "purpose": {
+    "programme_outcome": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
+    "current_goal": "LAFEA.3 meshing completion — production continuum route, curved boundaries and independent benchmarks",
+    "task_outcome": "Prove currentness invalidation across reachable governed edits without changing solver formulation, assembly, recovery, oracle, tolerance, or release authority.",
+    "why_this_task_exists": "Issue"
+  },
+  "lineage": {
+    "predecessor_checkpoint": "NONE",
+    "upstream_dependencies": [],
+    "roadmap_admission": {
+      "disposition": "MAPPED_EXISTING_WP",
+      "revision": "RM-0007",
+      "basis": [
+        "RM-0007 contains WP-1769 under OBJ-1710 / PH-1711 and this execution package is explicitly bound to that existing work package."
+      ]
+    }
+  },
+  "parent_issue": {
+    "repository": null,
+    "number": null,
+    "title": null,
+    "state": null,
+    "url": null,
+    "baseline": null,
+    "current": null,
+    "updates": []
+  },
+  "parent_issue_progress": {
+    "checklist": [],
+    "summary": {
+      "complete": 0,
+      "partial": 0,
+      "pending": 0,
+      "blocked": 0,
+      "deferred": 0,
+      "not_applicable": 0,
+      "unknown": 0,
+      "total": 0
+    }
+  },
+  "current_task_progress": {
+    "checklist": [
+      {
+        "id": "AC-C3C6-1",
+        "statement": "All seven edit classes are represented; every currently governed editable surface is exercised through the real store and unsupported surfaces are not silently skipped.",
+        "state": "COMPLETE",
+        "evidence": [
+          "{\"Exact main 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0\": \"standalone matrix exit 0 under local clean-checkout evidence comment 5748430858.\"}"
+        ]
+      },
+      {
+        "id": "AC-C3C6-2",
+        "statement": "Each represented class proves both required invalidation and legitimate non-invalidation.",
+        "state": "COMPLETE",
+        "evidence": [
+          "Matrix receipt reports required invalidation and legitimate non-invalidation across governed mutation rows."
+        ]
+      },
+      {
+        "id": "AC-C3C6-3",
+        "statement": "No ancestor edit leaves a dependent prior result presenting as CURRENT_RESULT.",
+        "state": "COMPLETE",
+        "evidence": [
+          "Matrix PASS confirms dependent prior results do not retain CURRENT_RESULT authority after governed ancestor edits."
+        ]
+      },
+      {
+        "id": "AC-C3C6-4",
+        "statement": "Edit after successful solve and edit during RUNNING ordering cases are explicitly exercised.",
+        "state": "COMPLETE",
+        "evidence": [
+          "Matrix PASS includes edit-after-successful-solve and edit-during-RUNNING transaction supersession."
+        ]
+      },
+      {
+        "id": "AC-C3C6-5",
+        "statement": "Unreachable governed edit classes are retained as explicit fail-closed non-claims.",
+        "state": "COMPLETE",
+        "evidence": [
+          "Matrix PASS retains explicit fail-closed non-claims for LOAD, SOLVER_CONFIGURATION, and PROBE editable state."
+        ]
+      },
+      {
+        "id": "AC-C3C6-6",
+        "statement": "The matrix check is wired into the C3-C aggregate and pinned in the C3-C source basis.",
+        "state": "COMPLETE",
+        "evidence": [
+          "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs contains C3C-EDIT-INVALIDATION-MATRIX.",
+          "C3C-SOURCE-BASIS-0017 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318."
+        ]
+      },
+      {
+        "id": "AC-C3C6-7",
+        "statement": "The complete C3-C aggregate remains green with the new matrix step included.",
+        "state": "COMPLETE",
+        "evidence": [
+          "{\"Exact clean-worktree candidate 7f2a8ae35011dade594c79ba31e656883ef52e73\": \"standalone matrix PASS, aggregate 19/19 PASS, and C3C-SOURCE-BASIS-0017 custody 41/41 PASS under issue\"}",
+          "C3C-IMPORT-GOVERNANCE PASS confirms the checked-in cross-platform runner executes scripts/import-check.mjs directly with Node.",
+          "C3C-DIFF-HYGIENE PASS and standalone git diff --check PASS confirm the tested repair span is whitespace-clean."
+        ]
+      }
+    ],
+    "summary": {
+      "complete": 7,
+      "partial": 0,
+      "pending": 0,
+      "blocked": 0,
+      "total": 7
+    }
+  },
+  "offloads": [],
+  "pending_items": [],
+  "known_issues": [],
+  "improvement_vs_original_issue": {
+    "baseline_digest": null,
+    "items": []
+  },
+  "scope": {
+    "write": [
+      "scripts/lafea.3-c3c-edit-invalidation-matrix-check.mjs",
+      "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs",
+      "agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json",
+      ".github/workflows/lafea3-c3c-qualification.yml",
+      "agents/relay"
+    ],
+    "read": [
+      "src/workspace",
+      "src/core",
+      "scripts"
+    ],
+    "protected": [
+      "Existing seven-state currentness and ancestry rules remain unchanged.",
+      "Solver formulation, stiffness/load assembly, and recovery conventions remain unchanged.",
+      "Existing benchmark oracle/tolerances and release authority remain unchanged."
+    ],
+    "prohibited": [
+      "production solver numerics",
+      "benchmark oracle or tolerance changes",
+      "unrelated EMP.1, LAFEA.4+, piping, or load-calculation work"
+    ]
+  },
+  "inputs": [
+    {
+      "id": "INPUT-ODR-0001",
+      "role": "Owner execution authorization",
+      "authority": "Owner Decision Record",
+      "source_ref": "agents/relay/roadmap/owner-decisions/ODR-0001.yaml",
+      "freshness": "CURRENT"
+    },
+    {
+      "id": "INPUT-C3C6-SOURCE-BASIS",
+      "role": "C3-C source custody",
+      "authority": "C3-C qualification source basis",
+      "source_ref": "agents/chains/ADV-LAFEA3-C3C-1769/validation/source-basis-v1.json",
+      "freshness": "CURRENT"
+    }
+  ],
+  "benchmarks": [
+    {
+      "id": "BENCH-C3C6-MATRIX-CONTRACT",
+      "purpose": "Independently define the expected invalidation/non-invalidation behavior before observing runtime results.",
+      "role": "Seven-class invalidation contract",
+      "source_ref": "agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml",
+      "oracle": "MANUAL_RECONSTRUCTION",
+      "expected": "Governed ancestor edits revoke dependent current authority; legitimate non-descendants remain current; unsupported surfaces are explicit non-claims; edit during RUNNING yields no old current result.",
+      "required": true,
+      "current_result": "UNKNOWN",
+      "evidence_basis": {
+        "material_ref": "7f2a8ae35011dade594c79ba31e656883ef52e73",
+        "checkpoint": "CP-LAFEA3-C3C6-1856-0001"
+      }
+    },
+    {
+      "id": "BENCH-C3C6-AGGREGATE",
+      "purpose": "Verify the new matrix step does not regress the complete C3-C qualification suite.",
+      "role": "Exact-head C3-C aggregate",
+      "source_ref": "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs",
+      "oracle": "OBSERVATIONAL",
+      "expected": "Aggregate process exits 0 and every declared step reports PASS on the current exact head.",
+      "required": true,
+      "current_result": "UNKNOWN",
+      "evidence_basis": {
+        "material_ref": "7f2a8ae35011dade594c79ba31e656883ef52e73",
+        "checkpoint": "CP-LAFEA3-C3C6-1856-0001"
+      }
+    }
+  ],
+  "benchmark_debt": {
+    "required_missing": [
+      "BENCH-C3C6-MATRIX-CONTRACT",
+      "BENCH-C3C6-AGGREGATE"
+    ],
+    "stale": [],
+    "optional": []
+  },
+  "execution": {
+    "lifecycle": "IDLE",
+    "lease_or_custody": null,
+    "executor": null,
+    "route": "SERIAL:EP-LAFEA3-C3C6-1856",
+    "branch": "main"
+  },
+  "material": {
+    "base": "7f2a8ae35011dade594c79ba31e656883ef52e73",
+    "current_head": "0b9244b8cd9e1fb97822d5612f5a99222b04c21a"
+  },
+  "acceptance": [
+    {
+      "id": "AC-C3C6-1",
+      "state": "PASS",
+      "statement": "All seven edit classes are represented; every currently governed editable surface is exercised through the real store and unsupported surfaces are not silently skipped.",
+      "evidence": [
+        "{\"Exact main 3b7bd3d1a04739e28ab21795b31e6cf6898c3cb0\": \"standalone matrix exit 0 under local clean-checkout evidence comment 5748430858.\"}"
+      ]
+    },
+    {
+      "id": "AC-C3C6-2",
+      "state": "PASS",
+      "statement": "Each represented class proves both required invalidation and legitimate non-invalidation.",
+      "evidence": [
+        "Matrix receipt reports required invalidation and legitimate non-invalidation across governed mutation rows."
+      ]
+    },
+    {
+      "id": "AC-C3C6-3",
+      "state": "PASS",
+      "statement": "No ancestor edit leaves a dependent prior result presenting as CURRENT_RESULT.",
+      "evidence": [
+        "Matrix PASS confirms dependent prior results do not retain CURRENT_RESULT authority after governed ancestor edits."
+      ]
+    },
+    {
+      "id": "AC-C3C6-4",
+      "state": "PASS",
+      "statement": "Edit after successful solve and edit during RUNNING ordering cases are explicitly exercised.",
+      "evidence": [
+        "Matrix PASS includes edit-after-successful-solve and edit-during-RUNNING transaction supersession."
+      ]
+    },
+    {
+      "id": "AC-C3C6-5",
+      "state": "PASS",
+      "statement": "Unreachable governed edit classes are retained as explicit fail-closed non-claims.",
+      "evidence": [
+        "Matrix PASS retains explicit fail-closed non-claims for LOAD, SOLVER_CONFIGURATION, and PROBE editable state."
+      ]
+    },
+    {
+      "id": "AC-C3C6-6",
+      "state": "PASS",
+      "statement": "The matrix check is wired into the C3-C aggregate and pinned in the C3-C source basis.",
+      "evidence": [
+        "scripts/lafea.3-c3c-model-compiler-qualification-check.mjs contains C3C-EDIT-INVALIDATION-MATRIX.",
+        "C3C-SOURCE-BASIS-0017 Q020 pins matrix blob 871fa1b70ec7921fa8696bf49e8a8802c0788318."
+      ]
+    },
+    {
+      "id": "AC-C3C6-7",
+      "state": "PASS",
+      "statement": "The complete C3-C aggregate remains green with the new matrix step included.",
+      "evidence": [
+        "{\"Exact clean-worktree candidate 7f2a8ae35011dade594c79ba31e656883ef52e73\": \"standalone matrix PASS, aggregate 19/19 PASS, and C3C-SOURCE-BASIS-0017 custody 41/41 PASS under issue\"}",
+        "C3C-IMPORT-GOVERNANCE PASS confirms the checked-in cross-platform runner executes scripts/import-check.mjs directly with Node.",
+        "C3C-DIFF-HYGIENE PASS and standalone git diff --check PASS confirm the tested repair span is whitespace-clean."
+      ]
+    }
+  ],
+  "controls": {
+    "material_write": [],
+    "checkpoint": [],
+    "handover": [],
+    "pr_ready": [],
+    "merge": [],
+    "release": []
+  },
+  "knowledge_state": {
+    "known_true": [
+      "Comparing tested material 7f2a8ae35011dade594c79ba31e656883ef52e73 to merged main e4a797f8c0bcee001faf0edaa4ca327efeedb570 shows only relay, custody, projection and quality changes; qualification-relevant sources did not change.",
+      "The retained 1769 history identifies C3-C.6 as the last substantive acceptance gap and records no additional C3-C production gap after the exact-material PASS.",
+      "After WP-1769 completes, WP-1771 is the detailed serial numerical-response frontier. WP-1773 remains OWNER_REVIEW_REQUIRED, and issue 1862 remains a candidate until existing C3-D evidence surfaces are executed."
+    ],
+    "known_false": [],
+    "unknown": [
+      "LOAD, SOLVER_CONFIGURATION and retained PROBE edits remain explicit fail-closed non-claims; this qualification creates no new governed edit authority.",
+      "Curved-region body-force certification, PLANE_STRAIN_BBAR thermal authority and oblique or curved source-normal restraints remain bounded C3-C non-claims.",
+      "This checkpoint does not establish C3-D continuum response or convergence, C3-E recovery authority, audit/browser qualification, or release authority.",
+      "GitHub-hosted Actions remain blocked before runner allocation by the account Actions budget; zero-step runs are NOT_RUN infrastructure evidence.",
+      "Execute and inspect existing B02, BM-005, B01 and B-bar surfaces on the successor basis before admitting issue 1862 material work."
+    ],
+    "assumptions": []
+  },
+  "negative_knowledge": [],
+  "preserve": {
+    "accepted_do_not_reopen": []
+  },
+  "history": {
+    "recent_events": []
+  },
+  "next": {
+    "immediate_action": "Execute the standalone C3-C.6 matrix and 19-step aggregate on the current exact PR head, retaining stdout/stderr/exit status and source custody.",
+    "next_value_frontier": "Project physical features to mesh, compile loads/BCs/probes, and enforce execution currentness",
+    "stop_conditions": [
+      "PROTECTED_INVARIANT_FAILURE",
+      "UNSAFE_ENGINEERING_RESULT",
+      "AUTHORITY_VIOLATION",
+      "ROADMAP_CONFLICT"
+    ]
+  },
+  "reconstruction_sources": [
+    "agents/relay/REPO_STATE.yaml",
+    "agents/relay/roadmap/OVERALL_ROADMAP.yaml",
+    "agents/relay/roadmap/PROGRESS.yaml",
+    "agents/relay/roadmap/ROADMAP_EVENTS.yaml",
+    "agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml",
+    "agents/relay/checkpoints/CP-LAFEA3-C3C6-1856-0001.yaml"
+  ]
+}

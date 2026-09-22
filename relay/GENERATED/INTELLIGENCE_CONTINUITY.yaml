@@ -1,0 +1,34 @@
+{
+  "schema_version": "relay-v3-intelligence-continuity",
+  "authority": "DERIVED_CONTINUITY_ASSESSMENT",
+  "ready": true,
+  "source": {
+    "protocol": "V2_5",
+    "legacy_tree_digest": "sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1",
+    "roadmap_revision": "RM-0007"
+  },
+  "projections": {
+    "task_snapshot_digest": "sha256:35c64b915cb885a002e91cdf1593647c83cd325da147631ea76cd29626d1d37a",
+    "improvement_view_digest": "sha256:80a25f689f660721ec4c1c152b95709cd15fbb89121dedfe5ce818a6cd02d436"
+  },
+  "checks": {
+    "legacy_history_preserved": "PASS",
+    "roadmap_admission": "PASS",
+    "roadmap_events": "PASS",
+    "checkpoint_progress": "PASS",
+    "discovery": "PASS",
+    "owner_delta": "PASS",
+    "handover_intelligence": "PASS",
+    "generated_projection_non_authority": "PASS"
+  },
+  "evidence": [
+    "legacy digest expected=sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1 before=sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1 after=sha256:105fa2facbe20eee942eaa9e4cefbf8d2ede8e93351b9d846f5530be8eb2cef1 files=25",
+    "roadmap admission=MAPPED_EXISTING_WP revision=RM-0007",
+    "validate_roadmap_events.py exit=0: PASS",
+    "validate_progress.py exit=0: PASS; validate_checkpoint.py exit=0: PASS; checkpoint=CP-LAFEA3-C3C6-1856-0001 exists=True",
+    "discovery active_steps=0 historical_receipts=3",
+    "owner delta mechanisms=owner_publication.py,render_owner_status.py,owner_change_projection.py",
+    "handover planner=True task_present=True task_intelligence=True",
+    "derived views task=DERIVED_READ_MODEL improvement=DERIVED_READ_MODEL legacy_unchanged=True"
+  ]
+}

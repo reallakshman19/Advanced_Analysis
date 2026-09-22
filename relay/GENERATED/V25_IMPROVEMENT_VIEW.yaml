@@ -1,0 +1,61 @@
+{
+  "schema_version": "relay-v3-improvement-view",
+  "authority": "DERIVED_READ_MODEL",
+  "source_protocol": "V2_5",
+  "task": "EP-LAFEA3-C3C6-1856",
+  "checkpoint": "CP-LAFEA3-C3C6-1856-0001",
+  "from": {
+    "predecessor_checkpoint": "NONE",
+    "material_basis": "7f2a8ae35011dade594c79ba31e656883ef52e73"
+  },
+  "to": {
+    "accepted_checkpoint": null,
+    "material_basis": "7f2a8ae35011dade594c79ba31e656883ef52e73"
+  },
+  "improvement": {
+    "capability_added": [],
+    "capability_strengthened": [],
+    "evidence_added": [
+      "TEST-C3C6-MATRIX=PASS",
+      "TEST-C3C6-AGGREGATE=PASS",
+      "TEST-C3C6-SOURCE-CUSTODY=PASS",
+      "TEST-C3C6-IMPORTS=PASS",
+      "TEST-C3C6-DIFF=PASS",
+      "DELIVERY-PR-1863=PASS"
+    ],
+    "understanding_improved": [
+      "Comparing tested material 7f2a8ae35011dade594c79ba31e656883ef52e73 to merged main e4a797f8c0bcee001faf0edaa4ca327efeedb570 shows only relay, custody, projection and quality changes; qualification-relevant sources did not change.",
+      "The retained 1769 history identifies C3-C.6 as the last substantive acceptance gap and records no additional C3-C production gap after the exact-material PASS.",
+      "After WP-1769 completes, WP-1771 is the detailed serial numerical-response frontier. WP-1773 remains OWNER_REVIEW_REQUIRED, and issue 1862 remains a candidate until existing C3-D evidence surfaces are executed."
+    ],
+    "downstream_unlocked": [
+      "WP-1771",
+      "EP-LAFEA3-C3D-1771"
+    ],
+    "controls_resolved": [],
+    "controls_created": []
+  },
+  "roadmap_effect": {
+    "concept_change": "NO_CONCEPT_CHANGE",
+    "execution_disposition": "CLOSE_WP",
+    "roadmap_revision": "RM-0007"
+  },
+  "not_improved": [
+    "No accepted capability improvement is inferred from this checkpoint."
+  ],
+  "still_not_proved": [
+    "LOAD, SOLVER_CONFIGURATION and retained PROBE edits remain explicit fail-closed non-claims; this qualification creates no new governed edit authority.",
+    "Curved-region body-force certification, PLANE_STRAIN_BBAR thermal authority and oblique or curved source-normal restraints remain bounded C3-C non-claims.",
+    "This checkpoint does not establish C3-D continuum response or convergence, C3-E recovery authority, audit/browser qualification, or release authority.",
+    "GitHub-hosted Actions remain blocked before runner allocation by the account Actions budget; zero-step runs are NOT_RUN infrastructure evidence.",
+    "Execute and inspect existing B02, BM-005, B01 and B-bar surfaces on the successor basis before admitting issue 1862 material work."
+  ],
+  "new_questions": [],
+  "reconstruction_sources": [
+    "agents/relay/REPO_STATE.yaml",
+    "agents/relay/checkpoints/CP-LAFEA3-C3C6-1856-0001.yaml",
+    "agents/relay/execution-packages/EP-LAFEA3-C3C6-1856.yaml",
+    "agents/relay/roadmap/PROGRESS.yaml",
+    "agents/relay/roadmap/ROADMAP_EVENTS.yaml"
+  ]
+}
