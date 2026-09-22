@@ -133,10 +133,10 @@ function normalizeWorkflow(shell, assessment) {
     compact.dataset.outcomeState = assessment.outcome.state;
     compact.setAttribute('role', 'status');
     compact.setAttribute('aria-live', 'polite');
-    const title = create(shell, 'strong', null, assessment.outcome.label);
-    const message = create(shell, 'span', null, assessment.outcome.message);
-    const result = create(shell, 'span', null, `Result · ${assessment.result?.label ?? 'Not calculated'}`);
-    const use = create(shell, 'span', null, `Use · ${assessment.release?.label ?? 'Not approved for final use'}`);
+    const title = create(shell, 'strong', null, `${assessment.outcome.label}: `);
+    const message = create(shell, 'span', null, `${assessment.outcome.message} `);
+    const result = create(shell, 'span', null, `· Result · ${assessment.result?.label ?? 'Not calculated'} `);
+    const use = create(shell, 'span', null, `· Use · ${assessment.release?.label ?? 'Not approved for final use'}`);
     compact.replaceChildren(title, message, result, use);
   }
 
