@@ -474,7 +474,7 @@ export class LafeaWorkbenchView {
   analyticalToolbar(stageId, stage, emp1) {
     const toolbar = element(this.rootElement, 'div', 'lafea-workbench__toolbar');
     toolbar.dataset.role = 'emp1-action-bar';
-    const step = emp1StepForBackingStage(stageId);
+    const _step = emp1StepForBackingStage(stageId);
     const assessment = emp1.emp1AssessmentState;
     const next = assessment?.nextAction ?? {
       id: EMP1_ASSESSMENT_ACTIONS.RUN_COMPLETE_EXAMPLE,
