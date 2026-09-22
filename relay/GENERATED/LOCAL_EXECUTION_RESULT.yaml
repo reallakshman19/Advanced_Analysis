@@ -1,39 +1,33 @@
 {
   "schema_version": "relay-v3.1-local-execution-result",
   "authority": "EXTERNAL_EXECUTION_EVIDENCE",
-  "request_id": "LOCAL-EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004-ad821c11bcd6",
+  "request_id": "LOCAL-EP-LAFEA3-C3D-B02B-LADDER-1771-0005-955cbc11394c",
   "status": "FAIL",
-  "observed_head": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+  "observed_head": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
   "environment": {
-    "os": "Windows (PowerShell)",
+    "os": "Windows",
     "node": "v24.11.1",
-    "git": "2.52.0.windows.1",
-    "repository_path": "c:\\Users\\reall\\Documents\\antigravity\\Advanced_Analysis",
-    "execution_tree": "CLEAN_DURING_VALIDATION",
-    "postrun_repository_restored": true
+    "common_v31_basis": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+    "working_tree": "CLEAN_DURING_VALIDATION",
+    "source_modifications": false
   },
   "command_results": [
     {
       "step_id": "STEP-CMD-1",
       "status": "FAIL",
       "exit_code": 1,
-      "summary": "B02B V2 no longer fails on direct 5% oracle comparison; it proceeds to convergence authority and fails B02B-V2/T3/B02B-PROBE-UY-01 with classification DIVERGENT."
+      "summary": "B02B V2 T3 displacement probe now converges on restored fine ladder, but B02B-PROBE-TAU-01 is OSCILLATORY. Reported T3 tau values: h=2.5 -3.25951; h=1.25 -3.34190; h=0.625 -3.31274. Three-level relative band ~0.02465 exceeds qualifier stableWithinBand <=0.02."
     },
     {
       "step_id": "STEP-CMD-2",
       "status": "FAIL",
       "exit_code": 1,
-      "summary": "Aggregate B02 production sequence reaches B02B and fails on the same T3 B02B-PROBE-UY-01 DIVERGENT convergence witness; sequence remains blocked at B02B."
+      "summary": "Aggregate sequence passes B02C and B02D V2 qualification, then remains blocked at B02B on the same T3 B02B-PROBE-TAU-01 OSCILLATORY convergence witness."
     }
   ],
   "failures": [
-    "STEP-CMD-1: B02B-V2/T3/B02B-PROBE-UY-01 convergence is DIVERGENT.",
-    "STEP-CMD-2: B02 production sequence blocked at B02B because B02B-V2/T3/B02B-PROBE-UY-01 convergence is DIVERGENT."
+    "STEP-CMD-1: B02B-V2/T3/B02B-PROBE-TAU-01 convergence is OSCILLATORY; reported three-level relative variation is ~2.465%, above stableWithinBand <=2.0%.",
+    "STEP-CMD-2: LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B on the same OSCILLATORY T3 shear-probe convergence."
   ],
-  "artifacts": [
-    "file:///C:/Users/reall/AppData/Local/Temp/lafea-c3d-b02b-ad821c11bcd6/step-cmd-1.stdout.txt",
-    "file:///C:/Users/reall/AppData/Local/Temp/lafea-c3d-b02b-ad821c11bcd6/step-cmd-1.stderr.txt",
-    "file:///C:/Users/reall/AppData/Local/Temp/lafea-c3d-b02b-ad821c11bcd6/step-cmd-2.stdout.txt",
-    "file:///C:/Users/reall/AppData/Local/Temp/lafea-c3d-b02b-ad821c11bcd6/step-cmd-2.stderr.txt"
-  ]
+  "artifacts": []
 }
