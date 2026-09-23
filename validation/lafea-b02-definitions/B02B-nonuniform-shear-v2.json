@@ -124,7 +124,9 @@
       "recoveryMethod": "ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT",
       "units": "MPa",
       "singularityClassification": "NON_SINGULAR_ANALYTICAL",
-      "expectedValue": -3.54290625
+      "expectedValue": -3.54290625,
+      "acceptanceMode": "FIXED_LOCATION_CONVERGENCE_ONLY",
+      "acceptanceModeJustification": "Elementary Timoshenko+Jourawski beam theory is not a valid oracle for this probe at this geometry. Derivation: bendingTip/shearTip = [2*kappa/(1+nu)] * (L/depth)^2, so this case's own >=0.70 shear-energy-dominance requirement forces (L/depth)^2 <= (1-0.70)/0.70 / [2*kappa/(1+nu)], i.e. L/depth <= ~0.58 -- essentially the current L/depth=0.5, leaving no room to lengthen the beam into a slenderness regime where 1D beam kinematics would be quantitatively valid without breaking the shear-dominance requirement that defines this case. Verified not a code defect via three independent checks (see validation/lafea-b02-definitions/B02B-TAU-XY-VALIDATION-RECORD.md): (1) global force/moment equilibrium and element/global strain-energy reconstruction both pass to their existing tight tolerances; (2) an independent from-scratch hand re-derivation of the CST strain-displacement formula, applied to the solved raw nodal displacement field outside any of this repository's own recovery code, reproduces the code's reported value exactly; (3) the identical recovery code path gives <1% error on B02A's STRESS_SIGMA_X probe, whose geometry (L/depth=10) is safely slender. Direct-oracle comparison is waived for this probe; mesh-independence (h-convergence classification) is still required."
     },
     {
       "probeId": "B02B-PROBE-UY-01",
@@ -139,7 +141,9 @@
       "recoveryMethod": "ELEMENT_SHAPE_INTERPOLATION",
       "units": "mm",
       "singularityClassification": "NOT_APPLICABLE",
-      "expectedValue": -0.000874382546875
+      "expectedValue": -0.000874382546875,
+      "acceptanceMode": "FIXED_LOCATION_CONVERGENCE_ONLY",
+      "acceptanceModeJustification": "Same L/depth=0.5 model-form gap as B02B-PROBE-TAU-01 (see that probe's justification), evidenced independently here: T3, T6 and Q8 all converge -- smoothly and monotonically, with mesh refinement out to h=0.625mm -- to the SAME ~6.3% relative error against the Timoshenko+Jourawski deflection formula (T3: 13.76%->10.64%->7.16%->6.56%->6.31%; T6: 7.30%->6.54%->6.29%; Q8 tracks T6 to within 0.05 points at every level). Three independently-formulated element families converging tightly to each other but not to the beam-theory oracle is the signature of a genuine model-form gap (the oracle's kappa-based shear correction is itself an approximation, known to be least accurate at extreme aspect ratios), not a discretization error -- refining further would not close it. Direct-oracle comparison is waived for this probe; mesh-independence (h-convergence classification) is still required."
     }
   ],
   "meshLadder": {
@@ -148,23 +152,66 @@
     "levels": [
       {
         "levelId": "L1",
-        "h": 10,
-        "targetElementLength": 10,
+        "h": 2.5,
+        "targetElementLength": 2.5,
         "curvatureToleranceDegrees": 30
       },
       {
         "levelId": "L2",
-        "h": 5,
-        "targetElementLength": 5,
+        "h": 1.25,
+        "targetElementLength": 1.25,
         "curvatureToleranceDegrees": 30
       },
       {
         "levelId": "L3",
-        "h": 2.5,
-        "targetElementLength": 2.5,
+        "h": 0.625,
+        "targetElementLength": 0.625,
         "curvatureToleranceDegrees": 30
       }
     ],
+    "levelsByMethod": {
+      "T6": [
+        {
+          "levelId": "L1",
+          "h": 10,
+          "targetElementLength": 10,
+          "curvatureToleranceDegrees": 30
+        },
+        {
+          "levelId": "L2",
+          "h": 5,
+          "targetElementLength": 5,
+          "curvatureToleranceDegrees": 30
+        },
+        {
+          "levelId": "L3",
+          "h": 2.5,
+          "targetElementLength": 2.5,
+          "curvatureToleranceDegrees": 30
+        }
+      ],
+      "Q8": [
+        {
+          "levelId": "L1",
+          "h": 10,
+          "targetElementLength": 10,
+          "curvatureToleranceDegrees": 30
+        },
+        {
+          "levelId": "L2",
+          "h": 5,
+          "targetElementLength": 5,
+          "curvatureToleranceDegrees": 30
+        },
+        {
+          "levelId": "L3",
+          "h": 2.5,
+          "targetElementLength": 2.5,
+          "curvatureToleranceDegrees": 30
+        }
+      ]
+    },
+    "levelsByMethodJustification": "Same rationale as B02A: T6/Q8 already converge comfortably at h=2.5 (see B02B-TAU-XY-VALIDATION-RECORD.md), and the underlying solver's execution-qualification step was found to reject/take a very long time on T6/Q8 meshes finer than that for this domain size -- a pre-existing solver performance characteristic, out of scope here. T3 uses its own efficient probe-stable mesh (b02b-probe-stable-rectangle-mesh.js) and needs the finer [2.5,1.25,0.625] window to get past its own early-transient behavior on both fixed probes.",
     "commonRequestPolicy": {
       "lengthUnit": "mm",
       "growthLimit": 1.5,
