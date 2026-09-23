@@ -68,6 +68,10 @@ assert.equal(custody.comparison.state,
   manifest.caux.retainedComparisonCustody.comparisonState);
 assert.equal(custody.comparison.summary.comparedQuantities, 8);
 assert.equal(custody.comparison.summary.withinToleranceCount, 8);
+assert.equal(comparisonCase.comparison.tolerancePercent,
+  custody.comparison.quantities[0].tolerance.value);
+assert.equal(comparisonCase.comparison.toleranceBasis,
+  custody.comparison.quantities[0].toleranceBasis);
 assert.equal(custody.comparison.summary.worstRelativeDifferencePercent,
   manifest.caux.retainedComparisonCustody.worstRelativeDifferencePercent);
 assert.equal(custody.comparison.summary.governingReferenceLocation, 'Du');
