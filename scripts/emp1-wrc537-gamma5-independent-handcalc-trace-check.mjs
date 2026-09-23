@@ -283,7 +283,7 @@ for (const [name, mutate] of [
     candidate.governingEvaluatedPoint.globalMaximumClaim = true;
   }],
   ['production-import', (candidate) => {
-    candidate.authority.productionImports.push('src/core/emp1/fake.js');
+    candidate.authority.productionImports.push('PRODUCTION_IMPORT_SENTINEL');
   }],
   ['trace-row-loss', (candidate) => { candidate.traceRows.pop(); }],
 ]) {
