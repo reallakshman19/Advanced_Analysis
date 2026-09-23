@@ -1,0 +1,268 @@
+{
+  "schema_version": "relay-v3.1-task-admission",
+  "roadmap": {
+    "disposition": "MAPPED_EXISTING_WP",
+    "new_revision": "RM-0013",
+    "basis": [
+      "RM-0012 R2-to-#1862 reconciliation",
+      "R2 independent review commit d8d979f3326625029b79d9f06610973f2d7ad188",
+      "R2 material head@74437c40669577926c9761cd6374f53d11178a69",
+      "provider base main@060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f with mechanically DISJOINT drift",
+      "GitHub issue #1862 positive executed gap witness",
+      "GitHub issue #1771 remains parent work package authority"
+    ],
+    "work_package": {
+      "id": "WP-1771",
+      "title": "Qualify production-route continuum response, solver robustness, and convergence",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": [
+        "WP-1769"
+      ]
+    }
+  },
+  "ep": {
+    "schema_version": "relay-v3.1-ep",
+    "id": "EP-LAFEA3-C3D-CUSTODY-PROJECTION-1862-0010",
+    "work_package": "WP-1771",
+    "outcome": {
+      "statement": "Implement the first #1862 slice by projecting already-authoritative B02 stage currentness, immutable run-transaction custody and runtime solver diagnostics into one frozen C3-D custody projection and retaining it uniformly in B02A/B/C/D qualification receipts; do not invent new authority, recompute engineering hashes, or change FE mechanics, recovery, meshing, benchmark/oracle/tolerance semantics."
+    },
+    "basis": {
+      "predecessor_checkpoint": null,
+      "material_base": "74437c40669577926c9761cd6374f53d11178a69",
+      "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+      "semantic_dependencies": [
+        {
+          "path": "scripts/lib/lafea-b02-production-route.mjs",
+          "reason": "Returns authoritative workbench stage used by B02A/B and can expose projection inputs without changing run mechanics."
+        },
+        {
+          "path": "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+          "reason": "Retained B02A/B level receipt currently projects only partial custody and must consume the uniform C3-D projection."
+        },
+        {
+          "path": "scripts/lafea-b02c-production-check.mjs",
+          "reason": "B02C qualification must retain the same minimum C3-D custody/currentness contract."
+        },
+        {
+          "path": "scripts/lafea-b02d-production-check.mjs",
+          "reason": "B02D qualification must retain the same minimum C3-D custody/currentness contract while preserving its additional evidence."
+        },
+        {
+          "path": "scripts/lib/lafea-b02d-production-route.mjs",
+          "reason": "B02D authoritative route stage/custody source."
+        },
+        {
+          "path": "src/workspace/lafea-workbench-currentness.js",
+          "reason": "Existing authoritative CURRENT_RESULT/currentAuthority projection; protected, consume only."
+        },
+        {
+          "path": "src/workspace/lafea-workbench-run-transaction-state.js",
+          "reason": "Existing immutable transaction receipt with parent vector, solverConfigHash, executionHash, runtimeDiagnosticsHash, status, transactionHash and semanticHash; protected, consume only."
+        },
+        {
+          "path": "src/workspace/lafea-runtime-solver-diagnostics.js",
+          "reason": "Existing authoritative final solver diagnostics projection; protected, consume only."
+        },
+        {
+          "path": "src/workspace/lafea-continuum-authoritative-workbench-run.js",
+          "reason": "Existing execution source/domain/geometry/mesh/profile/projection/model/canonical-input/execution identities; protected, consume only."
+        }
+      ]
+    },
+    "scope": {
+      "write": [
+        "scripts/lib/lafea-c3d-custody-projection.mjs",
+        "scripts/lib/lafea-b02-production-route.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lib/lafea-b02d-production-route.mjs",
+        "scripts/lafea-b02c-production-check.mjs",
+        "scripts/lafea-b02d-production-check.mjs",
+        "scripts/lafea.3-c3d-b02-custody-projection-check.mjs",
+        "relay/EVIDENCE/C3D-CUSTODY-1862/**"
+      ],
+      "read": [
+        "scripts/lafea-b02-production-sequence-check.mjs",
+        "scripts/lafea-b02b-production-check.mjs",
+        "scripts/lib/lafea-b02-production-route.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lib/lafea-b02d-production-route.mjs",
+        "scripts/lafea-b02c-production-check.mjs",
+        "scripts/lafea-b02d-production-check.mjs",
+        "src/workspace/lafea-workbench-currentness.js",
+        "src/workspace/lafea-workbench-run-transaction-state.js",
+        "src/workspace/lafea-runtime-solver-diagnostics.js",
+        "src/workspace/lafea-continuum-authoritative-workbench-run.js",
+        "src/workspace/lafea-workbench-domain-first-run-actions.js",
+        "validation/lafea-b02-definitions/**",
+        "relay/EVIDENCE/C3D-B02-R2/R2-0009/**"
+      ],
+      "protect": [
+        "src/**",
+        "validation/**",
+        "scripts/lafea-b02-production-sequence-check.mjs",
+        "scripts/lafea-b02b-production-check.mjs"
+      ],
+      "prohibit": [
+        "changes to currentness semantics or run-transaction semantics",
+        "recomputation or invention of engineering hashes when retained authoritative hashes exist",
+        "solver or element formulation changes",
+        "mesher or mesh-quality policy changes",
+        "recovery/result/display-authority changes",
+        "benchmark expected-value, oracle, sign, acceptance-mode or tolerance changes",
+        "BM-005 external-oracle/report acceptance work",
+        "B-bar PR #1873 resumption or merge",
+        "workflow YAML changes",
+        "registry/documentation/release promotion",
+        "release or merge authority"
+      ]
+    },
+    "acceptance": [
+      {
+        "id": "AC-C3D-CUSTODY-1",
+        "statement": "A single frozen C3-D custody projection is derived only from retained authoritative stage state: execution identities, immutable completed runTransactionReceipt, runtimeSolverDiagnostics, RECOVERY artifact and projectLafeaWorkbenchCurrentness(stage). No engineering hash is recomputed when an authoritative retained hash exists.",
+        "evidence_requirements": [
+          {
+            "oracle": "source review and focused custody-projection check"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-CUSTODY-2",
+        "statement": "The projection retains sourceHash, analysisDomainHash, analysisGeometryHash, meshProfileHash, meshHash, projectionHash, solverModelHash, solverConfigHash, canonicalExecutionInputHash, executionHash, runtimeDiagnosticsHash, recoveryHash, completed transactionId/transactionHash/receipt semanticHash/status, and explicit CURRENT_RESULT/currentAuthority/exactCurrentParentChain.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea.3-c3d-b02-custody-projection-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-CUSTODY-3",
+        "statement": "Every retained B02A/B rectangle level emits the uniform custody projection plus existing energy/equilibrium/probe/convergence evidence, with numerical values and frozen acceptance behavior unchanged.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02b-production-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-CUSTODY-4",
+        "statement": "B02C and B02D qualification receipts expose the same minimum custody/currentness projection while retaining their existing case-specific evidence and releaseAuthorityGranted=false.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea.3-c3d-b02-custody-projection-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-CUSTODY-5",
+        "statement": "The aggregate B02 production sequence still passes twice with identical B02E semantic identity; the added projection cannot normalize or mask a numerical failure.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+          },
+          {
+            "oracle": "two-run deterministic replay including projected custody hashes/evidence"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-CUSTODY-6",
+        "statement": "No protected src/** or validation/** file changes, no mechanics/mesher/recovery/tolerance changes, and no PR #1873 or release/merge action occur in this EP.",
+        "evidence_requirements": [
+          {
+            "oracle": "git diff/source-custody review"
+          }
+        ]
+      }
+    ],
+    "quality_policy": {
+      "level": "HIGH_RISK",
+      "independent_review": "REQUIRED"
+    },
+    "parent_issue": {
+      "provider": "GITHUB",
+      "repository": "reallaksh19/Advanced_Analysis",
+      "number": 1862,
+      "title": "[LAFEA.3][C3-D.0] Compose production-route custody and solver-diagnostics qualification",
+      "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1862",
+      "baseline": {
+        "observed_at": "2026-09-23T12:32:40Z",
+        "body_digest": "sha256:33d603931c19331169c418d4f2125e6033da480e78d021674ecc3b797adb87ce",
+        "acceptance_items": [
+          {
+            "id": "C3-D.0-1",
+            "statement": "Uniform lineage receipt for every retained B02 level."
+          },
+          {
+            "id": "C3-D.0-2",
+            "statement": "Uniform solver evidence from authoritative runtime diagnostics."
+          },
+          {
+            "id": "C3-D.0-3",
+            "statement": "Explicit CURRENT_RESULT/current authority from governed lifecycle and completed transaction custody."
+          },
+          {
+            "id": "C3-D.0-4",
+            "statement": "Deterministic replay over authoritative hashes/evidence without benchmark fitting."
+          }
+        ]
+      }
+    },
+    "offloads": [
+      {
+        "id": "OFFLOAD-C3D-CUSTODY-1862-LOCAL-0001",
+        "status": "PLANNED",
+        "agent_type": "LOCAL_AGENT",
+        "task": "After the narrow projection implementation, run focused custody projection, B02B and aggregate B02 sequence twice on the exact derived material head; retain raw receipts, projected custody examples, replay comparison and protected-diff evidence.",
+        "allowed_writes": [
+          "relay/EVIDENCE/C3D-CUSTODY-1862/**"
+        ],
+        "expected_return": [
+          "typed V3.1 local-execution-result packet",
+          "raw stdout/stderr/exit/timestamps",
+          "projected custody receipt examples",
+          "two-run deterministic replay comparison",
+          "protected product diff"
+        ],
+        "trace_refs": [
+          "GitHub issue #1862",
+          "INDEPENDENT-REVIEW-R2-0001",
+          "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
+        ]
+      }
+    ],
+    "admission_policy": {
+      "qualification": "NOT_REQUIRED",
+      "question_policy": "NONE"
+    },
+    "next": {
+      "first_action": "Create the read-only C3-D custody projection from existing authoritative stage state and wire it into retained B02 receipts; do not alter currentness, transaction, solver, recovery, mesh or benchmark semantics.",
+      "stop_conditions": [
+        "Stop if the required field is not already retained by authoritative stage/transaction/currentness state.",
+        "Stop rather than recomputing or inventing a missing engineering hash.",
+        "Stop on any numerical regression in existing B02 qualification.",
+        "Do not touch src/** or validation/**.",
+        "Do not resume PR #1873.",
+        "Do not checkpoint or close task while CTRL-C3D-BASELINE-INDEPENDENT-REVIEW is OPEN."
+      ]
+    }
+  },
+  "lease": {
+    "id": "LEASE-LAFEA3-C3D-CUSTODY-PROJECTION-1862-0010",
+    "executor_id": "chatgpt-gpt5.6-sol-c3d-custody-20260923",
+    "method": "DETERMINISTIC",
+    "qualification": null,
+    "owner_basis": null,
+    "branch": "relay/c3d-custody-1862"
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "ISSUE",
+      "number": 1862
+    }
+  }
+}

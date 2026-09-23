@@ -1,0 +1,69 @@
+{
+  "schema_version": "relay-v3.1-roadmap-reconciliation",
+  "authority": "PROPOSED_RECONCILIATION",
+  "expected_revision": "RM-0011",
+  "disposition": "UPDATE_WORK_PACKAGE",
+  "basis": [
+    "R2 local result BLOCKED at AC-C3D-R2-6 with B02 numerics PASS",
+    "relay/EVIDENCE/C3D-B02-R2/R2-0009/review/INDEPENDENT-REVIEW-R2-0001.json",
+    "GitHub issue #1771 comment 5794804384",
+    "GitHub issue #1862 comment 5794805060",
+    "R2 independent review disposition: #1862 ADMITTABLE_AFTER_R2_HANDOVER",
+    "Current provider main@060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f drift from material base@74437c40669577926c9761cd6374f53d11178a69 is DISJOINT for the retained B02/currentness sensitivity set"
+  ],
+  "roadmap_after": {
+    "schema_version": "relay-v3.1-roadmap",
+    "revision": "RM-0012",
+    "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
+    "owner": {
+      "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
+      "current_goal": "Hand off the R2 BLOCKED result to #1862 and implement only the demonstrated B02 custody/currentness/solver-diagnostics projection gap: project already-authoritative stage and immutable transaction state into uniform retained B02 receipts, without changing solver, element, mesher, recovery, benchmark or tolerance semantics."
+    },
+    "work_packages": [
+      {
+        "id": "WP-1769",
+        "title": "Project physical features to mesh, compile loads/BCs/probes, and enforce execution currentness",
+        "weight": 1,
+        "state": "COMPLETE",
+        "depends_on": []
+      },
+      {
+        "id": "WP-1771",
+        "title": "Qualify production-route continuum response, solver robustness, and convergence",
+        "weight": 1,
+        "state": "ACTIVE",
+        "depends_on": [
+          "WP-1769"
+        ]
+      },
+      {
+        "id": "WP-1773",
+        "title": "Define canonical stress/result recovery and engineering-output authority",
+        "weight": 1,
+        "state": "PLANNED",
+        "depends_on": [
+          "WP-1769"
+        ]
+      },
+      {
+        "id": "WP-1774",
+        "title": "Build independent hand-calculation and auditable V&V package",
+        "weight": 1,
+        "state": "PLANNED",
+        "depends_on": [
+          "WP-1771",
+          "WP-1773"
+        ]
+      },
+      {
+        "id": "WP-1776",
+        "title": "Integrate workbench evidence, align docs/registry, and close qualification claims",
+        "weight": 1,
+        "state": "PLANNED",
+        "depends_on": [
+          "WP-1774"
+        ]
+      }
+    ]
+  }
+}
