@@ -28,10 +28,19 @@ for (const [id, script] of checks) {
   process.stdout.write(result.stdout);
 }
 
+const governedCaseIds = Object.freeze({
+  B02A: Object.freeze(['B02A']),
+  B02B: Object.freeze(['B02B', 'B02B-V2']),
+  B02C: Object.freeze(['B02C']),
+  B02D: Object.freeze(['B02D', 'B02D-V2']),
+});
 for (const id of ['B02A', 'B02B', 'B02C', 'B02D']) {
   const caseId = receipts[id].caseId;
-  const matchesCase = caseId === id || caseId === `${id}-V2`;
-  assert.equal(matchesCase, true, `${id} caseId mismatch: expected ${id} or ${id}-V2, got ${caseId}`);
+  assert.equal(
+    governedCaseIds[id].includes(caseId),
+    true,
+    `${id} caseId mismatch: expected one of ${governedCaseIds[id].join(', ')}, got ${caseId}`,
+  );
   assert.equal(receipts[id].definitionFrozenBeforeObservation, true);
   assert.equal(receipts[id].productionOutputUsedToChooseDefinition, false);
   assert.equal(receipts[id].releaseAuthorityGranted, false);
