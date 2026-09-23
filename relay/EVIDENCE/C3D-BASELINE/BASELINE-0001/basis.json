@@ -1,0 +1,24 @@
+{
+  "head": "89420e9cba7879d8e9fa172350bd4210f5d90fe0",
+  "branch": "main",
+  "detached": true,
+  "cleanBefore": true,
+  "environment": {
+    "node": "v24.11.1",
+    "npm": "11.6.2",
+    "git": "2.52.0.windows.1",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "blobs": {
+    "scripts/lafea-b02-production-sequence-check.mjs": "5826e8d457b6b75d548da3963fa6c980dc530da4",
+    "scripts/lafea.3-bm005-ordinary-route-check.mjs": "fe08a2b6359e250981f68cab6d4c4fe4c9c74699",
+    "scripts/lafea-b01-final-qualification.mjs": "305af161ca3ce7a2b4ea6b6ea4b2ca4560753a5a",
+    "scripts/lafea-plane-strain-bbar-lame-check.mjs": "47f9dcad62387aef74f3a069aa666e180f260602",
+    "scripts/lib/lafea-b02-production-route.mjs": "5d873872404ad6f0885a1fd9e9bacbb7631f5650",
+    "scripts/lib/lafea-b02-rectangle-qualification.mjs": "021f041aa30fb6686f839fa94ff85240672799f1",
+    "src/workspace/lafea-runtime-solver-diagnostics.js": "e5e6ef00d25bd8b9d4e42448148461bdcf4bb77f",
+    "src/workspace/lafea-continuum-authoritative-workbench-run.js": "a469259db7887aceaaf8783b7e7700046c4cddd8"
+  },
+  "timestamp": "2026-09-22T14:26:30.047Z"
+}

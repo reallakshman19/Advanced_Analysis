@@ -1,0 +1,21 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'B02B-V2' !== 'B02B'
+
+    at file:///C:/Users/reall/Documents/antigravity/Advanced_Analysis/scripts/lafea-b02-production-sequence-check.mjs:32:10
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'B02B-V2',
+  expected: 'B02B',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

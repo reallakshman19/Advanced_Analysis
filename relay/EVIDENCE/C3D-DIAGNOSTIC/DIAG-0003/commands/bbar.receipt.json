@@ -1,0 +1,10 @@
+﻿{
+    "command":  "node scripts/lafea-plane-strain-bbar-lame-check.mjs",
+    "observedHead":  "1019ca26cb18332983f64258698787280b86afd1",
+    "startTime":  "2026-09-22T17:03:03.612Z",
+    "endTime":  "2026-09-22T17:03:04.123Z",
+    "exitCode":  1,
+    "stdoutPath":  "bbar.stdout.txt",
+    "stderrPath":  "bbar.stderr.txt",
+    "exitCodePath":  "bbar.exit.txt"
+}

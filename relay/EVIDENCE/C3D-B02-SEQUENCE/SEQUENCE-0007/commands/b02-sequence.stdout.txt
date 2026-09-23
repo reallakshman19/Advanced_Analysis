@@ -1,0 +1,2479 @@
+{"schema":"lafea-b02c-analytical-traction-check/v1","status":"PASS","lawId":"KIRSCH_INFINITE_PLATE_OUTER_BOUNDARY_V1","quadratureId":"GAUSS_LEGENDRE_12_EDGE_V1","thetaZeroClosedFormChecked":true,"thetaNinetyClosedFormChecked":true,"independentCompositeIntegrationChecked":true,"gaussRuleSymmetryChecked":true,"resultant":{"forceX":24741.309065082824,"forceY":-123.98289783710548,"momentZ":-1262293.4701326392},"unqualifiedLawRejected":true,"releaseAuthorityGranted":false}
+{
+  "schema": "lafea-b02d-v2-preobservation-quality-qualification/v1",
+  "status": "PASS",
+  "definitionState": "FROZEN_BEFORE_PRODUCTION_OBSERVATION",
+  "productionOutputUsedToChooseDefinition": false,
+  "policyId": "B02D_PROBE_STABLE_POLAR_POLICY_V2",
+  "v1Preserved": true,
+  "responseObserved": false,
+  "hardQualityThresholdsChanged": false,
+  "records": [
+    {
+      "family": "T3",
+      "levelId": "L1",
+      "h": 40,
+      "nodeCount": 312,
+      "elementCount": 576,
+      "meshSemanticHash": "sha256:609d7dce102abdde74c2506aa65113d9e5640b9e72c9a11656a404c5ccc486be",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.2106511642294918,
+      "maximumAspectRatio": 4.739964290719002,
+      "minimumAngleDegrees": 12.160514851880123,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T3",
+      "levelId": "L2",
+      "h": 20,
+      "nodeCount": 774,
+      "elementCount": 1462,
+      "meshSemanticHash": "sha256:eed52846ded227f15f4d7fbc3d829f7e6c77bb3e36a09f9b21b6a141f905dad6",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.2048815995989261,
+      "maximumAspectRatio": 4.877985269275712,
+      "minimumAngleDegrees": 11.822568091471519,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T3",
+      "levelId": "L3",
+      "h": 10,
+      "nodeCount": 2573,
+      "elementCount": 4980,
+      "meshSemanticHash": "sha256:5479dd28de0456a516fa78be7039421d4c6963745cf46d5063efe6b7f572fee9",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.21378565262886817,
+      "maximumAspectRatio": 4.6739761249338105,
+      "minimumAngleDegrees": 12.344293968761352,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T3",
+      "levelId": "L4",
+      "h": 5,
+      "nodeCount": 8965,
+      "elementCount": 17604,
+      "meshSemanticHash": "sha256:a043991870f312fb24c0f2a9fc9e3ffe5b71fbc47e3e44cea96c818d0c0e1368",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.2141278909971654,
+      "maximumAspectRatio": 4.669206033021175,
+      "minimumAngleDegrees": 12.364367626047695,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T6",
+      "levelId": "L1",
+      "h": 40,
+      "nodeCount": 1200,
+      "elementCount": 576,
+      "meshSemanticHash": "sha256:6be770cd49e5d2818bcc4de506a2b7ddcd640938b09ced72d34d74a2fcfbed08",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.2106511642294886,
+      "maximumAspectRatio": 4.739964290719002,
+      "minimumAngleDegrees": 12.160514851880123,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T6",
+      "levelId": "L2",
+      "h": 20,
+      "nodeCount": 3010,
+      "elementCount": 1462,
+      "meshSemanticHash": "sha256:c0f91c8674ff96c7644977748b3487c5f161b8de8628baa9cbda2a8cba6a536d",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.21294637728699817,
+      "maximumAspectRatio": 4.877985269275712,
+      "minimumAngleDegrees": 11.822568091471519,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T6",
+      "levelId": "L3",
+      "h": 10,
+      "nodeCount": 10126,
+      "elementCount": 4980,
+      "meshSemanticHash": "sha256:a52039aa3504d82f8cdd6fecd3229547f20bc5b2a84fc4b328a6dbb48916cc3a",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.21378565262885812,
+      "maximumAspectRatio": 4.6739761249338105,
+      "minimumAngleDegrees": 12.344293968761352,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "T6",
+      "levelId": "L4",
+      "h": 5,
+      "nodeCount": 35534,
+      "elementCount": 17604,
+      "meshSemanticHash": "sha256:0705dac089f0f5ea2d1379b1bb123ea7b8739a898cbc905294534ca5b7cfd07c",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.21412789099714521,
+      "maximumAspectRatio": 4.669206033021175,
+      "minimumAngleDegrees": 12.364367626047695,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "Q8",
+      "levelId": "L1",
+      "h": 40,
+      "nodeCount": 912,
+      "elementCount": 288,
+      "meshSemanticHash": "sha256:f4ee9b6d456fe233ea3bf79ce3c2932ea67f835030d1ebb16d2579a1c3ed95a9",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.9876883405951367,
+      "maximumAspectRatio": 4.739964290719003,
+      "minimumAngleDegrees": null,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "Q8",
+      "levelId": "L2",
+      "h": 20,
+      "nodeCount": 2279,
+      "elementCount": 731,
+      "meshSemanticHash": "sha256:3f4670b73a7e37f366bdfdf532b2756e720b1bcc7d786a35ffaccb411d27048e",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.996917333733127,
+      "maximumAspectRatio": 4.740144624006911,
+      "minimumAngleDegrees": null,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "Q8",
+      "levelId": "L3",
+      "h": 10,
+      "nodeCount": 7636,
+      "elementCount": 2490,
+      "meshSemanticHash": "sha256:646ddd786dfb9da36d4d1a1c49544173a3dffb35d5f41eda8201e3a965cc722e",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.9992290362407218,
+      "maximumAspectRatio": 4.605176388538811,
+      "minimumAngleDegrees": null,
+      "blockingElementIds": [],
+      "blockingElements": []
+    },
+    {
+      "family": "Q8",
+      "levelId": "L4",
+      "h": 5,
+      "nodeCount": 26732,
+      "elementCount": 8802,
+      "meshSemanticHash": "sha256:bf3e19c7534e8232e9740b86dd3fb30887ad381b9e71a95109773af86f141c8e",
+      "qualityWorstStatus": "WARNING",
+      "minimumScaledJacobian": 0.9998072404820633,
+      "maximumAspectRatio": 4.580540451064767,
+      "minimumAngleDegrees": null,
+      "blockingElementIds": [],
+      "blockingElements": []
+    }
+  ],
+  "releaseAuthorityGranted": false
+}
+{"schema":"lafea-b02-rectangle-production-qualification-receipt/v1","caseId":"B02A","status":"PASS","definitionHash":"sha256:709695f825b6669fb01eb6854aad2d1c6b9f3190d348b6358d386dbdccaf78c5","convergencePolicyHash":"sha256:804cf96e0022dee1dd7001b6c8ffa031bb039f9eff3391dcc4b9f1b036965e9e","definitionFrozenBeforeObservation":true,"productionOutputUsedToChooseDefinition":false,"frozenLoadProof":{"forceX":0,"forceY":-100,"appliedMomentZ":-10000,"expectedReactionMomentZ":10000},"methods":[{"method":"T3","levels":[{"levelId":"L1","h":6.25,"meshHash":"sha256:d9647b644c92752a2ed0fb62386450e8ae70d9c3e74cab62da669ae1d4c9474b","executionHash":"sha256:0238b03f5aa925851b41d14ec0a8df169486834bc250f8cbed34a3f8e0566e7b","recoveryHash":"sha256:082a4315c61aded3323fc3f7b2de254649c4b94fc221a441fb47cccfdc10fa45","elementCount":64,"nodeCount":51,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":46.193217979276326,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-10000},"reaction":{"forceX":-9.094947017729282e-13,"forceY":100.00000000026222,"momentZ":10000.000000017719},"total":{"forceX":-9.094947017729282e-13,"forceY":2.6221869120490737e-10,"momentZ":1.7718775779940188e-8},"totalForceRelativeResidual":2.6222026847257083e-12,"totalMomentRelativeResidual":1.7718775779940187e-12},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":134.89842706189788,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:0133e28902c25bed6a0773b88f8df291857edfc890d8c6fa3af14374fb6ff00b"},{"probeId":"B02A-PROBE-UY-01","value":-0.8823824502007723,"units":"mm","mappingResidual":5.551115123125783e-17,"evidenceHash":"sha256:6b94519ecc9e40b77aa6938e2f17ab19228af66dc97c92c607b6032274f8383f"}]},{"levelId":"L2","h":3.125,"meshHash":"sha256:51c8da40157f1431965b970690b134310a93ad596086bdb402cfac730514aa31","executionHash":"sha256:497b03356fdaa5c87c67d75f6377724194c7569c4f627e15043c771ae4c55a2f","recoveryHash":"sha256:229c7eb4b3becf75889296faa6752311bc513324e07e4d55e5bd4e314f291b74","elementCount":256,"nodeCount":165,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":78.25054413223769,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-10000},"reaction":{"forceX":8.111555871437304e-11,"forceY":100.00000000118956,"momentZ":10000.00000009454},"total":{"forceX":8.111555871437304e-11,"forceY":1.1895622265001293e-9,"momentZ":9.454015525989234e-8},"totalForceRelativeResidual":1.1923246305354469e-11,"totalMomentRelativeResidual":9.454015525989234e-12},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":168.25893376529007,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:c079e10ab21d2198cf2bce8c2073b3abbf395df0a3ef456e13cb334e7c2aef23"},{"probeId":"B02A-PROBE-UY-01","value":-1.4947864610031218,"units":"mm","mappingResidual":2.7755575615628914e-16,"evidenceHash":"sha256:34d62433e8332b3d6807b5fb3d99effbdfc0af25bc2a2fba78e48e2d14301652"}]},{"levelId":"L3","h":1.5625,"meshHash":"sha256:31b54d3f96b83afeb4692da33e32de11ab9e937fbf398c120adb21b3726cc54e","executionHash":"sha256:f2d212e3bbbf195e35bf2f278dd9657f814754c190bdb8944144bc9706c57497","recoveryHash":"sha256:961cbd7e9f20fafa7997de432928e164a3f12d592ae0c04df612e664bb65fbb8","elementCount":768,"nodeCount":455,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":92.07129315688242,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-10000.000000000002},"reaction":{"forceX":-7.958078640513122e-11,"forceY":99.99999999834822,"momentZ":9999.999999876765},"total":{"forceX":-7.958078640513122e-11,"forceY":-1.6517844869667897e-9,"momentZ":-1.2323653209023178e-7},"totalForceRelativeResidual":1.6537004241848038e-11,"totalMomentRelativeResidual":1.2323653209023178e-11},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":169.151964724641,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:b4d9220cdcd62ff0c2eb9614f7eb0baeec546e27b16a19181c310085f0dc8490"},{"probeId":"B02A-PROBE-UY-01","value":-1.75871230163394,"units":"mm","mappingResidual":0,"evidenceHash":"sha256:f69b75b0d3166d9e3c961fe6cc6e6c58d8a52a290974e7f18a3fec242d77cb42"}]}],"finestProbeAcceptance":[{"probeId":"B02A-PROBE-STRESS-01","expectedValue":152.28,"observedValue":169.151964724641,"units":"MPa","relativeError":0.11079567063725376,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:b4d9220cdcd62ff0c2eb9614f7eb0baeec546e27b16a19181c310085f0dc8490"},{"probeId":"B02A-PROBE-UY-01","expectedValue":-1.925159,"observedValue":-1.75871230163394,"units":"mm","relativeError":0.0864586760709427,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:f69b75b0d3166d9e3c961fe6cc6e6c58d8a52a290974e7f18a3fec242d77cb42"}],"finestStrainEnergy":92.07129315688242,"expectedStrainEnergy":100.78,"finestStrainEnergyRelativeError":0.08641304666717188,"energyAnalyticalComparisonWaived":true,"convergence":[{"probeId":"B02A-PROBE-STRESS-01","classification":"MONOTONIC_CONVERGING","observedOrder":5.223287200247449,"gciFineAbsolute":0.03070396897522985,"gciFinePercent":0.018151706972610225,"evidenceHash":"sha256:16333c246009f0cf817427362be1a856490790369cc22aa6d2b795b687a5145e"},{"probeId":"B02A-PROBE-UY-01","classification":"MONOTONIC_CONVERGING","observedOrder":1.214351121527941,"gciFineAbsolute":0.2498608783672049,"gciFinePercent":14.207035348252836,"evidenceHash":"sha256:480a8262fa1be74c3e5ba3cfe314f466816c2a0ce2db9e4cbe17bf63b3975a37"}],"status":"PASS"},{"method":"T6","levels":[{"levelId":"L1","h":25,"meshHash":"sha256:a4eb19c37169f202ad0767ec3d3c7ed62f51b7371a2d30c3c87fe200d6b00a3b","executionHash":"sha256:e5d3e6a0b87bf146f3292beee17539913deb6d523ecac201bc14359fa5962e1a","recoveryHash":"sha256:65550192b678d74814c699185f8615ea7fbe6e1a31c2a3bc8b6fa8cfd5946c5a","elementCount":8,"nodeCount":27,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":98.21368810770872,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-9999.999999999998},"reaction":{"forceX":-2.319211489520967e-11,"forceY":99.99999999984527,"momentZ":9999.99999999085},"total":{"forceX":-2.319211489520967e-11,"forceY":-1.5472778613911942e-10,"momentZ":-9.147697710432112e-9},"totalForceRelativeResidual":1.5645626224867343e-12,"totalMomentRelativeResidual":9.147697710432112e-13},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":140.8682572441271,"units":"MPa","mappingResidual":7.105427357601002e-15,"evidenceHash":"sha256:e4321444ac4cf635dc4cb42afc7b8ba87d1151c491bf0dcb059b8580ed94686c"},{"probeId":"B02A-PROBE-UY-01","value":-1.8746522857559038,"units":"mm","mappingResidual":1.4210963135005665e-14,"evidenceHash":"sha256:c5c4f19b88b7640c278c4bbf4d221076bb5b34085885d7b763609fca4ed5d336"}]},{"levelId":"L2","h":12.5,"meshHash":"sha256:6eab79a0cb14dcd5ab49f2dc3c739672cf19cc8ef5513ec16348647c9d163d5c","executionHash":"sha256:42b49931b17d178ba1eea201298144f4704e7fd58ebea0cd02cfcd47fbf2313a","recoveryHash":"sha256:ee50b7dd08be953446dae7e0b06ac5199eddccfde22c187c2a540286415346cc","elementCount":16,"nodeCount":51,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":99.63906471990347,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-9999.999999999998},"reaction":{"forceX":5.616129783447832e-11,"forceY":99.99999999976109,"momentZ":9999.999999975664},"total":{"forceX":5.616129783447832e-11,"forceY":-2.389128894719761e-10,"momentZ":-2.4334440240636468e-8},"totalForceRelativeResidual":2.454250601106204e-12,"totalMomentRelativeResidual":2.433444024063647e-12},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":147.4806371489056,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:ee9ee6858eac8773474eaa0d3c19d89db4ee51793e2b79c0b8b7e5adf349b0d4"},{"probeId":"B02A-PROBE-UY-01","value":-1.9029362533849374,"units":"mm","mappingResidual":6.106226635438361e-16,"evidenceHash":"sha256:084b1390346a7121f6b61232987e4226d01e5e8cd03ebdf6155b0ff8c7c88ad9"}]},{"levelId":"L3","h":6.25,"meshHash":"sha256:379351c80e594c47f38c92f5b005381100a06432d4e7c308ba68f2337da1b616","executionHash":"sha256:de7cdcbfac1beb4bbf2e3394598054c9ea9e2887d800ce2b4e0aa40344814027","recoveryHash":"sha256:6d2ed95d7c17212139922f29e951b71177df393109e741334d490f6da2451481","elementCount":64,"nodeCount":165,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":100.33424919986926,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-10000},"reaction":{"forceX":-1.3494627637555823e-10,"forceY":100.00000000296606,"momentZ":10000.000000231215},"total":{"forceX":-1.3494627637555823e-10,"forceY":2.966061174447532e-9,"momentZ":2.312153810635209e-7},"totalForceRelativeResidual":2.969129399011215e-11,"totalMomentRelativeResidual":2.312153810635209e-11},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":150.88938924013644,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:a6ae644755df4d54e01442e8901608909b9381917a050591f045094760fca925"},{"probeId":"B02A-PROBE-UY-01","value":-1.9164765939369128,"units":"mm","mappingResidual":1.4210963135005665e-14,"evidenceHash":"sha256:ae15901ea414d5a7030e14e2b6d640825fede53a7ad318a71e4b7551364f536f"}]}],"finestProbeAcceptance":[{"probeId":"B02A-PROBE-STRESS-01","expectedValue":152.28,"observedValue":150.88938924013644,"units":"MPa","relativeError":0.009131933017228545,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:a6ae644755df4d54e01442e8901608909b9381917a050591f045094760fca925"},{"probeId":"B02A-PROBE-UY-01","expectedValue":-1.925159,"observedValue":-1.9164765939369128,"units":"mm","relativeError":0.004509968300325964,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:ae15901ea414d5a7030e14e2b6d640825fede53a7ad318a71e4b7551364f536f"}],"finestStrainEnergy":100.33424919986926,"expectedStrainEnergy":100.78,"finestStrainEnergyRelativeError":0.004423008534736444,"energyAnalyticalComparisonWaived":false,"convergence":[{"probeId":"B02A-PROBE-STRESS-01","classification":"MONOTONIC_CONVERGING","observedOrder":0.955925934762435,"gciFineAbsolute":4.533762774475988,"gciFinePercent":3.004692906046975,"evidenceHash":"sha256:d84668d1d27f0179f4777b29ace2839e441e35cf50304308243dcdbc096365f1"},{"probeId":"B02A-PROBE-UY-01","classification":"MONOTONIC_CONVERGING","observedOrder":1.0627204887882968,"gciFineAbsolute":0.015544073831462085,"gciFinePercent":0.8110755894769758,"evidenceHash":"sha256:54f420d5ed1620d81f44538c24dd0b2ac3046f947cee5caddbc74e6847ec92d8"}],"status":"PASS"},{"method":"Q8","levels":[{"levelId":"L1","h":25,"meshHash":"sha256:4ba22fd9255e3e2f2c9b0bab2bed6b166c89d495f8db06db9352e78b832ae6c4","executionHash":"sha256:a51055f84c8cfe6ecd4d2f1a7f48dbc3c391ab1952ab2426a3652bedc57601a6","recoveryHash":"sha256:d9d1d1196e80c7317407a47302e0a94059e8b4fdb0d09a63befd63edb0f33008","elementCount":4,"nodeCount":23,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":98.35302745784645,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-9999.999999999998},"reaction":{"forceX":3.3651303965598345e-11,"forceY":100.00000000015496,"momentZ":10000.000000038637},"total":{"forceX":3.3651303965598345e-11,"forceY":1.5495515981456265e-10,"momentZ":3.863897291012108e-8},"totalForceRelativeResidual":1.5856705777601393e-12,"totalMomentRelativeResidual":3.8638972910121085e-12},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":147.85769315337228,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:68e2deac3ec1a8b423ced512a1c6492ff782e241efbcdd1881fa742d27323a25"},{"probeId":"B02A-PROBE-UY-01","value":-1.8772550008572908,"units":"mm","mappingResidual":2.7755575615628914e-16,"evidenceHash":"sha256:70c12aa684d7d64905ddb61db35a6acc33e951690bf278f22c17320ee421ef0f"}]},{"levelId":"L2","h":12.5,"meshHash":"sha256:3471b2f13c385145fdc69c5c8712583c2526b9c54c409715d7bb791da250291d","executionHash":"sha256:b57d928057958e84a4c9dbff2d206eac5b22bb24be261e0e8bde8415b008880c","recoveryHash":"sha256:2588f81a141a58738eda3436f84a1d3cc8cba7c6cf9cab9b0fd9c570aefc380c","elementCount":8,"nodeCount":43,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":99.63604913203936,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-9999.999999999998},"reaction":{"forceX":5.263700586510822e-11,"forceY":99.999999999284,"momentZ":9999.999999954933},"total":{"forceX":5.263700586510822e-11,"forceY":-7.159997039707378e-10,"momentZ":-4.5065462472848594e-8},"totalForceRelativeResidual":7.179319121425287e-12,"totalMomentRelativeResidual":4.5065462472848595e-12},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":151.55129522382308,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:bd160413806f725bda9159d0c67c65d0c6c30ab0f808c64ab6ed002c7cf92bd2"},{"probeId":"B02A-PROBE-UY-01","value":-1.9028430465203883,"units":"mm","mappingResidual":5.551115123125783e-17,"evidenceHash":"sha256:8547cca4ec63835c286a0337387cae547f86ad58c0140897d8d20afdece4f159"}]},{"levelId":"L3","h":6.25,"meshHash":"sha256:776d554e602c49ba0749b4e2da9a1000dee269cf7b6a8a07baef253ab6163cfe","executionHash":"sha256:200dd504c1b39cf611ba35fc46aa49fb96d5d2e4db0c8075eac42cc3943659e0","recoveryHash":"sha256:e93c2230e78c1e807c70940e43a02854866095384917ec80a7fcfb91a8be60c1","elementCount":32,"nodeCount":133,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":100.37150101176006,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-10000},"reaction":{"forceX":1.1471001926111057e-10,"forceY":100.00000000198699,"momentZ":10000.000000131618},"total":{"forceX":1.1471001926111057e-10,"forceY":1.9869901279889746e-9,"momentZ":1.3161843526177108e-7},"totalForceRelativeResidual":1.990298509582049e-11,"totalMomentRelativeResidual":1.3161843526177109e-11},"probes":[{"probeId":"B02A-PROBE-STRESS-01","value":152.1887652751147,"units":"MPa","mappingResidual":1.4210854715202004e-14,"evidenceHash":"sha256:a086e350b4510c345411f05253b6c710cc36cc5ace6739b60ab9c36791e63c1f"},{"probeId":"B02A-PROBE-UY-01","value":-1.9171964712622578,"units":"mm","mappingResidual":2.842306465080941e-14,"evidenceHash":"sha256:26b88e5fac17dfe45d7cbbd5d81b68d7a1a92ecfbdf9f008fbf63ff4df6034fe"}]}],"finestProbeAcceptance":[{"probeId":"B02A-PROBE-STRESS-01","expectedValue":152.28,"observedValue":152.1887652751147,"units":"MPa","relativeError":0.0005991248022413378,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:a086e350b4510c345411f05253b6c710cc36cc5ace6739b60ab9c36791e63c1f"},{"probeId":"B02A-PROBE-UY-01","expectedValue":-1.925159,"observedValue":-1.9171964712622578,"units":"mm","relativeError":0.004136036939152704,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:26b88e5fac17dfe45d7cbbd5d81b68d7a1a92ecfbdf9f008fbf63ff4df6034fe"}],"finestStrainEnergy":100.37150101176006,"expectedStrainEnergy":100.78,"finestStrainEnergyRelativeError":0.0040533735685646085,"energyAnalyticalComparisonWaived":false,"convergence":[{"probeId":"B02A-PROBE-STRESS-01","classification":"MONOTONIC_CONVERGING","observedOrder":2.53459897616739,"gciFineAbsolute":0.16621012432798002,"gciFinePercent":0.10921313674338486,"evidenceHash":"sha256:6192091f731fcdf960e536a20e713f3b20a787f12a1c425812bcd3f6091b7b5a"},{"probeId":"B02A-PROBE-UY-01","classification":"MONOTONIC_CONVERGING","observedOrder":0.834074956446,"gciFineAbsolute":0.022922535978854554,"gciFinePercent":1.1956279036838957,"evidenceHash":"sha256:ef87f39f917c11328c3baf5cfeebfc71e38bb8fdb474b8c209c43551aa9f8c55"}],"status":"PASS"}],"requestedFamiliesRetainedExactly":true,"fixedPhysicalProbeAuthority":true,"movingMaximumUsed":false,"nodalAveragedStressUsedAsSoleAuthority":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false,"semanticHash":"sha256:cfdeeae380bcfa0c11dc9ce50cda9685edf67a3bd57e7fd2c0a559d60f46a0c3"}
+{"schema":"lafea-b02-rectangle-production-qualification-receipt/v1","caseId":"B02B-V2","status":"PASS","definitionHash":"sha256:dcb6623b44b4f99315a291c8c1505df432a26d718a1b4be6f389278607a90d40","convergencePolicyHash":"sha256:804cf96e0022dee1dd7001b6c8ffa031bb039f9eff3391dcc4b9f1b036965e9e","definitionFrozenBeforeObservation":true,"productionOutputUsedToChooseDefinition":false,"frozenLoadProof":{"forceX":0,"forceY":-100,"appliedMomentZ":-2000,"expectedReactionMomentZ":2000},"methods":[{"method":"T3","levels":[{"levelId":"L1","h":2.5,"meshHash":"sha256:3f223bc7fc6f5610f4ae54dbd26d72ebbc889890fd510192811d02a726719360","executionHash":"sha256:741a84d2ffaf8b6dc2ae768e6fb7f13ae8326d12f8b21982927866455011defd","recoveryHash":"sha256:3baa23d9fc8f2aa91a4215631c20656a03e2d765461fc5df68c7c1ed93e6269e","elementCount":256,"nodeCount":153,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.05000229141803576,"equilibrium":{"applied":{"forceX":0,"forceY":-100.00000000000003,"momentZ":-2000},"reaction":{"forceX":2.815525590449397e-13,"forceY":100.00000000000026,"momentZ":2000.00000000001},"total":{"forceX":2.815525590449397e-13,"forceY":2.2737367544323206e-13,"momentZ":1.000444171950221e-11},"totalForceRelativeResidual":3.6189864850441e-15,"totalMomentRelativeResidual":5.002220859751105e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.357437733228316,"units":"MPa","mappingResidual":1.2560739669470201e-15,"evidenceHash":"sha256:ab46cc7197d98e20993a753d371107a2a91ac1352c24fbef4103926f8ef7e04a"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008078902654572532,"units":"mm","mappingResidual":8.881784197001252e-16,"evidenceHash":"sha256:9e0241b38d64a6ba3b44380be7914059980e5e45ced68af926715a9b74599506"}]},{"levelId":"L2","h":1.25,"meshHash":"sha256:566ff3c69e16562b96792ebc5ee90904306fb1099a33d48fbe9e9580123d3242","executionHash":"sha256:14a8a960e13ef253e6b3efcec82436184ace11388f1d2885d8a7174ef28b853b","recoveryHash":"sha256:d347edea04c80a3570ffc39a3a60ba47435b0021e4477fb150dade331ccfdf01","elementCount":1024,"nodeCount":561,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.05077756881456023,"equilibrium":{"applied":{"forceX":0,"forceY":-100.00000000000001,"momentZ":-1999.9999999999993},"reaction":{"forceX":-3.361755318564974e-13,"forceY":100.00000000000256,"momentZ":2000.0000000000446},"total":{"forceX":-3.361755318564974e-13,"forceY":2.5437429940211587e-12,"momentZ":4.524736141320318e-11},"totalForceRelativeResidual":2.5658609486585057e-14,"totalMomentRelativeResidual":2.262368070660159e-14},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.3533724339548736,"units":"MPa","mappingResidual":1.2560739669470201e-15,"evidenceHash":"sha256:b66037b7bbb22a1f402f94d7b25633a3afaa9cdaaa31b7e2de1806f41abddc9c"},{"probeId":"B02B-PROBE-UY-01","value":-0.000815998076824115,"units":"mm","mappingResidual":0,"evidenceHash":"sha256:590598d901f6e1e404e7d5bbd93eb7e120825bae7b2aa01445f88b70c4e6e420"}]},{"levelId":"L3","h":0.625,"meshHash":"sha256:0042ac50cb3bbe33744171cc375fd23b9beafc3e00c45955bdf3a8627db7d3c9","executionHash":"sha256:5eeebc18debe159a6cf893ddb8d847b9aa1409c4ada8040ddc77c5979a8095b8","recoveryHash":"sha256:607c8ba5cde116a15f0e43c35c6442bdc7ada3544b7c393b9d616ea6e71ea763","elementCount":4096,"nodeCount":2145,"solverStorage":"CSR_FULL_SYMMETRIC","solverMethods":["DETERMINISTIC_JACOBI_PCG"],"strainEnergy":0.05104029385524087,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-1999.9999999999984},"reaction":{"forceX":2.3171331520188687e-10,"forceY":99.99999999997486,"momentZ":1999.9999999929266},"total":{"forceX":2.3171331520188687e-10,"forceY":-2.5139001991192345e-11,"momentZ":-7.0717760536354035e-9},"totalForceRelativeResidual":2.33073014016986e-12,"totalMomentRelativeResidual":3.5358880268177018e-12},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.339805708334896,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:5c8e3681146e5a59c709a5c63d54991d82bf110fa7bbdddec885a3d8632a6593"},{"probeId":"B02B-PROBE-UY-01","value":-0.000818673586853398,"units":"mm","mappingResidual":0,"evidenceHash":"sha256:f2358c153487eefd0f457e8825242cb4f231091811c680cfb334d03141738c8c"}]}],"finestProbeAcceptance":[{"probeId":"B02B-PROBE-TAU-01","expectedValue":-3.54290625,"observedValue":-3.339805708334896,"units":"MPa","relativeError":0.05732597120375509,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:5c8e3681146e5a59c709a5c63d54991d82bf110fa7bbdddec885a3d8632a6593"},{"probeId":"B02B-PROBE-UY-01","expectedValue":-0.000874382546875,"observedValue":-0.000818673586853398,"units":"mm","relativeError":0.06371234217872145,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:f2358c153487eefd0f457e8825242cb4f231091811c680cfb334d03141738c8c"}],"finestStrainEnergy":0.05104029385524087,"expectedStrainEnergy":0.0515,"finestStrainEnergyRelativeError":0.008926332907944185,"energyAnalyticalComparisonWaived":false,"convergence":[{"probeId":"B02B-PROBE-TAU-01","classification":"STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC","observedOrder":null,"gciFineAbsolute":null,"gciFinePercent":null,"evidenceHash":"sha256:9e04b0c913b14c13f253b26ddc8ab49de18238464fd485de19071534338d81f8"},{"probeId":"B02B-PROBE-UY-01","classification":"MONOTONIC_CONVERGING","observedOrder":1.599498587058145,"gciFineAbsolute":0.0000016471734242896809,"gciFinePercent":0.2012002647624986,"evidenceHash":"sha256:7ea152e99c2ae354a8c4845cbb3657dfaaebce3dd4a72740ade1e2223212d20e"}],"status":"PASS"},{"method":"T6","levels":[{"levelId":"L1","h":10,"meshHash":"sha256:adbc395afba23eab6c0d7a8c04c3874315112edf1e03269732991316babf0d9e","executionHash":"sha256:cb23e07b5fbb274c46de7e93b6bd8fcf3726b73f245ea35d145bc0af02309ea0","recoveryHash":"sha256:5e8dbfe0a96cb9b491a1e09e3c7bf070e7660dc46176d0b40f90f6a0cd6bd593","elementCount":24,"nodeCount":63,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.050461760922641666,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-2000},"reaction":{"forceX":-8.171241461241152e-14,"forceY":99.99999999999953,"momentZ":1999.9999999999925},"total":{"forceX":-8.171241461241152e-14,"forceY":-4.689582056016661e-13,"momentZ":-7.503331289626658e-12},"totalForceRelativeResidual":4.760238621150469e-15,"totalMomentRelativeResidual":3.751665644813329e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.2256175626942927,"units":"MPa","mappingResidual":1.2560739669470201e-15,"evidenceHash":"sha256:ac05affd453dcd9a05fe4fcae90ce4c377d4ea2769386f5dbda5b91e65a9cb42"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008123037625569325,"units":"mm","mappingResidual":0,"evidenceHash":"sha256:adcc8feb119dd8598403ef6116a7bec9f86a5668439e38aee51c5f43d7cee3a1"}]},{"levelId":"L2","h":5,"meshHash":"sha256:0c5c9f77ec9742b14550de271be0e21afc27cc49a38297b013700cedff246f30","executionHash":"sha256:5868d405f6d545c38a0d54081985995c6deccb3c43c2b8bb2579ccfb46e31006","recoveryHash":"sha256:87141c7fd3bdd879526d3abe2d3e2d7d33bd1d256fbbebf8d3084f4f36b47b54","elementCount":64,"nodeCount":153,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.05090222888768243,"equilibrium":{"applied":{"forceX":0,"forceY":-99.99999999999999,"momentZ":-2000.0000000000005},"reaction":{"forceX":9.237055564881302e-14,"forceY":99.99999999999986,"momentZ":2000.000000000011},"total":{"forceX":9.237055564881302e-14,"forceY":-1.2789769243681803e-13,"momentZ":1.0459189070388675e-11},"totalForceRelativeResidual":1.5776609040453958e-15,"totalMomentRelativeResidual":5.229594535194337e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.288905450159593,"units":"MPa","mappingResidual":8.881784197001252e-16,"evidenceHash":"sha256:bd90dc49be79728fac7fa3af7eedd7dbefb03ea756a1804406a6552391a59d1d"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008169544454678247,"units":"mm","mappingResidual":0,"evidenceHash":"sha256:66baf324f5e8a8f6f7ecd2275e266a9bdfce2b332dbf3b35695c9e1dc1c131dd"}]},{"levelId":"L3","h":2.5,"meshHash":"sha256:0b266bf327feea944e8dd1535466bfe9a76f05b207b188d1d5bdba18a845b262","executionHash":"sha256:4bcaaa683b6fea1b915e771fe3ddacb591f20f614ea22a5d4c7e6229c1bdf250","recoveryHash":"sha256:0adecf8e0d8fe3b360637e9f563ba80dfff3cc09c587c4e8b470775a3336526e","elementCount":256,"nodeCount":561,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.051094279261389174,"equilibrium":{"applied":{"forceX":0,"forceY":-100.00000000000003,"momentZ":-2000.0000000000005},"reaction":{"forceX":5.058176100192213e-13,"forceY":99.99999999999923,"momentZ":1999.9999999999857},"total":{"forceX":5.058176100192213e-13,"forceY":-7.958078640513122e-13,"momentZ":-1.4779288903810084e-11},"totalForceRelativeResidual":9.429536632790971e-15,"totalMomentRelativeResidual":7.389644451905042e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.3102565250629623,"units":"MPa","mappingResidual":1.2560739669470201e-15,"evidenceHash":"sha256:665e032fc006eeff8f1507969bbfe25962feca96a65fd1236888310170fbaa60"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008192256192148359,"units":"mm","mappingResidual":3.552713678800501e-15,"evidenceHash":"sha256:c260e1fe69f2b4d4a1b2c6483741b4eef7ec00390fa2a9b40b28ee72d012fe57"}]}],"finestProbeAcceptance":[{"probeId":"B02B-PROBE-TAU-01","expectedValue":-3.54290625,"observedValue":-3.3102565250629623,"units":"MPa","relativeError":0.06566635087706253,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:665e032fc006eeff8f1507969bbfe25962feca96a65fd1236888310170fbaa60"},{"probeId":"B02B-PROBE-UY-01","expectedValue":-0.000874382546875,"observedValue":-0.0008192256192148359,"units":"mm","relativeError":0.06308100253978331,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:c260e1fe69f2b4d4a1b2c6483741b4eef7ec00390fa2a9b40b28ee72d012fe57"}],"finestStrainEnergy":0.051094279261389174,"expectedStrainEnergy":0.0515,"finestStrainEnergyRelativeError":0.007878072594384925,"energyAnalyticalComparisonWaived":false,"convergence":[{"probeId":"B02B-PROBE-TAU-01","classification":"MONOTONIC_CONVERGING","observedOrder":1.5676207086840774,"gciFineAbsolute":0.013587954462922049,"gciFinePercent":0.410480407184262,"evidenceHash":"sha256:01842ea78253b247ab514f1955f8cb05713967d1ba78fb91aaeac277d5fb6fb4"},{"probeId":"B02B-PROBE-UY-01","classification":"MONOTONIC_CONVERGING","observedOrder":1.0340045006998773,"gciFineAbsolute":0.000002709713345198915,"gciFinePercent":0.33076521066271886,"evidenceHash":"sha256:9064f1da200108df8fc2bd7d84007348d033879530826a1cd14c160cfdbf4f6f"}],"status":"PASS"},{"method":"Q8","levels":[{"levelId":"L1","h":10,"meshHash":"sha256:7fd2bc5732e7766062a8309a080c9a773a8b7a63fd1ef4ad05504ee8646d8277","executionHash":"sha256:da90f39535d935355e86c50c03d7153aa8b7bfdda8112964b04c39adbca424d3","recoveryHash":"sha256:b145b00a26382c6dac4f6f206deca7330b743922215667fda4d9eeb705d953b2","elementCount":12,"nodeCount":51,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.05073486621334959,"equilibrium":{"applied":{"forceX":0,"forceY":-100,"momentZ":-2000},"reaction":{"forceX":1.4210854715202004e-14,"forceY":100.00000000000023,"momentZ":2000.0000000000064},"total":{"forceX":1.4210854715202004e-14,"forceY":2.2737367544323206e-13,"momentZ":6.366462912410498e-12},"totalForceRelativeResidual":2.2781733181718376e-15,"totalMomentRelativeResidual":3.183231456205249e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.1974071226624017,"units":"MPa","mappingResidual":1.2560739669470201e-15,"evidenceHash":"sha256:afa346614feabd9af2e5c4587f25e0874954eadbad78983f5f41d8f49c251222"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008142710069101902,"units":"mm","mappingResidual":3.552713678800501e-15,"evidenceHash":"sha256:b9cc55730c035bafe3fa92034bd9859b106b4aad21107a806c6707dfce3f7c5b"}]},{"levelId":"L2","h":5,"meshHash":"sha256:82009cb4f9498b608ceb4303c7e3880c89cc7054c5309dc6fb732123c8cf42b8","executionHash":"sha256:e8f3c3c601d3222a84918d4fc6a70de4b6442ed0fea91726a769cc5ea43e3696","recoveryHash":"sha256:113ef65468171c4b75c0d36fefe43c57ff990b9f9caddd32aad65e85f316ed56","elementCount":32,"nodeCount":121,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.05094625040088002,"equilibrium":{"applied":{"forceX":0,"forceY":-99.99999999999999,"momentZ":-2000.0000000000005},"reaction":{"forceX":2.7355895326763857e-13,"forceY":99.99999999999928,"momentZ":1999.999999999986},"total":{"forceX":2.7355895326763857e-13,"forceY":-7.105427357601002e-13,"momentZ":-1.4551915228366852e-11},"totalForceRelativeResidual":7.61383924347194e-15,"totalMomentRelativeResidual":7.275957614183426e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.289863164287238,"units":"MPa","mappingResidual":0,"evidenceHash":"sha256:7c7aefd69d6f59801e05dbffd9c88e0c642ab07683ce6d2c08c24a0ec785c4d8"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008168684327772072,"units":"mm","mappingResidual":8.881784197001252e-16,"evidenceHash":"sha256:9acbb0f0a50bc273e9be65e21192acc617f8a6bfed9fc107559682cbf9a8155e"}]},{"levelId":"L3","h":2.5,"meshHash":"sha256:c57df9407645e721d9dc2035afeb4c356d6c4004838f9423281ad3592d7ddccd","executionHash":"sha256:2bfe5b3e5017fbc243c5149ef273c314e75ceabb0c41fbf2db5c1b50e4274bf6","recoveryHash":"sha256:03059645194ec65e6ccf1672f38322bf3660868e7cdd1073284eb90dffb33e85","elementCount":128,"nodeCount":433,"solverStorage":"DENSE","solverMethods":["DETERMINISTIC_CHOLESKY"],"strainEnergy":0.051108159346513464,"equilibrium":{"applied":{"forceX":0,"forceY":-100.00000000000003,"momentZ":-2000.0000000000005},"reaction":{"forceX":5.10702591327572e-13,"forceY":99.99999999999996,"momentZ":1999.9999999999877},"total":{"forceX":5.10702591327572e-13,"forceY":-7.105427357601002e-14,"momentZ":-1.2732925824820995e-11},"totalForceRelativeResidual":5.156218057666991e-15,"totalMomentRelativeResidual":6.366462912410498e-15},"probes":[{"probeId":"B02B-PROBE-TAU-01","value":-3.310213632652939,"units":"MPa","mappingResidual":8.881784197001252e-16,"evidenceHash":"sha256:e9122d2e5c7fc054d69d3a2cf3fe421c990466b3bed886852858be222c054930"},{"probeId":"B02B-PROBE-UY-01","value":-0.0008192329031674402,"units":"mm","mappingResidual":8.881784197001252e-16,"evidenceHash":"sha256:ec41ff3aeb9cc3ed6c7ff9bc45106ab0b19e08dd616b3ca32777781294604d20"}]}],"finestProbeAcceptance":[{"probeId":"B02B-PROBE-TAU-01","expectedValue":-3.54290625,"observedValue":-3.310213632652939,"units":"MPa","relativeError":0.06567845743789047,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:e9122d2e5c7fc054d69d3a2cf3fe421c990466b3bed886852858be222c054930"},{"probeId":"B02B-PROBE-UY-01","expectedValue":-0.000874382546875,"observedValue":-0.0008192329031674402,"units":"mm","relativeError":0.06307267214408831,"limit":0.05,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_ONLY","analyticalComparisonWaived":true,"evidenceHash":"sha256:ec41ff3aeb9cc3ed6c7ff9bc45106ab0b19e08dd616b3ca32777781294604d20"}],"finestStrainEnergy":0.051108159346513464,"expectedStrainEnergy":0.0515,"finestStrainEnergyRelativeError":0.007608556378379285,"energyAnalyticalComparisonWaived":false,"convergence":[{"probeId":"B02B-PROBE-TAU-01","classification":"MONOTONIC_CONVERGING","observedOrder":2.1837055984637432,"gciFineAbsolute":0.00717943052083923,"gciFinePercent":0.21688722594877793,"evidenceHash":"sha256:4112727631f71efb64dad75b01a68c28ce9c4238a9407c55f5cb2a4ed36aea6d"},{"probeId":"B02B-PROBE-UY-01","classification":"MONOTONIC_CONVERGING","observedOrder":0.1355654984992138,"gciFineAbsolute":0.000029998866647550368,"gciFinePercent":3.6618239491558855,"evidenceHash":"sha256:e2fd5bcb2a80632bafa25b3351a29083aa028b39119ced6fb0753244931c4efe"}],"status":"PASS"}],"requestedFamiliesRetainedExactly":true,"fixedPhysicalProbeAuthority":true,"movingMaximumUsed":false,"nodalAveragedStressUsedAsSoleAuthority":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false,"semanticHash":"sha256:bfa08141712fc54e96b32ca1d85fe5b8c723d44b9db7b95969d988f1e75f9a30"}
+{"schema":"lafea-b02c-production-qualification-receipt/v1","caseId":"B02C","status":"PASS","definitionHash":"sha256:c63755d48081687e8ee1c46a3df4e9a1e0bb8ca13284dffea5ecc0229768f357","convergencePolicyHash":"sha256:804cf96e0022dee1dd7001b6c8ffa031bb039f9eff3391dcc4b9f1b036965e9e","definitionFrozenBeforeObservation":true,"productionOutputUsedToChooseDefinition":false,"boundaryAuthority":"EXACT_KIRSCH_TRACTION_FROM_INFINITE_PLATE_FIELD","analyticalTractionLowering":"CONSISTENT_NODAL_GAUSS_EDGE_INTEGRATION","finiteDomainBoundaryTruncation":{"outerRadiusToHoleRadius":10,"prescribedOuterBoundaryMatchesInfinitePlateFieldExactly":true,"theoreticalBoundaryConditionTruncationRelative":0,"frozenBudgetRelative":0.01},"methods":[{"method":"T3","levels":[{"levelId":"L1","h":22.5,"meshHash":"sha256:2a9d5c3594aa8fba449736f30ef58da0972eae9a01839e499569d99d83b25364","executionHash":"sha256:1da1b9f775c63f86b2b88667197fdc74821d21abae4bd8df4caebe987fb9a0b5","recoveryHash":"sha256:c5972ec29aa14ca4122ddfdaaef887ade0f35e82553d33e93a44b955d262f54e","nodeCount":126,"elementCount":208,"equilibrium":{"applied":{"forceX":24832.887406490518,"forceY":-124.34060825915122,"momentZ":-1268619.6411119245},"reaction":{"forceX":-24832.887406490558,"forceY":124.34060825914142,"momentZ":1268619.641111925},"total":{"forceX":-4.001776687800884e-11,"forceY":-9.805489753489383e-12,"momentZ":4.656612873077393e-10},"totalForceRelativeResidual":1.6591325825262353e-15,"totalMomentRelativeResidual":3.6706138878599946e-16},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":77.22236468939181,"mappingResidual":1.7763568394002505e-15,"evidenceHash":"sha256:5ddfca292a3384180c0a6d4e3638d51de099fac12bc64d497805ee4a7d9562c4"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":59.95962254388074,"mappingResidual":0,"evidenceHash":"sha256:0e422fc30f60561a1982e3821bbf5146d3fd64dd862e29d1c32f1881f596602c"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":46.62149050956954,"mappingResidual":0,"evidenceHash":"sha256:ce6cccc3c710c8568692cd4db2d88e570e2dadc62950e68d8a68f754da13b4af"}]},{"levelId":"L2","h":11.25,"meshHash":"sha256:028a9a58caf7873508a607f0b751dcf724a9d973dc608ce0bf1f9087de8c0c6e","executionHash":"sha256:8397c1783d3085eb95b1bc5458931e42609c6f03fadcbc96c0956c3ab3d67f79","recoveryHash":"sha256:cf26622b5cbaf3c1ca9f819f801a27c39f88addf3e3ea610beb378ac7598a711","nodeCount":442,"elementCount":800,"equilibrium":{"applied":{"forceX":24863.550601720584,"forceY":-123.89722583758677,"momentZ":-1273127.1465453184},"reaction":{"forceX":-24863.55060172072,"forceY":123.89722583761227,"momentZ":1273127.1465453226},"total":{"forceX":-1.3460521586239338e-10,"forceY":2.5494273359072395e-11,"momentZ":4.190951585769653e-9},"totalForceRelativeResidual":5.509935293799263e-15,"totalMomentRelativeResidual":3.2918562746399435e-15},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":85.71863105727326,"mappingResidual":0,"evidenceHash":"sha256:4522eb7834292451def8ad4f4480765176aa42746c8041be1f8e53ae916eb192"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":49.247319002296436,"mappingResidual":0,"evidenceHash":"sha256:4fe4ef2ecdbe4ead983c0809a3c0626a656192a83ca371e91d9231e5a8fcfade"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":49.12470045986342,"mappingResidual":0,"evidenceHash":"sha256:b27c93152428c216bec84f8310e283cf5c47b819fba6e9a3fefc3f1564b5e682"}]},{"levelId":"L3","h":5.625,"meshHash":"sha256:072bf9993333c2da445400b9296c5d6822eae0d4d15ea76e5c07289dd68035cd","executionHash":"sha256:6b017fc20e5e3d7c4a60acc220ed8691dde9356fd064e47b2c3eb4e6d54bc401","recoveryHash":"sha256:7140c7e5bedf1159605111514fe3588cccee263d3b949b63d5e5d78b57019d65","nodeCount":234,"elementCount":400,"equilibrium":{"applied":{"forceX":24832.887406490518,"forceY":-124.34060825915122,"momentZ":-1268619.6411119245},"reaction":{"forceX":-24832.8874064906,"forceY":124.34060825913457,"momentZ":1268619.6411119238},"total":{"forceX":-8.36735125631094e-11,"forceY":-1.6655121726216748e-11,"momentZ":-6.984919309616089e-10},"totalForceRelativeResidual":3.4355221137156767e-15,"totalMomentRelativeResidual":5.505920831789992e-16},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":86.46171643450907,"mappingResidual":4.440892098500626e-16,"evidenceHash":"sha256:8a8eed5232ae310cc62253765948543bff0378cb50e9a24f234861c6839977a8"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":49.104886974439694,"mappingResidual":0,"evidenceHash":"sha256:3ff342ebb565a559403757eac365e9623d1634f7237096a386ad18a6f3a33579"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.336583272975105,"mappingResidual":7.32410687763558e-15,"evidenceHash":"sha256:aa0510758f207148e0b123d45c14ca194159b53f68a8bdd22b2fe90da0b039a8"}]}],"finestProbeAcceptance":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","analyticalReferenceValue":94.40050614767446,"observedValue":86.46171643450907,"relativeError":0.08409689775123057,"limit":0.05,"analyticalComparisonWaived":true,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:8a8eed5232ae310cc62253765948543bff0378cb50e9a24f234861c6839977a8"},{"probeId":"KIRSCH_MIDFIELD_PMAX","analyticalReferenceValue":53.1284266378142,"observedValue":49.104886974439694,"relativeError":0.07573233235013117,"limit":0.03,"analyticalComparisonWaived":true,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:3ff342ebb565a559403757eac365e9623d1634f7237096a386ad18a6f3a33579"},{"probeId":"KIRSCH_FARFIELD_PMAX","analyticalReferenceValue":47.1660210570134,"observedValue":47.336583272975105,"relativeError":0.003616209553812686,"limit":0.03,"analyticalComparisonWaived":true,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:aa0510758f207148e0b123d45c14ca194159b53f68a8bdd22b2fe90da0b039a8"}],"convergence":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","classification":"MONOTONIC_CONVERGING","observedOrder":3.5152291123234702,"gciFineAbsolute":0.08902408548954045,"gciFinePercent":0.10296358800252627,"evidenceHash":"sha256:5c660e7b1abf72848fbf983015f7ba499bb221673e658f49a0a9c44b267898b3"},{"probeId":"KIRSCH_MIDFIELD_PMAX","classification":"MONOTONIC_CONVERGING","observedOrder":6.232851342855962,"gciFineAbsolute":0.0023991401566514194,"gciFinePercent":0.004885746214832408,"evidenceHash":"sha256:896b0fdb211d7db81186e769b4885a3e8f26789da85c86e90c4b8e934d51c5ad"},{"probeId":"KIRSCH_FARFIELD_PMAX","classification":"STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC","observedOrder":null,"gciFineAbsolute":null,"gciFinePercent":null,"evidenceHash":"sha256:00e33c13684a1851c98746ba5cd6ac9bf1dcae5945f6ac9719cf7282b7e5682c"}],"status":"PASS"},{"method":"T6","levels":[{"levelId":"L1","h":22.5,"meshHash":"sha256:8517d3d4278f1c1d3da59f7c80d4c5ccb2840b2bad166620d41deed87d6a68ed","executionHash":"sha256:04fafc05205c0758e46c08afd684f230feb78804548150c9ba899f3c06c9787e","recoveryHash":"sha256:9deaaf9aa6804b6dc1f4521eb02d16dbf7ff220d22ad941e04cc33dceb18a81c","nodeCount":459,"elementCount":208,"equilibrium":{"applied":{"forceX":24873.71122785523,"forceY":-123.75018708825813,"momentZ":-1274621.1433916749},"reaction":{"forceX":-24873.71122785513,"forceY":123.75018708824302,"momentZ":1274621.1433916697},"total":{"forceX":1.0186340659856796e-10,"forceY":-1.510613856225973e-11,"momentZ":-5.122274160385132e-9},"totalForceRelativeResidual":4.1399590359854416e-15,"totalMomentRelativeResidual":4.0186640453453725e-15},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":93.0248982090189,"mappingResidual":1.7763568394002505e-15,"evidenceHash":"sha256:32a7f760403f3275c4f57911360d4ed40f3f9a6d312ad17697454a89c63cce23"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":53.45723901059574,"mappingResidual":0,"evidenceHash":"sha256:40f3bee516ad92107fd4214ea921e91fafb2dd4ff6346f4902a7c0c3f6c123f2"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.3160279715633,"mappingResidual":0,"evidenceHash":"sha256:1aa29e73924f0c3d79b9c02256cd416bd4d721f4f05a3699a7a443b3009f8147"}]},{"levelId":"L2","h":11.25,"meshHash":"sha256:e41ff7865ed59c3e0515d4580f931d227bba1c874f492dd7223c9a6c16f4c3e8","executionHash":"sha256:c1599e3188061a5f68ae6f3560f71cd2ad001db2e769a3bcc48b13d358e316a2","recoveryHash":"sha256:eff447bfa9112e89ba370911fb1f8ad769a5c9fa1f7beaf1e9ce8e7cc62afbd1","nodeCount":1683,"elementCount":800,"equilibrium":{"applied":{"forceX":24873.747570462798,"forceY":-123.75001172316489,"momentZ":-1274624.7582480146},"reaction":{"forceX":-24873.747570477637,"forceY":123.75001172074818,"momentZ":1274624.758248392},"total":{"forceX":-1.4839315554127097e-8,"forceY":-2.416712163721968e-9,"momentZ":3.7741847336292267e-7},"totalForceRelativeResidual":6.044377888217243e-13,"totalMomentRelativeResidual":2.961016337715646e-13},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":94.17880511341217,"mappingResidual":4.440892098500626e-16,"evidenceHash":"sha256:518dd3c2d8a9eecd76cebbe4f651910b3cb4fb5a70f98887c454763820903d8e"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":53.076477839186964,"mappingResidual":7.944109290391274e-15,"evidenceHash":"sha256:b64864ac349536675abd85c8f9393a48544b55b6601cd97f5bc3c90e45dd48b5"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.182806428384126,"mappingResidual":7.32410687763558e-15,"evidenceHash":"sha256:7e558180225b59783d3b0a1839944872691222e162d4605e56371c6268eb693d"}]},{"levelId":"L3","h":5.625,"meshHash":"sha256:72726e250574129730bcfe87f04a0221619a220cfe75bd7f8e16ca1199773dd1","executionHash":"sha256:94d93750edb66ab8f0af7f188dd37c8d46a2d09917f78332b7892c60353b75f9","recoveryHash":"sha256:9cea3d9afca26535643ba5d1076554cd3910904c8902363e2834c57474e44926","nodeCount":867,"elementCount":400,"equilibrium":{"applied":{"forceX":24873.71122785523,"forceY":-123.75018708825813,"momentZ":-1274621.1433916749},"reaction":{"forceX":-24873.711227862274,"forceY":123.75018710268795,"momentZ":1274621.143392735},"total":{"forceX":-7.043126970529556e-9,"forceY":1.4429815564653836e-8,"momentZ":0.0000010600779205560684},"totalForceRelativeResidual":6.455304474332505e-13,"totalMomentRelativeResidual":8.316807908389763e-13},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":94.69438849558699,"mappingResidual":3.580361673049448e-15,"evidenceHash":"sha256:f6ac1dc3360512f278f7cfa56774eb929dabba8db71bf5d4ff8ac3712c18089f"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":53.119199375208304,"mappingResidual":0,"evidenceHash":"sha256:cc8d01930cbb09963b6472d0303cf99dd5c8b409aa195f60e9f89b08bfc2b3bb"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.27853008939712,"mappingResidual":7.32410687763558e-15,"evidenceHash":"sha256:87343f40305b1c6603b524593c8d9270aa5437c4b76ebc802482d90fc5a3c0c7"}]}],"finestProbeAcceptance":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","analyticalReferenceValue":94.40050614767446,"observedValue":94.69438849558699,"relativeError":0.003113143773326778,"limit":0.05,"analyticalComparisonWaived":false,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:f6ac1dc3360512f278f7cfa56774eb929dabba8db71bf5d4ff8ac3712c18089f"},{"probeId":"KIRSCH_MIDFIELD_PMAX","analyticalReferenceValue":53.1284266378142,"observedValue":53.119199375208304,"relativeError":0.00017367844654615864,"limit":0.03,"analyticalComparisonWaived":false,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:cc8d01930cbb09963b6472d0303cf99dd5c8b409aa195f60e9f89b08bfc2b3bb"},{"probeId":"KIRSCH_FARFIELD_PMAX","analyticalReferenceValue":47.1660210570134,"observedValue":47.27853008939712,"relativeError":0.0023853831606384835,"limit":0.03,"analyticalComparisonWaived":false,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:87343f40305b1c6603b524593c8d9270aa5437c4b76ebc802482d90fc5a3c0c7"}],"convergence":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","classification":"MONOTONIC_CONVERGING","observedOrder":1.1622491641481691,"gciFineAbsolute":0.5205554368632958,"gciFinePercent":0.5497215253547522,"evidenceHash":"sha256:327365424b7a48ebbb120a880ad1019e7c47e6c0008137ab68b503bf46d51079"},{"probeId":"KIRSCH_MIDFIELD_PMAX","classification":"STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC","observedOrder":null,"gciFineAbsolute":null,"gciFinePercent":null,"evidenceHash":"sha256:ec9e2cab03d6df3164c072d63a9627b58dea3c25bdbc6811b5a39a889496c07e"},{"probeId":"KIRSCH_FARFIELD_PMAX","classification":"STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC","observedOrder":null,"gciFineAbsolute":null,"gciFinePercent":null,"evidenceHash":"sha256:83be0b8f51fa7c1a9a2191c93066e56243bee67d77727d70d9f0d2f93c12a78a"}],"status":"PASS"},{"method":"Q8","levels":[{"levelId":"L1","h":22.5,"meshHash":"sha256:36e99c09fc3b05786e64396155b8507cc338093010fc3b052a17b8129e423ded","executionHash":"sha256:fe2a5b9207b202a4ba48a48a30ada9e0ff76865b19ca716ed21882f9cd1dd707","recoveryHash":"sha256:91d6cac36d58dfbf2205f289432beb000aaf7d97be671dc472631729904ef819","nodeCount":355,"elementCount":104,"equilibrium":{"applied":{"forceX":24873.71122785523,"forceY":-123.75018708825813,"momentZ":-1274621.1433916749},"reaction":{"forceX":-24873.711227855114,"forceY":123.75018708819104,"momentZ":1274621.1433916728},"total":{"forceX":1.1641532182693481e-10,"forceY":-6.708944511046866e-11,"momentZ":-2.0954757928848267e-9},"totalForceRelativeResidual":5.401756367191834e-15,"totalMomentRelativeResidual":1.6439989276412886e-15},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":94.79008491876886,"mappingResidual":4.440892098500626e-16,"evidenceHash":"sha256:9c7c58de62d8d4e94fd61c29af1d8ff42835b14dc7f8351d13569455d776d2b4"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":53.16319218660023,"mappingResidual":0,"evidenceHash":"sha256:2d405e1200ed733782c10109d46c91723ccea29bf8c55675716f29c4c3cf2750"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.29410091710204,"mappingResidual":3.552713678800501e-15,"evidenceHash":"sha256:4401ad1920944d2c62e3d8f21ee630c4b811f80ab15e4d25b41eaf6326c1f1ea"}]},{"levelId":"L2","h":11.25,"meshHash":"sha256:4aa0d7b1484cea8493ad9961db44232888533a57ed989585708acd5b77c009a7","executionHash":"sha256:0146c3f9ad26078959006ed4fb2be33a3dc670eb4c9f68ac48df0f7ae72a0bee","recoveryHash":"sha256:4395cc47b0c60327240a71a121ed53f4ca3677aa483d85507028d9572338910e","nodeCount":1283,"elementCount":400,"equilibrium":{"applied":{"forceX":24873.747570462798,"forceY":-123.75001172316489,"momentZ":-1274624.7582480146},"reaction":{"forceX":-24873.747570472173,"forceY":123.75001173615343,"momentZ":1274624.7582502335},"total":{"forceX":-9.375071385875344e-9,"forceY":1.2988536468583334e-8,"momentZ":0.0000022188760340213776},"totalForceRelativeResidual":6.439863877916137e-13,"totalMomentRelativeResidual":1.7408072608531835e-12},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":94.33235515726992,"mappingResidual":4.440892098500626e-16,"evidenceHash":"sha256:0724b03903a88a6b56899cfd0a59fce2d7b45c365a3dc67ec25343e88840d6dc"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":53.06603675335904,"mappingResidual":0,"evidenceHash":"sha256:94f739f268a23b977c8cc11e8faf285dcbba6063a1896c749439bfc0e2a60794"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.20228324056343,"mappingResidual":1.7763568394002505e-15,"evidenceHash":"sha256:a7472788d01f372cb836d5834c44bccd6451d0bcf342fce48b7186d272f258a5"}]},{"levelId":"L3","h":5.625,"meshHash":"sha256:456601b9c0bc8294032cc89c041682659a8f6b8cda818c46edc9649546bea2e2","executionHash":"sha256:ec500722370fe87ce62cb464df2fb7a9000d207fb542c49cb8a374b20ff35572","recoveryHash":"sha256:8b0692a6e27c366b415353e843a977687adf57e07985b8f3423a0851e559e846","nodeCount":667,"elementCount":200,"equilibrium":{"applied":{"forceX":24873.71122785523,"forceY":-123.75018708825813,"momentZ":-1274621.1433916749},"reaction":{"forceX":-24873.711227855107,"forceY":123.75018708829,"momentZ":1274621.1433916742},"total":{"forceX":1.2369127944111824e-10,"forceY":3.1874947126198094e-11,"momentZ":-6.984919309616089e-10},"totalForceRelativeResidual":5.135170030309855e-15,"totalMomentRelativeResidual":5.479996425470962e-16},"probes":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","value":94.77754875220654,"mappingResidual":1.831026719408895e-15,"evidenceHash":"sha256:0b0515384f1645a1aab1996d083a5aa743552aaf44deff6d638fef57f340eb30"},{"probeId":"KIRSCH_MIDFIELD_PMAX","value":53.02321387539624,"mappingResidual":1.7763568394002505e-15,"evidenceHash":"sha256:a12467711901c2ad34e80bd9a26a29838fa50de733d8395168fbcc1acfa5571d"},{"probeId":"KIRSCH_FARFIELD_PMAX","value":47.29196218415375,"mappingResidual":1.7763568394002505e-15,"evidenceHash":"sha256:9bd66f46cc26a4af126dd05659a81fdf1dcc8ac3748655fc539367530965ae0a"}]}],"finestProbeAcceptance":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","analyticalReferenceValue":94.40050614767446,"observedValue":94.77754875220654,"relativeError":0.0039940739718307885,"limit":0.05,"analyticalComparisonWaived":false,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:0b0515384f1645a1aab1996d083a5aa743552aaf44deff6d638fef57f340eb30"},{"probeId":"KIRSCH_MIDFIELD_PMAX","analyticalReferenceValue":53.1284266378142,"observedValue":53.02321387539624,"relativeError":0.0019803477926274224,"limit":0.03,"analyticalComparisonWaived":false,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:a12467711901c2ad34e80bd9a26a29838fa50de733d8395168fbcc1acfa5571d"},{"probeId":"KIRSCH_FARFIELD_PMAX","analyticalReferenceValue":47.1660210570134,"observedValue":47.29196218415375,"relativeError":0.002670166452839333,"limit":0.03,"analyticalComparisonWaived":false,"finiteDomainBoundaryConditionErrorReportedSeparately":true,"evidenceHash":"sha256:9bd66f46cc26a4af126dd05659a81fdf1dcc8ac3748655fc539367530965ae0a"}],"convergence":[{"probeId":"KIRSCH_NEAR_CROWN_PMAX","classification":"STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC","observedOrder":null,"gciFineAbsolute":null,"gciFinePercent":null,"evidenceHash":"sha256:fdf9bd835aceb1942864ee6c40c09ee5f477afaafa0c267523e65d6e2c930328"},{"probeId":"KIRSCH_MIDFIELD_PMAX","classification":"MONOTONIC_CONVERGING","observedOrder":1.1819129211371817,"gciFineAbsolute":0.042189228622271056,"gciFinePercent":0.07956746779140005,"evidenceHash":"sha256:d66bbc723d9941850475a58bd16035e43c2841e6756251e33740023f9f0f03b4"},{"probeId":"KIRSCH_FARFIELD_PMAX","classification":"STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC","observedOrder":null,"gciFineAbsolute":null,"gciFinePercent":null,"evidenceHash":"sha256:90c40e257b23db4e4cb96c3cffaa569b74080a86322b5a51f5f9f8032afde672"}],"status":"PASS"}],"movingMaximumUsed":false,"nodalAveragedStressUsedAsSoleAuthority":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false,"semanticHash":"sha256:76f970b7dd487fc349d22a39be02ab9670af3303c5b91eed1f06259c84532d82"}
+{
+  "schema": "lafea-b02d-production-qualification-receipt/v1",
+  "caseId": "B02D-V2",
+  "status": "PASS",
+  "definitionHash": "sha256:ba2f28eadffb9fd39450a9f2b104bf702ff0d698bc2a933600be7c238fe0cf6a",
+  "convergencePolicyHash": "sha256:804cf96e0022dee1dd7001b6c8ffa031bb039f9eff3391dcc4b9f1b036965e9e",
+  "definitionFrozenBeforeObservation": true,
+  "productionOutputUsedToChooseDefinition": false,
+  "meshPolicyId": "B02D_PROBE_STABLE_POLAR_POLICY_V2",
+  "loadDistribution": "CONSISTENT_UNIFORM_LINE_RESULTANT_T2_Q3_EDGE_V1",
+  "methods": [
+    {
+      "method": "T3",
+      "applicability": "CONTROL",
+      "releaseCritical": false,
+      "status": "PASS",
+      "levels": [
+        {
+          "levelId": "L1",
+          "h": 40,
+          "meshHash": "sha256:c3ddc5b6068d617fd0613c311e2f7a3f4149266117c0470c2e17d96b2599c1c3",
+          "executionHash": "fnv1a64:0f6e093b356b68b1",
+          "recoveryHash": "sha256:b4153731eefaf83699d9f66653562172592c3bb0bae992bbce296769fdf9f2ef",
+          "nodeCount": 312,
+          "elementCount": 576,
+          "loadResultant": {
+            "forceX": 999.9999999999999,
+            "forceY": 249.99999999999997,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 1.1368683772161603e-16,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 1.1605152394622564e-13,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999999,
+              "forceY": 249.99999999999997,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -999.9999999999966,
+              "forceY": -249.99999999998641,
+              "momentZ": -9999.99999999884
+            },
+            "total": {
+              "forceX": 3.296918293926865e-12,
+              "forceY": 1.3557155398302712e-11,
+              "momentZ": 1.1605152394622564e-9
+            },
+            "totalForceRelativeResidual": 1.3535700341925702e-14,
+            "totalMomentRelativeResidual": 1.1605152394622564e-13
+          },
+          "strainEnergy": 0.7330764362890284,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.7330764362890284,
+            "stiffnessReconstruction": 0.7330764362890305,
+            "relativeResidual": 2.1094237467877974e-15
+          },
+          "solverStorage": "DENSE",
+          "solverMethods": [
+            "DETERMINISTIC_CHOLESKY"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.17800962029665,
+              "units": "MPa",
+              "elementId": "E-R1-S7-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.37100218125767426,
+                "eta": 0.26496032342318815,
+                "lambda1": 0.3640374953191376,
+                "lambda2": 0.37100218125767426,
+                "lambda3": 0.26496032342318815
+              },
+              "naturalCoordinateMargin": 0.26496032342318815,
+              "mappingResidual": 4.440892098500626e-16,
+              "evidenceHash": "sha256:842e8aa1f8acc5597ccf7aab8e74c68a2dcb7700cc95b8924688468f6125f4f9"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.8209056564874537,
+              "units": "MPa",
+              "elementId": "E-R3-S1-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3656075809889191,
+                "eta": 0.2630422022279049,
+                "lambda1": 0.371350216783176,
+                "lambda2": 0.3656075809889191,
+                "lambda3": 0.2630422022279049
+              },
+              "naturalCoordinateMargin": 0.2630422022279049,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:256031d891f14d632a04c54797409a19ea2503c495cb3a7905288662f9e2f99c"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.8135906780154167,
+              "units": "MPa",
+              "elementId": "E-R1-S5-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.422781334803156,
+                "eta": 0.21070066031741155,
+                "lambda1": 0.36651800487943254,
+                "lambda2": 0.422781334803156,
+                "lambda3": 0.21070066031741155
+              },
+              "naturalCoordinateMargin": 0.21070066031741155,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:fa52898ffb63e2563c6a5e731fa3213a986e93499dced60edfef83031ef46d19"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.5916301131738393,
+              "units": "MPa",
+              "elementId": "E-R3-S5-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3978988271781451,
+                "eta": 0.22835401597241375,
+                "lambda1": 0.37374715684944104,
+                "lambda2": 0.3978988271781451,
+                "lambda3": 0.22835401597241375
+              },
+              "naturalCoordinateMargin": 0.22835401597241375,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:d8cce6f052a4cf4189bcc35ae07806da1a41129e5198c4b644c5a8e011e2ff78"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 1.151134636917645,
+              "units": "MPa",
+              "elementId": "E-R5-S5-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.379236946459388,
+                "eta": 0.2327264981710139,
+                "lambda1": 0.38803655536959814,
+                "lambda2": 0.379236946459388,
+                "lambda3": 0.2327264981710139
+              },
+              "naturalCoordinateMargin": 0.2327264981710139,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:f76b7601d160be2da3fe1f9105e33700d2c08386c68e33f2f3545153767c7a54"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.5106274298472956,
+              "units": "MPa",
+              "elementId": "E-R8-S5-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.43433392762905354,
+                "eta": 0.2010080254690083,
+                "lambda1": 0.36465804690193815,
+                "lambda2": 0.43433392762905354,
+                "lambda3": 0.2010080254690083
+              },
+              "naturalCoordinateMargin": 0.2010080254690083,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:c7bc7937c22461d7f611456fd3a9e7e697f64981fad6fcf52832726493a1db0f"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.290813114664287,
+              "units": "MPa",
+              "elementId": "E-R10-S5-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.45823890816879426,
+                "eta": 0.17965976672426237,
+                "lambda1": 0.3621013251069433,
+                "lambda2": 0.45823890816879426,
+                "lambda3": 0.17965976672426237
+              },
+              "naturalCoordinateMargin": 0.17965976672426237,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:316ef86d1a62255e586a5cf03318a7ddb601f2b567c077fc9205191774652b45"
+            }
+          ]
+        },
+        {
+          "levelId": "L2",
+          "h": 20,
+          "meshHash": "sha256:c14279e1469078b83b8ef44a4a708374bc7bb431aa6c31e3e7d5845df7662f77",
+          "executionHash": "fnv1a64:f92776f970e262e7",
+          "recoveryHash": "sha256:16a04e60ccc80e2887e5d950fd575bc262550cad6f4819b034b7471076606b08",
+          "nodeCount": 774,
+          "elementCount": 1462,
+          "loadResultant": {
+            "forceX": 1000,
+            "forceY": 250,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 0,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 9.211362339556216e-13,
+          "equilibrium": {
+            "applied": {
+              "forceX": 1000,
+              "forceY": 250,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -999.9999999999883,
+              "forceY": -250.000000000432,
+              "momentZ": -9999.999999990789
+            },
+            "total": {
+              "forceX": 1.1709744285326451e-11,
+              "forceY": -4.320099833421409e-10,
+              "momentZ": 9.211362339556217e-9
+            },
+            "totalForceRelativeResidual": 4.192651765884797e-13,
+            "totalMomentRelativeResidual": 9.211362339556216e-13
+          },
+          "strainEnergy": 0.7870238310585888,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.7870238310585888,
+            "stiffnessReconstruction": 0.78702383105859,
+            "relativeResidual": 1.2212453270876722e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.07005391558701,
+              "units": "MPa",
+              "elementId": "E-R1-S11-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3604858569521533,
+                "eta": 0.2828708626513273,
+                "lambda1": 0.3566432803965194,
+                "lambda2": 0.3604858569521533,
+                "lambda3": 0.2828708626513273
+              },
+              "naturalCoordinateMargin": 0.2828708626513273,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:b35beacbbd2ef7c040e7d626a585fb6a4c347a513d7c67e9c02a9a006db9705a"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.8703189537841347,
+              "units": "MPa",
+              "elementId": "E-R3-S2-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3577910096453931,
+                "eta": 0.28211504306630575,
+                "lambda1": 0.36009394728830113,
+                "lambda2": 0.3577910096453931,
+                "lambda3": 0.28211504306630575
+              },
+              "naturalCoordinateMargin": 0.28211504306630575,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:697490f2ac5e5d8408455b7124926858e91a8771cbce3c0f30af66509a950097"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.763441970253416,
+              "units": "MPa",
+              "elementId": "E-R1-S8-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3862083856066443,
+                "eta": 0.25654378331427474,
+                "lambda1": 0.357247831079081,
+                "lambda2": 0.3862083856066443,
+                "lambda3": 0.25654378331427474
+              },
+              "naturalCoordinateMargin": 0.25654378331427474,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:9094b47a79b1135136b36f3ae63385080fde604e6b000595e03e96694a5d88fe"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.5271051520609027,
+              "units": "MPa",
+              "elementId": "E-R3-S8-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.373829450356508,
+                "eta": 0.26549834443472825,
+                "lambda1": 0.3606722052087637,
+                "lambda2": 0.373829450356508,
+                "lambda3": 0.26549834443472825
+              },
+              "naturalCoordinateMargin": 0.26549834443472825,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:a34fc9561d5e0dc94c69e0f729aa63e27a05ae08fd67512e8986ccc4951e480f"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 1.0825740674746671,
+              "units": "MPa",
+              "elementId": "E-R6-S8-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.36454524891890866,
+                "eta": 0.2682102643439238,
+                "lambda1": 0.3672444867371675,
+                "lambda2": 0.36454524891890866,
+                "lambda3": 0.2682102643439238
+              },
+              "naturalCoordinateMargin": 0.2682102643439238,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:97c22c5ef9620e8ea328a099fd18a1f5806dd836d8ef60bf492b09c4449d6f1d"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.46346964276424385,
+              "units": "MPa",
+              "elementId": "E-R11-S8-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.39195574840134795,
+                "eta": 0.25168861603762416,
+                "lambda1": 0.3563556355610279,
+                "lambda2": 0.39195574840134795,
+                "lambda3": 0.25168861603762416
+              },
+              "naturalCoordinateMargin": 0.25168861603762416,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:f7aed32040ee6fa97a408f5475cae71009d1cde3c396c286d86a754a1b767cb7"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.26042850945437546,
+              "units": "MPa",
+              "elementId": "E-R14-S8-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.4038483683380822,
+                "eta": 0.24102999029660127,
+                "lambda1": 0.3551216413653165,
+                "lambda2": 0.4038483683380822,
+                "lambda3": 0.24102999029660127
+              },
+              "naturalCoordinateMargin": 0.24102999029660127,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:de9049c5feab22cb1821085119b298b9d3e28124b632ff5d10d8753461de1cd4"
+            }
+          ]
+        },
+        {
+          "levelId": "L3",
+          "h": 10,
+          "meshHash": "sha256:6b6c4ac7ac1d6aba975a0956581fa4860fdc81fa58d20d3874b44bc2b7c19e6a",
+          "executionHash": "fnv1a64:7ba93686fa7b332a",
+          "recoveryHash": "sha256:de1381846e159e7b817c05c4d962b6643636b75b730bb929ad031b411792f01a",
+          "nodeCount": 2573,
+          "elementCount": 4980,
+          "loadResultant": {
+            "forceX": 1000,
+            "forceY": 250,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 0,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 1.5106706996448338e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 1000,
+              "forceY": 250,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -999.9999999993628,
+              "forceY": -249.99999999963183,
+              "momentZ": -10000.000000015107
+            },
+            "total": {
+              "forceX": 6.372147254296578e-10,
+              "forceY": 3.681748239614535e-10,
+              "momentZ": -1.5106706996448338e-8
+            },
+            "totalForceRelativeResidual": 7.139585140713735e-13,
+            "totalMomentRelativeResidual": 1.5106706996448338e-12
+          },
+          "strainEnergy": 0.8304935957495194,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8304935957495194,
+            "stiffnessReconstruction": 0.8304935957495186,
+            "relativeResidual": 7.771561172376096e-16
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.0620328690372722,
+              "units": "MPa",
+              "elementId": "E-R3-S20-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3552410276883827,
+                "eta": 0.29152848109700646,
+                "lambda1": 0.3532304912146108,
+                "lambda2": 0.3552410276883827,
+                "lambda3": 0.29152848109700646
+              },
+              "naturalCoordinateMargin": 0.29152848109700646,
+              "mappingResidual": 4.440892098500626e-16,
+              "evidenceHash": "sha256:ce860ba68cf5c9774f25324eb2cd3760e16ce654eb202c37c678520fcfe3d2b1"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9533316540943406,
+              "units": "MPa",
+              "elementId": "E-R6-S4-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3538939104576145,
+                "eta": 0.2911981654218681,
+                "lambda1": 0.35490792412051747,
+                "lambda2": 0.3538939104576145,
+                "lambda3": 0.2911981654218681
+              },
+              "naturalCoordinateMargin": 0.2911981654218681,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:d64eec323089ca64a13c61c0cf4b7bfcb59ab68f8667d632f47f5a6754885395"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.7257254356107334,
+              "units": "MPa",
+              "elementId": "E-R3-S16-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3680815488395866,
+                "eta": 0.278538451923724,
+                "lambda1": 0.35337999923668945,
+                "lambda2": 0.3680815488395866,
+                "lambda3": 0.278538451923724
+              },
+              "naturalCoordinateMargin": 0.278538451923724,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:d6a25103c497c3b05adb73737605f99fda43f433aa4d29e06aa943f84b79b6dc"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.478609655655417,
+              "units": "MPa",
+              "elementId": "E-R6-S16-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3618998227405823,
+                "eta": 0.283049942885133,
+                "lambda1": 0.3550502343742847,
+                "lambda2": 0.3618998227405823,
+                "lambda3": 0.283049942885133
+              },
+              "naturalCoordinateMargin": 0.283049942885133,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:336a755c30b2dc70a152af0d277eab2ea4edda5df785b1af3e5a2ffa3d43c97f"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 1.0524019789695922,
+              "units": "MPa",
+              "elementId": "E-R11-S16-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.35726352816633067,
+                "eta": 0.2845252402199269,
+                "lambda1": 0.3582112316137424,
+                "lambda2": 0.35726352816633067,
+                "lambda3": 0.2845252402199269
+              },
+              "naturalCoordinateMargin": 0.2845252402199269,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:bbc1df4ee4702fbd902a436a8a3e630ad52d4fb5665d4917765aa7e46fa5ca2f"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.45047178455153414,
+              "units": "MPa",
+              "elementId": "E-R20-S16-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3709516359569824,
+                "eta": 0.2761061884836772,
+                "lambda1": 0.3529421755593404,
+                "lambda2": 0.3709516359569824,
+                "lambda3": 0.2761061884836772
+              },
+              "naturalCoordinateMargin": 0.2761061884836772,
+              "mappingResidual": 1.4210854715202004e-14,
+              "evidenceHash": "sha256:b1e19f171edea9ea721f3ea1f14a0b42c34cc4a7dd31857c82a78600df503a6c"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.2555577356203727,
+              "units": "MPa",
+              "elementId": "E-R25-S16-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.37689050853066947,
+                "eta": 0.2707746929331199,
+                "lambda1": 0.3523347985362106,
+                "lambda2": 0.37689050853066947,
+                "lambda3": 0.2707746929331199
+              },
+              "naturalCoordinateMargin": 0.2707746929331199,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:3f28f823c2d733ad735928c76304d383ed6fdd852482bc72cdd600c0cab7f1cb"
+            }
+          ]
+        },
+        {
+          "levelId": "L4",
+          "h": 5,
+          "meshHash": "sha256:ca2f45728f236c5ea8a16a3ad4f509d5ef9fd76dccbfea2b17bf9d4384e31daa",
+          "executionHash": "fnv1a64:7476926fbb60afc3",
+          "recoveryHash": "sha256:7a18e701a91588a9548e74768689e789f0799018565875ec8ae6d6876e1d22f1",
+          "nodeCount": 8965,
+          "elementCount": 17604,
+          "loadResultant": {
+            "forceX": 1000,
+            "forceY": 250,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 0,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 6.491973181255162e-13,
+          "equilibrium": {
+            "applied": {
+              "forceX": 1000,
+              "forceY": 250,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -1000.0000000003894,
+              "forceY": -249.99999999944583,
+              "momentZ": -9999.999999993508
+            },
+            "total": {
+              "forceX": -3.893774191965349e-10,
+              "forceY": 5.541664904740173e-10,
+              "momentZ": 6.491973181255162e-9
+            },
+            "totalForceRelativeResidual": 6.570631798752013e-13,
+            "totalMomentRelativeResidual": 6.491973181255162e-13
+          },
+          "strainEnergy": 0.8441307033553607,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8441307033553607,
+            "stiffnessReconstruction": 0.8441307033553593,
+            "relativeResidual": 1.3322676295501878e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.044658868248753,
+              "units": "MPa",
+              "elementId": "E-R5-S39-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.352620276352456,
+                "eta": 0.29578694673536404,
+                "lambda1": 0.35159277691218,
+                "lambda2": 0.352620276352456,
+                "lambda3": 0.29578694673536404
+              },
+              "naturalCoordinateMargin": 0.29578694673536404,
+              "mappingResidual": 4.440892098500626e-16,
+              "evidenceHash": "sha256:c05c57cbfa1373883764d9a4675e8fc8e13d835e38aa9719ee0dd833cb64982f"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9739401365317977,
+              "units": "MPa",
+              "elementId": "E-R10-S8-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3519467560342402,
+                "eta": 0.295633315048633,
+                "lambda1": 0.3524199289171268,
+                "lambda2": 0.3519467560342402,
+                "lambda3": 0.295633315048633
+              },
+              "naturalCoordinateMargin": 0.295633315048633,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:66dd507718190ada74bb80d13eaf190a21bdb06aa726c11360f232113e9c68a9"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.7011261677225222,
+              "units": "MPa",
+              "elementId": "E-R5-S31-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3590379483100139,
+                "eta": 0.28933208245733033,
+                "lambda1": 0.35162996923265577,
+                "lambda2": 0.3590379483100139,
+                "lambda3": 0.28933208245733033
+              },
+              "naturalCoordinateMargin": 0.28933208245733033,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:03b0a2090abd2f575d3707a481f3de8f26fdb604f504b1f45994e3702d0f3b2c"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.4469345597337573,
+              "units": "MPa",
+              "elementId": "E-R10-S31-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.35594805145188974,
+                "eta": 0.2915967021477417,
+                "lambda1": 0.3524552464003685,
+                "lambda2": 0.35594805145188974,
+                "lambda3": 0.2915967021477417
+              },
+              "naturalCoordinateMargin": 0.2915967021477417,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:60d13337584712ed87e63fe384e59e7022cdc39d59fff0b6a769d2a9d279b0fd"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 1.0244794062538167,
+              "units": "MPa",
+              "elementId": "E-R19-S31-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.3536306288082985,
+                "eta": 0.2923629011532074,
+                "lambda1": 0.35400647003849417,
+                "lambda2": 0.3536306288082985,
+                "lambda3": 0.2923629011532074
+              },
+              "naturalCoordinateMargin": 0.2923629011532074,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:b58a7cd3feb672776a831d034627208ddf42abdcc6dbacdde0ccaafe50b8ed41"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.4394863550630424,
+              "units": "MPa",
+              "elementId": "E-R36-S31-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.360472543279846,
+                "eta": 0.2881144684009944,
+                "lambda1": 0.35141298831915957,
+                "lambda2": 0.360472543279846,
+                "lambda3": 0.2881144684009944
+              },
+              "naturalCoordinateMargin": 0.2881144684009944,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:064529593e16fb90c851ebcff2f2a5286237aac67c0d5883b5dcdf358262bd1f"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.2507791108330196,
+              "units": "MPa",
+              "elementId": "E-R45-S31-B",
+              "elementType": "T3",
+              "naturalCoordinates": {
+                "xi": 0.363441051332844,
+                "eta": 0.28544741798037426,
+                "lambda1": 0.35111153068678175,
+                "lambda2": 0.363441051332844,
+                "lambda3": 0.28544741798037426
+              },
+              "naturalCoordinateMargin": 0.28544741798037426,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:eb414f671233307fd01793a46cc62815bc7c5b74a061c85ef018f463a218db3b"
+            }
+          ]
+        }
+      ],
+      "energyConvergence": {
+        "studyId": "B02D/T3/STRAIN_ENERGY",
+        "classification": "MONOTONIC_CONVERGING",
+        "observedOrder": 1.6724746010524179,
+        "gciFineAbsolute": 0.007792245228226868,
+        "gciFineRelative": 0.009231088499983754,
+        "levels": [
+          {
+            "levelId": "L2",
+            "h": 20,
+            "value": 0.7870238310585888
+          },
+          {
+            "levelId": "L3",
+            "h": 10,
+            "value": 0.8304935957495194
+          },
+          {
+            "levelId": "L4",
+            "h": 5,
+            "value": 0.8441307033553607
+          }
+        ],
+        "evidenceHash": "sha256:defa79ed5ee53327c2e537567b8522e74125a56fedd301e6b20458de7626a102"
+      },
+      "fixedProbeConvergence": [
+        {
+          "probeId": "LUG_NEAR_HOLE_PMAX",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "DIVERGENT",
+          "observedOrder": null,
+          "gciFineAbsolute": null,
+          "gciFineRelative": null,
+          "evidenceHash": "sha256:137b6e9f859d25e3d129822f43f2009ae1d940c4c56eaaf720a56047f0119502",
+          "releaseCritical": false
+        },
+        {
+          "probeId": "LUG_LOAD_SIDE_VM",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 2.010093802733682,
+          "gciFineAbsolute": 0.008507228414452278,
+          "gciFineRelative": 0.004309770218968967,
+          "evidenceHash": "sha256:05a131f145f06c338f666a195448fd7b450a19f2bcadb05bc377f0b28d3fc92f",
+          "releaseCritical": false
+        }
+      ],
+      "pathConvergence": [
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 0.6165817493356385,
+          "gciFineAbsolute": 0.05766483139767883,
+          "gciFineRelative": 0.03389803325104383,
+          "evidenceHash": "sha256:0df5c85a27a0c3025ba122fc98ac6d67d202d3789adabec3e1cdf3cd0b164b5b",
+          "releaseCritical": false
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 0.6145017875687379,
+          "gciFineAbsolute": 0.07456062822427174,
+          "gciFineRelative": 0.05153006245008845,
+          "evidenceHash": "sha256:e124a5de04e94b77f82a5bfcdae9cd37f0c2dd63cf6c9043c24c98b7379c03a5",
+          "releaseCritical": false
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 0.11178268899007067,
+          "gciFineAbsolute": 0.4332432732727002,
+          "gciFineRelative": 0.4228911490343451,
+          "evidenceHash": "sha256:41a7169b80259cf1ea95c4dfb2456c1c0dfd8a60b130651de204fe6591ea1f16",
+          "releaseCritical": false
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 0.24268264077511592,
+          "gciFineAbsolute": 0.07495896599612478,
+          "gciFineRelative": 0.17056039427065317,
+          "evidenceHash": "sha256:0884d2a55519cee57241e6973cab845f40766bf637033c5b9eb4deb08d169482",
+          "releaseCritical": false
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 0.027555502555458845,
+          "gciFineAbsolute": 0.30975978168715834,
+          "gciFineRelative": 1.2351897279570896,
+          "evidenceHash": "sha256:239fc9602d2d7a6a01e705640aaf8316ba0ac5329895f8d441ce42bca70dca1e",
+          "releaseCritical": false
+        }
+      ]
+    },
+    {
+      "method": "T6",
+      "applicability": "REQUIRED",
+      "releaseCritical": true,
+      "status": "PASS",
+      "levels": [
+        {
+          "levelId": "L1",
+          "h": 40,
+          "meshHash": "sha256:5d130b4d147df9473cf1c43ef37d063b325e6e875d9fe5078e4f94994c2968ce",
+          "executionHash": "fnv1a64:e941042faab58375",
+          "recoveryHash": "sha256:f305a236095b9eecf233251bb5a8b8891f20e6b5a75d565fb5366c180a034bcf",
+          "nodeCount": 1200,
+          "elementCount": 576,
+          "loadResultant": {
+            "forceX": 999.9999999999999,
+            "forceY": 249.99999999999997,
+            "momentZ": 9999.999999999998
+          },
+          "loadResultantRelativeError": 1.1368683772161603e-16,
+          "loadMomentRelativeError": 1.8189894035458566e-16,
+          "reactionMomentRelativeError": 4.277717380318791e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999999,
+              "forceY": 249.99999999999997,
+              "momentZ": 9999.999999999998
+            },
+            "reaction": {
+              "forceX": -999.999999999762,
+              "forceY": -250.00000000104654,
+              "momentZ": -9999.999999957223
+            },
+            "total": {
+              "forceX": 2.3783286451362073e-10,
+              "forceY": -1.0465726063557668e-9,
+              "momentZ": 4.277535481378436e-8
+            },
+            "totalForceRelativeResidual": 1.0412113722535745e-12,
+            "totalMomentRelativeResidual": 4.277535481378436e-12
+          },
+          "strainEnergy": 0.8371461309552902,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8371461309552902,
+            "stiffnessReconstruction": 0.8371461309552916,
+            "relativeResidual": 1.3322676295501878e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.01905841668927,
+              "units": "MPa",
+              "elementId": "E-R1-S7-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.37100218125767426,
+                "eta": 0.26496032342318815,
+                "lambda1": 0.3640374953191376,
+                "lambda2": 0.37100218125767426,
+                "lambda3": 0.26496032342318815
+              },
+              "naturalCoordinateMargin": 0.26496032342318815,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:b8d507fd32482aece3e97e5b50ca2712decdac86fd1e8f4d6bcf1e9a1991d096"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9675076747684421,
+              "units": "MPa",
+              "elementId": "E-R3-S1-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3656075809889191,
+                "eta": 0.2630422022279049,
+                "lambda1": 0.371350216783176,
+                "lambda2": 0.3656075809889191,
+                "lambda3": 0.2630422022279049
+              },
+              "naturalCoordinateMargin": 0.2630422022279049,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:922dda32826f663e2e57af3c6e29a400c4474829ff237c4daad6d718b161cb59"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.6408515209081966,
+              "units": "MPa",
+              "elementId": "E-R1-S5-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.422781334803156,
+                "eta": 0.21070066031741155,
+                "lambda1": 0.36651800487943254,
+                "lambda2": 0.422781334803156,
+                "lambda3": 0.21070066031741155
+              },
+              "naturalCoordinateMargin": 0.21070066031741155,
+              "mappingResidual": 3.972054645195637e-15,
+              "evidenceHash": "sha256:b340ca42768da3f815c66254ebb9aea2449259c0c2432ea9291bf4b11f659cea"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.393191108152084,
+              "units": "MPa",
+              "elementId": "E-R3-S5-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3978988271781451,
+                "eta": 0.22835401597241375,
+                "lambda1": 0.37374715684944104,
+                "lambda2": 0.3978988271781451,
+                "lambda3": 0.22835401597241375
+              },
+              "naturalCoordinateMargin": 0.22835401597241375,
+              "mappingResidual": 7.944109290391274e-15,
+              "evidenceHash": "sha256:b8ba4b0998b8dec7d4fb6f25dbaf78b9dd4c4bec6f45eec333fe495ee42c29e0"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9817394606565316,
+              "units": "MPa",
+              "elementId": "E-R5-S5-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.379236946459388,
+                "eta": 0.2327264981710139,
+                "lambda1": 0.38803655536959814,
+                "lambda2": 0.379236946459388,
+                "lambda3": 0.2327264981710139
+              },
+              "naturalCoordinateMargin": 0.2327264981710139,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:346cd9e5515f65ca153c2150f84ea1f86431890958d7bed2006a02fef7c6d938"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.41646013315538216,
+              "units": "MPa",
+              "elementId": "E-R8-S5-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.43433392762905354,
+                "eta": 0.2010080254690083,
+                "lambda1": 0.36465804690193815,
+                "lambda2": 0.43433392762905354,
+                "lambda3": 0.2010080254690083
+              },
+              "naturalCoordinateMargin": 0.2010080254690083,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:408fdceaca44ff27e4ac5d4ee2140262ed30b42b1f127950c73567ddb734c8a2"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.23361892059317185,
+              "units": "MPa",
+              "elementId": "E-R10-S5-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.45823890816879426,
+                "eta": 0.17965976672426237,
+                "lambda1": 0.3621013251069433,
+                "lambda2": 0.45823890816879426,
+                "lambda3": 0.17965976672426237
+              },
+              "naturalCoordinateMargin": 0.17965976672426237,
+              "mappingResidual": 1.5888218580782548e-14,
+              "evidenceHash": "sha256:a1e6b1a6fc6383928420c27b8f8e529865619c34069705a269b5177b0f500979"
+            }
+          ]
+        },
+        {
+          "levelId": "L2",
+          "h": 20,
+          "meshHash": "sha256:de1addb678ebcd8233e31277dcb939fe698fbc285165bc0d1e7a8b6a54b696f3",
+          "executionHash": "fnv1a64:fceea1ceafcdd7c9",
+          "recoveryHash": "sha256:6088e23bbdff8f90572b598cb937a94db899b82d2c944829a9961da47a3d36ea",
+          "nodeCount": 3010,
+          "elementCount": 1462,
+          "loadResultant": {
+            "forceX": 999.9999999999998,
+            "forceY": 249.99999999999994,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 2.2737367544323206e-16,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 4.740286385640502e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999998,
+              "forceY": 249.99999999999994,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -1000.0000000003961,
+              "forceY": -250.0000000009989,
+              "momentZ": -9999.999999952597
+            },
+            "total": {
+              "forceX": -3.963123162975535e-10,
+              "forceY": -9.9896624305984e-10,
+              "momentZ": 4.740286385640502e-8
+            },
+            "totalForceRelativeResidual": 1.0426197803710208e-12,
+            "totalMomentRelativeResidual": 4.740286385640502e-12
+          },
+          "strainEnergy": 0.8455545300246841,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8455545300246841,
+            "stiffnessReconstruction": 0.8455545300246837,
+            "relativeResidual": 3.3306690738754696e-16
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.0241325294938597,
+              "units": "MPa",
+              "elementId": "E-R1-S11-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3604858569521533,
+                "eta": 0.2828708626513273,
+                "lambda1": 0.3566432803965194,
+                "lambda2": 0.3604858569521533,
+                "lambda3": 0.2828708626513273
+              },
+              "naturalCoordinateMargin": 0.2828708626513273,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:0b6ec0c67d4e6631f2762c08350dfccf7d663dbe5f36c865399d0c2c36a5b593"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9756516461466869,
+              "units": "MPa",
+              "elementId": "E-R3-S2-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3577910096453931,
+                "eta": 0.28211504306630575,
+                "lambda1": 0.36009394728830113,
+                "lambda2": 0.3577910096453931,
+                "lambda3": 0.28211504306630575
+              },
+              "naturalCoordinateMargin": 0.28211504306630575,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:8f2c6fa5206d3ae05ddb77d7b2961998fd9b7f89d9d56d2916c98a27df7a6ce5"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.6616907314595968,
+              "units": "MPa",
+              "elementId": "E-R1-S8-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3862083856066443,
+                "eta": 0.25654378331427474,
+                "lambda1": 0.357247831079081,
+                "lambda2": 0.3862083856066443,
+                "lambda3": 0.25654378331427474
+              },
+              "naturalCoordinateMargin": 0.25654378331427474,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:296c0e568a9f622d1898be69d04012f2e10757025f0cf40bf75a013f4b9676fc"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.4057257424425333,
+              "units": "MPa",
+              "elementId": "E-R3-S8-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.373829450356508,
+                "eta": 0.26549834443472825,
+                "lambda1": 0.3606722052087637,
+                "lambda2": 0.373829450356508,
+                "lambda3": 0.26549834443472825
+              },
+              "naturalCoordinateMargin": 0.26549834443472825,
+              "mappingResidual": 7.32410687763558e-15,
+              "evidenceHash": "sha256:6772c5dc047cd8cf43a7e376bfb938ddfce871a77bc0fb2f2a95e079ceeda3c2"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9892236468983674,
+              "units": "MPa",
+              "elementId": "E-R6-S8-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.36454524891890866,
+                "eta": 0.2682102643439238,
+                "lambda1": 0.3672444867371675,
+                "lambda2": 0.36454524891890866,
+                "lambda3": 0.2682102643439238
+              },
+              "naturalCoordinateMargin": 0.2682102643439238,
+              "mappingResidual": 7.944109290391274e-15,
+              "evidenceHash": "sha256:46a75b2ac9200e36cb2526d35462db2441450ef5b783948cfbfa6308ac35947a"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.423603393134786,
+              "units": "MPa",
+              "elementId": "E-R11-S8-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.39195574840134795,
+                "eta": 0.25168861603762416,
+                "lambda1": 0.3563556355610279,
+                "lambda2": 0.39195574840134795,
+                "lambda3": 0.25168861603762416
+              },
+              "naturalCoordinateMargin": 0.25168861603762416,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:299c138f041d95ffc649370afd57a570ee7e344e85d8589d69e1b9236dc94e10"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.24172776973190943,
+              "units": "MPa",
+              "elementId": "E-R14-S8-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.4038483683380822,
+                "eta": 0.24102999029660127,
+                "lambda1": 0.3551216413653165,
+                "lambda2": 0.4038483683380822,
+                "lambda3": 0.24102999029660127
+              },
+              "naturalCoordinateMargin": 0.24102999029660127,
+              "mappingResidual": 1.4210854715202004e-14,
+              "evidenceHash": "sha256:6c5354cbf03c686141da15179462412ee81c17b7b3dff21c696d217265538171"
+            }
+          ]
+        },
+        {
+          "levelId": "L3",
+          "h": 10,
+          "meshHash": "sha256:67abd5bbc92c027e1c69a207e6d14ff66d6ee0bde371a4a786aef72be4bde63e",
+          "executionHash": "fnv1a64:c9e8e8b9c7c86355",
+          "recoveryHash": "sha256:468544e4a6992f36f318fc47ca1022a69888659113387b718ab2d2e16a248539",
+          "nodeCount": 10126,
+          "elementCount": 4980,
+          "loadResultant": {
+            "forceX": 999.9999999999998,
+            "forceY": 249.99999999999994,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 2.2737367544323206e-16,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 1.0457370080985128e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999998,
+              "forceY": 249.99999999999994,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -1000.0000000001298,
+              "forceY": -249.99999999911935,
+              "momentZ": -10000.000000010457
+            },
+            "total": {
+              "forceX": -1.3005774235352874e-10,
+              "forceY": 8.805898232822074e-10,
+              "momentZ": -1.0457370080985129e-8
+            },
+            "totalForceRelativeResidual": 8.635649521342457e-13,
+            "totalMomentRelativeResidual": 1.0457370080985128e-12
+          },
+          "strainEnergy": 0.8508298909850689,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8508298909850689,
+            "stiffnessReconstruction": 0.8508298909850663,
+            "relativeResidual": 2.55351295663786e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.02922611460556,
+              "units": "MPa",
+              "elementId": "E-R3-S20-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3552410276883827,
+                "eta": 0.29152848109700646,
+                "lambda1": 0.3532304912146108,
+                "lambda2": 0.3552410276883827,
+                "lambda3": 0.29152848109700646
+              },
+              "naturalCoordinateMargin": 0.29152848109700646,
+              "mappingResidual": 3.580361673049448e-15,
+              "evidenceHash": "sha256:ce214073204d43b30ef528e85e543ff4c45b9cfe1aac68a69ee5311439a48a43"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9855489244140951,
+              "units": "MPa",
+              "elementId": "E-R6-S4-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3538939104576145,
+                "eta": 0.2911981654218681,
+                "lambda1": 0.35490792412051747,
+                "lambda2": 0.3538939104576145,
+                "lambda3": 0.2911981654218681
+              },
+              "naturalCoordinateMargin": 0.2911981654218681,
+              "mappingResidual": 3.972054645195637e-15,
+              "evidenceHash": "sha256:c7b1976133fee178e48861ad8cd3a46ffa63fea15ef5a5e9150b99c21ed60b62"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.6699536462539133,
+              "units": "MPa",
+              "elementId": "E-R3-S16-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3680815488395866,
+                "eta": 0.278538451923724,
+                "lambda1": 0.35337999923668945,
+                "lambda2": 0.3680815488395866,
+                "lambda3": 0.278538451923724
+              },
+              "naturalCoordinateMargin": 0.278538451923724,
+              "mappingResidual": 7.32410687763558e-15,
+              "evidenceHash": "sha256:5b12bc041da08cbd4269b17614fdacfaec0c231fe848f5a708060ae77a33fc3e"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.4097401448836397,
+              "units": "MPa",
+              "elementId": "E-R6-S16-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3618998227405823,
+                "eta": 0.283049942885133,
+                "lambda1": 0.3550502343742847,
+                "lambda2": 0.3618998227405823,
+                "lambda3": 0.283049942885133
+              },
+              "naturalCoordinateMargin": 0.283049942885133,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:40a0e46076070f5482a0e386b661a9dd183d8395442ab5e2b142f849b256e89a"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9919180214937287,
+              "units": "MPa",
+              "elementId": "E-R11-S16-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.35726352816633067,
+                "eta": 0.2845252402199269,
+                "lambda1": 0.3582112316137424,
+                "lambda2": 0.35726352816633067,
+                "lambda3": 0.2845252402199269
+              },
+              "naturalCoordinateMargin": 0.2845252402199269,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:b785ded5a12d8d52d0799b4d7d4cba17a5e93ca75a39febd9bf167fbeabada52"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.4258400536379238,
+              "units": "MPa",
+              "elementId": "E-R20-S16-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3709516359569824,
+                "eta": 0.2761061884836772,
+                "lambda1": 0.3529421755593404,
+                "lambda2": 0.3709516359569824,
+                "lambda3": 0.2761061884836772
+              },
+              "naturalCoordinateMargin": 0.2761061884836772,
+              "mappingResidual": 1.5888218580782548e-14,
+              "evidenceHash": "sha256:722b9461d1c141fb2088d5369636028e4f015a55fc57c35fc9278c7a426897de"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.24409389077298516,
+              "units": "MPa",
+              "elementId": "E-R25-S16-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.37689050853066947,
+                "eta": 0.2707746929331199,
+                "lambda1": 0.3523347985362106,
+                "lambda2": 0.37689050853066947,
+                "lambda3": 0.2707746929331199
+              },
+              "naturalCoordinateMargin": 0.2707746929331199,
+              "mappingResidual": 1.5888218580782548e-14,
+              "evidenceHash": "sha256:2c8e6f1b93eb4488c057ec28dcf053215dd6adbb3dc9d2bf5e476b6ddc97fc2a"
+            }
+          ]
+        },
+        {
+          "levelId": "L4",
+          "h": 5,
+          "meshHash": "sha256:32d7a6c60c929e326793fcc0ceeeabca6aaaf3f2356b0d4be0b0e88f9c1649b9",
+          "executionHash": "fnv1a64:8072e3e5ad8172d5",
+          "recoveryHash": "sha256:2fd4a45a6777583cfcec99295777cedbd16a454dea57885b3d12fb7ea13ceaaa",
+          "nodeCount": 35534,
+          "elementCount": 17604,
+          "loadResultant": {
+            "forceX": 1000.0000000000002,
+            "forceY": 250.00000000000006,
+            "momentZ": 9999.999999999996
+          },
+          "loadResultantRelativeError": 2.2737367544323206e-16,
+          "loadMomentRelativeError": 3.637978807091713e-16,
+          "reactionMomentRelativeError": 6.492336979135871e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 1000.0000000000002,
+              "forceY": 250.00000000000006,
+              "momentZ": 9999.999999999996
+            },
+            "reaction": {
+              "forceX": -1000.0000000004493,
+              "forceY": -249.9999999978693,
+              "momentZ": -10000.000000064923
+            },
+            "total": {
+              "forceX": -4.490630090003833e-10,
+              "forceY": 2.130747134287958e-9,
+              "momentZ": -6.49270077701658e-8
+            },
+            "totalForceRelativeResidual": 2.1125375733694574e-12,
+            "totalMomentRelativeResidual": 6.49270077701658e-12
+          },
+          "strainEnergy": 0.8529176962891004,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8529176962891004,
+            "stiffnessReconstruction": 0.8529176962890992,
+            "relativeResidual": 1.2212453270876722e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.0299742323076684,
+              "units": "MPa",
+              "elementId": "E-R5-S39-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.352620276352456,
+                "eta": 0.29578694673536404,
+                "lambda1": 0.35159277691218,
+                "lambda2": 0.352620276352456,
+                "lambda3": 0.29578694673536404
+              },
+              "naturalCoordinateMargin": 0.29578694673536404,
+              "mappingResidual": 3.580361673049448e-15,
+              "evidenceHash": "sha256:2dfed744d8e9d6b182de26b8dc3e8bd305d00b448cc7319c67dd37f07028dfad"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9862038469622707,
+              "units": "MPa",
+              "elementId": "E-R10-S8-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3519467560342402,
+                "eta": 0.295633315048633,
+                "lambda1": 0.3524199289171268,
+                "lambda2": 0.3519467560342402,
+                "lambda3": 0.295633315048633
+              },
+              "naturalCoordinateMargin": 0.295633315048633,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:4eb320b60f4921f2fa4723b0fd230867f602dfaf909be3ade3e811b8fdbcc435"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.6709783237164066,
+              "units": "MPa",
+              "elementId": "E-R5-S31-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3590379483100139,
+                "eta": 0.28933208245733033,
+                "lambda1": 0.35162996923265577,
+                "lambda2": 0.3590379483100139,
+                "lambda3": 0.28933208245733033
+              },
+              "naturalCoordinateMargin": 0.28933208245733033,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:f33f3b7bca1afc2c0fdfce45fa657d7db18b7603cffe7801b45cc87e65f84433"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.410688507496246,
+              "units": "MPa",
+              "elementId": "E-R10-S31-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.35594805145188974,
+                "eta": 0.2915967021477417,
+                "lambda1": 0.3524552464003685,
+                "lambda2": 0.35594805145188974,
+                "lambda3": 0.2915967021477417
+              },
+              "naturalCoordinateMargin": 0.2915967021477417,
+              "mappingResidual": 5.0242958677880805e-15,
+              "evidenceHash": "sha256:c308f2db42d86704938a7cdbfa7261080433f522073df4fbeb1a2266611f370d"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9926272664991073,
+              "units": "MPa",
+              "elementId": "E-R19-S31-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.3536306288082985,
+                "eta": 0.2923629011532074,
+                "lambda1": 0.35400647003849417,
+                "lambda2": 0.3536306288082985,
+                "lambda3": 0.2923629011532074
+              },
+              "naturalCoordinateMargin": 0.2923629011532074,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:c04c742cef8ffd9c8b816d8e4845b639c492d9c902700d7b7ab1e0c327e9eede"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.42641398557096416,
+              "units": "MPa",
+              "elementId": "E-R36-S31-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.360472543279846,
+                "eta": 0.2881144684009944,
+                "lambda1": 0.35141298831915957,
+                "lambda2": 0.360472543279846,
+                "lambda3": 0.2881144684009944
+              },
+              "naturalCoordinateMargin": 0.2881144684009944,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:c2199c15fe89bebc8bf287aac4aa707e5d84103180e30afd7fa2cd49b171e4bb"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.24467940408586059,
+              "units": "MPa",
+              "elementId": "E-R45-S31-B",
+              "elementType": "T6",
+              "naturalCoordinates": {
+                "xi": 0.363441051332844,
+                "eta": 0.28544741798037426,
+                "lambda1": 0.35111153068678175,
+                "lambda2": 0.363441051332844,
+                "lambda3": 0.28544741798037426
+              },
+              "naturalCoordinateMargin": 0.28544741798037426,
+              "mappingResidual": 1.4210854715202004e-14,
+              "evidenceHash": "sha256:7c5dfc628274db302f4d206db5fe5e63cd3665c00bbdb26c83fa5b7b8a6c4e91"
+            }
+          ]
+        }
+      ],
+      "energyConvergence": {
+        "studyId": "B02D/T6/STRAIN_ENERGY",
+        "classification": "MONOTONIC_CONVERGING",
+        "observedOrder": 1.3372826306586403,
+        "gciFineAbsolute": 0.0017093548542650913,
+        "gciFineRelative": 0.0020041263790189874,
+        "levels": [
+          {
+            "levelId": "L2",
+            "h": 20,
+            "value": 0.8455545300246841
+          },
+          {
+            "levelId": "L3",
+            "h": 10,
+            "value": 0.8508298909850689
+          },
+          {
+            "levelId": "L4",
+            "h": 5,
+            "value": 0.8529176962891004
+          }
+        ],
+        "evidenceHash": "sha256:466f7067fe61d9c895a4dcbf3c58ca24b04954c3238a3d5718a80c9f303dcc9e"
+      },
+      "fixedProbeConvergence": [
+        {
+          "probeId": "LUG_NEAR_HOLE_PMAX",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 2.7673442786732503,
+          "gciFineAbsolute": 0.00016099536696912478,
+          "gciFineRelative": 0.00007930906925163564,
+          "evidenceHash": "sha256:0e06507edbab49153033ba2e3296c326508ca476d72461e626498a827701b36b",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_LOAD_SIDE_VM",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 3.9176356341283607,
+          "gciFineAbsolute": 0.000058010581546895535,
+          "gciFineRelative": 0.000029206761247400546,
+          "evidenceHash": "sha256:b092c6008c0c8f53458df5c9b6ccc1e750c0049af15d3352b5649094b4d912e6",
+          "releaseCritical": true
+        }
+      ],
+      "pathConvergence": [
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 3.0114809266536864,
+          "gciFineAbsolute": 0.00018132244322896293,
+          "gciFineRelative": 0.00010851274409454064,
+          "evidenceHash": "sha256:6f107209ceb976b4707e6aa25328897b466055f1255fe488dd7e6227dbe88533",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 2.0816745596008075,
+          "gciFineAbsolute": 0.0003666748049998032,
+          "gciFineRelative": 0.0002599261304329999,
+          "evidenceHash": "sha256:f9f7516e19ed6465c84e16c9e777ea14bf9ee9c764f2501c5d6d161a060fed6a",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.9255944497917312,
+          "gciFineAbsolute": 0.0003167478839875785,
+          "gciFineRelative": 0.00031910052713413284,
+          "evidenceHash": "sha256:4ddb302dca45587157ef281e6925b647b2b578371cb3ccae86daa3b8ebe0093e",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.9623947381338718,
+          "gciFineAbsolute": 0.0002476335206534271,
+          "gciFineRelative": 0.0005807349876713078,
+          "evidenceHash": "sha256:e9fba9cabb0a71e8ab84296af5b50a9beb51c8f6028adc3be35346d73ab36698",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 2.014749999028423,
+          "gciFineAbsolute": 0.00024066631445887274,
+          "gciFineRelative": 0.0009835985801829907,
+          "evidenceHash": "sha256:9ddacc7ab5ce2e2b71cebb3047897c611042e4ed30b542335f0cb5f5fb405e9e",
+          "releaseCritical": true
+        }
+      ]
+    },
+    {
+      "method": "Q8",
+      "applicability": "REQUIRED",
+      "releaseCritical": true,
+      "status": "PASS",
+      "levels": [
+        {
+          "levelId": "L1",
+          "h": 40,
+          "meshHash": "sha256:239cc32c7c943ab729209b4a15ee343090f93f8c7a41fe384d0cf26bd19087d4",
+          "executionHash": "fnv1a64:ade759ce1cddf5bb",
+          "recoveryHash": "sha256:d3a4feb977105f424b92342cd5e18113a78602f45e3421011667bd05d3313868",
+          "nodeCount": 912,
+          "elementCount": 288,
+          "loadResultant": {
+            "forceX": 999.9999999999999,
+            "forceY": 249.99999999999997,
+            "momentZ": 9999.999999999998
+          },
+          "loadResultantRelativeError": 1.1368683772161603e-16,
+          "loadMomentRelativeError": 1.8189894035458566e-16,
+          "reactionMomentRelativeError": 1.1363226803950966e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999999,
+              "forceY": 249.99999999999997,
+              "momentZ": 9999.999999999998
+            },
+            "reaction": {
+              "forceX": -1000.0000000002906,
+              "forceY": -250.0000000004526,
+              "momentZ": -9999.999999988637
+            },
+            "total": {
+              "forceX": -2.906972440541722e-10,
+              "forceY": -4.526157226791838e-10,
+              "momentZ": 1.136140781454742e-8
+            },
+            "totalForceRelativeResidual": 5.218662259212239e-13,
+            "totalMomentRelativeResidual": 1.136140781454742e-12
+          },
+          "strainEnergy": 0.840733895323633,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.840733895323633,
+            "stiffnessReconstruction": 0.8407338953236329,
+            "relativeResidual": 1.1102230246251565e-16
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.021400090043751,
+              "units": "MPa",
+              "elementId": "E-R1-S7",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.25799563748465226,
+                "eta": 0.2995698102363058
+              },
+              "naturalCoordinateMargin": 0.7004301897636942,
+              "mappingResidual": 3.580361673049448e-15,
+              "evidenceHash": "sha256:ea9237591f8a788de9834eb1f152bc0a3454a11bf9eead8edc17e385803ffbe3"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.970914027732421,
+              "units": "MPa",
+              "elementId": "E-R3-S1",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2687848380221597,
+                "eta": 0.2995143257024374
+              },
+              "naturalCoordinateMargin": 0.7004856742975626,
+              "mappingResidual": 7.32410687763558e-15,
+              "evidenceHash": "sha256:dbf5cae043b33aff99924c0729b2f7d9238aee5090d176a04da5333e91c1b8ef"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.6551258399012152,
+              "units": "MPa",
+              "elementId": "E-R1-S5",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.15443733039368707,
+                "eta": 0.2985145187626826
+              },
+              "naturalCoordinateMargin": 0.7014854812373175,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:9aee4c4efd211c9f9c0fa340c7017934b2081ee038662c49a46e6d8a5f63ac0c"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.3961184971597003,
+              "units": "MPa",
+              "elementId": "E-R3-S5",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2042023456437047,
+                "eta": 0.29851451876268287
+              },
+              "naturalCoordinateMargin": 0.7014854812373171,
+              "mappingResidual": 7.944109290391274e-15,
+              "evidenceHash": "sha256:9fc03233aae8da9a4b7c4e6e386459db383e40479a7790092b19f26bbb1062a0"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9781151090198675,
+              "units": "MPa",
+              "elementId": "E-R5-S5",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.24152610708122416,
+                "eta": 0.29851451876268237
+              },
+              "naturalCoordinateMargin": 0.7014854812373177,
+              "mappingResidual": 7.105427357601002e-15,
+              "evidenceHash": "sha256:95133e74198a5a9e6173b33aad460dcd64a9b4710a230e47b8dc2619fb8413b7"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.4176893654232699,
+              "units": "MPa",
+              "elementId": "E-R8-S5",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.13133214474189125,
+                "eta": 0.298514518762682
+              },
+              "naturalCoordinateMargin": 0.701485481237318,
+              "mappingResidual": 1.5888218580782548e-14,
+              "evidenceHash": "sha256:80be0101e0587a49cf5e3709dc3af516e951676c39d3d7f73c95fda052074542"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.2377763271931957,
+              "units": "MPa",
+              "elementId": "E-R10-S5",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.08352218366240065,
+                "eta": 0.2985145187626832
+              },
+              "naturalCoordinateMargin": 0.7014854812373168,
+              "mappingResidual": 2.842170943040401e-14,
+              "evidenceHash": "sha256:329697568bac81d2ee8acde79065c462d4a88b35582efc4d63042f23cec2504d"
+            }
+          ]
+        },
+        {
+          "levelId": "L2",
+          "h": 20,
+          "meshHash": "sha256:678d72dad98adc59a2b2503356e3121846abdeb13fe36cef20452ee5d08ec6d3",
+          "executionHash": "fnv1a64:112c5a58a51ab126",
+          "recoveryHash": "sha256:1f16e49f185f5cb724bf4f37a41560309a6c6d050c4c1019863755eba0b55211",
+          "nodeCount": 2279,
+          "elementCount": 731,
+          "loadResultant": {
+            "forceX": 999.9999999999998,
+            "forceY": 249.99999999999994,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 2.2737367544323206e-16,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 6.979462341405451e-13,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999998,
+              "forceY": 249.99999999999994,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -999.9999999997536,
+              "forceY": -249.99999999996663,
+              "momentZ": -10000.00000000698
+            },
+            "total": {
+              "forceX": 2.461320036672987e-10,
+              "forceY": 3.3310243452433497e-11,
+              "momentZ": -6.979462341405451e-9
+            },
+            "totalForceRelativeResidual": 2.4095991474910516e-13,
+            "totalMomentRelativeResidual": 6.979462341405451e-13
+          },
+          "strainEnergy": 0.8474842172251633,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8474842172251633,
+            "stiffnessReconstruction": 0.8474842172251605,
+            "relativeResidual": 2.7755575615628914e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.0270699601637663,
+              "units": "MPa",
+              "elementId": "E-R1-S11",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.279028286095697,
+                "eta": 0.2998924916921312
+              },
+              "naturalCoordinateMargin": 0.7001075083078687,
+              "mappingResidual": 3.794299872214038e-15,
+              "evidenceHash": "sha256:3d9acfe210473b2dc9d1e128fb64de8f3003a2e143cf85454e529578b2bdf801"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.979208456276276,
+              "units": "MPa",
+              "elementId": "E-R3-S2",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.28441798070921853,
+                "eta": 0.29987863130170894
+              },
+              "naturalCoordinateMargin": 0.700121368698291,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:96ebfce45fa7ecd862063367bf8dd4f2ba52008cecc39d2a46a9afd3988076fa"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.666581051719034,
+              "units": "MPa",
+              "elementId": "E-R1-S8",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2275832287867064,
+                "eta": 0.2996290958684952
+              },
+              "naturalCoordinateMargin": 0.7003709041315048,
+              "mappingResidual": 1.7763568394002505e-15,
+              "evidenceHash": "sha256:9a22b68dd887219dcb030ba8143ee658092b9315afb693d220660993b400307d"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.4067329827836745,
+              "units": "MPa",
+              "elementId": "E-R3-S8",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2523410992869819,
+                "eta": 0.2996290958684942
+              },
+              "naturalCoordinateMargin": 0.7003709041315058,
+              "mappingResidual": 7.944109290391274e-15,
+              "evidenceHash": "sha256:613d55df01ef44811770d7614210090883b4ce1f692a13cc312cca5e7379329a"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9887618497591222,
+              "units": "MPa",
+              "elementId": "E-R6-S8",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2709095021621821,
+                "eta": 0.29962909586849445
+              },
+              "naturalCoordinateMargin": 0.7003709041315056,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:64a88d371cf2cd8e277e2cae32e837933baa0c9f9ceb0d7dbf8e0065b326153a"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.4241333713356577,
+              "units": "MPa",
+              "elementId": "E-R11-S8",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2160885031972941,
+                "eta": 0.2996290958684941
+              },
+              "naturalCoordinateMargin": 0.7003709041315058,
+              "mappingResidual": 1.5888218580782548e-14,
+              "evidenceHash": "sha256:65e25f5b6ecf6412bebdcee21106a6fdc56989de4b2993cb123d83a0b7d7c9bd"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.2426719350263536,
+              "units": "MPa",
+              "elementId": "E-R14-S8",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.19230326332383874,
+                "eta": 0.2996290958684935
+              },
+              "naturalCoordinateMargin": 0.7003709041315065,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:f6980cd5649d261b377811a6327873699eecd453023220c20dec98ddc014cb83"
+            }
+          ]
+        },
+        {
+          "levelId": "L3",
+          "h": 10,
+          "meshHash": "sha256:30ce1f2db9d28958b115eec02d1f2c8aeaea345c89f0d4f9376ebb74bd8161e2",
+          "executionHash": "fnv1a64:37fa788857e95b93",
+          "recoveryHash": "sha256:88b05a62b85ea4fb2cfd0c071817cb50fb4254c13577a62fd59726383ee53917",
+          "nodeCount": 7636,
+          "elementCount": 2490,
+          "loadResultant": {
+            "forceX": 999.9999999999998,
+            "forceY": 249.99999999999994,
+            "momentZ": 10000
+          },
+          "loadResultantRelativeError": 2.2737367544323206e-16,
+          "loadMomentRelativeError": 0,
+          "reactionMomentRelativeError": 4.005414666607976e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 999.9999999999998,
+              "forceY": 249.99999999999994,
+              "momentZ": 10000
+            },
+            "reaction": {
+              "forceX": -999.9999999996172,
+              "forceY": -250.00000000124567,
+              "momentZ": -9999.999999959946
+            },
+            "total": {
+              "forceX": 3.8255620893323794e-10,
+              "forceY": -1.2457235243346076e-9,
+              "momentZ": 4.005414666607976e-8
+            },
+            "totalForceRelativeResidual": 1.2642324254192416e-12,
+            "totalMomentRelativeResidual": 4.005414666607976e-12
+          },
+          "strainEnergy": 0.8514914085039941,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8514914085039941,
+            "stiffnessReconstruction": 0.8514914085039988,
+            "relativeResidual": 4.773959005888173e-15
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.029439728571047,
+              "units": "MPa",
+              "elementId": "E-R3-S20",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.28951794462322805,
+                "eta": 0.29997312536777365
+              },
+              "naturalCoordinateMargin": 0.7000268746322263,
+              "mappingResidual": 3.580361673049448e-15,
+              "evidenceHash": "sha256:89f0838dab3c895cb9b14dc1e2d96a57d19c1ceb66665050da388ef5ed7a743d"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.985613868843954,
+              "units": "MPa",
+              "elementId": "E-R6-S4",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2922121790847752,
+                "eta": 0.2999696609411312
+              },
+              "naturalCoordinateMargin": 0.7000303390588688,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:4640c9d7d3d51d5d6fb49a86d543a21953093d1e1ff80e84c44a33cc1057deac"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.670337511346983,
+              "units": "MPa",
+              "elementId": "E-R3-S16",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2638369023208462,
+                "eta": 0.2999073030588678
+              },
+              "naturalCoordinateMargin": 0.7000926969411322,
+              "mappingResidual": 3.552713678800501e-15,
+              "evidenceHash": "sha256:828a203cd69192540ed7b5c457e07dbc7a8b2eb87bba8ddd7e4a893c8677ea56"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.40992917583846,
+              "units": "MPa",
+              "elementId": "E-R6-S16",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.27620035451882413,
+                "eta": 0.2999073030588708
+              },
+              "naturalCoordinateMargin": 0.7000926969411292,
+              "mappingResidual": 7.105427357601002e-15,
+              "evidenceHash": "sha256:797f204d635942be1e306b6ca4417ce535489e8e8a3d31c77a8c926a83c8914e"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.991811482532355,
+              "units": "MPa",
+              "elementId": "E-R11-S16",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2854729436673442,
+                "eta": 0.299907303058869
+              },
+              "naturalCoordinateMargin": 0.700092696941131,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:cb81f9dbf127800add0cd69bde8d1a204fc46a5633819868611483cd48b2f1de"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.42598376716826447,
+              "units": "MPa",
+              "elementId": "E-R20-S16",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2580967280860219,
+                "eta": 0.2999073030588711
+              },
+              "naturalCoordinateMargin": 0.700092696941129,
+              "mappingResidual": 1.4210854715202004e-14,
+              "evidenceHash": "sha256:c4d3331fc3af60d3e2b8fdbf060ebacd1932869a8c59741fdeacd8b4ccbe8be8"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.2443266413402592,
+              "units": "MPa",
+              "elementId": "E-R25-S16",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.24621898293865696,
+                "eta": 0.2999073030588663
+              },
+              "naturalCoordinateMargin": 0.7000926969411336,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:7353546c23d73378deb0b0b40dad2baf0f3be5e7423fe9a37222072c826d7449"
+            }
+          ]
+        },
+        {
+          "levelId": "L4",
+          "h": 5,
+          "meshHash": "sha256:fa67f059a41b12d826a8d29485bcdcd9089c0cdbb3f134003edf7890a52a2b61",
+          "executionHash": "fnv1a64:f16456c52812190e",
+          "recoveryHash": "sha256:ae868017512fd65eaf418e753adc90e681e9561901e74f5e8aa4b0907f2a241b",
+          "nodeCount": 26732,
+          "elementCount": 8802,
+          "loadResultant": {
+            "forceX": 1000.0000000000002,
+            "forceY": 250.00000000000006,
+            "momentZ": 9999.999999999996
+          },
+          "loadResultantRelativeError": 2.2737367544323206e-16,
+          "loadMomentRelativeError": 3.637978807091713e-16,
+          "reactionMomentRelativeError": 1.2139935279265046e-12,
+          "equilibrium": {
+            "applied": {
+              "forceX": 1000.0000000000002,
+              "forceY": 250.00000000000006,
+              "momentZ": 9999.999999999996
+            },
+            "reaction": {
+              "forceX": -1000.0000000022277,
+              "forceY": -250.0000000002633,
+              "momentZ": -9999.99999998786
+            },
+            "total": {
+              "forceX": -2.227466211479623e-9,
+              "forceY": -2.632418727444019e-10,
+              "momentZ": 1.2136297300457954e-8
+            },
+            "totalForceRelativeResidual": 2.175997838850433e-12,
+            "totalMomentRelativeResidual": 1.2136297300457955e-12
+          },
+          "strainEnergy": 0.8532407908028763,
+          "energyReconstruction": {
+            "recoveredStrainEnergy": 0.8532407908028763,
+            "stiffnessReconstruction": 0.8532407908028758,
+            "relativeResidual": 4.440892098500626e-16
+          },
+          "solverStorage": "CSR_FULL_SYMMETRIC",
+          "solverMethods": [
+            "DETERMINISTIC_JACOBI_PCG"
+          ],
+          "fixedProbes": [
+            {
+              "probeId": "LUG_NEAR_HOLE_PMAX",
+              "value": 2.030085501420706,
+              "units": "MPa",
+              "elementId": "E-R5-S39",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.29475944729505715,
+                "eta": 0.2999932814947364
+              },
+              "naturalCoordinateMargin": 0.7000067185052636,
+              "mappingResidual": 1.0741085019148343e-14,
+              "evidenceHash": "sha256:d346c249799f97de705386240a5a2745a4f4893f4fe0ee86c0c9f5e7239173af"
+            },
+            {
+              "probeId": "LUG_LOAD_SIDE_VM",
+              "value": 1.9862124311863096,
+              "units": "MPa",
+              "elementId": "E-R10-S8",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2961064879315161,
+                "eta": 0.29999241542999633
+              },
+              "naturalCoordinateMargin": 0.7000075845700037,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:8e8ff70b76f1e38592261a2f312d50294a386bd93603776cdf73286074e74014"
+            }
+          ],
+          "pathProbes": [
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+              "value": 1.6711188163773307,
+              "units": "MPa",
+              "elementId": "E-R5-S31",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.28192410337995905,
+                "eta": 0.29997682758226446
+              },
+              "naturalCoordinateMargin": 0.7000231724177355,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:e89f27cae518dd4330b57a074ba6b3f3101979ac253dcf7f700f35e538f4874b"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+              "value": 1.4107838483398156,
+              "units": "MPa",
+              "elementId": "E-R10-S31",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.28810389709621187,
+                "eta": 0.2999768275822614
+              },
+              "naturalCoordinateMargin": 0.7000231724177386,
+              "mappingResidual": 0,
+              "evidenceHash": "sha256:3ee48bd3e973a3299ff50ce4b43495b483fdfc9184dd78fd5744b74ea0c0460a"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+              "value": 0.9926354922152345,
+              "units": "MPa",
+              "elementId": "E-R19-S31",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2927387423833993,
+                "eta": 0.2999768275822614
+              },
+              "naturalCoordinateMargin": 0.7000231724177386,
+              "mappingResidual": 1.5888218580782548e-14,
+              "evidenceHash": "sha256:ed2bb4c1bc22a9b60bca6ae1be9a3597f64efcd187b104b128af20f86270c74b"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+              "value": 0.42646329455425525,
+              "units": "MPa",
+              "elementId": "E-R36-S31",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.2790549134403075,
+                "eta": 0.29997682758225774
+              },
+              "naturalCoordinateMargin": 0.7000231724177423,
+              "mappingResidual": 2.929642751054232e-14,
+              "evidenceHash": "sha256:9d38b6f09f29be32fd4455023bd09e3793718d3b924bcf867de8c6b3b4df3f7d"
+            },
+            {
+              "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+              "value": 0.24475814943164012,
+              "units": "MPa",
+              "elementId": "E-R45-S31",
+              "elementType": "Q8",
+              "naturalCoordinates": {
+                "xi": -0.27311789733434355,
+                "eta": 0.2999768275822565
+              },
+              "naturalCoordinateMargin": 0.7000231724177435,
+              "mappingResidual": 1.4210854715202004e-14,
+              "evidenceHash": "sha256:d2ab8e0c81a6bdc5f9abd50762f7265b58757de213ed53b4e9c6189f3068d4df"
+            }
+          ]
+        }
+      ],
+      "energyConvergence": {
+        "studyId": "B02D/Q8/STRAIN_ENERGY",
+        "classification": "MONOTONIC_CONVERGING",
+        "observedOrder": 1.1957457757466423,
+        "gciFineAbsolute": 0.0016943076533605754,
+        "gciFineRelative": 0.001985732130511808,
+        "levels": [
+          {
+            "levelId": "L2",
+            "h": 20,
+            "value": 0.8474842172251633
+          },
+          {
+            "levelId": "L3",
+            "h": 10,
+            "value": 0.8514914085039941
+          },
+          {
+            "levelId": "L4",
+            "h": 5,
+            "value": 0.8532407908028763
+          }
+        ],
+        "evidenceHash": "sha256:218b1d2e2c82ea45161446cd4929014d1401bfae7fa8a8b0c005b6d7ef9cb4b4"
+      },
+      "fixedProbeConvergence": [
+        {
+          "probeId": "LUG_NEAR_HOLE_PMAX",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.8756473824570068,
+          "gciFineAbsolute": 0.00030236633406113464,
+          "gciFineRelative": 0.00014894265973011033,
+          "evidenceHash": "sha256:08d363d2a31661e7fd4b1c6557f68f491a76e7d963809c873b2b1d87f30bf3f1",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_LOAD_SIDE_VM",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 3.4197180746057567,
+          "gciFineAbsolute": 0.0000771237555180821,
+          "gciFineRelative": 0.00003882956037689192,
+          "evidenceHash": "sha256:c1a7a71ce25bf92b9483cf857121b67cde8821316ca3dd26da28cb62184d7517",
+          "releaseCritical": true
+        }
+      ],
+      "pathConvergence": [
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R27",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 2.2654157892067723,
+          "gciFineAbsolute": 0.0002564730379637079,
+          "gciFineRelative": 0.00015347384964504974,
+          "evidenceHash": "sha256:6ed4c05936dc6ece257a0c588f166c2a60a564abe468b009a48ec35c5a154626",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R33",
+          "singularityClassification": "HIGH_GRADIENT_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.902910941533207,
+          "gciFineAbsolute": 0.00038995231298712043,
+          "gciFineRelative": 0.00027640826299933126,
+          "evidenceHash": "sha256:18f9b25568a695533892e5abc504ec81b8b8e4c4832d81282a5d71e02c6d27e1",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R47",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.8879023329054128,
+          "gciFineAbsolute": 0.0003813493625797864,
+          "gciFineRelative": 0.00038417864923280206,
+          "evidenceHash": "sha256:f462eca661540bbb61973129532a507aa9413236050e383350e224eb97b49fcf",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R73",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.9481488063363461,
+          "gciFineAbsolute": 0.00020967230160083152,
+          "gciFineRelative": 0.0004916538053292104,
+          "evidenceHash": "sha256:b8a6e4be31978614ff2e352eeced0912485e9b1234cc3dc2c8c0da6ace3c080b",
+          "releaseCritical": true
+        },
+        {
+          "probeId": "LUG_RADIAL_PATH_THETA_67/R87",
+          "singularityClassification": "NON_SINGULAR_CONVERGENCE",
+          "classification": "MONOTONIC_CONVERGING",
+          "observedOrder": 1.9391156652264905,
+          "gciFineAbsolute": 0.0001902790871283488,
+          "gciFineRelative": 0.0007774167584213285,
+          "evidenceHash": "sha256:ccddab4ed6cd2208075511516df5a91af8a7181d6764431d4aa0c9ad61aba2f7",
+          "releaseCritical": true
+        }
+      ]
+    }
+  ],
+  "t3Disposition": "CONTROL_NOT_RELEASE_CRITICAL",
+  "requiredMethods": [
+    "T6",
+    "Q8"
+  ],
+  "fixedPhysicalProbeAuthority": true,
+  "fixedPhysicalPathAuthority": true,
+  "movingMaximumUsed": false,
+  "nodalAveragedStressUsedAsSoleAuthority": false,
+  "crossElementAveragingUsed": false,
+  "integrationPointExtrapolationUsed": false,
+  "generalInternalFeatureAuthoringAuthorityGranted": false,
+  "releaseAuthorityGranted": false,
+  "temperatureAuthorityGranted": false,
+  "semanticHash": "sha256:b5fb0abb0a5122aed3b053f6f5deed5e5ff593217f500e203cd377dad67c8cdc"
+}
+{"schema":"lafea-b02e-production-qualification-receipt/v1","caseId":"B02E","status":"PASS","executionOrder":["B02A","B02B","B02C","B02D","B02E"],"precursorHashes":{"B02C_ANALYTICAL_TRACTION":"sha256:b6d15a53f53f28ec02a17a7c9d8569fb53f74ac4dbd2575b1005eaff859126b2","B02D_POLAR_MESH":"sha256:d5f816b73d0b8be3058cdf1398189eeea1123727674e52275968f168b2353d01","B02A":"sha256:cfdeeae380bcfa0c11dc9ce50cda9685edf67a3bd57e7fd2c0a559d60f46a0c3","B02B":"sha256:bfa08141712fc54e96b32ca1d85fe5b8c723d44b9db7b95969d988f1e75f9a30","B02C":"sha256:76f970b7dd487fc349d22a39be02ab9670af3303c5b91eed1f06259c84532d82","B02D":"sha256:b5fb0abb0a5122aed3b053f6f5deed5e5ff593217f500e203cd377dad67c8cdc"},"fixedDefinitionsPrecededObservation":true,"quantityBoundConvergenceApplied":true,"requiredMethodsQualified":true,"b02Qualified":true,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false,"semanticHash":"sha256:b6831a20b598746c4f73eb768dc2967d3cd1bca375112516e15e53c90343d948"}

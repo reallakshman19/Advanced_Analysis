@@ -1,0 +1,51 @@
+schema_version: relay-v3.1-transaction
+id: TX-ADMIT-C3D-BBAR-LAME-1771-0008
+command: ADMIT_TASK
+actor: antigravity-lafea3-c3d-bbar-20260923
+status: COMMITTED
+created_at: '2026-09-23T00:44:09.327541Z'
+updated_at: '2026-09-23T00:44:09.444185Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:9cc370ee18901033023a595706e3fb017843a22bf2affbcdf694ee426a90c83b
+  after_digest: sha256:2ecb45f2d902e6273481695017a5c479c9f49373cbcf16008f38eef40e05bbaa
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:63db689ea28c85bbf480ce43987ae13bebc29724c2ce6c946180591c8ee31b07
+  after_digest: sha256:211a235c32176e8451e8139d709d4263478cccc7e11e255b606fc8b2d004baca
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/backups/001.before
+- path: relay/LEASES/LEASE-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:03ddb44f53b755b30bc01b78f81ff8519201b1c61e40660a72451371425d2e37
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/staged/002.after
+  backup_path: null
+- path: relay/ROADMAP/ROADMAP.yaml
+  before_exists: true
+  before_digest: sha256:04857a04850349444394c3de1b407b0e7f769cba8df8053776cdd0a595603cf5
+  after_digest: sha256:18e02a49170adb998d9ac2561c0f0d7d969226d39ced4a77afb3f968d803f989
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/staged/003.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/backups/003.before
+- path: relay/STATE.yaml
+  before_exists: true
+  before_digest: sha256:457ead763aaa12a995e3409cc034ff0eeab644019ab8c9b90ee41e513126886e
+  after_digest: sha256:8b370d88823a76c21555274563bd5ff3c3e03c5b1dc68ccbe45c5a6dfab1f368
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/staged/004.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/backups/004.before
+- path: relay/WORK/EP-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:528a322d914fe0a4540392cf2adc41ffa74f4eda321b2cc140b9672fa640ab2a
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-BBAR-LAME-1771-0008/staged/005.after
+  backup_path: null
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/LEASES/LEASE-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml
+- relay/ROADMAP/ROADMAP.yaml
+- relay/STATE.yaml
+- relay/WORK/EP-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml

@@ -1,0 +1,58 @@
+{
+    "schema": "lafea-c3d-b02b-ladder-repair-execution-summary/v1",
+    "basis": {
+        "requestId": "LOCAL-EP-LAFEA3-C3D-B02B-LADDER-1771-0005-955cbc11394c",
+        "workPackage": "WP-1771",
+        "ep": "EP-LAFEA3-C3D-B02B-LADDER-1771-0005",
+        "materialHead": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+        "observedHead": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+        "commonHead": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+        "cleanBefore": true,
+        "cleanAfter": true,
+        "node": "v24.11.1",
+        "platform": "win32"
+    },
+    "commands": [
+        {
+            "id": "B02B_STANDALONE",
+            "command": "node scripts/lafea-b02b-production-check.mjs",
+            "observedHead": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+            "startTime": "2026-09-22T17:51:06.741Z",
+            "endTime": "2026-09-22T17:54:14.474Z",
+            "exitCode": 1,
+            "status": "FAIL",
+            "stdout": "commands/b02b.stdout.txt",
+            "stderr": "commands/b02b.stderr.txt",
+            "receipt": "commands/b02b.receipt.json",
+            "error": "AssertionError [ERR_ASSERTION]: B02B-V2/T3/B02B-PROBE-TAU-01 convergence is OSCILLATORY",
+            "failingStep": "scripts/lib/lafea-b02-rectangle-qualification.mjs:168:12",
+            "summary": "With governed mesh ladder restored, T3 probe-stable rectangle mesh executes levels [2.5, 1.25, 0.625]. B02B-PROBE-UY-01 convergence is no longer divergent. However, B02B-PROBE-TAU-01 on T3 evaluates as OSCILLATORY across refinement levels and fails the 2% stable-band criterion."
+        },
+        {
+            "id": "B02_SEQUENCE",
+            "command": "node scripts/lafea-b02-production-sequence-check.mjs",
+            "observedHead": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+            "startTime": "2026-09-22T17:54:14.567Z",
+            "endTime": "2026-09-22T17:57:53.480Z",
+            "exitCode": 1,
+            "status": "FAIL",
+            "stdout": "commands/b02-sequence.stdout.txt",
+            "stderr": "commands/b02-sequence.stderr.txt",
+            "receipt": "commands/b02-sequence.receipt.json",
+            "error": "AssertionError [ERR_ASSERTION]: B02B-V2/T3/B02B-PROBE-TAU-01 convergence is OSCILLATORY",
+            "failingStep": "scripts/lib/lafea-b02-rectangle-qualification.mjs:168:12",
+            "summary": "Sequence qualifies B02C and B02D, then blocks at B02B due to T3 TAU-01 OSCILLATORY convergence assertion. Emits LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B."
+        }
+    ],
+    "finding": "Restoring the governed V1 method-specific mesh ladder (T3: [2.5, 1.25, 0.625], T6/Q8: [10, 5, 2.5]) resolved the previous B02B-PROBE-UY-01 DIVERGENT convergence failure observed under ad821c11b. However, constant-strain triangles (T3) on shear stress probe B02B-PROBE-TAU-01 evaluate as OSCILLATORY across [2.5, 1.25, 0.625] and exceed the 2% fine-band stability check. The failure is retained exactly without altering convergence policy, relaxing tolerances, or modifying qualifier logic.",
+    "governance": {
+        "tolerancesAltered": false,
+        "expectedValuesChanged": false,
+        "v2OracleCorrectionModified": false,
+        "qualifierCodeModified": false,
+        "bbarOrBm005Touched": false,
+        "solverMesherMechanicsChanged": false,
+        "issue1862Implemented": false,
+        "committedOrPushed": false
+    }
+}

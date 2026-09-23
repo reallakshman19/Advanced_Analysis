@@ -1,43 +1,34 @@
-﻿{
-  "schema_version": "relay-v3.1-lease",
-  "id": "LEASE-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
-  "route": "SERIAL:EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
-  "executor": {
-    "id": "chatgpt-gpt5.6-sol-c3d-b02seq-20260923"
-  },
-  "basis": {
-    "ep_id": "EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
-    "ep_digest": "sha256:ffeba068320d3d90d97f67afe6a90184c8e78cbb67d9c2234a53b1634526e36e",
-    "material_base": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
-    "predecessor_checkpoint": null,
-    "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1"
-  },
-  "authority": {
-    "actions": [
-      "READ",
-      "ANALYZE",
-      "MATERIAL_WRITE",
-      "TEST",
-      "CHECKPOINT",
-      "HANDOVER",
-      "LOCAL_EXECUTION_EXPORT",
-      "DRAFT_PR_UPDATE"
-    ]
-  },
-  "admission": {
-    "method": "DETERMINISTIC",
-    "result": "PASS",
-    "repository_only": true,
-    "qualification": {
-      "required": false,
-      "qset": null,
-      "evaluator": null,
-      "result": null,
-      "evidence": []
-    }
-  },
-  "state": "ACTIVE",
-  "invalidation": {
-    "reasons": []
-  }
-}
+schema_version: relay-v3.1-lease
+id: LEASE-LAFEA3-C3D-B02-SEQUENCE-1771-0007
+route: SERIAL:EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007
+executor:
+  id: chatgpt-gpt5.6-sol-c3d-b02seq-20260923
+basis:
+  ep_id: EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007
+  ep_digest: sha256:ffeba068320d3d90d97f67afe6a90184c8e78cbb67d9c2234a53b1634526e36e
+  material_base: ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24
+  predecessor_checkpoint: null
+  protocol_basis: github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1
+authority:
+  actions:
+  - READ
+  - ANALYZE
+  - MATERIAL_WRITE
+  - TEST
+  - CHECKPOINT
+  - HANDOVER
+  - LOCAL_EXECUTION_EXPORT
+  - DRAFT_PR_UPDATE
+admission:
+  method: DETERMINISTIC
+  result: PASS
+  repository_only: true
+  qualification:
+    required: false
+    qset: null
+    evaluator: null
+    result: null
+    evidence: []
+state: RELEASED
+invalidation:
+  reasons: []

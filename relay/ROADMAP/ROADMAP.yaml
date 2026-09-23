@@ -1,56 +1,44 @@
-﻿{
-  "schema_version": "relay-v3.1-roadmap",
-  "revision": "RM-0015",
-  "title": "FEA meshing completion roadmap â€” shared mesh workspace, benchmarks and LAFEA.3â€“.6 delivery",
-  "owner": {
-    "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Repair B02B-V2 production-route selection so the sign-only V2 definition reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and aggregate progression, then return to separate B-bar/BM-005 boundaries."
-  },
-  "work_packages": [
-    {
-      "id": "WP-1769",
-      "title": "Project physical features to mesh, compile loads/BCs/probes, and enforce execution currentness",
-      "weight": 1,
-      "state": "COMPLETE",
-      "depends_on": []
-    },
-    {
-      "id": "WP-1771",
-      "title": "Qualify production-route continuum response, solver robustness, and convergence",
-      "weight": 1,
-      "state": "ACTIVE",
-      "depends_on": [
-        "WP-1769"
-      ]
-    },
-    {
-      "id": "WP-1773",
-      "title": "Define canonical stress/result recovery and engineering-output authority",
-      "weight": 1,
-      "state": "PLANNED",
-      "depends_on": [
-        "WP-1769"
-      ]
-    },
-    {
-      "id": "WP-1774",
-      "title": "Build independent hand-calculation and auditable V&V package",
-      "weight": 1,
-      "state": "PLANNED",
-      "depends_on": [
-        "WP-1771",
-        "WP-1773"
-      ]
-    },
-    {
-      "id": "WP-1776",
-      "title": "Integrate workbench evidence, align docs/registry, and close qualification claims",
-      "weight": 1,
-      "state": "PLANNED",
-      "depends_on": [
-        "WP-1774"
-      ]
-    }
-  ]
-}
-
+schema_version: relay-v3.1-roadmap
+revision: RM-0016
+title: "FEA meshing completion roadmap \xE2\u20AC\u201D shared mesh workspace, benchmarks\
+  \ and LAFEA.3\xE2\u20AC\u201C.6 delivery"
+owner:
+  outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
+    Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
+    capability.
+  current_goal: Repair B02B-V2 production-route selection so the sign-only V2 definition
+    reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and
+    aggregate progression, then return to separate B-bar/BM-005 boundaries.
+work_packages:
+- id: WP-1769
+  title: Project physical features to mesh, compile loads/BCs/probes, and enforce
+    execution currentness
+  weight: 1
+  state: COMPLETE
+  depends_on: []
+- id: WP-1771
+  title: Qualify production-route continuum response, solver robustness, and convergence
+  weight: 1
+  state: ACTIVE
+  depends_on:
+  - WP-1769
+- id: WP-1773
+  title: Define canonical stress/result recovery and engineering-output authority
+  weight: 1
+  state: PLANNED
+  depends_on:
+  - WP-1769
+- id: WP-1774
+  title: Build independent hand-calculation and auditable V&V package
+  weight: 1
+  state: PLANNED
+  depends_on:
+  - WP-1771
+  - WP-1773
+- id: WP-1776
+  title: Integrate workbench evidence, align docs/registry, and close qualification
+    claims
+  weight: 1
+  state: PLANNED
+  depends_on:
+  - WP-1774

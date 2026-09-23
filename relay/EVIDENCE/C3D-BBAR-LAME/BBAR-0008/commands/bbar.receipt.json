@@ -1,0 +1,6 @@
+{
+    "command":  "node scripts/lafea-plane-strain-bbar-lame-check.mjs",
+    "exitCode": 1,
+    "startTime":  "2026-09-23T01.05.16.423Z",
+    "endTime":  "2026-09-23T01.08.02.540Z"
+}

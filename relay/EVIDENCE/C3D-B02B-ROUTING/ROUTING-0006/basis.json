@@ -1,0 +1,34 @@
+{
+    "schema": "lafea-c3d-b02b-routing-repair-basis/v1",
+    "requestId": "LOCAL-EP-LAFEA3-C3D-B02B-ROUTING-1771-0006-ef09fc3c403c",
+    "workPackage": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+    "materialHead": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+    "observedHead": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+    "materialBase": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
+    "commonHead": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+    "environment": {
+        "os": "Windows (PowerShell)",
+        "node": "v24.11.1",
+        "git": "2.52.0.windows.1",
+        "platform": "win32",
+        "arch": "x64"
+    },
+    "routingConfirmation": {
+        "target": "scripts/lib/lafea-b02-production-route.mjs",
+        "diff": "const useB02bProbeStable = definition.caseId === 'B02B' || (definition.caseId === 'B02B-V2' && definition.supersedesCaseId === 'B02B');",
+        "definitionsPreserved": true,
+        "tolerancesPreserved": true,
+        "stabilityBandPreserved": "2% stableWithinBand UNCHANGED",
+        "qualifierPreserved": true,
+        "solverMesherPreserved": true
+    },
+    "blobs": {
+        "scripts/lafea-b02-production-sequence-check.mjs": "9781e363c727852a7472d85967de294d9446eac2",
+        "scripts/lafea-b02b-production-check.mjs": "14d5b75f753d752a7d0fa4598408a24d1d1c4ea8",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs": "021f041aa30fb6686f839fa94ff85240672799f1",
+        "scripts/lib/lafea-b02-production-route.mjs": "c2bc615456209b0b4676571faeb6cfb1604a11f2",
+        "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json": "8680f138176e088f109b8bbed457112bf57f483b"
+    },
+    "capturedAt": "2026-09-22T23:52:00Z"
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "relay-v3.1-task-admission",
+  "roadmap": {
+    "disposition": "MAPPED_EXISTING_WP",
+    "new_revision": "RM-0016",
+    "basis": [
+      "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+      "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+      "GitHub issue #1771"
+    ],
+    "work_package": {
+      "id": "WP-1771",
+      "title": "Qualify production-route continuum response, solver robustness, and convergence",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": [
+        "WP-1769"
+      ]
+    }
+  },
+  "ep": {
+    "schema_version": "relay-v3.1-ep",
+    "id": "EP-LAFEA3-C3D-BBAR-LAME-1771-0008",
+    "work_package": "WP-1771",
+    "outcome": {
+      "statement": "Reconcile coarse-mesh angular cell count in scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs to use nearest-integer subdivision rather than ceiling, preventing artificial over-refinement of the coarse non-probe interval that collapses T6 L1 corner angle below 11.537\u00b0."
+    },
+    "basis": {
+      "predecessor_checkpoint": null,
+      "material_base": "a553f43be691b7e7bf425c733f2aaf9712744a74",
+      "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+      "semantic_dependencies": [
+        {
+          "path": "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+          "reason": "Generates quarter annulus mesh for Lam\u00e9 B-bar qualification."
+        },
+        {
+          "path": "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+          "reason": "Qualification check asserting quality.worstStatus !== 'BLOCK' and convergence across nu ladder."
+        }
+      ]
+    },
+    "scope": {
+      "write": [
+        "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+        "relay/EVIDENCE/C3D-BBAR-LAME/**"
+      ],
+      "read": [
+        "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+        "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+        "validation/lafea-incompressible/**",
+        "src/**"
+      ],
+      "protect": [
+        "validation/lafea-incompressible/**",
+        "src/**",
+        "scripts/lafea-b02*"
+      ],
+      "prohibit": [
+        "changes to benchmark definitions, expected values, or tolerances",
+        "changes to quality policy blocking thresholds or solver code",
+        "BM-005 changes",
+        "workflow YAML changes",
+        "issue #1862 implementation",
+        "release or merge authority"
+      ]
+    },
+    "acceptance": [
+      {
+        "id": "AC-C3D-BBAR-1",
+        "statement": "T6 L1 mesh satisfies quality gate without BLOCK (minimum angle exceeds 11.537\u00b0).",
+        "evidence_requirements": [
+          {
+            "oracle": "source inspection of protectedAxis subdivision logic and mesh qualification result"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-BBAR-2",
+        "statement": "node scripts/lafea-plane-strain-bbar-lame-check.mjs executes to completion with exit code 0 and status PASS across all element families (T6, Q8), Poisson ratios (0.3 to 0.4999), and distortion levels (REGULAR, MODERATE, STRONG_QUALIFIED).",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-plane-strain-bbar-lame-check.mjs"
+          }
+        ]
+      }
+    ],
+    "quality_policy": {
+      "level": "HIGH_RISK",
+      "independent_review": "REQUIRED"
+    },
+    "parent_issue": {
+      "provider": "GITHUB",
+      "repository": "reallaksh19/Advanced_Analysis",
+      "number": 1771,
+      "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+      "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+      "baseline": {
+        "observed_at": "2026-09-23T00:25:00Z",
+        "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+        "acceptance_items": [
+          {
+            "id": "C3-D.5",
+            "statement": "Near-incompressible plane-strain qualification across Poisson-ratio envelope, qualifying B-bar formulation on refinement ladder with valid Jacobians and mesh quality."
+          }
+        ]
+      }
+    },
+    "offloads": [],
+    "admission_policy": {
+      "qualification": "NOT_REQUIRED",
+      "question_policy": "NONE"
+    },
+    "next": {
+      "first_action": "Reconcile angular axis subdivision in scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs, run plane-strain B-bar check, and retain evidence.",
+      "stop_conditions": [
+        "Do not alter numerical tolerances or benchmark definitions.",
+        "Do not weaken mesh quality policy thresholds.",
+        "Do not touch BM-005."
+      ]
+    }
+  },
+  "lease": {
+    "id": "LEASE-LAFEA3-C3D-BBAR-LAME-1771-0008",
+    "executor_id": "antigravity-lafea3-c3d-bbar-20260923",
+    "method": "DETERMINISTIC",
+    "qualification": null,
+    "owner_basis": null,
+    "branch": "relay/c3d-v31-diagnostic-1771"
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "PULL_REQUEST",
+      "number": 1868
+    }
+  }
+}

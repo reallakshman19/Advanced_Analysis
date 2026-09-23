@@ -1,0 +1,28 @@
+{
+    "schema": "lafea-c3d-bbar-lame-angle-comparison/v1",
+    "case": "THICK_CYLINDER_T6_L1_REGULAR",
+    "blockingThresholdDegrees": 11.537,
+    "preFix": {
+        "subdivisionFormula": "Math.max(1, Math.ceil(subdivisionRatio - roundoff))",
+        "subdivisionRatio": 1.22173,
+        "subdivisionCount": 2,
+        "nonProbeCellWidthDegrees": 11.6667,
+        "minimumCornerAngleDegrees": 11.198,
+        "worstStatus": "BLOCK",
+        "ac1Status": "FAIL"
+    },
+    "postFix": {
+        "subdivisionFormula": "Math.max(1, Math.round(subdivisionRatio))",
+        "subdivisionRatio": 1.22173,
+        "subdivisionCount": 1,
+        "nonProbeCellWidthDegrees": 23.3333,
+        "minimumCornerAngleDegrees": 17.23,
+        "worstStatus": "PASS",
+        "ac1Status": "PASS"
+    },
+    "satisfaction": {
+        "acId": "AC-C3D-BBAR-1",
+        "result": "PASS",
+        "marginDegrees": 5.693
+    }
+}

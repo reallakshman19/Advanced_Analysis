@@ -1,0 +1,21 @@
+schema_version: relay-v3.1
+roadmap:
+  revision: RM-0015
+  path: relay/ROADMAP/ROADMAP.yaml
+execution:
+  lifecycle: IDLE
+  ep: null
+  lease: null
+  route: null
+accepted:
+  checkpoint: null
+controls:
+  path: relay/CONTROLS/controls.yaml
+delivery:
+  required: true
+  primary_vehicle:
+    provider: GITHUB
+    kind: PULL_REQUEST
+    number: 1868
+generated:
+  snapshot: relay/GENERATED/CURRENT_SNAPSHOT.yaml

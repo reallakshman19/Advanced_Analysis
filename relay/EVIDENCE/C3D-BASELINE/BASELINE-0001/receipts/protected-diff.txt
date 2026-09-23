@@ -1,0 +1,14 @@
+=== PROTECTED MATERIAL VERIFICATION ===
+Material basis HEAD: 89420e9cba7879d8e9fa172350bd4210f5d90fe0
+Protected paths checked:
+  - scripts/**
+  - src/workspace/**
+  - validation/lafea-b02-definitions/**
+  - validation/lafea-benchmark-data/**
+  - .github/workflows/**
+
+git diff HEAD -- <protected paths>:
+(empty - no changes)
+
+git status --porcelain=v1 -- <protected paths>:
+(clean - no modified or untracked files in protected scope)

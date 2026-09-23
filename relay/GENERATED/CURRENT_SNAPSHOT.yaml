@@ -1,105 +1,84 @@
-{
-  "schema_version": "relay-v3.1-snapshot",
-  "authority": "DERIVED_READ_MODEL",
-  "generated_from": {
-    "roadmap_revision": "RM-0014",
-    "state_digest": "sha256:eed9835c9dc043c50483999cadd40ff165265cb09bc606acc87f1f3406346577",
-    "material_basis": {
-      "head": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
-      "tree_digest": "sha256:298c08b40665f83488410aac76579163cf1be00580b49ea76b764bb2d7132797",
-      "relevant_paths_digest": "sha256:7bfec64442e42c084ba3a37c699782430629cf56186d40eade1a99a6752c089f",
-      "dependency_digest": "sha256:7bfec64442e42c084ba3a37c699782430629cf56186d40eade1a99a6752c089f"
-    },
-    "coordination_head": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24"
-  },
-  "owner": {
-    "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Repair B02B-V2 production-route selection so the sign-only V2 definition reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and aggregate progression, then return to separate B-bar/BM-005 boundaries."
-  },
-  "programme": {
-    "accepted_progress": 0,
-    "completed_work": [],
-    "remaining_work": [
-      "WP-1769",
-      "WP-1771",
-      "WP-1773",
-      "WP-1774",
-      "WP-1776"
-    ]
-  },
-  "execution": {
-    "lifecycle": "ACTIVE",
-    "work_package": "WP-1771",
-    "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
-    "lease": "LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006",
-    "executor": "chatgpt-gpt5.6-sol-c3d-b02brouting-20260922"
-  },
-  "scope": {
-    "allowed_writes": [
-      "scripts/lib/lafea-b02-production-route.mjs",
-      "relay/EVIDENCE/C3D-B02B-ROUTING/**"
-    ],
-    "protected": [
-      "src/core/lafea-meshing/**",
-      "src/workspace/lafea-mesh-producer-binding.js",
-      "validation/lafea-b02-definitions/**",
-      "scripts/lib/lafea-b02-rectangle-qualification.mjs"
-    ],
-    "prohibited": [
-      "changes to mesh generator implementation or qualified mesh profile identity/source revision",
-      "changes to B02B V1/V2 definitions, expected values, sign correction, acceptance modes or tolerances",
-      "changes to stableWithinBand 0.02 or convergence classifier",
-      "FE solver/element/recovery changes",
-      "B-bar or BM-005 changes",
-      "workflow YAML changes",
-      "issue #1862 implementation",
-      "release or merge authority"
-    ]
-  },
-  "material": {
-    "base": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
-    "head": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
-    "relevant_paths_digest": "sha256:7bfec64442e42c084ba3a37c699782430629cf56186d40eade1a99a6752c089f",
-    "dependency_digest": "sha256:7bfec64442e42c084ba3a37c699782430629cf56186d40eade1a99a6752c089f"
-  },
-  "evidence": {
-    "latest_checkpoint": null,
-    "latest_material_validation": {}
-  },
-  "controls": {
-    "execution_blockers": [
-      "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
-    ],
-    "handover_blockers": [],
-    "delivery_blockers": [
-      "CTRL-C3D-BASELINE-INDEPENDENT-REVIEW"
-    ],
-    "informational": []
-  },
-  "delivery": {
-    "issue": 1771,
-    "pr": null,
-    "lifecycle": "DECLARED",
-    "merge_authorized": false
-  },
-  "next": {
-    "immediate_material_action": "Change only the B02B probe-stable route selector so B02B-V2, when it explicitly supersedes B02B, uses the existing qualified B02B profile path; then validate B02B and aggregate sequence on the exact material head.",
-    "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": [
-      "Do not alter the 2% stability fallback.",
-      "Do not alter mesh generation or benchmark definitions.",
-      "Do not touch B-bar, BM-005 or #1862.",
-      "Stop if V2 cannot reuse the B02B V1 mesh strategy without changing its qualified profile contract."
-    ]
-  },
-  "handoff": {
-    "zero_context_takeover_possible": true,
-    "reconstruction_sources": [
-      "relay/ROADMAP/ROADMAP.yaml",
-      "relay/STATE.yaml",
-      "relay/CONTROLS/controls.yaml",
-      "relay/WORK/EP-LAFEA3-C3D-B02B-ROUTING-1771-0006.yaml",
-      "relay/LEASES/LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006.yaml"
-    ]
-  }
-}
+schema_version: relay-v3.1-snapshot
+authority: DERIVED_READ_MODEL
+generated_from:
+  roadmap_revision: RM-0016
+  state_digest: sha256:32a19c9fc378e317d220af1fc2736456ae202a71647a41f97cebe8e5b2da25a4
+  material_basis:
+    head: a553f43be691b7e7bf425c733f2aaf9712744a74
+    tree_digest: sha256:17994fb21583572fa88fd8367933eb42fc2b996e86d3ef0d5b41536e9125eb77
+    relevant_paths_digest: sha256:8b1a4b9ec8b486f8f6dcd63d9708a8d27c5ee403f9614e3a116d333e8f1485f9
+    dependency_digest: sha256:2254be3789c194762f482cf8fa9d9287b06a51570b93f51e81e54ac829b87f8f
+  coordination_head: 6fe3884951dc9b026f688287b20f120f827db07d
+owner:
+  outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
+    Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
+    capability.
+  current_goal: Repair B02B-V2 production-route selection so the sign-only V2 definition
+    reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and
+    aggregate progression, then return to separate B-bar/BM-005 boundaries.
+programme:
+  accepted_progress: 0.0
+  completed_work: []
+  remaining_work:
+  - WP-1769
+  - WP-1771
+  - WP-1773
+  - WP-1774
+  - WP-1776
+execution:
+  lifecycle: ACTIVE
+  work_package: WP-1771
+  ep: EP-LAFEA3-C3D-BBAR-LAME-1771-0008
+  lease: LEASE-LAFEA3-C3D-BBAR-LAME-1771-0008
+  executor: antigravity-lafea3-c3d-bbar-20260923
+scope:
+  allowed_writes:
+  - scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs
+  - relay/EVIDENCE/C3D-BBAR-LAME/**
+  protected:
+  - validation/lafea-incompressible/**
+  - src/**
+  - scripts/lafea-b02*
+  prohibited:
+  - changes to benchmark definitions, expected values, or tolerances
+  - changes to quality policy blocking thresholds or solver code
+  - BM-005 changes
+  - workflow YAML changes
+  - 'issue #1862 implementation'
+  - release or merge authority
+material:
+  base: a553f43be691b7e7bf425c733f2aaf9712744a74
+  head: a553f43be691b7e7bf425c733f2aaf9712744a74
+  relevant_paths_digest: sha256:8b1a4b9ec8b486f8f6dcd63d9708a8d27c5ee403f9614e3a116d333e8f1485f9
+  dependency_digest: sha256:2254be3789c194762f482cf8fa9d9287b06a51570b93f51e81e54ac829b87f8f
+evidence:
+  latest_checkpoint: null
+  latest_material_validation: {}
+controls:
+  execution_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  handover_blockers: []
+  delivery_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  informational: []
+delivery:
+  issue: null
+  pr: 1868
+  lifecycle: DECLARED
+  merge_authorized: false
+next:
+  immediate_material_action: Reconcile angular axis subdivision in scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs,
+    run plane-strain B-bar check, and retain evidence.
+  delivery_action: Perform the explicitly authorized delivery transition.
+  stop_conditions:
+  - Do not alter numerical tolerances or benchmark definitions.
+  - Do not weaken mesh quality policy thresholds.
+  - Do not touch BM-005.
+handoff:
+  zero_context_takeover_possible: true
+  reconstruction_sources:
+  - relay/ROADMAP/ROADMAP.yaml
+  - relay/STATE.yaml
+  - relay/CONTROLS/controls.yaml
+  - relay/WORK/EP-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml
+  - relay/LEASES/LEASE-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml

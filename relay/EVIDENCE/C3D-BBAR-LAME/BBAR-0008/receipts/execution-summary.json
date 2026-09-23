@@ -1,0 +1,83 @@
+{
+    "schema": "lafea-c3d-bbar-lame-execution-summary/v1",
+    "basis": {
+        "ep": "EP-LAFEA3-C3D-BBAR-LAME-1771-0008",
+        "materialBase": "a553f43be691b7e7bf425c733f2aaf9712744a74",
+        "coordinationHead": "6fe3884951dc9b026f688287b20f120f827db07d",
+        "cleanBefore": false,
+        "node": "v24.11.1",
+        "platform": "win32"
+    },
+    "acceptanceEvaluation": {
+        "AC-C3D-BBAR-1": {
+            "statement": "T6 L1 mesh satisfies quality gate without BLOCK (minimum angle exceeds 11.537 deg).",
+            "result": "PASS",
+            "observedMinimumAngle": 17.23,
+            "gateThreshold": 11.537
+        },
+        "AC-C3D-BBAR-2": {
+            "statement": "node scripts/lafea-plane-strain-bbar-lame-check.mjs executes to completion with exit code 0 and status PASS across all element families (T6, Q8), Poisson ratios (0.3 to 0.4999), and distortion levels (REGULAR, MODERATE, STRONG_QUALIFIED).",
+            "result": "FAIL",
+            "exitCode": 1,
+            "failingCase": "T6 / REGULAR / nu=0.499 / L3",
+            "failingError": "Sparse PCG residual 1.471926225349307e-8 exceeds internal target 2.102108772439442e-10 (acceptance gate 2.102108772439442e-8) after 42560 iterations."
+        }
+    },
+    "matrixProgression": {
+        "L1": {
+            "elementFamilies": [
+                "T6",
+                "Q8"
+            ],
+            "poissonRatios": [
+                0.3,
+                0.45,
+                0.49,
+                0.499,
+                0.4999
+            ],
+            "distortionModes": [
+                "REGULAR",
+                "MODERATE",
+                "STRONG_QUALIFIED"
+            ],
+            "solver": "DETERMINISTIC_CHOLESKY (DENSE, 198 DOFs <= 1536)",
+            "status": "PASS"
+        },
+        "L2": {
+            "elementFamilies": [
+                "T6",
+                "Q8"
+            ],
+            "poissonRatios": [
+                0.3,
+                0.45,
+                0.49,
+                0.499,
+                0.4999
+            ],
+            "distortionModes": [
+                "REGULAR",
+                "MODERATE",
+                "STRONG_QUALIFIED"
+            ],
+            "solver": "DETERMINISTIC_CHOLESKY (DENSE, 798 DOFs <= 1536)",
+            "status": "PASS"
+        },
+        "L3": {
+            "elementFamilies": [
+                "T6",
+                "Q8"
+            ],
+            "solver": "DETERMINISTIC_JACOBI_PCG (CSR_FULL_SYMMETRIC, 2730 DOFs > 1536)",
+            "poissonRatioResults": {
+                "0.30": "PASS (478 iterations, residual 1.67e-10 <= 2.10e-10)",
+                "0.45": "PASS (708 iterations, residual 1.76e-10 <= 2.10e-10)",
+                "0.49": "PASS (1523 iterations, residual 1.40e-10 <= 2.10e-10)",
+                "0.499": "FAIL (42560 iterations, residual 1.47e-8 <= acceptance gate 2.10e-8, but > internal target 2.10e-10)",
+                "0.4999": "FAIL (42560 iterations, residual 0.00514)"
+            }
+        }
+    },
+    "rootCauseAnalysis": "The mesh angle repair in scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs fully resolved the quality blocking defect on coarse mesh L1. However, advancing the check exposed a downstream solver architectural boundary in src/core/lafea-linear-solve/pcg.js. When DOFs > 1536 (L3/L4), the system automatically routes to Sparse Jacobi PCG. In near-incompressible elasticity (nu >= 0.499), condition number scales as O((1-2nu)^-1 * h^-2). Jacobi preconditioning without a pressure Schur complement or specialized near-incompressible smoother fails to reach the 100x internal safety target within the size*16 iteration limit. Solver modifications and tolerance relaxations are prohibited under EP-0008, establishing this as a new owning boundary."
+}

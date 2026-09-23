@@ -1,0 +1,57 @@
+{
+    "schema": "lafea-c3d-b02b-routing-repair-execution-summary/v1",
+    "basis": {
+        "requestId": "LOCAL-EP-LAFEA3-C3D-B02B-ROUTING-1771-0006-ef09fc3c403c",
+        "workPackage": "WP-1771",
+        "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
+        "materialHead": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+        "observedHead": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+        "commonHead": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+        "cleanBefore": true,
+        "cleanAfter": true,
+        "node": "v24.11.1",
+        "platform": "win32"
+    },
+    "commands": [
+        {
+            "id": "B02B_STANDALONE",
+            "command": "node scripts/lafea-b02b-production-check.mjs",
+            "observedHead": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+            "startTime": "2026-09-22T23:27:03.210Z",
+            "endTime": "2026-09-22T23:28:43.384Z",
+            "exitCode": 0,
+            "status": "PASS",
+            "stdout": "commands/b02b.stdout.txt",
+            "stderr": "commands/b02b.stderr.txt",
+            "receipt": "commands/b02b.receipt.json",
+            "error": null,
+            "summary": "B02B V2 correctly routes to the qualified B02B probe-stable rectangle mesh. All element families (T3, T6, Q8) qualify under their governed ladders. Monotonic convergence achieved on both B02B-PROBE-TAU-01 and B02B-PROBE-UY-01. Check passes with exit code 0."
+        },
+        {
+            "id": "B02_SEQUENCE",
+            "command": "node scripts/lafea-b02-production-sequence-check.mjs",
+            "observedHead": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+            "startTime": "2026-09-22T23:28:43.539Z",
+            "endTime": "2026-09-22T23:51:15.245Z",
+            "exitCode": 1,
+            "status": "FAIL",
+            "stdout": "commands/b02-sequence.stdout.txt",
+            "stderr": "commands/b02-sequence.stderr.txt",
+            "receipt": "commands/b02-sequence.receipt.json",
+            "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: 'B02B-V2' !== 'B02B'",
+            "failingStep": "scripts/lafea-b02-production-sequence-check.mjs:32:10",
+            "summary": "All calculation stages (B02C analytical traction, B02D polar mesh, B02A, B02B, B02C, B02D) execute to completion and emit status PASS. The sequence is NO LONGER blocked at B02B calculation (LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B is absent). It advances to line 32 of scripts/lafea-b02-production-sequence-check.mjs, where assert.equal(receipts[id].caseId, id) fails because receipts['B02B'].caseId is 'B02B-V2'."
+        }
+    ],
+    "finding": "The routing repair successfully routes B02B-V2 through the qualified B02B probe-stable mesh, fully curing the T3 shear oscillation without altering the 2% stability band or modifying definitions. B02B is now GREEN (exit 0). The aggregate sequence check executes all four cases (B02A-D) successfully and advances to the receipt caseId string assertion at line 32.",
+    "governance": {
+        "tolerancesAltered": false,
+        "expectedValuesChanged": false,
+        "v2OracleCorrectionModified": false,
+        "qualifierCodeModified": false,
+        "bbarOrBm005Touched": false,
+        "solverMesherMechanicsChanged": false,
+        "issue1862Implemented": false,
+        "committedOrPushed": false
+    }
+}

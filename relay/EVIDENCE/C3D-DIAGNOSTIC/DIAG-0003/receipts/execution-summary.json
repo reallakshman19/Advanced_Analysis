@@ -1,0 +1,99 @@
+﻿{
+  "schema": "lafea-c3d-diagnostic-execution-summary/v1",
+  "basis": {
+    "requestId": "LOCAL-EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003-1019ca26cb18",
+    "workPackage": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
+    "branch": "relay/c3d-v31-diagnostic-1771",
+    "materialHead": "1019ca26cb18332983f64258698787280b86afd1",
+    "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+    "commonHead": "c87cf87b313801e42ecd0fcc7d36af0d90c5f400",
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "node": "v24.11.1",
+    "platform": "win32"
+  },
+  "commands": [
+    {
+      "id": "B02_SEQUENCE",
+      "command": "node scripts/lafea-b02-production-sequence-check.mjs",
+      "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+      "startTime": "2026-09-22T17:02:12.083Z",
+      "endTime": "2026-09-22T17:02:56.770Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "commands/b02-sequence.stdout.txt",
+      "stderr": "commands/b02-sequence.stderr.txt",
+      "receipt": "commands/b02-sequence.receipt.json",
+      "summary": "B02 production sequence passed B02D V2 qualification, confirming V1->V2 sequence binding fix; sequence advanced past polar step and blocked at B02B (T3 finest relative error 0.07999 > 0.05). Emits LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B."
+    },
+    {
+      "id": "B02B_STANDALONE",
+      "command": "node scripts/lafea-b02b-production-check.mjs",
+      "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+      "startTime": "2026-09-22T17:02:56.847Z",
+      "endTime": "2026-09-22T17:03:03.601Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "commands/b02b.stdout.txt",
+      "stderr": "commands/b02b.stderr.txt",
+      "receipt": "commands/b02b.receipt.json",
+      "summary": "B02B standalone production check fails at T3: AssertionError: B02B-V2/T3/B02B-PROBE-TAU-01 finest relative error: 0.079990250251308 > 0.05 limit."
+    },
+    {
+      "id": "BBAR_LAME",
+      "command": "node scripts/lafea-plane-strain-bbar-lame-check.mjs",
+      "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+      "startTime": "2026-09-22T17:03:03.612Z",
+      "endTime": "2026-09-22T17:03:04.123Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "commands/bbar.stdout.txt",
+      "stderr": "commands/bbar.stderr.txt",
+      "receipt": "commands/bbar.receipt.json",
+      "summary": "Plane-strain B-bar Lamé check fails: AssertionError: T6/0.3/L1/REGULAR mesh quality blocked (minimum angle 11.198deg < 11.537deg threshold)."
+    },
+    {
+      "id": "BM005_ORDINARY",
+      "command": "node scripts/lafea.3-bm005-ordinary-route-check.mjs",
+      "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+      "startTime": "2026-09-22T17:03:04.134Z",
+      "endTime": "2026-09-22T17:03:22.798Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "commands/bm005.stdout.txt",
+      "stderr": "commands/bm005.stderr.txt",
+      "receipt": "commands/bm005.receipt.json",
+      "summary": "BM-005 ordinary route completes single mesh and converges solver, but evaluates 4-level refinement study as OSCILLATORY, oracle outside fine GCI, and sets finalResultState: RESULT_NOT_READY."
+    }
+  ],
+  "replay": {
+    "command": "node relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/test_replay.mjs",
+    "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "replay/replay.stdout.txt",
+    "stderr": "replay/replay.stderr.txt",
+    "exitCodePath": "replay/replay.exit.txt",
+    "receipt": "replay/replay-receipt.json",
+    "hashesMatched": 11,
+    "allHashesMatch": true,
+    "transactionMatch": true,
+    "probesMatch": true
+  },
+  "protectedMaterialChanged": false,
+  "classifications": {
+    "b02dBinding": "CONFIRMED_CORRECTION_VERIFIED: B02D V1->V2 sequence-binding correction verified; sequence advances past polar step.",
+    "b02bAcceptanceMode": "CONFIRMED_MIGRATION_DEFECT: B02B V2 acceptance-mode migration defect (T3 relative error ~8% > 5% frozen criterion).",
+    "bbarMeshQuality": "CONFIRMED_MESH_QUALITY_BOUNDARY: B-bar T6/L1 mesh-quality boundary (min angle 11.198deg < 11.537deg).",
+    "bm005Convergence": "CONFIRMED_CONVERGENCE_BOUNDARY: BM-005 oscillatory convergence / RESULT_NOT_READY boundary (genuine convergence result)."
+  },
+  "governance": {
+    "tolerancesRelaxed": false,
+    "thresholdsRelaxed": false,
+    "oraclesModified": false,
+    "meshDefinitionsModified": false,
+    "productSourceModified": false,
+    "committedOrPushed": false
+  }
+}

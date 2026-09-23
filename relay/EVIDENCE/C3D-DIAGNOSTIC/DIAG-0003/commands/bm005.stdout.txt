@@ -1,0 +1,667 @@
+﻿{
+  "check": "lafea.3-bm005-ordinary-route",
+  "status": "FAIL",
+  "report": {
+    "schema": "lafea3-bm005-audit-report/v1",
+    "status": "FAIL",
+    "benchmarkId": "BM-005-LAME-CONT-CYL-01",
+    "stageId": "LAFEA.3",
+    "route": "T3_T6_Q8_LINEAR_CONTINUUM",
+    "candidateHeadSha": "1019ca26cb18332983f64258698787280b86afd1",
+    "cleanTree": true,
+    "hashProfile": "LAFEA_CANONICAL_JSON_SHA256_V1",
+    "benchmarkDefinition": {
+      "schema": "lafea3-bm005-benchmark-definition/v1",
+      "benchmarkId": "BM-005-LAME-CONT-CYL-01",
+      "stageId": "LAFEA.3",
+      "route": "T3_T6_Q8_LINEAR_CONTINUUM",
+      "sourceBenchmarkRef": "CONT-CYL-01",
+      "sourceClaimId": "LAFEA3-SRC-LAME-01",
+      "sourceRegistryPath": "validation/lafea-benchmark-data/BM005/sources/source-registry.json",
+      "model": {
+        "formulation": "PLANE_STRESS",
+        "units": {
+          "length": "mm",
+          "force": "N",
+          "stress": "MPa",
+          "modulus": "MPa"
+        },
+        "material": {
+          "materialId": "MAT",
+          "elasticModulus": 200000,
+          "poissonRatio": 0.3
+        },
+        "thickness": 10,
+        "geometry": {
+          "schema": "lafea-analysis-geometry/v1",
+          "stageId": "LAFEA.3",
+          "geometryId": "BM005-LAME-QUARTER-ANNULUS",
+          "coordinateSystemId": "GLOBAL_XY",
+          "lengthUnit": "mm",
+          "orientationPolicy": "OUTER_CCW_HOLES_CW_V1",
+          "vertices": [
+            {
+              "vertexId": "P1_INNER_X",
+              "x": 50,
+              "y": 0
+            },
+            {
+              "vertexId": "P2_OUTER_X",
+              "x": 100,
+              "y": 0
+            },
+            {
+              "vertexId": "P3_OUTER_Y",
+              "x": 0,
+              "y": 100
+            },
+            {
+              "vertexId": "P4_INNER_Y",
+              "x": 0,
+              "y": 50
+            }
+          ],
+          "segments": [
+            {
+              "segmentId": "RADIAL_X",
+              "type": "LINE",
+              "startVertexId": "P1_INNER_X",
+              "endVertexId": "P2_OUTER_X"
+            },
+            {
+              "segmentId": "OUTER_ARC",
+              "type": "CIRCULAR_ARC",
+              "startVertexId": "P2_OUTER_X",
+              "endVertexId": "P3_OUTER_Y",
+              "centerX": 0,
+              "centerY": 0,
+              "radius": 100,
+              "sweep": "CCW"
+            },
+            {
+              "segmentId": "RADIAL_Y",
+              "type": "LINE",
+              "startVertexId": "P3_OUTER_Y",
+              "endVertexId": "P4_INNER_Y"
+            },
+            {
+              "segmentId": "INNER_ARC",
+              "type": "CIRCULAR_ARC",
+              "startVertexId": "P4_INNER_Y",
+              "endVertexId": "P1_INNER_X",
+              "centerX": 0,
+              "centerY": 0,
+              "radius": 50,
+              "sweep": "CW"
+            }
+          ],
+          "loops": [
+            {
+              "loopId": "OUTER",
+              "role": "OUTER",
+              "segmentIds": [
+                "RADIAL_X",
+                "OUTER_ARC",
+                "RADIAL_Y",
+                "INNER_ARC"
+              ]
+            }
+          ]
+        },
+        "physicalCaseId": "INTERNAL_PRESSURE",
+        "attachments": [
+          {
+            "attachmentId": "BC-X-SYMMETRY-UY",
+            "kind": "RESTRAINT",
+            "targetType": "SEGMENT",
+            "targetId": "RADIAL_X",
+            "physicalCaseIds": [
+              "INTERNAL_PRESSURE"
+            ],
+            "payload": {
+              "uy": true
+            }
+          },
+          {
+            "attachmentId": "BC-Y-SYMMETRY-UX",
+            "kind": "RESTRAINT",
+            "targetType": "SEGMENT",
+            "targetId": "RADIAL_Y",
+            "physicalCaseIds": [
+              "INTERNAL_PRESSURE"
+            ],
+            "payload": {
+              "ux": true
+            }
+          },
+          {
+            "attachmentId": "LOAD-INNER-PRESSURE",
+            "kind": "PRESSURE",
+            "targetType": "SEGMENT",
+            "targetId": "INNER_ARC",
+            "physicalCaseIds": [
+              "INTERNAL_PRESSURE"
+            ],
+            "payload": {
+              "pressure": 10,
+              "unit": "MPa"
+            }
+          }
+        ]
+      },
+      "mesh": {
+        "elementFamily": "Q8",
+        "profileIdentity": "LAFEA3_BM005_LAME_Q8_V1",
+        "sourceRevision": "BM005-LAME-Q8-FROZEN/V1",
+        "refinementRatio": 2,
+        "levels": [
+          {
+            "levelId": "COARSE",
+            "h": 40
+          },
+          {
+            "levelId": "MEDIUM",
+            "h": 20
+          },
+          {
+            "levelId": "FINE",
+            "h": 10
+          },
+          {
+            "levelId": "EXTRA_FINE",
+            "h": 5
+          }
+        ],
+        "requiredStrategy": "MAPPED_TRANSFINITE",
+        "requiredDistinctMeshCount": 4
+      },
+      "convergencePolicy": {
+        "policyId": "LAFEA3_NON_SINGULAR_POINTWISE_CONVERGENCE_PUBLICATION_V1",
+        "revision": "1",
+        "refinementRatio": 2,
+        "gciSafetyFactor": 1.25,
+        "nearZeroAbsolute": 1e-12,
+        "orderStabilityRelativeTolerance": 0.2,
+        "requiredClassification": "ASYMPTOTIC",
+        "authorityBasis": "EXISTING_LAFEA_G4_CONVERGENCE_CONTRACT"
+      },
+      "probe": {
+        "schema": "lafea-continuum-physical-probe/v1",
+        "probeId": "BM005-LAME-R73-THETA37-DISPLACEMENT",
+        "polarCoordinate": {
+          "radius": 73,
+          "thetaDegrees": 37
+        },
+        "physicalCoordinate": {
+          "x": 58.30039223345238,
+          "y": 43.932496690099526
+        },
+        "coordinateFrame": "GLOBAL_XY",
+        "loadCaseId": "INTERNAL_PRESSURE",
+        "quantityId": "DISPLACEMENT_MAGNITUDE",
+        "representation": "PHYSICAL_POINT_DIRECT",
+        "recoveryMethod": "ELEMENT_SHAPE_INTERPOLATION",
+        "units": "mm",
+        "singularityClassification": "NOT_APPLICABLE"
+      },
+      "oracle": {
+        "kind": "ANALYTICAL_LAME_THICK_CYLINDER_PLANE_STRESS",
+        "innerRadius": 50,
+        "outerRadius": 100,
+        "internalPressure": 10,
+        "externalPressure": 0,
+        "A_MPa": 3.3333333333333335,
+        "B_MPa_mm2": 33333.333333333336,
+        "formulae": {
+          "sigmaRadial": "A-B/r^2",
+          "sigmaHoop": "A+B/r^2",
+          "radialDisplacementPlaneStress": "((1-nu)*A*r+(1+nu)*B/r)/E"
+        },
+        "fixedProbeExpected": {
+          "radius": 73,
+          "sigmaRadialMPa": -2.921748920998312,
+          "sigmaHoopMPa": 9.58841558766498,
+          "displacementMagnitudeMm": 0.003819703196347032
+        },
+        "boundaryExpected": {
+          "sigmaRadialInnerMPa": -10,
+          "sigmaHoopInnerMPa": 16.666666666666668,
+          "sigmaRadialOuterMPa": 0,
+          "sigmaHoopOuterMPa": 6.666666666666667
+        }
+      },
+      "acceptance": {
+        "minimumLevels": 4,
+        "requireConstantRefinementRatio": true,
+        "requireDistinctMeshes": true,
+        "requireConvergenceClassification": "ASYMPTOTIC",
+        "requirePointwiseAcceptanceEligible": true,
+        "requireFineOracleErrorCoveredByGci": true,
+        "requireNegativeControlPass": true,
+        "rawMeshMaximumStressMayQualifyConvergence": false,
+        "releaseQualified": false
+      },
+      "negativeControl": {
+        "negativeCaseId": "BM-005-LAME-MISSING-Y-SYMMETRY",
+        "mutation": {
+          "removeAttachmentIds": [
+            "BC-Y-SYMMETRY-UX"
+          ]
+        },
+        "expectedFirstEngineeringBoundary": "solver",
+        "expectedErrorCodes": [
+          "UNDER_CONSTRAINED_OR_SINGULAR_SYSTEM"
+        ],
+        "allowEarlierGovernedPreflightRejection": true,
+        "releaseQualified": false
+      },
+      "limitations": [
+        "LINEAR_ELASTIC_SMALL_DISPLACEMENT_ONLY",
+        "PLANE_STRESS_QUARTER_SYMMETRY_IDEALIZATION",
+        "PRESSURE_ONLY_AXISYMMETRIC_GOLDEN_CASE",
+        "MAPPED_Q8_APPLICATION_BENCHMARK_ONLY",
+        "NO_CODE_COMPLIANCE",
+        "SINGLE_BENCHMARK_PASS_DOES_NOT_GRANT_PRODUCTION_OR_RELEASE_AUTHORITY"
+      ],
+      "freezePolicy": {
+        "definitionFrozenBeforeObservations": true,
+        "productionOutputMayModifyOracle": false,
+        "productionOutputMayModifyMeshLadder": false,
+        "productionOutputMayModifyProbe": false,
+        "productionOutputMayModifyAcceptance": false
+      }
+    },
+    "benchmarkDefinitionHash": "sha256:16741b76073e8a4657c0a11025fa92561f1b1b86b8fc4788e1d973259f8f3968",
+    "oracleSourceRegistry": {
+      "schema": "lafea3-bm005-source-registry/v1",
+      "benchmarkId": "BM-005-LAME-CONT-CYL-01",
+      "baselineCommit": "b2406f3ca4ad4015a1dad19f6246fe1ed69d1ebb",
+      "baselineTree": "9a14c2582dd20bfcd829b311b15d3c22ada04342",
+      "sources": [
+        {
+          "role": "independentOracle",
+          "sourceId": "RICHARDS-2012-THICK-CYLINDER-LAME",
+          "author": "K. L. Richards",
+          "title": "Design Engineer's Handbook",
+          "edition": "1st",
+          "publisher": "CRC Press",
+          "year": 2012,
+          "chapter": "6 ΓÇö Thick Cylinders",
+          "section": "6.3",
+          "pages": [
+            157,
+            158
+          ],
+          "equationIdentifiers": [
+            "6.3",
+            "6.4"
+          ],
+          "qualifiedClaim": "Elastic thick-cylinder radial and circumferential stresses have the Lame constant-plus-or-minus-constant-over-r-squared form, with constants fixed by radial-pressure boundary conditions.",
+          "repositorySignMapping": "Source constant/sign convention is mapped to repository tension-positive stress as sigma_r=A-B/r^2 and sigma_theta=A+B/r^2; internal pressure gives sigma_r(Ri)=-Pi and sigma_r(Ro)=0.",
+          "exactFixtureMatch": false,
+          "adaptation": "Repository uses Ri=50 mm, Ro=100 mm, Pi=10 MPa, Po=0 and derives its exact numerical oracle from the cited equations and boundary conditions."
+        },
+        {
+          "role": "independentFeFamilyCrossReference",
+          "sourceId": "MACNEAL-HARDER-1985-FIG10",
+          "authors": [
+            "R. H. MacNeal",
+            "R. L. Harder"
+          ],
+          "title": "A proposed standard set of problems to test finite element accuracy",
+          "publication": "Finite Elements in Analysis and Design",
+          "volume": 1,
+          "number": 1,
+          "year": 1985,
+          "pages": [
+            3,
+            20
+          ],
+          "doi": "10.1016/0168-874X(85)90003-4",
+          "locator": "Fig. 10, p. 10",
+          "qualifiedClaim": "Published finite-element benchmark family includes a thick-walled cylinder.",
+          "exactFixtureMatch": false,
+          "adaptation": "Different radii/material/formulation; retained only as an independent FE-family cross-reference, not the BM-005 numerical oracle."
+        },
+        {
+          "role": "repositorySourceQualification",
+          "path": "docs/local-continuum/LAFEA3_BENCHMARK_SOURCE_MATRIX.md",
+          "blobSha": "d1f6e15e7336780cdf5fde0578808acb946a3355",
+          "claimId": "LAFEA3-SRC-LAME-01"
+        },
+        {
+          "role": "existingInternalBenchmark",
+          "path": "scripts/lafea.3-benchmark-cont-cyl-01-check.mjs",
+          "blobSha": "4bf1bfee9b60dd8746254f53fdb35de329f2fd04",
+          "benchmarkId": "CONT-CYL-01"
+        },
+        {
+          "role": "auditHashPrecedent",
+          "path": "docs/LAFEA_Bucket_B1_Release_Readiness_Record_V2.md",
+          "blobSha": "d3a7450c25a95d6c7c2964edf7d9b8c3df0dd21c",
+          "qualifiedClaim": "semanticHash excludes candidate-head/test evidence; evidenceHash binds semanticHash, candidateHeadSha, qualificationEvidence and diagnostics."
+        }
+      ],
+      "oracleDerivation": {
+        "repositoryConvention": "TENSION_POSITIVE",
+        "inputs": {
+          "innerRadiusMm": 50,
+          "outerRadiusMm": 100,
+          "internalPressureMPa": 10,
+          "externalPressureMPa": 0,
+          "elasticModulusMPa": 200000,
+          "poissonRatio": 0.3,
+          "formulation": "PLANE_STRESS"
+        },
+        "derivedConstants": {
+          "A_MPa": 3.3333333333333335,
+          "B_MPa_mm2": 33333.333333333336
+        },
+        "planeStressDisplacementDerivation": "Combine the cited Lame sigma_r/sigma_theta field with isotropic plane-stress Hooke law epsilon_r=(sigma_r-nu*sigma_theta)/E and epsilon_r=du/dr, yielding u(r)=((1-nu)A*r+(1+nu)B/r)/E with the regular compatible axisymmetric displacement field.",
+        "productionResultUsed": false
+      },
+      "custodyPolicy": {
+        "productionOutputMayModifyOracle": false,
+        "sourceLocatorRequiredForExpectedValue": true,
+        "sourceOrOracleMutationIsSeparateEngineeringAuthorityChange": true,
+        "releaseAuthorityGranted": false
+      }
+    },
+    "oracleSourceRegistryHash": "sha256:3a49b92b17507ae82250ac7a7841805d7763f7867881c483819cb416f860848a",
+    "lineage": {
+      "sourceHash": "sha256:6d3c4c08a49863f76c2ed93a405b37c68895e069ca879e62a4a8eb3356751376",
+      "analysisDomainHash": "sha256:8d0491349b987806b44468b536b66c19ebf1fb77db71986d63cfa0838442b0ca",
+      "analysisGeometryHash": "sha256:574c87df7257c496b2c781ec6af7056af5913717fdbfc6323ffc545588292ab1",
+      "baseMeshProfileHash": "fnv1a64:b7cfb9dccd86e7bb",
+      "convergenceDefinitionHash": "sha256:b1fc50620c8b9a676bd94928f6eb320fa9b54659f32cce6fb1dcf730e6691478"
+    },
+    "observations": [
+      {
+        "levelId": "COARSE",
+        "h": 40,
+        "meshProfileHash": "fnv1a64:1f166181032263da",
+        "meshHash": "sha256:23eb0a1c2eb160a760ba45440e30bde30d5abccec72a8dfa15986703f2d2776b",
+        "solverModelHash": "sha256:b70f8690ad7019c12971935a6e97f25ae88546c9bdb4aacb27ae00c66f742e52",
+        "executionHash": "sha256:36453b6bdb64eb9bb690d99094fab8bde3c474d7877a1c651c82396d6d1560a1",
+        "recoveryHash": "sha256:5d912f3387e8b36a29542891e8004cd1efc28cdc7d989c5966a676337908d047",
+        "probeEvidenceHash": "sha256:126c64fae02f0245837f7ec7d7850dfb32b98668015fcda81c1ddc7649dd26bd",
+        "value": 0.003825071522233313,
+        "units": "mm",
+        "meshMetadata": {
+          "elementFamily": "Q8",
+          "strategy": "MAPPED_TRANSFINITE",
+          "nodeCount": 53,
+          "elementCount": 12,
+          "quality": {
+            "status": "OK",
+            "warningElementCount": 0,
+            "blockingElementCount": 0,
+            "gateResults": [
+              {
+                "metric": "ASPECT_RATIO",
+                "value": 1.8456727591639626,
+                "status": "OK",
+                "warningThreshold": 3,
+                "blockingThreshold": 10
+              },
+              {
+                "metric": "SCALED_JACOBIAN",
+                "value": 0.9967706528927267,
+                "status": "OK",
+                "warningThreshold": 0.5,
+                "blockingThreshold": 0.2
+              }
+            ]
+          }
+        }
+      },
+      {
+        "levelId": "MEDIUM",
+        "h": 20,
+        "meshProfileHash": "fnv1a64:2377baffede9cfac",
+        "meshHash": "sha256:a7b0b7e1895d783122388f88d77bfe88b064322b8117e01d0ef875900a845b23",
+        "solverModelHash": "sha256:3a3454279841e2e204d5b0110fb59036faff9b705d298028076cb7b088eaffdc",
+        "executionHash": "sha256:fc00e18faf4263bb9e0fced9b299410d7fc880dac4fdfe86fcfc42a633c16375",
+        "recoveryHash": "sha256:7f1183a047eca264c2c8b9dc323cccb4f219bf200172ec7b7874c74e9de537a2",
+        "probeEvidenceHash": "sha256:abaa1f5504873969fae874bf0a5d39475fee554fe01e44f47e6b3cccd400faae",
+        "value": 0.0038185165567701006,
+        "units": "mm",
+        "meshMetadata": {
+          "elementFamily": "Q8",
+          "strategy": "MAPPED_TRANSFINITE",
+          "nodeCount": 95,
+          "elementCount": 24,
+          "quality": {
+            "status": "OK",
+            "warningElementCount": 0,
+            "blockingElementCount": 0,
+            "gateResults": [
+              {
+                "metric": "ASPECT_RATIO",
+                "value": 1.4584936121265428,
+                "status": "OK",
+                "warningThreshold": 3,
+                "blockingThreshold": 10
+              },
+              {
+                "metric": "SCALED_JACOBIAN",
+                "value": 0.9979410531351672,
+                "status": "OK",
+                "warningThreshold": 0.5,
+                "blockingThreshold": 0.2
+              }
+            ]
+          }
+        }
+      },
+      {
+        "levelId": "FINE",
+        "h": 10,
+        "meshProfileHash": "fnv1a64:e8fddc3021439051",
+        "meshHash": "sha256:61c9e8ad99e64b1e3bbd9b72c5d3392d13e36a781f60d87fe7108437429d86e7",
+        "solverModelHash": "sha256:bc1fd58c8b5d126a6ba2bbfa1408f2e4c317422c9b2dd9b76f235c2502660f91",
+        "executionHash": "sha256:2c61cc80060498d9fefcd6fc4491df047b006fd9a122d12fe0d2d53c6d33ac82",
+        "recoveryHash": "sha256:d647d7049b063b78e600053935cd628bc29cd08949e6514e2b2c26d613de04bf",
+        "probeEvidenceHash": "sha256:4d1cd26e6bb450fc5c0a34ccf779edcfd7089c9d833d95512ba06d0988199253",
+        "value": 0.003819399409453219,
+        "units": "mm",
+        "meshMetadata": {
+          "elementFamily": "Q8",
+          "strategy": "MAPPED_TRANSFINITE",
+          "nodeCount": 283,
+          "elementCount": 80,
+          "quality": {
+            "status": "OK",
+            "warningElementCount": 0,
+            "blockingElementCount": 0,
+            "gateResults": [
+              {
+                "metric": "ASPECT_RATIO",
+                "value": 1.5977727644601898,
+                "status": "OK",
+                "warningThreshold": 3,
+                "blockingThreshold": 10
+              },
+              {
+                "metric": "SCALED_JACOBIAN",
+                "value": 0.9987864346363565,
+                "status": "OK",
+                "warningThreshold": 0.5,
+                "blockingThreshold": 0.2
+              }
+            ]
+          }
+        }
+      },
+      {
+        "levelId": "EXTRA_FINE",
+        "h": 5,
+        "meshProfileHash": "fnv1a64:0fb53a414380664d",
+        "meshHash": "sha256:66f8c903c3e6a409b4fde33d4b6911080d171f279c7249faa1e8e2e4d7162dc5",
+        "solverModelHash": "sha256:494d52d70d6d1047a305784527af914612ef7f011b6fdd9a9be62a3fb83200d5",
+        "executionHash": "sha256:21efc9a73b9f00b38f5ab66719eca5c519f358363152b266c895f57228b516be",
+        "recoveryHash": "sha256:a451cac18d9a3bc7919c2c6d85c047d8ceeb1e6c7458db97261480bdd2e3a2bc",
+        "probeEvidenceHash": "sha256:e09a65314215ac715aead6561bba1fd7ff41d6a335126ef1d7b0b23ceec0446d",
+        "value": 0.003819743595517477,
+        "units": "mm",
+        "meshMetadata": {
+          "elementFamily": "Q8",
+          "strategy": "MAPPED_TRANSFINITE",
+          "nodeCount": 1045,
+          "elementCount": 320,
+          "quality": {
+            "status": "OK",
+            "warningElementCount": 0,
+            "blockingElementCount": 0,
+            "gateResults": [
+              {
+                "metric": "ASPECT_RATIO",
+                "value": 1.5909288323834139,
+                "status": "OK",
+                "warningThreshold": 3,
+                "blockingThreshold": 10
+              },
+              {
+                "metric": "SCALED_JACOBIAN",
+                "value": 0.9990947022705967,
+                "status": "OK",
+                "warningThreshold": 0.5,
+                "blockingThreshold": 0.2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "convergence": {
+      "classification": "OSCILLATORY",
+      "observedOrders": [],
+      "observedOrder": null,
+      "richardsonExtrapolatedValue": null,
+      "gciFineAbsolute": null,
+      "gciFinePercent": null,
+      "pointwiseAcceptanceEligible": true,
+      "asymptoticRangeAccepted": false
+    },
+    "oracleComparison": {
+      "expectedValue": 0.003819703196347032,
+      "actualFineValue": 0.003819743595517477,
+      "units": "mm",
+      "absoluteError": 4.03991704447243e-8,
+      "relativeError": 0.000010576520836320473,
+      "gciFineAbsolute": null,
+      "gciFinePercent": null,
+      "richardsonExtrapolatedValue": null,
+      "oracleCoveredByGci": false,
+      "status": "FAIL"
+    },
+    "solverDiagnostics": {
+      "schema": "lafea-runtime-solver-diagnostics/v1",
+      "stageId": "LAFEA.3",
+      "executionHash": "sha256:21efc9a73b9f00b38f5ab66719eca5c519f358363152b266c895f57228b516be",
+      "solverModelHash": "sha256:494d52d70d6d1047a305784527af914612ef7f011b6fdd9a9be62a3fb83200d5",
+      "storageRoute": "CSR_FULL_SYMMETRIC",
+      "methods": [
+        "DETERMINISTIC_JACOBI_PCG"
+      ],
+      "terminationState": "CONVERGED",
+      "loadCase": {
+        "loadCaseId": "INTERNAL_PRESSURE",
+        "dofCount": 2048,
+        "freeDofCount": 2048,
+        "constrainedDofCount": 0,
+        "reactionCount": 0,
+        "method": "DETERMINISTIC_JACOBI_PCG",
+        "preconditioner": "JACOBI",
+        "iterations": 367,
+        "iterationLimit": 32768,
+        "initialResidualInfinity": 163.56548324959104,
+        "finalResidualInfinity": 2.369233698118478e-10,
+        "convergenceTarget": 2.6356548324959106e-10,
+        "residualTolerance": 2.6356548324959105e-8,
+        "pivotRatio": null,
+        "freeDofResidualInfinity": 2.369233698118478e-10,
+        "accepted": true,
+        "equilibrium": {
+          "residualScale": 363.4037994287103,
+          "freeDofMaximumResidual": 2.369233698118478e-10,
+          "freeDofTolerance": 4.6340379942871034e-8,
+          "reactionPlusAppliedForce": {
+            "x": 7.680114322283771e-10,
+            "y": 7.071321306284517e-10
+          },
+          "reactionEquilibriumTolerance": 4.6340379942871034e-8,
+          "accepted": true
+        }
+      },
+      "accepted": true,
+      "releaseQualified": false,
+      "semanticHash": "sha256:fd4705a1189d50fdb5836ff9178a1d452da0c1682aa084009d43915bbb023a8f"
+    },
+    "negativeControl": {
+      "negativeCaseId": "BM-005-LAME-MISSING-Y-SYMMETRY",
+      "expectedFirstEngineeringBoundary": "solver",
+      "expectedErrorCodes": [
+        "UNDER_CONSTRAINED_OR_SINGULAR_SYSTEM"
+      ],
+      "actualBoundary": "solver",
+      "actualErrorCode": "UNDER_CONSTRAINED_OR_SINGULAR_SYSTEM",
+      "status": "PASS_EXPECTED_REJECTION",
+      "releaseQualified": false
+    },
+    "warnings": [],
+    "limitations": [
+      "LINEAR_ELASTIC_SMALL_DISPLACEMENT_ONLY",
+      "PLANE_STRESS_QUARTER_SYMMETRY_IDEALIZATION",
+      "PRESSURE_ONLY_AXISYMMETRIC_GOLDEN_CASE",
+      "MAPPED_Q8_APPLICATION_BENCHMARK_ONLY",
+      "NO_CODE_COMPLIANCE",
+      "SINGLE_BENCHMARK_PASS_DOES_NOT_GRANT_PRODUCTION_OR_RELEASE_AUTHORITY"
+    ],
+    "authority": {
+      "benchmarkQualified": false,
+      "resultPublicationQualified": false,
+      "releaseQualified": false,
+      "coreFeaCompletionProven": false,
+      "reasons": [
+        "ASYMPTOTIC_RANGE_NOT_DEMONSTRATED",
+        "ANALYTICAL_ORACLE_OUTSIDE_FINE_GCI",
+        "RESULT_PUBLICATION_NOT_QUALIFIED"
+      ]
+    },
+    "qualificationEvidence": {
+      "command": "node scripts/lafea.3-bm005-ordinary-route-check.mjs",
+      "observation": "LOCAL_EXECUTION",
+      "exactHead": "1019ca26cb18332983f64258698787280b86afd1",
+      "oneMeshExecutionStatus": "QUALIFIED",
+      "convergenceStatus": "CURRENT_BLOCK",
+      "convergenceClassification": "OSCILLATORY",
+      "finalResultState": "RESULT_NOT_READY",
+      "meshReplayCount": 4,
+      "canonicalExecutionInputHashes": [
+        {
+          "levelId": "COARSE",
+          "canonicalExecutionInputHash": "sha256:50d3368bfa11faa4fd452d1d5b298355d3917c011e120b040b43554a2e20c6c9"
+        },
+        {
+          "levelId": "MEDIUM",
+          "canonicalExecutionInputHash": "sha256:ef2fb5eca3c7d203fe888bc1505111881698c86895596f18a30b7ae232b45794"
+        },
+        {
+          "levelId": "FINE",
+          "canonicalExecutionInputHash": "sha256:04961186b9a1bedf7fbdbee5f631955a1529bd59477f56270551eea9d5b806d8"
+        },
+        {
+          "levelId": "EXTRA_FINE",
+          "canonicalExecutionInputHash": "sha256:61920939386a365b3958de6f01db500138ab5410949e144c97cccad3015b1b32"
+        }
+      ]
+    },
+    "diagnostics": [
+      "CONVERGENCE_CLASSIFICATION_OSCILLATORY_NOT_PUBLISHABLE",
+      "LAFEA3_CONVERGENCE_NOT_CURRENT_AND_QUALIFIED"
+    ],
+    "semanticHash": "sha256:78b378c445e6d04cdd246620279bb824a22105564ca9f466b30c66eef81a2718",
+    "evidenceHash": "sha256:4fc26a1156871c8fdd86b401650322e6708288d48790ad9215134974335aa2ba"
+  }
+}

@@ -1,0 +1,77 @@
+﻿{
+  "schema": "lafea-c3d-baseline-disposition/v1",
+  "basis": {
+    "head": "89420e9cba7879d8e9fa172350bd4210f5d90fe0",
+    "workPackage": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-BASELINE-1771-0001",
+    "lease": "LEASE-LAFEA3-C3D-BASELINE-1771-0001"
+  },
+  "disposition": "STRUCTURED_BOUNDARY_FINDINGS",
+  "secondaryFinding": "NARROW_ISSUE_1862",
+  "statement": "The existing qualification estate cannot be certified or composed by issue #1862 in its current state because the primary execution surfaces fail at confirmed source binding and unresolved numerical/mesh/convergence boundaries before evidence composition can occur. Confirmed source-binding defects are separated from unresolved numerical/mesh boundaries; no tolerance or oracle weakening is admitted. Furthermore, the workbench production runtime already possesses authoritative ancestry, solver diagnostics, and currentness properties, so issue #1862 must remain unadmitted and be narrowed to receipt projection rather than architectural implementation once boundaries are reconciled.",
+  "confirmedFindings": [
+    {
+      "id": "FINDING-C3D-001",
+      "classification": "CONFIRMED_SOURCE_BINDING_DEFECT",
+      "surface": "scripts/lafea-b02-production-sequence-check.mjs",
+      "failingStep": "scripts/lafea-b02d-probe-stable-polar-mesh-check.mjs:60",
+      "error": "AssertionError: T3/L1 'BLOCK' !== 'PASS'",
+      "cause": "Sequence check consumes obsolete V1 polar mesh definition (B02D-lug-pinhole.json) where coarse diagonal split produces 9.74deg triangle (<11.537deg blocking threshold). B02D production check was already updated to V2 (B02D-lug-pinhole-v2.json) and passes, but the sequence check was left pointing to the V1 probe check.",
+      "resolutionPolicy": "Rebind sequence check to governed B02D V2 qualification in a targeted diagnostic EP."
+    }
+  ],
+  "unresolvedBoundaries": [
+    {
+      "id": "FINDING-C3D-002",
+      "classification": "UNRESOLVED_QUALIFICATION_ENVELOPE",
+      "surface": "scripts/lafea-b02b-production-check.mjs",
+      "failingStep": "scripts/lib/lafea-b02-rectangle-qualification.mjs:97",
+      "error": "AssertionError: B02B-V2/T3/B02B-PROBE-TAU-01 finest relative error: 0.079990250251308 > 0.05",
+      "cause": "T3 on B02B yields 7.999% relative error against analytical oracle, exceeding 5% limit.",
+      "governanceRestriction": "Do not classify as a bad tolerance or benchmark definition without proving T3 applicability/authority. Do not relax the B02B 5% tolerance criterion."
+    },
+    {
+      "id": "FINDING-C3D-003",
+      "classification": "UNRESOLVED_MESH_QUALITY_BOUNDARY",
+      "surface": "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+      "failingStep": "scripts/lafea-plane-strain-bbar-lame-check.mjs:146",
+      "error": "AssertionError: T6/0.3/L1/REGULAR mesh quality blocked",
+      "cause": "Mesh quality checker evaluates minimum angle as 11.198deg, below the blocking threshold of 11.537deg, blocking T6 L1 REGULAR and subsequently halting B01 qualification at step 8.",
+      "governanceRestriction": "Do not classify as a benchmark-definition defect until raw evidence and the intended supported mesh/envelope are reconciled."
+    },
+    {
+      "id": "FINDING-C3D-004",
+      "classification": "UNRESOLVED_CONVERGENCE_BOUNDARY",
+      "surface": "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+      "failingStep": "scripts/lafea.3-bm005-ordinary-route-check.mjs:report.status",
+      "error": "report.status: FAIL (reasons: ASYMPTOTIC_RANGE_NOT_DEMONSTRATED, ANALYTICAL_ORACLE_OUTSIDE_FINE_GCI, RESULT_PUBLICATION_NOT_QUALIFIED)",
+      "cause": "4-level refinement study classifies as OSCILLATORY, preventing result publication qualification and setting finalResultState to RESULT_NOT_READY.",
+      "governanceRestriction": "Do not classify BM-005 OSCILLATORY / RESULT_NOT_READY as a benchmark-definition defect merely because it prevents a green aggregate. Treat it as a genuine convergence/publication result until its first owning boundary is demonstrated."
+    }
+  ],
+  "evidenceCompositionGapSummary": {
+    "workbenchCapabilities": "The workbench runtime authoritatively generates and holds sourceHash, analysisDomainHash, analysisGeometryHash, meshHash, meshProfileHash, projectionHash, solverModelHash, canonicalExecutionInputHash, compiledExecutionHash, runtimeDiagnosticsHash, recoveryHash, and runTransactionReceipt (status: COMPLETED).",
+    "receiptOmissions": "The qualification receipts emitted by B02 (lafea-b02-rectangle-production-qualification-receipt/v1, lafea-b02c-production-qualification-receipt/v1, lafea-b02d-production-qualification-receipt/v1) omit all ancestry hashes except meshHash, executionHash, and recoveryHash, omit detailed solver diagnostics (iterations, residuals), and omit runTransactionReceipt tokens.",
+    "replayStatus": "Deterministic replay is 100% proved across two independent executions on identical input (B02A L1 T6) and retained durably in-repository.",
+    "issue1862Disposition": "Keep issue #1862 UNADMITTED. Narrow to receipt projection only after benchmark boundaries are reconciled."
+  },
+  "deterministicReplayCustody": {
+    "status": "PROVED_DURABLE_IN_REPOSITORY",
+    "scriptWitness": "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/test_replay.mjs",
+    "receiptWitness": "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/replay-receipt.json",
+    "rawPassOutputs": [
+      "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/pass1.execution.json",
+      "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/pass2.execution.json"
+    ],
+    "rawProcessOutputs": [
+      "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/replay.stdout.txt",
+      "relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/replay.exit.txt"
+    ]
+  },
+  "recommendedNextActions": [
+    "Keep issue #1862 UNADMITTED.",
+    "Address the confirmed source binding defect (rebind B02 sequence check to V2 polar mesh qualification) in a narrow diagnostic/reconciliation EP.",
+    "Investigate unresolved boundaries without relaxing tolerances: assess T3 qualification envelope applicability on B02B, reconcile B-bar T6/L1 mesh quality envelope, and analyze BM-005 convergence boundary.",
+    "Narrow issue #1862 into a minimal receipt-projection update that exposes existing workbench properties into qualification receipts without altering production mechanics."
+  ]
+}

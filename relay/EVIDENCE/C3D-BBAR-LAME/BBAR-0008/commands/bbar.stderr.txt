@@ -1,0 +1,27 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: [{"state":"NUMERICAL_FAILURE","code":"ITERATIVE_SOLVER_DID_NOT_CONVERGE","path":"solver","message":"Sparse PCG residual 1.471926225349307e-8 exceeds internal target 2.102108772439442e-10 (acceptance gate 2.102108772439442e-8) after 42560 iterations."}]
++ actual - expected
+
++ 'NUMERICAL_FAILURE'
+- 'ACCEPTED'
+
+    at executeLameBbarQualificationCase (file:///C:/Users/reall/Documents/antigravity/Advanced_Analysis/scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs:64:10)
+    at file:///C:/Users/reall/Documents/antigravity/Advanced_Analysis/scripts/lafea-plane-strain-bbar-lame-check.mjs:137:17
+    at Array.map (<anonymous>)
+    at runSeries (file:///C:/Users/reall/Documents/antigravity/Advanced_Analysis/scripts/lafea-plane-strain-bbar-lame-check.mjs:136:46)
+    at file:///C:/Users/reall/Documents/antigravity/Advanced_Analysis/scripts/lafea-plane-strain-bbar-lame-check.mjs:60:19
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'NUMERICAL_FAILURE',
+  expected: 'ACCEPTED',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.11.1

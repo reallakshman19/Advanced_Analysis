@@ -1,0 +1,169 @@
+{
+    "schema": "lafea-b02b-ladder-comparison/v1",
+    "case": "B02B",
+    "omissionProof": {
+        "statement": "B02B V2 was created with scope SHEAR_STRESS_SIGN_ONLY, but omitted the governed V1 method-specific mesh ladder (which gave T3 the finer [2.5, 1.25, 0.625] refinement window while keeping T6 and Q8 at [10, 5, 2.5] with associated justification). Instead, V2 had coarse [10, 5, 2.5] across all methods without levelsByMethod.",
+        "governedV1Source": "validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+        "preFixV2Material": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+        "repairedV2Material": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d"
+    },
+    "fields": {
+        "levels": {
+            "v1": [
+                {
+                    "levelId": "L1",
+                    "h": 2.5,
+                    "targetElementLength": 2.5,
+                    "curvatureToleranceDegrees": 30
+                },
+                {
+                    "levelId": "L2",
+                    "h": 1.25,
+                    "targetElementLength": 1.25,
+                    "curvatureToleranceDegrees": 30
+                },
+                {
+                    "levelId": "L3",
+                    "h": 0.625,
+                    "targetElementLength": 0.625,
+                    "curvatureToleranceDegrees": 30
+                }
+            ],
+            "v2_pre_fix": [
+                {
+                    "levelId": "L1",
+                    "h": 10,
+                    "targetElementLength": 10,
+                    "curvatureToleranceDegrees": 30
+                },
+                {
+                    "levelId": "L2",
+                    "h": 5,
+                    "targetElementLength": 5,
+                    "curvatureToleranceDegrees": 30
+                },
+                {
+                    "levelId": "L3",
+                    "h": 2.5,
+                    "targetElementLength": 2.5,
+                    "curvatureToleranceDegrees": 30
+                }
+            ],
+            "v2_post_fix": [
+                {
+                    "levelId": "L1",
+                    "h": 2.5,
+                    "targetElementLength": 2.5,
+                    "curvatureToleranceDegrees": 30
+                },
+                {
+                    "levelId": "L2",
+                    "h": 1.25,
+                    "targetElementLength": 1.25,
+                    "curvatureToleranceDegrees": 30
+                },
+                {
+                    "levelId": "L3",
+                    "h": 0.625,
+                    "targetElementLength": 0.625,
+                    "curvatureToleranceDegrees": 30
+                }
+            ],
+            "parityWithV1": true
+        },
+        "levelsByMethod": {
+            "v1": {
+                "T6": [
+                    {
+                        "levelId": "L1",
+                        "h": 10,
+                        "targetElementLength": 10,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L2",
+                        "h": 5,
+                        "targetElementLength": 5,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L3",
+                        "h": 2.5,
+                        "targetElementLength": 2.5,
+                        "curvatureToleranceDegrees": 30
+                    }
+                ],
+                "Q8": [
+                    {
+                        "levelId": "L1",
+                        "h": 10,
+                        "targetElementLength": 10,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L2",
+                        "h": 5,
+                        "targetElementLength": 5,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L3",
+                        "h": 2.5,
+                        "targetElementLength": 2.5,
+                        "curvatureToleranceDegrees": 30
+                    }
+                ]
+            },
+            "v2_pre_fix": null,
+            "v2_post_fix": {
+                "T6": [
+                    {
+                        "levelId": "L1",
+                        "h": 10,
+                        "targetElementLength": 10,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L2",
+                        "h": 5,
+                        "targetElementLength": 5,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L3",
+                        "h": 2.5,
+                        "targetElementLength": 2.5,
+                        "curvatureToleranceDegrees": 30
+                    }
+                ],
+                "Q8": [
+                    {
+                        "levelId": "L1",
+                        "h": 10,
+                        "targetElementLength": 10,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L2",
+                        "h": 5,
+                        "targetElementLength": 5,
+                        "curvatureToleranceDegrees": 30
+                    },
+                    {
+                        "levelId": "L3",
+                        "h": 2.5,
+                        "targetElementLength": 2.5,
+                        "curvatureToleranceDegrees": 30
+                    }
+                ]
+            },
+            "parityWithV1": true
+        },
+        "levelsByMethodJustification": {
+            "v1": "Same rationale as B02A: T6/Q8 already converge comfortably at h=2.5 (see B02B-TAU-XY-VALIDATION-RECORD.md), and the underlying solver's execution-qualification step was found to reject/take a very long time on T6/Q8 meshes finer than that for this domain size -- a pre-existing solver performance characteristic, out of scope here. T3 uses its own efficient probe-stable mesh (b02b-probe-stable-rectangle-mesh.js) and needs the finer [2.5,1.25,0.625] window to get past its own early-transient behavior on both fixed probes.",
+            "v2_pre_fix": null,
+            "v2_post_fix": "Same rationale as B02A: T6/Q8 already converge comfortably at h=2.5 (see B02B-TAU-XY-VALIDATION-RECORD.md), and the underlying solver's execution-qualification step was found to reject/take a very long time on T6/Q8 meshes finer than that for this domain size -- a pre-existing solver performance characteristic, out of scope here. T3 uses its own efficient probe-stable mesh (b02b-probe-stable-rectangle-mesh.js) and needs the finer [2.5,1.25,0.625] window to get past its own early-transient behavior on both fixed probes.",
+            "parityWithV1": true
+        }
+    }
+}

@@ -1,0 +1,65 @@
+﻿{
+  "basis": {
+    "head": "89420e9cba7879d8e9fa172350bd4210f5d90fe0",
+    "branch": "main",
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "node": "v24.11.1",
+    "platform": "win32"
+  },
+  "commands": [
+    {
+      "id": "B02",
+      "command": "node scripts/lafea-b02-production-sequence-check.mjs",
+      "status": "FAIL",
+      "exitCode": 1,
+      "stdout": "commands/b02.stdout.txt",
+      "stderr": "commands/b02.stderr.txt"
+    },
+    {
+      "id": "BM-005",
+      "command": "node scripts/lafea.3-bm005-ordinary-route-check.mjs",
+      "status": "FAIL",
+      "exitCode": 1,
+      "stdout": "commands/bm005.stdout.txt",
+      "stderr": "commands/bm005.stderr.txt"
+    },
+    {
+      "id": "B01",
+      "command": "node scripts/lafea-b01-final-qualification.mjs",
+      "status": "FAIL",
+      "exitCode": 1,
+      "stdout": "commands/b01.stdout.txt",
+      "stderr": "commands/b01.stderr.txt"
+    },
+    {
+      "id": "B-bar",
+      "command": "node scripts/lafea-plane-strain-bbar-lame-check.mjs",
+      "status": "FAIL",
+      "exitCode": 1,
+      "stdout": "commands/bbar.stdout.txt",
+      "stderr": "commands/bbar.stderr.txt"
+    }
+  ],
+  "replay": {
+    "command": "node relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/test_replay.mjs",
+    "status": "PASS",
+    "exitCode": 0,
+    "stdout": "replay/replay.stdout.txt",
+    "receipt": "replay/replay-receipt.json"
+  },
+  "protectedMaterialChanged": false,
+  "disposition": "STRUCTURED_BOUNDARY_FINDINGS",
+  "dispositionDetails": {
+    "confirmedSourceBindingDefects": [
+      "FINDING-C3D-001: Stale B02D V1 polar sequence binding in scripts/lafea-b02-production-sequence-check.mjs"
+    ],
+    "unresolvedBoundaries": [
+      "FINDING-C3D-002: B02B T3 qualification envelope (finest relative error 0.07999 > 0.05 limit; tolerance relaxation prohibited)",
+      "FINDING-C3D-003: Plane-strain B-bar T6/L1 regular mesh quality blocked (< 11.537deg angle; halts B01 step 8)",
+      "FINDING-C3D-004: BM-005 ordinary route convergence oscillatory / RESULT_NOT_READY (genuine convergence result)"
+    ],
+    "receiptProjectionGap": "Workbench authoritative properties omitted from qualification receipts (narrow Issue #1862; remains UNADMITTED)",
+    "deterministicReplay": "100% byte-for-byte proved across two independent passes; retained durably in-repository"
+  }
+}

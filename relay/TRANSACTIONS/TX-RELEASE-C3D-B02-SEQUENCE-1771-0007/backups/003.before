@@ -1,0 +1,31 @@
+﻿{
+  "schema_version": "relay-v3.1",
+  "roadmap": {
+    "revision": "RM-0015",
+    "path": "relay/ROADMAP/ROADMAP.yaml"
+  },
+  "execution": {
+    "lifecycle": "ACTIVE",
+    "ep": "EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
+    "lease": "LEASE-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
+    "route": "SERIAL:EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007"
+  },
+  "accepted": {
+    "checkpoint": null
+  },
+  "controls": {
+    "path": "relay/CONTROLS/controls.yaml"
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "PULL_REQUEST",
+      "number": 1868
+    }
+  },
+  "generated": {
+    "snapshot": "relay/GENERATED/CURRENT_SNAPSHOT.yaml"
+  }
+}
+

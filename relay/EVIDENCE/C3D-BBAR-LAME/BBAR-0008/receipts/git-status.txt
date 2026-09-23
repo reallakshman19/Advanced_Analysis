@@ -1,0 +1,32 @@
+On branch relay/c3d-v31-diagnostic-1771
+Your branch is ahead of 'origin/relay/c3d-v31-diagnostic-1771' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   relay/EVENTS.jsonl
+	modified:   relay/GENERATED/CURRENT_SNAPSHOT.yaml
+	modified:   relay/LEASES/LEASE-LAFEA3-C3D-B02-SEQUENCE-1771-0007.yaml
+	modified:   relay/ROADMAP/ROADMAP.yaml
+	modified:   relay/STATE.yaml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	relay/ADMISSIONS/TA-C3D-BBAR-LAME-1771-0008.yaml
+	relay/EVIDENCE/C3D-B02-SEQUENCE/
+	relay/EVIDENCE/C3D-B02B-DEFINITION/
+	relay/EVIDENCE/C3D-B02B-LADDER/
+	relay/EVIDENCE/C3D-B02B-ROUTING/
+	relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/basis.json
+	relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/commands/
+	relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/notes/
+	relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/receipts/
+	relay/EVIDENCE/C3D-BASELINE/BASELINE-0001/replay/
+	relay/EVIDENCE/C3D-BBAR-LAME/
+	relay/EVIDENCE/C3D-DIAGNOSTIC/
+	relay/LEASES/LEASE-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml
+	relay/TRANSACTIONS/
+	relay/WORK/EP-LAFEA3-C3D-BBAR-LAME-1771-0008.yaml
+
+no changes added to commit (use "git add" and/or "git commit -a")

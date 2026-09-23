@@ -1,0 +1,58 @@
+﻿{
+  "schema": "lafea-c3d-b02b-repair-execution-summary/v1",
+  "basis": {
+    "requestId": "LOCAL-EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004-ad821c11bcd6",
+    "workPackage": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-B02B-DEFINITION-1771-0004",
+    "materialHead": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+    "observedHead": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+    "commonHead": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "node": "v24.11.1",
+    "platform": "win32"
+  },
+  "commands": [
+    {
+      "id": "B02B_STANDALONE",
+      "command": "node scripts/lafea-b02b-production-check.mjs",
+      "observedHead": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+      "startTime": "2026-09-22T17:22:36.806Z",
+      "endTime": "2026-09-22T17:22:43.435Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "commands/b02b.stdout.txt",
+      "stderr": "commands/b02b.stderr.txt",
+      "receipt": "commands/b02b.receipt.json",
+      "error": "AssertionError [ERR_ASSERTION]: B02B-V2/T3/B02B-PROBE-UY-01 convergence is DIVERGENT",
+      "failingStep": "scripts/lib/lafea-b02-rectangle-qualification.mjs:168:12",
+      "summary": "With acceptanceMode: FIXED_LOCATION_CONVERGENCE_ONLY restored on B02B-V2, direct-oracle comparison for TAU-01 is waived. However, T3 fails convergence qualification because B02B-PROBE-UY-01 evaluates as DIVERGENT."
+    },
+    {
+      "id": "B02_SEQUENCE",
+      "command": "node scripts/lafea-b02-production-sequence-check.mjs",
+      "observedHead": "ad821c11bcd657a52a80c5760aad845508a2ae82",
+      "startTime": "2026-09-22T17:22:43.514Z",
+      "endTime": "2026-09-22T17:23:34.129Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "stdout": "commands/b02-sequence.stdout.txt",
+      "stderr": "commands/b02-sequence.stderr.txt",
+      "receipt": "commands/b02-sequence.receipt.json",
+      "error": "AssertionError [ERR_ASSERTION]: B02B-V2/T3/B02B-PROBE-UY-01 convergence is DIVERGENT",
+      "failingStep": "scripts/lib/lafea-b02-rectangle-qualification.mjs:168:12",
+      "summary": "Sequence passes B02C and B02D, then blocks at B02B due to T3 UY-01 DIVERGENT convergence assertion. Emits LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B."
+    }
+  ],
+  "finding": "Restoring acceptanceMode: FIXED_LOCATION_CONVERGENCE_ONLY waived the direct-oracle comparison on TAU-01 (former 8% vs 5% failure). However, T3 constant-strain triangles on B02B fail convergence qualification on displacement probe UY-01, where convergence evaluates as DIVERGENT and exceeds the 2% fine-band stability check. The failure is retained exactly without further repair.",
+  "governance": {
+    "tolerancesAltered": false,
+    "expectedValuesChanged": false,
+    "v2OracleCorrectionModified": false,
+    "qualifierCodeModified": false,
+    "bbarOrBm005Touched": false,
+    "solverMesherMechanicsChanged": false,
+    "issue1862Implemented": false,
+    "committedOrPushed": false
+  }
+}

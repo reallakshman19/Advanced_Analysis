@@ -1,0 +1,70 @@
+﻿{
+  "schema": "lafea-c3d-diagnostic-disposition/v1",
+  "basis": {
+    "requestId": "LOCAL-EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003-1019ca26cb18",
+    "workPackage": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
+    "branch": "relay/c3d-v31-diagnostic-1771",
+    "materialHead": "1019ca26cb18332983f64258698787280b86afd1",
+    "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+    "commonHead": "c87cf87b313801e42ecd0fcc7d36af0d90c5f400"
+  },
+  "disposition": "SEPARATE_FOUR_BOUNDARY_CLASSIFICATION",
+  "summary": "On material HEAD 1019ca26c, the B02 sequence check advances past the former B02D polar failure, proving the B02D V1->V2 correction is effective. The estate now halts cleanly at the three remaining unresolved boundaries (B02B T3 migration defect, B-bar T6 mesh quality, and BM-005 oscillatory convergence). All four classifications are preserved separately without relaxing any tolerance, quality threshold, oracle, or mesh definition.",
+  "classifications": [
+    {
+      "id": "DIAG-CLASS-001",
+      "boundary": "B02D V1->V2 sequence-binding correction",
+      "status": "VERIFIED_CORRECTED",
+      "surface": "scripts/lafea-b02-production-sequence-check.mjs",
+      "evidence": "On 1019ca26c, the sequence check binds to B02D V2 qualification and passes step 2 (B02D_POLAR_MESH). The sequence advances past the polar check and halts at B02B, confirming the source-binding defect is resolved in the sequence script."
+    },
+    {
+      "id": "DIAG-CLASS-002",
+      "boundary": "B02B V2 acceptance-mode migration defect",
+      "status": "CONFIRMED_UNRESOLVED",
+      "surface": "scripts/lafea-b02b-production-check.mjs",
+      "failingStep": "scripts/lib/lafea-b02-rectangle-qualification.mjs:97",
+      "error": "AssertionError: B02B-V2/T3/B02B-PROBE-TAU-01 finest relative error: 0.079990250251308 > 0.05",
+      "governanceRestriction": "Do not relax the B02B 5% error tolerance criterion. Classify T3 applicability / control mode based on demonstrated authority."
+    },
+    {
+      "id": "DIAG-CLASS-003",
+      "boundary": "B-bar T6/L1 mesh-quality boundary",
+      "status": "CONFIRMED_UNRESOLVED",
+      "surface": "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+      "failingStep": "scripts/lafea-plane-strain-bbar-lame-check.mjs:146",
+      "error": "AssertionError: T6/0.3/L1/REGULAR mesh quality blocked",
+      "detail": "Generated regular quadratic triangle mesh has minimum angle of 11.198deg, below the blocking threshold of 11.537deg. Halts B-bar qualification and B01 step 8.",
+      "governanceRestriction": "Do not relax mesh-quality thresholds. Reconcile supported mesh envelope and quality policy."
+    },
+    {
+      "id": "DIAG-CLASS-004",
+      "boundary": "BM-005 oscillatory convergence / RESULT_NOT_READY boundary",
+      "status": "CONFIRMED_UNRESOLVED",
+      "surface": "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+      "error": "report.status: FAIL (reasons: ASYMPTOTIC_RANGE_NOT_DEMONSTRATED, ANALYTICAL_ORACLE_OUTSIDE_FINE_GCI, RESULT_PUBLICATION_NOT_QUALIFIED)",
+      "detail": "4-level refinement evaluates to OSCILLATORY; analytical oracle lies outside fine GCI; finalResultState: RESULT_NOT_READY.",
+      "governanceRestriction": "Treat as a genuine convergence/publication result until first owning boundary is demonstrated. Do not treat as a benchmark defect merely because it prevents green aggregate."
+    }
+  ],
+  "deterministicReplay": {
+    "status": "PROVED_DURABLE_ON_1019CA26C",
+    "scriptWitness": "relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/test_replay.mjs",
+    "receiptWitness": "relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/replay-receipt.json",
+    "hashesMatched": 11,
+    "allHashesMatch": true,
+    "transactionMatch": true,
+    "probesMatch": true,
+    "exitCode": 0
+  },
+  "governanceCompliance": {
+    "tolerancesRelaxed": false,
+    "qualityThresholdsRelaxed": false,
+    "oraclesModified": false,
+    "meshDefinitionsModified": false,
+    "productSourceFilesModified": false,
+    "issue1862Admitted": false,
+    "committedOrPushed": false
+  }
+}

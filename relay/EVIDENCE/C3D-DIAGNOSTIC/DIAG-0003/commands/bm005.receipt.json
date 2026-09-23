@@ -1,0 +1,10 @@
+﻿{
+    "command":  "node scripts/lafea.3-bm005-ordinary-route-check.mjs",
+    "observedHead":  "1019ca26cb18332983f64258698787280b86afd1",
+    "startTime":  "2026-09-22T17:03:04.134Z",
+    "endTime":  "2026-09-22T17:03:22.798Z",
+    "exitCode":  1,
+    "stdoutPath":  "bm005.stdout.txt",
+    "stderrPath":  "bm005.stderr.txt",
+    "exitCodePath":  "bm005.exit.txt"
+}

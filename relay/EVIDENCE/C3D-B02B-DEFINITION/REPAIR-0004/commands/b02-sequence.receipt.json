@@ -1,0 +1,10 @@
+﻿{
+    "command":  "node scripts/lafea-b02-production-sequence-check.mjs",
+    "observedHead":  "ad821c11bcd657a52a80c5760aad845508a2ae82",
+    "startTime":  "2026-09-22T17:22:43.514Z",
+    "endTime":  "2026-09-22T17:23:34.129Z",
+    "exitCode":  1,
+    "stdoutPath":  "b02-sequence.stdout.txt",
+    "stderrPath":  "b02-sequence.stderr.txt",
+    "exitCodePath":  "b02-sequence.exit.txt"
+}

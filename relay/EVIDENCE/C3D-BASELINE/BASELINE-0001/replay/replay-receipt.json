@@ -1,0 +1,325 @@
+{
+  "schema": "lafea-c3d-deterministic-replay-receipt/v1",
+  "replayedAt": "2026-09-22T16:49:08.042Z",
+  "target": {
+    "benchmark": "B02A",
+    "method": "T6"
+  },
+  "status": "PASS",
+  "hashes": {
+    "sourceHash": {
+      "match": true,
+      "value": "sha256:9b141f4ee2e50776cb9f60fda208691b9c9445178d7578b7c50d77f0e5f5823e"
+    },
+    "analysisDomainHash": {
+      "match": true,
+      "value": "sha256:7868f67b381d27d46252cbc97548e2735612a20f6054d320367b8ad29b988490"
+    },
+    "analysisGeometryHash": {
+      "match": true,
+      "value": "sha256:7fdb0311eff788a1862b6dd7a98d7129919a459f70d08d236b024bd4294998f7"
+    },
+    "meshHash": {
+      "match": true,
+      "value": "sha256:379351c80e594c47f38c92f5b005381100a06432d4e7c308ba68f2337da1b616"
+    },
+    "meshProfileHash": {
+      "match": true,
+      "value": "fnv1a64:6f0c17fc304ebf3e"
+    },
+    "projectionHash": {
+      "match": true,
+      "value": "sha256:2a248c7e9d035bb7b18d59e36dfc8feffd6a465d723690dee9fe390cdcf5dbf6"
+    },
+    "solverModelHash": {
+      "match": true,
+      "value": "sha256:144be48c1508450802c60a5d333e35b912872aad43445e61442fed0d97cb7f1c"
+    },
+    "canonicalExecutionInputHash": {
+      "match": true,
+      "value": "sha256:59624d8e6db37939c23cbc5336f9d3f15f1d5d2a3d1f5d6721f3b8067c3309a6"
+    },
+    "compiledExecutionHash": {
+      "match": true,
+      "value": "sha256:de7cdcbfac1beb4bbf2e3394598054c9ea9e2887d800ce2b4e0aa40344814027"
+    },
+    "runtimeDiagnosticsHash": {
+      "match": true,
+      "value": "sha256:599398cd67214426cce04ce5bff2d45dd2be95d1acc8587578b55a19b737cff7"
+    },
+    "recoveryHash": {
+      "match": true,
+      "value": "sha256:6d2ed95d7c17212139922f29e951b71177df393109e741334d490f6da2451481"
+    }
+  },
+  "transaction": {
+    "runTransactionStatus": "COMPLETED",
+    "runTransactionReceiptStatus": "COMPLETED",
+    "match": true
+  },
+  "probes": {
+    "match": true,
+    "values": [
+      {
+        "schema": "lafea-continuum-physical-probe-evidence/v1",
+        "stageId": "LAFEA.3",
+        "probe": {
+          "schema": "lafea-continuum-physical-probe/v1",
+          "probeId": "B02A-PROBE-STRESS-01",
+          "physicalCoordinate": {
+            "x": 53,
+            "y": 2.7
+          },
+          "coordinateFrame": "GLOBAL_XY",
+          "loadCaseId": "B02A-LC1",
+          "quantityId": "STRESS_SIGMA_X",
+          "representation": "PHYSICAL_POINT_DIRECT",
+          "recoveryMethod": "ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT",
+          "units": "MPa",
+          "singularityClassification": "NON_SINGULAR_ANALYTICAL",
+          "probeIdentityHash": "sha256:5786ce63d3abf7b76f18ebac85d921652effef421e02febf9346f45fb9b90db6"
+        },
+        "probeIdentityHash": "sha256:5786ce63d3abf7b76f18ebac85d921652effef421e02febf9346f45fb9b90db6",
+        "quantityIdentity": {
+          "schema": "lafea-continuum-quantity-identity/v1",
+          "probeId": "B02A-PROBE-STRESS-01",
+          "physicalCoordinate": {
+            "x": 53,
+            "y": 2.7
+          },
+          "coordinateFrame": "GLOBAL_XY",
+          "loadCaseId": "B02A-LC1",
+          "quantityId": "STRESS_SIGMA_X",
+          "representation": "PHYSICAL_POINT_DIRECT",
+          "recoveryMethod": "ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT",
+          "units": "MPa",
+          "singularityClassification": "NON_SINGULAR_ANALYTICAL"
+        },
+        "quantityIdentityHash": "sha256:00e5ecdf93e587493e0f46953a736982512aca57c9e87040127bcd53c265136a",
+        "custody": {
+          "sourceHash": "sha256:9b141f4ee2e50776cb9f60fda208691b9c9445178d7578b7c50d77f0e5f5823e",
+          "meshHash": "sha256:379351c80e594c47f38c92f5b005381100a06432d4e7c308ba68f2337da1b616",
+          "solverModelHash": "sha256:144be48c1508450802c60a5d333e35b912872aad43445e61442fed0d97cb7f1c",
+          "executionHash": "sha256:de7cdcbfac1beb4bbf2e3394598054c9ea9e2887d800ce2b4e0aa40344814027",
+          "canonicalExecutionInputHash": "sha256:59624d8e6db37939c23cbc5336f9d3f15f1d5d2a3d1f5d6721f3b8067c3309a6",
+          "recoveryHash": "sha256:6d2ed95d7c17212139922f29e951b71177df393109e741334d490f6da2451481"
+        },
+        "mapping": {
+          "mappingClass": "INTERIOR",
+          "elementId": "E-C8-R1-B",
+          "elementType": "T6",
+          "naturalCoordinates": {
+            "xi": 0.3333333333333337,
+            "eta": 0.3109965635738828,
+            "lambda1": 0.3556701030927835,
+            "lambda2": 0.3333333333333337,
+            "lambda3": 0.3109965635738828
+          },
+          "mappedPhysicalCoordinate": {
+            "x": 53,
+            "y": 2.7
+          },
+          "mappingResidual": 0,
+          "jacobianDeterminant": 40.41666666666661,
+          "containmentCandidateCount": 1
+        },
+        "supportingNodalDisplacements": [
+          {
+            "nodeId": "N-C8-R1",
+            "ux": -0.03325465321898795,
+            "uy": -0.6489156564471038
+          },
+          {
+            "nodeId": "N-C9-R2",
+            "ux": 0.1221592904774874,
+            "uy": -0.7981059719250038
+          },
+          {
+            "nodeId": "N-C8-R2",
+            "ux": 0.11354210730908168,
+            "uy": -0.6499563360251095
+          },
+          {
+            "nodeId": "M-N-C8-R1--N-C9-R2",
+            "ux": 0.04158385444633812,
+            "uy": -0.7217533707419499
+          },
+          {
+            "nodeId": "M-N-C8-R2--N-C9-R2",
+            "ux": 0.11796379916903792,
+            "uy": -0.7226500691926125
+          },
+          {
+            "nodeId": "M-N-C8-R1--N-C8-R2",
+            "ux": 0.0400115776040279,
+            "uy": -0.6489731058666516
+          }
+        ],
+        "displacement": {
+          "ux": 0.06283140919083444,
+          "uy": -0.6973584938447469
+        },
+        "strain": {
+          "epsilonX": 0.0007542682566009217,
+          "epsilonY": -0.0002257384518610031,
+          "gammaXY": -0.00011737360218527781
+        },
+        "stressTensor": {
+          "sigmaX": 150.88938924013644,
+          "sigmaY": 0.11912639984031159,
+          "sigmaZ": 0,
+          "tauXY": -9.028738629636754
+        },
+        "principalMaximum": 151.4281418122822,
+        "principalMinimum": -0.4196261723054562,
+        "vonMises": 151.63839035802624,
+        "authoritativeValue": 150.88938924013644,
+        "authoritativeUnits": "MPa",
+        "recoveryAuthority": "ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT",
+        "tensorFrame": "GLOBAL_XY",
+        "pointwiseAcceptanceEligible": true,
+        "retainedIntegrationPointExtrapolationUsed": false,
+        "crossElementAveragingUsed": false,
+        "nodalStressProjectionUsed": false,
+        "displayInterpolationUsed": false,
+        "movingMaximumUsed": false,
+        "releaseAuthorityGranted": false,
+        "temperatureAuthorityGranted": false,
+        "status": "PASS",
+        "semanticHash": "sha256:a6ae644755df4d54e01442e8901608909b9381917a050591f045094760fca925"
+      },
+      {
+        "schema": "lafea-continuum-physical-probe-evidence/v1",
+        "stageId": "LAFEA.3",
+        "probe": {
+          "schema": "lafea-continuum-physical-probe/v1",
+          "probeId": "B02A-PROBE-UY-01",
+          "physicalCoordinate": {
+            "x": 97,
+            "y": 0.3
+          },
+          "coordinateFrame": "GLOBAL_XY",
+          "loadCaseId": "B02A-LC1",
+          "quantityId": "DISPLACEMENT_Y",
+          "representation": "PHYSICAL_POINT_DIRECT",
+          "recoveryMethod": "ELEMENT_SHAPE_INTERPOLATION",
+          "units": "mm",
+          "singularityClassification": "NOT_APPLICABLE",
+          "probeIdentityHash": "sha256:bd089733073b4a75310dd4b070c19074c1420d2a06f2acd47f620d14f79792c5"
+        },
+        "probeIdentityHash": "sha256:bd089733073b4a75310dd4b070c19074c1420d2a06f2acd47f620d14f79792c5",
+        "quantityIdentity": {
+          "schema": "lafea-continuum-quantity-identity/v1",
+          "probeId": "B02A-PROBE-UY-01",
+          "physicalCoordinate": {
+            "x": 97,
+            "y": 0.3
+          },
+          "coordinateFrame": "GLOBAL_XY",
+          "loadCaseId": "B02A-LC1",
+          "quantityId": "DISPLACEMENT_Y",
+          "representation": "PHYSICAL_POINT_DIRECT",
+          "recoveryMethod": "ELEMENT_SHAPE_INTERPOLATION",
+          "units": "mm",
+          "singularityClassification": "NOT_APPLICABLE"
+        },
+        "quantityIdentityHash": "sha256:6682804328ac8a37c1fb506d3f64a2637a46c4822cfdf7cb2b540584de45dd18",
+        "custody": {
+          "sourceHash": "sha256:9b141f4ee2e50776cb9f60fda208691b9c9445178d7578b7c50d77f0e5f5823e",
+          "meshHash": "sha256:379351c80e594c47f38c92f5b005381100a06432d4e7c308ba68f2337da1b616",
+          "solverModelHash": "sha256:144be48c1508450802c60a5d333e35b912872aad43445e61442fed0d97cb7f1c",
+          "executionHash": "sha256:de7cdcbfac1beb4bbf2e3394598054c9ea9e2887d800ce2b4e0aa40344814027",
+          "canonicalExecutionInputHash": "sha256:59624d8e6db37939c23cbc5336f9d3f15f1d5d2a3d1f5d6721f3b8067c3309a6",
+          "recoveryHash": "sha256:6d2ed95d7c17212139922f29e951b71177df393109e741334d490f6da2451481"
+        },
+        "mapping": {
+          "mappingClass": "INTERIOR",
+          "elementId": "E-C15-R1-A",
+          "elementType": "T6",
+          "naturalCoordinates": {
+            "xi": 0.2365317501704843,
+            "eta": 0.2731958762886597,
+            "lambda1": 0.49027237354085595,
+            "lambda2": 0.2365317501704843,
+            "lambda3": 0.2731958762886597
+          },
+          "mappedPhysicalCoordinate": {
+            "x": 96.99999999999999,
+            "y": 0.30000000000000004
+          },
+          "mappingResidual": 1.4210963135005665e-14,
+          "jacobianDeterminant": 39.56984126984118,
+          "containmentCandidateCount": 1
+        },
+        "supportingNodalDisplacements": [
+          {
+            "nodeId": "N-C15-R1",
+            "ux": -0.043685916445267495,
+            "uy": -1.8228862481943091
+          },
+          {
+            "nodeId": "N-C16-R1",
+            "ux": -0.04385312668608187,
+            "uy": -2.006631116658806
+          },
+          {
+            "nodeId": "N-C16-R2",
+            "ux": 0.1497234417598685,
+            "uy": -2.006788690076303
+          },
+          {
+            "nodeId": "M-N-C15-R1--N-C16-R1",
+            "ux": -0.043804267686857516,
+            "uy": -1.9146986460990438
+          },
+          {
+            "nodeId": "M-N-C16-R1--N-C16-R2",
+            "ux": 0.05277493557572561,
+            "uy": -2.0066748495437303
+          },
+          {
+            "nodeId": "M-N-C15-R1--N-C16-R2",
+            "ux": 0.05271652786434838,
+            "uy": -1.914696306987488
+          }
+        ],
+        "displacement": {
+          "ux": 0.008893715151456896,
+          "uy": -1.9164765939369128
+        },
+        "strain": {
+          "epsilonX": -0.000007727831757250656,
+          "epsilonY": -5.59684772638569e-7,
+          "gammaXY": -0.0001803000729067028
+        },
+        "stressTensor": {
+          "sigmaX": -1.7353268547345553,
+          "sigmaY": -0.6325350109480803,
+          "sigmaZ": 0,
+          "tauXY": -13.869236377438677
+        },
+        "principalMaximum": 12.696261974894108,
+        "principalMinimum": -15.064123840576743,
+        "vonMises": 24.070333564817602,
+        "authoritativeValue": -1.9164765939369128,
+        "authoritativeUnits": "mm",
+        "recoveryAuthority": "ELEMENT_SHAPE_INTERPOLATION",
+        "tensorFrame": "GLOBAL_XY",
+        "pointwiseAcceptanceEligible": true,
+        "retainedIntegrationPointExtrapolationUsed": false,
+        "crossElementAveragingUsed": false,
+        "nodalStressProjectionUsed": false,
+        "displayInterpolationUsed": false,
+        "movingMaximumUsed": false,
+        "releaseAuthorityGranted": false,
+        "temperatureAuthorityGranted": false,
+        "status": "PASS",
+        "semanticHash": "sha256:ae15901ea414d5a7030e14e2b6d640825fede53a7ad318a71e4b7551364f536f"
+      }
+    ]
+  },
+  "rawOutputs": {
+    "pass1": "pass1.execution.json",
+    "pass2": "pass2.execution.json"
+  }
+}

@@ -1,0 +1,401 @@
+﻿{
+  "schema": "lafea-c3d-field-completeness-matrix/v1",
+  "basis": {
+    "head": "1019ca26cb18332983f64258698787280b86afd1",
+    "workPackage": "WP-1771",
+    "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003"
+  },
+  "productionAncestry": {
+    "sourceHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:29",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted from level receipt); BM-005 report: candidateHeadSha/sourceBenchmarkRef",
+      "notes": "Workbench run captures compiled.sourceAuthority.sourceHash, but B02 qualification receipts do not project it into level or master receipts."
+    },
+    "analysisDomainHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "MISSING",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:30",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted); BM-005 report: omitted",
+      "notes": "Present on stage.execution.analysisDomainHash in workbench store, but omitted from exported B02 receipts and BM-005 audit report."
+    },
+    "analysisGeometryHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "MISSING",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:31",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted); BM-005 report: omitted",
+      "notes": "Present on stage.execution.analysisGeometryHash in workbench store, but omitted from exported benchmark receipts."
+    },
+    "meshProfileHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:33",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted); BM-005 report: convergence.study.levels[].meshProfileHash",
+      "notes": "Retained on stage.execution.meshProfileHash and in BM-005 study levels, but missing from B02 level records."
+    },
+    "meshHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "PRESENT_AUTHORITATIVE",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:32",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:76; BM-005 report: convergence.study.levels[].meshHash",
+      "notes": "Uniformly present across all levels in B02 and BM-005 receipts."
+    },
+    "projectionHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "MISSING",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:34",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted); BM-005 report: omitted",
+      "notes": "Retained in solverModel.parents.projectionHash in workbench runtime, but not projected into benchmark receipts."
+    },
+    "solverModelHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:35",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted); BM-005 report: solverDiagnostics.solverModelHash",
+      "notes": "Retained in workbench execution and in BM-005 solverDiagnostics, but omitted from B02 level receipts."
+    },
+    "solverConfigurationHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "MISSING",
+      "sourceWitness": "src/workspace/lafea-workbench-run-transaction-state.js:65",
+      "runtimeWitness": "runTransactionReceipt.solverConfigHash (retained on stage.execution.runTransactionReceipt); omitted from B02/BM-005 receipts",
+      "notes": "Retained in workbench runTransactionReceipt.solverConfigHash, but not exposed in benchmark receipts."
+    },
+    "canonicalExecutionInputHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:38",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:73-86 (omitted); BM-005 report: qualificationEvidence.canonicalExecutionInputHashes[]",
+      "notes": "Retained on stage.execution and in BM-005 qualificationEvidence, but omitted from B02 level receipts."
+    },
+    "executionHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "PRESENT_AUTHORITATIVE",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-authoritative-workbench-run.js:39",
+      "runtimeWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:77; BM-005 report: solverDiagnostics.executionHash",
+      "notes": "Present in B02 level receipts (as compiledExecutionHash) and in BM-005 solverDiagnostics."
+    },
+    "runtimeDiagnosticsHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:23; src/workspace/lafea-workbench-run-transaction-state.js:65",
+      "runtimeWitness": "stage.execution.runtimeSolverDiagnostics.semanticHash; BM-005: solverDiagnostics.semanticHash; B02 receipts: MISSING",
+      "notes": "Computed by projectLafeaRuntimeSolverDiagnostics and stored in runTransactionReceipt, but completely omitted from B02 receipts."
+    },
+    "recoveryHash": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "PRESENT_AUTHORITATIVE",
+      "emittedBm005Receipt": "PRESENT_DERIVED_ONLY",
+      "sourceWitness": "src/workspace/lafea-continuum-domain-first-lifecycle-producers.js; scripts/lib/lafea-b02-rectangle-qualification.mjs:78",
+      "runtimeWitness": "B02 level records: recoveryHash; BM-005: lifecycle artifacts produced but audit report summarizes only semanticHash",
+      "notes": "Present as stage.lifecycle.artifacts.RECOVERY.artifactHash in B02 receipts."
+    },
+    "runTransactionIdentityHashStatus": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "MISSING",
+      "sourceWitness": "src/workspace/lafea-workbench-run-transaction-state.js:63-67; src/workspace/lafea-workbench-domain-first-run-actions.js:95-101",
+      "runtimeWitness": "stage.execution.runTransaction (transactionId, transactionHash, status: COMPLETED) and stage.execution.runTransactionReceipt; omitted from B02 and BM-005 exported receipts",
+      "notes": "Authoritative transaction state exists in workbench memory during run, but is never serialized into benchmark qualification receipts."
+    }
+  },
+  "solverEvidence": {
+    "terminationState": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:22",
+      "runtimeWitness": "BM-005: solverDiagnostics.terminationState (CONVERGED); B02 receipts: omitted (only stage.execution.status=QUALIFIED is checked in-memory)",
+      "notes": "Exposed in BM-005; omitted from B02 receipts."
+    },
+    "acceptedFinalState": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "PRESENT_DERIVED_ONLY",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:18",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.accepted (true); B02 receipts: status=PASS derived from in-memory assertion",
+      "notes": "B02 asserts stage.execution.result.qualification.state === ACCEPTED in harness, but does not retain field in level records."
+    },
+    "solverMethod": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "PRESENT_AUTHORITATIVE",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:22",
+      "runtimeWitness": "B02 level records: solverMethods: [DETERMINISTIC_CHOLESKY]; BM-005: solverDiagnostics.methods: [DETERMINISTIC_JACOBI_PCG]",
+      "notes": "Retained in both B02 level records and BM-005."
+    },
+    "preconditioner": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:13",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.preconditioner (JACOBI); B02 receipts: omitted (dense Cholesky has null preconditioner)",
+      "notes": "Omitted from B02 receipts."
+    },
+    "iterationCount": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:14",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.iterations (367); B02 receipts: omitted",
+      "notes": "Present in BM-005; omitted from B02 level records."
+    },
+    "iterationLimit": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:15",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.iterationLimit (32768); B02 receipts: omitted",
+      "notes": "Present in BM-005; omitted from B02 level records."
+    },
+    "initialResidual": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:16",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.initialResidualInfinity (163.565); B02 receipts: omitted",
+      "notes": "Present in BM-005; omitted from B02 level records."
+    },
+    "finalAcceptedResidual": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:16",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.finalResidualInfinity (2.369e-10); B02 receipts: omitted",
+      "notes": "Present in BM-005; omitted from B02 level records."
+    },
+    "convergenceTargetTolerance": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:17",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.convergenceTarget / residualTolerance; B02 receipts: omitted",
+      "notes": "Present in BM-005; omitted from B02 level records."
+    },
+    "freeDofResidual": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "MISSING",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:18",
+      "runtimeWitness": "BM-005: solverDiagnostics.loadCase.freeDofResidualInfinity (2.369e-10); B02 receipts: omitted",
+      "notes": "Present in BM-005; omitted from B02 level records."
+    },
+    "nonconvergenceFailureState": {
+      "workbenchProductionState": "PRESENT_AUTHORITATIVE",
+      "emittedB02Receipts": "PRESENT_DERIVED_ONLY",
+      "emittedBm005Receipt": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-runtime-solver-diagnostics.js:22; scripts/lafea.3-bm005-ordinary-route-check.mjs:runNegativeControl",
+      "runtimeWitness": "BM-005: negativeControl (actualBoundary: solver, actualErrorCode: UNDER_CONSTRAINED_OR_SINGULAR_SYSTEM, status: PASS_EXPECTED_REJECTION); B02: throws AssertionError on non-PASS",
+      "notes": "BM-005 includes an authoritative negative control test with structured boundary and error code capture."
+    }
+  },
+  "currentnessAuthority": {
+    "runTransactionStatus": {
+      "classification": "PRESENT_BUT_AMBIGUOUS",
+      "sourceWitness": "src/workspace/lafea-workbench-domain-first-run-actions.js:97",
+      "runtimeWitness": "stage.execution.runTransaction.status is COMPLETED in memory, but not written to qualification receipt",
+      "notes": "Exited process code 0 is used as proxy for currentness in B02 rather than retained run transaction tokens."
+    },
+    "executionParentHashes": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-workbench-run-transaction-state.js:68",
+      "runtimeWitness": "stage.execution.runTransactionReceipt.parents contains sourceHash, domainHash, geometryHash, meshHash, meshProfileHash, solverModelHash",
+      "notes": "Authoritatively matched inside workbench before/after run; omitted from benchmark receipts."
+    },
+    "preflightCurrentParentAgreement": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-workbench-run-transaction-state.js:40-41",
+      "runtimeWitness": "Checked in workbench via assertCurrent(stageId, id, stage, execution); throws LAFEA_RUN_TRANSACTION_EXECUTION_PARENT_MISMATCH if stale",
+      "notes": "Enforced dynamically by workbench store runtime."
+    },
+    "recoveryCurrentnessState": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-domain-first-lifecycle-producers.js",
+      "runtimeWitness": "stage.lifecycle.artifacts.RECOVERY.status === CURRENT asserted in B02 harness (scripts/lib/lafea-b02-production-route.mjs:87)",
+      "notes": "Recovery lifecycle artifact is created and marked CURRENT upon successful execution."
+    },
+    "staleSupersededBehavior": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-workbench-run-transaction-state.js:49-52",
+      "runtimeWitness": "transactions.invalidate transitions status to SUPERSEDED with reason code",
+      "notes": "Implemented in run-transaction state machine."
+    },
+    "resultPublicationReadiness": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-compiled-execution.js:78",
+      "runtimeWitness": "BM-005 report: finalResultState = RESULT_NOT_READY, resultPublicationQualified = false; B02: releaseAuthorityGranted = false",
+      "notes": "Both B02 and BM-005 explicitly fail-closed on release/publication authority."
+    }
+  },
+  "equilibriumAndMechanics": {
+    "appliedForceTotals": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:57-63; scripts/lib/lafea-b02d-production-route.mjs",
+      "runtimeWitness": "B02A/B02B/B02C/B02D level records: equilibrium.applied.forceX/forceY",
+      "notes": "Authoritatively computed and retained in B02 receipts."
+    },
+    "reactionForceTotals": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:57-63",
+      "runtimeWitness": "B02 level records: equilibrium.reaction.forceX/forceY",
+      "notes": "Authoritatively retained in B02 receipts."
+    },
+    "forceImbalance": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:57-63",
+      "runtimeWitness": "B02 level records: equilibrium.total.forceX/forceY and totalForceRelativeResidual; BM-005: solverDiagnostics.loadCase.equilibrium.reactionPlusAppliedForce",
+      "notes": "Authoritatively checked against frozen limits in B02 and BM-005."
+    },
+    "appliedMomentTotals": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:57-63; scripts/lafea-b02c-analytical-traction-check.mjs",
+      "runtimeWitness": "B02 level records: equilibrium.applied.momentZ; B02D: loadCase.expectedMomentAboutCenter",
+      "notes": "Retained in B02 receipts."
+    },
+    "reactionMomentTotals": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:57-63",
+      "runtimeWitness": "B02 level records: equilibrium.reaction.momentZ",
+      "notes": "Retained in B02 receipts."
+    },
+    "momentImbalance": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:57-63",
+      "runtimeWitness": "B02 level records: equilibrium.total.momentZ and totalMomentRelativeResidual",
+      "notes": "Retained in B02 receipts."
+    },
+    "physicalReferencePointForMoments": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs; scripts/lafea-b02d-production-check.mjs:35",
+      "runtimeWitness": "B02A/B02B: fixed cantilever root origin (0,0); B02D: center of annulus (centerX=0, centerY=0)",
+      "notes": "Governed physical center is explicitly checked and verified."
+    },
+    "strainEnergy": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:83",
+      "runtimeWitness": "B02 level records: strainEnergy; B02D: energyConvergence levels value",
+      "notes": "Authoritatively computed and checked against independent analytical oracles."
+    },
+    "externalWorkEnergyComparison": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lafea-b02d-production-check.mjs:96",
+      "runtimeWitness": "B02D: run.energyReconstruction.relativeResidual within energyReconstructionRelativeMaximum",
+      "notes": "Evaluated in B02D."
+    },
+    "frozenAcceptanceLimits": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "validation/lafea-b02-definitions/*.json",
+      "runtimeWitness": "Definition files checked with definitionFrozenBeforeObservation: true, definitionHash matching canonical SHA-256",
+      "notes": "Preserved frozen and unmodified."
+    }
+  },
+  "convergenceEvidence": {
+    "executedLevelsCount": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "validation/lafea-b02-definitions/*.json; scripts/lafea.3-bm005-ordinary-route-check.mjs",
+      "runtimeWitness": "B02A: 3 levels (L1, L2, L3); B02C: 3 levels (L1, L2, L3); B02D: 4 levels (L1-L4); BM-005: 4 levels (COARSE, MEDIUM, FINE, EXTRA_FINE)",
+      "notes": "Multi-level refinement studies executed."
+    },
+    "realizedCharacteristicH": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:75; BM-005 report",
+      "runtimeWitness": "B02 level records: h explicitly recorded per level (e.g. 25, 12.5, 6.25); BM-005: recorded per level",
+      "notes": "Retained per level."
+    },
+    "orderingByActualH": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-probe-convergence.js; scripts/lib/lafea-b02-rectangle-qualification.mjs",
+      "runtimeWitness": "Levels ordered monotonically by decreasing h in convergence studies",
+      "notes": "Checked by convergence evaluation engine."
+    },
+    "fixedPhysicalProbeQuantity": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "validation/lafea-b02-definitions/*.json; scripts/lib/lafea-b02-rectangle-qualification.mjs",
+      "runtimeWitness": "Fixed coordinate probes: B02A-PROBE-STRESS-01, B02A-PROBE-UY-01, KIRSCH_NEAR_CROWN_PMAX, LUG_NEAR_HOLE_PMAX, etc.",
+      "notes": "Evaluated at fixed physical locations across all mesh levels (moving mesh maxima explicitly forbidden)."
+    },
+    "rawValues": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "scripts/lib/lafea-b02-rectangle-qualification.mjs:85; B02 receipts",
+      "runtimeWitness": "B02 level records: probe value recorded per level per probe",
+      "notes": "Retained per level."
+    },
+    "observedOrder": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-probe-convergence.js; B02 receipts",
+      "runtimeWitness": "B02 receipts: convergence[].observedOrder (e.g. 0.956, 1.063, 2.535, 1.876)",
+      "notes": "Computed using logarithmic slope across 3 levels."
+    },
+    "richardsonExtrapolation": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-probe-convergence.js; BM-005 report:554",
+      "runtimeWitness": "Computed where monotonic; null when non-monotonic or oscillatory",
+      "notes": "Implemented in convergence evaluator."
+    },
+    "gci": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-probe-convergence.js",
+      "runtimeWitness": "B02 receipts: gciFineAbsolute, gciFinePercent; BM-005 report: gciFineAbsolute",
+      "notes": "Retained in convergence records."
+    },
+    "classificationMonotonicOscillatory": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-probe-convergence.js",
+      "runtimeWitness": "B02 receipts: MONOTONIC_CONVERGING, STABLE_WITHIN_TOLERANCE_NOT_RICHARDSON_MONOTONIC; BM-005: OSCILLATORY",
+      "notes": "Rigorous classification implemented."
+    },
+    "exactCriteriaFormulae": {
+      "classification": "PRESENT_AUTHORITATIVE",
+      "sourceWitness": "src/workspace/lafea-continuum-probe-convergence.js",
+      "runtimeWitness": "Roache GCI formulation with factor of safety Fs=1.25 for 3-level studies",
+      "notes": "Frozen in convergence evaluator implementation."
+    }
+  },
+  "deterministicReplay": {
+    "inExistingQualificationSuite": {
+      "classification": "PARTIAL",
+      "b02Route": "NOT_RUN (existing scripts execute each level once without second pass)",
+      "bm005Route": "PARTIAL (replayMeshMetadata replays mesh generation across 4 levels, but does not replay FE solve)",
+      "b01Route": "NOT_RUN",
+      "bbarRoute": "NOT_RUN"
+    },
+    "inBaselineEmpiricalProbe": {
+      "classification": "PROVED",
+      "method": "Two-pass isolated execution of B02A L1 T6 on exact material basis",
+      "hashesCompared": [
+        "sourceHash",
+        "analysisDomainHash",
+        "analysisGeometryHash",
+        "meshHash",
+        "meshProfileHash",
+        "projectionHash",
+        "solverModelHash",
+        "canonicalExecutionInputHash",
+        "compiledExecutionHash",
+        "runtimeDiagnosticsHash",
+        "recoveryHash"
+      ],
+      "result": "100% byte-for-byte identical across all 11 hashes, runTransactionReceipt status (COMPLETED), and probe values",
+      "witness": "relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/test_replay.mjs",
+      "receipt": "relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/replay-receipt.json",
+      "rawPassOutputs": [
+        "relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/pass1.execution.json",
+        "relay/EVIDENCE/C3D-DIAGNOSTIC/DIAG-0003/replay/pass2.execution.json"
+      ],
+      "durability": "RETAINED_IN_REPOSITORY"
+    }
+  }
+}
+

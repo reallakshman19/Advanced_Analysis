@@ -1,0 +1,67 @@
+schema_version: relay-v3.1-snapshot
+authority: DERIVED_READ_MODEL
+generated_from:
+  roadmap_revision: RM-0015
+  state_digest: sha256:faf710ea82d3317bab6cba313bf01b7aa4229073e4d67f06eb53925568e8193b
+  material_basis:
+    head: 6fe3884951dc9b026f688287b20f120f827db07d
+    tree_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+    relevant_paths_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+    dependency_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+  coordination_head: 6fe3884951dc9b026f688287b20f120f827db07d
+owner:
+  outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
+    Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
+    capability.
+  current_goal: Repair B02B-V2 production-route selection so the sign-only V2 definition
+    reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and
+    aggregate progression, then return to separate B-bar/BM-005 boundaries.
+programme:
+  accepted_progress: 0.0
+  completed_work: []
+  remaining_work:
+  - WP-1769
+  - WP-1771
+  - WP-1773
+  - WP-1774
+  - WP-1776
+execution:
+  lifecycle: IDLE
+  work_package: null
+  ep: null
+  lease: null
+  executor: null
+scope:
+  allowed_writes: []
+  protected: []
+  prohibited: []
+material:
+  base: 6fe3884951dc9b026f688287b20f120f827db07d
+  head: 6fe3884951dc9b026f688287b20f120f827db07d
+  relevant_paths_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+  dependency_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+evidence:
+  latest_checkpoint: null
+  latest_material_validation: {}
+controls:
+  execution_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  handover_blockers: []
+  delivery_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  informational: []
+delivery:
+  issue: null
+  pr: 1868
+  lifecycle: DECLARED
+  merge_authorized: false
+next:
+  immediate_material_action: null
+  delivery_action: Perform the explicitly authorized delivery transition.
+  stop_conditions: []
+handoff:
+  zero_context_takeover_possible: false
+  reconstruction_sources:
+  - relay/ROADMAP/ROADMAP.yaml
+  - relay/STATE.yaml
+  - relay/CONTROLS/controls.yaml

@@ -1,0 +1,28 @@
+﻿{
+  "schema": "lafea-c3d-diagnostic-basis/v1",
+  "requestId": "LOCAL-EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003-1019ca26cb18",
+  "workPackage": "WP-1771",
+  "ep": "EP-LAFEA3-C3D-DIAGNOSTIC-1771-0003",
+  "branch": "relay/c3d-v31-diagnostic-1771",
+  "materialHead": "1019ca26cb18332983f64258698787280b86afd1",
+  "observedHead": "1019ca26cb18332983f64258698787280b86afd1",
+  "commonHead": "c87cf87b313801e42ecd0fcc7d36af0d90c5f400",
+  "environment": {
+    "os": "Windows (PowerShell)",
+    "node": "v24.11.1",
+    "git": "2.52.0.windows.1",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "blobs": {
+    "scripts/lafea-b02-production-sequence-check.mjs": "9781e363c727852a7472d85967de294d9446eac2",
+    "scripts/lafea-b02b-production-check.mjs": "14d5b75f753d752a7d0fa4598408a24d1d1c4ea8",
+    "scripts/lafea-plane-strain-bbar-lame-check.mjs": "47f9dcad62387aef74f3a069aa666e180f260602",
+    "scripts/lafea.3-bm005-ordinary-route-check.mjs": "fe08a2b6359e250981f68cab6d4c4fe4c9c74699",
+    "scripts/lib/lafea-b02-production-route.mjs": "5d873872404ad6f0885a1fd9e9bacbb7631f5650",
+    "scripts/lib/lafea-b02-rectangle-qualification.mjs": "021f041aa30fb6686f839fa94ff85240672799f1",
+    "src/workspace/lafea-runtime-solver-diagnostics.js": "e5e6ef00d25bd8b9d4e42448148461bdcf4bb77f",
+    "src/workspace/lafea-continuum-authoritative-workbench-run.js": "a469259db7887aceaaf8783b7e7700046c4cddd8"
+  },
+  "capturedAt": "2026-09-22T17:03:00Z"
+}

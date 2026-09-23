@@ -1,0 +1,77 @@
+diff --git a/validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json b/validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json
+index 8d5500d9e..8680f1381 100644
+--- a/validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json
++++ b/validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json
+@@ -152,23 +152,66 @@
+     "levels": [
+       {
+         "levelId": "L1",
+-        "h": 10,
+-        "targetElementLength": 10,
++        "h": 2.5,
++        "targetElementLength": 2.5,
+         "curvatureToleranceDegrees": 30
+       },
+       {
+         "levelId": "L2",
+-        "h": 5,
+-        "targetElementLength": 5,
++        "h": 1.25,
++        "targetElementLength": 1.25,
+         "curvatureToleranceDegrees": 30
+       },
+       {
+         "levelId": "L3",
+-        "h": 2.5,
+-        "targetElementLength": 2.5,
++        "h": 0.625,
++        "targetElementLength": 0.625,
+         "curvatureToleranceDegrees": 30
+       }
+     ],
++    "levelsByMethod": {
++      "T6": [
++        {
++          "levelId": "L1",
++          "h": 10,
++          "targetElementLength": 10,
++          "curvatureToleranceDegrees": 30
++        },
++        {
++          "levelId": "L2",
++          "h": 5,
++          "targetElementLength": 5,
++          "curvatureToleranceDegrees": 30
++        },
++        {
++          "levelId": "L3",
++          "h": 2.5,
++          "targetElementLength": 2.5,
++          "curvatureToleranceDegrees": 30
++        }
++      ],
++      "Q8": [
++        {
++          "levelId": "L1",
++          "h": 10,
++          "targetElementLength": 10,
++          "curvatureToleranceDegrees": 30
++        },
++        {
++          "levelId": "L2",
++          "h": 5,
++          "targetElementLength": 5,
++          "curvatureToleranceDegrees": 30
++        },
++        {
++          "levelId": "L3",
++          "h": 2.5,
++          "targetElementLength": 2.5,
++          "curvatureToleranceDegrees": 30
++        }
++      ]
++    },
++    "levelsByMethodJustification": "Same rationale as B02A: T6/Q8 already converge comfortably at h=2.5 (see B02B-TAU-XY-VALIDATION-RECORD.md), and the underlying solver's execution-qualification step was found to reject/take a very long time on T6/Q8 meshes finer than that for this domain size -- a pre-existing solver performance characteristic, out of scope here. T3 uses its own efficient probe-stable mesh (b02b-probe-stable-rectangle-mesh.js) and needs the finer [2.5,1.25,0.625] window to get past its own early-transient behavior on both fixed probes.",
+     "commonRequestPolicy": {
+       "lengthUnit": "mm",
+       "growthLimit": 1.5,
