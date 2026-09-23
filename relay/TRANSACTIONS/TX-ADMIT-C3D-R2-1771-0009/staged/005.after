@@ -1,0 +1,181 @@
+schema_version: relay-v3.1-ep
+id: EP-LAFEA3-C3D-B02-R2-1771-0009
+work_package: WP-1771
+outcome:
+  statement: Execute the merged B02A-E production qualification on the current governed
+    LAFEA material basis, retain repository-visible raw execution evidence, deterministic
+    replay and explicit CURRENT_RESULT/lineage custody, and mechanically prove that
+    newer provider-main drift is DISJOINT from the EP material sensitivity before
+    any downstream implementation resumes.
+basis:
+  predecessor_checkpoint: null
+  material_base: 74437c40669577926c9761cd6374f53d11178a69
+  protocol_basis: github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1
+  semantic_dependencies:
+  - path: scripts/lafea-b02-production-source-guard.mjs
+    reason: Production-route/source-authority guard required by the reconciled R2
+      evidence contract.
+  - path: scripts/lafea-b02-production-sequence-check.mjs
+    reason: 'Merged B02A-E production-sequence authority after PR #1871.'
+  - path: scripts/lafea-b02b-production-check.mjs
+    reason: Focused B02B regression after V2 acceptance/ladder/routing reconciliation.
+  - path: scripts/lib/lafea-b02-production-route.mjs
+    reason: Merged governed B02B-V2 probe-stable production routing.
+  - path: scripts/lib/lafea-b02-rectangle-qualification.mjs
+    reason: B02 rectangle retained-level qualification and convergence projection.
+  - path: src/workspace/lafea-workbench-currentness.js
+    reason: Authoritative CURRENT_RESULT/currentAuthority ancestry projection.
+  - path: src/workspace/lafea-workbench-domain-first-run-actions.js
+    reason: Authoritative run transaction completion and runtime diagnostics publication.
+  - path: src/workspace/lafea-runtime-solver-diagnostics.js
+    reason: Authoritative solver method/residual/iteration/equilibrium projection.
+  - path: src/workspace/lafea-continuum-physical-probe.js
+    reason: CURRENT_RESULT-gated fixed physical probe authority.
+  - path: validation/lafea-b02-definitions/B02A-nonuniform-bending.json
+    reason: Frozen B02A benchmark definition.
+  - path: validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json
+    reason: Merged governed B02B-V2 definition.
+  - path: validation/lafea-b02-definitions/B02C-kirsch.json
+    reason: Frozen B02C benchmark definition.
+  - path: validation/lafea-b02-definitions/B02D-lug-pinhole-v2.json
+    reason: Governed current B02D-V2 definition.
+  - path: validation/lafea-b02-definitions/B02E-convergence.json
+    reason: Frozen B02 convergence policy.
+scope:
+  write:
+  - relay/EVIDENCE/C3D-B02-R2/**
+  read:
+  - scripts/lafea-b02-production-source-guard.mjs
+  - scripts/lafea-b02b-production-check.mjs
+  - scripts/lafea-b02-production-sequence-check.mjs
+  - scripts/lib/lafea-b02-production-route.mjs
+  - scripts/lib/lafea-b02-rectangle-qualification.mjs
+  - scripts/lib/lafea-b02d-production-route.mjs
+  - src/workspace/lafea-workbench-currentness.js
+  - src/workspace/lafea-workbench-domain-first-run-actions.js
+  - src/workspace/lafea-runtime-solver-diagnostics.js
+  - src/workspace/lafea-continuum-physical-probe.js
+  - validation/lafea-b02-definitions/**
+  protect:
+  - scripts/lafea-b02-production-source-guard.mjs
+  - scripts/lafea-b02b-production-check.mjs
+  - scripts/lafea-b02-production-sequence-check.mjs
+  - scripts/lib/lafea-b02-production-route.mjs
+  - scripts/lib/lafea-b02-rectangle-qualification.mjs
+  - scripts/lib/lafea-b02d-production-route.mjs
+  - src/workspace/lafea-workbench-currentness.js
+  - src/workspace/lafea-workbench-domain-first-run-actions.js
+  - src/workspace/lafea-runtime-solver-diagnostics.js
+  - src/workspace/lafea-continuum-physical-probe.js
+  - validation/lafea-b02-definitions/**
+  prohibit:
+  - any product/source modification in this EP
+  - changes to benchmark definitions, expected values, sign correction, acceptance
+    modes or tolerances
+  - changes to qualifier logic, mesh generators, FE solver, recovery or result authority
+  - B-bar or BM-005 implementation changes
+  - workflow YAML changes
+  - 'issue #1862 implementation'
+  - release or merge authority
+acceptance:
+- id: AC-C3D-R2-0
+  statement: The current B02 production source/authority guard passes on the exact
+    material basis without source modification.
+  evidence_requirements:
+  - test: node scripts/lafea-b02-production-source-guard.mjs
+- id: AC-C3D-R2-1
+  statement: R2 executes on the exact governed LAFEA material head derived by pinned
+    V3.1 material-basis semantics, while the current provider-main delta is mechanically
+    classified DISJOINT from EP sensitivity.
+  evidence_requirements:
+  - oracle: LOCAL_EXECUTION exact_basis.material_head equals the mechanically derived
+      material head; material-basis drift against base-ref main is DISJOINT; coordination/base
+      HEAD may be newer only through non-sensitive changes.
+- id: AC-C3D-R2-2
+  statement: Focused B02B production qualification executes and its raw stdout, stderr,
+    exit code and timestamps are retained without repair during execution.
+  evidence_requirements:
+  - test: node scripts/lafea-b02b-production-check.mjs
+- id: AC-C3D-R2-3
+  statement: The aggregate B02 production sequence executes twice independently; each
+    run retains raw stdout, stderr, exit code and timestamps, and any nonzero result
+    remains the exact first failing witness.
+  evidence_requirements:
+  - test: node scripts/lafea-b02-production-sequence-check.mjs
+  - oracle: two-run deterministic replay comparison
+- id: AC-C3D-R2-4
+  statement: If both aggregate runs PASS, the final B02E qualification receipt is
+    retained from each run and semantic/result identity is compared for deterministic
+    replay; PASS is not inferred if raw receipt extraction is incomplete.
+  evidence_requirements:
+  - oracle: two durable B02E receipt records plus comparison
+- id: AC-C3D-R2-5
+  statement: 'No product/source diff is introduced by R2; this EP grants evidence
+    only and does not admit B-bar, BM-005 or #1862 implementation.'
+  evidence_requirements:
+  - oracle: post-run git status and product/source diff
+- id: AC-C3D-R2-6
+  statement: 'Numerical PASS is accepted for C3-D.1 only when the retained ordinary-route
+    execution is independently inspectable as CURRENT_RESULT/currentAuthority with
+    completed transaction and current recovery ancestry; otherwise R2 returns BLOCKED
+    and routes specifically to the reconciled #1862 composition scope.'
+  evidence_requirements:
+  - oracle: repository-visible currentness/lineage record retaining source/domain/geometry/mesh/profile/solver-config/execution/recovery
+      identities plus transaction status/hash
+quality_policy:
+  level: HIGH_RISK
+  independent_review: REQUIRED
+parent_issue:
+  provider: GITHUB
+  repository: reallaksh19/Advanced_Analysis
+  number: 1771
+  title: '[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response,
+    solver robustness, and convergence'
+  url: https://github.com/reallaksh19/Advanced_Analysis/issues/1771
+  baseline:
+    observed_at: '2026-09-23T01:45:15Z'
+    body_digest: sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab
+    acceptance_items:
+    - id: C3-D.1
+      statement: Drive B02A-E through the ordinary production route with retained
+        mesh/model lineage and CURRENT_RESULT authority.
+offloads:
+- id: OFFLOAD-C3D-B02-R2-LOCAL-0001
+  status: PLANNED
+  agent_type: LOCAL_AGENT
+  task: Execute source guard once, focused B02B once and aggregate B02 sequence twice
+    on the exact V3.1-derived LAFEA material head; retain raw receipts, deterministic
+    replay, CURRENT_RESULT/lineage evidence and material-basis drift classification
+    without product/source changes.
+  allowed_writes:
+  - relay/EVIDENCE/C3D-B02-R2/**
+  expected_return:
+  - typed V3.1 local-execution-result packet
+  - raw stdout/stderr/exit/timestamp receipts
+  - two B02E receipts if aggregate PASS
+  - deterministic replay comparison
+  - post-run clean-tree evidence
+  - CURRENT_RESULT/currentAuthority and transaction/recovery lineage record
+  - V3.1 material-basis record with current-base drift classification
+  trace_refs:
+  - 'GitHub PR #1871'
+  - 'GitHub PR #1873'
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+admission_policy:
+  qualification: NOT_REQUIRED
+  question_policy: NONE
+next:
+  first_action: Run canonical roadmap reconciliation and task admission, then use
+    pinned V3.1 local-execution export. Require material-basis drift against current
+    main to be DISJOINT; execute source guard once, B02B once and B02 sequence twice
+    on the derived material head.
+  stop_conditions:
+  - Stop on HEAD_MISMATCH.
+  - Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.
+  - Do not modify product/source files.
+  - Do not normalize a nonzero exit into PASS.
+  - Do not infer deterministic replay without two durable aggregate runs.
+  - 'If numerical commands pass but CURRENT_RESULT/lineage custody is not independently
+    inspectable, return BLOCKED rather than PASS and route to #1862.'
+  - 'Do not resume or merge PR #1873 until R2 evidence and independent review disposition
+    are complete.'
