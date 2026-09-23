@@ -198,7 +198,7 @@ const evidencePackage = createEmp1EngineeringEvidencePackage({
   productVersion: '0.0.0',
   releaseProfile,
 });
-assert.equal(evidencePackage.schema, 'emp1-engineering-evidence-package/v1');
+assert.equal(evidencePackage.schema, 'emp1-evidence-export/v1');
 assert.equal(evidencePackage.product.id, 'EMP.1');
 assert.equal(evidencePackage.product.version, '0.0.0');
 assert.equal(evidencePackage.releaseProfile.id, releaseProfile.id);
@@ -285,7 +285,7 @@ assert.ok(suspended.reasons.includes(
 ));
 
 assertRejected('unsupported-schema', (next) => {
-  next.schema = 'emp1-engineering-evidence-package/v999';
+  next.schema = 'emp1-evidence-export/v999';
 }, /PACKAGE_SCHEMA_UNSUPPORTED/u);
 assertRejected('injected-current', (next) => {
   next.current = true;
@@ -301,7 +301,7 @@ assertRejected('route-snapshot-hash', (next) => {
 }, /ROUTE_AUTHORITY_HASH_MISMATCH/u);
 assertRejected('c-result', (next) => {
   next.calculation.result.localCorrelation.resultHash = 'C-TAMPER';
-}, /CALCULATION_SEMANTIC_HASH_MISMATCH|REVIEW_STATE_MISMATCH/u);
+}, /ASSESSMENT_PARENT_MISMATCH|CALCULATION_SEMANTIC_HASH_MISMATCH|REVIEW_STATE_MISMATCH/u);
 assertRejected('review-disposition', (next) => {
   next.review.record.disposition = 'REJECTED';
 }, /REVIEW_RECORD_IDENTITY_MISMATCH/u);
