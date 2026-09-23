@@ -1,0 +1,68 @@
+{
+  "schema_version": "relay-v3.1-roadmap-reconciliation",
+  "authority": "PROPOSED_RECONCILIATION",
+  "expected_revision": "RM-0011",
+  "disposition": "UPDATE_WORK_PACKAGE",
+  "basis": [
+    "PR #1878 merged reviewed R2 evidence at d4b9c8ef4301fb3c8e4a5b4fbf38e6a42bc4c472",
+    "R2 independent review relay/EVIDENCE/C3D-B02-R2/R2-0009/review/INDEPENDENT-REVIEW-R2-0001.json",
+    "Issue #1771 comment 5794804384",
+    "Issue #1862 comment 5794805060",
+    "Issue #1711 comment 5794805857"
+  ],
+  "roadmap_after": {
+    "schema_version": "relay-v3.1-roadmap",
+    "revision": "RM-0012",
+    "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
+    "owner": {
+      "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
+      "current_goal": "R2 is numerically green but independently BLOCKED on reviewable CURRENT_RESULT/transaction/full-lineage projection. Gracefully hand over WP-1771 custody to the narrowly scoped #1862 receipt/custody composition increment before any remaining D.3–D.6 or parked C3-D.5 work resumes."
+    },
+    "work_packages": [
+      {
+        "id": "WP-1769",
+        "title": "Project physical features to mesh, compile loads/BCs/probes, and enforce execution currentness",
+        "weight": 1,
+        "state": "COMPLETE",
+        "depends_on": []
+      },
+      {
+        "id": "WP-1771",
+        "title": "Qualify production-route continuum response, solver robustness, and convergence",
+        "weight": 1,
+        "state": "ACTIVE",
+        "depends_on": [
+          "WP-1769"
+        ]
+      },
+      {
+        "id": "WP-1773",
+        "title": "Define canonical stress/result recovery and engineering-output authority",
+        "weight": 1,
+        "state": "PLANNED",
+        "depends_on": [
+          "WP-1769"
+        ]
+      },
+      {
+        "id": "WP-1774",
+        "title": "Build independent hand-calculation and auditable V&V package",
+        "weight": 1,
+        "state": "PLANNED",
+        "depends_on": [
+          "WP-1771",
+          "WP-1773"
+        ]
+      },
+      {
+        "id": "WP-1776",
+        "title": "Integrate workbench evidence, align docs/registry, and close qualification claims",
+        "weight": 1,
+        "state": "PLANNED",
+        "depends_on": [
+          "WP-1774"
+        ]
+      }
+    ]
+  }
+}
