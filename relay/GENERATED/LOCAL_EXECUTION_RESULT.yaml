@@ -1,0 +1,56 @@
+schema_version: relay-v3.1-local-execution-result
+authority: EXTERNAL_EXECUTION_EVIDENCE
+request_id: LOCAL-EP-LAFEA3-C3D-B02-R2-1771-0009-74437c406695
+status: BLOCKED
+observed_head: 74437c40669577926c9761cd6374f53d11178a69
+environment:
+  execution_context: LOCAL_DETACHED_WORKTREE
+  operating_system: Windows
+  material_head: 74437c40669577926c9761cd6374f53d11178a69
+  node_version: relay/EVIDENCE/C3D-B02-R2/R2-0009/node-version.txt
+  npm_version: relay/EVIDENCE/C3D-B02-R2/R2-0009/npm-version.txt
+  step4_history: Initial STEP-CMD-4 attempt interrupted by environment restart; completed
+    relaunch retained and used as STEP-CMD-4 evidence.
+command_results:
+- step_id: STEP-CMD-1
+  status: PASS
+  exit_code: 0
+  summary: B02 production source/authority guard passed; no release authority granted.
+- step_id: STEP-CMD-2
+  status: PASS
+  exit_code: 0
+  summary: Focused B02B production qualification passed for retained T3/T6/Q8 refinement
+    evidence.
+- step_id: STEP-CMD-3
+  status: PASS
+  exit_code: 0
+  summary: First complete B02A-E production-sequence run passed and emitted B02E semantic
+    hash sha256:b6831a20b598746c4f73eb768dc2967d3cd1bca375112516e15e53c90343d948.
+- step_id: STEP-CMD-4
+  status: PASS
+  exit_code: 0
+  summary: Completed relaunched second B02A-E production-sequence run passed with
+    the same B02E semantic hash sha256:b6831a20b598746c4f73eb768dc2967d3cd1bca375112516e15e53c90343d948.
+failures:
+- 'AC-C3D-R2-6 is not evidenced: retained ordinary-route command output does not expose
+  an independently inspectable CURRENT_RESULT/currentAuthority projection with completed
+  transaction and current recovery ancestry across source/domain/geometry/mesh/profile/solver-config/execution/recovery
+  identities. Numerical PASS therefore cannot be promoted to R2 PASS.'
+artifacts:
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/material-basis.json
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/01-source-guard.log
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/01-source-guard.exit
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/02-b02b.log
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/02-b02b.exit
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/03-sequence-run1.log
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/03-sequence-run1.exit
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/04-sequence-run2.log
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/04-sequence-run2.exit
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/currentness-lineage-search.txt
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/execution-notes.txt
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/git-status-after.txt
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/git-diff-check.txt
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/git-diff-check.exit
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/protected-product-diff.patch
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/execution-start.txt
+- relay/EVIDENCE/C3D-B02-R2/R2-0009/execution-end.txt
