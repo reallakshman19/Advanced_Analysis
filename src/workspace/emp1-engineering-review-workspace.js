@@ -10,6 +10,10 @@ import {
 } from '../core/emp1/emp1-engineering-evidence-export.js';
 import { projectEmp1BenchmarkEvidenceWorkspace } from
   './emp1-benchmark-evidence-workspace.js';
+import releaseProfile from
+  '../../validation/emp1/release/emp1-wrc537-gamma5-bounded-release-profile-v1.json'
+  with { type: 'json' };
+import packageMetadata from '../../package.json' with { type: 'json' };
 import {
   EMP1_WORKBENCH_C_STATE,
   EMP1_WORKBENCH_EXECUTION_CURRENTNESS,
@@ -115,8 +119,6 @@ export function createEmp1WorkspaceEngineeringEvidencePackage({
   cState,
   reviewRecord = null,
   sourceDocuments,
-  productVersion,
-  releaseProfile,
 } = {}) {
   const blockers = reviewCreationBlockers({ execution, executionCurrentness, cState });
   if (blockers.length) {
@@ -129,8 +131,11 @@ export function createEmp1WorkspaceEngineeringEvidencePackage({
     reviewRecord,
     sourceDocuments,
     benchmarkEvidence: projectEmp1BenchmarkEvidenceWorkspace(),
-    productVersion,
-    releaseProfile,
+    productVersion: packageMetadata.version,
+    releaseProfile: {
+      id: releaseProfile.releaseProfileId,
+      version: releaseProfile.schema,
+    },
   });
 }
 
