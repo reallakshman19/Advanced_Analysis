@@ -162,7 +162,8 @@
     "check:lfea-spring-rate-units": "node scripts/lfea-spring-rate-units-check.mjs",
     "check:emp1-source-semantics": "node scripts/emp1-professional-p0-source-semantics-check.mjs && node scripts/emp1-wrc537-bounded-source-semantics-profile-check.mjs",
     "check:emp1-benchmarks": "node scripts/emp1-wrc537-gamma5-independent-handcalc-trace-check.mjs && node scripts/emp1-caux-current-benchmark-manifest-check.mjs && node scripts/emp1-pvelite-benchmark-programme-check.mjs",
-    "check:emp1-release-controls": "node scripts/emp1-professional-release-control-wiring-check.mjs && node scripts/emp1-professional-release-readiness-check.mjs"
+    "check:emp1-release-controls": "node scripts/emp1-engineering-evidence-export-check.mjs && node scripts/emp1-professional-release-control-wiring-check.mjs && node scripts/emp1-professional-release-readiness-check.mjs",
+    "check:emp1-evidence-export": "node scripts/emp1-engineering-evidence-export-check.mjs"
   },
   "dependencies": {
     "buffer": "^6.0.3",
