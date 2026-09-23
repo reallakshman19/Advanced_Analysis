@@ -1,33 +1,36 @@
-{
-  "schema_version": "relay-v3.1-local-execution-result",
-  "authority": "EXTERNAL_EXECUTION_EVIDENCE",
-  "request_id": "LOCAL-EP-LAFEA3-C3D-B02B-LADDER-1771-0005-955cbc11394c",
-  "status": "FAIL",
-  "observed_head": "955cbc11394c85ad5dfbd3bf399acf70e6a8cf8d",
-  "environment": {
-    "os": "Windows",
-    "node": "v24.11.1",
-    "common_v31_basis": "4c0617bd2f41d25f43a5d98673abead8ca4e7686",
-    "working_tree": "CLEAN_DURING_VALIDATION",
-    "source_modifications": false
-  },
-  "command_results": [
-    {
-      "step_id": "STEP-CMD-1",
-      "status": "FAIL",
-      "exit_code": 1,
-      "summary": "B02B V2 T3 displacement probe now converges on restored fine ladder, but B02B-PROBE-TAU-01 is OSCILLATORY. Reported T3 tau values: h=2.5 -3.25951; h=1.25 -3.34190; h=0.625 -3.31274. Three-level relative band ~0.02465 exceeds qualifier stableWithinBand <=0.02."
-    },
-    {
-      "step_id": "STEP-CMD-2",
-      "status": "FAIL",
-      "exit_code": 1,
-      "summary": "Aggregate sequence passes B02C and B02D V2 qualification, then remains blocked at B02B on the same T3 B02B-PROBE-TAU-01 OSCILLATORY convergence witness."
-    }
-  ],
-  "failures": [
-    "STEP-CMD-1: B02B-V2/T3/B02B-PROBE-TAU-01 convergence is OSCILLATORY; reported three-level relative variation is ~2.465%, above stableWithinBand <=2.0%.",
-    "STEP-CMD-2: LAFEA_B02_PRODUCTION_SEQUENCE_BLOCKED_AT_B02B on the same OSCILLATORY T3 shear-probe convergence."
-  ],
-  "artifacts": []
-}
+schema_version: relay-v3.1-local-execution-result
+authority: EXTERNAL_EXECUTION_EVIDENCE
+request_id: LOCAL-EP-LAFEA3-C3D-B02B-ROUTING-1771-0006-ef09fc3c403c
+status: FAIL
+observed_head: ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24
+environment:
+  os: Windows (PowerShell)
+  node: v24.11.1
+  git: 2.52.0.windows.1
+  repository_path: c:\Users\reall\Documents\antigravity\Advanced_Analysis
+  execution_tree: CLEAN_DURING_VALIDATION
+  postrun_repository_restored: true
+command_results:
+- step_id: STEP-CMD-1
+  status: PASS
+  exit_code: 0
+  summary: B02B standalone check passes cleanly with exit 0. B02B-V2 routes to the
+    qualified B02B probe-stable rectangle mesh. T3, T6, and Q8 all achieve monotonic
+    convergence on both B02B-PROBE-TAU-01 and B02B-PROBE-UY-01.
+- step_id: STEP-CMD-2
+  status: FAIL
+  exit_code: 1
+  summary: All calculation stages (B02C traction, B02D polar mesh, B02A, B02B, B02C,
+    B02D) execute to completion and emit status PASS. Sequence is no longer blocked
+    at B02B calculation. It advances to receipt assertion at line 32 of scripts/lafea-b02-production-sequence-check.mjs
+    where assert.equal(receipts[id].caseId, id) fails ('B02B-V2' !== 'B02B').
+failures:
+- 'STEP-CMD-2: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  ''B02B-V2'' !== ''B02B'' at scripts/lafea-b02-production-sequence-check.mjs:32:10'
+artifacts:
+- relay/EVIDENCE/C3D-B02B-ROUTING/ROUTING-0006/commands/b02b.stdout.txt
+- relay/EVIDENCE/C3D-B02B-ROUTING/ROUTING-0006/commands/b02b.stderr.txt
+- relay/EVIDENCE/C3D-B02B-ROUTING/ROUTING-0006/commands/b02-sequence.stdout.txt
+- relay/EVIDENCE/C3D-B02B-ROUTING/ROUTING-0006/commands/b02-sequence.stderr.txt
+- relay/EVIDENCE/C3D-B02B-ROUTING/ROUTING-0006/receipts/execution-summary.json
+- relay/EVIDENCE/C3D-B02B-ROUTING/ROUTING-0006/notes/observations.md
