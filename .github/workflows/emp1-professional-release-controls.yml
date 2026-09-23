@@ -38,7 +38,12 @@ jobs:
         run: npm ci
       - name: Verify WRC-05 current release-control wiring
         run: npm run check:emp1-release-controls
-      - name: Verify policy-only candidate custody
+      - name: Verify policy-only candidate and manifest custody
         run: |
+          RECEIPT="validation/emp1/release/.ci-wrc05-candidate-receipt.json"
+          trap 'rm -f "$RECEIPT"' EXIT
           node scripts/emp1-professional-release-candidate.mjs \
-            --expected-head "$EXPECTED_HEAD"
+            --expected-head "$EXPECTED_HEAD" \
+            --write-receipt "$RECEIPT"
+          node scripts/emp1-professional-release-manifest-check.mjs \
+            --receipt "$RECEIPT"
