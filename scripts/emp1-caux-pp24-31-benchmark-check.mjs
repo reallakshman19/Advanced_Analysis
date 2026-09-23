@@ -146,10 +146,12 @@ assert.deepEqual(currentQualification.authority, qualification.authority);
 
 console.log(JSON.stringify({
   schema: 'emp1-caux-pp24-31-benchmark-check/v1',
-  status: 'PASS_CAUX_REFERENCE_FREEZE_OUTSIDE_GAMMA5_PROFILE_DIRECT_PDF_REOBSERVATION_PENDING',
+  status: 'PASS_CAUX_REFERENCE_FREEZE_Q1_HISTORICAL_CURRENT_Q3_SOURCE_QUALIFIED',
   benchmarkSemanticHash: BENCHMARK_HASH,
   handCalculationSemanticHash: HANDCALC_HASH,
+  qualificationSemanticHash: QUALIFICATION_HASH,
   historicalQualificationSemanticHash: QUALIFICATION_HASH,
+  historicalQualificationStatus: qualification.status,
   historicalDirectPdfPageReobservation: qualification.source.directPdfPageReobservation,
   currentQualificationSemanticHash: CURRENT_QUALIFICATION_HASH,
   currentQualificationId: currentQualification.qualificationId,
