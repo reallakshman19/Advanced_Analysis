@@ -1,0 +1,34 @@
+schema_version: relay-v3.1-lease
+id: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+route: SERIAL:EP-LAFEA3-C3D-B02-R2-1771-0009
+executor:
+  id: chatgpt-gpt5.6-sol-c3d-r2-20260923
+basis:
+  ep_id: EP-LAFEA3-C3D-B02-R2-1771-0009
+  ep_digest: sha256:6e9ed7eb2e9f605194ddcb5b31f5ca1f8697cc6644ff3e41ace07ec3df7270f0
+  material_base: 74437c40669577926c9761cd6374f53d11178a69
+  predecessor_checkpoint: null
+  protocol_basis: github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1
+authority:
+  actions:
+  - READ
+  - ANALYZE
+  - MATERIAL_WRITE
+  - TEST
+  - CHECKPOINT
+  - HANDOVER
+  - LOCAL_EXECUTION_EXPORT
+  - DRAFT_PR_UPDATE
+admission:
+  method: DETERMINISTIC
+  result: PASS
+  repository_only: true
+  qualification:
+    required: false
+    qset: null
+    evaluator: null
+    result: null
+    evidence: []
+state: ACTIVE
+invalidation:
+  reasons: []

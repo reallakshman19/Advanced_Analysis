@@ -1,12 +1,12 @@
 schema_version: relay-v3.1
 roadmap:
-  revision: RM-0010
+  revision: RM-0011
   path: relay/ROADMAP/ROADMAP.yaml
 execution:
-  lifecycle: IDLE
-  ep: null
-  lease: null
-  route: null
+  lifecycle: ACTIVE
+  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+  route: SERIAL:EP-LAFEA3-C3D-B02-R2-1771-0009
 accepted:
   checkpoint: null
 controls:

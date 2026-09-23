@@ -1,14 +1,14 @@
 schema_version: relay-v3.1-snapshot
 authority: DERIVED_READ_MODEL
 generated_from:
-  roadmap_revision: RM-0010
-  state_digest: sha256:4795f38bced48c83cb0a47b6984e725965ab7bca369a2ec8e4ee5759cb169260
+  roadmap_revision: RM-0011
+  state_digest: sha256:a3a50ac7a2b3c85fa3d3529eb1e72d383e678982916058adb49a690855ca8726
   material_basis:
-    head: d9afc4e8b744cdb38ea018301be53f8c4cb4454c
-    tree_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
-    relevant_paths_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
-    dependency_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
-  coordination_head: d9afc4e8b744cdb38ea018301be53f8c4cb4454c
+    head: 74437c40669577926c9761cd6374f53d11178a69
+    tree_digest: sha256:52cde7a25050595f0367059090881554796bee996332a5c147d7e4903901b2dc
+    relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
+    dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+  coordination_head: b1c946bc5d5df38ffa8aa0deac3bf8d037787d46
 owner:
   outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
     Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
@@ -28,20 +28,40 @@ programme:
   - WP-1774
   - WP-1776
 execution:
-  lifecycle: IDLE
-  work_package: null
-  ep: null
-  lease: null
-  executor: null
+  lifecycle: ACTIVE
+  work_package: WP-1771
+  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+  executor: chatgpt-gpt5.6-sol-c3d-r2-20260923
 scope:
-  allowed_writes: []
-  protected: []
-  prohibited: []
+  allowed_writes:
+  - relay/EVIDENCE/C3D-B02-R2/**
+  protected:
+  - scripts/lafea-b02-production-source-guard.mjs
+  - scripts/lafea-b02b-production-check.mjs
+  - scripts/lafea-b02-production-sequence-check.mjs
+  - scripts/lib/lafea-b02-production-route.mjs
+  - scripts/lib/lafea-b02-rectangle-qualification.mjs
+  - scripts/lib/lafea-b02d-production-route.mjs
+  - src/workspace/lafea-workbench-currentness.js
+  - src/workspace/lafea-workbench-domain-first-run-actions.js
+  - src/workspace/lafea-runtime-solver-diagnostics.js
+  - src/workspace/lafea-continuum-physical-probe.js
+  - validation/lafea-b02-definitions/**
+  prohibited:
+  - any product/source modification in this EP
+  - changes to benchmark definitions, expected values, sign correction, acceptance
+    modes or tolerances
+  - changes to qualifier logic, mesh generators, FE solver, recovery or result authority
+  - B-bar or BM-005 implementation changes
+  - workflow YAML changes
+  - 'issue #1862 implementation'
+  - release or merge authority
 material:
-  base: d9afc4e8b744cdb38ea018301be53f8c4cb4454c
-  head: d9afc4e8b744cdb38ea018301be53f8c4cb4454c
-  relevant_paths_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
-  dependency_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+  base: 74437c40669577926c9761cd6374f53d11178a69
+  head: 74437c40669577926c9761cd6374f53d11178a69
+  relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
+  dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
 evidence:
   latest_checkpoint: null
   latest_material_validation: {}
@@ -58,12 +78,26 @@ delivery:
   lifecycle: DECLARED
   merge_authorized: false
 next:
-  immediate_material_action: null
+  immediate_material_action: Run canonical roadmap reconciliation and task admission,
+    then use pinned V3.1 local-execution export. Require material-basis drift against
+    current main to be DISJOINT; execute source guard once, B02B once and B02 sequence
+    twice on the derived material head.
   delivery_action: Perform the explicitly authorized delivery transition.
-  stop_conditions: []
+  stop_conditions:
+  - Stop on HEAD_MISMATCH.
+  - Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.
+  - Do not modify product/source files.
+  - Do not normalize a nonzero exit into PASS.
+  - Do not infer deterministic replay without two durable aggregate runs.
+  - 'If numerical commands pass but CURRENT_RESULT/lineage custody is not independently
+    inspectable, return BLOCKED rather than PASS and route to #1862.'
+  - 'Do not resume or merge PR #1873 until R2 evidence and independent review disposition
+    are complete.'
 handoff:
-  zero_context_takeover_possible: false
+  zero_context_takeover_possible: true
   reconstruction_sources:
   - relay/ROADMAP/ROADMAP.yaml
   - relay/STATE.yaml
   - relay/CONTROLS/controls.yaml
+  - relay/WORK/EP-LAFEA3-C3D-B02-R2-1771-0009.yaml
+  - relay/LEASES/LEASE-LAFEA3-C3D-B02-R2-1771-0009.yaml
