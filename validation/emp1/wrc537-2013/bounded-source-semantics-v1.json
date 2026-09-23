@@ -256,7 +256,15 @@
       "hostAttachmentMaterialEquivalence": false
     },
     "casePrerequisite": "ORIGINAL_CYLINDRICAL_THEORY_APPLICABILITY_EVIDENCE",
-    "unqualifiedBehaviorPolicy": "FAIL_CLOSED_UNLESS_SEPARATELY_SOURCE_QUALIFIED"
+    "unqualifiedBehaviorPolicy": "FAIL_CLOSED_UNLESS_SEPARATELY_SOURCE_QUALIFIED",
+    "notAuthorizedWithoutSeparateSourceQualification": [
+      "PLASTIC_OR_INELASTIC_RESPONSE",
+      "CREEP",
+      "ORTHOTROPIC_OR_ANISOTROPIC_RESPONSE",
+      "COMPOSITE_OR_LINED_CLAD_MATERIAL_EFFECTS",
+      "LARGE_DEFLECTION_OR_OTHER_NONLINEAR_EFFECTS",
+      "MATERIAL_DISCONTINUITY_EFFECTS"
+    ]
   },
   "resultScope": {
     "hostCylindricalShellLocalStressAtAttachmentShellJuncture": true,
@@ -327,5 +335,5 @@
     "DO_NOT_CREATE_CODE_COMPLIANCE_OR_RELEASE_AUTHORITY",
     "DO_NOT_WIDEN_PRESSURE_SCF_GAMMA_BETA_ATTACHMENT_OR_SHELL_FAMILY_SCOPE"
   ],
-  "semanticHash": "825a44af697cdf56d63284e8e2607ebd354dc304544e93734aa17dc307c811c7"
+  "semanticHash": "64a65852cd96216525b227d1d74fe5423278638627b3b3f94c0389285f2e84d0"
 }
