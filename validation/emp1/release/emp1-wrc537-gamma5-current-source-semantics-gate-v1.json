@@ -1,0 +1,44 @@
+{
+  "schema": "emp1-wrc537-gamma5-current-source-semantics-gate/v1",
+  "issue": 1765,
+  "parentIssue": 1760,
+  "basisMainSha": "324264b601fa360290d363d2cfd463fbaa54a5cd",
+  "state": "PASS_BOUNDED_METHOD_SOURCE_SEMANTICS_CASE_PREREQUISITES_DECLARED",
+  "profile": {
+    "path": "validation/emp1/wrc537-2013/bounded-source-semantics-v1.json",
+    "semanticHash": "825a44af697cdf56d63284e8e2607ebd354dc304544e93734aa17dc307c811c7",
+    "methodSourceSemanticsReady": true,
+    "unresolvedPrimaryMethodSemanticCount": 0
+  },
+  "caseApplicability": {
+    "state": "REQUIRES_CASE_SPECIFIC_EVIDENCE",
+    "prerequisiteIds": [
+      "SAME_STATE_ASSESSMENT_GEOMETRY",
+      "STANDARD_ROUND_ATTACHMENT_CLASS",
+      "PHYSICAL_ATTACHMENT_AXIS_COINCIDENCE",
+      "ISOLATION_OR_NONINTERACTION_EVIDENCE",
+      "ORIGINAL_CYLINDRICAL_THEORY_APPLICABILITY_EVIDENCE"
+    ],
+    "absenceOfPrerequisiteEvidenceMayBeTreatedAsPass": false
+  },
+  "legacyAggregate": {
+    "path": "validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json",
+    "state": "BLOCKED_P0_SOURCE_SEMANTICS",
+    "blockerCount": 9,
+    "classification": "HISTORICAL_IMMUTABLE_PRE_WRC02_INTEGRATION_AGGREGATE",
+    "rewritten": false
+  },
+  "authority": {
+    "boundedMethodSourceSemanticsReady": true,
+    "caseEngineeringUseAuthorizedByThisGate": false,
+    "productionAuthorityChanged": false,
+    "globalEmp1CAuthority": false,
+    "codeComplianceAuthorized": false,
+    "releaseAuthorityGranted": false
+  },
+  "nextConsumer": {
+    "issue": 1768,
+    "meaning": "NUMERICAL_QUALIFICATION_MAY_BIND_THIS_WRC02_PROFILE_BUT_MUST_SUPPLY_CASE_PREREQUISITE_EVIDENCE_FOR_ITS_QUALIFICATION_CASE"
+  },
+  "semanticHash": "e00b612b12affe49c9ec12efc0d16aeedbe62daeb9ce554802b5c73e82403ff7"
+}
