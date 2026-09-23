@@ -1,0 +1,49 @@
+{
+  "schema_version": "relay-v3.1-transaction",
+  "id": "TX-WRC05-ROADMAP-20260923T062221Z",
+  "command": "RECONCILE_ROADMAP",
+  "actor": "chatgpt-gpt5.6-sol-wrc05-20260923",
+  "status": "COMMITTED",
+  "created_at": "2026-09-23T06:22:21Z",
+  "updated_at": "2026-09-23T06:22:21Z",
+  "operations": [
+    {
+      "path": "relay/EVENTS.jsonl",
+      "before_exists": true,
+      "before_digest": "sha256:73ac7bbb1ba3eaed83082012edba29c61167c7e8266fb632819d0db8cccaefb9",
+      "after_digest": "sha256:ca42cf29d3f82088df365569736d3f527aef13de15aacfd93e1346428571ec8a",
+      "staged_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/staged/000.after",
+      "backup_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/backups/000.before"
+    },
+    {
+      "path": "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:b4f59ccdc12ef45fa6cdb3627b45b3165291b59425e5b5ea816572211412444c",
+      "after_digest": "sha256:2f74de4f9620c037a673f8e4b0b87f2e0b3e647a701c7ae574c020ee3ac119df",
+      "staged_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/staged/001.after",
+      "backup_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/backups/001.before"
+    },
+    {
+      "path": "relay/ROADMAP/ROADMAP.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:081a725ecb371d13c44f224c925597e328162b97262e37cd8bc112feb0cfe2c5",
+      "after_digest": "sha256:f313eab1f44783baafb3b2ae12e18b57df2421dc631f6e141e38ca5a0885680c",
+      "staged_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/staged/002.after",
+      "backup_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/backups/002.before"
+    },
+    {
+      "path": "relay/STATE.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:0fe425d934d4155c1e66197d040dce581d512cf5d075d705ecb8b71bc5ae51f4",
+      "after_digest": "sha256:b793f3f3a54f0fbdc2bf3832ec62e470bd7200c4019833dbb8b7f3153abd0e8c",
+      "staged_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/staged/003.after",
+      "backup_path": "relay/TRANSACTIONS/TX-WRC05-ROADMAP-20260923T062221Z/backups/003.before"
+    }
+  ],
+  "applied": [
+    "relay/EVENTS.jsonl",
+    "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+    "relay/ROADMAP/ROADMAP.yaml",
+    "relay/STATE.yaml"
+  ]
+}

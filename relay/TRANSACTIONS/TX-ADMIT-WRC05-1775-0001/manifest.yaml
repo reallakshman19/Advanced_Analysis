@@ -1,0 +1,67 @@
+{
+  "schema_version": "relay-v3.1-transaction",
+  "id": "TX-ADMIT-WRC05-1775-0001",
+  "command": "ADMIT_TASK",
+  "actor": "chatgpt-gpt5.6-sol-wrc05-20260923",
+  "status": "COMMITTED",
+  "created_at": "2026-09-23T06:22:21Z",
+  "updated_at": "2026-09-23T06:22:21Z",
+  "operations": [
+    {
+      "path": "relay/EVENTS.jsonl",
+      "before_exists": true,
+      "before_digest": "sha256:ca42cf29d3f82088df365569736d3f527aef13de15aacfd93e1346428571ec8a",
+      "after_digest": "sha256:064d4b71d777e91cfb1b013b6d550adbd246db128e3b9508c3f937a9b4885929",
+      "staged_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/staged/000.after",
+      "backup_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/backups/000.before"
+    },
+    {
+      "path": "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:2f74de4f9620c037a673f8e4b0b87f2e0b3e647a701c7ae574c020ee3ac119df",
+      "after_digest": "sha256:970a3e7e5947cb56422c6b8aaa293486c3591919312d44aa25a3011a0866ae41",
+      "staged_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/staged/001.after",
+      "backup_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/backups/001.before"
+    },
+    {
+      "path": "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml",
+      "before_exists": false,
+      "before_digest": null,
+      "after_digest": "sha256:e946ff9e418e635d44565b2aa47d41811d7e68759602d06e8299a78d64ac4f80",
+      "staged_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/staged/002.after",
+      "backup_path": null
+    },
+    {
+      "path": "relay/ROADMAP/ROADMAP.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:f313eab1f44783baafb3b2ae12e18b57df2421dc631f6e141e38ca5a0885680c",
+      "after_digest": "sha256:2fd945c352897c19f7ef83dae12d684d892f7dfda0eb2a007f16f52c49825e6f",
+      "staged_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/staged/003.after",
+      "backup_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/backups/003.before"
+    },
+    {
+      "path": "relay/STATE.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:b793f3f3a54f0fbdc2bf3832ec62e470bd7200c4019833dbb8b7f3153abd0e8c",
+      "after_digest": "sha256:1c96ef6979bc8c6cb65992f1c78f69b8c2ff2299e083412c7b43702b6f5879ce",
+      "staged_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/staged/004.after",
+      "backup_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/backups/004.before"
+    },
+    {
+      "path": "relay/WORK/EP-EMP1-WRC05-1775-0001.yaml",
+      "before_exists": false,
+      "before_digest": null,
+      "after_digest": "sha256:c44931d81f8a980e86ad8903089aa4e03afa279b824c525e91b639d9dafccf64",
+      "staged_path": "relay/TRANSACTIONS/TX-ADMIT-WRC05-1775-0001/staged/005.after",
+      "backup_path": null
+    }
+  ],
+  "applied": [
+    "relay/EVENTS.jsonl",
+    "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+    "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml",
+    "relay/ROADMAP/ROADMAP.yaml",
+    "relay/STATE.yaml",
+    "relay/WORK/EP-EMP1-WRC05-1775-0001.yaml"
+  ]
+}

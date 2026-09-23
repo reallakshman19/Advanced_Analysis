@@ -1,10 +1,10 @@
 {
   "schema_version": "relay-v3.1-roadmap",
-  "revision": "RM-0009",
+  "revision": "RM-0011",
   "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
   "owner": {
-    "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Re-establish WP-1771 on a dedicated V3.1 execution branch, import durable local execution evidence, and separate the confirmed stale B02D V1 sequence binding from unresolved B02B, B-bar and BM-005 qualification boundaries before any #1862 receipt-projection implementation."
+    "outcome": "Preserve verified LAFEA.3/C3-C truth while executing the EMP.1/WRC programme under Relay V3.1 without rewriting historical evidence, widening WRC authority, or treating NOT_RUN as PASS.",
+    "current_goal": "Execute #1775 WRC-05 P5/P6 durable evidence work: deterministic EMP.1 export/replay, durable engineering-review binding, and exact release-manifest custody while #1768 numerical execution remains fail-closed; retain WP-1771 as PLANNED for later resumption."
   },
   "work_packages": [
     {
@@ -18,7 +18,7 @@
       "id": "WP-1771",
       "title": "Qualify production-route continuum response, solver robustness, and convergence",
       "weight": 1,
-      "state": "ACTIVE",
+      "state": "PLANNED",
       "depends_on": [
         "WP-1769"
       ]
@@ -50,6 +50,13 @@
       "depends_on": [
         "WP-1774"
       ]
+    },
+    {
+      "id": "WP-1775",
+      "title": "Close professional EMP.1 bounded WRC product evidence, replay, review and release-manifest custody",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": []
     }
   ]
 }

@@ -2,19 +2,19 @@
   "schema_version": "relay-v3.1-snapshot",
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
-    "roadmap_revision": "RM-0009",
-    "state_digest": "sha256:4db5223fb59776d7217fad606a46260341f199c322b3ad4cdef7076d4687c91d",
+    "roadmap_revision": "RM-0011",
+    "state_digest": "sha256:ddecbf29ba62526b968bf5c57d2f9f7035a941f4a92c8ce6fa3ed45ceaa3ff6e",
     "material_basis": {
-      "head": "2985ba5acea6bc1556afb4452dc643fc3728016e",
-      "tree_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "head": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
+      "tree_digest": "sha256:827d333ba067534dca326747d3d5fba7b1a0ff38b17bdc7751672f297e8ffa83",
+      "relevant_paths_digest": "sha256:02bd80c11e1a613e1c14241f48eb6cab9f663312ddc0242b2f3f95fac103682b",
+      "dependency_digest": "sha256:f84a9a7074aa3af7af0e401d880257e62a3bfd7eb497d0889373a06ec8335d37"
     },
-    "coordination_head": "2985ba5acea6bc1556afb4452dc643fc3728016e"
+    "coordination_head": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f"
   },
   "owner": {
-    "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "current_goal": "Re-establish WP-1771 on a dedicated V3.1 execution branch, import durable local execution evidence, and separate the confirmed stale B02D V1 sequence binding from unresolved B02B, B-bar and BM-005 qualification boundaries before any #1862 receipt-projection implementation."
+    "outcome": "Preserve verified LAFEA.3/C3-C truth while executing the EMP.1/WRC programme under Relay V3.1 without rewriting historical evidence, widening WRC authority, or treating NOT_RUN as PASS.",
+    "current_goal": "Execute #1775 WRC-05 P5/P6 durable evidence work: deterministic EMP.1 export/replay, durable engineering-review binding, and exact release-manifest custody while #1768 numerical execution remains fail-closed; retain WP-1771 as PLANNED for later resumption."
   },
   "programme": {
     "accepted_progress": 0,
@@ -24,26 +24,62 @@
       "WP-1771",
       "WP-1773",
       "WP-1774",
-      "WP-1776"
+      "WP-1776",
+      "WP-1775"
     ]
   },
   "execution": {
-    "lifecycle": "IDLE",
-    "work_package": null,
-    "ep": null,
-    "lease": null,
-    "executor": null
+    "lifecycle": "ACTIVE",
+    "work_package": "WP-1775",
+    "ep": "EP-EMP1-WRC05-1775-0001",
+    "lease": "LEASE-EMP1-WRC05-1775-0001",
+    "executor": "chatgpt-gpt5.6-sol-wrc05-20260923",
+    "custody_epoch": 1
   },
   "scope": {
-    "allowed_writes": [],
-    "protected": [],
-    "prohibited": []
+    "allowed_writes": [
+      "src/core/emp1/emp1-engineering-evidence-export.js",
+      "src/core/emp1/index.js",
+      "src/workspace/emp1-engineering-review-workspace.js",
+      "scripts/emp1-engineering-evidence-export-check.mjs",
+      "scripts/emp1-engineering-review-record-check.mjs",
+      "scripts/emp1-professional-release-candidate.mjs",
+      "scripts/emp1-professional-release-manifest.mjs",
+      "scripts/emp1-professional-release-manifest-check.mjs",
+      "scripts/emp1-professional-release-readiness-check.mjs",
+      "scripts/emp1-professional-release-control-wiring-check.mjs",
+      "validation/emp1/release/**",
+      "package.json",
+      ".github/workflows/emp1-professional-release-controls.yml",
+      "docs/emp1/EMP1_WRC537_Professional_Evidence_Export.md"
+    ],
+    "protected": [
+      "src/core/emp1/emp1-wrc537-**",
+      "src/core/emp1/emp1-c-bounded-route-registry.js",
+      "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+      "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+      "validation/emp1/release/emp1-current-benchmark-manifest-v1.json",
+      "validation/emp1/caux2017-wrc01f/**",
+      "agents/relay/**"
+    ],
+    "prohibited": [
+      "WRC formula, coefficient, Table-5 sign/recovery or source-semantics changes",
+      "benchmark/oracle expected-value or tolerance refreeze",
+      "non-tabulated-gamma or unsupported-domain authority expansion",
+      "resultHash policy changes owned by #1852",
+      "Owner policy changes owned by #1834",
+      "global EMP.1.C authority",
+      "code-compliance authorization",
+      "synthetic PASS for NOT_RUN execution evidence",
+      "MERGE",
+      "RELEASE"
+    ]
   },
   "material": {
-    "base": "2985ba5acea6bc1556afb4452dc643fc3728016e",
-    "head": "2985ba5acea6bc1556afb4452dc643fc3728016e",
-    "relevant_paths_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "dependency_digest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    "base": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
+    "head": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
+    "relevant_paths_digest": "sha256:02bd80c11e1a613e1c14241f48eb6cab9f663312ddc0242b2f3f95fac103682b",
+    "dependency_digest": "sha256:f84a9a7074aa3af7af0e401d880257e62a3bfd7eb497d0889373a06ec8335d37"
   },
   "evidence": {
     "latest_checkpoint": null,
@@ -60,22 +96,31 @@
     "informational": []
   },
   "delivery": {
-    "issue": 1771,
+    "issue": 1775,
     "pr": null,
     "lifecycle": "DECLARED",
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": null,
+    "immediate_material_action": "Implement durable EMP.1 engineering evidence export/re-import and durable engineering-review binding over the exact retained current A/B/C execution and route-authority snapshot; then bind those identities into the professional release manifest without creating release authority.",
     "delivery_action": "Perform the explicitly authorized delivery transition.",
-    "stop_conditions": []
+    "stop_conditions": [
+      "Stop if main or any material-sensitive dependency moves relative to 060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f before a write; reclassify drift first.",
+      "Do not change WRC equations, coefficients, Table-5 sign/recovery, source semantics, frozen benchmark values, tolerances, resultHash policy, or route domain/authority.",
+      "Do not treat #1768 historical/current NOT_RUN execution as PASS or synthesize missing 01-12 evidence.",
+      "Engineering review acceptance must remain evidence-bound human review only and must not create source, method, applicability, numerical, code, or release authority.",
+      "Global EMP.1.C remains false and code compliance remains NOT_ASSESSED/false.",
+      "OWNER_OVERRIDE permits bounded writes/tests/draft PR only; MERGE and RELEASE are prohibited."
+    ]
   },
   "handoff": {
     "zero_context_takeover_possible": true,
     "reconstruction_sources": [
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
-      "relay/CONTROLS/controls.yaml"
+      "relay/CONTROLS/controls.yaml",
+      "relay/WORK/EP-EMP1-WRC05-1775-0001.yaml",
+      "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml"
     ]
   }
 }
