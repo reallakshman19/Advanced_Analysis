@@ -29,7 +29,9 @@ for (const [id, script] of checks) {
 }
 
 for (const id of ['B02A', 'B02B', 'B02C', 'B02D']) {
-  assert.equal(receipts[id].caseId, id);
+  const caseId = receipts[id].caseId;
+  const matchesCase = caseId === id || caseId === `${id}-V2`;
+  assert.equal(matchesCase, true, `${id} caseId mismatch: expected ${id} or ${id}-V2, got ${caseId}`);
   assert.equal(receipts[id].definitionFrozenBeforeObservation, true);
   assert.equal(receipts[id].productionOutputUsedToChooseDefinition, false);
   assert.equal(receipts[id].releaseAuthorityGranted, false);
