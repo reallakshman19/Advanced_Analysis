@@ -313,6 +313,17 @@ const source = await readFile(
   new URL('../src/core/emp1/emp1-engineering-evidence-export.js', import.meta.url),
   'utf8',
 );
+const workspaceSource = await readFile(
+  new URL('../src/workspace/emp1-engineering-review-workspace.js', import.meta.url),
+  'utf8',
+);
+assert.match(workspaceSource, /projectEmp1BenchmarkEvidenceWorkspace\(\)/u,
+  'workspace export must source benchmark evidence from governed projection');
+assert.doesNotMatch(
+  workspaceSource.match(/export function createEmp1WorkspaceEngineeringEvidencePackage\([\s\S]*?\n\}/u)?.[0] ?? '',
+  /benchmarkEvidence\s*,/u,
+  'workspace export must not accept caller-authored benchmark evidence',
+);
 for (const forbidden of [
   'runEmp1(',
   'evaluateEmp1Wrc537',
