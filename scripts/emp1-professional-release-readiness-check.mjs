@@ -19,7 +19,12 @@ if (unknown.length) throw gateError(`EMP1_RELEASE_READINESS_UNKNOWN_ARGUMENT:${u
 
 const contract = await readJson('validation/emp1/release/emp1-professional-release-readiness-v1.json');
 const profile = await readJson('validation/emp1/release/emp1-wrc537-gamma5-bounded-release-profile-v1.json');
-const p0 = await readJson('validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json');
+const historicalP0 = await readJson(
+  'validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json',
+);
+const currentSourceSemantics = await readJson(
+  'validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json',
+);
 const caux = await readJson(
   'validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json',
 );
@@ -130,6 +135,29 @@ assert.equal(
 );
 assert.equal(currentBenchmarks.caux.routeRelationship.engineeringUseAuthorized, false);
 assert.equal(currentBenchmarks.caux.routeRelationship.comparisonQualificationAvailable, true);
+assert.equal(historicalP0.state, 'BLOCKED_P0_SOURCE_SEMANTICS');
+assert.equal(historicalP0.blockerCount, 9);
+assert.equal(
+  currentSourceSemantics.state,
+  'PASS_BOUNDED_METHOD_SOURCE_SEMANTICS_CASE_PREREQUISITES_DECLARED',
+);
+assert.equal(currentSourceSemantics.profile.methodSourceSemanticsReady, true);
+assert.equal(currentSourceSemantics.profile.unresolvedPrimaryMethodSemanticCount, 0);
+assert.equal(currentSourceSemantics.caseApplicability.state,
+  'REQUIRES_CASE_SPECIFIC_EVIDENCE');
+assert.equal(
+  currentSourceSemantics.caseApplicability.absenceOfPrerequisiteEvidenceMayBeTreatedAsPass,
+  false,
+);
+assert.equal(currentSourceSemantics.legacyAggregate.state, historicalP0.state);
+assert.equal(currentSourceSemantics.legacyAggregate.blockerCount, historicalP0.blockerCount);
+assert.equal(currentSourceSemantics.legacyAggregate.rewritten, false);
+assert.equal(currentSourceSemantics.authority.boundedMethodSourceSemanticsReady, true);
+assert.equal(currentSourceSemantics.authority.caseEngineeringUseAuthorizedByThisGate, false);
+assert.equal(currentSourceSemantics.authority.productionAuthorityChanged, false);
+assert.equal(currentSourceSemantics.authority.globalEmp1CAuthority, false);
+assert.equal(currentSourceSemantics.authority.codeComplianceAuthorized, false);
+assert.equal(currentSourceSemantics.authority.releaseAuthorityGranted, false);
 
 const evidenceDirectories = await findEvidenceDirectories(
   resolve(root, 'validation/emp1/wrc537-2013'),
@@ -165,9 +193,11 @@ const route = EMP1_C_BOUNDED_PRODUCTION_ROUTES.find(
 );
 assert.ok(route, 'EMP1_RELEASE_READINESS_BOUNDED_ROUTE_REQUIRED');
 const sourceReady = sourceLedger.qualificationState === 'PASS_SOURCE_CUSTODY';
-const p0Ready = p0.blockerCount === 0
-  && p0.state !== 'BLOCKED_P0_SOURCE_SEMANTICS'
-  && p0.gates.every((gate) => !String(gate.currentStatus).startsWith('BLOCKED'));
+const boundedSourceSemanticsReady =
+  currentSourceSemantics.profile.methodSourceSemanticsReady === true
+  && currentSourceSemantics.profile.unresolvedPrimaryMethodSemanticCount === 0
+  && currentSourceSemantics.authority.boundedMethodSourceSemanticsReady === true
+  && currentSourceSemantics.authority.releaseAuthorityGranted === false;
 const cauxDirectPdfReady = caux.source.directPdfPageReobservation === 'PASS'
   || caux.source.directPdfPageReobservation === 'PASS_DIRECT_PDF_PAGE_REOBSERVATION';
 const boundedAuthorizationReady = EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_AUTHORIZED === true
@@ -176,7 +206,8 @@ const boundedAuthorizationReady = EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_AUTHORIZED ==
 
 const prerequisiteStates = {
   sourceCustody: sourceReady ? 'PASS' : 'BLOCKED',
-  p0SourceSemantics: p0Ready ? 'PASS' : 'BLOCKED',
+  boundedSourceSemantics: boundedSourceSemanticsReady ? 'PASS' : 'BLOCKED',
+  historicalP0Aggregate: 'HISTORICAL_SUPERSEDED_BLOCKED_9',
   cauxDirectPdfReobservation: cauxDirectPdfReady ? 'PASS' : 'NOT_RUN',
   evidence01To10: complete01To10 ? 'PASS' : 'NOT_GENERATED',
   boundedAuthorization: boundedAuthorizationReady ? 'PASS' : 'NOT_AUTHORIZED',
@@ -184,7 +215,7 @@ const prerequisiteStates = {
 };
 const dynamicBlockers = [];
 if (!sourceReady) dynamicBlockers.push('SOURCE_CUSTODY_NOT_READY');
-if (!p0Ready) dynamicBlockers.push('P0_SOURCE_SEMANTICS_NOT_READY');
+if (!boundedSourceSemanticsReady) dynamicBlockers.push('WRC02_SOURCE_SEMANTICS_NOT_READY');
 if (!cauxDirectPdfReady) dynamicBlockers.push('CAUX_DIRECT_PDF_REOBSERVATION_NOT_RUN');
 if (!complete01To10) dynamicBlockers.push('PR_D_EVIDENCE_01_TO_10_NOT_GENERATED');
 if (!boundedAuthorizationReady) dynamicBlockers.push('PR_E_BOUNDED_AUTHORIZATION_NOT_EXECUTED');
@@ -209,6 +240,19 @@ const result = {
     ? 'PASS_RELEASE_PREREQUISITES_READY_FOR_EXACT_CANDIDATE_EXECUTION'
     : 'PASS_RELEASE_POLICY_FAIL_CLOSED_CURRENTLY_BLOCKED',
   releaseProfileId: contract.releaseProfileId,
+  currentSourceSemantics: {
+    gateSemanticHash: currentSourceSemantics.semanticHash,
+    profileSemanticHash: currentSourceSemantics.profile.semanticHash,
+    methodSourceSemanticsReady: currentSourceSemantics.profile.methodSourceSemanticsReady,
+    caseApplicability: currentSourceSemantics.caseApplicability.state,
+    caseEngineeringUseAuthorizedBySourceGate:
+      currentSourceSemantics.authority.caseEngineeringUseAuthorizedByThisGate,
+  },
+  historicalP0Aggregate: {
+    state: historicalP0.state,
+    blockerCount: historicalP0.blockerCount,
+    classification: currentSourceSemantics.legacyAggregate.classification,
+  },
   prerequisiteStates,
   dynamicBlockers,
   evidenceInventory,
