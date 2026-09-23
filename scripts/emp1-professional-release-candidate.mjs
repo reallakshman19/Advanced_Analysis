@@ -90,8 +90,12 @@ if (!options.release && !options.executeDiagnostics) {
 
 const gates = [
   ['SOURCE_CUSTODY', process.execPath, ['scripts/emp1-source-custody-reconciliation-check.mjs']],
-  ['P0_SOURCE_SEMANTICS', process.execPath,
-    ['scripts/emp1-professional-p0-source-semantics-check.mjs', '--require-ready']],
+  ['WRC02_SOURCE_SEMANTICS', process.execPath,
+    ['scripts/emp1-wrc537-bounded-source-semantics-profile-check.mjs']],
+  ['WRC03_CURRENT_EXACT_HEAD', process.execPath,
+    ['scripts/emp1-wrc-gamma5-exact-head-requalification.mjs',
+      '--expected-head', candidateHead]],
+  ['WRC04_BENCHMARK_EVIDENCE', npmCommand(), ['run', 'check:emp1-benchmarks']],
   ['CAUX_REFERENCE_INTEGRITY', process.execPath,
     ['scripts/emp1-caux-pp24-31-benchmark-check.mjs']],
   ['CAUX_DIRECT_PDF_QUALIFICATION', process.execPath,

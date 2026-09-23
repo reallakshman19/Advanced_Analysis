@@ -29,6 +29,13 @@ const profile = await readJson('validation/emp1/release/emp1-wrc537-gamma5-bound
 const wrcSourceLedger = await readJson('validation/emp1/wrc537-2013/source-ledger.json');
 const cauxSourceLedger = await readJson('validation/emp1/caux2017-wrc01f/source-ledger.json');
 const authorization = await readJson('validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json');
+const currentSourceSemantics = await readJson(
+  'validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json',
+);
+const currentBenchmarkManifestPath =
+  'validation/emp1/release/emp1-current-benchmark-manifest-v1.json';
+const currentBenchmarkManifestBytes = await readFile(resolve(root, currentBenchmarkManifestPath));
+const currentBenchmarkManifest = JSON.parse(currentBenchmarkManifestBytes.toString('utf8'));
 const retainedEvidenceSets = await collectRetainedEvidenceSets(resolve(root, 'validation/emp1/wrc537-2013'));
 const packageLockSha256 = sha256Bytes(await readFile(resolve(root, 'package-lock.json')));
 const candidateSource = await readFile(resolve(root, 'scripts/emp1-professional-release-candidate.mjs'), 'utf8');
@@ -36,7 +43,7 @@ const candidateSource = await readFile(resolve(root, 'scripts/emp1-professional-
 assert.equal(receipt.schema, 'emp1-professional-release-candidate-receipt/v1');
 assert.ok(receipt.releaseManifest, 'EMP1_RELEASE_MANIFEST_REQUIRED');
 const manifest = receipt.releaseManifest;
-assert.equal(manifest.schema, 'emp1-release-candidate/v1');
+assert.equal(manifest.schema, 'emp1-release-candidate/v2');
 assert.equal(manifest.semanticHash, semanticHash(manifest, ['semanticHash']),
   'EMP1_RELEASE_MANIFEST_SEMANTIC_HASH_MISMATCH');
 assert.equal(receipt.receiptSemanticHash, semanticHash(receipt, ['receiptSemanticHash', 'status']),
@@ -73,10 +80,38 @@ assert.deepEqual(manifest.method, {
   datasetHash: profile.method.datasetHash,
   routeQualificationHash: authorization.authorizedIdentity.qualificationRecordSha256,
   independentOracleHash: authorization.authorizedIdentity.postAuthorityOracleSemanticHash,
+  sourceSemanticsProfileHash: currentSourceSemantics.profile.semanticHash,
+  sourceSemanticsGateHash: currentSourceSemantics.semanticHash,
+});
+assert.deepEqual(manifest.benchmark, {
+  currentManifestPath: currentBenchmarkManifestPath,
+  currentManifestSha256: sha256Bytes(currentBenchmarkManifestBytes),
+  gamma5HandcalcTraceGitBlobSha1:
+    currentBenchmarkManifest.gamma5.independentHandCalculationTrace.gitBlobSha1,
+  cauxBenchmarkSemanticHash: currentBenchmarkManifest.caux.benchmark.semanticHash,
+  cauxCurrentQualificationSemanticHash:
+    currentBenchmarkManifest.caux.currentQualification.semanticHash,
+  cauxComparisonState:
+    currentBenchmarkManifest.caux.retainedComparisonCustody.comparisonState,
+  cauxComparisonRouteEngineeringUseAuthorized:
+    currentBenchmarkManifest.caux.routeRelationship.engineeringUseAuthorized,
+  pvEliteReferenceState: currentBenchmarkManifest.pvElite.state,
 });
 assert.equal(authorization.authorizedIdentity.sourceDocumentSha256, manifest.source.wrcSha256);
 assert.equal(authorization.authorizedIdentity.datasetHash, manifest.method.datasetHash);
 assert.equal(profile.benchmark.physicalOracleHash, manifest.method.independentOracleHash);
+assert.equal(currentSourceSemantics.profile.methodSourceSemanticsReady, true);
+assert.equal(currentSourceSemantics.profile.unresolvedPrimaryMethodSemanticCount, 0);
+assert.equal(currentSourceSemantics.authority.caseEngineeringUseAuthorizedByThisGate, false);
+assert.equal(currentSourceSemantics.authority.releaseAuthorityGranted, false);
+assert.equal(currentBenchmarkManifest.gamma5.independentHandCalculationTrace.status,
+  'FROZEN_INDEPENDENT_H1_TRACE');
+assert.equal(currentBenchmarkManifest.caux.currentQualification.directPdfPageReobservation, 'PASS');
+assert.equal(currentBenchmarkManifest.caux.retainedComparisonCustody.comparisonState,
+  'COMPARISON_QUALIFIED');
+assert.equal(currentBenchmarkManifest.caux.routeRelationship.engineeringUseAuthorized, false);
+assert.equal(currentBenchmarkManifest.pvElite.state, 'REFERENCE_NOT_AVAILABLE');
+for (const value of Object.values(currentBenchmarkManifest.authority)) assert.equal(value, false);
 
 assert.deepEqual(manifest.evidence.expectedRetainedFiles, expectedEvidenceFiles,
   'EMP1_RELEASE_MANIFEST_EXPECTED_EVIDENCE_INVENTORY_DRIFT');
@@ -142,6 +177,14 @@ if (receipt.releaseCandidateQualified === true) {
   assert.ok(receipt.executions.every((item) => item.status === 'PASS'),
     'EMP1_RELEASE_QUALIFIED_RECEIPT_REQUIRES_ALL_EXECUTIONS_PASS');
   for (const gateId of [
+    'SOURCE_CUSTODY',
+    'WRC02_SOURCE_SEMANTICS',
+    'WRC03_CURRENT_EXACT_HEAD',
+    'WRC04_BENCHMARK_EVIDENCE',
+    'CAUX_REFERENCE_INTEGRITY',
+    'CAUX_DIRECT_PDF_QUALIFICATION',
+    'AUTHORIZED_RUNEMP1_ORCHESTRATION',
+    'CURRENTNESS_REPLAY_FALSIFIERS',
     'DEPENDENCY_LOCK_CUSTODY',
     'DEPENDENCY_ADVISORY',
     'BUILD_ARTIFACT_SECURITY',
@@ -166,6 +209,9 @@ const result = {
   releaseProfileId: manifest.product.releaseProfileId,
   manifestSemanticHash: manifest.semanticHash,
   retainedEvidenceSetCount: manifest.evidence.retainedEvidenceSets.length,
+  sourceSemanticsProfileHash: manifest.method.sourceSemanticsProfileHash,
+  currentBenchmarkManifestSha256: manifest.benchmark.currentManifestSha256,
+  pvEliteReferenceState: manifest.benchmark.pvEliteReferenceState,
   executionGateCount: Object.keys(manifest.evidence.gates).length,
   releaseCandidateQualified: receipt.releaseCandidateQualified === true,
   currentDependencyCustodyBound: true,

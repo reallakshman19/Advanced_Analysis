@@ -1,0 +1,40 @@
+name: EMP.1 professional release control plane
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/emp1-professional-release-*.mjs'
+      - 'validation/emp1/release/**'
+      - 'validation/emp1/wrc537-2013/gamma5-independent-handcalc-trace-v1.json'
+      - 'package.json'
+      - '.github/workflows/emp1-professional-release-controls.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-controls:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify exact candidate head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify WRC-05 current release-control wiring
+        run: npm run check:emp1-release-controls
+      - name: Verify policy-only candidate custody
+        run: |
+          node scripts/emp1-professional-release-candidate.mjs \
+            --expected-head "$EXPECTED_HEAD"
