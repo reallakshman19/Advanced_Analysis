@@ -1,0 +1,84 @@
+{
+  "schema": "emp1-caux-wrc537-comparison-case/v1",
+  "caseId": "CAUX_2017_WRC01F_PP24_31_SUS_WRC537_COMPARISON_V1",
+  "issue": 1772,
+  "authorityRole": "INDEPENDENT_BENCHMARK_COMPARISON_EXECUTION_CONTRACT_NOT_WRC_METHOD_AUTHORITY",
+  "source": {
+    "benchmarkPath": "validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-v1.json",
+    "benchmarkSemanticHash": "887b231028cd187c63d7cb29aedbc7db182b31d404623f9981f36a21987c2bf3",
+    "currentQualificationPath": "validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json",
+    "currentQualificationSemanticHash": "9c57953aff802624650050c251d05b3ca8ea6a190bec77863f03ec790abc353f",
+    "retainedComparisonCustodyPath": "validation/emp1/caux2017-wrc01f/caux-pp24-31-comparison-custody-v1.json",
+    "comparatorMethod": "WRC107_MARCH_1979_B1_B2_CONTEXT",
+    "sourceLongitudinalMomentBendingFigures": {
+      "circumferential": "1B1",
+      "longitudinal": "2B1",
+      "normalizedInterpretation": {
+        "circumferential": "1B-1",
+        "longitudinal": "2B-1"
+      }
+    }
+  },
+  "geometry": {
+    "meanRadius_mm": 912.5,
+    "shellThickness_mm": 19,
+    "attachmentOutsideDiameter_mm": 323.85,
+    "attachmentRadius_mm": 161.925
+  },
+  "derived": {
+    "gamma": 48.026315789473685,
+    "beta": 0.1552705479452055
+  },
+  "loads": {
+    "forceUnit": "N",
+    "momentUnit": "N.mm",
+    "P": -161,
+    "Vc": -53,
+    "Vl": -2109,
+    "Mc": 121000,
+    "Ml": 33000,
+    "Mt": -775000
+  },
+  "wrc537Evaluation": {
+    "variant": "ORIGINAL",
+    "interpolationCoordinate": "LINEAR_GAMMA",
+    "longitudinalMomentFigures": {
+      "circumferential": "1B",
+      "longitudinal": "2B"
+    },
+    "betaDomain": {
+      "basis": "OWNER_DECLARED",
+      "minimum": 0.05,
+      "maximum": 0.5
+    },
+    "stressConcentration": {
+      "Kn": 1,
+      "Kb": 1
+    },
+    "routeId": "EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.INTERPOLATED_GAMMA.ZERO_DP",
+    "engineeringUseAuthorized": false,
+    "comparisonQualificationAvailable": true
+  },
+  "comparison": {
+    "tolerancePercent": 3,
+    "referenceRoundingHalfWidth_kPa": 0.5,
+    "locations": [
+      "Au",
+      "Al",
+      "Bu",
+      "Bl",
+      "Cu",
+      "Cl",
+      "Du",
+      "Dl"
+    ],
+    "toleranceBasis": "EXISTING_CAUX_COMPARISON_POLICY_FROZEN_BEFORE_EMP_OBSERVATION"
+  },
+  "authority": {
+    "wrcMethodAuthority": false,
+    "engineeringUseAuthorized": false,
+    "productionUseAuthorized": false,
+    "codeComplianceAuthorized": false,
+    "releaseAuthorityGranted": false
+  }
+}
