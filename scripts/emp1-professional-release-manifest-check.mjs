@@ -2,12 +2,14 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { readFile, readdir } from 'node:fs/promises';
+import { lstat, readFile, readdir } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EMP1_PROFESSIONAL_SECURITY_HEADER_POLICY_SEMANTIC_HASH } from './emp1-professional-security-header-policy.mjs';
 import { currentEmp1WorkbenchRouteAuthority } from
   '../src/workspace/emp1-workbench-product-run.js';
+import { requireEmp1EngineeringEvidencePackage } from
+  '../src/core/emp1/emp1-engineering-evidence-export.js';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const expectedEvidenceFiles = [
@@ -222,8 +224,39 @@ assert.deepEqual(currentCustody.deploymentOperations, receipt.candidate.deployme
 assert.deepEqual(currentCustody.caseEngineeringEvidence, caseEngineeringEvidence,
   'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_CUSTODY_DRIFT');
 if (caseEngineeringEvidence != null) {
+  assert.match(caseEngineeringEvidence.packageGitBlobSha1, /^[0-9a-f]{40}$/u);
   assert.match(caseEngineeringEvidence.packageSha256, /^[0-9a-f]{64}$/u);
   assert.equal(caseEngineeringEvidence.packageSchema, 'emp1-evidence-export/v1');
+  assert.ok(
+    caseEngineeringEvidence.path.startsWith('validation/emp1/release/')
+      && !caseEngineeringEvidence.path.includes('..'),
+    'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_PATH_INVALID',
+  );
+  const caseEvidencePath = resolve(root, caseEngineeringEvidence.path);
+  const caseEvidenceStat = await lstat(caseEvidencePath);
+  assert.equal(caseEvidenceStat.isFile(), true,
+    'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_REGULAR_FILE_REQUIRED');
+  assert.equal(caseEvidenceStat.isSymbolicLink(), false,
+    'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_SYMLINK_PROHIBITED');
+  assert.equal(
+    git(['rev-parse', `HEAD:${caseEngineeringEvidence.path}`]),
+    caseEngineeringEvidence.packageGitBlobSha1,
+    'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_GIT_BLOB_DRIFT',
+  );
+  const caseEvidenceBytes = await readFile(caseEvidencePath);
+  assert.equal(
+    sha256Bytes(caseEvidenceBytes),
+    caseEngineeringEvidence.packageSha256,
+    'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_FILE_HASH_DRIFT',
+  );
+  const retainedCaseEvidence = requireEmp1EngineeringEvidencePackage(
+    JSON.parse(caseEvidenceBytes.toString('utf8')),
+  );
+  assert.equal(
+    retainedCaseEvidence.semanticHash,
+    caseEngineeringEvidence.packageSemanticHash,
+    'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_SEMANTIC_HASH_DRIFT',
+  );
   assert.equal(caseEngineeringEvidence.productVersion, packageMetadata.version);
   assert.equal(caseEngineeringEvidence.releaseProfileId, profile.releaseProfileId);
   assert.equal(caseEngineeringEvidence.releaseProfileVersion, profile.schema);
@@ -232,6 +265,16 @@ if (caseEngineeringEvidence != null) {
   assert.equal(caseEngineeringEvidence.reviewAcceptedCurrent, true);
   assert.equal(caseEngineeringEvidence.reviewState, 'REVIEW_ACCEPTED');
   assert.equal(caseEngineeringEvidence.reviewDisposition, 'ACCEPTED');
+  assert.equal(caseEngineeringEvidence.reviewId, retainedCaseEvidence.review.state.reviewId);
+  assert.equal(
+    caseEngineeringEvidence.reviewSemanticHash,
+    retainedCaseEvidence.review.state.reviewSemanticHash,
+  );
+  assert.equal(caseEngineeringEvidence.reviewedAt, retainedCaseEvidence.review.record.reviewedAt);
+  assert.equal(
+    caseEngineeringEvidence.reviewerIdentity,
+    retainedCaseEvidence.review.record.reviewer.identity,
+  );
 }
 assert.equal(currentCustody.deploymentOperations.gateId, 'DEPLOYMENT_OPERATIONS');
 assert.equal(currentCustody.deploymentOperations.rollbackExecutionObservedByThisHarness, false);
@@ -315,6 +358,8 @@ const result = {
   evidencePackageSchema: manifest.professionalReviewCapability.durableEvidencePackageSchema,
   caseSpecificHumanReviewAsserted:
     manifest.professionalReviewCapability.caseSpecificHumanReviewAsserted,
+  caseEngineeringEvidenceGitBlobSha1:
+    manifest.professionalReviewCapability.caseSpecificHumanReview?.packageGitBlobSha1 ?? null,
   caseEngineeringEvidenceSha256:
     manifest.professionalReviewCapability.caseSpecificHumanReview?.packageSha256 ?? null,
   executionGateCount: Object.keys(manifest.evidence.gates).length,
