@@ -129,6 +129,16 @@ assert.match(candidateSource, /check:emp1-benchmarks/u);
 assert.match(candidateSource, /check:emp1-evidence-export/u);
 assert.match(candidateSource, /emp1-engineering-review-record-check\.mjs/u);
 assert.match(candidateSource, /emp1-review-readiness-integration-check\.mjs/u);
+assert.match(candidateSource, /--engineering-evidence-package/u);
+assert.match(candidateSource, /CASE_ENGINEERING_EVIDENCE/u);
+assert.match(candidateSource, /BLOCKED_CASE_ENGINEERING_EVIDENCE_REQUIRED/u);
+assert.match(candidateSource, /reviewAcceptedCurrent/u);
+assert.match(candidateSource,
+  /caseEngineeringEvidence\?\.gate\.status\s*===\s*'PASS'/u,
+  'release qualification must require validated case engineering evidence');
+assert.match(candidateSource,
+  /caseEngineeringEvidence\?\.custody\.reviewAcceptedCurrent\s*===\s*true/u,
+  'release qualification must require a current accepted case review');
 assert.equal(
   packageMetadata.scripts?.['check:emp1-evidence-export'],
   'node scripts/emp1-engineering-evidence-export-check.mjs',
@@ -184,6 +194,9 @@ for (const source of [manifestSource, manifestCheckSource]) {
   assert.match(source, /professionalReviewCapability/u);
   assert.match(source, /durableEvidencePackageSchema/u);
   assert.match(source, /caseSpecificHumanReviewAsserted/u);
+  assert.match(source, /caseSpecificHumanReviewGateId/u);
+  assert.match(source, /CASE_ENGINEERING_EVIDENCE/u);
+  assert.match(source, /caseEngineeringEvidence/u);
   assert.match(source, /deploymentEvidence/u);
 }
 
@@ -213,6 +226,8 @@ console.log(JSON.stringify({
   currentDurableEvidenceExportImplemented: true,
   currentDurableEvidenceExportSchema: 'emp1-evidence-export/v1',
   releaseManifestSchema: 'emp1-release-candidate/v3',
+  caseSpecificHumanReviewRequiredForReleaseQualification: true,
+  caseEngineeringEvidenceGateId: 'CASE_ENGINEERING_EVIDENCE',
   releaseAuthorityCreatedByThisCheck: false,
   codeComplianceAuthorizedByThisCheck: false,
   globalEmp1CAuthorizedByThisCheck: false,
