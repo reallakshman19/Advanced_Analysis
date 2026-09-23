@@ -129,6 +129,11 @@ assert.match(candidateSource, /check:emp1-benchmarks/u);
 assert.match(candidateSource, /check:emp1-evidence-export/u);
 assert.match(candidateSource, /emp1-engineering-review-record-check\.mjs/u);
 assert.match(candidateSource, /emp1-review-readiness-integration-check\.mjs/u);
+assert.match(candidateSource, /requiredTrackedCandidateFile/u);
+assert.match(candidateSource, /EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_REGULAR_FILE_REQUIRED/u);
+assert.match(candidateSource, /git\(\['rev-parse', `HEAD:\$\{relativePath\}`\]\)/u);
+assert.match(candidateSource, /git\(\['hash-object', '--', relativePath\]\)/u);
+assert.match(candidateSource, /packageGitBlobSha1/u);
 assert.match(candidateSource, /--engineering-evidence-package/u);
 assert.match(candidateSource, /CASE_ENGINEERING_EVIDENCE/u);
 assert.match(candidateSource, /BLOCKED_CASE_ENGINEERING_EVIDENCE_REQUIRED/u);
@@ -197,6 +202,7 @@ for (const source of [manifestSource, manifestCheckSource]) {
   assert.match(source, /caseSpecificHumanReviewGateId/u);
   assert.match(source, /CASE_ENGINEERING_EVIDENCE/u);
   assert.match(source, /caseEngineeringEvidence/u);
+  assert.match(source, /packageGitBlobSha1/u);
   assert.match(source, /deploymentEvidence/u);
 }
 
@@ -228,6 +234,7 @@ console.log(JSON.stringify({
   releaseManifestSchema: 'emp1-release-candidate/v3',
   caseSpecificHumanReviewRequiredForReleaseQualification: true,
   caseEngineeringEvidenceGateId: 'CASE_ENGINEERING_EVIDENCE',
+  caseEngineeringEvidenceMustBeExactCandidateGitBlob: true,
   releaseAuthorityCreatedByThisCheck: false,
   codeComplianceAuthorizedByThisCheck: false,
   globalEmp1CAuthorizedByThisCheck: false,
