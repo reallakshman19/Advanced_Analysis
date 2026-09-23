@@ -2,7 +2,15 @@
 
 ## Purpose
 
-This record implements Issue #1389 PR-C. It freezes the CAUx pages 24–31 reference values and an independent arithmetic trace **before any EMP.1 production-output observation**.
+This record originated as Issue #1389 PR-C, which froze the CAUx pages 24–31 reference values and an independent arithmetic trace **before any EMP.1 production-output observation**. The frozen PR-C/Q1 record remains historical and immutable.
+
+Current benchmark status is indexed by:
+
+```text
+validation/emp1/release/emp1-current-benchmark-manifest-v1.json
+```
+
+That manifest resolves CAUx source qualification through Q3, retains the Sep-3 actual comparison custody unchanged, and records the explicit WRC537 comparison execution contract separately from the CAUx WRC107 source-reproduction semantics.
 
 CAUx is an independent benchmark/reference source. It is **not** WRC method authority and cannot define or correct WRC equations, signs, coefficients, curve domains, interpolation, tolerances, code compliance or production authorization.
 
@@ -19,13 +27,21 @@ SHA-256: c1e92798a7bc172d649007ad88f6be548651f07a01cb2fbf83343e2283e0e83e
 Pages: 24–31 inclusive
 ```
 
-Source custody is verified. In the current connected execution the binary object resolves to the exact blob identity, but the connector does not expose inspectable PDF bytes. Therefore:
+Source custody is verified. At the original PR-C/Q1 freeze, direct PDF page re-observation was not available and Q1 therefore retained:
 
 ```text
 direct PDF page re-observation = NOT_RUN_EXECUTION_ENVIRONMENT
 ```
 
-The repository already retains a page-qualified transcription:
+That is historical status, not current status. Subsequent direct PDF observation passed, and current qualification Q3 retains:
+
+```text
+direct PDF page re-observation = PASS
+gamma/radius basis for this benchmark = PASS_RECONCILED
+Q3 status = PASS_FINAL_CAUX_SOURCE_QUALIFICATION_GAMMA_RADIUS_RECONCILED_REFERENCE_FREEZE_PRESERVED
+```
+
+The repository also retains a page-qualified transcription:
 
 ```text
 docs/emp1/CAUx_2017_WRC01f_pages_24-31.md
@@ -38,13 +54,16 @@ PR-C freezes values from that retained transcription while explicitly preserving
 
 ```text
 validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-v1.json
-  semanticHash = 741bfbc21496c2f126dbbeec18b2f88d4424e90a94b1d2cc7444776a16dfb7fe
+  semanticHash = 887b231028cd187c63d7cb29aedbc7db182b31d404623f9981f36a21987c2bf3
 
 validation/emp1/caux2017-wrc01f/caux-pp24-31-independent-handcalc-v1.json
-  semanticHash = e7e4e7d21188e4b6c1f53c2d7b89a73036a52ccccc61a65fd69c24f6a13ae227
+  semanticHash = 88b3ced854446b68329c46558ddd326ed607a2fc966e7201596f53518abc4b9c
 
 validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v1.json
-  semanticHash = 27e5f468c409071270ceea3a388ee2f33b77f3ea71b02f4cc5b7646c8eca14ef
+  semanticHash = d621d81342795b082d8e6add7b938de3f897bb6dff9d320e153602a9c4a9f37e
+
+validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json
+  semanticHash = 9c57953aff802624650050c251d05b3ca8ea6a190bec77863f03ec790abc353f
 ```
 
 The expected-value file is frozen with:
@@ -127,11 +146,21 @@ Rm,corr = (1844 - 19)/2 = 912.5 mm
 912.5 / 19 = 48.0263157895 ≈ 48.03
 ```
 
-This near-match is **diagnostic only**. It is not authority to decide which mean-radius basis WRC requires, and it does not close the separate WRC radius/thickness source gates. Until direct source arbitration is available, PR-C records:
+Q1 historically recorded this as:
 
 ```text
 UNRESOLVED_SOURCE_INTERNAL_BASIS_OR_TRANSCRIPTION_DISCREPANCY
 ```
+
+Q3 later reconciled this exact CAUx case using same-state internal-corrosion geometry:
+
+```text
+T = 19 mm
+Rm = (1844 - 19)/2 = 912.5 mm
+gamma = 912.5/19 = 48.0263157895 -> 48.03
+```
+
+The reconciliation is bounded to this benchmark. It does **not** establish a global corrosion/thickness/radius policy and does not create WRC method authority.
 
 ## Independent hand calculation
 
@@ -213,13 +242,13 @@ node scripts/emp1-caux-pp24-31-benchmark-check.mjs
 
 Normal mode checks source/transcription custody, semantic hashes, anti-circularity, benchmark-specific load mapping, independent arithmetic, stress-intensity reconstruction and all false authority flags.
 
-Its intended successful state is:
+Its current successful state is:
 
 ```text
-PASS_CAUX_REFERENCE_FREEZE_OUTSIDE_GAMMA5_PROFILE_DIRECT_PDF_REOBSERVATION_PENDING
+PASS_CAUX_REFERENCE_FREEZE_Q1_HISTORICAL_CURRENT_Q3_SOURCE_QUALIFIED
 ```
 
-That is a **reference-freeze/arithmetic PASS**, not final direct-source qualification and not production qualification.
+The checker still validates Q1 as the immutable historical reference-freeze/arithmetic record, while current direct-source status is taken from Q3. Neither state is production qualification or WRC method authority.
 
 Authorization-facing source mode is:
 
@@ -227,11 +256,11 @@ Authorization-facing source mode is:
 node scripts/emp1-caux-pp24-31-benchmark-check.mjs --require-direct-pdf
 ```
 
-It must exit nonzero while direct PDF page re-observation remains `NOT_RUN_EXECUTION_ENVIRONMENT`.
+The flag now resolves the direct-PDF requirement against current Q3. It passes only while Q3 retains direct page re-observation `PASS`; Q1 remains unchanged.
 
-## Remaining boundary
+## Historical remaining boundary — closed
 
-PR-C has completed the non-circular retained-reference freeze and independent arithmetic. Final direct-CAUx-source qualification remains blocked until the exact controlled PDF pages can be rendered/re-observed in an execution path that exposes binary page content. That remaining source-observation block does not justify changing the gamma5 route, production authority, WRC source semantics, code-compliance state or release profile.
+PR-C originally left direct-CAUx-source qualification blocked pending exact controlled PDF page re-observation. That boundary was subsequently closed by the retained direct-PDF observation and Q3 gamma/radius reconciliation described below. Closing the source-observation boundary did not change the gamma5 route, production authority, WRC source semantics, code-compliance state or release profile.
 
 ## Update: direct-PDF observation closed (issue #1633) and independently corroborated
 
