@@ -399,48 +399,9 @@ function releaseProfile(value) {
 function currentEvidence(value) {
   const current = exactRecord(
     value,
-    [
-      'loadTransferDocument',
-      'sectionScreeningDocument',
-      'runInput',
-      'routeAuthority',
-    ],
+    ['inputHashes', 'routeAuthority'],
     'EMP1_ENGINEERING_EVIDENCE_CURRENT_STATE_INVALID',
   );
-  const runInput = record(
-    current.runInput,
-    'EMP1_ENGINEERING_EVIDENCE_CURRENT_RUN_INPUT_REQUIRED',
-  );
-  const localMethod = record(
-    runInput.localMethod,
-    'EMP1_ENGINEERING_EVIDENCE_CURRENT_LOCAL_METHOD_REQUIRED',
-  );
-  const inputHashes = {
-    loadTransferDocument: semanticHash(record(
-      current.loadTransferDocument,
-      'EMP1_ENGINEERING_EVIDENCE_CURRENT_LOAD_TRANSFER_DOCUMENT_REQUIRED',
-    )),
-    sectionScreeningDocument: semanticHash(record(
-      current.sectionScreeningDocument,
-      'EMP1_ENGINEERING_EVIDENCE_CURRENT_SECTION_SCREENING_DOCUMENT_REQUIRED',
-    )),
-    attachmentGeometry: semanticHash(record(
-      localMethod.attachmentGeometry,
-      'EMP1_ENGINEERING_EVIDENCE_CURRENT_ATTACHMENT_GEOMETRY_REQUIRED',
-    )),
-    applicabilityGeometry: localMethod.applicabilityGeometry == null
-      ? null
-      : semanticHash(record(
-        localMethod.applicabilityGeometry,
-        'EMP1_ENGINEERING_EVIDENCE_CURRENT_APPLICABILITY_GEOMETRY_INVALID',
-      )),
-    localRoute: semanticHash(record(
-      localMethod.routeRequest,
-      'EMP1_ENGINEERING_EVIDENCE_CURRENT_ROUTE_REQUEST_REQUIRED',
-    )),
-  };
-  requireInputHashes(inputHashes);
-
   const routeAuthority = record(
     current.routeAuthority,
     'EMP1_ENGINEERING_EVIDENCE_CURRENT_ROUTE_AUTHORITY_REQUIRED',
@@ -453,7 +414,7 @@ function currentEvidence(value) {
     throw evidenceError('EMP1_ENGINEERING_EVIDENCE_CURRENT_ROUTE_AUTHORITY_HASH_MISMATCH');
   }
   return deepFreeze({
-    inputHashes: structuredClone(inputHashes),
+    inputHashes: structuredClone(requireInputHashes(current.inputHashes)),
     routeAuthorityHash,
     productionUseAuthorized: routeAuthority.productionUseAuthorized === true,
   });
