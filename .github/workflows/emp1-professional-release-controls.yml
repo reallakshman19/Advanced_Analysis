@@ -12,6 +12,7 @@ on:
       - 'validation/emp1/wrc537-2013/gamma5-independent-handcalc-trace-v1.json'
       - 'package.json'
       - '.github/workflows/emp1-professional-release-controls.yml'
+      - 'relay/**'
   workflow_dispatch:
 
 permissions:
