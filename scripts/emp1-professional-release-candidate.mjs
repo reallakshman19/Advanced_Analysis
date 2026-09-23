@@ -6,6 +6,10 @@ import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EMP1_PROFESSIONAL_SECURITY_HEADER_POLICY_SEMANTIC_HASH } from './emp1-professional-security-header-policy.mjs';
 import { createEmp1ReleaseManifest } from './emp1-professional-release-manifest.mjs';
+import { requireEmp1EngineeringEvidencePackage } from
+  '../src/core/emp1/emp1-engineering-evidence-export.js';
+import { currentEmp1WorkbenchRouteAuthority } from
+  '../src/workspace/emp1-workbench-product-run.js';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const options = parseArgs(process.argv.slice(2));
@@ -28,6 +32,9 @@ const deploymentOperationsReceiptSha256 = options.deploymentOperationsReceipt
     options.deploymentOperationsReceipt,
     'EMP1_RELEASE_CANDIDATE_DEPLOYMENT_OPERATIONS_RECEIPT_REQUIRED',
   )
+  : null;
+const caseEngineeringEvidence = options.engineeringEvidencePackage
+  ? await inspectCaseEngineeringEvidence(options.engineeringEvidencePackage)
   : null;
 
 if (options.expectedHead && options.expectedHead !== candidateHead) {
@@ -94,6 +101,43 @@ if (!options.release && !options.executeDiagnostics) {
   process.exit(0);
 }
 
+const executions = [readiness];
+if (options.release && !caseEngineeringEvidence) {
+  const receipt = createReceipt({
+    candidateHead,
+    candidateTree,
+    candidateParent,
+    worktreeStatus,
+    mode: 'RELEASE',
+    executions,
+    buildArtifactSha256: null,
+    status: 'BLOCKED_CASE_ENGINEERING_EVIDENCE_REQUIRED',
+    releaseCandidateQualified: false,
+  });
+  await maybeWriteReceipt(receipt, options.writeReceipt);
+  console.log(JSON.stringify(receipt, null, 2));
+  process.exit(2);
+}
+if (caseEngineeringEvidence) {
+  executions.push(caseEngineeringEvidence.gate);
+  if (options.release && caseEngineeringEvidence.gate.status !== 'PASS') {
+    const receipt = createReceipt({
+      candidateHead,
+      candidateTree,
+      candidateParent,
+      worktreeStatus,
+      mode: 'RELEASE',
+      executions,
+      buildArtifactSha256: null,
+      status: 'FAIL_CASE_ENGINEERING_EVIDENCE',
+      releaseCandidateQualified: false,
+    });
+    await maybeWriteReceipt(receipt, options.writeReceipt);
+    console.log(JSON.stringify(receipt, null, 2));
+    process.exit(1);
+  }
+}
+
 const gates = [
   ['SOURCE_CUSTODY', process.execPath, ['scripts/emp1-source-custody-reconciliation-check.mjs']],
   ['WRC02_SOURCE_SEMANTICS', process.execPath,
@@ -131,7 +175,6 @@ const gates = [
   ['EMP1_RELEASE_CHROMIUM', process.execPath,
     ['scripts/run-playwright.mjs', 'e2e/emp1-professional-release.spec.js']],
 ];
-const executions = [readiness];
 for (const [gateId, command, args] of gates) executions.push(run(gateId, command, args));
 
 const buildPassed = executions.find((item) => item.gateId === 'PRODUCTION_BUILD')?.status === 'PASS';
@@ -217,6 +260,8 @@ const allExecutedPass = executions.every((item) => item.status === 'PASS');
 const releaseCandidateQualified = options.release
   && Boolean(options.deploymentReceipt)
   && Boolean(options.deploymentOperationsReceipt)
+  && caseEngineeringEvidence?.gate.status === 'PASS'
+  && caseEngineeringEvidence?.custody.reviewAcceptedCurrent === true
   && allExecutedPass;
 const status = releaseCandidateQualified
   ? 'PASS_EMP1_PROFESSIONAL_RELEASE_CANDIDATE_AND_DEPLOYMENT_EVIDENCE'
@@ -270,6 +315,7 @@ function createReceipt(input) {
       rollbackExecutionObservedByThisHarness: false,
       rollbackSuccessAuthorizedByThisHarness: false,
     },
+    caseEngineeringEvidence: caseEngineeringEvidence?.custody ?? null,
   };
   const releaseManifest = createEmp1ReleaseManifest({
     candidateHead: input.candidateHead,
@@ -307,6 +353,108 @@ function createReceipt(input) {
     receiptSemanticHash: sha256Canonical(payload),
     status: input.status,
   };
+}
+
+async function inspectCaseEngineeringEvidence(path) {
+  const resolved = resolve(root, path);
+  const allowedRoot = resolve(root, 'validation/emp1/release');
+  const command = `validate case engineering evidence ${path}`;
+  try {
+    if (resolved !== allowedRoot && !resolved.startsWith(`${allowedRoot}/`)) {
+      throw releaseError('EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_PATH_OUTSIDE_RELEASE_VALIDATION');
+    }
+    const bytes = await readFile(resolved);
+    const retained = requireEmp1EngineeringEvidencePackage(
+      JSON.parse(bytes.toString('utf8')),
+    );
+    const packageMetadata = JSON.parse(
+      await readFile(resolve(root, 'package.json'), 'utf8'),
+    );
+    const releaseProfile = JSON.parse(
+      await readFile(
+        resolve(
+          root,
+          'validation/emp1/release/emp1-wrc537-gamma5-bounded-release-profile-v1.json',
+        ),
+        'utf8',
+      ),
+    );
+    const routeAuthority = currentEmp1WorkbenchRouteAuthority();
+    const reasons = [];
+    if (retained.product.version !== packageMetadata.version) {
+      reasons.push('EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_PRODUCT_VERSION_MISMATCH');
+    }
+    if (retained.releaseProfile.id !== releaseProfile.releaseProfileId
+      || retained.releaseProfile.version !== releaseProfile.schema) {
+      reasons.push('EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_RELEASE_PROFILE_MISMATCH');
+    }
+    if (routeAuthority.productionUseAuthorized !== true
+      || retained.calculation.routeAuthority.hash !== routeAuthority.routeAuthorityHash) {
+      reasons.push('EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_ROUTE_AUTHORITY_MISMATCH');
+    }
+    if (retained.review.record == null
+      || retained.review.state.state !== 'REVIEW_ACCEPTED'
+      || retained.review.state.current !== true
+      || retained.review.state.disposition !== 'ACCEPTED') {
+      reasons.push('EMP1_RELEASE_CASE_ENGINEERING_REVIEW_ACCEPTED_CURRENT_REQUIRED');
+    }
+    if (retained.authorityBoundary.releaseQualified !== false
+      || retained.authorityBoundary.createsReleaseAuthority !== false
+      || retained.authorityBoundary.codeComplianceState !== 'NOT_ASSESSED') {
+      reasons.push('EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_AUTHORITY_BOUNDARY_INVALID');
+    }
+    if (reasons.length) throw releaseError(reasons.join(':'));
+
+    const custody = Object.freeze({
+      path: relative(root, resolved).replaceAll('\\', '/'),
+      packageSha256: createHash('sha256').update(bytes).digest('hex'),
+      packageSchema: retained.schema,
+      packageSemanticHash: retained.semanticHash,
+      productVersion: retained.product.version,
+      releaseProfileId: retained.releaseProfile.id,
+      releaseProfileVersion: retained.releaseProfile.version,
+      routeAuthorityHash: retained.calculation.routeAuthority.hash,
+      reviewAcceptedCurrent: true,
+      reviewState: retained.review.state.state,
+      reviewDisposition: retained.review.state.disposition,
+      reviewId: retained.review.state.reviewId,
+      reviewSemanticHash: retained.review.state.reviewSemanticHash,
+      reviewedAt: retained.review.record.reviewedAt,
+      reviewerIdentity: retained.review.record.reviewer.identity,
+    });
+    return Object.freeze({
+      custody,
+      gate: evidenceGate('CASE_ENGINEERING_EVIDENCE', command, 'PASS', custody, null),
+    });
+  } catch (error) {
+    return Object.freeze({
+      custody: null,
+      gate: evidenceGate(
+        'CASE_ENGINEERING_EVIDENCE',
+        command,
+        'FAIL',
+        null,
+        error?.code ?? error?.message ?? 'EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_INVALID',
+      ),
+    });
+  }
+}
+
+function evidenceGate(gateId, command, status, payload, errorCode) {
+  const stdout = payload ? JSON.stringify(payload) : '';
+  const stderr = errorCode ? String(errorCode) : '';
+  return Object.freeze({
+    gateId,
+    command,
+    status,
+    exitCode: status === 'PASS' ? 0 : 1,
+    signal: null,
+    errorCode,
+    stdoutSha256: sha256Text(stdout),
+    stderrSha256: sha256Text(stderr),
+    stdoutBytes: Buffer.byteLength(stdout, 'utf8'),
+    stderrBytes: Buffer.byteLength(stderr, 'utf8'),
+  });
 }
 
 function runNode(gateId, args) {
@@ -396,6 +544,7 @@ function parseArgs(args) {
     writeReceipt: null,
     deploymentReceipt: null,
     deploymentOperationsReceipt: null,
+    engineeringEvidencePackage: null,
   };
   for (let index = 0; index < args.length; index += 1) {
     if (args[index] === '--release') out.release = true;
@@ -404,6 +553,7 @@ function parseArgs(args) {
     else if (args[index] === '--write-receipt') out.writeReceipt = args[++index] ?? null;
     else if (args[index] === '--deployment-receipt') out.deploymentReceipt = args[++index] ?? null;
     else if (args[index] === '--deployment-operations-receipt') out.deploymentOperationsReceipt = args[++index] ?? null;
+    else if (args[index] === '--engineering-evidence-package') out.engineeringEvidencePackage = args[++index] ?? null;
     else throw releaseError(`EMP1_RELEASE_CANDIDATE_UNKNOWN_ARGUMENT:${args[index]}`);
   }
   if (out.release && out.executeDiagnostics) {
