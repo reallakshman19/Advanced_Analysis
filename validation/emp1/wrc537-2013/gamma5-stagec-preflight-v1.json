@@ -1,0 +1,185 @@
+{
+  "schema": "emp1-wrc537-gamma5-stagec-preflight/v1",
+  "issue": 1768,
+  "parentIssue": 1760,
+  "basisMain": {
+    "sha": "60056b1a6dac9ae67680eb80435bbde8858aced4",
+    "treeSha": "a1ea6a950de098b067a6250cfc397c320fe08049",
+    "role": "CURRENT_MAIN_AT_STAGEC_PREFLIGHT_CREATION"
+  },
+  "historicalChain": {
+    "stageA": {
+      "headSha": "a59547c8554b6244b2ea94aedd4d59fa0fb15d1f",
+      "role": "PRE_AUTHORIZATION_EXACT_HEAD",
+      "files01Through10": "NOT_GENERATED",
+      "numericalQualification": "NOT_RUN_NOT_CLAIMED"
+    },
+    "stageB": {
+      "headSha": "14c648d485cf386f28c6817a068b7eb5da1f7689",
+      "role": "OWNER_OVERRIDE_PROMOTED_AUTHORIZATION_HEAD",
+      "files11Through12": "NOT_GENERATED",
+      "postPromotionQualification": "NOT_RUN",
+      "standardPromotionQualificationComplete": false
+    },
+    "authorizationRecord": {
+      "path": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json",
+      "gitBlobSha1AtStageB": "afa5678233f09b9c048bb740dc30f66a331b2ae0",
+      "gitBlobSha1AtCurrent": "afa5678233f09b9c048bb740dc30f66a331b2ae0",
+      "semanticHash": "4a7bec7c84dd03ec547ae2ee7157efc91edef70f9662901d40d616e8cb8d0566",
+      "byteIdentical": true
+    }
+  },
+  "protectedCurrentIdentities": {
+    "sourceDocumentSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+    "datasetHash": "fb440a292f8794430977f60f5365a678a9aff62a4dae3397621902964a0db73c",
+    "loadProducerQualificationSha256": "47a9157ba88a5646021fabd41cd803028e1880c8d6f712095afda429f2c2622b",
+    "routeQualificationSha256": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7",
+    "postAuthorityOracleSemanticHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "wrc02SourceSemanticsProfileSemanticHash": "64a65852cd96216525b227d1d74fe5423278638627b3b3f94c0389285f2e84d0",
+    "h1Trace": {
+      "path": "validation/emp1/wrc537-2013/gamma5-independent-handcalc-trace-v1.json",
+      "gitBlobSha1": "d1741b3b3ab89b39281ec0561aac96804dd0c0e7",
+      "status": "FROZEN_INDEPENDENT_H1_TRACE",
+      "productionImports": [],
+      "productionObservationUsed": false
+    }
+  },
+  "byteIdentityFromStageBToCurrent": [
+    {
+      "path": "src/core/emp1/emp1-local-correlation-gate.js",
+      "gitBlobSha1": "d8bb8b225fe7b149cf44011457143194d8921ef9"
+    },
+    {
+      "path": "src/core/emp1/emp1-a-wrc-zero-dp-load-producer.js",
+      "gitBlobSha1": "118f7247bc43dac8519fcaf631f58d565636da5b"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-gamma5-zero-dp-route.js",
+      "gitBlobSha1": "6ca9890297c67bd950798cf6f50bb2858aab98e3"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-bounded-adapter.js",
+      "gitBlobSha1": "522421f44daa10f5e1863746f2aadb445b814caa"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-axis-authority.js",
+      "gitBlobSha1": "2956f1658c86c817643f689c6d7fff6936a7f505"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-frame.js",
+      "gitBlobSha1": "ae404115098638ab3a5d8f246eb56e6ccc9420bd"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-attachment-source-authority.js",
+      "gitBlobSha1": "13ad8b96cad0bc30e11e137fb9deee444e783a1e"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-applicability-source-authority.js",
+      "gitBlobSha1": "e8c1259abf5fae442f8780cc5ef3d006a7de9fae"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-applicability.js",
+      "gitBlobSha1": "f72c5b1971a7a623241a418ebfa17ceccdeba9bc"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-longitudinal-moment-curve-selection.js",
+      "gitBlobSha1": "13ae115baa6cfb7d76e17bdfefcf75aa0683085a"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-index.js",
+      "gitBlobSha1": "db59ecd32676b32191831cefee7522f86de5c057"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-data.generated.js",
+      "gitBlobSha1": "057359f61ee583ac630e082dc775168921219322"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-bounded-domain.js",
+      "gitBlobSha1": "dcbda745631274f05c8df73dec5b033bd3135ec7"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-cylindrical-table5.js",
+      "gitBlobSha1": "4a7731975639d31b6a9827bfb42c9ddcea413a1c"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-load-custody.js",
+      "gitBlobSha1": "e6a308225072bb73af57062e2d232cb93fbace87"
+    },
+    {
+      "path": "src/core/emp1/emp1-wrc537-stress-concentration-authority.js",
+      "gitBlobSha1": "a9e84ff2006b6addf0214d756f1405f3c747758b"
+    },
+    {
+      "path": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+      "gitBlobSha1": "873a227bdcc03a3e545cb4b29061564e46504093"
+    },
+    {
+      "path": "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+      "gitBlobSha1": "0895049ea51947612003f823b3d55a968679b373"
+    },
+    {
+      "path": "validation/emp1/wrc537-2013/emp1-a-zero-dp-wrc-load-producer-qualification-v1.json",
+      "gitBlobSha1": "f37a03d7ab1fa77f7b79b067dd9c036848f75c2f"
+    },
+    {
+      "path": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json",
+      "gitBlobSha1": "afa5678233f09b9c048bb740dc30f66a331b2ae0"
+    }
+  ],
+  "registryDrift": {
+    "path": "src/core/emp1/emp1-c-bounded-route-registry.js",
+    "stageBGitBlobSha1": "899e2a968f12bac15d5d771a4a8c7f6ff5c6adcc",
+    "currentGitBlobSha1": "6c4d828825630a2be26ce63d9379e76808178ebd",
+    "classification": "PRODUCT_PATH_ONLY",
+    "reason": "CURRENT_REGISTRY_ADDS_SEPARATE_INTERPOLATED_GAMMA_COMPARISON_ROUTE_AND_REFACTORS_GAMMA5_ENTRY_TO_NAMED_CONSTANT; EXACT_GAMMA5_ROUTE_SCOPE_AND_AUTHORITY_FIELDS_RETAINED",
+    "interpolatedRouteEngineeringUseAuthorized": false,
+    "exactGamma5NumericalRouteFileUnchanged": true
+  },
+  "transientHistory": {
+    "authorityIdentityReconciliationPath": "validation/emp1/wrc537-2013/gamma5-authority-identity-reconciliation-v1.json",
+    "observedTransientOracleMutationCommit": "b197a0c26418a2d6c3a44b0651a4b5b20881fdb0",
+    "observedTransientQualificationCascadeCommit": "868467ea45b623438c693cf244bb5b9298168204",
+    "classification": "EXECUTION_ENVIRONMENT_CANONICALIZATION_CHANGE",
+    "activeCurrentDrift": false,
+    "currentAuthorizedOracleRestored": true,
+    "currentAuthorizedQualificationRestored": true
+  },
+  "stageCStaticClassification": {
+    "sourceSemanticChange": false,
+    "datasetChange": false,
+    "loadProducerChange": false,
+    "table5MechanicsChange": false,
+    "signRecoveryChange": false,
+    "stressIntensityChange": false,
+    "toleranceChange": false,
+    "applicabilityChange": false,
+    "exactGamma5AuthorityIdentityChange": false,
+    "productPathOnlyChange": true,
+    "evidenceOnlyAdditions": true,
+    "conclusion": "PASS_STATIC_NO_ACTIVE_BOUNDED_GAMMA5_METHOD_DRIFT_FROM_STAGE_B"
+  },
+  "executionState": {
+    "stageAStandardEvidence": "NOT_RUN_NOT_GENERATED",
+    "stageBStandardEvidence": "NOT_RUN_NOT_GENERATED",
+    "currentExactHeadNumericalReobservation": "NOT_RUN_EXECUTION_ENVIRONMENT",
+    "currentSixLoadComparisonPassed": false,
+    "currentThirtyTwoStressComparisonPassed": false,
+    "currentUnsupportedDomainFalsifiersPassed": false,
+    "engineeringPassClaimed": false
+  },
+  "blockers": [
+    "GENUINE_STAGE_A_FILES_01_TO_10_MISSING",
+    "GENUINE_STAGE_B_FILES_11_TO_12_MISSING",
+    "CURRENT_EXACT_HEAD_NUMERICAL_REOBSERVATION_NOT_RUN"
+  ],
+  "authorityBoundary": {
+    "staticDriftPreflightIsNumericalQualification": false,
+    "staticByteIdentityMaySubstituteForHistoricalEvidence": false,
+    "h1TraceMaySubstituteForHistoricalEvidence": false,
+    "boundedProductionAuthorityChangedByThisArtifact": false,
+    "globalEmp1CAuthority": false,
+    "codeComplianceAuthorized": false,
+    "releaseQualified": false
+  },
+  "status": "PASS_STATIC_STAGEC_PREFLIGHT_STANDARD_EXECUTABLE_EVIDENCE_STILL_MISSING"
+}
