@@ -72,7 +72,7 @@
       "Du",
       "Dl"
     ],
-    "toleranceBasis": "EXISTING_CAUX_COMPARISON_POLICY_FROZEN_BEFORE_EMP_OBSERVATION"
+    "toleranceBasis": "EXISTING_CAUX_COMPARISON_POLICY_FROZEN_BEFORE_THIS_EXECUTION"
   },
   "authority": {
     "wrcMethodAuthority": false,
