@@ -37,6 +37,9 @@ const gammaRadius = await readJson(manifest.caux.gammaRadiusReconciliation.path)
 const custody = await readJson(manifest.caux.retainedComparisonCustody.path);
 const gamma5Oracle = await readJson(manifest.gamma5.physicalOracle.path);
 const gamma5Qualification = await readJson(manifest.gamma5.qualification.path);
+const gamma5HandcalcTrace = await readJson(
+  manifest.gamma5.independentHandCalculationTrace.path,
+);
 const checkerSource = await readText('scripts/emp1-wrc537-caux-interpolated-comparison-check.mjs');
 const generatorSource = await readText('scripts/emp1-wrc537-caux-comparison-custody-generate.mjs');
 
@@ -82,6 +85,27 @@ assert.equal(custody.routeRelationship.comparisonQualificationAvailable, true);
 assert.equal(gamma5Oracle.semanticHash, manifest.gamma5.physicalOracle.semanticHash);
 assert.equal(gamma5Qualification.qualificationRecordSha256,
   manifest.gamma5.qualification.qualificationRecordSha256);
+assert.equal(gamma5HandcalcTrace.status,
+  manifest.gamma5.independentHandCalculationTrace.status);
+assert.equal(
+  manifest.gamma5.independentHandCalculationTrace.physicalOracleSemanticHash,
+  manifest.gamma5.physicalOracle.semanticHash,
+);
+assert.equal(
+  gamma5HandcalcTrace.source.currentPhysicalOracleSemanticHash,
+  manifest.gamma5.physicalOracle.semanticHash,
+);
+assert.equal(
+  gamma5HandcalcTrace.source.wrc02SourceSemanticsProfileSemanticHash,
+  manifest.gamma5.independentHandCalculationTrace.sourceSemanticsProfileSemanticHash,
+);
+assert.equal(gamma5HandcalcTrace.traceRows.length,
+  manifest.gamma5.independentHandCalculationTrace.traceRows);
+assert.deepEqual(gamma5HandcalcTrace.authority.productionImports, []);
+assert.equal(gamma5HandcalcTrace.authority.productionObservationUsed, false);
+assert.equal(gamma5HandcalcTrace.governingEvaluatedPoint.location,
+  manifest.gamma5.independentHandCalculationTrace.governingEvaluatedPoint);
+assert.equal(gamma5HandcalcTrace.governingEvaluatedPoint.globalMaximumClaim, false);
 
 assert.equal(EMP1_PVELITE_BENCHMARK_PROGRAMME.reference.state,
   manifest.pvElite.state);
