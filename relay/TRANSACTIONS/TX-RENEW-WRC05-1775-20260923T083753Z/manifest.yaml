@@ -1,0 +1,40 @@
+{
+  "schema_version": "relay-v3.1-transaction",
+  "id": "TX-RENEW-WRC05-1775-20260923T083753Z",
+  "command": "RENEW_LEASE",
+  "actor": "chatgpt-gpt5.6-sol-wrc05-20260923",
+  "status": "COMMITTED",
+  "created_at": "2026-09-23T08:37:53Z",
+  "updated_at": "2026-09-23T08:37:53Z",
+  "operations": [
+    {
+      "path": "relay/EVENTS.jsonl",
+      "before_exists": true,
+      "before_digest": "sha256:064d4b71d777e91cfb1b013b6d550adbd246db128e3b9508c3f937a9b4885929",
+      "after_digest": "sha256:a4cda925aca63de80f06df8b2d2a4f17d1ef967b17adb9dfc7c5ca062497ed18",
+      "staged_path": "relay/TRANSACTIONS/TX-RENEW-WRC05-1775-20260923T083753Z/staged/000.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RENEW-WRC05-1775-20260923T083753Z/backups/000.before"
+    },
+    {
+      "path": "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:f2c8e11731634d0021a9608a4ade0ad70733467714657ac4e11f79b30d34d8f3",
+      "after_digest": "sha256:990fa333216d843fae873576cc5197da74be6e3fcefc6274a0c28737fae37a30",
+      "staged_path": "relay/TRANSACTIONS/TX-RENEW-WRC05-1775-20260923T083753Z/staged/001.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RENEW-WRC05-1775-20260923T083753Z/backups/001.before"
+    },
+    {
+      "path": "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:8dde9ffdf25c186b91394f4762e973d1ffd0c1ab9c4cf1539ce047829709a77c",
+      "after_digest": "sha256:1f8d6ebe54173836d66868c0d0e161bc3392d74e6322463b46245a8c2b77a467",
+      "staged_path": "relay/TRANSACTIONS/TX-RENEW-WRC05-1775-20260923T083753Z/staged/002.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RENEW-WRC05-1775-20260923T083753Z/backups/002.before"
+    }
+  ],
+  "applied": [
+    "relay/EVENTS.jsonl",
+    "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+    "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml"
+  ]
+}
