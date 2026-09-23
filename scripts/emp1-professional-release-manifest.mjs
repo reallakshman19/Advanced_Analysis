@@ -201,6 +201,14 @@ function normalizeCurrentCustody(value) {
   if (caseEngineeringEvidence != null) {
     requireHash(caseEngineeringEvidence.packageSha256,
       'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_HASH_INVALID');
+    if (!/^[0-9a-f]{40}$/u.test(caseEngineeringEvidence.packageGitBlobSha1 ?? '')) {
+      throw manifestError('EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_GIT_BLOB_INVALID');
+    }
+    if (typeof caseEngineeringEvidence.path !== 'string'
+      || !caseEngineeringEvidence.path.startsWith('validation/emp1/release/')
+      || caseEngineeringEvidence.path.includes('..')) {
+      throw manifestError('EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_PATH_INVALID');
+    }
     for (const field of [
       'packageSemanticHash',
       'productVersion',
