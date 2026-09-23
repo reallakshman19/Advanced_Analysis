@@ -1,0 +1,94 @@
+{
+  "schema_version": "relay-v3.1-parent-issue-observation",
+  "authority": "DERIVED_PROVIDER_OBSERVATION",
+  "provider": "GITHUB",
+  "repository": "reallaksh19/Advanced_Analysis",
+  "issue_number": 1771,
+  "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+  "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+  "state": "OPEN",
+  "observed_at": "2026-09-23T12:40:00Z",
+  "baseline": {
+    "observed_at": "2026-09-23T01:45:15Z",
+    "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+    "acceptance_items": [
+      {
+        "id": "C3-D.1",
+        "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority."
+      }
+    ]
+  },
+  "current_contract": {
+    "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+    "acceptance_items": [
+      {
+        "id": "C3-D.1",
+        "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority.",
+        "state": "BLOCKED",
+        "evidence": [
+          "R2 B02 numerics PASS twice on material 74437c40669577926c9761cd6374f53d11178a69",
+          "Independent review blocks acceptance because complete CURRENT_RESULT/transaction/full-lineage projection is absent",
+          "relay/EVIDENCE/C3D-B02-R2/R2-0009/review/INDEPENDENT-REVIEW-R2-0001.json"
+        ],
+        "provider_refs": [
+          "github:reallaksh19/Advanced_Analysis#1771@comment:5794804384",
+          "github:reallaksh19/Advanced_Analysis#1862@comment:5794805060",
+          "github:reallaksh19/Advanced_Analysis#1878"
+        ]
+      }
+    ]
+  },
+  "updates": [
+    {
+      "ref": "github:reallaksh19/Advanced_Analysis#1771@comment:5794804384",
+      "type": "ACCEPTANCE",
+      "summary": "R2 independent review confirmed numerical PASS and blocked C3-D.1 only on reviewable custody/currentness projection.",
+      "effect": [
+        "C3-D.1 remains BLOCKED",
+        "No numerical first-wrong-owner exposed"
+      ]
+    },
+    {
+      "ref": "github:reallaksh19/Advanced_Analysis#1862@comment:5794805060",
+      "type": "DECISION",
+      "summary": "#1862 is the positive next material owner after graceful R2 handover/release.",
+      "effect": [
+        "Route only receipt/custody composition",
+        "Keep mechanics/oracle/tolerance work excluded"
+      ]
+    },
+    {
+      "ref": "github:reallaksh19/Advanced_Analysis#1878",
+      "type": "DELIVERY",
+      "summary": "Reviewed R2 governance/evidence merged to main.",
+      "effect": [
+        "Provider-visible R2 evidence retained",
+        "No product/source implementation changed"
+      ]
+    }
+  ],
+  "disposition": "LINK",
+  "relationships": [
+    {
+      "type": "FOLLOW_UP",
+      "target": {
+        "repository": "reallaksh19/Advanced_Analysis",
+        "issue_number": 1862,
+        "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1862"
+      },
+      "scope": [
+        "uniform B02 authoritative lineage/currentness/transaction projection",
+        "solver diagnostics projection",
+        "deterministic replay over authoritative hashes",
+        "C3-D aggregate composition"
+      ],
+      "acceptance_items": [
+        "C3-D.1"
+      ],
+      "provider_refs": [
+        "github:reallaksh19/Advanced_Analysis#1862@comment:5794805060"
+      ]
+    }
+  ],
+  "handover_ledger": null
+}
