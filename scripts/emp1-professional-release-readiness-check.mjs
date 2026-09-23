@@ -32,6 +32,10 @@ const currentBenchmarks = await readJson(
   'validation/emp1/release/emp1-current-benchmark-manifest-v1.json',
 );
 const sourceLedger = await readJson('validation/emp1/wrc537-2013/source-ledger.json');
+const evidenceExportSource = await readFile(
+  resolve(root, 'src/core/emp1/emp1-engineering-evidence-export.js'),
+  'utf8',
+);
 
 const expectedPre = [
   '01-observation.json',
@@ -108,6 +112,13 @@ assert.deepEqual(contract.replayAndExportBoundary, {
   workbenchExportExportsActiveSourceDocumentNotRetainedCNumerics: true,
   futureNumericExportMustConsumeReportableProjection: true,
 });
+assert.match(evidenceExportSource, /EMP1_SCHEMAS\.EVIDENCE_EXPORT/u);
+assert.match(evidenceExportSource, /CURRENT_REUSABLE/u);
+assert.match(evidenceExportSource, /HISTORICAL_NON_REPORTABLE/u);
+assert.match(evidenceExportSource, /importedCurrentFlagTrusted:\s*false/u);
+assert.match(evidenceExportSource, /importedRouteAuthorizationTrusted:\s*false/u);
+assert.match(evidenceExportSource, /importedReleaseAuthorityTrusted:\s*false/u);
+assert.doesNotMatch(evidenceExportSource, /releaseQualified:\s*true/u);
 assert.equal(contract.policy.encodedGateIsExecutionPass, false);
 assert.equal(contract.policy.notRunMayBePromotedToPass, false);
 assert.equal(contract.policy.productionOutputMayRegenerateOracle, false);
@@ -266,6 +277,16 @@ const result = {
   exactCandidateExecutionRequiredAfterPrerequisites: true,
   promotionCompatibleProductGateRequired: true,
   persistedReloadReplayRequired: true,
+  currentReplayAndExportBoundary: {
+    historicalFrozenNoSeparateNumericalExportObservation:
+      contract.replayAndExportBoundary.separateEmp1CNumericalExportConsumerFound,
+    durableEvidenceExportImplemented: true,
+    durableEvidencePackageSchema: 'emp1-evidence-export/v1',
+    importedCurrentFlagTrusted: false,
+    importedRouteAuthorizationTrusted: false,
+    importedReleaseAuthorityTrusted: false,
+    staleOrAuthorityDriftedImportMayBeReportable: false,
+  },
   deploymentEvidenceRequiredAfterCandidateExecution: true,
   codeComplianceAuthorizedByThisGate: false,
   deploymentAuthorizedByThisGate: false,
