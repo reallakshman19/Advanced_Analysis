@@ -2,9 +2,12 @@
   "schema_version": "relay-v3.1-task-admission",
   "roadmap": {
     "disposition": "MAPPED_EXISTING_WP",
-    "new_revision": "RM-0017",
+    "new_revision": "RM-0011",
     "basis": [
-      "main@74437c40669577926c9761cd6374f53d11178a69",
+      "RM-0010 programme reconciliation",
+      "LAFEA material base@74437c40669577926c9761cd6374f53d11178a69",
+      "current provider base main@060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
+      "V3.1 material-basis drift must mechanically classify current-base delta as DISJOINT",
       "merged PR #1871 product reconciliation",
       "GitHub issue #1771",
       "GitHub PR #1873 PARKED_PENDING_R2"
@@ -24,7 +27,7 @@
     "id": "EP-LAFEA3-C3D-B02-R2-1771-0009",
     "work_package": "WP-1771",
     "outcome": {
-      "statement": "Execute the merged B02A-E production qualification on exact current main after PR #1871, retain repository-visible raw execution evidence, deterministic replay and explicit CURRENT_RESULT/lineage custody, and establish whether C3-D.1 has any earlier owning boundary before the parked C3-D.5 B-bar mesh candidate is reconsidered."
+      "statement": "Execute the merged B02A-E production qualification on the current governed LAFEA material basis, retain repository-visible raw execution evidence, deterministic replay and explicit CURRENT_RESULT/lineage custody, and mechanically prove that newer provider-main drift is DISJOINT from the EP material sensitivity before any downstream implementation resumes."
     },
     "basis": {
       "predecessor_checkpoint": null,
@@ -48,12 +51,44 @@
           "reason": "Merged governed B02B-V2 probe-stable production routing."
         },
         {
+          "path": "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+          "reason": "B02 rectangle retained-level qualification and convergence projection."
+        },
+        {
+          "path": "src/workspace/lafea-workbench-currentness.js",
+          "reason": "Authoritative CURRENT_RESULT/currentAuthority ancestry projection."
+        },
+        {
+          "path": "src/workspace/lafea-workbench-domain-first-run-actions.js",
+          "reason": "Authoritative run transaction completion and runtime diagnostics publication."
+        },
+        {
+          "path": "src/workspace/lafea-runtime-solver-diagnostics.js",
+          "reason": "Authoritative solver method/residual/iteration/equilibrium projection."
+        },
+        {
+          "path": "src/workspace/lafea-continuum-physical-probe.js",
+          "reason": "CURRENT_RESULT-gated fixed physical probe authority."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/B02A-nonuniform-bending.json",
+          "reason": "Frozen B02A benchmark definition."
+        },
+        {
           "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
           "reason": "Merged governed B02B-V2 definition."
         },
         {
+          "path": "validation/lafea-b02-definitions/B02C-kirsch.json",
+          "reason": "Frozen B02C benchmark definition."
+        },
+        {
           "path": "validation/lafea-b02-definitions/B02D-lug-pinhole-v2.json",
-          "reason": "Governed B02D-V2 definition used by production sequence."
+          "reason": "Governed current B02D-V2 definition."
+        },
+        {
+          "path": "validation/lafea-b02-definitions/B02E-convergence.json",
+          "reason": "Frozen B02 convergence policy."
         }
       ]
     },
@@ -63,17 +98,29 @@
       ],
       "read": [
         "scripts/lafea-b02-production-source-guard.mjs",
-        "scripts/lafea-b02-production-sequence-check.mjs",
         "scripts/lafea-b02b-production-check.mjs",
-        "scripts/lib/lafea-b02*.mjs",
-        "validation/lafea-b02-definitions/**",
-        "src/workspace/**"
+        "scripts/lafea-b02-production-sequence-check.mjs",
+        "scripts/lib/lafea-b02-production-route.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lib/lafea-b02d-production-route.mjs",
+        "src/workspace/lafea-workbench-currentness.js",
+        "src/workspace/lafea-workbench-domain-first-run-actions.js",
+        "src/workspace/lafea-runtime-solver-diagnostics.js",
+        "src/workspace/lafea-continuum-physical-probe.js",
+        "validation/lafea-b02-definitions/**"
       ],
       "protect": [
-        "scripts/**",
-        "src/**",
-        "validation/**",
-        ".github/workflows/**"
+        "scripts/lafea-b02-production-source-guard.mjs",
+        "scripts/lafea-b02b-production-check.mjs",
+        "scripts/lafea-b02-production-sequence-check.mjs",
+        "scripts/lib/lafea-b02-production-route.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lib/lafea-b02d-production-route.mjs",
+        "src/workspace/lafea-workbench-currentness.js",
+        "src/workspace/lafea-workbench-domain-first-run-actions.js",
+        "src/workspace/lafea-runtime-solver-diagnostics.js",
+        "src/workspace/lafea-continuum-physical-probe.js",
+        "validation/lafea-b02-definitions/**"
       ],
       "prohibit": [
         "any product/source modification in this EP",
@@ -97,10 +144,10 @@
       },
       {
         "id": "AC-C3D-R2-1",
-        "statement": "Both B02 validation runs execute on exact merged main material head 74437c40669577926c9761cd6374f53d11178a69 with clean product/source state and environment identity retained.",
+        "statement": "R2 executes on the exact governed LAFEA material head derived by pinned V3.1 material-basis semantics, while the current provider-main delta is mechanically classified DISJOINT from EP sensitivity.",
         "evidence_requirements": [
           {
-            "oracle": "exact HEAD, clean-tree, OS, Node, npm and Git preflight receipts"
+            "oracle": "LOCAL_EXECUTION exact_basis.material_head equals the mechanically derived material head; material-basis drift against base-ref main is DISJOINT; coordination/base HEAD may be newer only through non-sensitive changes."
           }
         ]
       },
@@ -179,7 +226,7 @@
         "id": "OFFLOAD-C3D-B02-R2-LOCAL-0001",
         "status": "PLANNED",
         "agent_type": "LOCAL_AGENT",
-        "task": "Execute the B02 production source guard once, focused B02B once and aggregate B02 sequence twice on exact current-main material head; retain raw receipts, deterministic replay and inspectable CURRENT_RESULT/lineage evidence without product/source changes.",
+        "task": "Execute source guard once, focused B02B once and aggregate B02 sequence twice on the exact V3.1-derived LAFEA material head; retain raw receipts, deterministic replay, CURRENT_RESULT/lineage evidence and material-basis drift classification without product/source changes.",
         "allowed_writes": [
           "relay/EVIDENCE/C3D-B02-R2/**"
         ],
@@ -189,7 +236,8 @@
           "two B02E receipts if aggregate PASS",
           "deterministic replay comparison",
           "post-run clean-tree evidence",
-          "CURRENT_RESULT/currentAuthority and transaction/recovery lineage record"
+          "CURRENT_RESULT/currentAuthority and transaction/recovery lineage record",
+          "V3.1 material-basis record with current-base drift classification"
         ],
         "trace_refs": [
           "GitHub PR #1871",
@@ -203,14 +251,15 @@
       "question_policy": "NONE"
     },
     "next": {
-      "first_action": "Use pinned V3.1 relay_tx.py to export a canonical VALIDATE_ONLY local execution request on exact current main, execute the B02 production source guard once, B02B once and the B02 production sequence twice, and retain repository-visible raw/currentness evidence under relay/EVIDENCE/C3D-B02-R2/**.",
+      "first_action": "Run canonical roadmap reconciliation and task admission, then use pinned V3.1 local-execution export. Require material-basis drift against current main to be DISJOINT; execute source guard once, B02B once and B02 sequence twice on the derived material head.",
       "stop_conditions": [
         "Stop on HEAD_MISMATCH.",
+        "Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.",
         "Do not modify product/source files.",
         "Do not normalize a nonzero exit into PASS.",
         "Do not infer deterministic replay without two durable aggregate runs.",
-        "Do not resume or merge PR #1873 until R2 evidence and independent review disposition are complete.",
-        "If numerical commands pass but CURRENT_RESULT/lineage custody is not independently inspectable, return BLOCKED rather than PASS and route to #1862."
+        "If numerical commands pass but CURRENT_RESULT/lineage custody is not independently inspectable, return BLOCKED rather than PASS and route to #1862.",
+        "Do not resume or merge PR #1873 until R2 evidence and independent review disposition are complete."
       ]
     }
   },
