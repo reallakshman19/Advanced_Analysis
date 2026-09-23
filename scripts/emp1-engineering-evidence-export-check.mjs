@@ -9,6 +9,14 @@ import {
 import { createEmp1EngineeringReviewRecord } from
   '../src/core/emp1/emp1-engineering-review-record.js';
 import { semanticHash } from '../src/core/shared-primitives/canonical-json.js';
+import {
+  classifyEmp1WorkspaceEngineeringEvidenceImport,
+  createEmp1WorkspaceEngineeringEvidencePackage,
+} from '../src/workspace/emp1-engineering-review-workspace.js';
+import {
+  EMP1_WORKBENCH_C_STATE,
+  EMP1_WORKBENCH_EXECUTION_CURRENTNESS,
+} from '../src/workspace/emp1-workbench-run-state.js';
 
 const sourceDocuments = {
   loadTransferDocument: { schema: 'lafea-stage-document/v1', stageId: 'LAFEA.1', value: 1 },
@@ -240,6 +248,39 @@ assert.equal(exact.authorityBoundary.importedRouteAuthorizationTrusted, false);
 assert.equal(exact.authorityBoundary.importedReleaseAuthorityTrusted, false);
 assert.equal(exact.authorityBoundary.createsReleaseAuthority, false);
 
+const workspacePackage = createEmp1WorkspaceEngineeringEvidencePackage({
+  execution,
+  executionCurrentness: {
+    state: EMP1_WORKBENCH_EXECUTION_CURRENTNESS.CURRENT,
+    inputCurrent: true,
+    cAuthorityCurrent: true,
+  },
+  cState: {
+    state: EMP1_WORKBENCH_C_STATE.CALCULATED_CURRENT,
+    currentResultAvailable: true,
+  },
+  reviewRecord,
+  sourceDocuments,
+});
+assert.equal(workspacePackage.schema, 'emp1-evidence-export/v1');
+assert.equal(workspacePackage.review.state.state, 'REVIEW_ACCEPTED');
+assert.equal(workspacePackage.benchmark.projection.schema,
+  'emp1-benchmark-evidence-workspace/v1');
+const workspaceExact = classifyEmp1WorkspaceEngineeringEvidenceImport({
+  package: workspacePackage,
+  loadTransferDocument: sourceDocuments.loadTransferDocument,
+  sectionScreeningDocument: sourceDocuments.sectionScreeningDocument,
+  runInput,
+  routeAuthority: {
+    productionUseAuthorized: true,
+    routeAuthorityHash: 'ROUTE-1',
+    snapshot: { semanticHash: 'ROUTE-1' },
+  },
+});
+assert.equal(workspaceExact.state, 'CURRENT_REUSABLE');
+assert.equal(workspaceExact.reportable, true);
+assert.equal(workspaceExact.review.state, 'REVIEW_ACCEPTED');
+
 const routeChanged = classifyEmp1EngineeringEvidenceImport({
   package: evidencePackage,
   current: currentState({
@@ -357,6 +398,7 @@ console.log(JSON.stringify({
   resultHashesBound: 4,
   reviewState: evidencePackage.review.state.state,
   exactImportState: exact.state,
+  workspaceExactImportState: workspaceExact.state,
   routeDriftState: routeChanged.state,
   sourceDriftState: sourceDrift.state,
   suspendedRouteReportable: suspended.reportable,
