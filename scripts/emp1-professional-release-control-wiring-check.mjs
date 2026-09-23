@@ -130,6 +130,9 @@ for (const value of Object.values(currentBenchmarks.authority)) assert.equal(val
 
 // Release manifest must retain exact current source/benchmark evidence identity,
 // not just historical route authorization.
+assert.match(readinessSource, /emp1-professional-release-readiness-check\/v2/u);
+assert.match(manifestSource, /emp1-release-candidate\/v2/u);
+assert.match(manifestCheckSource, /emp1-release-candidate\/v2/u);
 for (const source of [manifestSource, manifestCheckSource]) {
   assert.match(source,
     /emp1-wrc537-gamma5-current-source-semantics-gate-v1\.json/u);
