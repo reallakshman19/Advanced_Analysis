@@ -17,6 +17,12 @@ const dependencyLockSha256 = await requiredFileSha256(
   'package-lock.json',
   'EMP1_RELEASE_CANDIDATE_DEPENDENCY_LOCK_REQUIRED',
 );
+const deploymentReceiptSha256 = options.deploymentReceipt
+  ? await requiredFileSha256(
+    options.deploymentReceipt,
+    'EMP1_RELEASE_CANDIDATE_DEPLOYMENT_RECEIPT_REQUIRED',
+  )
+  : null;
 const deploymentOperationsReceiptSha256 = options.deploymentOperationsReceipt
   ? await requiredFileSha256(
     options.deploymentOperationsReceipt,
@@ -96,6 +102,11 @@ const gates = [
     ['scripts/emp1-wrc-gamma5-exact-head-requalification.mjs',
       '--expected-head', candidateHead]],
   ['WRC04_BENCHMARK_EVIDENCE', npmCommand(), ['run', 'check:emp1-benchmarks']],
+  ['ENGINEERING_EVIDENCE_EXPORT', npmCommand(), ['run', 'check:emp1-evidence-export']],
+  ['ENGINEERING_REVIEW_CONTRACT', process.execPath,
+    ['scripts/emp1-engineering-review-record-check.mjs']],
+  ['ENGINEERING_REVIEW_READINESS', process.execPath,
+    ['scripts/emp1-review-readiness-integration-check.mjs']],
   ['CAUX_REFERENCE_INTEGRITY', process.execPath,
     ['scripts/emp1-caux-pp24-31-benchmark-check.mjs']],
   ['CAUX_DIRECT_PDF_QUALIFICATION', process.execPath,
@@ -248,6 +259,10 @@ function createReceipt(input) {
       policySemanticHash: EMP1_PROFESSIONAL_SECURITY_HEADER_POLICY_SEMANTIC_HASH,
       liveObservationGateId: 'DEPLOYMENT_SECURITY_HEADERS',
       browserCompatibilityEstablishedByHeaderPolicy: false,
+    },
+    deploymentEvidence: {
+      deploymentReceiptSha256,
+      gateId: 'DEPLOYMENT_EVIDENCE',
     },
     deploymentOperations: {
       deploymentOperationsReceiptSha256,
