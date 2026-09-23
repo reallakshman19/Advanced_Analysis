@@ -4,6 +4,11 @@ import {
   requireEmp1EngineeringReviewRecord,
 } from '../core/emp1/emp1-engineering-review-record.js';
 import {
+  EMP1_ENGINEERING_EVIDENCE_PACKAGE_SCHEMA,
+  classifyEmp1EngineeringEvidenceImport,
+  createEmp1EngineeringEvidencePackage,
+} from '../core/emp1/emp1-engineering-evidence-export.js';
+import {
   EMP1_WORKBENCH_C_STATE,
   EMP1_WORKBENCH_EXECUTION_CURRENTNESS,
   EMP1_WORKBENCH_PRODUCT_EXECUTION_SCHEMA,
@@ -77,6 +82,12 @@ export function projectEmp1EngineeringReviewWorkspace({
     retention: {
       scope: 'WORKSPACE_SESSION_ONLY',
       durableExportImplemented: false,
+      durableEvidencePackage: {
+        schema: EMP1_ENGINEERING_EVIDENCE_PACKAGE_SCHEMA,
+        exportApiImplemented: true,
+        importValidationApiImplemented: true,
+        reviewBecomesDurableOnlyWhenEmbeddedInValidatedPackage: true,
+      },
     },
     authorityBoundary: {
       createsEngineeringCalculationAuthority: false,
@@ -86,6 +97,59 @@ export function projectEmp1EngineeringReviewWorkspace({
       createsReleaseAuthority: false,
       createsCryptographicSeal: false,
       uiMayAuthorEngineeringHashes: false,
+    },
+  });
+}
+
+/**
+ * Export the exact current/reportable workbench calculation plus its retained
+ * review into the durable evidence-package contract. The session review itself
+ * remains session-scoped until this explicit export occurs.
+ */
+export function createEmp1WorkspaceEngineeringEvidencePackage({
+  execution,
+  executionCurrentness,
+  cState,
+  reviewRecord = null,
+  sourceDocuments,
+  benchmarkEvidence,
+  productVersion,
+  releaseProfile,
+} = {}) {
+  const blockers = reviewCreationBlockers({ execution, executionCurrentness, cState });
+  if (blockers.length) {
+    const error = workspaceError('EMP1_ENGINEERING_EVIDENCE_CURRENT_CALCULATION_REQUIRED');
+    error.blockers = blockers;
+    throw error;
+  }
+  return createEmp1EngineeringEvidencePackage({
+    execution,
+    reviewRecord,
+    sourceDocuments,
+    benchmarkEvidence,
+    productVersion,
+    releaseProfile,
+  });
+}
+
+/**
+ * Validate/reclassify a durable package against caller-owned live source and
+ * route authority. Imported package flags cannot make themselves current.
+ */
+export function classifyEmp1WorkspaceEngineeringEvidenceImport({
+  package: retainedPackage,
+  loadTransferDocument,
+  sectionScreeningDocument,
+  runInput,
+  routeAuthority,
+} = {}) {
+  return classifyEmp1EngineeringEvidenceImport({
+    package: retainedPackage,
+    current: {
+      loadTransferDocument,
+      sectionScreeningDocument,
+      runInput,
+      routeAuthority,
     },
   });
 }
