@@ -1,0 +1,331 @@
+{
+  "schema": "emp1-wrc537-bounded-source-semantics/v1",
+  "issue": 1765,
+  "parentIssue": 1760,
+  "basisMainSha": "324264b601fa360290d363d2cfd463fbaa54a5cd",
+  "basisMainTreeSha": "f1a5ec5be80f15d9115fe6037e859451d74a62bd",
+  "status": "PASS_BOUNDED_METHOD_SOURCE_SEMANTICS_WITH_EXTERNAL_CASE_PREREQUISITES",
+  "sourceDocument": {
+    "identity": "WRC 537 (2013)",
+    "path": "docs/emp1/WRC537_2013.pdf",
+    "rawSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+    "gitBlobSha1": "ce861233928154145a9257efbbf8dbef3f5a17d1",
+    "directPinnedPdfPageReobservation": "NOT_RUN_EXECUTION_ENVIRONMENT_BINARY_TRANSPORT",
+    "retainedPrimaryTranscription": "docs/emp1/WRC537_2013_Tables_and_Charts.md",
+    "retainedPrimaryTranscriptionGitBlobSha1": "810a39d845e15bae92d9c30abb8d452401e711d2",
+    "externalRenderingMayEstablishPinnedPdfByteAuthority": false
+  },
+  "boundedScope": {
+    "method": "WRC 537 (2013)",
+    "hostShell": "CYLINDRICAL",
+    "attachmentShape": "ROUND",
+    "variant": "ORIGINAL",
+    "gamma": 5,
+    "betaMinimum": 0.05,
+    "betaMaximum": 0.5,
+    "differentialPressure": 0,
+    "Kn": 1,
+    "Kb": 1,
+    "locations": [
+      "Au",
+      "Al",
+      "Bu",
+      "Bl",
+      "Cu",
+      "Cl",
+      "Du",
+      "Dl"
+    ],
+    "hostShellOnly": true,
+    "longitudinalMomentRoute": "AXIS_OF_SYMMETRY_1B_2B_ONLY",
+    "continuousSearch": false,
+    "globalMaximumAssured": false
+  },
+  "authorityModel": {
+    "methodSourceSemanticsReady": true,
+    "caseApplicabilityRequiresEvidence": true,
+    "caseEvidenceMayCreateMethodAuthority": false,
+    "externalComparisonMayCreateMethodAuthority": false,
+    "productionObservationUsedToSetSourceSemantics": false,
+    "codeComplianceAuthorized": false,
+    "globalEmp1CAuthority": false,
+    "releaseAuthorityGranted": false
+  },
+  "sourceBindings": [
+    {
+      "legacyIssue": 1385,
+      "path": "validation/emp1/wrc537-2013/cylindrical-surface-sign-source-qualification-v1.json",
+      "gitBlobSha1": "fe2f476ee69321de00a855e1bb1741d6092014f9",
+      "retainedStatus": "BLOCKED_PARTIAL_TABLE5_SIGN_AUTHORITY_PHYSICAL_SURFACE_SEMANTICS_UNQUALIFIED",
+      "currentDisposition": "SUPERSEDED_FOR_BOUNDED_PROFILE_BY_RETAINED_TABLE4_TABLE5_RECOVERY_SEMANTICS"
+    },
+    {
+      "legacyIssue": 1383,
+      "path": "validation/emp1/wrc537-2013/stress-intensity-source-qualification-v1.json",
+      "gitBlobSha1": "1be69548cff4527cf76489ac1e7a0a698413329a",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_STRESS_INTENSITY_DEFINITION_AND_MAXIMUM_SHEAR_THEORY_QUALIFIED_EXPLICIT_PLANE_STRESS_RECONSTRUCTION_UNQUALIFIED",
+      "currentDisposition": "SUPERSEDED_FOR_BOUNDED_PROFILE_BY_DIRECT_TABLE5_COMBINED_S_FORMULA_EQUIVALENCE"
+    },
+    {
+      "legacyIssue": 1375,
+      "path": "validation/emp1/wrc537-2013/shell-thickness-basis-source-qualification-v1.json",
+      "gitBlobSha1": "9278d377bef7414d5ac90d683ee6d465ed0cc372",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_HOST_SHELL_T_IDENTITY_AND_EQUATION_ROLE_QUALIFIED_ASSESSMENT_THICKNESS_BASIS_UNRESOLVED",
+      "currentDisposition": "CONSUME_METHOD_SYMBOL_MOVE_ASSESSMENT_STATE_TO_CASE_PREREQUISITE"
+    },
+    {
+      "legacyIssue": 1377,
+      "path": "validation/emp1/wrc537-2013/cylindrical-mean-radius-source-qualification-v1.json",
+      "gitBlobSha1": "270776689630c76b48df87fe5bd4e0402ddb04e3",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_4_2_1_MID_RADIUS_QUALIFIED_ASSESSMENT_GEOMETRY_BASIS_UNQUALIFIED",
+      "currentDisposition": "CONSUME_METHOD_SYMBOL_MOVE_ASSESSMENT_GEOMETRY_TO_CASE_PREREQUISITE"
+    },
+    {
+      "legacyIssue": 1379,
+      "path": "validation/emp1/wrc537-2013/elastic-material-source-qualification-v1.json",
+      "gitBlobSha1": "2da21ffa9ad249db2b4976d43c4c184cf8b7f2e7",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_CYLINDRICAL_FLEXIBLE_LOADING_SURFACE_AND_NONLINEAR_EXTENSION_BOUNDARY_QUALIFIED_MATERIAL_DETAILS_UNRESOLVED",
+      "currentDisposition": "CONSUME_BOUNDED_THEORY_STATEMENTS_MOVE_CASE_THEORY_APPLICABILITY_TO_PREREQUISITE"
+    },
+    {
+      "legacyIssue": 1368,
+      "path": "validation/emp1/wrc537-2013/attachment-axis-intersection-source-qualification-v1.json",
+      "gitBlobSha1": "9eb35a8c6a00d9238f8c9fce2af27612dd95abac",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_SHELL_NORMAL_REFERENCE_AXIS_QUALIFIED_PHYSICAL_ATTACHMENT_AXIS_COINCIDENCE_AND_OBLIQUE_APPLICABILITY_UNRESOLVED",
+      "currentDisposition": "CONSUME_WRC_REFERENCE_AXIS_MOVE_PHYSICAL_COINCIDENCE_TO_CASE_PREREQUISITE"
+    },
+    {
+      "legacyIssue": 1370,
+      "path": "validation/emp1/wrc537-2013/cylindrical-attachment-class-source-qualification-v1.json",
+      "gitBlobSha1": "1300f3e621d1fcaf959be45fb700dd56ffa921d5",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_STANDARD_CYLINDRICAL_ROUND_CLASS_QUALIFIED_NONSTANDARD_CLASS_BOUNDARIES_UNQUALIFIED",
+      "currentDisposition": "CONSUME_STANDARD_ROUND_CLASS_NONSTANDARD_CLASSES_OUTSIDE_BOUNDED_SCOPE"
+    },
+    {
+      "legacyIssue": 1373,
+      "path": "validation/emp1/wrc537-2013/nearby-attachment-interaction-source-qualification-v1.json",
+      "gitBlobSha1": "e7e1df58e215ab6438ad671b8209fef05f0a0e2f",
+      "retainedStatus": "BLOCKED_PARTIAL_PRIMARY_STRESS_ATTENUATION_AND_IDEALIZED_CASE_LIMITATION_QUALIFIED_NEIGHBOR_SPACING_AND_INTERACTION_AUTHORITY_UNRESOLVED",
+      "currentDisposition": "CONSUME_IDEALIZED_CASE_BOUNDARY_REQUIRE_EXTERNAL_ISOLATION_EVIDENCE"
+    },
+    {
+      "legacyIssue": 1381,
+      "path": "validation/emp1/wrc537-2013/stress-classification-code-boundary-v1.json",
+      "gitBlobSha1": "bfb641282486ccfaffc1ee04d38141d0aafa444a",
+      "retainedStatus": "BLOCKED_CODE_CLASSIFICATION_AND_ACCEPTANCE_AUTHORITY_UNQUALIFIED",
+      "currentDisposition": "PASS_OUTSIDE_WRC_METHOD_SOURCE_SEMANTICS_CODE_REMAINS_NOT_ASSESSED"
+    }
+  ],
+  "geometryBasis": {
+    "T": {
+      "meaning": "HOST_CYLINDRICAL_SHELL_WALL_THICKNESS",
+      "sourceLocators": [
+        "WRC537_2013_SECTION_1_3_PRINTED_PAGE_2",
+        "WRC537_2013_SECTION_2_EQUATION_1_PRINTED_PAGE_3",
+        "WRC537_2013_SECTION_4_2_1_EQUATION_25"
+      ],
+      "assessmentStateSelectedByWrc": false,
+      "casePrerequisite": "SAME_STATE_ASSESSMENT_GEOMETRY"
+    },
+    "Rm": {
+      "meaning": "HOST_CYLINDRICAL_SHELL_MEAN_OR_MID_RADIUS",
+      "sourceLocators": [
+        "WRC537_2013_SECTION_1_3_PRINTED_PAGE_2",
+        "WRC537_2013_SECTION_4_2_1_EQUATION_25",
+        "WRC537_2013_SECTION_4_2_2_1_EQUATION_26",
+        "WRC537_2013_SECTION_4_5"
+      ],
+      "sameStateConcentricIdentity": "Rm=(Do+Di)/4=Do/2-T/2=Di/2+T/2",
+      "casePrerequisite": "SAME_STATE_ASSESSMENT_GEOMETRY"
+    },
+    "r0": {
+      "meaning": "OUTSIDE_RADIUS_OF_CYLINDRICAL_ROUND_ATTACHMENT_AT_SHELL_JUNCTURE",
+      "sourceLocators": [
+        "WRC537_2013_SECTION_1_3",
+        "WRC537_2013_SECTION_4_2_2_1_EQUATION_26"
+      ],
+      "casePrerequisite": "STANDARD_ROUND_ATTACHMENT_CLASS"
+    },
+    "attachmentClass": {
+      "qualifiedClass": "WRC537_CYLINDRICAL_STANDARD_ROUND_HOST_SHELL_ATTACHMENT",
+      "nonstandardRoundSurrogatesAuthorized": false,
+      "reinforcementSpecificAuthority": false,
+      "casePrerequisite": "STANDARD_ROUND_ATTACHMENT_CLASS"
+    },
+    "attachmentAxis": {
+      "wrcReferenceAxis": "AXIS_NORMAL_TO_SHELL_THROUGH_CENTER_OF_ATTACHMENT",
+      "obliqueAuthorized": false,
+      "casePrerequisite": "PHYSICAL_ATTACHMENT_AXIS_COINCIDENCE"
+    },
+    "isolation": {
+      "quantitativeNeighborSpacingRuleAvailable": false,
+      "interactionCorrectionAvailable": false,
+      "inventedSpacingThresholdAllowed": false,
+      "casePrerequisite": "ISOLATION_OR_NONINTERACTION_EVIDENCE"
+    },
+    "section45": {
+      "radialLoadCylinderLengthRule": "l >= Rm when P is active",
+      "externalMomentEndDistanceRule": "nearest cylinder end distance >= 0.5*Rm when Mc or Ml is active",
+      "provesNeighborIsolation": false
+    }
+  },
+  "loadBasis": {
+    "authorityId": "WRC537_2013_FIGURE2_TABLE4_TABLE5_CYLINDRICAL_LOAD_BASIS_V1",
+    "sourceSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+    "referencePoint": "WRC_ATTACHMENT_REFERENCE",
+    "positiveDirections": {
+      "P": "SOURCE_REFERENCE_TOWARD_ATTACHMENT_TARGET",
+      "Vl": "POSITIVE_VESSEL_LONGITUDINAL",
+      "Vc": "VL_CROSS_P",
+      "Mc": "NEGATIVE_VESSEL_LONGITUDINAL_RIGHT_HAND_VECTOR",
+      "Ml": "SAME_VECTOR_AS_VC",
+      "Mt": "OPPOSITE_P_RIGHT_HAND_VECTOR"
+    },
+    "sourceLocators": [
+      "WRC537_2013_SECTION_4_1_FIGURE_2",
+      "WRC537_2013_TABLE4_PAGES_39_40",
+      "WRC537_2013_TABLE5_PAGES_41_42"
+    ],
+    "casePrerequisite": "PHYSICAL_ATTACHMENT_AXIS_COINCIDENCE"
+  },
+  "recoveryBasis": {
+    "sourceLocators": [
+      "WRC537_2013_TABLE4_PAGES_39_40",
+      "WRC537_2013_TABLE5_PAGES_41_42",
+      "WRC537_2013_SECTION_4_3_6",
+      "WRC537_2013_SECTION_4_4"
+    ],
+    "surfaces": {
+      "u": "UPPER_OUTER_SHELL_SURFACE",
+      "l": "LOWER_INNER_SHELL_SURFACE"
+    },
+    "locationPairs": {
+      "AB": "LONGITUDINAL_AXIS_PAIR_THETA_0_180",
+      "CD": "CIRCUMFERENTIAL_TRANSVERSE_AXIS_PAIR_THETA_90_270"
+    },
+    "sourceLabeledLocations": [
+      "Au",
+      "Al",
+      "Bu",
+      "Bl",
+      "Cu",
+      "Cl",
+      "Du",
+      "Dl"
+    ],
+    "individualGlobalAngleRelabelingPerformed": false,
+    "commonPointSuperposition": "EACH_TABLE5_COLUMN_REPRESENTS_ONE_SOURCE_LABELED_LOCATION_SURFACE_AND_ALL_APPLICABLE_NORMAL_AND_SHEAR_CONTRIBUTIONS_ARE_ADDED_ALGEBRAICALLY_IN_THAT_COLUMN_BEFORE_S",
+    "longitudinalMoment": {
+      "selection": "AXIS_OF_SYMMETRY",
+      "circumferentialFigure": "1B",
+      "longitudinalFigure": "2B",
+      "offAxisMaximumAuthorized": false
+    },
+    "eightPointEnvelopeIsGlobalMaximum": false
+  },
+  "stressIntensityBasis": {
+    "sourceLocators": [
+      "WRC537_2013_TABLE5_PAGES_41_42_COMBINED_STRESS_INTENSITY",
+      "WRC537_2013_GENERAL_NOMENCLATURE_S",
+      "WRC537_2013_CYLINDRICAL_MAXIMUM_SHEAR_THEORY_TEXT"
+    ],
+    "sourceInputs": [
+      "sigma_phi",
+      "sigma_x",
+      "tau"
+    ],
+    "sourceDefinition": "STRESS_INTENSITY_EQUALS_TWICE_MAXIMUM_SHEAR_STRESS",
+    "sourceFormulaForm": "TABLE5_PIECEWISE_COMBINED_STRESS_INTENSITY_FROM_ALGEBRAIC_SIGMA_PHI_SIGMA_X_TAU",
+    "productionImplementation": "PLANE_STRESS_PRINCIPAL_DIFFERENCE_ALGEBRAICALLY_EQUIVALENT_TO_TABLE5_S_FORMULAS",
+    "productionEquivalenceMustBeProvedByChecker": true,
+    "separateWrcSigma3ZeroStatementRequiredForEquivalence": false,
+    "wrcExplicitSigma3ZeroClaimMade": false,
+    "vonMisesAuthorized": false
+  },
+  "materialTheoryBasis": {
+    "sourceQualifiedStatements": {
+      "cylindricalFlexibleLoadingSurfaceAssumption": true,
+      "largeDeflectionAndOtherNonlinearEffectsIdentifiedAsLaterExtensionWork": true,
+      "table5ExplicitMaterialModulusInputAbsent": true,
+      "table5ExplicitPoissonRatioInputAbsent": true
+    },
+    "claimsNotMade": {
+      "absoluteModulusIndependence": false,
+      "poissonRatioIrrelevance": false,
+      "universalMaterialApplicability": false,
+      "hostAttachmentMaterialEquivalence": false
+    },
+    "casePrerequisite": "ORIGINAL_CYLINDRICAL_THEORY_APPLICABILITY_EVIDENCE",
+    "unqualifiedBehaviorPolicy": "FAIL_CLOSED_UNLESS_SEPARATELY_SOURCE_QUALIFIED"
+  },
+  "resultScope": {
+    "hostCylindricalShellLocalStressAtAttachmentShellJuncture": true,
+    "attachmentWallStressAuthorized": false,
+    "nozzleWallStressAuthorized": false,
+    "weldStressAuthorized": false,
+    "WRC297Authority": false,
+    "evaluatedLocations": [
+      "Au",
+      "Al",
+      "Bu",
+      "Bl",
+      "Cu",
+      "Cl",
+      "Du",
+      "Dl"
+    ],
+    "evaluatedEightPointEnvelopeOnly": true,
+    "continuousOrGlobalMaximumClaim": false
+  },
+  "codeBoundary": {
+    "wrcStressCalculationSeparateFromCodeClassification": true,
+    "codeStressClassificationAuthorized": false,
+    "allowableComparisonAuthorized": false,
+    "codeAssessmentPerformed": false,
+    "codeCompliance": "NOT_ASSESSED"
+  },
+  "externalCasePrerequisites": [
+    {
+      "id": "SAME_STATE_ASSESSMENT_GEOMETRY",
+      "requirement": "T and dimensions used to construct Rm must describe one explicit internally consistent physical shell wall state; WRC method semantics do not choose nominal/corroded/measured policy."
+    },
+    {
+      "id": "STANDARD_ROUND_ATTACHMENT_CLASS",
+      "requirement": "The physical item must be evidenced as the standard cylindrical ROUND attachment family represented by r0; arbitrary round surrogates, pads, lugs and unqualified reinforcement geometries are not included."
+    },
+    {
+      "id": "PHYSICAL_ATTACHMENT_AXIS_COINCIDENCE",
+      "requirement": "The physical attachment axis at the retained station must coincide with the WRC shell-normal reference axis; oblique/skew projection is not authorized."
+    },
+    {
+      "id": "ISOLATION_OR_NONINTERACTION_EVIDENCE",
+      "requirement": "The case must provide governed evidence that nearby attachments/discontinuities do not invalidate the single idealized WRC attachment evaluation; no spacing rule is invented."
+    },
+    {
+      "id": "ORIGINAL_CYLINDRICAL_THEORY_APPLICABILITY_EVIDENCE",
+      "requirement": "The case must not rely on material/geometric behavior outside the retained original cylindrical theory statements; unsupported nonlinear or other unqualified behavior requires separate source qualification."
+    }
+  ],
+  "unresolvedPrimaryMethodSemantics": [],
+  "historicalAggregate": {
+    "path": "validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json",
+    "state": "BLOCKED_P0_SOURCE_SEMANTICS",
+    "blockerCount": 9,
+    "classification": "HISTORICAL_IMMUTABLE_PRE_WRC02_INTEGRATION_AGGREGATE",
+    "rewrittenByThisProfile": false,
+    "supersessionRule": "CURRENT_WRC02_METHOD_SOURCE_SEMANTICS_STATUS_RESOLVES_THROUGH_THIS_PROFILE; LEGACY ROWS REMAIN HISTORICAL SOURCE-RESEARCH RECORDS"
+  },
+  "prohibitions": [
+    "DO_NOT_TREAT_CASE_PREREQUISITES_AS_NEW_WRC_SOURCE_RULES",
+    "DO_NOT_AUTHORIZE_OBLIQUE_ATTACHMENT_GEOMETRY",
+    "DO_NOT_AUTHORIZE_NONSTANDARD_ROUND_SURROGATES_OR_REINFORCEMENT",
+    "DO_NOT_INVENT_NEIGHBOR_SPACING_OR_INTERACTION_CORRECTION",
+    "DO_NOT_INFER_UNIVERSAL_MATERIAL_INDEPENDENCE_FROM_TABLE5_INPUT_SILENCE",
+    "DO_NOT_REQUIRE_AN_UNOBSERVED_SIGMA3_WORDING_WHEN_PRODUCTION_IS_PROVED_EQUIVALENT_TO_DIRECT_TABLE5_S_FORMULA",
+    "DO_NOT_REPLACE_TABLE5_STRESS_INTENSITY_WITH_VON_MISES",
+    "DO_NOT_CALL_EIGHT_POINT_ENVELOPE_A_CONTINUOUS_OR_GLOBAL_MAXIMUM",
+    "DO_NOT_CREATE_CODE_COMPLIANCE_OR_RELEASE_AUTHORITY",
+    "DO_NOT_WIDEN_PRESSURE_SCF_GAMMA_BETA_ATTACHMENT_OR_SHELL_FAMILY_SCOPE"
+  ],
+  "semanticHash": "825a44af697cdf56d63284e8e2607ebd354dc304544e93734aa17dc307c811c7"
+}
