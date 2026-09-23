@@ -16,8 +16,12 @@ import {
 
 const SCRIPT_PATH = 'scripts/emp1-wrc537-caux-comparison-custody-generate.mjs';
 const ROUTE_ID = 'EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.INTERPOLATED_GAMMA.ZERO_DP';
-const TOLERANCE_PERCENT = 3;
-const REFERENCE_ROUNDING_HALF_WIDTH_KPA = 0.5;
+const comparisonCase = readJson(
+  '../validation/emp1/caux2017-wrc01f/caux-pp24-31-wrc537-comparison-case-v1.json',
+);
+const TOLERANCE_PERCENT = comparisonCase.comparison.tolerancePercent;
+const REFERENCE_ROUNDING_HALF_WIDTH_KPA =
+  comparisonCase.comparison.referenceRoundingHalfWidth_kPa;
 const repositoryCommit = requiredEnv('EMP1_CAUX_EXECUTION_COMMIT');
 const executedAt = requiredEnv('EMP1_CAUX_EXECUTED_AT');
 const executor = requiredEnv('EMP1_CAUX_EXECUTOR');
@@ -37,27 +41,50 @@ assert.equal(benchmark.freeze.toleranceDerivedFromProduction, false);
 assert.equal(benchmark.authority.wrcMethodAuthority, false);
 assert.equal(benchmark.authority.engineeringUseAuthorized, false);
 
-const meanRadius = 912.5;
-const shellThickness = 19;
-const attachmentRadius = 323.850 / 2;
+// This generator reproduces the retained Sep-3 custody record, including its
+// historical Q1 source-status snapshot. Numerical comparison semantics are
+// pinned separately so helper-default changes cannot alter that reproduction.
+const meanRadius = comparisonCase.geometry.meanRadius_mm;
+const shellThickness = comparisonCase.geometry.shellThickness_mm;
+const attachmentRadius = comparisonCase.geometry.attachmentOutsideDiameter_mm / 2;
 const beta = 0.875 * attachmentRadius / meanRadius;
 const gamma = meanRadius / shellThickness;
-const loads = { P: -161, Vc: -53, Vl: -2109, Mc: 121e3, Ml: 33e3, Mt: -775e3 };
+const loads = {
+  P: comparisonCase.loads.P,
+  Vc: comparisonCase.loads.Vc,
+  Vl: comparisonCase.loads.Vl,
+  Mc: comparisonCase.loads.Mc,
+  Ml: comparisonCase.loads.Ml,
+  Mt: comparisonCase.loads.Mt,
+};
+assert.ok(Math.abs(beta - comparisonCase.derived.beta) <= 1e-14);
+assert.ok(Math.abs(gamma - comparisonCase.derived.gamma) <= 1e-14);
 
 const ordinateSet = buildEmp1Wrc537InterpolatedTable5Ordinates({
-  variant: 'ORIGINAL',
+  variant: comparisonCase.wrc537Evaluation.variant,
   gamma,
   beta,
-  betaDomain: { basis: 'OWNER_DECLARED', minimum: 0.05, maximum: 0.5 },
+  coordinate: comparisonCase.wrc537Evaluation.interpolationCoordinate,
+  betaDomain: comparisonCase.wrc537Evaluation.betaDomain,
+  longitudinalMomentFigures: comparisonCase.wrc537Evaluation.longitudinalMomentFigures,
 });
 assert.equal(ordinateSet.interpolationUsed, true);
 assert.equal(ordinateSet.sourceQualifiedGammaSelection, false);
 assert.equal(ordinateSet.wrcMethodFidelityClaim, false);
 assert.equal(ordinateSet.productionAuthority, false);
+assert.equal(ordinateSet.coordinate, comparisonCase.wrc537Evaluation.interpolationCoordinate);
+assert.equal(
+  ordinateSet.provenance.circ.Mlbend.figure,
+  comparisonCase.wrc537Evaluation.longitudinalMomentFigures.circumferential,
+);
+assert.equal(
+  ordinateSet.provenance.long.Mlbend.figure,
+  comparisonCase.wrc537Evaluation.longitudinalMomentFigures.longitudinal,
+);
 
 const result = evaluateEmp1Wrc537CylindricalTable5({
   geometry: { meanRadius, shellThickness, attachmentRadius, beta },
-  stressConcentration: { Kn: 1, Kb: 1 },
+  stressConcentration: comparisonCase.wrc537Evaluation.stressConcentration,
   loads,
   curveOrdinates: ordinateSet.ordinates,
 });
