@@ -35,6 +35,10 @@ const manifestSource = await readText(
 const manifestCheckSource = await readText(
   'scripts/emp1-professional-release-manifest-check.mjs',
 );
+const evidenceExportSource = await readText(
+  'src/core/emp1/emp1-engineering-evidence-export.js',
+);
+const packageMetadata = await readJson('package.json');
 
 assert.equal(
   gitBlobSha1(frozenReadinessBytes),
@@ -50,6 +54,13 @@ assert.equal(
   'node scripts/emp1-professional-p0-source-semantics-check.mjs --require-ready',
   'historical readiness command must remain frozen provenance',
 );
+assert.deepEqual(frozenReadiness.replayAndExportBoundary, {
+  persistedReloadCurrentnessCoveredBy:
+    'scripts/emp1-workbench-route-authority-currentness-falsifiers.mjs',
+  separateEmp1CNumericalExportConsumerFound: false,
+  workbenchExportExportsActiveSourceDocumentNotRetainedCNumerics: true,
+  futureNumericExportMustConsumeReportableProjection: true,
+}, 'historical no-export observation must remain frozen provenance');
 
 assert.equal(
   currentSource.state,
@@ -79,28 +90,55 @@ assert.match(readinessSource,
 assert.match(readinessSource, /WRC02_SOURCE_SEMANTICS_NOT_READY/u);
 assert.doesNotMatch(readinessSource, /const\s+p0Ready\s*=/u);
 
-// Live candidate must execute WRC-02 -> WRC-03 -> WRC-04 before release build.
+// Live candidate must execute WRC-02 -> WRC-03 -> WRC-04, then qualify the
+// durable evidence/review capability, before release build.
 assert.doesNotMatch(candidateSource,
   /scripts\/emp1-professional-p0-source-semantics-check\.mjs/u,
   'live candidate must not execute historical P0 readiness as current authority');
 const wrc02Index = candidateSource.indexOf("['WRC02_SOURCE_SEMANTICS'");
 const wrc03Index = candidateSource.indexOf("['WRC03_CURRENT_EXACT_HEAD'");
 const wrc04Index = candidateSource.indexOf("['WRC04_BENCHMARK_EVIDENCE'");
+const exportIndex = candidateSource.indexOf("['ENGINEERING_EVIDENCE_EXPORT'");
+const reviewIndex = candidateSource.indexOf("['ENGINEERING_REVIEW_CONTRACT'");
+const reviewReadinessIndex = candidateSource.indexOf("['ENGINEERING_REVIEW_READINESS'");
 const buildIndex = candidateSource.indexOf("['PRODUCTION_BUILD'");
 for (const [name, index] of Object.entries({
   WRC02: wrc02Index,
   WRC03: wrc03Index,
   WRC04: wrc04Index,
+  EVIDENCE_EXPORT: exportIndex,
+  REVIEW_CONTRACT: reviewIndex,
+  REVIEW_READINESS: reviewReadinessIndex,
   BUILD: buildIndex,
 })) assert.ok(index >= 0, `EMP1_WRC05_REQUIRED_GATE_MISSING:${name}`);
-assert.ok(wrc02Index < wrc03Index && wrc03Index < wrc04Index && wrc04Index < buildIndex,
-  'EMP1_WRC05_UPSTREAM_GATE_ORDER_INVALID');
+assert.ok(
+  wrc02Index < wrc03Index
+    && wrc03Index < wrc04Index
+    && wrc04Index < exportIndex
+    && exportIndex < reviewIndex
+    && reviewIndex < reviewReadinessIndex
+    && reviewReadinessIndex < buildIndex,
+  'EMP1_WRC05_UPSTREAM_GATE_ORDER_INVALID',
+);
 assert.match(candidateSource,
   /emp1-wrc537-bounded-source-semantics-profile-check\.mjs/u);
 assert.match(candidateSource,
   /emp1-wrc-gamma5-exact-head-requalification\.mjs/u);
 assert.match(candidateSource, /--expected-head',\s*candidateHead/u);
 assert.match(candidateSource, /check:emp1-benchmarks/u);
+assert.match(candidateSource, /check:emp1-evidence-export/u);
+assert.match(candidateSource, /emp1-engineering-review-record-check\.mjs/u);
+assert.match(candidateSource, /emp1-review-readiness-integration-check\.mjs/u);
+assert.equal(
+  packageMetadata.scripts?.['check:emp1-evidence-export'],
+  'node scripts/emp1-engineering-evidence-export-check.mjs',
+);
+assert.match(evidenceExportSource, /EMP1_SCHEMAS\.EVIDENCE_EXPORT/u);
+assert.match(evidenceExportSource, /HISTORICAL_NON_REPORTABLE/u);
+assert.match(evidenceExportSource, /importedCurrentFlagTrusted:\s*false/u);
+assert.match(evidenceExportSource, /importedRouteAuthorizationTrusted:\s*false/u);
+assert.match(evidenceExportSource, /importedReleaseAuthorityTrusted:\s*false/u);
+assert.doesNotMatch(evidenceExportSource, /releaseQualified:\s*true/u);
 
 // Current benchmark contract must represent H1/H2 truth and H3 absence without
 // granting external-comparison authority.
@@ -131,8 +169,8 @@ for (const value of Object.values(currentBenchmarks.authority)) assert.equal(val
 // Release manifest must retain exact current source/benchmark evidence identity,
 // not just historical route authorization.
 assert.match(readinessSource, /emp1-professional-release-readiness-check\/v2/u);
-assert.match(manifestSource, /emp1-release-candidate\/v2/u);
-assert.match(manifestCheckSource, /emp1-release-candidate\/v2/u);
+assert.match(manifestSource, /emp1-release-candidate\/v3/u);
+assert.match(manifestCheckSource, /emp1-release-candidate\/v3/u);
 for (const source of [manifestSource, manifestCheckSource]) {
   assert.match(source,
     /emp1-wrc537-gamma5-current-source-semantics-gate-v1\.json/u);
@@ -142,11 +180,16 @@ for (const source of [manifestSource, manifestCheckSource]) {
   assert.match(source, /currentManifestSha256/u);
   assert.match(source, /cauxCurrentQualificationSemanticHash/u);
   assert.match(source, /pvEliteReferenceState/u);
+  assert.match(source, /routeAuthorityHash/u);
+  assert.match(source, /professionalReviewCapability/u);
+  assert.match(source, /durableEvidencePackageSchema/u);
+  assert.match(source, /caseSpecificHumanReviewAsserted/u);
+  assert.match(source, /deploymentEvidence/u);
 }
 
 console.log(JSON.stringify({
-  schema: 'emp1-professional-release-control-wiring-check/v1',
-  status: 'PASS_WRC05_CURRENT_WRC02_WRC03_WRC04_RELEASE_CONTROL_WIRING',
+  schema: 'emp1-professional-release-control-wiring-check/v2',
+  status: 'PASS_WRC05_CURRENT_WRC02_WRC03_WRC04_P5_P6_RELEASE_CONTROL_WIRING',
   frozenReadinessGitBlobSha1: gitBlobSha1(frozenReadinessBytes),
   currentSourceSemanticsGateHash: currentSource.semanticHash,
   currentSourceSemanticsProfileHash: currentSource.profile.semanticHash,
@@ -155,6 +198,9 @@ console.log(JSON.stringify({
     'WRC02_SOURCE_SEMANTICS',
     'WRC03_CURRENT_EXACT_HEAD',
     'WRC04_BENCHMARK_EVIDENCE',
+    'ENGINEERING_EVIDENCE_EXPORT',
+    'ENGINEERING_REVIEW_CONTRACT',
+    'ENGINEERING_REVIEW_READINESS',
     'PRODUCTION_BUILD',
   ],
   h1TraceStatus: currentBenchmarks.gamma5.independentHandCalculationTrace.status,
@@ -162,6 +208,11 @@ console.log(JSON.stringify({
   cauxComparisonRouteEngineeringUseAuthorized:
     currentBenchmarks.caux.routeRelationship.engineeringUseAuthorized,
   pvEliteReferenceState: currentBenchmarks.pvElite.state,
+  historicalReplayExportObservation:
+    frozenReadiness.replayAndExportBoundary.separateEmp1CNumericalExportConsumerFound,
+  currentDurableEvidenceExportImplemented: true,
+  currentDurableEvidenceExportSchema: 'emp1-evidence-export/v1',
+  releaseManifestSchema: 'emp1-release-candidate/v3',
   releaseAuthorityCreatedByThisCheck: false,
   codeComplianceAuthorizedByThisCheck: false,
   globalEmp1CAuthorizedByThisCheck: false,
