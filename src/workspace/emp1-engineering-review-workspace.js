@@ -12,6 +12,7 @@ import {
   EMP1_WORKBENCH_C_STATE,
   EMP1_WORKBENCH_EXECUTION_CURRENTNESS,
   EMP1_WORKBENCH_PRODUCT_EXECUTION_SCHEMA,
+  emp1WorkbenchInputHashes,
 } from './emp1-workbench-run-state.js';
 
 export const EMP1_ENGINEERING_REVIEW_WORKSPACE_SCHEMA =
@@ -146,9 +147,11 @@ export function classifyEmp1WorkspaceEngineeringEvidenceImport({
   return classifyEmp1EngineeringEvidenceImport({
     package: retainedPackage,
     current: {
-      loadTransferDocument,
-      sectionScreeningDocument,
-      runInput,
+      inputHashes: emp1WorkbenchInputHashes({
+        aDocument: loadTransferDocument,
+        bDocument: sectionScreeningDocument,
+        runInput,
+      }),
       routeAuthority,
     },
   });
