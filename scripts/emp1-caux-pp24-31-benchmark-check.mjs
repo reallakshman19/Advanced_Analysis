@@ -11,10 +11,15 @@ const TRANSCRIPTION_BLOB = 'ce0ee91cd996feee162d4dd90ce1af4063e06775';
 const BENCHMARK_HASH = '887b231028cd187c63d7cb29aedbc7db182b31d404623f9981f36a21987c2bf3';
 const HANDCALC_HASH = '88b3ced854446b68329c46558ddd326ed607a2fc966e7201596f53518abc4b9c';
 const QUALIFICATION_HASH = 'd621d81342795b082d8e6add7b938de3f897bb6dff9d320e153602a9c4a9f37e';
+const CURRENT_QUALIFICATION_HASH =
+  '9c57953aff802624650050c251d05b3ca8ea6a190bec77863f03ec790abc353f';
 
 const benchmark = await readJson('validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-v1.json');
 const handcalc = await readJson('validation/emp1/caux2017-wrc01f/caux-pp24-31-independent-handcalc-v1.json');
 const qualification = await readJson('validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v1.json');
+const currentQualification = await readJson(
+  'validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json',
+);
 const transcription = await readFile(resolve(root, benchmark.observation.retainedTranscriptionPath));
 
 assert.equal(benchmark.source.rawPdfSha256, PDF_SHA);
@@ -127,13 +132,30 @@ assert.deepEqual(qualification.authority, {
   releaseAuthorityGranted: false,
 });
 
+// Q1 is immutable historical freeze evidence. Current direct-source status is Q3.
+assert.equal(semanticHash(currentQualification), CURRENT_QUALIFICATION_HASH);
+assert.equal(currentQualification.benchmark.semanticHash, BENCHMARK_HASH);
+assert.equal(currentQualification.independentHandCalculation.semanticHash, HANDCALC_HASH);
+assert.equal(currentQualification.source.directPdfPageReobservation, 'PASS');
+assert.equal(currentQualification.source.gammaRadiusBasisForThisBenchmark, 'PASS_RECONCILED');
+assert.equal(
+  currentQualification.status,
+  'PASS_FINAL_CAUX_SOURCE_QUALIFICATION_GAMMA_RADIUS_RECONCILED_REFERENCE_FREEZE_PRESERVED',
+);
+assert.deepEqual(currentQualification.authority, qualification.authority);
+
 console.log(JSON.stringify({
   schema: 'emp1-caux-pp24-31-benchmark-check/v1',
   status: 'PASS_CAUX_REFERENCE_FREEZE_OUTSIDE_GAMMA5_PROFILE_DIRECT_PDF_REOBSERVATION_PENDING',
   benchmarkSemanticHash: BENCHMARK_HASH,
   handCalculationSemanticHash: HANDCALC_HASH,
-  qualificationSemanticHash: QUALIFICATION_HASH,
-  directPdfPageReobservation: qualification.source.directPdfPageReobservation,
+  historicalQualificationSemanticHash: QUALIFICATION_HASH,
+  historicalDirectPdfPageReobservation: qualification.source.directPdfPageReobservation,
+  currentQualificationSemanticHash: CURRENT_QUALIFICATION_HASH,
+  currentQualificationId: currentQualification.qualificationId,
+  directPdfPageReobservation: currentQualification.source.directPdfPageReobservation,
+  gammaRadiusBasisForThisBenchmark:
+    currentQualification.source.gammaRadiusBasisForThisBenchmark,
   expectedValuesFrozenBeforeProductionObservation: true,
   productionOutputObservedForExpectedValueSelection: false,
   releaseProfileDisposition: qualification.releaseProfileDisposition.state,
@@ -142,7 +164,9 @@ console.log(JSON.stringify({
   requireDirectPdf,
 }, null, 2));
 
-if (requireDirectPdf && qualification.source.directPdfPageReobservation !== 'PASS') process.exit(2);
+if (requireDirectPdf && currentQualification.source.directPdfPageReobservation !== 'PASS') {
+  process.exit(2);
+}
 
 function findSourceStressVectors(b, name) {
   const ids = name === 'SUS'
