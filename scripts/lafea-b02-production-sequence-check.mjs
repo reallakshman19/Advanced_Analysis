@@ -5,7 +5,7 @@ import { canonicalLafeaSha256 } from '../src/workspace/lafea-canonical-sha256.js
 
 const checks = [
   ['B02C_ANALYTICAL_TRACTION', 'scripts/lafea-b02c-analytical-traction-check.mjs'],
-  ['B02D_POLAR_MESH', 'scripts/lafea-b02d-probe-stable-polar-mesh-check.mjs'],
+  ['B02D_POLAR_MESH', 'scripts/lafea-b02d-v2-preobservation-quality-check.mjs'],
   ['B02A', 'scripts/lafea-b02a-production-check.mjs'],
   ['B02B', 'scripts/lafea-b02b-production-check.mjs'],
   ['B02C', 'scripts/lafea-b02c-production-check.mjs'],
@@ -28,8 +28,19 @@ for (const [id, script] of checks) {
   process.stdout.write(result.stdout);
 }
 
+const governedCaseIds = Object.freeze({
+  B02A: Object.freeze(['B02A']),
+  B02B: Object.freeze(['B02B', 'B02B-V2']),
+  B02C: Object.freeze(['B02C']),
+  B02D: Object.freeze(['B02D', 'B02D-V2']),
+});
 for (const id of ['B02A', 'B02B', 'B02C', 'B02D']) {
-  assert.equal(receipts[id].caseId, id);
+  const caseId = receipts[id].caseId;
+  assert.equal(
+    governedCaseIds[id].includes(caseId),
+    true,
+    `${id} caseId mismatch: expected one of ${governedCaseIds[id].join(', ')}, got ${caseId}`,
+  );
   assert.equal(receipts[id].definitionFrozenBeforeObservation, true);
   assert.equal(receipts[id].productionOutputUsedToChooseDefinition, false);
   assert.equal(receipts[id].releaseAuthorityGranted, false);
