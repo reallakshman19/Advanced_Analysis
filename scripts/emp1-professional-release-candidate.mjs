@@ -363,7 +363,11 @@ async function inspectCaseEngineeringEvidence(path) {
     if (resolved !== allowedRoot && !resolved.startsWith(`${allowedRoot}/`)) {
       throw releaseError('EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE_PATH_OUTSIDE_RELEASE_VALIDATION');
     }
-    const bytes = await readFile(resolved);
+    const retainedFile = await requiredTrackedCandidateFile(
+      resolved,
+      'EMP1_RELEASE_CASE_ENGINEERING_EVIDENCE',
+    );
+    const bytes = retainedFile.bytes;
     const retained = requireEmp1EngineeringEvidencePackage(
       JSON.parse(bytes.toString('utf8')),
     );
@@ -406,7 +410,8 @@ async function inspectCaseEngineeringEvidence(path) {
     if (reasons.length) throw releaseError(reasons.join(':'));
 
     const custody = Object.freeze({
-      path: relative(root, resolved).replaceAll('\\', '/'),
+      path: retainedFile.path,
+      packageGitBlobSha1: retainedFile.gitBlobSha1,
       packageSha256: createHash('sha256').update(bytes).digest('hex'),
       packageSchema: retained.schema,
       packageSemanticHash: retained.semanticHash,
@@ -500,6 +505,35 @@ async function requiredFileSha256(path, code) {
   } catch {
     throw releaseError(code);
   }
+}
+
+async function requiredTrackedCandidateFile(path, code) {
+  const stat = await lstat(path).catch(() => null);
+  if (!stat?.isFile() || stat.isSymbolicLink()) {
+    throw releaseError(`${code}_REGULAR_FILE_REQUIRED`);
+  }
+  const relativePath = relative(root, path).replaceAll('\\', '/');
+  if (!relativePath || relativePath === '..' || relativePath.startsWith('../')) {
+    throw releaseError(`${code}_PATH_OUTSIDE_REPOSITORY`);
+  }
+  let headBlob;
+  let worktreeBlob;
+  try {
+    headBlob = git(['rev-parse', `HEAD:${relativePath}`]);
+    worktreeBlob = git(['hash-object', '--', relativePath]);
+  } catch {
+    throw releaseError(`${code}_TRACKED_CANDIDATE_BLOB_REQUIRED`);
+  }
+  if (!/^[0-9a-f]{40}$/u.test(headBlob)
+    || !/^[0-9a-f]{40}$/u.test(worktreeBlob)
+    || headBlob !== worktreeBlob) {
+    throw releaseError(`${code}_CANDIDATE_BLOB_DRIFT`);
+  }
+  return Object.freeze({
+    path: relativePath,
+    gitBlobSha1: headBlob,
+    bytes: await readFile(path),
+  });
 }
 async function hashDirectory(directory) {
   const rows = [];
