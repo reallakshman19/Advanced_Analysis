@@ -399,16 +399,8 @@ function releaseProfile(value) {
 function currentEvidence(value) {
   const current = exactRecord(
     value,
-    ['loadTransferDocument', 'sectionScreeningDocument', 'runInput', 'routeAuthority'],
+    ['inputHashes', 'routeAuthority'],
     'EMP1_ENGINEERING_EVIDENCE_CURRENT_STATE_INVALID',
-  );
-  const runInput = record(
-    current.runInput,
-    'EMP1_ENGINEERING_EVIDENCE_CURRENT_RUN_INPUT_REQUIRED',
-  );
-  const localMethod = record(
-    runInput.localMethod,
-    'EMP1_ENGINEERING_EVIDENCE_CURRENT_LOCAL_METHOD_REQUIRED',
   );
   const routeAuthority = record(
     current.routeAuthority,
@@ -422,24 +414,7 @@ function currentEvidence(value) {
     throw evidenceError('EMP1_ENGINEERING_EVIDENCE_CURRENT_ROUTE_AUTHORITY_HASH_MISMATCH');
   }
   return deepFreeze({
-    inputHashes: {
-      loadTransferDocument: semanticHash(current.loadTransferDocument),
-      sectionScreeningDocument: semanticHash(current.sectionScreeningDocument),
-      attachmentGeometry: semanticHash(record(
-        localMethod.attachmentGeometry,
-        'EMP1_ENGINEERING_EVIDENCE_CURRENT_ATTACHMENT_GEOMETRY_REQUIRED',
-      )),
-      applicabilityGeometry: localMethod.applicabilityGeometry == null
-        ? null
-        : semanticHash(record(
-          localMethod.applicabilityGeometry,
-          'EMP1_ENGINEERING_EVIDENCE_CURRENT_APPLICABILITY_GEOMETRY_INVALID',
-        )),
-      localRoute: semanticHash(record(
-        localMethod.routeRequest,
-        'EMP1_ENGINEERING_EVIDENCE_CURRENT_ROUTE_REQUEST_REQUIRED',
-      )),
-    },
+    inputHashes: structuredClone(requireInputHashes(current.inputHashes)),
     routeAuthorityHash,
     productionUseAuthorized: routeAuthority.productionUseAuthorized === true,
   });
