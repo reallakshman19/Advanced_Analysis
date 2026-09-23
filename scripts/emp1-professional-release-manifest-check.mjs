@@ -43,7 +43,7 @@ const candidateSource = await readFile(resolve(root, 'scripts/emp1-professional-
 assert.equal(receipt.schema, 'emp1-professional-release-candidate-receipt/v1');
 assert.ok(receipt.releaseManifest, 'EMP1_RELEASE_MANIFEST_REQUIRED');
 const manifest = receipt.releaseManifest;
-assert.equal(manifest.schema, 'emp1-release-candidate/v1');
+assert.equal(manifest.schema, 'emp1-release-candidate/v2');
 assert.equal(manifest.semanticHash, semanticHash(manifest, ['semanticHash']),
   'EMP1_RELEASE_MANIFEST_SEMANTIC_HASH_MISMATCH');
 assert.equal(receipt.receiptSemanticHash, semanticHash(receipt, ['receiptSemanticHash', 'status']),
@@ -177,6 +177,14 @@ if (receipt.releaseCandidateQualified === true) {
   assert.ok(receipt.executions.every((item) => item.status === 'PASS'),
     'EMP1_RELEASE_QUALIFIED_RECEIPT_REQUIRES_ALL_EXECUTIONS_PASS');
   for (const gateId of [
+    'SOURCE_CUSTODY',
+    'WRC02_SOURCE_SEMANTICS',
+    'WRC03_CURRENT_EXACT_HEAD',
+    'WRC04_BENCHMARK_EVIDENCE',
+    'CAUX_REFERENCE_INTEGRITY',
+    'CAUX_DIRECT_PDF_QUALIFICATION',
+    'AUTHORIZED_RUNEMP1_ORCHESTRATION',
+    'CURRENTNESS_REPLAY_FALSIFIERS',
     'DEPENDENCY_LOCK_CUSTODY',
     'DEPENDENCY_ADVISORY',
     'BUILD_ARTIFACT_SECURITY',
