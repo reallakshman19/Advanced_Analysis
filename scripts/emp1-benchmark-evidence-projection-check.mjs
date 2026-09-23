@@ -16,7 +16,7 @@ const benchmark = JSON.parse(readFileSync(new URL(
   import.meta.url,
 )));
 const qualification = JSON.parse(readFileSync(new URL(
-  '../validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v1.json',
+  '../validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json',
   import.meta.url,
 )));
 const interpolatedRoute = EMP1_C_BOUNDED_PRODUCTION_ROUTES.find(
@@ -67,7 +67,7 @@ const buildInput = () => ({
   },
   limitations: [
     'INDEPENDENT_REFERENCE_NOT_WRC_METHOD_AUTHORITY',
-    'DIRECT_PDF_REOBSERVATION_PENDING',
+    'INTERPOLATED_GAMMA_COMPARISON_ONLY_ENGINEERING_USE_NOT_AUTHORIZED',
   ],
 });
 
@@ -76,7 +76,11 @@ assert.equal(projected.schema, EMP1_BENCHMARK_EVIDENCE_SCHEMA);
 assert.equal(projected.benchmarkId, 'CAUX_2017_WRC01F_PP24_31_REFERENCE_V1');
 assert.equal(projected.sourceEvidence.semanticHash,
   '887b231028cd187c63d7cb29aedbc7db182b31d404623f9981f36a21987c2bf3');
-assert.equal(projected.sourceEvidence.directObservationState, 'NOT_RUN_EXECUTION_ENVIRONMENT');
+assert.equal(projected.sourceEvidence.directObservationState, 'PASS');
+assert.equal(
+  projected.sourceEvidence.qualificationState,
+  'PASS_FINAL_CAUX_SOURCE_QUALIFICATION_GAMMA_RADIUS_RECONCILED_REFERENCE_FREEZE_PRESERVED',
+);
 assert.equal(projected.freezeEvidence.state, 'REFERENCE_FROZEN');
 assert.equal(projected.routeRelationship.engineeringUseAuthorized, false);
 assert.equal(projected.routeRelationship.comparisonQualificationAvailable, true);
