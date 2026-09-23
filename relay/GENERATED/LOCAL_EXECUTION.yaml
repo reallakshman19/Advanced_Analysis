@@ -1,125 +1,202 @@
-{
-  "schema_version": "relay-v3-local-execution",
-  "authority": "DERIVED_EXECUTION_PACKAGE",
-  "generated_from": {
-    "state_digest": "sha256:4763f031e4cb6b456b541f0a406c45f885756b1c3141ec9805c6ad48b44ed48e",
-    "snapshot_digest": "sha256:12a7c64a46701ee3b31875419f70a339c8dcb955b180b07fc1afb3cb3070058a"
-  },
-  "project": {
-    "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
-    "roadmap_revision": "RM-0008",
-    "work_package": "WP-1771"
-  },
-  "execution": {
-    "ep": "EP-LAFEA3-C3D-BASELINE-1771-0001",
-    "lease": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
-    "executor": "chatgpt-gpt5.6-sol-c3d-baseline-20260922",
-    "branch": "main"
-  },
-  "material": {
-    "base": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
-    "head": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
-    "relevant_paths_digest": "sha256:746e6a33f2d2eca5d4bb1256fac42d3f14908bd6873340104f8bfef45efb4067",
-    "dependency_digest": "sha256:0916e29cd3d61b0b95eb847fb97fbe570ba72c2d3e24f255eb4dc646dbb567fb"
-  },
-  "scope": {
-    "allowed_writes": [
-      "relay/EVIDENCE/C3D-BASELINE/**"
-    ],
-    "protected": [
-      "scripts/**",
-      "src/workspace/**",
-      "validation/lafea-b02-definitions/**",
-      "validation/lafea-benchmark-data/**",
-      ".github/workflows/**"
-    ],
-    "prohibited": [
-      "FE solver/element formulation changes",
-      "benchmark oracle or tolerance changes",
-      "mesher or recovery/result-authority changes",
-      "workflow YAML changes",
-      "release or merge authority",
-      "implementation of issue #1862 without a positive baseline gap witness"
-    ]
-  },
-  "acceptance": [
-    {
-      "id": "AC-C3D-PROBE-1",
-      "statement": "The existing B02, BM-005, B01 and B-bar harnesses are actually executed on one exact current basis, with command, head, tree cleanliness, stdout/stderr and exit status retained; unavailable execution remains explicit NOT_RUN.",
-      "evidence_requirements": [
-        {
-          "test": "scripts/lafea-b02-production-sequence-check.mjs"
-        },
-        {
-          "test": "scripts/lafea.3-bm005-ordinary-route-check.mjs"
-        },
-        {
-          "test": "scripts/lafea-b01-final-qualification.mjs"
-        },
-        {
-          "test": "scripts/lafea-plane-strain-bbar-lame-check.mjs"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-PROBE-2",
-      "statement": "Existing retained output is classified field-by-field for production ancestry, solver diagnostics, CURRENT authority, equilibrium/energy/convergence evidence and deterministic replay; missing or contradictory fields have exact source witnesses.",
-      "evidence_requirements": [
-        {
-          "oracle": "C3-D lineage/solver/currentness/replay field-completeness matrix"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-PROBE-3",
-      "statement": "No FE mechanics, benchmark/oracle/tolerance, recovery, mesher or release-authority change is used to obtain the baseline result; existing numerical acceptance remains frozen.",
-      "evidence_requirements": [
-        {
-          "oracle": "frozen existing numerical authority and protected-source diff"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-PROBE-4",
-      "statement": "The probe ends with an evidence-backed disposition of NO_PATCH, NARROW_ISSUE_1862, or a separately witnessed owning gap; evidence gathering alone grants no C3-D capability authority.",
-      "evidence_requirements": [
-        {
-          "oracle": "positive-gap-witness-or-NO_PATCH disposition"
-        }
-      ]
-    },
-    {
-      "id": "AC-C3D-PROBE-5",
-      "statement": "External infrastructure failures and unexecuted cases remain NOT_RUN and are not converted into engineering FAIL/PASS.",
-      "evidence_requirements": [
-        {
-          "oracle": "executed-versus-NOT_RUN evidence classification"
-        }
-      ]
-    }
-  ],
-  "controls": {
-    "execution_blockers": [],
-    "handover_blockers": [],
-    "delivery_blockers": [],
-    "informational": []
-  },
-  "checkpoint": {
-    "id": null,
-    "handoff": null
-  },
-  "next": {
-    "first_action": "On a faithful exact-current checkout, run the existing B02 production sequence, BM-005 ordinary route, B01 final qualification and plane-strain B-bar Lamé checks without product changes; retain their raw receipts and inspect the authoritative outputs for the C3-D field-completeness matrix.",
-    "stop_conditions": [
-      "Stop if the current material basis cannot be reproduced exactly.",
-      "Stop product changes: this EP permits repository writes only under relay/EVIDENCE/C3D-BASELINE/**.",
-      "If an executed numerical/mechanics failure appears, identify its first owning boundary rather than changing an oracle, tolerance or formulation.",
-      "If faithful execution is unavailable, retain NOT_RUN/INFRASTRUCTURE and export a local-execution handoff instead of synthesizing evidence.",
-      "Do not admit or implement issue #1862 until this baseline produces a positive composition gap witness."
-    ]
-  },
-  "delivery_boundary": {
-    "merge_authorized": false,
-    "delivery_lifecycle": "DECLARED"
-  }
-}
+schema_version: relay-v3.1-local-execution
+authority: DERIVED_EXECUTION_PACKAGE
+generated_from:
+  state_digest: sha256:a3a50ac7a2b3c85fa3d3529eb1e72d383e678982916058adb49a690855ca8726
+  snapshot_digest: sha256:be390b72970566ebc09d95a3e816304084b5302960b957e3ef65974335e566d4
+project:
+  outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
+    Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
+    capability.
+  roadmap_revision: RM-0011
+  work_package: WP-1771
+execution:
+  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+  executor: chatgpt-gpt5.6-sol-c3d-r2-20260923
+  branch: relay/c3d-r2-exact-main-1771
+material:
+  base: 74437c40669577926c9761cd6374f53d11178a69
+  head: 74437c40669577926c9761cd6374f53d11178a69
+  relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
+  dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+scope:
+  allowed_writes:
+  - relay/EVIDENCE/C3D-B02-R2/**
+  protected:
+  - scripts/lafea-b02-production-source-guard.mjs
+  - scripts/lafea-b02b-production-check.mjs
+  - scripts/lafea-b02-production-sequence-check.mjs
+  - scripts/lib/lafea-b02-production-route.mjs
+  - scripts/lib/lafea-b02-rectangle-qualification.mjs
+  - scripts/lib/lafea-b02d-production-route.mjs
+  - src/workspace/lafea-workbench-currentness.js
+  - src/workspace/lafea-workbench-domain-first-run-actions.js
+  - src/workspace/lafea-runtime-solver-diagnostics.js
+  - src/workspace/lafea-continuum-physical-probe.js
+  - validation/lafea-b02-definitions/**
+  prohibited:
+  - any product/source modification in this EP
+  - changes to benchmark definitions, expected values, sign correction, acceptance
+    modes or tolerances
+  - changes to qualifier logic, mesh generators, FE solver, recovery or result authority
+  - B-bar or BM-005 implementation changes
+  - workflow YAML changes
+  - 'issue #1862 implementation'
+  - release or merge authority
+acceptance:
+- id: AC-C3D-R2-0
+  statement: The current B02 production source/authority guard passes on the exact
+    material basis without source modification.
+  evidence_requirements:
+  - test: node scripts/lafea-b02-production-source-guard.mjs
+- id: AC-C3D-R2-1
+  statement: R2 executes on the exact governed LAFEA material head derived by pinned
+    V3.1 material-basis semantics, while the current provider-main delta is mechanically
+    classified DISJOINT from EP sensitivity.
+  evidence_requirements:
+  - oracle: LOCAL_EXECUTION exact_basis.material_head equals the mechanically derived
+      material head; material-basis drift against base-ref main is DISJOINT; coordination/base
+      HEAD may be newer only through non-sensitive changes.
+- id: AC-C3D-R2-2
+  statement: Focused B02B production qualification executes and its raw stdout, stderr,
+    exit code and timestamps are retained without repair during execution.
+  evidence_requirements:
+  - test: node scripts/lafea-b02b-production-check.mjs
+- id: AC-C3D-R2-3
+  statement: The aggregate B02 production sequence executes twice independently; each
+    run retains raw stdout, stderr, exit code and timestamps, and any nonzero result
+    remains the exact first failing witness.
+  evidence_requirements:
+  - test: node scripts/lafea-b02-production-sequence-check.mjs
+  - oracle: two-run deterministic replay comparison
+- id: AC-C3D-R2-4
+  statement: If both aggregate runs PASS, the final B02E qualification receipt is
+    retained from each run and semantic/result identity is compared for deterministic
+    replay; PASS is not inferred if raw receipt extraction is incomplete.
+  evidence_requirements:
+  - oracle: two durable B02E receipt records plus comparison
+- id: AC-C3D-R2-5
+  statement: 'No product/source diff is introduced by R2; this EP grants evidence
+    only and does not admit B-bar, BM-005 or #1862 implementation.'
+  evidence_requirements:
+  - oracle: post-run git status and product/source diff
+- id: AC-C3D-R2-6
+  statement: 'Numerical PASS is accepted for C3-D.1 only when the retained ordinary-route
+    execution is independently inspectable as CURRENT_RESULT/currentAuthority with
+    completed transaction and current recovery ancestry; otherwise R2 returns BLOCKED
+    and routes specifically to the reconciled #1862 composition scope.'
+  evidence_requirements:
+  - oracle: repository-visible currentness/lineage record retaining source/domain/geometry/mesh/profile/solver-config/execution/recovery
+      identities plus transaction status/hash
+controls:
+  execution_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  handover_blockers: []
+  delivery_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  informational: []
+checkpoint:
+  id: null
+  handoff: null
+next:
+  first_action: Run canonical roadmap reconciliation and task admission, then use
+    pinned V3.1 local-execution export. Require material-basis drift against current
+    main to be DISJOINT; execute source guard once, B02B once and B02 sequence twice
+    on the derived material head.
+  stop_conditions:
+  - Stop on HEAD_MISMATCH.
+  - Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.
+  - Do not modify product/source files.
+  - Do not normalize a nonzero exit into PASS.
+  - Do not infer deterministic replay without two durable aggregate runs.
+  - 'If numerical commands pass but CURRENT_RESULT/lineage custody is not independently
+    inspectable, return BLOCKED rather than PASS and route to #1862.'
+  - 'Do not resume or merge PR #1873 until R2 evidence and independent review disposition
+    are complete.'
+request:
+  id: LOCAL-EP-LAFEA3-C3D-B02-R2-1771-0009-74437c406695
+  purpose: Run canonical roadmap reconciliation and task admission, then use pinned
+    V3.1 local-execution export. Require material-basis drift against current main
+    to be DISJOINT; execute source guard once, B02B once and B02 sequence twice on
+    the derived material head.
+  mode: VALIDATE_ONLY
+  exact_basis:
+    material_head: 74437c40669577926c9761cd6374f53d11178a69
+    branch: relay/c3d-r2-exact-main-1771
+    work_package: WP-1771
+    ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+  preflight:
+  - Fetch/check out the requested work and run git rev-parse HEAD.
+  - Compare the observed HEAD with request.exact_basis.material_head before running
+    any validation step.
+  - If the HEAD differs, do not continue; return HEAD_MISMATCH with the observed HEAD.
+  steps:
+  - id: STEP-CMD-1
+    instruction: Run this exact caller-supplied command and capture its result.
+    command: node scripts/lafea-b02-production-source-guard.mjs
+    working_directory: .
+    expected_result: Capture exit status and concise output; do not silently repair
+      failures.
+  - id: STEP-CMD-2
+    instruction: Run this exact caller-supplied command and capture its result.
+    command: node scripts/lafea-b02b-production-check.mjs
+    working_directory: .
+    expected_result: Capture exit status and concise output; do not silently repair
+      failures.
+  - id: STEP-CMD-3
+    instruction: Run this exact caller-supplied command and capture its result.
+    command: node scripts/lafea-b02-production-sequence-check.mjs
+    working_directory: .
+    expected_result: Capture exit status and concise output; do not silently repair
+      failures.
+  - id: STEP-CMD-4
+    instruction: Run this exact caller-supplied command and capture its result.
+    command: node scripts/lafea-b02-production-sequence-check.mjs
+    working_directory: .
+    expected_result: Capture exit status and concise output; do not silently repair
+      failures.
+  success_conditions:
+  - Every requested step is attempted on the exact material head or an explicit non-run
+    status is returned.
+  - The result packet contains the required evidence fields and no unrequested product-state
+    change is made.
+  stop_conditions:
+  - If git rev-parse HEAD does not equal request.exact_basis.material_head, stop immediately
+    and return HEAD_MISMATCH.
+  - Stop on HEAD_MISMATCH.
+  - Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.
+  - Do not modify product/source files.
+  - Do not normalize a nonzero exit into PASS.
+  - Do not infer deterministic replay without two durable aggregate runs.
+  - 'If numerical commands pass but CURRENT_RESULT/lineage custody is not independently
+    inspectable, return BLOCKED rather than PASS and route to #1862.'
+  - 'Do not resume or merge PR #1873 until R2 evidence and independent review disposition
+    are complete.'
+  prohibited_actions:
+  - Do not modify product/source files.
+  - Do not commit or push.
+  - Do not advance PR, merge, release, or delivery state.
+  - Do not silently repair a failure; return the observed failure to the originating
+    owner.
+return_contract:
+  request_id: LOCAL-EP-LAFEA3-C3D-B02-R2-1771-0009-74437c406695
+  allowed_results:
+  - PASS
+  - FAIL
+  - BLOCKED
+  - NOT_RUN_ENVIRONMENT
+  - NOT_RUN_INFRASTRUCTURE
+  - HEAD_MISMATCH
+  required_fields:
+  - observed_head
+  - environment
+  - command_results
+  - failures
+  - artifacts
+  resume_owner:
+    agent_id: chatgpt-gpt5.6-sol-c3d-r2-20260923
+    responsibility: The originating owner resumes responsibility after this bounded
+      local result is returned; the helper does not inherit task custody.
+delivery_boundary:
+  merge_authorized: false
+  delivery_lifecycle: DECLARED

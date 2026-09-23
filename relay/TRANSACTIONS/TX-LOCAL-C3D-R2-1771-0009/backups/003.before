@@ -1,0 +1,125 @@
+{
+  "schema_version": "relay-v3-local-execution",
+  "authority": "DERIVED_EXECUTION_PACKAGE",
+  "generated_from": {
+    "state_digest": "sha256:4763f031e4cb6b456b541f0a406c45f885756b1c3141ec9805c6ad48b44ed48e",
+    "snapshot_digest": "sha256:12a7c64a46701ee3b31875419f70a339c8dcb955b180b07fc1afb3cb3070058a"
+  },
+  "project": {
+    "outcome": "Preserve the verified C3-C result and continue the LAFEA.3 programme under Engineering Relay V3 without rewriting legacy evidence or admitting unproved downstream capability.",
+    "roadmap_revision": "RM-0008",
+    "work_package": "WP-1771"
+  },
+  "execution": {
+    "ep": "EP-LAFEA3-C3D-BASELINE-1771-0001",
+    "lease": "LEASE-LAFEA3-C3D-BASELINE-1771-0001",
+    "executor": "chatgpt-gpt5.6-sol-c3d-baseline-20260922",
+    "branch": "main"
+  },
+  "material": {
+    "base": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
+    "head": "b942aa5c420f43ffe4cbb3c06051dd5623e40185",
+    "relevant_paths_digest": "sha256:746e6a33f2d2eca5d4bb1256fac42d3f14908bd6873340104f8bfef45efb4067",
+    "dependency_digest": "sha256:0916e29cd3d61b0b95eb847fb97fbe570ba72c2d3e24f255eb4dc646dbb567fb"
+  },
+  "scope": {
+    "allowed_writes": [
+      "relay/EVIDENCE/C3D-BASELINE/**"
+    ],
+    "protected": [
+      "scripts/**",
+      "src/workspace/**",
+      "validation/lafea-b02-definitions/**",
+      "validation/lafea-benchmark-data/**",
+      ".github/workflows/**"
+    ],
+    "prohibited": [
+      "FE solver/element formulation changes",
+      "benchmark oracle or tolerance changes",
+      "mesher or recovery/result-authority changes",
+      "workflow YAML changes",
+      "release or merge authority",
+      "implementation of issue #1862 without a positive baseline gap witness"
+    ]
+  },
+  "acceptance": [
+    {
+      "id": "AC-C3D-PROBE-1",
+      "statement": "The existing B02, BM-005, B01 and B-bar harnesses are actually executed on one exact current basis, with command, head, tree cleanliness, stdout/stderr and exit status retained; unavailable execution remains explicit NOT_RUN.",
+      "evidence_requirements": [
+        {
+          "test": "scripts/lafea-b02-production-sequence-check.mjs"
+        },
+        {
+          "test": "scripts/lafea.3-bm005-ordinary-route-check.mjs"
+        },
+        {
+          "test": "scripts/lafea-b01-final-qualification.mjs"
+        },
+        {
+          "test": "scripts/lafea-plane-strain-bbar-lame-check.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-PROBE-2",
+      "statement": "Existing retained output is classified field-by-field for production ancestry, solver diagnostics, CURRENT authority, equilibrium/energy/convergence evidence and deterministic replay; missing or contradictory fields have exact source witnesses.",
+      "evidence_requirements": [
+        {
+          "oracle": "C3-D lineage/solver/currentness/replay field-completeness matrix"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-PROBE-3",
+      "statement": "No FE mechanics, benchmark/oracle/tolerance, recovery, mesher or release-authority change is used to obtain the baseline result; existing numerical acceptance remains frozen.",
+      "evidence_requirements": [
+        {
+          "oracle": "frozen existing numerical authority and protected-source diff"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-PROBE-4",
+      "statement": "The probe ends with an evidence-backed disposition of NO_PATCH, NARROW_ISSUE_1862, or a separately witnessed owning gap; evidence gathering alone grants no C3-D capability authority.",
+      "evidence_requirements": [
+        {
+          "oracle": "positive-gap-witness-or-NO_PATCH disposition"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-PROBE-5",
+      "statement": "External infrastructure failures and unexecuted cases remain NOT_RUN and are not converted into engineering FAIL/PASS.",
+      "evidence_requirements": [
+        {
+          "oracle": "executed-versus-NOT_RUN evidence classification"
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "execution_blockers": [],
+    "handover_blockers": [],
+    "delivery_blockers": [],
+    "informational": []
+  },
+  "checkpoint": {
+    "id": null,
+    "handoff": null
+  },
+  "next": {
+    "first_action": "On a faithful exact-current checkout, run the existing B02 production sequence, BM-005 ordinary route, B01 final qualification and plane-strain B-bar Lamé checks without product changes; retain their raw receipts and inspect the authoritative outputs for the C3-D field-completeness matrix.",
+    "stop_conditions": [
+      "Stop if the current material basis cannot be reproduced exactly.",
+      "Stop product changes: this EP permits repository writes only under relay/EVIDENCE/C3D-BASELINE/**.",
+      "If an executed numerical/mechanics failure appears, identify its first owning boundary rather than changing an oracle, tolerance or formulation.",
+      "If faithful execution is unavailable, retain NOT_RUN/INFRASTRUCTURE and export a local-execution handoff instead of synthesizing evidence.",
+      "Do not admit or implement issue #1862 until this baseline produces a positive composition gap witness."
+    ]
+  },
+  "delivery_boundary": {
+    "merge_authorized": false,
+    "delivery_lifecycle": "DECLARED"
+  }
+}
