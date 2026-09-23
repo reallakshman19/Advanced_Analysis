@@ -159,6 +159,12 @@ assert.deepEqual(manifest.evidence.gates, expectedGateEvidence,
   'EMP1_RELEASE_MANIFEST_EXECUTION_EVIDENCE_DRIFT');
 assert.equal(manifest.evidence.buildArtifactSha256, receipt.candidate.buildArtifactSha256);
 
+const caseEngineeringEvidence = receipt.candidate.caseEngineeringEvidence ?? null;
+const expectedCaseReviewAsserted =
+  caseEngineeringEvidence?.reviewAcceptedCurrent === true
+  && caseEngineeringEvidence?.reviewState === 'REVIEW_ACCEPTED'
+  && caseEngineeringEvidence?.reviewDisposition === 'ACCEPTED'
+  && manifest.evidence.gates.CASE_ENGINEERING_EVIDENCE?.status === 'PASS';
 assert.deepEqual(manifest.professionalReviewCapability, {
   durableEvidencePackageSchema: 'emp1-evidence-export/v1',
   evidenceExportGateId: 'ENGINEERING_EVIDENCE_EXPORT',
@@ -173,7 +179,11 @@ assert.deepEqual(manifest.professionalReviewCapability, {
   reviewReadinessGateStatus:
     manifest.evidence.gates.ENGINEERING_REVIEW_READINESS?.status
       ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
-  caseSpecificHumanReviewAsserted: false,
+  caseSpecificHumanReviewGateId: 'CASE_ENGINEERING_EVIDENCE',
+  caseSpecificHumanReviewGateStatus:
+    manifest.evidence.gates.CASE_ENGINEERING_EVIDENCE?.status ?? 'NOT_PROVIDED',
+  caseSpecificHumanReviewAsserted: expectedCaseReviewAsserted,
+  caseSpecificHumanReview: caseEngineeringEvidence,
   caseSpecificHumanReviewRequiredForEngineeringDisposition: true,
   reviewAcceptanceCreatesReleaseAuthority: false,
   reviewAcceptanceCreatesCodeCompliance: false,
@@ -209,6 +219,20 @@ assert.equal(currentCustody.deployedSecurityHeaders.liveObservationGateId, 'DEPL
 assert.equal(currentCustody.deployedSecurityHeaders.browserCompatibilityEstablishedByHeaderPolicy, false);
 assert.deepEqual(currentCustody.deploymentOperations, receipt.candidate.deploymentOperations,
   'EMP1_RELEASE_MANIFEST_DEPLOYMENT_OPERATIONS_CUSTODY_DRIFT');
+assert.deepEqual(currentCustody.caseEngineeringEvidence, caseEngineeringEvidence,
+  'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_CUSTODY_DRIFT');
+if (caseEngineeringEvidence != null) {
+  assert.match(caseEngineeringEvidence.packageSha256, /^[0-9a-f]{64}$/u);
+  assert.equal(caseEngineeringEvidence.packageSchema, 'emp1-evidence-export/v1');
+  assert.equal(caseEngineeringEvidence.productVersion, packageMetadata.version);
+  assert.equal(caseEngineeringEvidence.releaseProfileId, profile.releaseProfileId);
+  assert.equal(caseEngineeringEvidence.releaseProfileVersion, profile.schema);
+  assert.equal(caseEngineeringEvidence.routeAuthorityHash,
+    currentRouteAuthority.routeAuthorityHash);
+  assert.equal(caseEngineeringEvidence.reviewAcceptedCurrent, true);
+  assert.equal(caseEngineeringEvidence.reviewState, 'REVIEW_ACCEPTED');
+  assert.equal(caseEngineeringEvidence.reviewDisposition, 'ACCEPTED');
+}
 assert.equal(currentCustody.deploymentOperations.gateId, 'DEPLOYMENT_OPERATIONS');
 assert.equal(currentCustody.deploymentOperations.rollbackExecutionObservedByThisHarness, false);
 assert.equal(currentCustody.deploymentOperations.rollbackSuccessAuthorizedByThisHarness, false);
@@ -250,6 +274,7 @@ if (receipt.releaseCandidateQualified === true) {
     'ENGINEERING_EVIDENCE_EXPORT',
     'ENGINEERING_REVIEW_CONTRACT',
     'ENGINEERING_REVIEW_READINESS',
+    'CASE_ENGINEERING_EVIDENCE',
     'CAUX_REFERENCE_INTEGRITY',
     'CAUX_DIRECT_PDF_QUALIFICATION',
     'AUTHORIZED_RUNEMP1_ORCHESTRATION',
@@ -265,6 +290,10 @@ if (receipt.releaseCandidateQualified === true) {
     assert.ok(receipt.executions.some((item) => item.gateId === gateId && item.status === 'PASS'),
       `EMP1_RELEASE_QUALIFIED_RECEIPT_GATE_REQUIRED:${gateId}`);
   }
+  assert.equal(manifest.professionalReviewCapability.caseSpecificHumanReviewAsserted, true,
+    'EMP1_RELEASE_QUALIFIED_RECEIPT_REQUIRES_CASE_SPECIFIC_HUMAN_REVIEW');
+  assert.ok(caseEngineeringEvidence,
+    'EMP1_RELEASE_QUALIFIED_RECEIPT_REQUIRES_CASE_ENGINEERING_EVIDENCE_CUSTODY');
   assert.equal(receipt.status, 'PASS_EMP1_PROFESSIONAL_RELEASE_CANDIDATE_AND_DEPLOYMENT_EVIDENCE');
 }
 
@@ -286,6 +315,8 @@ const result = {
   evidencePackageSchema: manifest.professionalReviewCapability.durableEvidencePackageSchema,
   caseSpecificHumanReviewAsserted:
     manifest.professionalReviewCapability.caseSpecificHumanReviewAsserted,
+  caseEngineeringEvidenceSha256:
+    manifest.professionalReviewCapability.caseSpecificHumanReview?.packageSha256 ?? null,
   executionGateCount: Object.keys(manifest.evidence.gates).length,
   releaseCandidateQualified: receipt.releaseCandidateQualified === true,
   currentDependencyCustodyBound: true,
