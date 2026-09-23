@@ -1,0 +1,83 @@
+{
+  "schema_version": "relay-v3.1-lease",
+  "id": "LEASE-EMP1-WRC05-1775-0002",
+  "route": "SERIAL:EP-EMP1-WRC05-1775-0002",
+  "executor": {
+    "id": "chatgpt-gpt5.6-sol-wrc05-20260923"
+  },
+  "basis": {
+    "ep_id": "EP-EMP1-WRC05-1775-0002",
+    "ep_digest": "sha256:134d4bbcb45904f3b476c1f067642400f118a6c65801572b68b40b64e5783021",
+    "material_base": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
+    "predecessor_checkpoint": null,
+    "protocol_basis": "github:reallaksh19/Common@f27d6933390a145055f55eac1f4cfc5b2db4732f/skills/engineering-pr-delivery-v3.1"
+  },
+  "authority": {
+    "actions": [
+      "READ",
+      "ANALYZE",
+      "MATERIAL_WRITE",
+      "TEST",
+      "DRAFT_PR_UPDATE"
+    ]
+  },
+  "admission": {
+    "method": "OWNER_OVERRIDE",
+    "result": "PASS",
+    "repository_only": false,
+    "qualification": {
+      "required": false,
+      "qset": null,
+      "evaluator": null,
+      "result": null,
+      "evidence": []
+    },
+    "owner_basis": {
+      "direct_utterance_digest": "sha256:c436cf355cfc2eaaf142602b5c13759a8b7744371d879556b6293d4d47952e42",
+      "session_timestamp": "2026-09-23T08:37:53Z"
+    }
+  },
+  "scope": {
+    "ep_or_task": "EP-EMP1-WRC05-1775-0002",
+    "branch": "relay/emp1-wrc05-1775",
+    "allowed_writes": [
+      "src/core/emp1/emp1-engineering-evidence-export.js",
+      "src/core/emp1/index.js",
+      "src/workspace/emp1-engineering-review-workspace.js",
+      "scripts/emp1-engineering-evidence-export-check.mjs",
+      "scripts/emp1-engineering-review-record-check.mjs",
+      "scripts/emp1-professional-release-candidate.mjs",
+      "scripts/emp1-professional-release-manifest.mjs",
+      "scripts/emp1-professional-release-manifest-check.mjs",
+      "scripts/emp1-professional-release-readiness-check.mjs",
+      "scripts/emp1-professional-release-control-wiring-check.mjs",
+      "validation/emp1/release/**",
+      "package.json",
+      ".github/workflows/emp1-professional-release-controls.yml",
+      "docs/emp1/EMP1_WRC537_Professional_Evidence_Export.md"
+    ],
+    "prohibited": [
+      "WRC formula, coefficient, Table-5 sign/recovery or source-semantics changes",
+      "benchmark/oracle expected-value or tolerance refreeze",
+      "non-tabulated-gamma or unsupported-domain authority expansion",
+      "resultHash policy changes owned by #1852",
+      "Owner policy changes owned by #1834",
+      "global EMP.1.C authority",
+      "code-compliance authorization",
+      "synthetic PASS for NOT_RUN execution evidence",
+      "MERGE",
+      "RELEASE"
+    ]
+  },
+  "custody": {
+    "epoch": 1,
+    "granted_at": "2026-09-23T08:54:15Z",
+    "renewed_at": "2026-09-23T09:05:08Z",
+    "recovery_after_seconds": 3600,
+    "recovery_policy": "TAKEOVER_AFTER_EXPIRY"
+  },
+  "state": "ACTIVE",
+  "invalidation": {
+    "reasons": []
+  }
+}
