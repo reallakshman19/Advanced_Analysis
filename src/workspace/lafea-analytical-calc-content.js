@@ -21,6 +21,10 @@ import { renderEmp1ProfessionalWorkflow } from './emp1-professional-workflow-vie
 import { composeEmp1AnalyticalLayout } from './emp1-analytical-layout.js';
 import { lafeaDocumentDigest } from './lafea-edit-command.js';
 import {
+  projectLafea1PressureRadiusRefit,
+  projectLafea1PressureRadiusValidation,
+} from './lafea-1-pressure-radius-validation.js';
+import {
   EMP1_B_SOURCE_CUSTODY_STATES,
   EMP1_PUBLIC_PRODUCT,
   buildEmp1ProductProjection,
@@ -112,6 +116,13 @@ export function renderLafeaAnalyticalCalcContent(root, state, stage, options) {
 
   const source = card(root, `${step.stepId} inputs`);
   source.section.dataset.guidedTarget = 'source';
+  const radiusRecovery = renderPressureRadiusRecovery(
+    source.body,
+    stageId,
+    stage.document,
+    options.handlers.onSetScalarBatch,
+  );
+  if (radiusRecovery) source.body.append(radiusRecovery);
   source.body.append(renderDocumentTableEditor(source.body, stageId, stage.document, {
     onSetScalar: options.handlers.onSetScalar,
     onSetScalarBatch: options.handlers.onSetScalarBatch,
@@ -209,6 +220,43 @@ export function renderLafeaAnalyticalCalcContent(root, state, stage, options) {
   applyEmp1BPressureThrustRunGate(root, step, stage.document);
   return Object.freeze({ element: shell, viewport: null, viewportElement: null,
     viewportReused: false, workflow: null, discretization: null });
+}
+
+/**
+ * Recovery for pressure evaluation radii stranded outside the current wall.
+ *
+ * A geometry edit can leave the declared radii outside the pipe wall, which
+ * fails the qualified LAFEA.1 preflight. The radii are ordinary governed inputs
+ * under Loads; this offers the common repair beside the failure instead of
+ * leaving Undo as the only way out. The edits run through the same descriptor
+ * batch a hand edit uses, so nothing bypasses custody or invalidation.
+ */
+function renderPressureRadiusRecovery(root, stageId, documentValue, onSetScalarBatch) {
+  if (stageId !== 'LAFEA.1' || typeof onSetScalarBatch !== 'function') return null;
+  const validation = projectLafea1PressureRadiusValidation(documentValue);
+  if (validation.state !== 'OUTSIDE_WALL') return null;
+  const refit = projectLafea1PressureRadiusRefit(documentValue);
+
+  const notice = element(root, 'div', 'lafea-workbench__authority');
+  notice.dataset.role = 'lafea-1-pressure-radius-recovery';
+  notice.dataset.refitState = refit.state;
+  notice.append(
+    element(root, 'strong', null, 'Pressure evaluation radii are outside the current pipe wall'),
+    element(root, 'p', null, validation.message),
+    element(root, 'p', null, validation.recoveryAction),
+  );
+  if (refit.state === 'AVAILABLE') {
+    const unitSuffix = refit.unit ? ` ${refit.unit}` : '';
+    const action = actionButton(root, 'Set radii to current wall', () => onSetScalarBatch(refit.edits));
+    action.dataset.role = 'lafea-1-pressure-radius-refit';
+    action.title = `Sets the declared evaluation radii to ${refit.innerRadius}${unitSuffix} (bore) and ${refit.outerRadius}${unitSuffix} (outer surface).`;
+    notice.append(action);
+  }
+  if (refit.unaddressed.length) {
+    notice.append(element(root, 'p', null,
+      `${refit.unaddressed.length} further requested radius/radii sit outside the declared editable pair and must be corrected through the source document.`));
+  }
+  return notice;
 }
 
 function screeningLoadCustody(root, state, documentValue, projection, onApplyJson) {

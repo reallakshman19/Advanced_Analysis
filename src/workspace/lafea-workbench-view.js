@@ -474,7 +474,7 @@ export class LafeaWorkbenchView {
   analyticalToolbar(stageId, stage, emp1) {
     const toolbar = element(this.rootElement, 'div', 'lafea-workbench__toolbar');
     toolbar.dataset.role = 'emp1-action-bar';
-    const step = emp1StepForBackingStage(stageId);
+    const _step = emp1StepForBackingStage(stageId);
     const assessment = emp1.emp1AssessmentState;
     const next = assessment?.nextAction ?? {
       id: EMP1_ASSESSMENT_ACTIONS.RUN_COMPLETE_EXAMPLE,
@@ -636,6 +636,12 @@ export class LafeaWorkbenchView {
       return this.selectEmp1Task('SECTION_SCREENING');
     }
     if (actionId === EMP1_ASSESSMENT_ACTIONS.RUN_SECTION_CHECK) {
+      // Rebinds B to the current qualified A before running, because a section
+      // check against superseded load-transfer evidence can never become
+      // current. Falls back to a plain run for hosts without the handler.
+      if (typeof this.handlers.onRunEmp1SectionCheck === 'function') {
+        return this.handlers.onRunEmp1SectionCheck();
+      }
       this.handlers.onStage('LAFEA.2');
       return this.handlers.onRun();
     }

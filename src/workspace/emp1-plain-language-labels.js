@@ -84,8 +84,26 @@ const STATE_LABELS = Object.freeze({
     'Identify the attachment geometry before running the local check.',
   EMP1_WORKBENCH_LOAD_CASE_IDENTITY_REQUIRED: 'Select a load case before running the local check.',
   EMP1_WORKBENCH_PRESSURE_RESULT_IDENTITY_REQUIRED: 'Select a pressure result before running the local check.',
+  // Bounded WRC domain bounds the inputs missed. These reach the engineer when a
+  // run is refused, so each names the bound rather than the internal code.
+  EMP1_WRC537_BOUNDED_GAMMA:
+    'The shell parameter γ for these inputs is not the tabulated γ = 5 row this method is qualified for.',
+  EMP1_WRC537_BOUNDED_BETA:
+    'The attachment parameter β for these inputs is outside the qualified 0.05 to 0.50 band.',
+  EMP1_WRC537_BOUNDED_SHELL_FAMILY:
+    'Only a cylindrical host shell is qualified on this method.',
+  EMP1_WRC537_BOUNDED_ATTACHMENT_SHAPE:
+    'Only a round attachment is qualified on this method.',
+  EMP1_WRC537_BOUNDED_VARIANT:
+    'Only the Original curve variant is qualified on this method.',
+  EMP1_WRC537_BOUNDED_SOURCE_SHA:
+    'The retained WRC source document is not the one this method is qualified against.',
+  EMP1_WRC537_BOUNDED_DATASET_HASH:
+    'The retained WRC curve dataset is not the one this method is qualified against.',
+  EMP1_LOCAL_METHOD_SCOPED_RUNTIME_NON_TABULATED_GAMMA:
+    'γ for these inputs falls between tabulated source rows, and WRC 537 states no rule for interpolating it.',
   EMP1_WORKBENCH_LAFEA_1_REQUESTED_RADIUS_OUTSIDE_WALL:
-    'Pressure evaluation radii no longer fit inside the current pipe wall. Use Undo to restore the previous geometry, or import coordinated assessment data before calculating.',
+    'Pressure evaluation radii no longer fit inside the current pipe wall. Edit them under Loads, or use "Set radii to current wall" to place them on the bore and outer surface.',
   EMP1_WORKBENCH_ROUTE_AUTHORITY_CHANGED:
     'Method authority changed after the retained result; recalculate before relying on it.',
   EMP1_WORKBENCH_C_CURRENT_ROUTE_AUTHORITY_REQUIRED:
@@ -177,6 +195,15 @@ export function emp1PlainLanguageLabel(value) {
     return raw.split(COMPOSED_SEPARATOR)
       .map((part) => emp1PlainLanguageLabel(part.trim()))
       .join(COMPOSED_SEPARATOR);
+  }
+  // Runtime scope reasons qualify a governed reason with their own prefix, as in
+  // EMP1_LOCAL_METHOD_GAMMA5_RUNTIME_DOMAIN:EMP1_WRC537_BOUNDED_GAMMA. The bound
+  // that was missed is the part an engineer needs, so prefer its reviewed label.
+  const qualified = raw.indexOf(':');
+  if (qualified > 0) {
+    const detail = raw.slice(qualified + 1).trim();
+    const detailLabel = STATE_LABELS[detail] ?? SUMMARY_LABELS[detail];
+    if (detailLabel) return detailLabel;
   }
   return raw.replaceAll('_', ' ');
 }

@@ -9,7 +9,7 @@ const DIAGNOSTIC_CODE_PATTERN = /^[A-Z][A-Z0-9_.-]{2,127}$/u;
 const DEFAULT_PUBLIC_CODE = 'LAFEA_PUBLIC_FAILURE';
 const REVIEWED_PUBLIC_DIAGNOSTIC_MESSAGES = Object.freeze({
   EMP1_WORKBENCH_LAFEA_1_REQUESTED_RADIUS_OUTSIDE_WALL:
-    'Pressure evaluation radii no longer fit inside the current pipe wall. Use Undo to restore the previous geometry, or import coordinated assessment data before calculating.',
+    'Pressure evaluation radii no longer fit inside the current pipe wall. Edit them under Loads, or use "Set radii to current wall" to place them on the bore and outer surface.',
 });
 
 export function boundedLafeaDiagnosticCode(value, fallbackCode = DEFAULT_PUBLIC_CODE) {

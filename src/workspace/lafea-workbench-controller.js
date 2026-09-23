@@ -31,6 +31,11 @@ import {
   createEmp1WorkspaceEngineeringReview,
   projectEmp1EngineeringReviewWorkspace,
 } from './emp1-engineering-review-workspace.js';
+import {
+  classifyEmp1BSourceCustody,
+  EMP1_B_SOURCE_CUSTODY_STATES,
+  evaluateEmp1BSourceRefresh,
+} from '../core/emp1/emp1-a-to-b-refresh.js';
 import { publicLafeaFailure } from './lafea-public-failure.js';
 import { issueLafeaSourceAuthority } from './lafea-source-authority.js';
 import { LafeaWorkbenchView } from './lafea-workbench-view.js';
@@ -105,6 +110,7 @@ export class LafeaWorkbenchController {
       onLoadEmp1QualificationSample: () => this.loadEmp1QualificationSample(),
       onFile: (file) => this.loadFile(file),
       onRun: () => this.run(),
+      onRunEmp1SectionCheck: () => this.runEmp1SectionCheck(),
       onRunEmp1: () => this.runEmp1Product(),
       onEmp1RunInput: (value) => this.setEmp1RunInput(value),
       getEmp1EngineeringReviewWorkspace: () => this.getEmp1EngineeringReviewWorkspace(),
@@ -625,6 +631,50 @@ export class LafeaWorkbenchController {
   }
 
   run() { return this.store.run(); }
+
+  /**
+   * Run the nominal section check, rebinding EMP.1.B to the current qualified
+   * EMP.1.A result first when its retained evidence has been superseded.
+   *
+   * A section check cannot succeed against superseded load-transfer evidence,
+   * so without this the retained B result stays stale for good and the
+   * assessment can never return to current after an input edit. The rebind
+   * replaces only B's A-derived sourceEvidence through the governed refresh
+   * seam; B-owned screening cases, factors and evaluation locations are
+   * preserved and revalidated by that seam, and a blocked refresh runs nothing
+   * and reports its own blocker.
+   */
+  runEmp1SectionCheck() {
+    this.store.selectStage('LAFEA.2');
+    const state = this.getState();
+    const aStage = state?.stages?.['LAFEA.1'];
+    const bDocument = state?.stages?.['LAFEA.2']?.document;
+    const custodyContext = {
+      aDocument: aStage?.document,
+      aExecution: aStage?.execution,
+      bDocument,
+    };
+    const custody = classifyEmp1BSourceCustody(custodyContext);
+    if (custody.state === EMP1_B_SOURCE_CUSTODY_STATES.STALE_REFRESH_BLOCKED) {
+      return this.store.reportEditError(
+        'sourceEvidence',
+        null,
+        emp1BSourceRefreshBlocked(custody.blockerCode),
+      );
+    }
+    if (custody.canRefresh === true) {
+      const refreshed = evaluateEmp1BSourceRefresh(custodyContext);
+      if (refreshed.status !== 'READY') {
+        return this.store.reportEditError(
+          'sourceEvidence',
+          null,
+          emp1BSourceRefreshBlocked(refreshed.code),
+        );
+      }
+      this.store.replaceDocument(refreshed.document, 'EMP1_B_SOURCE_REFRESH');
+    }
+    return this.run();
+  }
   undo() { return this.store.undo(); }
   redo() { return this.store.redo(); }
   getState() { return this.store.getState(); }
@@ -662,4 +712,13 @@ export class LafeaWorkbenchController {
     destroyLafeaWorkbenchRenderEvidence(this);
     this.rootElement = null;
   }
+}
+function emp1BSourceRefreshBlocked(blockerCode) {
+  const error = new TypeError(
+    'EMP.1.B cannot rebind to the current qualified EMP.1.A result.',
+  );
+  error.code = typeof blockerCode === 'string' && blockerCode
+    ? blockerCode
+    : 'EMP1_B_SOURCE_REFRESH_BLOCKED';
+  return error;
 }

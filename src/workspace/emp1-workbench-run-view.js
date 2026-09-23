@@ -6,7 +6,12 @@ import {
   EMP1_WORKBENCH_CYLINDER_LENGTH_BASIS,
   EMP1_WORKBENCH_RUN_INPUT_SCHEMA,
 } from './emp1-workbench-run-state.js';
-import { buildEmp1ProfessionalResultPresentation } from './emp1-professional-result-presentation.js';
+import {
+  buildEmp1ProfessionalResultPresentation,
+  emp1StressDisplayNumber,
+  emp1UnitLabel,
+  governingEightPointStressIntensity,
+} from './emp1-professional-result-presentation.js';
 import { card, element } from './lafea-workbench-dom.js';
 import { emp1PlainLanguageLabel } from './emp1-plain-language-labels.js';
 
@@ -199,8 +204,41 @@ export function renderEmp1WorkbenchRunConfiguration(root, options = {}) {
         'Only the registered bounded runtime domain may execute. A successful run is not global WRC authority, code compliance, or release qualification.'),
     );
   }
+  const governing = renderEmp1GoverningResultHeadline(root, cState);
   panel.body.append(form, physicalBasis, canonical, apply, boundary);
+  if (governing) panel.body.insertBefore(governing, form);
   return panel.section;
+}
+
+/**
+ * Governing WRC result, stated on the step that produces it.
+ *
+ * The full eight-point table stays in the evidence console; what belongs beside
+ * the run is the answer an engineer came for. Rendered only from a current
+ * reportable result, so a stale or refused run shows nothing rather than a
+ * number that no longer holds.
+ */
+function renderEmp1GoverningResultHeadline(root, cState) {
+  const reportable = cState?.currentResultAvailable === true ? cState?.reportableResult : null;
+  const stresses = reportable?.stresses;
+  if (!Array.isArray(stresses?.stressIntensity)) return null;
+  const governing = governingEightPointStressIntensity(stresses.stressIntensity);
+  if (governing.state !== 'AVAILABLE') return null;
+  const unit = reportable?.numerics?.units?.stress;
+
+  const headline = element(root, 'div', 'lafea-workbench__authority');
+  headline.dataset.role = 'emp1-c-governing-result-headline';
+  headline.append(
+    element(root, 'strong', null, 'Governing WRC result'),
+    element(root, 'p', null,
+      `${governing.location} · stress intensity `
+      + `${emp1StressDisplayNumber(governing.stressIntensity)} `
+      + `${emp1UnitLabel(unit) ?? 'unit unresolved'}`),
+    element(root, 'p', null,
+      'Maximum over the eight evaluated WRC points only — not a continuous or global shell maximum. '
+      + 'A calculated local result does not establish code compliance or final-use approval.'),
+  );
+  return headline;
 }
 
 export function renderEmp1WorkbenchExecutionSummary(root, execution, currentness, cState = null) {
