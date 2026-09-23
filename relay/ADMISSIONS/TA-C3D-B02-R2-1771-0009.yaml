@@ -24,13 +24,17 @@
     "id": "EP-LAFEA3-C3D-B02-R2-1771-0009",
     "work_package": "WP-1771",
     "outcome": {
-      "statement": "Execute the merged B02A-E production qualification on exact current main after PR #1871, retain repository-visible raw execution evidence and deterministic replay, and establish whether C3-D.1 has any earlier owning boundary before the parked C3-D.5 B-bar mesh candidate is reconsidered."
+      "statement": "Execute the merged B02A-E production qualification on exact current main after PR #1871, retain repository-visible raw execution evidence, deterministic replay and explicit CURRENT_RESULT/lineage custody, and establish whether C3-D.1 has any earlier owning boundary before the parked C3-D.5 B-bar mesh candidate is reconsidered."
     },
     "basis": {
       "predecessor_checkpoint": null,
       "material_base": "74437c40669577926c9761cd6374f53d11178a69",
       "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
       "semantic_dependencies": [
+        {
+          "path": "scripts/lafea-b02-production-source-guard.mjs",
+          "reason": "Production-route/source-authority guard required by the reconciled R2 evidence contract."
+        },
         {
           "path": "scripts/lafea-b02-production-sequence-check.mjs",
           "reason": "Merged B02A-E production-sequence authority after PR #1871."
@@ -58,6 +62,7 @@
         "relay/EVIDENCE/C3D-B02-R2/**"
       ],
       "read": [
+        "scripts/lafea-b02-production-source-guard.mjs",
         "scripts/lafea-b02-production-sequence-check.mjs",
         "scripts/lafea-b02b-production-check.mjs",
         "scripts/lib/lafea-b02*.mjs",
@@ -81,6 +86,15 @@
       ]
     },
     "acceptance": [
+      {
+        "id": "AC-C3D-R2-0",
+        "statement": "The current B02 production source/authority guard passes on the exact material basis without source modification.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02-production-source-guard.mjs"
+          }
+        ]
+      },
       {
         "id": "AC-C3D-R2-1",
         "statement": "Both B02 validation runs execute on exact merged main material head 74437c40669577926c9761cd6374f53d11178a69 with clean product/source state and environment identity retained.",
@@ -128,6 +142,15 @@
             "oracle": "post-run git status and product/source diff"
           }
         ]
+      },
+      {
+        "id": "AC-C3D-R2-6",
+        "statement": "Numerical PASS is accepted for C3-D.1 only when the retained ordinary-route execution is independently inspectable as CURRENT_RESULT/currentAuthority with completed transaction and current recovery ancestry; otherwise R2 returns BLOCKED and routes specifically to the reconciled #1862 composition scope.",
+        "evidence_requirements": [
+          {
+            "oracle": "repository-visible currentness/lineage record retaining source/domain/geometry/mesh/profile/solver-config/execution/recovery identities plus transaction status/hash"
+          }
+        ]
       }
     ],
     "quality_policy": {
@@ -156,7 +179,7 @@
         "id": "OFFLOAD-C3D-B02-R2-LOCAL-0001",
         "status": "PLANNED",
         "agent_type": "LOCAL_AGENT",
-        "task": "Execute focused B02B once and aggregate B02 sequence twice on exact current-main material head; retain raw receipts and deterministic replay evidence without product/source changes.",
+        "task": "Execute the B02 production source guard once, focused B02B once and aggregate B02 sequence twice on exact current-main material head; retain raw receipts, deterministic replay and inspectable CURRENT_RESULT/lineage evidence without product/source changes.",
         "allowed_writes": [
           "relay/EVIDENCE/C3D-B02-R2/**"
         ],
@@ -165,7 +188,8 @@
           "raw stdout/stderr/exit/timestamp receipts",
           "two B02E receipts if aggregate PASS",
           "deterministic replay comparison",
-          "post-run clean-tree evidence"
+          "post-run clean-tree evidence",
+          "CURRENT_RESULT/currentAuthority and transaction/recovery lineage record"
         ],
         "trace_refs": [
           "GitHub PR #1871",
@@ -179,13 +203,14 @@
       "question_policy": "NONE"
     },
     "next": {
-      "first_action": "Use pinned V3.1 relay_tx.py to export a canonical VALIDATE_ONLY local execution request on exact current main, execute B02B once and the B02 production sequence twice, and retain repository-visible raw evidence under relay/EVIDENCE/C3D-B02-R2/**.",
+      "first_action": "Use pinned V3.1 relay_tx.py to export a canonical VALIDATE_ONLY local execution request on exact current main, execute the B02 production source guard once, B02B once and the B02 production sequence twice, and retain repository-visible raw/currentness evidence under relay/EVIDENCE/C3D-B02-R2/**.",
       "stop_conditions": [
         "Stop on HEAD_MISMATCH.",
         "Do not modify product/source files.",
         "Do not normalize a nonzero exit into PASS.",
         "Do not infer deterministic replay without two durable aggregate runs.",
-        "Do not resume or merge PR #1873 until R2 evidence and independent review disposition are complete."
+        "Do not resume or merge PR #1873 until R2 evidence and independent review disposition are complete.",
+        "If numerical commands pass but CURRENT_RESULT/lineage custody is not independently inspectable, return BLOCKED rather than PASS and route to #1862."
       ]
     }
   },
