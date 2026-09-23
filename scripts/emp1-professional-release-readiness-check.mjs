@@ -235,7 +235,7 @@ assert.equal(currentFrozenSnapshotMatchesBlockedState, true,
   'EMP1_RELEASE_READINESS_FROZEN_BLOCKED_SNAPSHOT_MUST_REMAIN_FAIL_CLOSED');
 
 const result = {
-  schema: 'emp1-professional-release-readiness-check/v1',
+  schema: 'emp1-professional-release-readiness-check/v2',
   status: prerequisitesReady
     ? 'PASS_RELEASE_PREREQUISITES_READY_FOR_EXACT_CANDIDATE_EXECUTION'
     : 'PASS_RELEASE_POLICY_FAIL_CLOSED_CURRENTLY_BLOCKED',
