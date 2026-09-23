@@ -1,0 +1,6701 @@
+{
+  "schema": "emp1-wrc537-gamma5-independent-handcalc-trace/v1",
+  "issue": 1772,
+  "parentIssue": 1760,
+  "basisMainSha": "74437c40669577926c9761cd6374f53d11178a69",
+  "status": "FROZEN_INDEPENDENT_H1_TRACE",
+  "authority": {
+    "engineeringValidationEvidence": true,
+    "productionAuthority": false,
+    "productionObservationUsed": false,
+    "productionImports": [],
+    "codeComplianceAuthority": false,
+    "releaseAuthority": false
+  },
+  "source": {
+    "wrcDocument": "WRC 537 (2013)",
+    "wrcRawPdfSha256": "698fcdc3e676e3bc6bbf710bc28ea8b666ac9511a81a0067a5d01088ae4c27b2",
+    "retainedTranscriptionPath": "docs/emp1/WRC537_2013_Tables_and_Charts.md",
+    "reviewedInterpretationPath": "validation/emp1/wrc537-2013/table5-reviewed-interpretation-v1.json",
+    "currentPhysicalOraclePath": "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+    "currentPhysicalOracleSemanticHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18",
+    "wrc02SourceSemanticsProfilePath": "validation/emp1/wrc537-2013/bounded-source-semantics-v1.json",
+    "wrc02SourceSemanticsProfileSemanticHash": "64a65852cd96216525b227d1d74fe5423278638627b3b3f94c0389285f2e84d0"
+  },
+  "casePrerequisiteEvidence": {
+    "classification": "SYNTHETIC_QUALIFICATION_FIXTURE_ONLY_NOT_REAL_ASSET_EVIDENCE",
+    "SAME_STATE_ASSESSMENT_GEOMETRY": "PASS_FIXTURE_EXPLICIT_RM_T_R0",
+    "STANDARD_ROUND_ATTACHMENT_CLASS": "PASS_FIXTURE_DECLARED_BOUNDED_ROUND",
+    "PHYSICAL_ATTACHMENT_AXIS_COINCIDENCE": "PASS_PHYSICAL_SOURCE_TO_TARGET_RADIAL_BASIS",
+    "ISOLATION_OR_NONINTERACTION_EVIDENCE": "PASS_FIXTURE_SINGLE_IDEALIZED_ATTACHMENT_BY_CONSTRUCTION",
+    "ORIGINAL_CYLINDRICAL_THEORY_APPLICABILITY_EVIDENCE": "PASS_FIXTURE_BOUNDED_ORIGINAL_THEORY_NO_EXTENSION_CLAIM"
+  },
+  "independentCase": {
+    "physicalBenchmark": {
+      "vesselLongitudinalPositiveGlobal": [
+        1,
+        0,
+        0
+      ],
+      "foundationRadialLineGlobal": [
+        0,
+        0,
+        1
+      ],
+      "sourcePointGlobal": [
+        0,
+        0,
+        1000
+      ],
+      "targetPointGlobal": [
+        0,
+        0,
+        0
+      ],
+      "forceAtSourceGlobal": [
+        -400,
+        250,
+        1000
+      ],
+      "momentAtSourceGlobal": [
+        -250000,
+        -200000,
+        700000
+      ]
+    },
+    "geometry": {
+      "meanRadius": 100,
+      "shellThickness": 20,
+      "attachmentRadius": 17.714285714285715,
+      "beta": 0.155,
+      "gamma": 5
+    },
+    "stressConcentration": {
+      "Kn": 1,
+      "Kb": 1
+    },
+    "applicability": {
+      "cylinderLength": 300,
+      "attachmentStationFromCylinderStart": 80,
+      "nearestCylinderEndDistance": 80
+    }
+  },
+  "independentStatics": {
+    "sourceFromTargetGlobal": [
+      0,
+      0,
+      1000
+    ],
+    "basisGlobal": {
+      "P": [
+        0,
+        0,
+        -1
+      ],
+      "Vc": [
+        0,
+        1,
+        0
+      ],
+      "Vl": [
+        1,
+        0,
+        0
+      ],
+      "Mc": [
+        -1,
+        0,
+        0
+      ],
+      "Ml": [
+        0,
+        1,
+        0
+      ],
+      "Mt": [
+        0,
+        0,
+        1
+      ]
+    },
+    "transferMomentGlobal": [
+      -250000,
+      -400000,
+      0
+    ],
+    "momentAtTargetGlobal": [
+      -500000,
+      -600000,
+      700000
+    ],
+    "wrcLoads": {
+      "P": -1000,
+      "Vc": 250,
+      "Vl": -400,
+      "Mc": 500000,
+      "Ml": -600000,
+      "Mt": 700000
+    }
+  },
+  "curveEvaluation": {
+    "4C": {
+      "figure": "4C",
+      "pdfPage": 147,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 1.071409,
+        "b": 15.777386,
+        "c": 17.904195,
+        "d": -24.523177,
+        "e": -45.034971,
+        "f": -18.674439,
+        "g": 12.509478,
+        "h": 0,
+        "i": 0,
+        "j": 0
+      },
+      "numerator": 2.8111777791122505,
+      "denominator": 2.7867842260438747,
+      "ordinate": 1.0087532980990799
+    },
+    "3C": {
+      "figure": "3C",
+      "pdfPage": 145,
+      "gamma": 5,
+      "sourceLayout": "COEFFICIENT_ROWS",
+      "coefficients": {
+        "a": 1.0668159,
+        "b": 7.9140838,
+        "c": 8.1102336,
+        "d": -11.292007,
+        "e": -17.945788,
+        "f": 25.026002,
+        "g": 29.977255,
+        "h": 30.439283,
+        "i": 0,
+        "j": 0
+      },
+      "numerator": 2.004386101763125,
+      "denominator": 2.066155797194902,
+      "ordinate": 0.9701040475671592
+    },
+    "2C-1": {
+      "figure": "2C-1",
+      "pdfPage": 141,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 3.8457667,
+        "b": 1530.5546,
+        "c": 434.28722,
+        "d": 4536.4275,
+        "e": -459.32432,
+        "f": 23779.797,
+        "g": 1097.6,
+        "h": -4328.1845,
+        "i": -843.62475,
+        "j": 1460.5436
+      },
+      "numerator": 63.72540347903452,
+      "denominator": 433.40906357756745,
+      "ordinate": 0.14703292762964923
+    },
+    "1C": {
+      "figure": "1C",
+      "pdfPage": 129,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 0.4592041,
+        "b": 5.501912,
+        "c": -3.259902,
+        "d": -88.56513,
+        "e": 9.505973,
+        "f": 412.1731,
+        "g": -13.37553,
+        "h": -913.9013,
+        "i": 19.31395,
+        "j": 1179.999
+      },
+      "numerator": 0.14363951355746873,
+      "denominator": 0.8379657178105905,
+      "ordinate": 0.171414546567329
+    },
+    "3A": {
+      "figure": "3A",
+      "pdfPage": 101,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": -0.0056666507,
+        "b": -15.956787,
+        "c": 0.56089337,
+        "d": 168.83125,
+        "e": -10.083584,
+        "f": -274.26633,
+        "g": 103.11156,
+        "h": 293.00017,
+        "i": -121.51112,
+        "j": -237.681
+      },
+      "numerator": 0.15285198213654994,
+      "denominator": 1.70939075649901,
+      "ordinate": 0.08941898249736935
+    },
+    "1A": {
+      "figure": "1A",
+      "pdfPage": 95,
+      "gamma": 5,
+      "sourceLayout": "COEFFICIENT_ROWS",
+      "coefficients": {
+        "a": 0.11311378,
+        "b": -5.2677559,
+        "c": -0.70077182,
+        "d": 32.197618,
+        "e": 5.0076344,
+        "f": -239.96888,
+        "g": -37.157352,
+        "h": 434.74384,
+        "i": 91.22496,
+        "j": 637.19594
+      },
+      "numerator": 0.03908833410859999,
+      "denominator": 0.3713733447992965,
+      "ordinate": 0.10525347243142809
+    },
+    "3B": {
+      "figure": "3B",
+      "pdfPage": 123,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": -0.0018046414,
+        "b": -13.0478,
+        "c": 0.53911241,
+        "d": 211.9737,
+        "e": 10.299271,
+        "f": -561.20828,
+        "g": 44.587655,
+        "h": 1515.4956,
+        "i": 772.49267,
+        "j": 653.54766
+      },
+      "numerator": 0.9411198736200437,
+      "denominator": 2.913605024581741,
+      "ordinate": 0.3230087351167803
+    },
+    "1B": {
+      "figure": "1B",
+      "pdfPage": 107,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 0.067346729,
+        "b": -10.304106,
+        "c": -0.67080602,
+        "d": 39.66208,
+        "e": 1.9691496,
+        "f": -100.28727,
+        "g": -1.1519814,
+        "h": 231.45574,
+        "i": -0.80407474,
+        "j": -213.43726
+      },
+      "numerator": 0.0059266678616002825,
+      "denominator": 0.09678878363669294,
+      "ordinate": 0.06123300282237935
+    },
+    "1C-1": {
+      "figure": "1C-1",
+      "pdfPage": 133,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 0.4517367,
+        "b": 5.192574,
+        "c": -2.715021,
+        "d": -72.48822,
+        "e": 1.804063,
+        "f": 158.6297,
+        "g": 12.42687,
+        "h": 0.7063613,
+        "i": -12.51545,
+        "j": 0
+      },
+      "numerator": 0.1133032435340937,
+      "denominator": 0.6544443707713357,
+      "ordinate": 0.17312891453333643
+    },
+    "2C": {
+      "figure": "2C",
+      "pdfPage": 137,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 0.49934005,
+        "b": 17.182868,
+        "c": -3.1202047,
+        "d": 49.074278,
+        "e": 117.07317,
+        "f": 3389.3099,
+        "g": -127.34137,
+        "h": -1962.4048,
+        "i": 49.848113,
+        "j": 1708.9602
+      },
+      "numerator": 2.382960248519921,
+      "denominator": 16.483913194558216,
+      "ordinate": 0.14456277586481106
+    },
+    "4A": {
+      "figure": "4A",
+      "pdfPage": 105,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": -0.00089588077,
+        "b": -10.45797,
+        "c": 0.25061533,
+        "d": 43.031174,
+        "e": 1.1824023,
+        "f": -52.395915,
+        "g": -27.046982,
+        "h": 176.96115,
+        "i": 126.91723,
+        "j": -40.34631
+      },
+      "numerator": 0.03889383502151876,
+      "denominator": 0.31625522688108515,
+      "ordinate": 0.12298242595099684
+    },
+    "2A": {
+      "figure": "2A",
+      "pdfPage": 97,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 0.065550596,
+        "b": -25.993561,
+        "c": -1.7174177,
+        "d": 252.43438,
+        "e": 17.115228,
+        "f": 98.640306,
+        "g": 4.4305416,
+        "h": 249.44027,
+        "i": -8.5471064,
+        "j": -286.10241
+      },
+      "numerator": 0.22210959314467849,
+      "denominator": 3.5214388078206875,
+      "ordinate": 0.06307353478680365
+    },
+    "4B": {
+      "figure": "4B",
+      "pdfPage": 125,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": -0.00055763002,
+        "b": -2.5513106,
+        "c": 0.17792496,
+        "d": -8.8518243,
+        "e": 3.4643013,
+        "f": 38.32436,
+        "g": -24.467893,
+        "h": -98.29638,
+        "i": 38.081772,
+        "j": 162.46706
+      },
+      "numerator": 0.041116025066632506,
+      "denominator": 0.492395466045219,
+      "ordinate": 0.08350203830442383
+    },
+    "2B": {
+      "figure": "2B",
+      "pdfPage": 115,
+      "gamma": 5,
+      "sourceLayout": "GAMMA_ROW",
+      "coefficients": {
+        "a": 0.11658576,
+        "b": -25.051939,
+        "c": -3.0454599,
+        "d": 208.54791,
+        "e": 27.530607,
+        "f": -62.560941,
+        "g": -30.750024,
+        "h": 236.36494,
+        "i": 4.6958098,
+        "j": -394.51083
+      },
+      "numerator": 0.1941634874034412,
+      "denominator": 1.9954785155446957,
+      "ordinate": 0.09730171780398315
+    }
+  },
+  "stressScale": {
+    "pMem": 0.5,
+    "pBend": 15,
+    "mcMem": 16.129032258064516,
+    "mcBend": 483.8709677419355,
+    "mlMem": 19.35483870967742,
+    "mlBend": 580.6451612903226,
+    "vcShear": 0.2246138309764652,
+    "vlShear": 0.3593821295623443,
+    "mtShear": 17.751738254591604
+  },
+  "components": {
+    "circumferential": {
+      "Pmem": [
+        0.5043766490495399,
+        0.5043766490495399,
+        0.5043766490495399,
+        0.5043766490495399,
+        0.4850520237835796,
+        0.4850520237835796,
+        0.4850520237835796,
+        0.4850520237835796
+      ],
+      "Pbend": [
+        2.2054939144447383,
+        -2.2054939144447383,
+        2.2054939144447383,
+        -2.2054939144447383,
+        2.5712181985099347,
+        -2.5712181985099347,
+        2.5712181985099347,
+        -2.5712181985099347
+      ],
+      "Mcmem": [
+        0,
+        0,
+        0,
+        0,
+        -1.4422416531833766,
+        -1.4422416531833766,
+        1.4422416531833766,
+        1.4422416531833766
+      ],
+      "Mcbend": [
+        0,
+        0,
+        0,
+        0,
+        -50.929099563594235,
+        50.929099563594235,
+        50.929099563594235,
+        -50.929099563594235
+      ],
+      "Mlmem": [
+        6.2517819700022,
+        6.2517819700022,
+        -6.2517819700022,
+        -6.2517819700022,
+        0,
+        0,
+        0,
+        0
+      ],
+      "Mlbend": [
+        35.554646800091234,
+        -35.554646800091234,
+        -35.554646800091234,
+        35.554646800091234,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "longitudinal": {
+      "Pmem": [
+        0.4850520237835796,
+        0.4850520237835796,
+        0.4850520237835796,
+        0.4850520237835796,
+        0.5043766490495399,
+        0.5043766490495399,
+        0.5043766490495399,
+        0.5043766490495399
+      ],
+      "Pbend": [
+        2.5969337180000465,
+        -2.5969337180000465,
+        2.5969337180000465,
+        -2.5969337180000465,
+        2.168441637972166,
+        -2.168441637972166,
+        2.168441637972166,
+        -2.168441637972166
+      ],
+      "Mcmem": [
+        0,
+        0,
+        0,
+        0,
+        -1.9835875153386588,
+        -1.9835875153386588,
+        1.9835875153386588,
+        1.9835875153386588
+      ],
+      "Mcbend": [
+        0,
+        0,
+        0,
+        0,
+        -30.519452316195316,
+        30.519452316195316,
+        30.519452316195316,
+        -30.519452316195316
+      ],
+      "Mlmem": [
+        1.6161684833114291,
+        1.6161684833114291,
+        -1.6161684833114291,
+        -1.6161684833114291,
+        0,
+        0,
+        0,
+        0
+      ],
+      "Mlbend": [
+        56.497771628119246,
+        -56.497771628119246,
+        -56.497771628119246,
+        56.497771628119246,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "shear": {
+      "Vc": [
+        0.2246138309764652,
+        0.2246138309764652,
+        -0.2246138309764652,
+        -0.2246138309764652,
+        0,
+        0,
+        0,
+        0
+      ],
+      "Vl": [
+        0,
+        0,
+        0,
+        0,
+        0.3593821295623443,
+        0.3593821295623443,
+        -0.3593821295623443,
+        -0.3593821295623443
+      ],
+      "Mt": [
+        17.751738254591604,
+        17.751738254591604,
+        17.751738254591604,
+        17.751738254591604,
+        17.751738254591604,
+        17.751738254591604,
+        17.751738254591604,
+        17.751738254591604
+      ]
+    }
+  },
+  "totals": {
+    "circumferential": [
+      44.51629933358771,
+      -31.003982095484233,
+      -39.096558206599155,
+      27.601747564693838,
+      -49.315070994484095,
+      47.400691735684504,
+      55.42761143907113,
+      -51.57302408513721
+    ],
+    "longitudinal": [
+      61.1959258532143,
+      -56.99348483902428,
+      -55.031954369647046,
+      52.76972145059135,
+      -29.83022154451227,
+      26.871799811934032,
+      35.17585811855568,
+      -30.199929789779283
+    ],
+    "shear": [
+      17.97635208556807,
+      17.97635208556807,
+      17.52712442361514,
+      17.52712442361514,
+      18.11112038415395,
+      18.11112038415395,
+      17.39235612502926,
+      17.39235612502926
+    ],
+    "stressIntensity": [
+      72.67281563686576,
+      66.1800949565413,
+      66.31741974972616,
+      61.76250020459521,
+      60.13784797265036,
+      57.95382326192188,
+      65.42702806161043,
+      61.299618330183876
+    ]
+  },
+  "governingEvaluatedPoint": {
+    "location": "Au",
+    "stressIntensity": 72.67281563686576,
+    "unit": "N/mm^2",
+    "evaluatedLocationCount": 8,
+    "continuousSearchPerformed": false,
+    "globalMaximumClaim": false
+  },
+  "traceRows": [
+    {
+      "stepId": "H1-001",
+      "category": "UNIT_NORMALIZATION",
+      "sourceLocator": "QUALIFICATION_CASE_INPUT",
+      "formulaOrFigureId": "SI_MM_N_NMM",
+      "inputs": {
+        "length": "mm",
+        "force": "N",
+        "moment": "N.mm",
+        "stress": "N/mm^2"
+      },
+      "intermediate": null,
+      "output": {
+        "state": "PASS_NO_UNIT_CONVERSION_REQUIRED"
+      },
+      "physicalLocationSurface": "CASE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-002",
+      "category": "REFERENCE_TRANSLATION",
+      "sourceLocator": "MECHANICS_R_CROSS_F",
+      "formulaOrFigureId": "M_target=M_source+(r_source-r_target)xF",
+      "inputs": {
+        "sourcePointGlobal": [
+          0,
+          0,
+          1000
+        ],
+        "targetPointGlobal": [
+          0,
+          0,
+          0
+        ],
+        "force": [
+          -400,
+          250,
+          1000
+        ],
+        "momentAtSource": [
+          -250000,
+          -200000,
+          700000
+        ]
+      },
+      "intermediate": {
+        "sourceFromTargetGlobal": [
+          0,
+          0,
+          1000
+        ],
+        "transferMomentGlobal": [
+          -250000,
+          -400000,
+          0
+        ]
+      },
+      "output": {
+        "momentAtTargetGlobal": [
+          -500000,
+          -600000,
+          700000
+        ],
+        "unit": "N.mm"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-003",
+      "category": "WRC_LOAD_MAPPING",
+      "sourceLocator": "WRC537_2013/Figure2+Table4+Table5",
+      "formulaOrFigureId": "P",
+      "inputs": {
+        "globalBasis": [
+          0,
+          0,
+          -1
+        ],
+        "sourceVector": [
+          -400,
+          250,
+          1000
+        ]
+      },
+      "intermediate": {
+        "projection": "DOT_PRODUCT_ON_SOURCE_REVIEWED_WRC_BASIS"
+      },
+      "output": {
+        "value": -1000,
+        "unit": "N"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-004",
+      "category": "WRC_LOAD_MAPPING",
+      "sourceLocator": "WRC537_2013/Figure2+Table4+Table5",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "globalBasis": [
+          0,
+          1,
+          0
+        ],
+        "sourceVector": [
+          -400,
+          250,
+          1000
+        ]
+      },
+      "intermediate": {
+        "projection": "DOT_PRODUCT_ON_SOURCE_REVIEWED_WRC_BASIS"
+      },
+      "output": {
+        "value": 250,
+        "unit": "N"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-005",
+      "category": "WRC_LOAD_MAPPING",
+      "sourceLocator": "WRC537_2013/Figure2+Table4+Table5",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "globalBasis": [
+          1,
+          0,
+          0
+        ],
+        "sourceVector": [
+          -400,
+          250,
+          1000
+        ]
+      },
+      "intermediate": {
+        "projection": "DOT_PRODUCT_ON_SOURCE_REVIEWED_WRC_BASIS"
+      },
+      "output": {
+        "value": -400,
+        "unit": "N"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-006",
+      "category": "WRC_LOAD_MAPPING",
+      "sourceLocator": "WRC537_2013/Figure2+Table4+Table5",
+      "formulaOrFigureId": "Mc",
+      "inputs": {
+        "globalBasis": [
+          -1,
+          0,
+          0
+        ],
+        "sourceVector": [
+          -500000,
+          -600000,
+          700000
+        ]
+      },
+      "intermediate": {
+        "projection": "DOT_PRODUCT_ON_SOURCE_REVIEWED_WRC_BASIS"
+      },
+      "output": {
+        "value": 500000,
+        "unit": "N.mm"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-007",
+      "category": "WRC_LOAD_MAPPING",
+      "sourceLocator": "WRC537_2013/Figure2+Table4+Table5",
+      "formulaOrFigureId": "Ml",
+      "inputs": {
+        "globalBasis": [
+          0,
+          1,
+          0
+        ],
+        "sourceVector": [
+          -500000,
+          -600000,
+          700000
+        ]
+      },
+      "intermediate": {
+        "projection": "DOT_PRODUCT_ON_SOURCE_REVIEWED_WRC_BASIS"
+      },
+      "output": {
+        "value": -600000,
+        "unit": "N.mm"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-008",
+      "category": "WRC_LOAD_MAPPING",
+      "sourceLocator": "WRC537_2013/Figure2+Table4+Table5",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "globalBasis": [
+          0,
+          0,
+          1
+        ],
+        "sourceVector": [
+          -500000,
+          -600000,
+          700000
+        ]
+      },
+      "intermediate": {
+        "projection": "DOT_PRODUCT_ON_SOURCE_REVIEWED_WRC_BASIS"
+      },
+      "output": {
+        "value": 700000,
+        "unit": "N.mm"
+      },
+      "physicalLocationSurface": "WRC_ATTACHMENT_REFERENCE",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-009",
+      "category": "GEOMETRY",
+      "sourceLocator": "WRC537_2013/Section4.2.1/Eq25",
+      "formulaOrFigureId": "gamma=Rm/T",
+      "inputs": {
+        "Rm": 100,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 5,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "HOST_SHELL",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-010",
+      "category": "GEOMETRY",
+      "sourceLocator": "WRC537_2013/Section4.2.2.1/Eq26",
+      "formulaOrFigureId": "beta=0.875*r0/Rm",
+      "inputs": {
+        "r0": 17.714285714285715,
+        "Rm": 100
+      },
+      "intermediate": null,
+      "output": {
+        "value": 0.155,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "ATTACHMENT_SHELL_JUNCTURE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-011",
+      "category": "APPLICABILITY",
+      "sourceLocator": "WRC537_2013/Section4.5.1",
+      "formulaOrFigureId": "L/Rm",
+      "inputs": {
+        "Rm": 100,
+        "applicability": {
+          "cylinderLength": 300,
+          "attachmentStationFromCylinderStart": 80,
+          "nearestCylinderEndDistance": 80
+        }
+      },
+      "intermediate": {
+        "minimum": 1
+      },
+      "output": {
+        "value": 3,
+        "state": "PASS"
+      },
+      "physicalLocationSurface": "QUALIFICATION_CASE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-012",
+      "category": "APPLICABILITY",
+      "sourceLocator": "WRC537_2013/Section4.5.2",
+      "formulaOrFigureId": "nearestEndDistance/Rm",
+      "inputs": {
+        "Rm": 100,
+        "applicability": {
+          "cylinderLength": 300,
+          "attachmentStationFromCylinderStart": 80,
+          "nearestCylinderEndDistance": 80
+        }
+      },
+      "intermediate": {
+        "minimum": 0.5
+      },
+      "output": {
+        "value": 0.8,
+        "state": "PASS"
+      },
+      "physicalLocationSurface": "QUALIFICATION_CASE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-013",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure4C/PDF147",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 1.071409,
+          "b": 15.777386,
+          "c": 17.904195,
+          "d": -24.523177,
+          "e": -45.034971,
+          "f": -18.674439,
+          "g": 12.509478,
+          "h": 0,
+          "i": 0,
+          "j": 0
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 2.8111777791122505,
+        "denominator": 2.7867842260438747
+      },
+      "output": {
+        "value": 1.0087532980990799,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-014",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure3C/PDF145",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 1.0668159,
+          "b": 7.9140838,
+          "c": 8.1102336,
+          "d": -11.292007,
+          "e": -17.945788,
+          "f": 25.026002,
+          "g": 29.977255,
+          "h": 30.439283,
+          "i": 0,
+          "j": 0
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "COEFFICIENT_ROWS",
+        "numerator": 2.004386101763125,
+        "denominator": 2.066155797194902
+      },
+      "output": {
+        "value": 0.9701040475671592,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-015",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure2C-1/PDF141",
+      "formulaOrFigureId": "2C-1",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 3.8457667,
+          "b": 1530.5546,
+          "c": 434.28722,
+          "d": 4536.4275,
+          "e": -459.32432,
+          "f": 23779.797,
+          "g": 1097.6,
+          "h": -4328.1845,
+          "i": -843.62475,
+          "j": 1460.5436
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 63.72540347903452,
+        "denominator": 433.40906357756745
+      },
+      "output": {
+        "value": 0.14703292762964923,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-016",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure1C/PDF129",
+      "formulaOrFigureId": "1C",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.4592041,
+          "b": 5.501912,
+          "c": -3.259902,
+          "d": -88.56513,
+          "e": 9.505973,
+          "f": 412.1731,
+          "g": -13.37553,
+          "h": -913.9013,
+          "i": 19.31395,
+          "j": 1179.999
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.14363951355746873,
+        "denominator": 0.8379657178105905
+      },
+      "output": {
+        "value": 0.171414546567329,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-017",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure3A/PDF101",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": -0.0056666507,
+          "b": -15.956787,
+          "c": 0.56089337,
+          "d": 168.83125,
+          "e": -10.083584,
+          "f": -274.26633,
+          "g": 103.11156,
+          "h": 293.00017,
+          "i": -121.51112,
+          "j": -237.681
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.15285198213654994,
+        "denominator": 1.70939075649901
+      },
+      "output": {
+        "value": 0.08941898249736935,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-018",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure1A/PDF95",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.11311378,
+          "b": -5.2677559,
+          "c": -0.70077182,
+          "d": 32.197618,
+          "e": 5.0076344,
+          "f": -239.96888,
+          "g": -37.157352,
+          "h": 434.74384,
+          "i": 91.22496,
+          "j": 637.19594
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "COEFFICIENT_ROWS",
+        "numerator": 0.03908833410859999,
+        "denominator": 0.3713733447992965
+      },
+      "output": {
+        "value": 0.10525347243142809,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-019",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure3B/PDF123",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": -0.0018046414,
+          "b": -13.0478,
+          "c": 0.53911241,
+          "d": 211.9737,
+          "e": 10.299271,
+          "f": -561.20828,
+          "g": 44.587655,
+          "h": 1515.4956,
+          "i": 772.49267,
+          "j": 653.54766
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.9411198736200437,
+        "denominator": 2.913605024581741
+      },
+      "output": {
+        "value": 0.3230087351167803,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-020",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure1B/PDF107",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.067346729,
+          "b": -10.304106,
+          "c": -0.67080602,
+          "d": 39.66208,
+          "e": 1.9691496,
+          "f": -100.28727,
+          "g": -1.1519814,
+          "h": 231.45574,
+          "i": -0.80407474,
+          "j": -213.43726
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.0059266678616002825,
+        "denominator": 0.09678878363669294
+      },
+      "output": {
+        "value": 0.06123300282237935,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-021",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure1C-1/PDF133",
+      "formulaOrFigureId": "1C-1",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.4517367,
+          "b": 5.192574,
+          "c": -2.715021,
+          "d": -72.48822,
+          "e": 1.804063,
+          "f": 158.6297,
+          "g": 12.42687,
+          "h": 0.7063613,
+          "i": -12.51545,
+          "j": 0
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.1133032435340937,
+        "denominator": 0.6544443707713357
+      },
+      "output": {
+        "value": 0.17312891453333643,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-022",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure2C/PDF137",
+      "formulaOrFigureId": "2C",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.49934005,
+          "b": 17.182868,
+          "c": -3.1202047,
+          "d": 49.074278,
+          "e": 117.07317,
+          "f": 3389.3099,
+          "g": -127.34137,
+          "h": -1962.4048,
+          "i": 49.848113,
+          "j": 1708.9602
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 2.382960248519921,
+        "denominator": 16.483913194558216
+      },
+      "output": {
+        "value": 0.14456277586481106,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-023",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure4A/PDF105",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": -0.00089588077,
+          "b": -10.45797,
+          "c": 0.25061533,
+          "d": 43.031174,
+          "e": 1.1824023,
+          "f": -52.395915,
+          "g": -27.046982,
+          "h": 176.96115,
+          "i": 126.91723,
+          "j": -40.34631
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.03889383502151876,
+        "denominator": 0.31625522688108515
+      },
+      "output": {
+        "value": 0.12298242595099684,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-024",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure2A/PDF97",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.065550596,
+          "b": -25.993561,
+          "c": -1.7174177,
+          "d": 252.43438,
+          "e": 17.115228,
+          "f": 98.640306,
+          "g": 4.4305416,
+          "h": 249.44027,
+          "i": -8.5471064,
+          "j": -286.10241
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.22210959314467849,
+        "denominator": 3.5214388078206875
+      },
+      "output": {
+        "value": 0.06307353478680365,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-025",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure4B/PDF125",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": -0.00055763002,
+          "b": -2.5513106,
+          "c": 0.17792496,
+          "d": -8.8518243,
+          "e": 3.4643013,
+          "f": 38.32436,
+          "g": -24.467893,
+          "h": -98.29638,
+          "i": 38.081772,
+          "j": 162.46706
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.041116025066632506,
+        "denominator": 0.492395466045219
+      },
+      "output": {
+        "value": 0.08350203830442383,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-026",
+      "category": "CURVE_EVALUATION",
+      "sourceLocator": "WRC537_2013/Figure2B/PDF115",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "gamma": 5,
+        "beta": 0.155,
+        "coefficients": {
+          "a": 0.11658576,
+          "b": -25.051939,
+          "c": -3.0454599,
+          "d": 208.54791,
+          "e": 27.530607,
+          "f": -62.560941,
+          "g": -30.750024,
+          "h": 236.36494,
+          "i": 4.6958098,
+          "j": -394.51083
+        }
+      },
+      "intermediate": {
+        "sourceLayout": "GAMMA_ROW",
+        "numerator": 0.1941634874034412,
+        "denominator": 1.9954785155446957
+      },
+      "output": {
+        "value": 0.09730171780398315,
+        "unit": "dimensionless"
+      },
+      "physicalLocationSurface": "TABLE5_CURVE",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-027",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "|P|*Kn/(Rm*T)",
+      "inputs": {
+        "P": -1000,
+        "Kn": 1,
+        "Rm": 100,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 0.5,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-028",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "6*|P|*Kb/T^2",
+      "inputs": {
+        "P": -1000,
+        "Kb": 1,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 15,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-029",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "|Mc|*Kn/(Rm^2*beta*T)",
+      "inputs": {
+        "Mc": 500000,
+        "Kn": 1,
+        "Rm": 100,
+        "beta": 0.155,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 16.129032258064516,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-030",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "6*|Mc|*Kb/(Rm*beta*T^2)",
+      "inputs": {
+        "Mc": 500000,
+        "Kb": 1,
+        "Rm": 100,
+        "beta": 0.155,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 483.8709677419355,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-031",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "|Ml|*Kn/(Rm^2*beta*T)",
+      "inputs": {
+        "Ml": -600000,
+        "Kn": 1,
+        "Rm": 100,
+        "beta": 0.155,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 19.35483870967742,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-032",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "6*|Ml|*Kb/(Rm*beta*T^2)",
+      "inputs": {
+        "Ml": -600000,
+        "Kb": 1,
+        "Rm": 100,
+        "beta": 0.155,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 580.6451612903226,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-033",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "|Vc|/(pi*r0*T)",
+      "inputs": {
+        "Vc": 250,
+        "r0": 17.714285714285715,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 0.2246138309764652,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-034",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "|Vl|/(pi*r0*T)",
+      "inputs": {
+        "Vl": -400,
+        "r0": 17.714285714285715,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 0.3593821295623443,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-035",
+      "category": "STRESS_SCALE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "|Mt|/(2*pi*r0^2*T)",
+      "inputs": {
+        "Mt": 700000,
+        "r0": 17.714285714285715,
+        "T": 20
+      },
+      "intermediate": null,
+      "output": {
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "ALL_TABLE5_LOCATIONS",
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-036",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-037",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-038",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-039",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-040",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-041",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-042",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-043",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-044",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C-1",
+      "formulaOrFigureId": "2C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14703292762964923
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": 2.2054939144447383,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-045",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C-1",
+      "formulaOrFigureId": "2C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14703292762964923
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": -2.2054939144447383,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-046",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C-1",
+      "formulaOrFigureId": "2C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14703292762964923
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": 2.2054939144447383,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-047",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C-1",
+      "formulaOrFigureId": "2C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14703292762964923
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": -2.2054939144447383,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-048",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C",
+      "formulaOrFigureId": "1C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.171414546567329
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": 2.5712181985099347,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-049",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C",
+      "formulaOrFigureId": "1C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.171414546567329
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": -2.5712181985099347,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-050",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C",
+      "formulaOrFigureId": "1C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.171414546567329
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": 2.5712181985099347,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-051",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C",
+      "formulaOrFigureId": "1C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.171414546567329
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Pbend",
+        "value": -2.5712181985099347,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-052",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-053",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-054",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-055",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-056",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": -1.4422416531833766,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-057",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": -1.4422416531833766,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-058",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": 1.4422416531833766,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-059",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3A",
+      "formulaOrFigureId": "3A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08941898249736935
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcmem",
+        "value": 1.4422416531833766,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-060",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-061",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-062",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-063",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-064",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": -50.929099563594235,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-065",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": 50.929099563594235,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-066",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": 50.929099563594235,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-067",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1A",
+      "formulaOrFigureId": "1A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.10525347243142809
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mcbend",
+        "value": -50.929099563594235,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-068",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": 6.2517819700022,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-069",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": 6.2517819700022,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-070",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": -6.2517819700022,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-071",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": -6.2517819700022,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-072",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-073",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-074",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-075",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3B",
+      "formulaOrFigureId": "3B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.3230087351167803
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-076",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": 35.554646800091234,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-077",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": -35.554646800091234,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-078",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": -35.554646800091234,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-079",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": 35.554646800091234,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-080",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-081",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-082",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-083",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1B",
+      "formulaOrFigureId": "1B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06123300282237935
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "circumferential",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-084",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-085",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-086",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-087",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure3C",
+      "formulaOrFigureId": "3C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.9701040475671592
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.4850520237835796,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-088",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-089",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-090",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-091",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4C",
+      "formulaOrFigureId": "4C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pMem",
+          "value": 0.5,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 1.0087532980990799
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pmem",
+        "value": 0.5043766490495399,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-092",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C-1",
+      "formulaOrFigureId": "1C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.17312891453333643
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": 2.5969337180000465,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-093",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C-1",
+      "formulaOrFigureId": "1C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.17312891453333643
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": -2.5969337180000465,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-094",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C-1",
+      "formulaOrFigureId": "1C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.17312891453333643
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": 2.5969337180000465,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-095",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure1C-1",
+      "formulaOrFigureId": "1C-1",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.17312891453333643
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": -2.5969337180000465,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-096",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C",
+      "formulaOrFigureId": "2C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14456277586481106
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": 2.168441637972166,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-097",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C",
+      "formulaOrFigureId": "2C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14456277586481106
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": -2.168441637972166,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-098",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C",
+      "formulaOrFigureId": "2C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14456277586481106
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": 2.168441637972166,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-099",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2C",
+      "formulaOrFigureId": "2C",
+      "inputs": {
+        "load": {
+          "name": "P",
+          "value": -1000,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "pBend",
+          "value": 15,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.14456277586481106
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Pbend",
+        "value": -2.168441637972166,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-100",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-101",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-102",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-103",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-104",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": -1.9835875153386588,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-105",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": -1.9835875153386588,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-106",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": 1.9835875153386588,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-107",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4A",
+      "formulaOrFigureId": "4A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcMem",
+          "value": 16.129032258064516,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.12298242595099684
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcmem",
+        "value": 1.9835875153386588,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-108",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-109",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-110",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-111",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-112",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": -30.519452316195316,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-113",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": 30.519452316195316,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-114",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": 30.519452316195316,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-115",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2A",
+      "formulaOrFigureId": "2A",
+      "inputs": {
+        "load": {
+          "name": "Mc",
+          "value": 500000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mcBend",
+          "value": 483.8709677419355,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.06307353478680365
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mcbend",
+        "value": -30.519452316195316,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-116",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": 1.6161684833114291,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-117",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": 1.6161684833114291,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-118",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": -1.6161684833114291,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-119",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": -1.6161684833114291,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-120",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-121",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-122",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-123",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure4B",
+      "formulaOrFigureId": "4B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlMem",
+          "value": 19.35483870967742,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.08350203830442383
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlmem",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-124",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": 56.497771628119246,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-125",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": -56.497771628119246,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-126",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": -56.497771628119246,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-127",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": 56.497771628119246,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-128",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-129",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-130",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-131",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Table5+Figure2B",
+      "formulaOrFigureId": "2B",
+      "inputs": {
+        "load": {
+          "name": "Ml",
+          "value": -600000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mlBend",
+          "value": 580.6451612903226,
+          "unit": "N/mm^2"
+        },
+        "ordinate": 0.09730171780398315
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "longitudinal",
+        "component": "Mlbend",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-132",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": 0.2246138309764652,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-133",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": 0.2246138309764652,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-134",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": -0.2246138309764652,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-135",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": -0.2246138309764652,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-136",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-137",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-138",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-139",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vc",
+      "inputs": {
+        "load": {
+          "name": "Vc",
+          "value": 250,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vcShear",
+          "value": 0.2246138309764652,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vc",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-140",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-141",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-142",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-143",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 0,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": 0,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-144",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": 0.3593821295623443,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-145",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": -1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": 0.3593821295623443,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-146",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": -0.3593821295623443,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-147",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.5/Eq48-49",
+      "formulaOrFigureId": "Vl",
+      "inputs": {
+        "load": {
+          "name": "Vl",
+          "value": -400,
+          "unit": "N"
+        },
+        "scale": {
+          "name": "vlShear",
+          "value": 0.3593821295623443,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": -1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Vl",
+        "value": -0.3593821295623443,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-148",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-149",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-150",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-151",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-152",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-153",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-154",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-155",
+      "category": "SIGNED_STRESS_COMPONENT",
+      "sourceLocator": "WRC537_2013/Section4.3.4/Eq47",
+      "formulaOrFigureId": "Mt",
+      "inputs": {
+        "load": {
+          "name": "Mt",
+          "value": 700000,
+          "unit": "N.mm"
+        },
+        "scale": {
+          "name": "mtShear",
+          "value": 17.751738254591604,
+          "unit": "N/mm^2"
+        }
+      },
+      "intermediate": {
+        "sourceSign": 1,
+        "loadDirection": 1
+      },
+      "output": {
+        "family": "shear",
+        "component": "Mt",
+        "value": 17.751738254591604,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-156",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": 2.2054939144447383,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": 6.2517819700022,
+          "Mlbend": 35.554646800091234
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": 44.51629933358771,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-157",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": 2.5969337180000465,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": 1.6161684833114291,
+          "Mlbend": 56.497771628119246
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": 61.1959258532143,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-158",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": 0.2246138309764652,
+          "Vl": 0,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 17.97635208556807,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-159",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": 44.51629933358771,
+        "sigmaX": 61.1959258532143,
+        "tau": 17.97635208556807
+      },
+      "intermediate": null,
+      "output": {
+        "value": 72.67281563686576,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Au",
+        "point": "A",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-160",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": -2.2054939144447383,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": 6.2517819700022,
+          "Mlbend": -35.554646800091234
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": -31.003982095484233,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-161",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": -2.5969337180000465,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": 1.6161684833114291,
+          "Mlbend": -56.497771628119246
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": -56.99348483902428,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-162",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": 0.2246138309764652,
+          "Vl": 0,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 17.97635208556807,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-163",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": -31.003982095484233,
+        "sigmaX": -56.99348483902428,
+        "tau": 17.97635208556807
+      },
+      "intermediate": null,
+      "output": {
+        "value": 66.1800949565413,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Al",
+        "point": "A",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-164",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": 2.2054939144447383,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": -6.2517819700022,
+          "Mlbend": -35.554646800091234
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": -39.096558206599155,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-165",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": 2.5969337180000465,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": -1.6161684833114291,
+          "Mlbend": -56.497771628119246
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": -55.031954369647046,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-166",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": -0.2246138309764652,
+          "Vl": 0,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 17.52712442361514,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-167",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": -39.096558206599155,
+        "sigmaX": -55.031954369647046,
+        "tau": 17.52712442361514
+      },
+      "intermediate": null,
+      "output": {
+        "value": 66.31741974972616,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bu",
+        "point": "B",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-168",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": -2.2054939144447383,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": -6.2517819700022,
+          "Mlbend": 35.554646800091234
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": 27.601747564693838,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-169",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": -2.5969337180000465,
+          "Mcmem": 0,
+          "Mcbend": 0,
+          "Mlmem": -1.6161684833114291,
+          "Mlbend": 56.497771628119246
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": 52.76972145059135,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-170",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": -0.2246138309764652,
+          "Vl": 0,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 17.52712442361514,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-171",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": 27.601747564693838,
+        "sigmaX": 52.76972145059135,
+        "tau": 17.52712442361514
+      },
+      "intermediate": null,
+      "output": {
+        "value": 61.76250020459521,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Bl",
+        "point": "B",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-172",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": 2.5712181985099347,
+          "Mcmem": -1.4422416531833766,
+          "Mcbend": -50.929099563594235,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": -49.315070994484095,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-173",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": 2.168441637972166,
+          "Mcmem": -1.9835875153386588,
+          "Mcbend": -30.519452316195316,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": -29.83022154451227,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-174",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": 0,
+          "Vl": 0.3593821295623443,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 18.11112038415395,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-175",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": -49.315070994484095,
+        "sigmaX": -29.83022154451227,
+        "tau": 18.11112038415395
+      },
+      "intermediate": null,
+      "output": {
+        "value": 60.13784797265036,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cu",
+        "point": "C",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-176",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": -2.5712181985099347,
+          "Mcmem": -1.4422416531833766,
+          "Mcbend": 50.929099563594235,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": 47.400691735684504,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-177",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": -2.168441637972166,
+          "Mcmem": -1.9835875153386588,
+          "Mcbend": 30.519452316195316,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": 26.871799811934032,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-178",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": 0,
+          "Vl": 0.3593821295623443,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 18.11112038415395,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-179",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": 47.400691735684504,
+        "sigmaX": 26.871799811934032,
+        "tau": 18.11112038415395
+      },
+      "intermediate": null,
+      "output": {
+        "value": 57.95382326192188,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Cl",
+        "point": "C",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-180",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": 2.5712181985099347,
+          "Mcmem": 1.4422416531833766,
+          "Mcbend": 50.929099563594235,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": 55.42761143907113,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-181",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": 2.168441637972166,
+          "Mcmem": 1.9835875153386588,
+          "Mcbend": 30.519452316195316,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": 35.17585811855568,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-182",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": 0,
+          "Vl": -0.3593821295623443,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 17.39235612502926,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-183",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": 55.42761143907113,
+        "sigmaX": 35.17585811855568,
+        "tau": 17.39235612502926
+      },
+      "intermediate": null,
+      "output": {
+        "value": 65.42702806161043,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Du",
+        "point": "D",
+        "surface": "UPPER_OUTER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-184",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.4850520237835796,
+          "Pbend": -2.5712181985099347,
+          "Mcmem": 1.4422416531833766,
+          "Mcbend": -50.929099563594235,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "circumferential",
+        "value": -51.57302408513721,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-185",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Pmem": 0.5043766490495399,
+          "Pbend": -2.168441637972166,
+          "Mcmem": 1.9835875153386588,
+          "Mcbend": -30.519452316195316,
+          "Mlmem": 0,
+          "Mlbend": 0
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "longitudinal",
+        "value": -30.199929789779283,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-186",
+      "category": "SAME_POINT_SUPERPOSITION",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "ALGEBRAIC_SUM",
+      "inputs": {
+        "components": {
+          "Vc": 0,
+          "Vl": -0.3593821295623443,
+          "Mt": 17.751738254591604
+        }
+      },
+      "intermediate": {
+        "sameSourceLabeledLocation": true
+      },
+      "output": {
+        "family": "shear",
+        "value": 17.39235612502926,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-187",
+      "category": "STRESS_INTENSITY",
+      "sourceLocator": "WRC537_2013/Table5/CombinedS",
+      "formulaOrFigureId": "TWICE_MAXIMUM_SHEAR_TABLE5_S",
+      "inputs": {
+        "sigmaPhi": -51.57302408513721,
+        "sigmaX": -30.199929789779283,
+        "tau": 17.39235612502926
+      },
+      "intermediate": null,
+      "output": {
+        "value": 61.299618330183876,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": {
+        "location": "Dl",
+        "point": "D",
+        "surface": "LOWER_INNER"
+      },
+      "classification": "DIRECT_SOURCE_CALCULATION"
+    },
+    {
+      "stepId": "H1-188",
+      "category": "GOVERNING_EVALUATED_POINT",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "MAX_OVER_EIGHT_EVALUATED_SOURCE_POINTS",
+      "inputs": {
+        "stressIntensity": {
+          "Au": 72.67281563686576,
+          "Al": 66.1800949565413,
+          "Bu": 66.31741974972616,
+          "Bl": 61.76250020459521,
+          "Cu": 60.13784797265036,
+          "Cl": 57.95382326192188,
+          "Du": 65.42702806161043,
+          "Dl": 61.299618330183876
+        }
+      },
+      "intermediate": {
+        "continuousSearchPerformed": false
+      },
+      "output": {
+        "location": "Au",
+        "value": 72.67281563686576,
+        "unit": "N/mm^2"
+      },
+      "physicalLocationSurface": "EIGHT_POINT_SET",
+      "classification": "INDEPENDENT_DERIVED"
+    },
+    {
+      "stepId": "H1-189",
+      "category": "SCOPE",
+      "sourceLocator": "WRC537_2013/Table5",
+      "formulaOrFigureId": "NO_CONTINUOUS_GLOBAL_MAXIMUM_CLAIM",
+      "inputs": {
+        "evaluatedLocations": [
+          "Au",
+          "Al",
+          "Bu",
+          "Bl",
+          "Cu",
+          "Cl",
+          "Du",
+          "Dl"
+        ]
+      },
+      "intermediate": null,
+      "output": {
+        "continuousSearchPerformed": false,
+        "globalMaximumClaim": false
+      },
+      "physicalLocationSurface": "HOST_SHELL_JUNCTURE",
+      "classification": "SOURCE_REPORTED"
+    }
+  ]
+}
