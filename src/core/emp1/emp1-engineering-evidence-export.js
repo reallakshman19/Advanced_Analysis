@@ -1,12 +1,12 @@
 import { semanticHash } from '../shared-primitives/canonical-json.js';
+import { EMP1_SCHEMAS } from './emp1-identity.js';
 import {
   bindEmp1EngineeringReviewEvidence,
   projectEmp1EngineeringReviewState,
   requireEmp1EngineeringReviewRecord,
 } from './emp1-engineering-review-record.js';
 
-export const EMP1_ENGINEERING_EVIDENCE_PACKAGE_SCHEMA =
-  'emp1-engineering-evidence-package/v1';
+export const EMP1_ENGINEERING_EVIDENCE_PACKAGE_SCHEMA = EMP1_SCHEMAS.EVIDENCE_EXPORT;
 export const EMP1_ENGINEERING_EVIDENCE_IMPORT_STATE = Object.freeze({
   CURRENT_REUSABLE: 'CURRENT_REUSABLE',
   HISTORICAL_NON_REPORTABLE: 'HISTORICAL_NON_REPORTABLE',
