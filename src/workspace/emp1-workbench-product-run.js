@@ -9,9 +9,10 @@ import {
   EMP1_WRC537_GAMMA5_ZERO_DP_ROUTE_SUSPENSION_REASONS,
 } from '../core/emp1/emp1-wrc537-gamma5-zero-dp-route.js';
 import { requireLafea1PressureRadiusRunAuthorized } from './lafea-1-pressure-radius-validation.js';
+import currentSourceSemanticsGate from '../../validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json' with { type: 'json' };
 
 export const EMP1_WORKBENCH_ROUTE_AUTHORITY_SNAPSHOT_SCHEMA =
-  'emp1-workbench-route-authority-snapshot/v1';
+  'emp1-workbench-route-authority-snapshot/v2';
 export const EMP1_WORKBENCH_RETAINED_C_EVIDENCE_SCHEMA =
   'emp1-workbench-retained-c-evidence/v1';
 
@@ -89,6 +90,18 @@ export function currentEmp1WorkbenchRouteAuthority() {
     ),
     postAuthorityOracleSemanticHash:
       EMP1_WRC537_GAMMA5_ZERO_DP_BENCHMARK_QUALIFICATION.benchmarkHash,
+    sourceSemantics: {
+      gateSchema: currentSourceSemanticsGate.schema,
+      gateSemanticHash: currentSourceSemanticsGate.semanticHash,
+      profileSemanticHash: currentSourceSemanticsGate.profile.semanticHash,
+      methodSourceSemanticsReady:
+        currentSourceSemanticsGate.profile.methodSourceSemanticsReady === true,
+      caseApplicabilityState: currentSourceSemanticsGate.caseApplicability.state,
+      caseEngineeringUseAuthorizedBySourceGate:
+        currentSourceSemanticsGate.authority.caseEngineeringUseAuthorizedByThisGate === true,
+      releaseAuthorityGrantedBySourceGate:
+        currentSourceSemanticsGate.authority.releaseAuthorityGranted === true,
+    },
     registry: registry ? {
       schema: registry.schema ?? null,
       routeId: registry.routeId ?? null,
