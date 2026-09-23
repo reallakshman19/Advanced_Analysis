@@ -1,0 +1,127 @@
+{
+  "schema": "emp1-current-benchmark-manifest/v1",
+  "manifestId": "EMP1_CURRENT_BENCHMARK_EVIDENCE_V1",
+  "issue": 1772,
+  "state": "CURRENT_BENCHMARK_EVIDENCE_INDEX",
+  "historicalPolicy": {
+    "historicalRecordsAreImmutable": true,
+    "supersessionChangesCurrentStatusOnly": true,
+    "expectedValuesMayBeRebasedFromProduction": false,
+    "toleranceMayBeWidenedAfterMismatch": false
+  },
+  "gamma5": {
+    "physicalOracle": {
+      "path": "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+      "semanticHash": "60771128f8261057bf73fa6c183ace5df25f3ee98f417f58da25a6135d8b2e18"
+    },
+    "qualification": {
+      "path": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+      "qualificationRecordSha256": "9ea591a1918175b3e415d77f1adc4398645ca0503a699cfe8139d9dd3c69b4c7"
+    },
+    "authorityIdentityReconciliation": {
+      "path": "validation/emp1/wrc537-2013/gamma5-authority-identity-reconciliation-v1.json"
+    },
+    "routeScope": {
+      "gamma": 5,
+      "differentialPressure": 0,
+      "Kn": 1,
+      "Kb": 1,
+      "recoveryLocations": [
+        "Au",
+        "Al",
+        "Bu",
+        "Bl",
+        "Cu",
+        "Cl",
+        "Du",
+        "Dl"
+      ]
+    }
+  },
+  "caux": {
+    "benchmark": {
+      "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-v1.json",
+      "semanticHash": "887b231028cd187c63d7cb29aedbc7db182b31d404623f9981f36a21987c2bf3",
+      "rawPdfSha256": "c1e92798a7bc172d649007ad88f6be548651f07a01cb2fbf83343e2283e0e83e",
+      "pages": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "currentQualification": {
+      "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json",
+      "qualificationId": "CAUX_2017_WRC01F_PP24_31_Q3_GAMMA_RADIUS_RECONCILED",
+      "semanticHash": "9c57953aff802624650050c251d05b3ca8ea6a190bec77863f03ec790abc353f",
+      "status": "PASS_FINAL_CAUX_SOURCE_QUALIFICATION_GAMMA_RADIUS_RECONCILED_REFERENCE_FREEZE_PRESERVED",
+      "directPdfPageReobservation": "PASS",
+      "gammaRadiusBasisForThisBenchmark": "PASS_RECONCILED"
+    },
+    "historicalQualifications": [
+      {
+        "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v1.json",
+        "qualificationId": "CAUX_2017_WRC01F_PP24_31_PR_C_Q1",
+        "semanticHash": "d621d81342795b082d8e6add7b938de3f897bb6dff9d320e153602a9c4a9f37e",
+        "classification": "HISTORICAL_SUPERSEDED_STATUS_RECORD"
+      },
+      {
+        "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v2.json",
+        "semanticHash": "f7b3d5cd789d05588987230f84c54db642d07202624d24d1ac9ee886bfc8ba1a",
+        "classification": "HISTORICAL_SUPERSEDED_STATUS_RECORD"
+      }
+    ],
+    "directPdfObservation": {
+      "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-direct-pdf-observation-v1.json",
+      "semanticHash": "b699860fbceede1cf53419ad82b56c446a4c8dfea772fe1a1b935e1230dde4e0",
+      "status": "PASS"
+    },
+    "gammaRadiusReconciliation": {
+      "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-gamma-radius-reconciliation-v1.json",
+      "semanticHash": "b954eb34a18d11bea1f5af979f31781d8e40670fba480f1365f78116f812b2a8",
+      "status": "PASS_CAUX_INTERNAL_CORROSION_SAME_STATE_MID_RADIUS_RECONCILIATION"
+    },
+    "retainedComparisonCustody": {
+      "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-comparison-custody-v1.json",
+      "state": "RETAINED_ACTUAL_EXECUTION_COMPARISON",
+      "comparisonState": "COMPARISON_QUALIFIED",
+      "comparedQuantities": 8,
+      "withinToleranceCount": 8,
+      "tolerancePercent": 3,
+      "worstRelativeDifferencePercent": 2.0355862430856293,
+      "worstRelativeDifferenceLocation": "Cu",
+      "worstAbsoluteDifference_kPa": 26.786740343133943,
+      "worstAbsoluteDifferenceLocation": "Du",
+      "governingReferenceLocation": "Du",
+      "governingEmp1Location": "Du"
+    },
+    "comparisonExecutionContract": {
+      "path": "validation/emp1/caux2017-wrc01f/caux-pp24-31-wrc537-comparison-case-v1.json"
+    },
+    "routeRelationship": {
+      "routeId": "EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.INTERPOLATED_GAMMA.ZERO_DP",
+      "comparisonQualificationAvailable": true,
+      "engineeringUseAuthorized": false,
+      "state": "OUTSIDE_AUTHORIZED_ENGINEERING_ROUTE"
+    }
+  },
+  "pvElite": {
+    "programmePath": "src/core/emp1/emp1-pvelite-benchmark-programme.js",
+    "state": "REFERENCE_NOT_AVAILABLE",
+    "sourceCustodyState": "SOURCE_NOT_RETAINED",
+    "expectedValuesState": "NOT_AVAILABLE",
+    "toleranceValue": null,
+    "numericalComparisonRun": false
+  },
+  "authority": {
+    "externalComparisonCreatesWrcMethodAuthority": false,
+    "externalComparisonCreatesEngineeringUseAuthority": false,
+    "externalComparisonCreatesProductionAuthority": false,
+    "externalComparisonCreatesCodeComplianceAuthority": false,
+    "externalComparisonCreatesReleaseAuthority": false
+  }
+}

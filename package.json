@@ -22,7 +22,7 @@
     "check:e2e": "node scripts/run-playwright.mjs",
     "check:source-duplicates": "node scripts/source-duplicate-declaration-check.mjs",
     "check:emp1-ui": "node scripts/emp1-plain-language-labels-check.mjs && node scripts/emp1-governed-vector-table-check.mjs && node scripts/emp1-gamma-domain-panel-check.mjs && node scripts/emp1-interpolated-route-registration-check.mjs && node scripts/emp1-stress-units-presentation-check.mjs && node scripts/lafea-1-pressure-radius-recovery-check.mjs",
-    "check:emp1-gamma-interpolation": "node scripts/emp1-wrc537-gamma-interpolation-check.mjs && node scripts/emp1-wrc537-gamma-interpolation-accuracy-check.mjs && node scripts/emp1-wrc537-caux-interpolated-comparison-check.mjs && node scripts/emp1-wrc537-interpolation-exact-row-delegation-check.mjs && node scripts/emp1-wrc537-interpolated-adapter-check.mjs",
+    "check:emp1-gamma-interpolation": "node scripts/emp1-wrc537-gamma-interpolation-check.mjs && node scripts/emp1-wrc537-gamma-interpolation-accuracy-check.mjs && node scripts/emp1-caux-current-benchmark-manifest-check.mjs && node scripts/emp1-wrc537-caux-interpolated-comparison-check.mjs && node scripts/emp1-wrc537-interpolation-exact-row-delegation-check.mjs && node scripts/emp1-wrc537-interpolated-adapter-check.mjs",
     "check:first-cut-load-estimation": "node scripts/first-cut-load-estimation-check.mjs",
     "check:first-cut-beam-screening": "node scripts/first-cut-beam-screening-check.mjs",
     "check:first-cut-sustained-screening": "node scripts/first-cut-sustained-screening-check.mjs",
