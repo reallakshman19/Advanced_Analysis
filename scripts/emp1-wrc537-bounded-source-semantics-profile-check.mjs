@@ -99,8 +99,8 @@ assert.deepEqual(profile.boundedScope, {
 assert.match(retained, /### Table 4 .*Sign Convention for Stresses Resulting from Radial and Moment Load on a Cylindrical Shell/u);
 assert.match(retained, /u.*denotes upper \(outer\) surface/u);
 assert.match(retained, /L.*denotes lower \(inner\) surface/u);
-assert.match(retained, /Points A, B lie along the longitudinal axis/u);
-assert.match(retained, /Points C, D lie along circumferential\/transverse axis/u);
+assert.match(retained, /Points[^\n]*A, B[^\n]*lie along the longitudinal axis/u);
+assert.match(retained, /Points[^\n]*C, D[^\n]*lie along circumferential\/transverse axis/u);
 assert.deepEqual(profile.recoveryBasis.surfaces, {
   u: 'UPPER_OUTER_SHELL_SURFACE',
   l: 'LOWER_INNER_SHELL_SURFACE',
@@ -261,7 +261,9 @@ for (const [name, mutate] of [
   const spoof = structuredClone(profile);
   mutate(spoof);
   spoof.semanticHash = semanticHash(spoof);
-  assert.throws(() => validateProtectedSemantics(spoof), undefined, name);
+  let rejected = false;
+  try { validateProtectedSemantics(spoof); } catch { rejected = true; }
+  assert.equal(rejected, true, `semantic falsifier must reject: ${name}`);
 }
 
 console.log(JSON.stringify({
