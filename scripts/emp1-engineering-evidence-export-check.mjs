@@ -58,7 +58,7 @@ const inputHashes = {
   applicabilityGeometry: semanticHash(runInput.localMethod.applicabilityGeometry),
   localRoute: semanticHash(runInput.localMethod.routeRequest),
 };
-const routeAuthoritySnapshot = {
+const routeAuthoritySnapshotPayload = {
   schema: 'emp1-workbench-route-authority-snapshot/v1',
   routeId: 'EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.GAMMA5.ZERO_DP',
   productionUseAuthorized: true,
@@ -72,7 +72,11 @@ const routeAuthoritySnapshot = {
     limitations: ['WRC_TABLE5_EIGHT_POINTS_NOT_GLOBAL_ABSOLUTE_MAXIMUM'],
     remainingBlocked: ['GLOBAL_EMP1_C_ROUTE'],
   },
-  semanticHash: 'ROUTE-1',
+};
+const routeAuthorityHash = semanticHash(routeAuthoritySnapshotPayload);
+const routeAuthoritySnapshot = {
+  ...routeAuthoritySnapshotPayload,
+  semanticHash: routeAuthorityHash,
 };
 const parents = {
   sourceHash: 'SOURCE-1',
@@ -151,7 +155,7 @@ const execution = {
   authority: {
     boundedLocalRoutePrepared: true,
     boundedLocalRouteExecuted: true,
-    routeAuthorityHash: 'ROUTE-1',
+    routeAuthorityHash,
     routeAuthoritySnapshot,
     globalEmp1CRouteAuthority: false,
     codeComplianceProduced: false,
@@ -186,6 +190,9 @@ const benchmarkEvidence = {
   ],
   authorityBoundary: {
     presentationOnly: true,
+    executesWrcMethod: false,
+    selectsTolerance: false,
+    mutatesExpectedValues: false,
     createsWrcMethodAuthority: false,
     createsEngineeringUseAuthority: false,
     createsProductionAuthority: false,
@@ -216,8 +223,8 @@ assert.deepEqual(evidencePackage.source.inputHashes, inputHashes);
 assert.equal(evidencePackage.calculation.resultHashes.loadTransfer, 'A-1');
 assert.equal(evidencePackage.calculation.resultHashes.sectionScreening, 'B-1');
 assert.equal(evidencePackage.calculation.resultHashes.localCorrelation, 'C-1');
-assert.equal(evidencePackage.calculation.routeAuthority.hash, 'ROUTE-1');
-assert.equal(evidencePackage.calculation.routeAuthority.snapshot.semanticHash, 'ROUTE-1');
+assert.equal(evidencePackage.calculation.routeAuthority.hash, routeAuthorityHash);
+assert.equal(evidencePackage.calculation.routeAuthority.snapshot.semanticHash, routeAuthorityHash);
 assert.equal(evidencePackage.calculation.method.sourceDocumentSha256, 'WRC-SOURCE-1');
 assert.equal(evidencePackage.calculation.method.datasetHash, 'WRC-DATASET-1');
 assert.equal(evidencePackage.calculation.method.routeQualificationSha256, 'QUAL-ROUTE-1');
@@ -273,7 +280,7 @@ const workspaceExact = classifyEmp1WorkspaceEngineeringEvidenceImport({
   runInput,
   routeAuthority: {
     productionUseAuthorized: true,
-    routeAuthorityHash: 'ROUTE-1',
+    routeAuthorityHash,
     snapshot: { semanticHash: 'ROUTE-1' },
   },
 });
@@ -315,7 +322,7 @@ const suspended = classifyEmp1EngineeringEvidenceImport({
   current: currentState({
     routeAuthority: {
       productionUseAuthorized: false,
-      routeAuthorityHash: 'ROUTE-1',
+      routeAuthorityHash,
       snapshot: { semanticHash: 'ROUTE-1' },
     },
   }),
@@ -349,6 +356,10 @@ assertRejected('review-disposition', (next) => {
 assertRejected('benchmark-projection', (next) => {
   next.benchmark.projection.comparators[0].comparisonState = 'PASS_INVENTED';
 }, /BENCHMARK_HASH_MISMATCH/u);
+assertRejected('benchmark-authority-injection', (next) => {
+  next.benchmark.projection.authorityBoundary.createsProductionAuthority = true;
+  next.benchmark.projectionSemanticHash = semanticHash(next.benchmark.projection);
+}, /BENCHMARK_PROJECTION_AUTHORITY_INVALID/u);
 
 const source = await readFile(
   new URL('../src/core/emp1/emp1-engineering-evidence-export.js', import.meta.url),
@@ -402,7 +413,7 @@ console.log(JSON.stringify({
   routeDriftState: routeChanged.state,
   sourceDriftState: sourceDrift.state,
   suspendedRouteReportable: suspended.reportable,
-  falsifiersPassed: 8,
+  falsifiersPassed: 9,
   importedCurrentFlagTrusted: false,
   importedRouteAuthorizationTrusted: false,
   importedReleaseAuthorityTrusted: false,
@@ -428,7 +439,7 @@ function currentState(overrides = {}) {
     },
     routeAuthority: overrides.routeAuthority ?? {
       productionUseAuthorized: true,
-      routeAuthorityHash: 'ROUTE-1',
+      routeAuthorityHash,
       snapshot: { semanticHash: 'ROUTE-1' },
     },
   };
