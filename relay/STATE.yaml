@@ -20,11 +20,12 @@
     "required": true,
     "primary_vehicle": {
       "provider": "GITHUB",
-      "kind": "ISSUE",
-      "number": 1771
+      "kind": "PULL_REQUEST",
+      "number": 1868
     }
   },
   "generated": {
     "snapshot": "relay/GENERATED/CURRENT_SNAPSHOT.yaml"
   }
 }
+
