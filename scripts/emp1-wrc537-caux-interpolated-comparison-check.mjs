@@ -22,12 +22,19 @@ import { buildEmp1Wrc537InterpolatedTable5Ordinates }
 import { evaluateEmp1Wrc537CylindricalTable5 }
   from '../src/core/emp1/emp1-wrc537-cylindrical-table5.js';
 
-const TOLERANCE_PERCENT = 3;
-// CAUx prints stress intensity as whole kPa, so conservatism is assertable only to +-0.5 kPa.
-const REFERENCE_ROUNDING_HALF_WIDTH_KPA = 0.5;
+const comparisonCase = JSON.parse(readFileSync(
+  new URL('../validation/emp1/caux2017-wrc01f/caux-pp24-31-wrc537-comparison-case-v1.json', import.meta.url),
+));
 const benchmark = JSON.parse(readFileSync(
   new URL('../validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-v1.json', import.meta.url),
 ));
+const qualification = JSON.parse(readFileSync(
+  new URL('../validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json', import.meta.url),
+));
+const TOLERANCE_PERCENT = comparisonCase.comparison.tolerancePercent;
+// CAUx prints stress intensity as whole kPa, so conservatism is assertable only to +-0.5 kPa.
+const REFERENCE_ROUNDING_HALF_WIDTH_KPA =
+  comparisonCase.comparison.referenceRoundingHalfWidth_kPa;
 const datum = (quantityId) => {
   const row = benchmark.datums.find((entry) => entry.quantityId === quantityId);
   if (!row) throw new Error(`CAUX_BENCHMARK_DATUM_MISSING:${quantityId}`);
@@ -39,33 +46,61 @@ assert.equal(benchmark.source.authorityRole, 'INDEPENDENT_BENCHMARK_REFERENCE_NO
 assert.equal(benchmark.freeze.productionOutputObservedForExpectedValueSelection, false);
 assert.equal(benchmark.authority.wrcMethodAuthority, false);
 assert.equal(benchmark.authority.productionUseAuthorized, false);
+assert.equal(benchmark.semanticHash, comparisonCase.source.benchmarkSemanticHash);
+assert.equal(qualification.semanticHash, comparisonCase.source.currentQualificationSemanticHash);
+assert.equal(qualification.source.directPdfPageReobservation, 'PASS');
+assert.equal(qualification.source.gammaRadiusBasisForThisBenchmark, 'PASS_RECONCILED');
+assert.equal(comparisonCase.authority.wrcMethodAuthority, false);
+assert.equal(comparisonCase.authority.engineeringUseAuthorized, false);
 
 const LOCATIONS = benchmark.locations;
 const expectedIntensity = datum('P29_SUS_STRESS_INTENSITY');
 
 // Retained CAUx geometry and sustained local loads (mm, N, N.mm).
-const meanRadius = 912.5;          // corrosion-adjusted basis; see the gamma/radius unresolved item
-const shellThickness = 19;
-const attachmentRadius = 323.850 / 2;
+// Comparison semantics are frozen in a dedicated case contract so this benchmark
+// cannot drift when production helper defaults change.
+const meanRadius = comparisonCase.geometry.meanRadius_mm;
+const shellThickness = comparisonCase.geometry.shellThickness_mm;
+const attachmentRadius = comparisonCase.geometry.attachmentOutsideDiameter_mm / 2;
 const beta = 0.875 * attachmentRadius / meanRadius;
 const gamma = meanRadius / shellThickness;
-const loads = { P: -161, Vc: -53, Vl: -2109, Mc: 121e3, Ml: 33e3, Mt: -775e3 };
+const loads = {
+  P: comparisonCase.loads.P,
+  Vc: comparisonCase.loads.Vc,
+  Vl: comparisonCase.loads.Vl,
+  Mc: comparisonCase.loads.Mc,
+  Ml: comparisonCase.loads.Ml,
+  Mt: comparisonCase.loads.Mt,
+};
+assert.ok(Math.abs(beta - comparisonCase.derived.beta) <= 1e-14);
+assert.ok(Math.abs(gamma - comparisonCase.derived.gamma) <= 1e-14);
 
 // The case must genuinely exercise interpolation, not land on a tabulated row.
 const ordinateSet = buildEmp1Wrc537InterpolatedTable5Ordinates({
-  variant: 'ORIGINAL',
+  variant: comparisonCase.wrc537Evaluation.variant,
   gamma,
   beta,
-  betaDomain: { basis: 'OWNER_DECLARED', minimum: 0.05, maximum: 0.5 },
+  coordinate: comparisonCase.wrc537Evaluation.interpolationCoordinate,
+  betaDomain: comparisonCase.wrc537Evaluation.betaDomain,
+  longitudinalMomentFigures: comparisonCase.wrc537Evaluation.longitudinalMomentFigures,
 });
 assert.equal(ordinateSet.interpolationUsed, true, 'CAUx gamma=48.03 must be an interpolated case');
 assert.equal(ordinateSet.sourceQualifiedGammaSelection, false);
 assert.equal(ordinateSet.wrcMethodFidelityClaim, false);
 assert.equal(ordinateSet.productionAuthority, false);
+assert.equal(ordinateSet.coordinate, comparisonCase.wrc537Evaluation.interpolationCoordinate);
+assert.equal(
+  ordinateSet.provenance.circ.Mlbend.figure,
+  comparisonCase.wrc537Evaluation.longitudinalMomentFigures.circumferential,
+);
+assert.equal(
+  ordinateSet.provenance.long.Mlbend.figure,
+  comparisonCase.wrc537Evaluation.longitudinalMomentFigures.longitudinal,
+);
 
 const result = evaluateEmp1Wrc537CylindricalTable5({
   geometry: { meanRadius, shellThickness, attachmentRadius, beta },
-  stressConcentration: { Kn: 1, Kb: 1 },
+  stressConcentration: comparisonCase.wrc537Evaluation.stressConcentration,
   loads,
   curveOrdinates: ordinateSet.ordinates,
 });
