@@ -16,3 +16,4 @@ export * from './emp1-wrc537-longitudinal-moment-curve-selection.js';
 export * from './emp1-wrc537-cylindrical-applicability.js';
 export * from './emp1-wrc537-gamma5-zero-dp-orchestration.js';
 export * from './emp1-wrc537-cylindrical-gamma-interpolation.js';
+export * from './emp1-engineering-evidence-export.js';
