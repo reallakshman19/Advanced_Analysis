@@ -49,6 +49,7 @@ const [
   oracle,
   profile,
   reviewed,
+  manifest,
   wrcText,
   cauxText,
 ] = await Promise.all([
@@ -56,11 +57,13 @@ const [
   readJson(ORACLE_PATH),
   readJson(PROFILE_PATH),
   readJson(REVIEWED_PATH),
+  readJson('validation/emp1/release/emp1-current-benchmark-manifest-v1.json'),
   readText(WRC_TEXT_PATH),
   readText(CAUX_TEXT_PATH),
 ]);
 const trace = JSON.parse(traceBytes.toString('utf8'));
 const F = oracle.semanticPayload;
+const traceBlobSha1 = gitBlobSha(traceBytes);
 
 assert.equal(trace.schema, 'emp1-wrc537-gamma5-independent-handcalc-trace/v1');
 assert.equal(trace.issue, 1772);
@@ -80,6 +83,22 @@ assert.equal(trace.source.wrc02SourceSemanticsProfileSemanticHash, EXPECTED_PROF
 assert.equal(profile.semanticHash, EXPECTED_PROFILE_HASH);
 assert.equal(profile.authorityModel.methodSourceSemanticsReady, true);
 assert.equal(profile.authorityModel.caseApplicabilityRequiresEvidence, true);
+assert.equal(manifest.schema, 'emp1-current-benchmark-manifest/v1');
+assert.equal(manifest.issue, 1772);
+assert.equal(manifest.gamma5.independentHandCalculationTrace.path, TRACE_PATH);
+assert.equal(manifest.gamma5.independentHandCalculationTrace.gitBlobSha1, traceBlobSha1);
+assert.equal(manifest.gamma5.independentHandCalculationTrace.status, trace.status);
+assert.equal(manifest.gamma5.independentHandCalculationTrace.traceRows, trace.traceRows.length);
+assert.equal(
+  manifest.gamma5.independentHandCalculationTrace.physicalOracleSemanticHash,
+  EXPECTED_ORACLE_HASH,
+);
+assert.equal(
+  manifest.gamma5.independentHandCalculationTrace.sourceSemanticsProfileSemanticHash,
+  EXPECTED_PROFILE_HASH,
+);
+assert.deepEqual(manifest.gamma5.independentHandCalculationTrace.productionImports, []);
+assert.equal(manifest.gamma5.independentHandCalculationTrace.productionObservationUsed, false);
 
 assert.equal(
   trace.casePrerequisiteEvidence.classification,
@@ -310,7 +329,7 @@ console.log(JSON.stringify({
   schema: 'emp1-wrc537-gamma5-independent-handcalc-trace-check/v1',
   status: 'PASS_INDEPENDENT_H1_TRACE_RECONSTRUCTED',
   tracePath: TRACE_PATH,
-  traceGitBlobSha1: gitBlobSha(traceBytes),
+  traceGitBlobSha1,
   traceRows: trace.traceRows.length,
   physicalWrcLoads: statics.wrcLoads,
   comparedStressValues: 32,
