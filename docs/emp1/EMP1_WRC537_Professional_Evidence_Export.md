@@ -99,6 +99,28 @@ The WRC-05 release manifest is now `emp1-release-candidate/v3`. In addition to t
 
 The manifest remains non-authorizing. Case-specific human review is still required for an engineering disposition, and neither review acceptance nor manifest generation creates code or release authority.
 
+### Release-mode case review requirement
+
+Policy-only and diagnostic candidate runs may execute without a case-specific review package; they cannot become release-qualified.
+
+Release mode requires an explicit retained evidence package under `validation/emp1/release/**`:
+
+```text
+--engineering-evidence-package validation/emp1/release/<case-evidence>.json
+```
+
+The release candidate validates that package as `emp1-evidence-export/v1` and requires all of the following before it can contribute a PASS `CASE_ENGINEERING_EVIDENCE` gate:
+
+- package product version matches the current EMP.1 package version;
+- release-profile identity/version matches the current bounded release profile;
+- retained route-authority hash matches the live current route-authority hash and the bounded route remains production-authorized;
+- the retained engineering review exists, is `REVIEW_ACCEPTED`, is current against its exact retained evidence, and has disposition `ACCEPTED`;
+- package authority still states release-qualified false, creates-release-authority false, and code compliance `NOT_ASSESSED`.
+
+The release receipt and manifest retain the package SHA-256, package semantic hash, route-authority hash, review ID/hash, reviewer identity and review timestamp. A qualified release receipt is structurally impossible without that gate and custody.
+
+This requirement does not manufacture a reviewer or convert generic review-feature tests into case review evidence. If no valid case package is supplied, release mode blocks; an independent review requirement remains a separate programme/quality obligation.
+
 ## Historical evidence
 
 Existing frozen readiness and pre-authorization records are not rewritten. Statements such as the historical observation that no separate durable numerical export existed remain historical provenance.
