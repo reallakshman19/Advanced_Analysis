@@ -1,0 +1,15 @@
+{
+  "schema_version": "relay-v3.1-delivery-status",
+  "authority": "PROVIDER_READBACK",
+  "vehicle": {
+    "provider": "GITHUB",
+    "kind": "PULL_REQUEST",
+    "number": 1877
+  },
+  "observed_at": "2026-09-23T09:02:29Z",
+  "provider_ref": "https://github.com/reallaksh19/Advanced_Analysis/pull/1877",
+  "lifecycle": "DRAFT",
+  "checks": "FAIL",
+  "review": "PENDING",
+  "mergeability": "MERGEABLE"
+}

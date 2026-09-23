@@ -5,12 +5,12 @@
     "roadmap_revision": "RM-0012",
     "state_digest": "sha256:6018717ffd3c8df0bf801dbd647757c918fc9b00e554ff120356a4be7ac8c06b",
     "material_basis": {
-      "head": "b82cda45b499263636e5c4bbec28a1d939e7f725",
-      "tree_digest": "sha256:c7b352010245612efa7c505d2659b0c759083a2ab8b2292436ec1b0bae982e6b",
-      "relevant_paths_digest": "sha256:1935981db3fa4811129e81188fb01ba1277c0140b6c0cdc596b80ea8bc6ff3d4",
-      "dependency_digest": "sha256:5af069f4d2edf2fc4fe90ecd0d039dbfa8afd96a8a9769e35d8c890de7d3e621"
+      "head": "f76c52ec03d4c0a34bc74c256ee7b7e3052a23a7",
+      "tree_digest": "sha256:80ffe1177d67dd389ed4e4e19b95b52d842ef0ff74044666bf4dd7bde174b641",
+      "relevant_paths_digest": "sha256:40cc773571a604dfe1db8f38f90d7a50ea365a165c619c6729b5179a47be57a6",
+      "dependency_digest": "sha256:c93bc32b0f1f81105f679ff65c0bd646c5e6c8e34bbd9d357993e3d2fe973e9c"
     },
-    "coordination_head": "a380d6628bf8b18b45b8a3873003a1a1b1c91af2"
+    "coordination_head": "f76c52ec03d4c0a34bc74c256ee7b7e3052a23a7"
   },
   "owner": {
     "outcome": "Preserve verified LAFEA.3/C3-C truth while executing the EMP.1/WRC programme under Relay V3.1 without rewriting historical evidence, widening WRC authority, or treating NOT_RUN as PASS.",
@@ -75,9 +75,9 @@
   },
   "material": {
     "base": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
-    "head": "b82cda45b499263636e5c4bbec28a1d939e7f725",
-    "relevant_paths_digest": "sha256:1935981db3fa4811129e81188fb01ba1277c0140b6c0cdc596b80ea8bc6ff3d4",
-    "dependency_digest": "sha256:5af069f4d2edf2fc4fe90ecd0d039dbfa8afd96a8a9769e35d8c890de7d3e621"
+    "head": "f76c52ec03d4c0a34bc74c256ee7b7e3052a23a7",
+    "relevant_paths_digest": "sha256:40cc773571a604dfe1db8f38f90d7a50ea365a165c619c6729b5179a47be57a6",
+    "dependency_digest": "sha256:c93bc32b0f1f81105f679ff65c0bd646c5e6c8e34bbd9d357993e3d2fe973e9c"
   },
   "evidence": {
     "latest_checkpoint": null,
