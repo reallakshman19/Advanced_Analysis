@@ -39,7 +39,7 @@ assertAuthorityInputs();
 export function createEmp1ReleaseManifest(input) {
   const currentCustody = normalizeCurrentCustody(input.currentCandidateProvenance);
   const payload = {
-    schema: 'emp1-release-candidate/v1',
+    schema: 'emp1-release-candidate/v2',
     git: {
       head: input.candidateHead,
       tree: input.candidateTree,
