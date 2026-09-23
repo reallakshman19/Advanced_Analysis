@@ -347,12 +347,21 @@ console.log(JSON.stringify({
 }, null, 2));
 
 function currentState(overrides = {}) {
+  const loadTransferDocument =
+    overrides.loadTransferDocument ?? sourceDocuments.loadTransferDocument;
+  const sectionScreeningDocument =
+    overrides.sectionScreeningDocument ?? sourceDocuments.sectionScreeningDocument;
+  const currentRunInput = overrides.runInput ?? runInput;
   return {
-    loadTransferDocument:
-      overrides.loadTransferDocument ?? sourceDocuments.loadTransferDocument,
-    sectionScreeningDocument:
-      overrides.sectionScreeningDocument ?? sourceDocuments.sectionScreeningDocument,
-    runInput: overrides.runInput ?? runInput,
+    inputHashes: {
+      loadTransferDocument: semanticHash(loadTransferDocument),
+      sectionScreeningDocument: semanticHash(sectionScreeningDocument),
+      attachmentGeometry: semanticHash(currentRunInput.localMethod.attachmentGeometry),
+      applicabilityGeometry: currentRunInput.localMethod.applicabilityGeometry == null
+        ? null
+        : semanticHash(currentRunInput.localMethod.applicabilityGeometry),
+      localRoute: semanticHash(currentRunInput.localMethod.routeRequest),
+    },
     routeAuthority: overrides.routeAuthority ?? {
       productionUseAuthorized: true,
       routeAuthorityHash: 'ROUTE-1',
