@@ -188,9 +188,7 @@
         "Owner policy changes owned by #1834",
         "global EMP.1.C authority",
         "code-compliance authorization",
-        "synthetic PASS for NOT_RUN execution evidence",
-        "MERGE",
-        "RELEASE"
+        "synthetic PASS for NOT_RUN execution evidence"
       ]
     },
     "acceptance": [
@@ -328,9 +326,7 @@
       "direct_utterance_digest": "sha256:3010ec038b647214873624c3507291385b04fcf74a82b9f85e0a142e60cc5688",
       "session_timestamp": "2026-09-23T06:22:21Z"
     },
-    "branch": "relay/emp1-wrc05-1775",
-    "recovery_after_seconds": 3600,
-    "recovery_policy": "TAKEOVER_AFTER_EXPIRY"
+    "branch": "relay/emp1-wrc05-1775"
   },
   "delivery": {
     "required": true,

@@ -7,7 +7,7 @@
   },
   "basis": {
     "ep_id": "EP-EMP1-WRC05-1775-0001",
-    "ep_digest": "sha256:1e786bedaed549a86621d9f0a97c5d89e9022e26888b53eab84fe9b0690fcaa8",
+    "ep_digest": "sha256:94ee688f138b438047f4b209545be58403883f34759310518375dd0ab9bf4648",
     "material_base": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
     "predecessor_checkpoint": null,
     "protocol_basis": "github:reallaksh19/Common@f27d6933390a145055f55eac1f4cfc5b2db4732f/skills/engineering-pr-delivery-v3.1"
@@ -65,8 +65,6 @@
       "global EMP.1.C authority",
       "code-compliance authorization",
       "synthetic PASS for NOT_RUN execution evidence",
-      "MERGE",
-      "RELEASE",
       "MERGE",
       "RELEASE"
     ]

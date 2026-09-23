@@ -70,9 +70,7 @@
       "Owner policy changes owned by #1834",
       "global EMP.1.C authority",
       "code-compliance authorization",
-      "synthetic PASS for NOT_RUN execution evidence",
-      "MERGE",
-      "RELEASE"
+      "synthetic PASS for NOT_RUN execution evidence"
     ]
   },
   "material": {
