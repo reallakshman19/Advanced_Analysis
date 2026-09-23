@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { currentEmp1WorkbenchRouteAuthority } from
+  '../src/workspace/emp1-workbench-product-run.js';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 
@@ -32,14 +34,20 @@ const currentBenchmarkManifestPath =
   'validation/emp1/release/emp1-current-benchmark-manifest-v1.json';
 const currentBenchmarkManifestBytes = await readFile(resolve(root, currentBenchmarkManifestPath));
 const currentBenchmarkManifest = JSON.parse(currentBenchmarkManifestBytes.toString('utf8'));
+const packageMetadata = await readJson('package.json');
+const stageCPreflight = await readJson(
+  'validation/emp1/wrc537-2013/gamma5-stagec-preflight-v1.json',
+);
+const currentRouteAuthority = currentEmp1WorkbenchRouteAuthority();
 const retainedEvidenceSets = await collectRetainedEvidenceSets(resolve(root, 'validation/emp1/wrc537-2013'));
 
 assertAuthorityInputs();
 
 export function createEmp1ReleaseManifest(input) {
   const currentCustody = normalizeCurrentCustody(input.currentCandidateProvenance);
+  const gates = executionEvidence(input.executions);
   const payload = {
-    schema: 'emp1-release-candidate/v2',
+    schema: 'emp1-release-candidate/v3',
     git: {
       head: input.candidateHead,
       tree: input.candidateTree,
@@ -47,7 +55,9 @@ export function createEmp1ReleaseManifest(input) {
     },
     product: {
       id: profile.product.id,
+      version: packageMetadata.version,
       releaseProfileId: profile.releaseProfileId,
+      releaseProfileSchema: profile.schema,
     },
     source: {
       wrcSha256: wrcSourceLedger.rawPdfSha256,
@@ -60,6 +70,22 @@ export function createEmp1ReleaseManifest(input) {
       independentOracleHash: authorization.authorizedIdentity.postAuthorityOracleSemanticHash,
       sourceSemanticsProfileHash: currentSourceSemantics.profile.semanticHash,
       sourceSemanticsGateHash: currentSourceSemantics.semanticHash,
+      routeAuthorityHash: currentRouteAuthority.routeAuthorityHash,
+      routeAuthoritySnapshot: structuredClone(currentRouteAuthority.snapshot),
+    },
+    qualificationCustody: {
+      authorizationSemanticHash: authorization.authorizationRecordSemanticHash,
+      stageCPreflight: {
+        status: stageCPreflight.status,
+        basisMainSha: stageCPreflight.basisMain.sha,
+        historicalStageBHeadSha: stageCPreflight.historicalChain.stageB.headSha,
+        staticConclusion: stageCPreflight.stageCStaticClassification.conclusion,
+        blockers: [...stageCPreflight.blockers],
+        engineeringPassClaimed: stageCPreflight.executionState.engineeringPassClaimed,
+      },
+      currentExecutionGateId: 'WRC03_CURRENT_EXACT_HEAD',
+      currentExecutionGateStatus:
+        gates.WRC03_CURRENT_EXACT_HEAD?.status ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
     },
     benchmark: {
       currentManifestPath: currentBenchmarkManifestPath,
@@ -78,8 +104,31 @@ export function createEmp1ReleaseManifest(input) {
     evidence: {
       expectedRetainedFiles: EMP1_RELEASE_EXPECTED_EVIDENCE_FILES,
       retainedEvidenceSets,
-      gates: executionEvidence(input.executions),
+      gates,
       buildArtifactSha256: input.buildArtifactSha256,
+    },
+    professionalReviewCapability: {
+      durableEvidencePackageSchema: 'emp1-evidence-export/v1',
+      evidenceExportGateId: 'ENGINEERING_EVIDENCE_EXPORT',
+      evidenceExportGateStatus:
+        gates.ENGINEERING_EVIDENCE_EXPORT?.status ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
+      reviewRecordGateId: 'ENGINEERING_REVIEW_CONTRACT',
+      reviewRecordGateStatus:
+        gates.ENGINEERING_REVIEW_CONTRACT?.status ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
+      reviewReadinessGateId: 'ENGINEERING_REVIEW_READINESS',
+      reviewReadinessGateStatus:
+        gates.ENGINEERING_REVIEW_READINESS?.status ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
+      caseSpecificHumanReviewAsserted: false,
+      caseSpecificHumanReviewRequiredForEngineeringDisposition: true,
+      reviewAcceptanceCreatesReleaseAuthority: false,
+      reviewAcceptanceCreatesCodeCompliance: false,
+    },
+    readiness: {
+      gateId: 'RELEASE_READINESS_POLICY',
+      gateStatus: gates.RELEASE_READINESS_POLICY?.status ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
+      currentSourceSemanticsGateHash: currentSourceSemantics.semanticHash,
+      stageCStaticPreflightStatus: stageCPreflight.status,
+      missingHistoricalEvidenceMayBePromotedToPass: false,
     },
     currentReleaseCustody: currentCustody,
     authority: {
@@ -108,9 +157,17 @@ export function createEmp1ReleaseManifest(input) {
 function normalizeCurrentCustody(value) {
   const dependency = value?.dependencySecurity;
   const headers = value?.deployedSecurityHeaders;
+  const deployment = value?.deploymentEvidence;
   const operations = value?.deploymentOperations;
   requireHash(dependency?.packageLockSha256, 'EMP1_RELEASE_MANIFEST_DEPENDENCY_LOCK_HASH_INVALID');
   requireHash(headers?.policySemanticHash, 'EMP1_RELEASE_MANIFEST_SECURITY_HEADER_POLICY_HASH_INVALID');
+  if (deployment?.deploymentReceiptSha256 != null) {
+    requireHash(deployment.deploymentReceiptSha256,
+      'EMP1_RELEASE_MANIFEST_DEPLOYMENT_RECEIPT_HASH_INVALID');
+  }
+  if (deployment?.gateId !== 'DEPLOYMENT_EVIDENCE') {
+    throw manifestError('EMP1_RELEASE_MANIFEST_DEPLOYMENT_EVIDENCE_CUSTODY_INVALID');
+  }
   if (operations?.deploymentOperationsReceiptSha256 != null) {
     requireHash(operations.deploymentOperationsReceiptSha256,
       'EMP1_RELEASE_MANIFEST_DEPLOYMENT_OPERATIONS_RECEIPT_HASH_INVALID');
@@ -130,6 +187,7 @@ function normalizeCurrentCustody(value) {
   return Object.freeze({
     dependencySecurity: Object.freeze({ ...dependency }),
     deployedSecurityHeaders: Object.freeze({ ...headers }),
+    deploymentEvidence: Object.freeze({ ...deployment }),
     deploymentOperations: Object.freeze({ ...operations }),
   });
 }
@@ -172,6 +230,22 @@ function assertAuthorityInputs() {
     || currentSourceSemantics.authority.caseEngineeringUseAuthorizedByThisGate !== false
     || currentSourceSemantics.authority.releaseAuthorityGranted !== false) {
     throw manifestError('EMP1_RELEASE_MANIFEST_WRC02_SOURCE_SEMANTICS_INVALID');
+  }
+  if (packageMetadata.name !== 'advanced-analysis'
+    || typeof packageMetadata.version !== 'string'
+    || !packageMetadata.version.trim()) {
+    throw manifestError('EMP1_RELEASE_MANIFEST_PRODUCT_VERSION_INVALID');
+  }
+  if (currentRouteAuthority.productionUseAuthorized !== true
+    || !currentRouteAuthority.routeAuthorityHash
+    || currentRouteAuthority.snapshot?.semanticHash !== currentRouteAuthority.routeAuthorityHash) {
+    throw manifestError('EMP1_RELEASE_MANIFEST_CURRENT_ROUTE_AUTHORITY_INVALID');
+  }
+  if (stageCPreflight.status
+      !== 'PASS_STATIC_STAGEC_PREFLIGHT_STANDARD_EXECUTABLE_EVIDENCE_STILL_MISSING'
+    || stageCPreflight.executionState.engineeringPassClaimed !== false
+    || stageCPreflight.authorityBoundary.staticDriftPreflightIsNumericalQualification !== false) {
+    throw manifestError('EMP1_RELEASE_MANIFEST_STAGEC_PREFLIGHT_INVALID');
   }
   if (currentBenchmarkManifest.issue !== 1772
     || currentBenchmarkManifest.state !== 'CURRENT_BENCHMARK_EVIDENCE_INDEX'
