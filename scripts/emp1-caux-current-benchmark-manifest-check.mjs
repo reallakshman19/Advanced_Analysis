@@ -61,7 +61,7 @@ assert.equal(q3.gammaRadiusReconciliation.semanticHash, gammaRadius.semanticHash
 assert.equal(directObservation.status, 'PASS');
 assert.equal(gammaRadius.status,
   'PASS_CAUX_INTERNAL_CORROSION_SAME_STATE_MID_RADIUS_RECONCILIATION');
-assert.equal(gammaRadius.mayEstablishGlobalCorrosionGeometryPolicy, false);
+assert.equal(gammaRadius.scope.mayEstablishGlobalCorrosionGeometryPolicy, false);
 
 assert.equal(custody.state, manifest.caux.retainedComparisonCustody.state);
 assert.equal(custody.comparison.state,
@@ -83,6 +83,10 @@ assert.equal(EMP1_PVELITE_BENCHMARK_PROGRAMME.reference.state,
   manifest.pvElite.state);
 assert.equal(EMP1_PVELITE_BENCHMARK_PROGRAMME.reference.sourceCustodyState,
   manifest.pvElite.sourceCustodyState);
+assert.equal(
+  EMP1_PVELITE_BENCHMARK_PROGRAMME.reference.expectedValuesState,
+  manifest.pvElite.expectedValuesState,
+);
 assert.equal(EMP1_PVELITE_BENCHMARK_PROGRAMME.tolerancePolicy.value, null);
 assert.equal(manifest.pvElite.numericalComparisonRun, false);
 
