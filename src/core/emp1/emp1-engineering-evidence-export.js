@@ -320,10 +320,7 @@ function calculationEvidence(execution) {
 }
 
 function benchmarkEvidence(value) {
-  const evidence = record(
-    value,
-    'EMP1_ENGINEERING_EVIDENCE_BENCHMARK_EVIDENCE_REQUIRED',
-  );
+  const evidence = requireBenchmarkProjection(value);
   const projection = structuredClone(evidence);
   return deepFreeze({
     projection,
@@ -536,6 +533,7 @@ function assertBenchmarkEvidence(value) {
     ['projection', 'projectionSemanticHash', 'authorityBoundary'],
     'EMP1_ENGINEERING_EVIDENCE_BENCHMARK_INVALID',
   );
+  requireBenchmarkProjection(benchmark.projection);
   if (benchmark.projectionSemanticHash !== semanticHash(benchmark.projection)) {
     throw evidenceError('EMP1_ENGINEERING_EVIDENCE_BENCHMARK_HASH_MISMATCH');
   }
@@ -550,6 +548,53 @@ function assertBenchmarkEvidence(value) {
       throw evidenceError(`EMP1_ENGINEERING_EVIDENCE_BENCHMARK_AUTHORITY_INVALID:${key}`);
     }
   }
+}
+
+function requireBenchmarkProjection(value) {
+  const projection = exactRecord(
+    value,
+    ['schema', 'comparators', 'authorityBoundary'],
+    'EMP1_ENGINEERING_EVIDENCE_BENCHMARK_PROJECTION_INVALID',
+  );
+  if (projection.schema !== 'emp1-benchmark-evidence-workspace/v1'
+    || !Array.isArray(projection.comparators)) {
+    throw evidenceError('EMP1_ENGINEERING_EVIDENCE_BENCHMARK_PROJECTION_INVALID');
+  }
+  const boundary = exactRecord(
+    projection.authorityBoundary,
+    [
+      'presentationOnly',
+      'executesWrcMethod',
+      'selectsTolerance',
+      'mutatesExpectedValues',
+      'createsWrcMethodAuthority',
+      'createsEngineeringUseAuthority',
+      'createsProductionAuthority',
+      'createsCodeComplianceAuthority',
+      'createsReleaseAuthority',
+    ],
+    'EMP1_ENGINEERING_EVIDENCE_BENCHMARK_PROJECTION_AUTHORITY_INVALID',
+  );
+  if (boundary.presentationOnly !== true) {
+    throw evidenceError('EMP1_ENGINEERING_EVIDENCE_BENCHMARK_PROJECTION_NOT_PRESENTATION_ONLY');
+  }
+  for (const key of [
+    'executesWrcMethod',
+    'selectsTolerance',
+    'mutatesExpectedValues',
+    'createsWrcMethodAuthority',
+    'createsEngineeringUseAuthority',
+    'createsProductionAuthority',
+    'createsCodeComplianceAuthority',
+    'createsReleaseAuthority',
+  ]) {
+    if (boundary[key] !== false) {
+      throw evidenceError(
+        `EMP1_ENGINEERING_EVIDENCE_BENCHMARK_PROJECTION_AUTHORITY_INVALID:${key}`,
+      );
+    }
+  }
+  return projection;
 }
 
 function assertReviewEvidence(value, calculation) {
@@ -612,8 +657,15 @@ function requireRouteAuthority(value) {
     authority.routeAuthoritySnapshot,
     'EMP1_ENGINEERING_EVIDENCE_ROUTE_AUTHORITY_SNAPSHOT_REQUIRED',
   );
-  if (snapshot.semanticHash !== hash) {
+  const { semanticHash: retainedSnapshotHash, ...snapshotPayload } = snapshot;
+  if (retainedSnapshotHash !== hash || semanticHash(snapshotPayload) !== hash) {
     throw evidenceError('EMP1_ENGINEERING_EVIDENCE_ROUTE_AUTHORITY_HASH_MISMATCH');
+  }
+  if (snapshot.schema !== 'emp1-workbench-route-authority-snapshot/v1'
+    || snapshot.productionUseAuthorized !== true
+    || snapshot.registry?.registered !== true
+    || snapshot.registry?.engineeringUseAuthorized !== true) {
+    throw evidenceError('EMP1_ENGINEERING_EVIDENCE_ROUTE_AUTHORITY_SNAPSHOT_INVALID');
   }
   if (authority.boundedLocalRouteExecuted !== true
     || authority.globalEmp1CRouteAuthority !== false
