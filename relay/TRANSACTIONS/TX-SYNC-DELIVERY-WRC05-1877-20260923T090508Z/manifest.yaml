@@ -1,0 +1,31 @@
+{
+  "schema_version": "relay-v3.1-transaction",
+  "id": "TX-SYNC-DELIVERY-WRC05-1877-20260923T090508Z",
+  "command": "SYNC_DELIVERY",
+  "actor": "chatgpt-gpt5.6-sol-wrc05-20260923",
+  "status": "COMMITTED",
+  "created_at": "2026-09-23T09:05:08Z",
+  "updated_at": "2026-09-23T09:05:08Z",
+  "operations": [
+    {
+      "path": "relay/EVENTS.jsonl",
+      "before_exists": true,
+      "before_digest": "sha256:8b0f89ca45615d0eb24f579b4392c125db4808b6042472d1b0c14b5e52cf2b36",
+      "after_digest": "sha256:fa177f2c135bde5e5b4aa62210d2dd95a479e5543c3442d9894d0f33c85af6a9",
+      "staged_path": "relay/TRANSACTIONS/TX-SYNC-DELIVERY-WRC05-1877-20260923T090508Z/staged/000.after",
+      "backup_path": "relay/TRANSACTIONS/TX-SYNC-DELIVERY-WRC05-1877-20260923T090508Z/backups/000.before"
+    },
+    {
+      "path": "relay/GENERATED/DELIVERY_STATUS.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:c5253ee46d021949ede2ed5c504fe7a8c2acf98655e35f25a1be9297d46a686e",
+      "after_digest": "sha256:ba4248cc6a32d73ad2fbb5c64c923b7dca762e5874b0518e1d63ca88dc30032d",
+      "staged_path": "relay/TRANSACTIONS/TX-SYNC-DELIVERY-WRC05-1877-20260923T090508Z/staged/001.after",
+      "backup_path": "relay/TRANSACTIONS/TX-SYNC-DELIVERY-WRC05-1877-20260923T090508Z/backups/001.before"
+    }
+  ],
+  "applied": [
+    "relay/EVENTS.jsonl",
+    "relay/GENERATED/DELIVERY_STATUS.yaml"
+  ]
+}
