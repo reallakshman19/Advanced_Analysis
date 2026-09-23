@@ -39,5 +39,7 @@ jobs:
         run: node scripts/emp1-wrc537-independent-oracle-falsifiers.mjs
       - name: Re-observe frozen gamma5 historical comparison vector
         run: node scripts/emp1-wrc-gamma5-full-table5-independent-handcalc.mjs
+      - name: Reconstruct current gamma5 H1 independent hand-calculation trace
+        run: node scripts/emp1-wrc537-gamma5-independent-handcalc-trace-check.mjs
       - name: Re-observe independent gamma15 baseline
         run: node scripts/emp1-main-gamma15-independent-baseline-check.mjs
