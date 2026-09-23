@@ -281,7 +281,7 @@ const workspaceExact = classifyEmp1WorkspaceEngineeringEvidenceImport({
   routeAuthority: {
     productionUseAuthorized: true,
     routeAuthorityHash,
-    snapshot: { semanticHash: 'ROUTE-1' },
+    snapshot: { semanticHash: routeAuthorityHash },
   },
 });
 assert.equal(workspaceExact.state, 'CURRENT_REUSABLE');
@@ -323,7 +323,7 @@ const suspended = classifyEmp1EngineeringEvidenceImport({
     routeAuthority: {
       productionUseAuthorized: false,
       routeAuthorityHash,
-      snapshot: { semanticHash: 'ROUTE-1' },
+      snapshot: { semanticHash: routeAuthorityHash },
     },
   }),
 });
@@ -440,7 +440,7 @@ function currentState(overrides = {}) {
     routeAuthority: overrides.routeAuthority ?? {
       productionUseAuthorized: true,
       routeAuthorityHash,
-      snapshot: { semanticHash: 'ROUTE-1' },
+      snapshot: { semanticHash: routeAuthorityHash },
     },
   };
 }
