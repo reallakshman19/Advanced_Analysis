@@ -324,6 +324,17 @@ assert.doesNotMatch(
   /benchmarkEvidence\s*,/u,
   'workspace export must not accept caller-authored benchmark evidence',
 );
+const workspaceExportSignature =
+  workspaceSource.match(
+    /export function createEmp1WorkspaceEngineeringEvidencePackage\([\s\S]*?\n\}/u,
+  )?.[0] ?? '';
+assert.doesNotMatch(workspaceExportSignature, /productVersion\s*,/u,
+  'workspace export must not accept caller-authored product version');
+assert.doesNotMatch(workspaceExportSignature, /releaseProfile\s*,/u,
+  'workspace export must not accept caller-authored release profile');
+assert.match(workspaceSource, /packageMetadata\.version/u);
+assert.match(workspaceSource, /releaseProfile\.releaseProfileId/u);
+assert.match(workspaceSource, /releaseProfile\.schema/u);
 for (const forbidden of [
   'runEmp1(',
   'evaluateEmp1Wrc537',
