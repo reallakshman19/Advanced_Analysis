@@ -113,7 +113,7 @@
     "programmePath": "src/core/emp1/emp1-pvelite-benchmark-programme.js",
     "state": "REFERENCE_NOT_AVAILABLE",
     "sourceCustodyState": "SOURCE_NOT_RETAINED",
-    "expectedValuesState": "NOT_FROZEN_SOURCE_UNAVAILABLE",
+    "expectedValuesState": "NOT_AVAILABLE",
     "toleranceValue": null,
     "numericalComparisonRun": false
   },
