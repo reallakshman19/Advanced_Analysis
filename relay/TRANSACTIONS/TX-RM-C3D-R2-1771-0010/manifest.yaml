@@ -1,0 +1,37 @@
+schema_version: relay-v3.1-transaction
+id: TX-RM-C3D-R2-1771-0010
+command: RECONCILE_ROADMAP
+actor: chatgpt-gpt5.6-sol-c3d-r2-20260923
+status: COMMITTED
+created_at: '2026-09-23T09:13:02.235324Z'
+updated_at: '2026-09-23T09:13:02.313676Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:43f0231571e2fe1aa194d0ee4fc63d95369c4c8e088d040237a098ab87b63f69
+  after_digest: sha256:81f2472284afe0e5b2e187aed6d7106eacdaabaca08ff568d1fb9270dbefe91c
+  staged_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:5a2b0b2b73496a509b44a1c130efd94065dd22e5e816ba7b5147b08f0869a4a5
+  after_digest: sha256:02aaa05e9efe7ec8c254f9b70a79958a58071f22eaaa3383cf1583456f058018
+  staged_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/backups/001.before
+- path: relay/ROADMAP/ROADMAP.yaml
+  before_exists: true
+  before_digest: sha256:a165932b393adde3255b3f050d00a549fb7d8157b104cf5ed461dd21f88f4c5b
+  after_digest: sha256:814849f8c53ba7a878b864b2f6f75c6e0899e6583ece564dd92dfb80a4ebb937
+  staged_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/staged/002.after
+  backup_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/backups/002.before
+- path: relay/STATE.yaml
+  before_exists: true
+  before_digest: sha256:1f6179b870ef9b90c51a6dfe70e980a22b8164ec129085a345127b6cd39b06a3
+  after_digest: sha256:12deec4343fafe9d50c5570fc441d104b057b76584648b3f9eb12f7e8bd8358e
+  staged_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/staged/003.after
+  backup_path: relay/TRANSACTIONS/TX-RM-C3D-R2-1771-0010/backups/003.before
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/ROADMAP/ROADMAP.yaml
+- relay/STATE.yaml

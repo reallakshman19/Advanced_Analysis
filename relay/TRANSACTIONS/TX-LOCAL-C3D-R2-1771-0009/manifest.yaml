@@ -1,0 +1,37 @@
+schema_version: relay-v3.1-transaction
+id: TX-LOCAL-C3D-R2-1771-0009
+command: EXPORT_LOCAL_EXECUTION
+actor: chatgpt-gpt5.6-sol-c3d-r2-20260923
+status: COMMITTED
+created_at: '2026-09-23T09:13:38.918972Z'
+updated_at: '2026-09-23T09:13:39.000008Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:36dd781056ab74b892baf8bf20c0d891d8f77c7ab2b3d25e148ee4f582569b55
+  after_digest: sha256:9b9c92b5841e0cf10706a1cc4e40c2a716693c610338197bda4a7af47d17c6ae
+  staged_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:d78d273ce916464741fb70779189530208768ccf9886126c20da490600aefdcf
+  after_digest: sha256:4ec562f285e89b852c3b2a38b50a8ea605ece05f541cc337759089d910f65aba
+  staged_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/backups/001.before
+- path: relay/GENERATED/LOCAL_EXECUTION.md
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:1e8c7d3061bff98e2e7f2f87d7360e27950faefe39f8e49add0d50be062dc53c
+  staged_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/staged/002.after
+  backup_path: null
+- path: relay/GENERATED/LOCAL_EXECUTION.yaml
+  before_exists: true
+  before_digest: sha256:931e3769ee5ea14e0d10a04ee40d34f07643d30844f7ba9af1bec1e92089dabb
+  after_digest: sha256:c8b9c23356a2fed7f2979071ff3ad812e18081285545219929f09b035e072d71
+  staged_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/staged/003.after
+  backup_path: relay/TRANSACTIONS/TX-LOCAL-C3D-R2-1771-0009/backups/003.before
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/GENERATED/LOCAL_EXECUTION.md
+- relay/GENERATED/LOCAL_EXECUTION.yaml

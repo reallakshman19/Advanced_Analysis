@@ -1,0 +1,8 @@
+STEP-CMD-1 PASS exit 0
+STEP-CMD-2 PASS exit 0
+STEP-CMD-3 PASS exit 0
+STEP-CMD-4 initial attempt was interrupted by an environment restart.
+The interrupted attempt is not counted as qualification evidence.
+STEP-CMD-4 was relaunched from the exact material HEAD and the completed retained run exited 0.
+R2 numerical result: PASS.
+R2 overall disposition: BLOCKED because AC-C3D-R2-6 is not independently inspectable.
