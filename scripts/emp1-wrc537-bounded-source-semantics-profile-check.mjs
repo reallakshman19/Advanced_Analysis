@@ -188,6 +188,17 @@ for (const value of Object.values(profile.materialTheoryBasis.claimsNotMade)) {
 }
 assert.equal(profile.materialTheoryBasis.unqualifiedBehaviorPolicy,
   'FAIL_CLOSED_UNLESS_SEPARATELY_SOURCE_QUALIFIED');
+assert.deepEqual(
+  profile.materialTheoryBasis.notAuthorizedWithoutSeparateSourceQualification,
+  [
+    'PLASTIC_OR_INELASTIC_RESPONSE',
+    'CREEP',
+    'ORTHOTROPIC_OR_ANISOTROPIC_RESPONSE',
+    'COMPOSITE_OR_LINED_CLAD_MATERIAL_EFFECTS',
+    'LARGE_DEFLECTION_OR_OTHER_NONLINEAR_EFFECTS',
+    'MATERIAL_DISCONTINUITY_EFFECTS',
+  ],
+);
 
 // The old mixed blockers become explicit case prerequisites where appropriate.
 const expectedPrerequisites = [
