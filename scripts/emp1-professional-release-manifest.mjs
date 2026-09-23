@@ -25,6 +25,13 @@ const profile = await readJson('validation/emp1/release/emp1-wrc537-gamma5-bound
 const wrcSourceLedger = await readJson('validation/emp1/wrc537-2013/source-ledger.json');
 const cauxSourceLedger = await readJson('validation/emp1/caux2017-wrc01f/source-ledger.json');
 const authorization = await readJson('validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json');
+const currentSourceSemantics = await readJson(
+  'validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json',
+);
+const currentBenchmarkManifestPath =
+  'validation/emp1/release/emp1-current-benchmark-manifest-v1.json';
+const currentBenchmarkManifestBytes = await readFile(resolve(root, currentBenchmarkManifestPath));
+const currentBenchmarkManifest = JSON.parse(currentBenchmarkManifestBytes.toString('utf8'));
 const retainedEvidenceSets = await collectRetainedEvidenceSets(resolve(root, 'validation/emp1/wrc537-2013'));
 
 assertAuthorityInputs();
@@ -51,6 +58,22 @@ export function createEmp1ReleaseManifest(input) {
       datasetHash: profile.method.datasetHash,
       routeQualificationHash: authorization.authorizedIdentity.qualificationRecordSha256,
       independentOracleHash: authorization.authorizedIdentity.postAuthorityOracleSemanticHash,
+      sourceSemanticsProfileHash: currentSourceSemantics.profile.semanticHash,
+      sourceSemanticsGateHash: currentSourceSemantics.semanticHash,
+    },
+    benchmark: {
+      currentManifestPath: currentBenchmarkManifestPath,
+      currentManifestSha256: sha256Bytes(currentBenchmarkManifestBytes),
+      gamma5HandcalcTraceGitBlobSha1:
+        currentBenchmarkManifest.gamma5.independentHandCalculationTrace.gitBlobSha1,
+      cauxBenchmarkSemanticHash: currentBenchmarkManifest.caux.benchmark.semanticHash,
+      cauxCurrentQualificationSemanticHash:
+        currentBenchmarkManifest.caux.currentQualification.semanticHash,
+      cauxComparisonState:
+        currentBenchmarkManifest.caux.retainedComparisonCustody.comparisonState,
+      cauxComparisonRouteEngineeringUseAuthorized:
+        currentBenchmarkManifest.caux.routeRelationship.engineeringUseAuthorized,
+      pvEliteReferenceState: currentBenchmarkManifest.pvElite.state,
     },
     evidence: {
       expectedRetainedFiles: EMP1_RELEASE_EXPECTED_EVIDENCE_FILES,
@@ -141,6 +164,30 @@ function assertAuthorityInputs() {
   }
   if (authorization.authorizedIdentity.postAuthorityOracleSemanticHash !== profile.benchmark.physicalOracleHash) {
     throw manifestError('EMP1_RELEASE_MANIFEST_ORACLE_IDENTITY_DRIFT');
+  }
+  if (currentSourceSemantics.state
+      !== 'PASS_BOUNDED_METHOD_SOURCE_SEMANTICS_CASE_PREREQUISITES_DECLARED'
+    || currentSourceSemantics.profile.methodSourceSemanticsReady !== true
+    || currentSourceSemantics.profile.unresolvedPrimaryMethodSemanticCount !== 0
+    || currentSourceSemantics.authority.caseEngineeringUseAuthorizedByThisGate !== false
+    || currentSourceSemantics.authority.releaseAuthorityGranted !== false) {
+    throw manifestError('EMP1_RELEASE_MANIFEST_WRC02_SOURCE_SEMANTICS_INVALID');
+  }
+  if (currentBenchmarkManifest.issue !== 1772
+    || currentBenchmarkManifest.state !== 'CURRENT_BENCHMARK_EVIDENCE_INDEX'
+    || currentBenchmarkManifest.gamma5.independentHandCalculationTrace.status
+      !== 'FROZEN_INDEPENDENT_H1_TRACE'
+    || currentBenchmarkManifest.caux.currentQualification.directPdfPageReobservation !== 'PASS'
+    || currentBenchmarkManifest.caux.retainedComparisonCustody.comparisonState
+      !== 'COMPARISON_QUALIFIED'
+    || currentBenchmarkManifest.caux.routeRelationship.engineeringUseAuthorized !== false
+    || currentBenchmarkManifest.pvElite.state !== 'REFERENCE_NOT_AVAILABLE') {
+    throw manifestError('EMP1_RELEASE_MANIFEST_WRC04_BENCHMARK_EVIDENCE_INVALID');
+  }
+  for (const value of Object.values(currentBenchmarkManifest.authority)) {
+    if (value !== false) {
+      throw manifestError('EMP1_RELEASE_MANIFEST_EXTERNAL_BENCHMARK_AUTHORITY_INVALID');
+    }
   }
   requireHash(cauxSourceLedger.rawPdfSha256, 'EMP1_RELEASE_MANIFEST_CAUX_SOURCE_HASH_INVALID');
   if (authorization.authorityBoundary.boundedEngineeringUseAuthorized !== true
