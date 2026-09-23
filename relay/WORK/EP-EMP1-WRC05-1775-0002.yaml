@@ -1,0 +1,299 @@
+{
+  "schema_version": "relay-v3.1-ep",
+  "id": "EP-EMP1-WRC05-1775-0002",
+  "work_package": "WP-1775",
+  "outcome": {
+    "statement": "Close the currently actionable WRC-05 P5/P6 evidence gaps by adding durable deterministic EMP.1 evidence export/re-import, durable evidence-bound engineering-review retention, and exact release-manifest custody, without changing WRC numerics or converting missing WRC-03 execution into release authority."
+  },
+  "basis": {
+    "predecessor_checkpoint": null,
+    "material_base": "060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f",
+    "protocol_basis": "github:reallaksh19/Common@f27d6933390a145055f55eac1f4cfc5b2db4732f/skills/engineering-pr-delivery-v3.1",
+    "semantic_dependencies": [
+      {
+        "path": "package.json",
+        "reason": "Current package/version and EMP.1 release carriers are part of P5/P6 custody."
+      },
+      {
+        "path": "src/core/emp1/emp1-engineering-review-record.js",
+        "reason": "Existing immutable human engineering-review binding contract must be reused rather than redefined."
+      },
+      {
+        "path": "src/core/emp1/emp1-readiness-projection.js",
+        "reason": "Existing review/currentness composition must remain non-authorizing."
+      },
+      {
+        "path": "src/workspace/emp1-engineering-review-workspace.js",
+        "reason": "Current review adapter exposes the explicit session-only retention gap to close durably."
+      },
+      {
+        "path": "src/workspace/emp1-workbench-product-run.js",
+        "reason": "Owns live route-authority snapshot/hash that exported evidence must bind."
+      },
+      {
+        "path": "src/workspace/emp1-workbench-product-execution.js",
+        "reason": "Owns retained exact A/B/C execution identities consumed by export/review."
+      },
+      {
+        "path": "src/workspace/emp1-workbench-run-state.js",
+        "reason": "Current/stale/reportable semantics govern re-import behavior."
+      },
+      {
+        "path": "scripts/emp1-engineering-review-record-check.mjs",
+        "reason": "Existing review anti-forgery and staleness tests are the review baseline."
+      },
+      {
+        "path": "scripts/emp1-review-readiness-integration-check.mjs",
+        "reason": "Existing review/readiness separation must remain intact."
+      },
+      {
+        "path": "scripts/emp1-workbench-product-run-qualification.mjs",
+        "reason": "Current governed product execution fixture supplies exact A/B/C evidence semantics."
+      },
+      {
+        "path": "scripts/emp1-workbench-route-authority-currentness-falsifiers.mjs",
+        "reason": "Existing route-authority staleness falsifiers define import/replay fail-closed behavior."
+      },
+      {
+        "path": "scripts/emp1-professional-release-candidate.mjs",
+        "reason": "Live release candidate must consume durable evidence, not create it."
+      },
+      {
+        "path": "scripts/emp1-professional-release-manifest.mjs",
+        "reason": "Current manifest v3 is the P6 custody contract and must remain non-authorizing."
+      },
+      {
+        "path": "scripts/emp1-professional-release-manifest-check.mjs",
+        "reason": "Independent manifest custody check must validate new P6 identities."
+      },
+      {
+        "path": "scripts/emp1-professional-release-readiness-check.mjs",
+        "reason": "Live readiness remains fail-closed on missing execution evidence."
+      },
+      {
+        "path": "scripts/emp1-professional-release-control-wiring-check.mjs",
+        "reason": "WRC-05 anti-regression gate must prevent fallback to stale/historical authority."
+      },
+      {
+        "path": "validation/emp1/release/emp1-current-benchmark-manifest-v1.json",
+        "reason": "Current WRC-04 benchmark evidence is consumed read-only."
+      },
+      {
+        "path": "validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json",
+        "reason": "Current WRC-02 source semantics are consumed read-only."
+      },
+      {
+        "path": "validation/emp1/wrc537-2013/gamma5-stagec-preflight-v1.json",
+        "reason": "Current WRC-03 static Stage-C truth and NOT_RUN boundary must be retained."
+      },
+      {
+        "path": "validation/emp1/wrc537-2013/gamma5-independent-handcalc-trace-v1.json",
+        "reason": "H1 independent trace is current benchmark evidence consumed by release custody."
+      },
+      {
+        "path": "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+        "reason": "Frozen bounded route qualification identity must not be rewritten."
+      },
+      {
+        "path": "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+        "reason": "Frozen physical oracle identity must not be rewritten."
+      },
+      {
+        "path": ".github/workflows/emp1-professional-release-controls.yml",
+        "reason": "Exact-head policy workflow must execute new evidence guards when runner infrastructure is available."
+      },
+      {
+        "path": "e2e/emp1-professional-release.spec.js",
+        "reason": "Professional browser journey remains a later exact-candidate evidence consumer."
+      }
+    ]
+  },
+  "scope": {
+    "write": [
+      "src/core/emp1/emp1-engineering-evidence-export.js",
+      "src/core/emp1/index.js",
+      "src/workspace/emp1-engineering-review-workspace.js",
+      "scripts/emp1-engineering-evidence-export-check.mjs",
+      "scripts/emp1-engineering-review-record-check.mjs",
+      "scripts/emp1-professional-release-candidate.mjs",
+      "scripts/emp1-professional-release-manifest.mjs",
+      "scripts/emp1-professional-release-manifest-check.mjs",
+      "scripts/emp1-professional-release-readiness-check.mjs",
+      "scripts/emp1-professional-release-control-wiring-check.mjs",
+      "validation/emp1/release/**",
+      "package.json",
+      ".github/workflows/emp1-professional-release-controls.yml",
+      "docs/emp1/EMP1_WRC537_Professional_Evidence_Export.md"
+    ],
+    "read": [
+      "package.json",
+      "src/core/emp1/emp1-engineering-review-record.js",
+      "src/core/emp1/emp1-readiness-projection.js",
+      "src/workspace/emp1-engineering-review-workspace.js",
+      "src/workspace/emp1-workbench-product-run.js",
+      "src/workspace/emp1-workbench-product-execution.js",
+      "src/workspace/emp1-workbench-run-state.js",
+      "scripts/emp1-engineering-review-record-check.mjs",
+      "scripts/emp1-review-readiness-integration-check.mjs",
+      "scripts/emp1-workbench-product-run-qualification.mjs",
+      "scripts/emp1-workbench-route-authority-currentness-falsifiers.mjs",
+      "scripts/emp1-professional-release-candidate.mjs",
+      "scripts/emp1-professional-release-manifest.mjs",
+      "scripts/emp1-professional-release-manifest-check.mjs",
+      "scripts/emp1-professional-release-readiness-check.mjs",
+      "scripts/emp1-professional-release-control-wiring-check.mjs",
+      "validation/emp1/release/emp1-current-benchmark-manifest-v1.json",
+      "validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json",
+      "validation/emp1/wrc537-2013/gamma5-stagec-preflight-v1.json",
+      "validation/emp1/wrc537-2013/gamma5-independent-handcalc-trace-v1.json",
+      "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+      "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+      ".github/workflows/emp1-professional-release-controls.yml",
+      "e2e/emp1-professional-release.spec.js"
+    ],
+    "protect": [
+      "src/core/emp1/emp1-wrc537-**",
+      "src/core/emp1/emp1-c-bounded-route-registry.js",
+      "validation/emp1/wrc537-2013/gamma5-post-authority-physical-oracle-v1.json",
+      "validation/emp1/wrc537-2013/gamma5-zero-dp-route-qualification-v2.json",
+      "validation/emp1/release/emp1-current-benchmark-manifest-v1.json",
+      "validation/emp1/caux2017-wrc01f/**",
+      "agents/relay/**"
+    ],
+    "prohibit": [
+      "WRC formula, coefficient, Table-5 sign/recovery or source-semantics changes",
+      "benchmark/oracle expected-value or tolerance refreeze",
+      "non-tabulated-gamma or unsupported-domain authority expansion",
+      "resultHash policy changes owned by #1852",
+      "Owner policy changes owned by #1834",
+      "global EMP.1.C authority",
+      "code-compliance authorization",
+      "synthetic PASS for NOT_RUN execution evidence"
+    ]
+  },
+  "acceptance": [
+    {
+      "id": "AC-WRC05-P5-EXPORT",
+      "statement": "A durable versioned EMP.1 evidence package can be exported from one retained current product execution without rerunning C and binds source, A/B/C, assessment, WRC/source/oracle/route-authority, benchmark, limitations and review identities.",
+      "evidence_requirements": [
+        {
+          "test": "scripts/emp1-engineering-evidence-export-check.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-WRC05-P5-REIMPORT",
+      "statement": "Exact-semantic re-import deterministically validates/reuses retained evidence while unsupported schema or changed source/route authority remains historical and non-reportable; imported fields cannot inject current or release authority.",
+      "evidence_requirements": [
+        {
+          "test": "scripts/emp1-engineering-evidence-export-check.mjs"
+        },
+        {
+          "test": "scripts/emp1-workbench-route-authority-currentness-falsifiers.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-WRC05-P4-REVIEW",
+      "statement": "Engineering review can be retained/exported durably only when bound to the exact current evidence set and becomes stale on any bound identity change; review acceptance creates no source/method/numerical/code/release authority.",
+      "evidence_requirements": [
+        {
+          "test": "scripts/emp1-engineering-review-record-check.mjs"
+        },
+        {
+          "test": "scripts/emp1-engineering-evidence-export-check.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-WRC05-P6-MANIFEST",
+      "statement": "Professional release manifest custody binds product version, exact route-authority hash/snapshot, current source/qualification/benchmark evidence, review/readiness evidence and existing build/security/deployment identities while remaining non-authorizing.",
+      "evidence_requirements": [
+        {
+          "test": "scripts/emp1-professional-release-manifest-check.mjs"
+        },
+        {
+          "test": "scripts/emp1-professional-release-control-wiring-check.mjs"
+        }
+      ]
+    },
+    {
+      "id": "AC-WRC05-BOUNDARY",
+      "statement": "Protected WRC numerical/source authority and external benchmark truth remain unchanged; global EMP.1.C is false, code compliance is NOT_ASSESSED/false, and #1768 NOT_RUN evidence is not promoted.",
+      "evidence_requirements": [
+        {
+          "oracle": "protected-source diff and current WRC02/WRC03/WRC04 retained identities"
+        }
+      ]
+    },
+    {
+      "id": "AC-WRC05-EXECUTION",
+      "statement": "Exact-head checks are executed when infrastructure provides real steps/logs; zero-step Actions remains NOT_RUN_EXECUTION_ENVIRONMENT and cannot be recorded as PASS or engineering FAIL.",
+      "evidence_requirements": [
+        {
+          "test": ".github/workflows/emp1-professional-release-controls.yml"
+        }
+      ]
+    }
+  ],
+  "quality_policy": {
+    "level": "HIGH_RISK",
+    "independent_review": "REQUIRED"
+  },
+  "parent_issue": {
+    "provider": "GITHUB",
+    "repository": "reallaksh19/Advanced_Analysis",
+    "number": 1775,
+    "title": "[ARCH-WRC-05][P1] Close professional EMP.1 product/release path — trace, replay, browser, manifest and deployed-artifact evidence",
+    "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1775",
+    "baseline": {
+      "observed_at": "2026-09-23T06:22:21Z",
+      "body_digest": "sha256:7d6a4d9c7542303899576cad2b635762db8817622407d8a3dfb24815862568f8",
+      "acceptance_items": [
+        {
+          "id": "WRC05-A1",
+          "statement": "Upstream WRC-01..04 release prerequisites are current PASS, not inferred."
+        },
+        {
+          "id": "WRC05-A7",
+          "statement": "Benchmark comparison, method qualification, review, code and release states are visibly distinct."
+        },
+        {
+          "id": "WRC05-A8",
+          "statement": "Import/export/replay is deterministic and fail-closed on authority drift."
+        },
+        {
+          "id": "WRC05-A9",
+          "statement": "Release candidate manifest is reproducible on exact HEAD/tree/parents."
+        },
+        {
+          "id": "WRC05-A12",
+          "statement": "Exact CI has real steps/logs; unavailable execution remains NOT_RUN."
+        },
+        {
+          "id": "WRC05-A14",
+          "statement": "Global EMP.1.C remains false."
+        },
+        {
+          "id": "WRC05-A15",
+          "statement": "Code compliance remains NOT_ASSESSED/false."
+        }
+      ]
+    }
+  },
+  "admission_policy": {
+    "qualification": "NOT_REQUIRED",
+    "question_policy": "NONE"
+  },
+  "next": {
+    "first_action": "Execute and inspect the exact-head WRC-05 release-control workflow for draft PR #1877; classify every gate as PASS, FAIL, or NOT_RUN from real step/log evidence, then obtain independent review without creating merge/release authority.",
+    "stop_conditions": [
+      "Stop if main or any material-sensitive dependency moves relative to 060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f before a write; reclassify drift first.",
+      "Do not change WRC equations, coefficients, Table-5 sign/recovery, source semantics, frozen benchmark values, tolerances, resultHash policy, or route domain/authority.",
+      "Do not treat #1768 historical/current NOT_RUN execution as PASS or synthesize missing 01-12 evidence.",
+      "Engineering review acceptance must remain evidence-bound human review only and must not create source, method, applicability, numerical, code, or release authority.",
+      "Global EMP.1.C remains false and code compliance remains NOT_ASSESSED/false.",
+      "OWNER_OVERRIDE permits bounded writes/tests/draft PR only; MERGE and RELEASE are prohibited."
+    ]
+  }
+}

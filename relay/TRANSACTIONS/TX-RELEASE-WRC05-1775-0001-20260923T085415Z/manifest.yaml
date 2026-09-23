@@ -1,0 +1,49 @@
+{
+  "schema_version": "relay-v3.1-transaction",
+  "id": "TX-RELEASE-WRC05-1775-0001-20260923T085415Z",
+  "command": "RELEASE_LEASE",
+  "actor": "chatgpt-gpt5.6-sol-wrc05-20260923",
+  "status": "COMMITTED",
+  "created_at": "2026-09-23T08:54:15Z",
+  "updated_at": "2026-09-23T08:54:15Z",
+  "operations": [
+    {
+      "path": "relay/EVENTS.jsonl",
+      "before_exists": true,
+      "before_digest": "sha256:8f979c092be2398113aa146f9642f38dc9a1636d808bd37bb32553a287f21dba",
+      "after_digest": "sha256:2b0f74aee1d1c6d7e4d58f53dd66b9366a1d5ad12327ed550aa03ab2af20e838",
+      "staged_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/staged/000.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/backups/000.before"
+    },
+    {
+      "path": "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:6e83679552dac0307f6d7d733d9fbd3e8fe48e6264751c25c97fc2853294ec69",
+      "after_digest": "sha256:62f20395e4aedef2bb1ad76529c202cd4fe38a6c868495d2283117d6b66b6253",
+      "staged_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/staged/001.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/backups/001.before"
+    },
+    {
+      "path": "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:87d23b52c2fc6d4a1592257d9e57f83453866432824e09a0e8f880a0382076a6",
+      "after_digest": "sha256:9be1c38dc1c30b98ba0660041b76b8bb861655138477a469f41b5f270cc2d158",
+      "staged_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/staged/002.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/backups/002.before"
+    },
+    {
+      "path": "relay/STATE.yaml",
+      "before_exists": true,
+      "before_digest": "sha256:1c96ef6979bc8c6cb65992f1c78f69b8c2ff2299e083412c7b43702b6f5879ce",
+      "after_digest": "sha256:3024516e2f3d538c928fb2e01c6268413469c5d3fc91083b89a1619ae34e5009",
+      "staged_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/staged/003.after",
+      "backup_path": "relay/TRANSACTIONS/TX-RELEASE-WRC05-1775-0001-20260923T085415Z/backups/003.before"
+    }
+  ],
+  "applied": [
+    "relay/EVENTS.jsonl",
+    "relay/GENERATED/CURRENT_SNAPSHOT.yaml",
+    "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml",
+    "relay/STATE.yaml"
+  ]
+}

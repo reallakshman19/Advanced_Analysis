@@ -76,7 +76,7 @@
     "recovery_after_seconds": 3600,
     "recovery_policy": "TAKEOVER_AFTER_EXPIRY"
   },
-  "state": "ACTIVE",
+  "state": "RELEASED",
   "invalidation": {
     "reasons": []
   }

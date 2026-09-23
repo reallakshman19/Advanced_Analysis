@@ -1,6 +1,6 @@
 {
   "schema_version": "relay-v3.1-roadmap",
-  "revision": "RM-0011",
+  "revision": "RM-0012",
   "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
   "owner": {
     "outcome": "Preserve verified LAFEA.3/C3-C truth while executing the EMP.1/WRC programme under Relay V3.1 without rewriting historical evidence, widening WRC authority, or treating NOT_RUN as PASS.",

@@ -2,15 +2,15 @@
   "schema_version": "relay-v3.1-snapshot",
   "authority": "DERIVED_READ_MODEL",
   "generated_from": {
-    "roadmap_revision": "RM-0011",
-    "state_digest": "sha256:ddecbf29ba62526b968bf5c57d2f9f7035a941f4a92c8ce6fa3ed45ceaa3ff6e",
+    "roadmap_revision": "RM-0012",
+    "state_digest": "sha256:6018717ffd3c8df0bf801dbd647757c918fc9b00e554ff120356a4be7ac8c06b",
     "material_basis": {
       "head": "b82cda45b499263636e5c4bbec28a1d939e7f725",
       "tree_digest": "sha256:c7b352010245612efa7c505d2659b0c759083a2ab8b2292436ec1b0bae982e6b",
       "relevant_paths_digest": "sha256:1935981db3fa4811129e81188fb01ba1277c0140b6c0cdc596b80ea8bc6ff3d4",
       "dependency_digest": "sha256:5af069f4d2edf2fc4fe90ecd0d039dbfa8afd96a8a9769e35d8c890de7d3e621"
     },
-    "coordination_head": "b82cda45b499263636e5c4bbec28a1d939e7f725"
+    "coordination_head": "a380d6628bf8b18b45b8a3873003a1a1b1c91af2"
   },
   "owner": {
     "outcome": "Preserve verified LAFEA.3/C3-C truth while executing the EMP.1/WRC programme under Relay V3.1 without rewriting historical evidence, widening WRC authority, or treating NOT_RUN as PASS.",
@@ -31,8 +31,8 @@
   "execution": {
     "lifecycle": "ACTIVE",
     "work_package": "WP-1775",
-    "ep": "EP-EMP1-WRC05-1775-0001",
-    "lease": "LEASE-EMP1-WRC05-1775-0001",
+    "ep": "EP-EMP1-WRC05-1775-0002",
+    "lease": "LEASE-EMP1-WRC05-1775-0002",
     "executor": "chatgpt-gpt5.6-sol-wrc05-20260923",
     "custody_epoch": 1
   },
@@ -94,13 +94,13 @@
     "informational": []
   },
   "delivery": {
-    "issue": 1775,
-    "pr": null,
+    "issue": null,
+    "pr": 1877,
     "lifecycle": "DECLARED",
     "merge_authorized": false
   },
   "next": {
-    "immediate_material_action": "Implement durable EMP.1 engineering evidence export/re-import and durable engineering-review binding over the exact retained current A/B/C execution and route-authority snapshot; then bind those identities into the professional release manifest without creating release authority.",
+    "immediate_material_action": "Execute and inspect the exact-head WRC-05 release-control workflow for draft PR #1877; classify every gate as PASS, FAIL, or NOT_RUN from real step/log evidence, then obtain independent review without creating merge/release authority.",
     "delivery_action": "Perform the explicitly authorized delivery transition.",
     "stop_conditions": [
       "Stop if main or any material-sensitive dependency moves relative to 060c20aa5d16ee63e82c466aa6c6bf1ca2822b1f before a write; reclassify drift first.",
@@ -117,8 +117,8 @@
       "relay/ROADMAP/ROADMAP.yaml",
       "relay/STATE.yaml",
       "relay/CONTROLS/controls.yaml",
-      "relay/WORK/EP-EMP1-WRC05-1775-0001.yaml",
-      "relay/LEASES/LEASE-EMP1-WRC05-1775-0001.yaml"
+      "relay/WORK/EP-EMP1-WRC05-1775-0002.yaml",
+      "relay/LEASES/LEASE-EMP1-WRC05-1775-0002.yaml"
     ]
   }
 }

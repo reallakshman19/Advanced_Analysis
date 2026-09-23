@@ -1,14 +1,14 @@
 {
   "schema_version": "relay-v3.1",
   "roadmap": {
-    "revision": "RM-0011",
+    "revision": "RM-0012",
     "path": "relay/ROADMAP/ROADMAP.yaml"
   },
   "execution": {
     "lifecycle": "ACTIVE",
-    "ep": "EP-EMP1-WRC05-1775-0001",
-    "lease": "LEASE-EMP1-WRC05-1775-0001",
-    "route": "SERIAL:EP-EMP1-WRC05-1775-0001",
+    "ep": "EP-EMP1-WRC05-1775-0002",
+    "lease": "LEASE-EMP1-WRC05-1775-0002",
+    "route": "SERIAL:EP-EMP1-WRC05-1775-0002",
     "custody_epoch": 1
   },
   "accepted": {
@@ -21,8 +21,8 @@
     "required": true,
     "primary_vehicle": {
       "provider": "GITHUB",
-      "kind": "ISSUE",
-      "number": 1775
+      "kind": "PULL_REQUEST",
+      "number": 1877
     }
   },
   "generated": {
