@@ -20,7 +20,12 @@ if (unknown.length) throw gateError(`EMP1_RELEASE_READINESS_UNKNOWN_ARGUMENT:${u
 const contract = await readJson('validation/emp1/release/emp1-professional-release-readiness-v1.json');
 const profile = await readJson('validation/emp1/release/emp1-wrc537-gamma5-bounded-release-profile-v1.json');
 const p0 = await readJson('validation/emp1/release/emp1-wrc537-gamma5-p0-source-semantics-gate-v1.json');
-const caux = await readJson('validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v1.json');
+const caux = await readJson(
+  'validation/emp1/caux2017-wrc01f/caux-pp24-31-benchmark-qualification-v3.json',
+);
+const currentBenchmarks = await readJson(
+  'validation/emp1/release/emp1-current-benchmark-manifest-v1.json',
+);
 const sourceLedger = await readJson('validation/emp1/wrc537-2013/source-ledger.json');
 
 const expectedPre = [
@@ -110,6 +115,21 @@ assert.equal(sourceLedger.rawPdfSha256, contract.sourceSha256);
 assert.equal(sourceLedger.custodyState, 'VERIFIED');
 assert.equal(sourceLedger.qualificationState, 'PASS_SOURCE_CUSTODY');
 assert.equal(sourceLedger.reconciliation.productionObservationUsedToSetAuthority, false);
+assert.equal(
+  currentBenchmarks.caux.currentQualification.semanticHash,
+  caux.semanticHash,
+);
+assert.equal(
+  currentBenchmarks.caux.currentQualification.qualificationId,
+  caux.qualificationId,
+);
+assert.equal(currentBenchmarks.caux.currentQualification.directPdfPageReobservation, 'PASS');
+assert.equal(
+  currentBenchmarks.caux.currentQualification.gammaRadiusBasisForThisBenchmark,
+  'PASS_RECONCILED',
+);
+assert.equal(currentBenchmarks.caux.routeRelationship.engineeringUseAuthorized, false);
+assert.equal(currentBenchmarks.caux.routeRelationship.comparisonQualificationAvailable, true);
 
 const evidenceDirectories = await findEvidenceDirectories(
   resolve(root, 'validation/emp1/wrc537-2013'),
