@@ -46,6 +46,15 @@ assertAuthorityInputs();
 export function createEmp1ReleaseManifest(input) {
   const currentCustody = normalizeCurrentCustody(input.currentCandidateProvenance);
   const gates = executionEvidence(input.executions);
+  const caseReview = currentCustody.caseEngineeringEvidence;
+  const caseSpecificHumanReviewAsserted =
+    caseReview?.reviewAcceptedCurrent === true
+    && caseReview?.reviewState === 'REVIEW_ACCEPTED'
+    && caseReview?.reviewDisposition === 'ACCEPTED'
+    && gates.CASE_ENGINEERING_EVIDENCE?.status === 'PASS';
+  if (input.releaseCandidateQualified === true && !caseSpecificHumanReviewAsserted) {
+    throw manifestError('EMP1_RELEASE_MANIFEST_QUALIFIED_CASE_REVIEW_REQUIRED');
+  }
   const payload = {
     schema: 'emp1-release-candidate/v3',
     git: {
@@ -118,7 +127,11 @@ export function createEmp1ReleaseManifest(input) {
       reviewReadinessGateId: 'ENGINEERING_REVIEW_READINESS',
       reviewReadinessGateStatus:
         gates.ENGINEERING_REVIEW_READINESS?.status ?? 'NOT_RUN_EXECUTION_ENVIRONMENT',
-      caseSpecificHumanReviewAsserted: false,
+      caseSpecificHumanReviewGateId: 'CASE_ENGINEERING_EVIDENCE',
+      caseSpecificHumanReviewGateStatus:
+        gates.CASE_ENGINEERING_EVIDENCE?.status ?? 'NOT_PROVIDED',
+      caseSpecificHumanReviewAsserted,
+      caseSpecificHumanReview: caseReview ? structuredClone(caseReview) : null,
       caseSpecificHumanReviewRequiredForEngineeringDisposition: true,
       reviewAcceptanceCreatesReleaseAuthority: false,
       reviewAcceptanceCreatesCodeCompliance: false,
@@ -159,6 +172,7 @@ function normalizeCurrentCustody(value) {
   const headers = value?.deployedSecurityHeaders;
   const deployment = value?.deploymentEvidence;
   const operations = value?.deploymentOperations;
+  const caseEngineeringEvidence = value?.caseEngineeringEvidence ?? null;
   requireHash(dependency?.packageLockSha256, 'EMP1_RELEASE_MANIFEST_DEPENDENCY_LOCK_HASH_INVALID');
   requireHash(headers?.policySemanticHash, 'EMP1_RELEASE_MANIFEST_SECURITY_HEADER_POLICY_HASH_INVALID');
   if (deployment?.deploymentReceiptSha256 != null) {
@@ -184,11 +198,47 @@ function normalizeCurrentCustody(value) {
     || operations?.rollbackSuccessAuthorizedByThisHarness !== false) {
     throw manifestError('EMP1_RELEASE_MANIFEST_DEPLOYMENT_OPERATIONS_CUSTODY_INVALID');
   }
+  if (caseEngineeringEvidence != null) {
+    requireHash(caseEngineeringEvidence.packageSha256,
+      'EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_HASH_INVALID');
+    for (const field of [
+      'packageSemanticHash',
+      'productVersion',
+      'releaseProfileId',
+      'releaseProfileVersion',
+      'routeAuthorityHash',
+      'reviewId',
+      'reviewSemanticHash',
+      'reviewedAt',
+      'reviewerIdentity',
+    ]) {
+      if (typeof caseEngineeringEvidence[field] !== 'string'
+        || !caseEngineeringEvidence[field].trim()) {
+        throw manifestError(
+          `EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_FIELD_INVALID:${field}`,
+        );
+      }
+    }
+    if (caseEngineeringEvidence.packageSchema !== 'emp1-evidence-export/v1'
+      || caseEngineeringEvidence.reviewAcceptedCurrent !== true
+      || caseEngineeringEvidence.reviewState !== 'REVIEW_ACCEPTED'
+      || caseEngineeringEvidence.reviewDisposition !== 'ACCEPTED'
+      || caseEngineeringEvidence.productVersion !== packageMetadata.version
+      || caseEngineeringEvidence.releaseProfileId !== profile.releaseProfileId
+      || caseEngineeringEvidence.releaseProfileVersion !== profile.schema
+      || caseEngineeringEvidence.routeAuthorityHash
+        !== currentRouteAuthority.routeAuthorityHash) {
+      throw manifestError('EMP1_RELEASE_MANIFEST_CASE_ENGINEERING_EVIDENCE_CUSTODY_INVALID');
+    }
+  }
   return Object.freeze({
     dependencySecurity: Object.freeze({ ...dependency }),
     deployedSecurityHeaders: Object.freeze({ ...headers }),
     deploymentEvidence: Object.freeze({ ...deployment }),
     deploymentOperations: Object.freeze({ ...operations }),
+    caseEngineeringEvidence: caseEngineeringEvidence == null
+      ? null
+      : Object.freeze({ ...caseEngineeringEvidence }),
   });
 }
 
