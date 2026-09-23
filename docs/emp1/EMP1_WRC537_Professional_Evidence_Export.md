@@ -109,6 +109,10 @@ Release mode requires an explicit retained evidence package under `validation/em
 --engineering-evidence-package validation/emp1/release/<case-evidence>.json
 ```
 
+The evidence package must already be a **regular Git-tracked file in the exact candidate commit**. Release-mode inspection rejects symlinks and non-regular files, resolves the `HEAD:<path>` Git blob, hashes the working file with `git hash-object`, requires both blob identities to match, and retains that Git blob SHA-1 together with the package SHA-256. Runtime-only or externally resolved bytes cannot satisfy case-review custody.
+
+The manifest checker independently reopens the retained file, requires the same `HEAD:<path>` blob identity, rechecks the package SHA-256 and semantic hash, and revalidates the evidence-package contract.
+
 The release candidate validates that package as `emp1-evidence-export/v1` and requires all of the following before it can contribute a PASS `CASE_ENGINEERING_EVIDENCE` gate:
 
 - package product version matches the current EMP.1 package version;
