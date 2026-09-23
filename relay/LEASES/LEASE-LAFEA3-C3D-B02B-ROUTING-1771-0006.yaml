@@ -1,4 +1,4 @@
-{
+﻿{
   "schema_version": "relay-v3.1-lease",
   "id": "LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006",
   "route": "SERIAL:EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
@@ -36,8 +36,9 @@
       "evidence": []
     }
   },
-  "state": "ACTIVE",
+  "state": "RELEASED",
   "invalidation": {
     "reasons": []
   }
 }
+
