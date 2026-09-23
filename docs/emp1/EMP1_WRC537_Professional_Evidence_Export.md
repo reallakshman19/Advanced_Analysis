@@ -52,12 +52,12 @@ Review acceptance remains a human engineering attestation only. It does not crea
 
 `requireEmp1EngineeringEvidencePackage(...)` validates retained package integrity only.
 
-`classifyEmp1EngineeringEvidenceImport(...)` additionally compares the validated package with caller-owned current state. The current state supplies:
+`classifyEmp1EngineeringEvidenceImport(...)` additionally compares the validated package with caller-owned current state. The workspace import adapter supplies:
 
-- current A source document;
-- current B source document;
-- current normalized run input; and
-- current route-authority projection.
+- governed current input hashes produced by `emp1WorkbenchInputHashes(...)` from the current A document, B document and normalized run input; and
+- the current route-authority projection.
+
+The core import classifier therefore does not create a second normalization/currentness implementation.
 
 A package is `CURRENT_REUSABLE` only when all retained input hashes match the live inputs, the retained route-authority hash matches the live route-authority hash, the live route remains production-authorized for the bounded route, and the retained execution actually completed bounded C.
 
