@@ -29,6 +29,13 @@ const profile = await readJson('validation/emp1/release/emp1-wrc537-gamma5-bound
 const wrcSourceLedger = await readJson('validation/emp1/wrc537-2013/source-ledger.json');
 const cauxSourceLedger = await readJson('validation/emp1/caux2017-wrc01f/source-ledger.json');
 const authorization = await readJson('validation/emp1/wrc537-2013/gamma5-zero-dp-route-authorization-v1.json');
+const currentSourceSemantics = await readJson(
+  'validation/emp1/release/emp1-wrc537-gamma5-current-source-semantics-gate-v1.json',
+);
+const currentBenchmarkManifestPath =
+  'validation/emp1/release/emp1-current-benchmark-manifest-v1.json';
+const currentBenchmarkManifestBytes = await readFile(resolve(root, currentBenchmarkManifestPath));
+const currentBenchmarkManifest = JSON.parse(currentBenchmarkManifestBytes.toString('utf8'));
 const retainedEvidenceSets = await collectRetainedEvidenceSets(resolve(root, 'validation/emp1/wrc537-2013'));
 const packageLockSha256 = sha256Bytes(await readFile(resolve(root, 'package-lock.json')));
 const candidateSource = await readFile(resolve(root, 'scripts/emp1-professional-release-candidate.mjs'), 'utf8');
@@ -73,10 +80,38 @@ assert.deepEqual(manifest.method, {
   datasetHash: profile.method.datasetHash,
   routeQualificationHash: authorization.authorizedIdentity.qualificationRecordSha256,
   independentOracleHash: authorization.authorizedIdentity.postAuthorityOracleSemanticHash,
+  sourceSemanticsProfileHash: currentSourceSemantics.profile.semanticHash,
+  sourceSemanticsGateHash: currentSourceSemantics.semanticHash,
+});
+assert.deepEqual(manifest.benchmark, {
+  currentManifestPath: currentBenchmarkManifestPath,
+  currentManifestSha256: sha256Bytes(currentBenchmarkManifestBytes),
+  gamma5HandcalcTraceGitBlobSha1:
+    currentBenchmarkManifest.gamma5.independentHandCalculationTrace.gitBlobSha1,
+  cauxBenchmarkSemanticHash: currentBenchmarkManifest.caux.benchmark.semanticHash,
+  cauxCurrentQualificationSemanticHash:
+    currentBenchmarkManifest.caux.currentQualification.semanticHash,
+  cauxComparisonState:
+    currentBenchmarkManifest.caux.retainedComparisonCustody.comparisonState,
+  cauxComparisonRouteEngineeringUseAuthorized:
+    currentBenchmarkManifest.caux.routeRelationship.engineeringUseAuthorized,
+  pvEliteReferenceState: currentBenchmarkManifest.pvElite.state,
 });
 assert.equal(authorization.authorizedIdentity.sourceDocumentSha256, manifest.source.wrcSha256);
 assert.equal(authorization.authorizedIdentity.datasetHash, manifest.method.datasetHash);
 assert.equal(profile.benchmark.physicalOracleHash, manifest.method.independentOracleHash);
+assert.equal(currentSourceSemantics.profile.methodSourceSemanticsReady, true);
+assert.equal(currentSourceSemantics.profile.unresolvedPrimaryMethodSemanticCount, 0);
+assert.equal(currentSourceSemantics.authority.caseEngineeringUseAuthorizedByThisGate, false);
+assert.equal(currentSourceSemantics.authority.releaseAuthorityGranted, false);
+assert.equal(currentBenchmarkManifest.gamma5.independentHandCalculationTrace.status,
+  'FROZEN_INDEPENDENT_H1_TRACE');
+assert.equal(currentBenchmarkManifest.caux.currentQualification.directPdfPageReobservation, 'PASS');
+assert.equal(currentBenchmarkManifest.caux.retainedComparisonCustody.comparisonState,
+  'COMPARISON_QUALIFIED');
+assert.equal(currentBenchmarkManifest.caux.routeRelationship.engineeringUseAuthorized, false);
+assert.equal(currentBenchmarkManifest.pvElite.state, 'REFERENCE_NOT_AVAILABLE');
+for (const value of Object.values(currentBenchmarkManifest.authority)) assert.equal(value, false);
 
 assert.deepEqual(manifest.evidence.expectedRetainedFiles, expectedEvidenceFiles,
   'EMP1_RELEASE_MANIFEST_EXPECTED_EVIDENCE_INVENTORY_DRIFT');
@@ -166,6 +201,9 @@ const result = {
   releaseProfileId: manifest.product.releaseProfileId,
   manifestSemanticHash: manifest.semanticHash,
   retainedEvidenceSetCount: manifest.evidence.retainedEvidenceSets.length,
+  sourceSemanticsProfileHash: manifest.method.sourceSemanticsProfileHash,
+  currentBenchmarkManifestSha256: manifest.benchmark.currentManifestSha256,
+  pvEliteReferenceState: manifest.benchmark.pvEliteReferenceState,
   executionGateCount: Object.keys(manifest.evidence.gates).length,
   releaseCandidateQualified: receipt.releaseCandidateQualified === true,
   currentDependencyCustodyBound: true,
