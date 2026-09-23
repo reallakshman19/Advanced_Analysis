@@ -1,14 +1,14 @@
-{
+﻿{
   "schema_version": "relay-v3.1",
   "roadmap": {
-    "revision": "RM-0014",
+    "revision": "RM-0015",
     "path": "relay/ROADMAP/ROADMAP.yaml"
   },
   "execution": {
     "lifecycle": "ACTIVE",
-    "ep": "EP-LAFEA3-C3D-B02B-ROUTING-1771-0006",
-    "lease": "LEASE-LAFEA3-C3D-B02B-ROUTING-1771-0006",
-    "route": "SERIAL:EP-LAFEA3-C3D-B02B-ROUTING-1771-0006"
+    "ep": "EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
+    "lease": "LEASE-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
+    "route": "SERIAL:EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007"
   },
   "accepted": {
     "checkpoint": null

@@ -1,0 +1,105 @@
+﻿{
+  "schema_version": "relay-v3.1-ep",
+  "id": "EP-LAFEA3-C3D-B02-SEQUENCE-1771-0007",
+  "work_package": "WP-1771",
+  "outcome": {
+    "statement": "Harmonize B02 sequence receipt caseId assertion in scripts/lafea-b02-production-sequence-check.mjs to accept promoted V2 benchmark cases (B02B-V2 and B02D-V2), allowing the aggregate sequence to complete cleanly and emit the B02E qualification receipt."
+  },
+  "basis": {
+    "predecessor_checkpoint": null,
+    "material_base": "ef09fc3c403cc6b1fb7b206bfb2abc6166c28a24",
+    "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+    "semantic_dependencies": [
+      {
+        "path": "scripts/lafea-b02-production-sequence-check.mjs",
+        "reason": "Harness asserts receipts[id].caseId === id; fails on promoted V2 cases."
+      },
+      {
+        "path": "validation/lafea-b02-definitions/B02B-nonuniform-shear-v2.json",
+        "reason": "Active B02B V2 definition emitting caseId B02B-V2."
+      },
+      {
+        "path": "validation/lafea-b02-definitions/B02D-lug-pinhole-v2.json",
+        "reason": "Active B02D V2 definition emitting caseId B02D-V2."
+      }
+    ]
+  },
+  "scope": {
+    "write": [
+      "scripts/lafea-b02-production-sequence-check.mjs",
+      "relay/EVIDENCE/C3D-B02-SEQUENCE/**"
+    ],
+    "read": [
+      "scripts/lafea-b02-production-sequence-check.mjs",
+      "scripts/lafea-b02b-production-check.mjs",
+      "scripts/lafea-b02d-production-check.mjs",
+      "validation/lafea-b02-definitions/**"
+    ],
+    "protect": [
+      "src/**",
+      "validation/lafea-b02-definitions/**",
+      "scripts/lib/**"
+    ],
+    "prohibit": [
+      "changes to benchmark definitions, expected values, sign correction, acceptance modes or tolerances",
+      "changes to qualifier logic, mesh generators, or FE solver",
+      "B-bar or BM-005 changes",
+      "workflow YAML changes",
+      "issue #1862 implementation",
+      "release or merge authority"
+    ]
+  },
+  "acceptance": [
+    {
+      "id": "AC-C3D-B02-SEQ-1",
+      "statement": "scripts/lafea-b02-production-sequence-check.mjs accepts both canonical case ID and governed V2 revision for B02A-D.",
+      "evidence_requirements": [
+        {
+          "oracle": "source inspection of sequence check assertion"
+        }
+      ]
+    },
+    {
+      "id": "AC-C3D-B02-SEQ-2",
+      "statement": "node scripts/lafea-b02-production-sequence-check.mjs executes to completion with exit code 0 and emits valid B02E qualification receipt with status PASS.",
+      "evidence_requirements": [
+        {
+          "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+        }
+      ]
+    }
+  ],
+  "quality_policy": {
+    "level": "HIGH_RISK",
+    "independent_review": "REQUIRED"
+  },
+  "parent_issue": {
+    "provider": "GITHUB",
+    "repository": "reallaksh19/Advanced_Analysis",
+    "number": 1771,
+    "title": "[LAFEA.3][Architecture][C3-D] Qualify production-route continuum response, solver robustness, and convergence",
+    "url": "https://github.com/reallaksh19/Advanced_Analysis/issues/1771",
+    "baseline": {
+      "observed_at": "2026-09-23T00:25:00Z",
+      "body_digest": "sha256:3d59e1ac8c1c701c4a17cdb97817db9bcee215f542856b2c17fafda440f901ab",
+      "acceptance_items": [
+        {
+          "id": "C3-D.1",
+          "statement": "Drive B02A-E through the ordinary production route with retained mesh/model lineage and CURRENT_RESULT authority."
+        }
+      ]
+    }
+  },
+  "offloads": [],
+  "admission_policy": {
+    "qualification": "NOT_REQUIRED",
+    "question_policy": "NONE"
+  },
+  "next": {
+    "first_action": "Harmonize sequence check caseId assertion, run sequence check, and retain B02E qualification receipt.",
+    "stop_conditions": [
+      "Do not alter numerical tolerances or benchmark definitions.",
+      "Do not touch B-bar or BM-005."
+    ]
+  }
+}

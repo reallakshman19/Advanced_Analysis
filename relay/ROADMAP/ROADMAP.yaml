@@ -1,7 +1,7 @@
-{
+﻿{
   "schema_version": "relay-v3.1-roadmap",
-  "revision": "RM-0014",
-  "title": "FEA meshing completion roadmap — shared mesh workspace, benchmarks and LAFEA.3–.6 delivery",
+  "revision": "RM-0015",
+  "title": "FEA meshing completion roadmap â€” shared mesh workspace, benchmarks and LAFEA.3â€“.6 delivery",
   "owner": {
     "outcome": "Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved downstream capability.",
     "current_goal": "Repair B02B-V2 production-route selection so the sign-only V2 definition reuses B02B's already-qualified probe-stable mesh strategy, validate B02B and aggregate progression, then return to separate B-bar/BM-005 boundaries."
@@ -53,3 +53,4 @@
     }
   ]
 }
+
