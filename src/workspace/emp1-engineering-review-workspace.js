@@ -8,6 +8,8 @@ import {
   classifyEmp1EngineeringEvidenceImport,
   createEmp1EngineeringEvidencePackage,
 } from '../core/emp1/emp1-engineering-evidence-export.js';
+import { projectEmp1BenchmarkEvidenceWorkspace } from
+  './emp1-benchmark-evidence-workspace.js';
 import {
   EMP1_WORKBENCH_C_STATE,
   EMP1_WORKBENCH_EXECUTION_CURRENTNESS,
@@ -113,7 +115,6 @@ export function createEmp1WorkspaceEngineeringEvidencePackage({
   cState,
   reviewRecord = null,
   sourceDocuments,
-  benchmarkEvidence,
   productVersion,
   releaseProfile,
 } = {}) {
@@ -127,7 +128,7 @@ export function createEmp1WorkspaceEngineeringEvidencePackage({
     execution,
     reviewRecord,
     sourceDocuments,
-    benchmarkEvidence,
+    benchmarkEvidence: projectEmp1BenchmarkEvidenceWorkspace(),
     productVersion,
     releaseProfile,
   });
