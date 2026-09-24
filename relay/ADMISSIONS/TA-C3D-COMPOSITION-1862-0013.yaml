@@ -6,6 +6,9 @@
     "basis": [
       "RM-0012 R2-to-composition handover reconciliation",
       "PR #1878 merged reviewed R2 evidence",
+      "PR #1879 merged Lamé angular subdivision fix at 8844555359d0d64ee509a32cf28801fa29971646",
+      "Issue #1880 exact-head validation evidence (LOCAL-1771-PR1879-LAME-001) clearing Lamé mesh quality and exposing sparse-PCG convergence boundary",
+      "Issue #1881 deferred as separate C3-D.5 numerical owner; sparse-PCG solver work excluded from #1862",
       "R2 independent review at relay/EVIDENCE/C3D-B02-R2/R2-0009/review/INDEPENDENT-REVIEW-R2-0001.json",
       "Issue #1771 comment 5794804384",
       "Issue #1862 comment 5794805060"
@@ -29,7 +32,7 @@
     },
     "basis": {
       "predecessor_checkpoint": null,
-      "material_base": "d4b9c8ef4301fb3c8e4a5b4fbf38e6a42bc4c472",
+      "material_base": "8844555359d0d64ee509a32cf28801fa29971646",
       "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
       "semantic_dependencies": [
         {
@@ -83,6 +86,14 @@
         {
           "path": "scripts/lafea-plane-strain-bbar-qualification-check.mjs",
           "reason": "Constituent near-incompressible qualification input; preserve current status exactly."
+        },
+        {
+          "path": "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+          "reason": "Constituent plane-strain Lamé benchmark executed by B-bar qualification check; depends on merged #1879 fixture."
+        },
+        {
+          "path": "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+          "reason": "Merged PR #1879 fixture providing angular subdivision fix; semantic basis for Lamé qualification."
         }
       ]
     },
@@ -114,6 +125,8 @@
         "scripts/lafea.3-bm005-ordinary-route-check.mjs",
         "scripts/lafea-b01-final-qualification.mjs",
         "scripts/lafea-plane-strain-bbar-qualification-check.mjs",
+        "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+        "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
         "validation/lafea-b02-definitions/**",
         "validation/lafea-benchmark-data/BM005/**"
       ],
@@ -129,10 +142,13 @@
         "scripts/lafea.3-bm005-ordinary-route-check.mjs",
         "scripts/lafea-b01-final-qualification.mjs",
         "scripts/lafea-plane-strain-bbar-qualification-check.mjs",
+        "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+        "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
         ".github/workflows/**"
       ],
       "prohibit": [
         "solver, element formulation, quadrature, mesher or recovery mechanics changes",
+        "sparse-PCG or near-incompressible solver modifications owned by deferred issue #1881",
         "new currentness semantics when existing stage authority can be projected",
         "benchmark expected-value, oracle, sign, acceptance-mode or tolerance changes",
         "convergence classifier or realized-h policy changes",
@@ -244,6 +260,7 @@
         "Stop on any new numerical B02 regression and route the exact first wrong owner.",
         "Do not alter benchmark/oracle/tolerance/sign/acceptance modes.",
         "Do not change convergence classifier or realized-h policy.",
+        "Do not implement #1881 sparse-PCG solver work inside this EP.",
         "Do not resume PR #1873 inside this EP.",
         "Do not claim checkpoint, merge or release authority from implementation or tests alone."
       ]
@@ -251,7 +268,7 @@
   },
   "lease": {
     "id": "LEASE-LAFEA3-C3D-COMPOSITION-1862-0013",
-    "executor_id": "chatgpt-gpt5.6-sol-c3d-composition-20260923",
+    "executor_id": "chatgpt-gpt5.6-sol-c3d-composition-20260924",
     "method": "DETERMINISTIC",
     "qualification": null,
     "owner_basis": null,
