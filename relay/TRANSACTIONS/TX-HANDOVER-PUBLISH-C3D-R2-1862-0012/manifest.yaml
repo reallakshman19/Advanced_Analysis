@@ -1,0 +1,30 @@
+schema_version: relay-v3.1-transaction
+id: TX-HANDOVER-PUBLISH-C3D-R2-1862-0012
+command: PUBLISH_HANDOVER
+actor: chatgpt-gpt5.6-sol-c3d-handover-20260924
+status: COMMITTED
+created_at: '2026-09-24T08:13:02.866836Z'
+updated_at: '2026-09-24T08:13:03.045532Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:ae376000c735240d5cb5add2eda86df09ffb282814ac527632fbb5761fd5a415
+  after_digest: sha256:0227a8ebde6cda9da82e2d539bbc9553754391ea06d591b4d33f8904750a871b
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PUBLISH-C3D-R2-1862-0012/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-HANDOVER-PUBLISH-C3D-R2-1862-0012/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:fecba0a86d0b175fde23b1c4d216f499bfd31dfa1bf9b4c0d695eebb9480ef69
+  after_digest: sha256:3b80bd78d86f2c2a743b47677568617e6a6d9829647f6d6353bc76c917bb417f
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PUBLISH-C3D-R2-1862-0012/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-HANDOVER-PUBLISH-C3D-R2-1862-0012/backups/001.before
+- path: relay/GENERATED/HANDOVER.md
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:82f2ba88f5d7a38dff2f2367384064b42b2fc7d51844b7329c11943e7b1a248b
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PUBLISH-C3D-R2-1862-0012/staged/002.after
+  backup_path: null
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/GENERATED/HANDOVER.md
