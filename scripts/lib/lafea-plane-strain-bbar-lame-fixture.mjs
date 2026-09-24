@@ -196,6 +196,7 @@ function createQuarterAnnulusMesh(definition, meshPolicy, { elementType, level, 
     angularTarget,
     angularProbeAnchors,
     angularPhase,
+    'NEAREST_COUNT',
   );
   const probeCellEvidence = benchmark.fixedPhysicalProbes.map((probe) => {
     const theta = probe.thetaDegrees * Math.PI / 180;
@@ -378,9 +379,20 @@ function strictProbe(definition, probe) {
   };
 }
 
-function protectedAxis(minimum, maximum, target, anchors, targetPhase) {
+function protectedAxis(
+  minimum,
+  maximum,
+  target,
+  anchors,
+  targetPhase,
+  subdivisionMode = 'CEIL_TO_TARGET',
+) {
   assert.ok(target > 0 && maximum > minimum);
   assert.ok(targetPhase > 0 && targetPhase < 1);
+  assert.ok(
+    subdivisionMode === 'CEIL_TO_TARGET' || subdivisionMode === 'NEAREST_COUNT',
+    `Unsupported protected-axis subdivision mode: ${subdivisionMode}`,
+  );
   const breaks = [minimum, maximum];
   for (const anchor of anchors) {
     assert.ok(anchor > minimum && anchor < maximum);
@@ -399,7 +411,9 @@ function protectedAxis(minimum, maximum, target, anchors, targetPhase) {
     const right = protectedBreaks[index + 1];
     const subdivisionRatio = (right - left) / target;
     const roundoff = 64 * Number.EPSILON * Math.max(1, Math.abs(subdivisionRatio));
-    const count = Math.max(1, Math.ceil(subdivisionRatio - roundoff));
+    const count = subdivisionMode === 'NEAREST_COUNT'
+      ? Math.max(1, Math.round(subdivisionRatio))
+      : Math.max(1, Math.ceil(subdivisionRatio - roundoff));
     for (let step = 1; step <= count; step += 1) {
       output.push(left + (right - left) * step / count);
     }
