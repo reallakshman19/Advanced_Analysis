@@ -1,12 +1,12 @@
 schema_version: relay-v3.1
 roadmap:
-  revision: RM-0012
+  revision: RM-0013
   path: relay/ROADMAP/ROADMAP.yaml
 execution:
-  lifecycle: IDLE
-  ep: null
-  lease: null
-  route: null
+  lifecycle: ACTIVE
+  ep: EP-LAFEA3-C3D-COMPOSITION-1862-0013
+  lease: LEASE-LAFEA3-C3D-COMPOSITION-1862-0013
+  route: SERIAL:EP-LAFEA3-C3D-COMPOSITION-1862-0013
 accepted:
   checkpoint: null
 controls:
@@ -16,6 +16,6 @@ delivery:
   primary_vehicle:
     provider: GITHUB
     kind: ISSUE
-    number: 1771
+    number: 1862
 generated:
   snapshot: relay/GENERATED/CURRENT_SNAPSHOT.yaml

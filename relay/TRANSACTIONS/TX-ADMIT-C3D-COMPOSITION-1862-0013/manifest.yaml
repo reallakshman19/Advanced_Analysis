@@ -1,0 +1,51 @@
+schema_version: relay-v3.1-transaction
+id: TX-ADMIT-C3D-COMPOSITION-1862-0013
+command: ADMIT_TASK
+actor: chatgpt-gpt5.6-sol-c3d-composition-20260924
+status: COMMITTED
+created_at: '2026-09-24T08:14:18.839134Z'
+updated_at: '2026-09-24T08:14:19.221923Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:d6113645a9ba86a8da32faf6bf39971e8ae9bdd7757ca6e75e18e8709dcb7b2d
+  after_digest: sha256:04605616318727bebe7ee0493ec65c867263e72d373f5c472333a7f0373920c3
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:114a231a22c6cc6e255de1c185eeab558443db9ec10d323b118800d0dee59c07
+  after_digest: sha256:f0e296ee2f5d2b0e84d64c3cbf0418554f0eb4d4e433fe610c3a7485f7d2eacb
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/backups/001.before
+- path: relay/LEASES/LEASE-LAFEA3-C3D-COMPOSITION-1862-0013.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:cefe1db198e36fbecc8f0b54b425f877c0f2afe5a3c6d363c24182fc8edda3b3
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/staged/002.after
+  backup_path: null
+- path: relay/ROADMAP/ROADMAP.yaml
+  before_exists: true
+  before_digest: sha256:6aae27f1759b7830732f6b0b8a40b3105995d03ec49f185fb868b49cf0e5e019
+  after_digest: sha256:14aa7d93711c1a735d947547f7e9c099a1bc60b92b8b300b692038e6979da976
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/staged/003.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/backups/003.before
+- path: relay/STATE.yaml
+  before_exists: true
+  before_digest: sha256:d11e3c6d6a98e54801f45f34439190459d1bb3e4c07515ad7275a44fd49bc6a9
+  after_digest: sha256:ef3da5584baad1dea4f551c785e52ad6c1fe6fce259ba2bc7998eb9377a585aa
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/staged/004.after
+  backup_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/backups/004.before
+- path: relay/WORK/EP-LAFEA3-C3D-COMPOSITION-1862-0013.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:c061d3593fd012bd6de077a5544f4c859d330225b0acfda6a5138f2b184a8d84
+  staged_path: relay/TRANSACTIONS/TX-ADMIT-C3D-COMPOSITION-1862-0013/staged/005.after
+  backup_path: null
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/LEASES/LEASE-LAFEA3-C3D-COMPOSITION-1862-0013.yaml
+- relay/ROADMAP/ROADMAP.yaml
+- relay/STATE.yaml
+- relay/WORK/EP-LAFEA3-C3D-COMPOSITION-1862-0013.yaml
