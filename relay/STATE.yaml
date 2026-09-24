@@ -3,10 +3,10 @@ roadmap:
   revision: RM-0012
   path: relay/ROADMAP/ROADMAP.yaml
 execution:
-  lifecycle: ACTIVE
-  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
-  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
-  route: SERIAL:EP-LAFEA3-C3D-B02-R2-1771-0009
+  lifecycle: IDLE
+  ep: null
+  lease: null
+  route: null
 accepted:
   checkpoint: null
 controls:
