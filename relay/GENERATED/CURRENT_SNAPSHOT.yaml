@@ -1,23 +1,23 @@
 schema_version: relay-v3.1-snapshot
 authority: DERIVED_READ_MODEL
 generated_from:
-  roadmap_revision: RM-0011
-  state_digest: sha256:a3a50ac7a2b3c85fa3d3529eb1e72d383e678982916058adb49a690855ca8726
+  roadmap_revision: RM-0012
+  state_digest: sha256:88df67e42b1562a08ac0c94b55e36d75ae203a0dd2185918b3e082f021cceeff
   material_basis:
-    head: 74437c40669577926c9761cd6374f53d11178a69
-    tree_digest: sha256:52cde7a25050595f0367059090881554796bee996332a5c147d7e4903901b2dc
-    relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
+    head: d8d979f3326625029b79d9f06610973f2d7ad188
+    tree_digest: sha256:bbd0e20f6ea593279d07fdd46a71d05c494dea01c927cb8eaa5106a625cbe649
+    relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
     dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
-  coordination_head: c8eec1094159833f9bfcb6f540caaff5b659af59
+  coordination_head: 5d438ce25e35b52b3f0cfe21713bac177f7895f6
 owner:
   outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
     Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
     capability.
-  current_goal: 'Execute R2 on the current governed LAFEA material basis using V3.1
-    material-sensitivity semantics: newer provider-main commits are acceptable only
-    when drift is mechanically DISJOINT. Retain B02 numerical evidence, CURRENT_RESULT/lineage
-    custody and independent-review disposition before #1862 or parked C3-D.5 implementation
-    resumes.'
+  current_goal: "Advance the Owner-selected #1862 C3-D composition frontier to close\
+    \ uniform B02/aggregate receipt, currentness and solver-diagnostics custody. The\
+    \ Lam\xE9 angular B-bar mesh-quality blocker was fixed on current main, while\
+    \ #1881 remains unresolved sparse-PCG / near-incompressible work; admission of\
+    \ #1862 does not imply all C3-D numerical boundaries are complete."
 programme:
   accepted_progress: 0.0
   completed_work: []
@@ -59,8 +59,8 @@ scope:
   - release or merge authority
 material:
   base: 74437c40669577926c9761cd6374f53d11178a69
-  head: 74437c40669577926c9761cd6374f53d11178a69
-  relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
+  head: d8d979f3326625029b79d9f06610973f2d7ad188
+  relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
   dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
 evidence:
   latest_checkpoint: null

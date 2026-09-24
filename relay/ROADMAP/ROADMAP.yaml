@@ -1,16 +1,16 @@
 schema_version: relay-v3.1-roadmap
-revision: RM-0011
+revision: RM-0012
 title: "FEA meshing completion roadmap \u2014 shared mesh workspace, benchmarks and\
   \ LAFEA.3\u2013.6 delivery"
 owner:
   outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
     Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
     capability.
-  current_goal: 'Execute R2 on the current governed LAFEA material basis using V3.1
-    material-sensitivity semantics: newer provider-main commits are acceptable only
-    when drift is mechanically DISJOINT. Retain B02 numerical evidence, CURRENT_RESULT/lineage
-    custody and independent-review disposition before #1862 or parked C3-D.5 implementation
-    resumes.'
+  current_goal: "Advance the Owner-selected #1862 C3-D composition frontier to close\
+    \ uniform B02/aggregate receipt, currentness and solver-diagnostics custody. The\
+    \ Lam\xE9 angular B-bar mesh-quality blocker was fixed on current main, while\
+    \ #1881 remains unresolved sparse-PCG / near-incompressible work; admission of\
+    \ #1862 does not imply all C3-D numerical boundaries are complete."
 work_packages:
 - id: WP-1769
   title: Project physical features to mesh, compile loads/BCs/probes, and enforce

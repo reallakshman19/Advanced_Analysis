@@ -1,6 +1,6 @@
 schema_version: relay-v3.1
 roadmap:
-  revision: RM-0011
+  revision: RM-0012
   path: relay/ROADMAP/ROADMAP.yaml
 execution:
   lifecycle: ACTIVE
