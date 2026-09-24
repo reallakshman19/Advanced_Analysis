@@ -8,7 +8,7 @@ generated_from:
     tree_digest: sha256:bbd0e20f6ea593279d07fdd46a71d05c494dea01c927cb8eaa5106a625cbe649
     relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
     dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
-  coordination_head: 5d438ce25e35b52b3f0cfe21713bac177f7895f6
+  coordination_head: 85f76a6e7639b40e1d7a1f201ba20af0279ab13b
 owner:
   outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
     Relay V3.1 without rewriting legacy evidence or admitting unproved downstream

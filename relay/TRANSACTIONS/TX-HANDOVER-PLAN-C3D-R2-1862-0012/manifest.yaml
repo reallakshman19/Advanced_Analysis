@@ -1,0 +1,58 @@
+schema_version: relay-v3.1-transaction
+id: TX-HANDOVER-PLAN-C3D-R2-1862-0012
+command: PLAN_HANDOVER
+actor: chatgpt-gpt5.6-sol-c3d-handover-20260924
+status: COMMITTED
+created_at: '2026-09-24T08:12:32.890363Z'
+updated_at: '2026-09-24T08:12:33.382330Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:12c58151e9b1848f6c8e989ea21db8dd5277c015252ae1abc960197c6b4b2417
+  after_digest: sha256:ae376000c735240d5cb5add2eda86df09ffb282814ac527632fbb5761fd5a415
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:d853a1d7e52eeab200e7ece5ffd22a6a56ddc5b004522a317f8b4f8ae4548c04
+  after_digest: sha256:fecba0a86d0b175fde23b1c4d216f499bfd31dfa1bf9b4c0d695eebb9480ef69
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/backups/001.before
+- path: relay/GENERATED/HANDOVER_CONTEXT.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:9e6cc45c8ade655e429641dbc9218994c5971055200a222cf749083b10ea1195
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/002.after
+  backup_path: null
+- path: relay/GENERATED/THREE_PASS_REQUEST.md
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:8041fa86626e57c652f9e26d02c64d26935db3502df057044157488327260942
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/003.after
+  backup_path: null
+- path: relay/GENERATED/THREE_PASS_REQUEST.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:dc481ee2238f50c53b61dbf3d7a1aa4ca391a64c05d7256e6f7553ed75ad6bf5
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/004.after
+  backup_path: null
+- path: relay/GENERATED/improvements/CP-LAFEA3-C3C6-1856-0001.improvement.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:372bba3533720ed59424fab75125e3eb4b56e57492736f0a74bf1b032c25a030
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/005.after
+  backup_path: null
+- path: relay/GENERATED/tasks/EP-LAFEA3-C3C6-1856.snapshot.yaml
+  before_exists: false
+  before_digest: null
+  after_digest: sha256:b592bfa534806f967e2654487059a8ae9251a4bf32cd94727efd7b9315fd249d
+  staged_path: relay/TRANSACTIONS/TX-HANDOVER-PLAN-C3D-R2-1862-0012/staged/006.after
+  backup_path: null
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/GENERATED/HANDOVER_CONTEXT.yaml
+- relay/GENERATED/THREE_PASS_REQUEST.md
+- relay/GENERATED/THREE_PASS_REQUEST.yaml
+- relay/GENERATED/improvements/CP-LAFEA3-C3C6-1856-0001.improvement.yaml
+- relay/GENERATED/tasks/EP-LAFEA3-C3C6-1856.snapshot.yaml
