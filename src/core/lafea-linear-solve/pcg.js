@@ -241,7 +241,7 @@ function validateLowerRows(lowerRows, input) {
   return lowerRows.map((row, rowIndex) => {
     if (!Array.isArray(row)) invalid(`lowerRows[${rowIndex}] must be an array`);
     let previous = -1;
-    return row.map((entry) => {
+    const normalized = row.map((entry) => {
       if (!entry || !Number.isInteger(entry.column) || entry.column < 0
         || entry.column > rowIndex || entry.column <= previous
         || !Number.isFinite(entry.value)) {
@@ -250,6 +250,11 @@ function validateLowerRows(lowerRows, input) {
       previous = entry.column;
       return Object.freeze({ column: entry.column, value: entry.value });
     });
+    const diagonalEntry = normalized.find((entry) => entry.column === rowIndex);
+    if (!diagonalEntry || diagonalEntry.value !== input.diagonal[rowIndex]) {
+      invalid(`lowerRows[${rowIndex}] diagonal does not match diagonal input`);
+    }
+    return Object.freeze(normalized);
   });
 }
 
