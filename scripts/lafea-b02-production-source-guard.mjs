@@ -71,6 +71,13 @@ assert.match(sequence, /b02Qualified: true/u);
 assert.match(sequence, /releaseAuthorityGranted: false/u);
 assert.match(sequence, /temperatureAuthorityGranted: false/u);
 
+assert.match(rectangleRoute, /projectB02C3dCustody/u);
+assert.match(kirschRoute, /projectB02C3dCustody/u);
+assert.match(b02dRoute, /B02D_GOVERNED_RUN_TRANSACTION_NOT_AVAILABLE/u);
+assert.match(b02dRoute, /transaction: null/u);
+assert.match(sequence, /c3dCustodyComplete: false/u);
+assert.match(sequence, /B02D_GOVERNED_RUN_TRANSACTION_NOT_AVAILABLE/u);
+
 console.log(JSON.stringify({
   schema: 'lafea-b02-production-source-guard/v1',
   status: 'PASS',
