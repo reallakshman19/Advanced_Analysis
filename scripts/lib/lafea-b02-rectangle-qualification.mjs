@@ -76,6 +76,7 @@ function runMethod(definition, convergencePolicy, method) {
       meshHash: run.stage.execution.meshHash,
       executionHash: run.stage.execution.compiledExecutionHash,
       recoveryHash: run.stage.lifecycle.artifacts.RECOVERY.artifactHash,
+      c3dCustody: run.c3dCustody,
       elementCount: run.meshEvidence.mesh.elements.length,
       nodeCount: run.meshEvidence.mesh.nodes.length,
       solverStorage: run.stage.execution.runtimeSolverDiagnostics?.storageRoute ?? null,
@@ -186,6 +187,7 @@ function runMethod(definition, convergencePolicy, method) {
     levels: levels.map((row) => ({
       levelId: row.levelId, h: row.h, meshHash: row.meshHash,
       executionHash: row.executionHash, recoveryHash: row.recoveryHash,
+      c3dCustody: row.c3dCustody,
       elementCount: row.elementCount, nodeCount: row.nodeCount,
       solverStorage: row.solverStorage, solverMethods: row.solverMethods,
       strainEnergy: row.strainEnergy, equilibrium: row.equilibrium,
