@@ -50,6 +50,27 @@ assert.equal(receipts.B02D.requiredMethods.includes('T6'), true);
 assert.equal(receipts.B02D.requiredMethods.includes('Q8'), true);
 assert.equal(receipts.B02D.t3Disposition, 'CONTROL_NOT_RELEASE_CRITICAL');
 
+
+for (const id of ['B02A', 'B02B', 'B02C']) {
+  for (const method of receipts[id].methods) {
+    for (const level of method.levels) {
+      assert.equal(level.c3dCustody?.schema, 'lafea-b02-c3d-custody/v1');
+      assert.equal(level.c3dCustody?.complete, true, `${id}/${method.method}/${level.levelId} C3-D custody incomplete`);
+      assert.equal(level.c3dCustody?.currentness?.computationalState, 'CURRENT_RESULT');
+      assert.equal(level.c3dCustody?.currentness?.currentAuthority, true);
+      assert.equal(level.c3dCustody?.transaction?.status, 'COMPLETED');
+    }
+  }
+}
+for (const method of receipts.B02D.methods.filter((row) => row.releaseCritical)) {
+  for (const level of method.levels) {
+    assert.equal(level.c3dCustody?.schema, 'lafea-b02-c3d-custody/v1');
+    assert.equal(level.c3dCustody?.complete, false);
+    assert.equal(level.c3dCustody?.reasonCode, 'B02D_GOVERNED_RUN_TRANSACTION_NOT_AVAILABLE');
+    assert.equal(level.c3dCustody?.transaction, null);
+  }
+}
+
 const precursorHashes = Object.freeze(Object.fromEntries(
   Object.entries(receipts).map(([id, receipt]) => [id, receipt.semanticHash ?? canonicalLafeaSha256(receipt)]),
 ));
@@ -63,6 +84,8 @@ const body = {
   quantityBoundConvergenceApplied: true,
   requiredMethodsQualified: true,
   b02Qualified: true,
+  c3dCustodyComplete: false,
+  c3dCustodyBlockedBy: ['B02D_GOVERNED_RUN_TRANSACTION_NOT_AVAILABLE'],
   releaseAuthorityGranted: false,
   temperatureAuthorityGranted: false,
 };
