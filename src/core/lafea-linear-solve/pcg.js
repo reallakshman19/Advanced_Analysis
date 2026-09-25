@@ -1,6 +1,7 @@
 import { LafeaLinearSolveError } from './errors.js';
 
 export const DETERMINISTIC_JACOBI_PCG_REVISION = 'DETERMINISTIC_JACOBI_PCG_RELIABLE_RESIDUAL_V2';
+export const DETERMINISTIC_SGS_PCG_REVISION = 'DETERMINISTIC_SGS_PCG_RELIABLE_RESIDUAL_V1';
 export const PCG_RELIABLE_RESIDUAL_INTERVAL = 100;
 
 /**
@@ -34,6 +35,29 @@ export const PCG_CONVERGENCE_SAFETY_FACTOR = 100;
  */
 export function solveDeterministicJacobiPcg(options) {
   const input = validateInput(options);
+  return solveDeterministicPcg(input, {
+    method: 'DETERMINISTIC_JACOBI_PCG',
+    algorithmRevision: DETERMINISTIC_JACOBI_PCG_REVISION,
+    preconditioner: 'JACOBI',
+    applyPreconditioner: (residual) => applyJacobi(input.diagonal, residual),
+  });
+}
+
+export function solveDeterministicSgsPcg(options) {
+  const input = validateInput(options);
+  const applyPreconditioner = createSymmetricGaussSeidelPreconditioner(
+    validateLowerRows(options.lowerRows, input),
+    input.diagonal,
+  );
+  return solveDeterministicPcg(input, {
+    method: 'DETERMINISTIC_SGS_PCG',
+    algorithmRevision: DETERMINISTIC_SGS_PCG_REVISION,
+    preconditioner: 'SYMMETRIC_GAUSS_SEIDEL',
+    applyPreconditioner,
+  });
+}
+
+function solveDeterministicPcg(input, policy) {
   const diagonalScale = Math.max(1, ...input.diagonal.map((value) => Math.abs(value)));
   const minimumDiagonal = Math.min(...input.diagonal);
   const maximumDiagonal = Math.max(...input.diagonal);
@@ -61,6 +85,7 @@ export function solveDeterministicJacobiPcg(options) {
       residual,
       convergenceTarget,
       iterationLimit,
+      applyPreconditioner: policy.applyPreconditioner,
     }));
   }
 
@@ -68,9 +93,11 @@ export function solveDeterministicJacobiPcg(options) {
   finalResidualInfinity = maxAbs(residual);
   if (finalResidualInfinity > convergenceTarget) {
     throw new LafeaLinearSolveError(
-      'Deterministic Jacobi-PCG did not meet its internal convergence target.',
+      `${policy.method} did not meet its internal convergence target.`,
       'PCG_DID_NOT_CONVERGE',
       {
+        method: policy.method,
+        preconditioner: policy.preconditioner,
         finalResidualInfinity,
         convergenceTarget,
         residualTolerance: input.residualTolerance,
@@ -82,15 +109,15 @@ export function solveDeterministicJacobiPcg(options) {
   return Object.freeze({
     solution: Object.freeze([...solution]),
     evidence: Object.freeze({
-      method: 'DETERMINISTIC_JACOBI_PCG',
-      algorithmRevision: DETERMINISTIC_JACOBI_PCG_REVISION,
+      method: policy.method,
+      algorithmRevision: policy.algorithmRevision,
       pivotScale: null,
       pivotTolerance: null,
       pivots: Object.freeze([]),
       minimumPivot: null,
       maximumPivot: null,
       pivotRatio: null,
-      preconditioner: 'JACOBI',
+      preconditioner: policy.preconditioner,
       iterationLimit,
       iterations,
       reliableResidualInterval: PCG_RELIABLE_RESIDUAL_INTERVAL,
@@ -111,9 +138,9 @@ export function solveDeterministicJacobiPcg(options) {
 }
 
 function iterate(input) {
-  const { diagonal, multiply, rightHandSide, solution, convergenceTarget, iterationLimit } = input;
+  const { multiply, rightHandSide, solution, convergenceTarget, iterationLimit, applyPreconditioner } = input;
   let residual = input.residual;
-  let preconditioned = applyJacobi(diagonal, residual);
+  let preconditioned = applyPreconditioner(residual);
   let direction = [...preconditioned];
   let rho = dotVector(residual, preconditioned);
   requirePositive(rho, 'PCG_NON_POSITIVE_INITIAL_PRODUCT');
@@ -156,7 +183,7 @@ function iterate(input) {
       }
       if (recursiveResidualInfinity <= convergenceTarget) {
         residual = reliableResidual;
-        preconditioned = applyJacobi(diagonal, residual);
+        preconditioned = applyPreconditioner(residual);
         direction = [...preconditioned];
         rho = dotVector(residual, preconditioned);
         reliableResidualReplacements += reliableResidualDue ? 0 : 1;
@@ -165,7 +192,7 @@ function iterate(input) {
       }
     }
 
-    preconditioned = applyJacobi(diagonal, residual);
+    preconditioned = applyPreconditioner(residual);
     const nextRho = dotVector(residual, preconditioned);
     requirePositive(nextRho, 'PCG_NON_POSITIVE_RESIDUAL_PRODUCT');
     const beta = nextRho / rho;
@@ -205,6 +232,59 @@ function rejectInvalidDiagonal(minimumDiagonal, diagonalTolerance) {
       { minimumDiagonal, diagonalTolerance },
     );
   }
+}
+
+function validateLowerRows(lowerRows, input) {
+  if (!Array.isArray(lowerRows) || lowerRows.length !== input.size) {
+    invalid(`lowerRows must contain ${input.size} rows`);
+  }
+  return lowerRows.map((row, rowIndex) => {
+    if (!Array.isArray(row)) invalid(`lowerRows[${rowIndex}] must be an array`);
+    let previous = -1;
+    return row.map((entry) => {
+      if (!entry || !Number.isInteger(entry.column) || entry.column < 0
+        || entry.column > rowIndex || entry.column <= previous
+        || !Number.isFinite(entry.value)) {
+        invalid(`lowerRows[${rowIndex}] is invalid`);
+      }
+      previous = entry.column;
+      return Object.freeze({ column: entry.column, value: entry.value });
+    });
+  });
+}
+
+function createSymmetricGaussSeidelPreconditioner(lowerRows, diagonal) {
+  const upperRows = Array.from({ length: lowerRows.length }, () => []);
+  lowerRows.forEach((row, rowIndex) => {
+    row.forEach((entry) => {
+      if (entry.column < rowIndex) {
+        upperRows[entry.column].push(Object.freeze({
+          column: rowIndex,
+          value: entry.value,
+        }));
+      }
+    });
+  });
+  const forward = Array(lowerRows.length).fill(0);
+  const result = Array(lowerRows.length).fill(0);
+  return (residual) => {
+    for (let rowIndex = 0; rowIndex < lowerRows.length; rowIndex += 1) {
+      let value = residual[rowIndex];
+      for (const entry of lowerRows[rowIndex]) {
+        if (entry.column >= rowIndex) break;
+        value -= entry.value * forward[entry.column];
+      }
+      forward[rowIndex] = value / diagonal[rowIndex];
+    }
+    for (let rowIndex = lowerRows.length - 1; rowIndex >= 0; rowIndex -= 1) {
+      let value = diagonal[rowIndex] * forward[rowIndex];
+      for (const entry of upperRows[rowIndex]) {
+        value -= entry.value * result[entry.column];
+      }
+      result[rowIndex] = value / diagonal[rowIndex];
+    }
+    return [...result];
+  };
 }
 
 function applyJacobi(diagonal, residual) {
