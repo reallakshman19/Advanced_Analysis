@@ -414,7 +414,7 @@ function mapSharedPcgError(error, matrix, diagonalTolerance, residualTolerance) 
 }
 
 function continuumPcgEvidence(evidence, recoveryFrom = null) {
-  return {
+  const value = {
     method: evidence.method,
     algorithmRevision: evidence.algorithmRevision,
     pivotScale: null,
@@ -438,9 +438,10 @@ function continuumPcgEvidence(evidence, recoveryFrom = null) {
     minimumDiagonal: canonicalNumber(evidence.minimumDiagonal),
     maximumDiagonal: canonicalNumber(evidence.maximumDiagonal),
     diagonalRatio: canonicalNumber(evidence.diagonalRatio),
-    recoveryFrom,
     accepted: true,
   };
+  if (recoveryFrom) value.recoveryFrom = recoveryFrom;
+  return value;
 }
 
 function failedPcgAttempt(error) {
