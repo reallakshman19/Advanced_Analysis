@@ -135,9 +135,41 @@ export function executeB02dProductionLevel(definition, method, level, options = 
     load,
     resultCase,
     runtimeSolverDiagnostics,
+    c3dCustody: incompleteB02dC3dCustody(stage, runtimeSolverDiagnostics),
     fixedProbes,
     pathProbes,
     energyReconstruction,
+  });
+}
+
+function incompleteB02dC3dCustody(stage, runtimeSolverDiagnostics) {
+  const execution = stage.execution;
+  const recovery = stage.lifecycle?.artifacts?.RECOVERY;
+  return Object.freeze({
+    schema: 'lafea-b02-c3d-custody/v1',
+    complete: false,
+    reasonCode: 'B02D_GOVERNED_RUN_TRANSACTION_NOT_AVAILABLE',
+    authority: 'BENCHMARK_LOCAL_CUSTODY_NOT_WORKBENCH_TRANSACTION_AUTHORITY',
+    sourceHash: execution.sourceHash,
+    analysisDomainHash: execution.analysisDomainHash,
+    analysisGeometryHash: execution.analysisGeometryHash,
+    meshProfileHash: execution.meshProfileHash,
+    meshHash: execution.meshHash,
+    projectionHash: null,
+    solverModelHash: execution.solverModelHash,
+    solverConfigHash: null,
+    canonicalExecutionInputHash: execution.canonicalExecutionInputHash,
+    executionHash: execution.compiledExecutionHash,
+    runtimeDiagnosticsHash: runtimeSolverDiagnostics?.semanticHash ?? null,
+    recoveryHash: recovery?.artifactHash ?? null,
+    transaction: null,
+    currentness: Object.freeze({
+      computationalState: stage.currentness?.computationalState ?? null,
+      currentAuthority: stage.currentness?.currentAuthority === true,
+      exactCurrentParentChain: false,
+      authority: 'BENCHMARK_LOCAL_NOT_C3D_CURRENTNESS_AUTHORITY',
+    }),
+    runtimeSolverDiagnostics,
   });
 }
 
