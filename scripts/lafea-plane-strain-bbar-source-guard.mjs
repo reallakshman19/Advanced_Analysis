@@ -92,7 +92,7 @@ assert.match(workbenchContent, /renderLafeaAnalysisSettings\([\s\S]*options\.reg
 assert.match(overview, /FORMULATIONS\.PLANE_STRAIN_BBAR/u);
 assert.match(overview, /EXACT_HEAD_QUALIFICATION_REQUIRED/u);
 assert.match(overview, /EXTERNAL EXACT-HEAD 120-SOLVE EVIDENCE REQUIRED/u);
-assert.match(overview, /Temperature \/ eigenstrain authority', 'NOT GRANTED/u);
+assert.match(overview, /Temperature \/ eigenstrain authority', 'Not granted/u);
 assert.equal(/PLANE_STRAIN_BBAR[\s\S]{0,1000}status:\s*'QUALIFIED'/u.test(overview), false,
   'B-bar overview must not promote interactive state to qualification PASS.');
 
