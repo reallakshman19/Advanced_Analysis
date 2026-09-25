@@ -36,6 +36,57 @@ const STAGE_ID = 'LAFEA.3';
 const SHELL_ELEMENT = 'CST_DKT_TRI3_THIN_SHELL_V1';
 const PHYSICAL_PROBE_SCHEMA = 'lafea-continuum-physical-probe/v1';
 
+
+export function projectB02C3dCustody(stage) {
+  const execution = stage?.execution;
+  const currentness = stage?.currentness;
+  const transaction = execution?.runTransactionReceipt ?? stage?.latestRunTransactionReceipt;
+  const runtime = execution?.runtimeSolverDiagnostics;
+  const recovery = stage?.lifecycle?.artifacts?.RECOVERY;
+
+  assert.equal(execution?.status, 'QUALIFIED', 'C3-D custody requires qualified execution');
+  assert.equal(currentness?.computationalState, 'CURRENT_RESULT');
+  assert.equal(currentness?.currentAuthority, true);
+  assert.equal(currentness?.exactCurrentParentChain, true);
+  assert.equal(transaction?.status, 'COMPLETED');
+  assert.equal(transaction?.executionHash, execution.compiledExecutionHash);
+  assert.equal(transaction?.runtimeDiagnosticsHash, runtime?.semanticHash);
+  assert.equal(recovery?.status, 'CURRENT');
+  assert.equal(recovery?.qualification, 'PASS');
+
+  const body = {
+    schema: 'lafea-b02-c3d-custody/v1',
+    complete: true,
+    sourceHash: execution.sourceHash,
+    analysisDomainHash: execution.analysisDomainHash,
+    analysisGeometryHash: execution.analysisGeometryHash,
+    meshProfileHash: execution.meshProfileHash,
+    meshHash: execution.meshHash,
+    projectionHash: execution.projectionHash,
+    solverModelHash: execution.solverModelHash,
+    solverConfigHash: transaction.solverConfigHash,
+    canonicalExecutionInputHash: execution.canonicalExecutionInputHash,
+    executionHash: execution.compiledExecutionHash,
+    runtimeDiagnosticsHash: runtime.semanticHash,
+    recoveryHash: recovery.artifactHash,
+    transaction: Object.freeze({
+      status: transaction.status,
+      transactionHash: transaction.transactionHash,
+      receiptHash: transaction.semanticHash,
+      parents: transaction.parents,
+    }),
+    currentness: Object.freeze({
+      computationalState: currentness.computationalState,
+      qualificationState: currentness.qualificationState,
+      currentAuthority: currentness.currentAuthority,
+      exactCurrentParentChain: currentness.exactCurrentParentChain,
+      blockingReasons: currentness.blockingReasons,
+    }),
+    runtimeSolverDiagnostics: runtime,
+  };
+  return Object.freeze(body);
+}
+
 export function executeB02RectangleProductionLevel(definition, method, level) {
   requireRectangleDefinition(definition);
   if (!['T3', 'T6', 'Q8'].includes(method)) throw new TypeError('LAFEA_B02_METHOD_INVALID');
@@ -102,6 +153,7 @@ export function executeB02RectangleProductionLevel(definition, method, level) {
       })),
       meshEvidence: generated.evidence,
       preflight: stage.retainedContinuumPreflightEvidence,
+      c3dCustody: projectB02C3dCustody(stage),
     };
   } finally {
     store.destroy();
