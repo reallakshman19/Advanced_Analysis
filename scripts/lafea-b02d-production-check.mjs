@@ -127,6 +127,7 @@ function runMethod(method) {
       energyReconstruction: run.energyReconstruction,
       solverStorage: run.runtimeSolverDiagnostics?.storageRoute ?? null,
       solverMethods: run.runtimeSolverDiagnostics?.methods ?? [],
+      c3dCustody: run.c3dCustody,
       fixedProbes: run.fixedProbes,
       pathProbes: run.pathProbes,
     });
@@ -297,6 +298,7 @@ function levelSummary(row) {
     equilibrium: row.equilibrium, strainEnergy: row.strainEnergy,
     energyReconstruction: row.energyReconstruction,
     solverStorage: row.solverStorage, solverMethods: row.solverMethods,
+    c3dCustody: row.c3dCustody,
     fixedProbes: row.fixedProbes.map(probeSummary), pathProbes: row.pathProbes.map(probeSummary),
   });
 }
