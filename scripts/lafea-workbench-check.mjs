@@ -188,6 +188,8 @@ assert.equal(nonzeroExecution.status, 'QUALIFIED');
 assert.equal(nonzeroExecution.source.units.length, 'mm');
 assert.equal(nonzeroExecution.source.units.pressure, 'MPa');
 assert.equal(nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.value, 8);
+assert.equal(nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.sourceUnit, 'mm');
+assert.equal(nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.canonicalUnit, 'mm');
 assert.equal(
   nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.derivation,
   'NOMINAL_MINUS_CORROSION',
@@ -232,6 +234,19 @@ closeRelative(nonzeroSection.secondMomentY, 2464818.1977828657, 1e-8);
 closeRelative(nonzeroSection.secondMomentZ, 2464818.1977828657, 1e-8);
 closeRelative(nonzeroSection.polarMoment, 4929636.395565731, 1e-8);
 
+const staleScreeningSource = screeningFixture();
+staleScreeningSource.sourceEvidence.foundationModel =
+  structuredClone(nonzeroExecution.canonicalInput);
+const staleScreeningExecution = executeLafeaStage('LAFEA.2', staleScreeningSource);
+assert.equal(staleScreeningExecution.status, 'FAILED');
+assert.equal(staleScreeningExecution.result, null);
+assert.ok(
+  staleScreeningExecution.diagnostics.some((diagnostic) =>
+    ['FOUNDATION_MODEL_HASH_MISMATCH', 'FOUNDATION_ANCESTRY_MISMATCH', 'FOUNDATION_RESULT_FORGED']
+      .includes(diagnostic.code)),
+  'LAFEA.2 must reject stale foundation result evidence after the LAFEA.1 wall source changes.',
+);
+
 const explicitAssessment = attachmentFixture((source) => {
   source.thicknessBasis.policy = THICKNESS_POLICIES.EXPLICIT_ASSESSMENT;
   source.thicknessBasis.corrosionAllowance.value = 2;
@@ -271,6 +286,13 @@ assertRejectedFoundation(
   attachmentFixture((source) => {
     source.thicknessBasis.policy = THICKNESS_POLICIES.EXPLICIT_ASSESSMENT;
     source.thicknessBasis.assessmentPipeThickness.value = 0;
+  }),
+  'ASSESSMENT_THICKNESS_REQUIRED',
+);
+assertRejectedFoundation(
+  attachmentFixture((source) => {
+    source.thicknessBasis.policy = THICKNESS_POLICIES.EXPLICIT_ASSESSMENT;
+    source.thicknessBasis.assessmentPipeThickness.value = -1;
   }),
   'ASSESSMENT_THICKNESS_REQUIRED',
 );
@@ -331,6 +353,27 @@ assert.equal(wallStage.execution, null);
 assert.equal(wallStage.lifecycle.artifacts.EXECUTION.status, 'STALE');
 assert.equal(wallStage.lifecycleReadiness.resultState, 'RESULT_NOT_READY');
 wallLifecycleStore.destroy();
+
+const corrosionLifecycleStore = createLafeaWorkbenchStore({
+  initialStage: 'LAFEA.1',
+  initialDocument: attachmentFixture(),
+});
+corrosionLifecycleStore.run();
+let corrosionStage = corrosionLifecycleStore.getState().stages['LAFEA.1'];
+const corrosionSourceHashBeforeEdit = corrosionStage.sourceAuthority.sourceHash;
+corrosionLifecycleStore.setScalar(
+  'LAFEA.1.thickness.corrosionAllowance',
+  null,
+  '2',
+  'AGENT-B-CHECK',
+);
+corrosionStage = corrosionLifecycleStore.getState().stages['LAFEA.1'];
+assert.notEqual(corrosionStage.sourceAuthority.sourceHash, corrosionSourceHashBeforeEdit);
+assert.equal(corrosionStage.lastSourceAuthorityEvent.changeClass, 'GEOMETRY');
+assert.equal(corrosionStage.execution, null);
+assert.equal(corrosionStage.lifecycle.artifacts.EXECUTION.status, 'STALE');
+assert.equal(corrosionStage.lifecycleReadiness.resultState, 'RESULT_NOT_READY');
+corrosionLifecycleStore.destroy();
 
 const store = createLafeaWorkbenchStore({
   initialStage: 'LAFEA.3',
