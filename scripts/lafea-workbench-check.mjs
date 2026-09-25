@@ -188,8 +188,7 @@ assert.equal(nonzeroExecution.status, 'QUALIFIED');
 assert.equal(nonzeroExecution.source.units.length, 'mm');
 assert.equal(nonzeroExecution.source.units.pressure, 'MPa');
 assert.equal(nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.value, 8);
-assert.equal(nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.sourceUnit, 'mm');
-assert.equal(nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.canonicalUnit, 'mm');
+assert.equal(nonzeroExecution.canonicalInput.units.length, 'mm');
 assert.equal(
   nonzeroExecution.canonicalInput.thicknessBasis.assessmentPipeThickness.derivation,
   'NOMINAL_MINUS_CORROSION',
