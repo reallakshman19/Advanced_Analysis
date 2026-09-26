@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$CommonRoot,
     [string]$Cron = "*/10 * * * *",
+    [int]$PilotIssue = 0,
     [switch]$EnableExecution
 )
 
@@ -33,6 +34,15 @@ $labels = @(
 foreach ($label in $labels) {
     & gh label create $label.Name --repo "reallaksh19/Advanced_Analysis" --color $label.Color --description $label.Description --force *> $null
     if ($LASTEXITCODE -ne 0) { throw "Failed to create/update GitHub label $($label.Name)" }
+}
+if ($PilotIssue -gt 0) {
+    $pilotText = & gh issue view $PilotIssue --repo "reallaksh19/Advanced_Analysis" --json body,comments --jq '.body, .comments[].body'
+    if ($LASTEXITCODE -ne 0) { throw "Unable to inspect pilot issue #$PilotIssue" }
+    if (($pilotText -join "`n") -notmatch "RLL_EXECUTION_V1") {
+        throw "Pilot issue #$PilotIssue has no RLL_EXECUTION_V1 envelope; refusing to mark it ready."
+    }
+    & gh issue edit $PilotIssue --repo "reallaksh19/Advanced_Analysis" --add-label "rll-ready" *> $null
+    if ($LASTEXITCODE -ne 0) { throw "Failed to mark pilot issue #$PilotIssue rll-ready" }
 }
 
 $homeDir = [Environment]::GetFolderPath("UserProfile")
@@ -91,6 +101,7 @@ Write-Host "Cron: $Cron"
 if ($EnableExecution) { Write-Host "Mode: EXECUTION ENABLED" } else { Write-Host "Mode: SMOKE ONLY" }
 Write-Host "Sidecar config: $sidecarPath"
 Write-Host "Antigravity config: $configPath"
+if ($PilotIssue -gt 0) { Write-Host "Pilot issue: #$PilotIssue (rll-ready)" }
 Write-Host ""
 if (-not $EnableExecution) {
     Write-Host "Smoke mode prevents agy invocation. Review the smoke result before rerunning with -EnableExecution."
