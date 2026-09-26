@@ -78,18 +78,32 @@ function normalizeSource(input) {
 }
 
 function validateFormulationAuthority(formulation, materials) {
-  // Preserve the legacy displacement-only contract exactly. The new B-bar
+  // Preserve the legacy displacement-only contract exactly. The B-bar
   // identity is qualified separately and must never relax this boundary.
-  if (formulation !== FORMULATIONS.PLANE_STRAIN) return;
-  materials.forEach((material, index) => {
-    if (material.poissonRatio >= FORMULATION_GUARDS.planeStrainPoissonBlock) {
-      throw modelError(
-        'PLANE_STRAIN_NEAR_INCOMPRESSIBLE_NOT_QUALIFIED',
-        `materials[${index}].poissonRatio`,
-        `Plane strain with nu >= ${FORMULATION_GUARDS.planeStrainPoissonBlock} is outside the qualified displacement-only formulation envelope. Use a lower qualified Poisson ratio or a separately qualified locking-resistant formulation; do not relax solver tolerances.`,
-      );
-    }
-  });
+  if (formulation === FORMULATIONS.PLANE_STRAIN) {
+    materials.forEach((material, index) => {
+      if (material.poissonRatio >= FORMULATION_GUARDS.planeStrainPoissonBlock) {
+        throw modelError(
+          'PLANE_STRAIN_NEAR_INCOMPRESSIBLE_NOT_QUALIFIED',
+          `materials[${index}].poissonRatio`,
+          `Plane strain with nu >= ${FORMULATION_GUARDS.planeStrainPoissonBlock} is outside the qualified displacement-only formulation envelope. Use a lower qualified Poisson ratio or a separately qualified locking-resistant formulation; do not relax solver tolerances.`,
+        );
+      }
+    });
+    return;
+  }
+
+  if (formulation === FORMULATIONS.PLANE_STRAIN_BBAR) {
+    materials.forEach((material, index) => {
+      if (material.poissonRatio > FORMULATION_GUARDS.planeStrainBbarPoissonMaximum) {
+        throw modelError(
+          'PLANE_STRAIN_BBAR_NEAR_INCOMPRESSIBLE_NOT_QUALIFIED',
+          `materials[${index}].poissonRatio`,
+          `PLANE_STRAIN_BBAR is qualified only through nu <= ${FORMULATION_GUARDS.planeStrainBbarPoissonMaximum}. Higher Poisson ratios are outside the declared production envelope and must use a separately qualified numerical route; do not relax solver tolerances or substitute an unqualified sparse-direct fallback.`,
+        );
+      }
+    });
+  }
 }
 
 function validateFormulationLoadAuthority(formulation, loadCases) {
