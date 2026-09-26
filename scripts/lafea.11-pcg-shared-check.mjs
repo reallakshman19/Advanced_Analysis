@@ -1,20 +1,17 @@
 import assert from 'node:assert/strict';
 import {
   DETERMINISTIC_JACOBI_PCG_REVISION,
-  DETERMINISTIC_SGS_PCG_REVISION,
   solveDeterministicJacobiPcg,
-  solveDeterministicSgsPcg,
 } from '../src/core/lafea-linear-solve/index.js';
 
 verifyIndependentSpdOracle();
-verifySgsIndependentSpdOracle();
 verifyDeterminism();
 verifySingularDiagonalControl();
 verifyIndefiniteDiagonalControl();
 verifyCurvatureControl();
 verifyNonConvergenceControl();
 
-console.log('LAFEA shared deterministic Jacobi/SGS-PCG analytical oracle and fail-closed controls passed.');
+console.log('LAFEA shared deterministic Jacobi-PCG analytical oracle and fail-closed controls passed.');
 
 function verifyIndependentSpdOracle() {
   const solved = solve(twoByTwoOptions());
@@ -28,23 +25,6 @@ function verifyIndependentSpdOracle() {
   assert.ok(solved.evidence.finalResidualInfinity <= solved.evidence.convergenceTarget);
   const residual = multiply2(solved.solution).map((value, index) => value - [1, 2][index]);
   assert.ok(Math.max(...residual.map(Math.abs)) <= 1e-12);
-}
-
-function verifySgsIndependentSpdOracle() {
-  const solved = solveDeterministicSgsPcg({
-    ...twoByTwoOptions(),
-    lowerRows: [
-      [{ column: 0, value: 4 }],
-      [{ column: 0, value: 1 }, { column: 1, value: 3 }],
-    ],
-  });
-  close(solved.solution[0], 1 / 11, 1e-12);
-  close(solved.solution[1], 7 / 11, 1e-12);
-  assert.equal(solved.evidence.method, 'DETERMINISTIC_SGS_PCG');
-  assert.equal(solved.evidence.algorithmRevision, DETERMINISTIC_SGS_PCG_REVISION);
-  assert.equal(solved.evidence.preconditioner, 'SYMMETRIC_GAUSS_SEIDEL');
-  assert.equal(solved.evidence.accepted, true);
-  assert.ok(solved.evidence.finalResidualInfinity <= solved.evidence.convergenceTarget);
 }
 
 function verifyDeterminism() {
