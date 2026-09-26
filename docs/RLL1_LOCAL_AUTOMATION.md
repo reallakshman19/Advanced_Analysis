@@ -36,10 +36,13 @@ From the Advanced_Analysis checkout:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-rll1-antigravity-sidecar.ps1 `
-  -CommonRoot "C:\path\to\Common"
+  -CommonRoot "C:\path\to\Common" `
+  -PilotIssue 1900
 ```
 
 The installer:
+
+The optional `-PilotIssue` parameter first verifies that the issue already contains an `RLL_EXECUTION_V1` envelope, then applies `rll-ready`. It does not create engineering authority or rewrite the issue contract.
 
 - creates/updates the four `rll-*` labels using `gh`;
 - writes `~/.gemini/config/sidecars/advanced-analysis-rll1/sidecar.json`;
@@ -58,6 +61,7 @@ After the non-destructive smoke has been reviewed:
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-rll1-antigravity-sidecar.ps1 `
   -CommonRoot "C:\path\to\Common" `
+  -PilotIssue 1900 `
   -EnableExecution
 ```
 
