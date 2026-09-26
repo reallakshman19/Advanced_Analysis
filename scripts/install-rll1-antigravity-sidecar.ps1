@@ -12,6 +12,10 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $Wrapper = Join-Path $PSScriptRoot "rll1-antigravity-worker.ps1"
 
+if ($env:GH_TOKEN -or $env:GITHUB_TOKEN) {
+    throw "RLL refuses GitHub tokens from environment variables. Remove GH_TOKEN/GITHUB_TOKEN and run 'gh auth login --web' so credentials are stored by the OS credential store."
+}
+
 foreach ($tool in @("git", "gh", "agy")) {
     if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
         throw "Required command '$tool' is not available on PATH."
@@ -28,7 +32,7 @@ if ($LASTEXITCODE -ne 0) { throw "Required Common RLL-1 basis $RequiredCommonBas
 if ($LASTEXITCODE -ne 0) { throw "Common checkout HEAD does not contain required RLL-1 basis $RequiredCommonBasis." }
 
 & gh auth status *> $null
-if ($LASTEXITCODE -ne 0) { throw "GitHub CLI is not authenticated. Run 'gh auth login' first." }
+if ($LASTEXITCODE -ne 0) { throw "GitHub CLI is not authenticated. Run 'gh auth login --web' first using the OS credential store." }
 
 $labels = @(
     [pscustomobject]@{ Name = "rll-ready";        Color = "1D76DB"; Description = "RLL-1 eligible for unattended execution" },
@@ -41,14 +45,27 @@ foreach ($label in $labels) {
     & gh label create $label.Name --repo "reallaksh19/Advanced_Analysis" --color $label.Color --description $label.Description --force *> $null
     if ($LASTEXITCODE -ne 0) { throw "Failed to create/update GitHub label $($label.Name)" }
 }
-if ($PilotIssue -gt 0) {
-    $pilotText = & gh issue view $PilotIssue --repo "reallaksh19/Advanced_Analysis" --json body,comments --jq '.body, .comments[].body'
+if ($PilotIssue -gt 0 -and -not $EnableExecution) {
+    $pilot = & gh issue view $PilotIssue --repo "reallaksh19/Advanced_Analysis" --json state,labels,body,comments | ConvertFrom-Json
     if ($LASTEXITCODE -ne 0) { throw "Unable to inspect pilot issue #$PilotIssue" }
+    if ($pilot.state -ne "OPEN") {
+        throw "Pilot issue #$PilotIssue is not OPEN. Never reopen completed work for RLL smoke; choose a fresh/open bounded pilot."
+    }
+    $pilotText = @($pilot.body) + @($pilot.comments | ForEach-Object { $_.body })
     if (($pilotText -join "`n") -notmatch "RLL_EXECUTION_V1") {
         throw "Pilot issue #$PilotIssue has no RLL_EXECUTION_V1 envelope; refusing to mark it ready."
     }
+    $terminalState = $pilot.comments | Where-Object {
+        $_.body -match "^RLL_WORKER_STATE_V1" -and $_.body -match "state:\s*(REVIEW_READY|CANCELLED)"
+    }
+    $terminalLabel = $pilot.labels | Where-Object { $_.name -in @("rll-review-ready", "rll-escalation") }
+    if ($terminalState -or $terminalLabel) {
+        throw "Pilot issue #$PilotIssue already has terminal/review RLL history. Do not reuse it for smoke."
+    }
     & gh issue edit $PilotIssue --repo "reallaksh19/Advanced_Analysis" --add-label "rll-ready" *> $null
     if ($LASTEXITCODE -ne 0) { throw "Failed to mark pilot issue #$PilotIssue rll-ready" }
+} elseif ($PilotIssue -gt 0 -and $EnableExecution) {
+    Write-Host "Execution enablement does not relabel pilot issue #$PilotIssue; the smoke-established RLL state is resumed as-is."
 }
 
 $homeDir = [Environment]::GetFolderPath("UserProfile")
