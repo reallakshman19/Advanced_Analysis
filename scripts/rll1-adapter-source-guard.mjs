@@ -31,18 +31,8 @@ assert.match(installer, /builtin = "schedule"/u);
 assert.match(installer, /RLL_SMOKE = \$smoke/u);
 assert.match(installer, /PilotIssue/u);
 assert.match(installer, /RLL_EXECUTION_V1/u);
-assert.match(installer, /config\.json\.bak-/u);
+assert.match(installer, /\$configPath\.bak-/u);
 
-const combined = `${rule}\n${wrapper}\n${installer}\n${docs}`;
-for (const forbidden of [
-  /gh\s+pr\s+merge/iu,
-  /gh\s+release\s+create/iu,
-  /gh\s+repo\s+delete/iu,
-  /dangerously-skip-permissions/iu,
-  /github mcp server/iu,
-]) {
-  if (forbidden.source === 'github mcp server') continue;
-}
 assert.doesNotMatch(wrapper, /gh\s+pr\s+merge/iu);
 assert.doesNotMatch(installer, /gh\s+pr\s+merge/iu);
 assert.doesNotMatch(wrapper, /dangerously-skip-permissions/iu);
