@@ -13,6 +13,10 @@ param(
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 
+if ($env:GH_TOKEN -or $env:GITHUB_TOKEN) {
+    throw "RLL refuses GitHub tokens from environment variables. Remove GH_TOKEN/GITHUB_TOKEN and authenticate with 'gh auth login --web' so GitHub CLI uses the OS credential store."
+}
+
 if (-not $env:RLL_DATA_DIR -and $env:ANTIGRAVITY_EXECUTABLE_DATA_DIR) {
     $env:RLL_DATA_DIR = Join-Path $env:ANTIGRAVITY_EXECUTABLE_DATA_DIR "rll"
 }
@@ -48,7 +52,7 @@ foreach ($tool in @("python", "git", "gh", "agy")) {
 
 & gh auth status *> $null
 if ($LASTEXITCODE -ne 0) {
-    throw "GitHub CLI is not authenticated. Run 'gh auth login' interactively first."
+    throw "GitHub CLI is not authenticated. Run 'gh auth login --web' first using the OS credential store."
 }
 
 $arguments = @(
