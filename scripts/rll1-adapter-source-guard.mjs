@@ -23,6 +23,9 @@ assert.match(wrapper, /--repository", "reallaksh19\/Advanced_Analysis"/u);
 assert.match(wrapper, /--authorized-login/u);
 assert.match(wrapper, /RLL_SMOKE/u);
 assert.match(wrapper, /ANTIGRAVITY_EXECUTABLE_DATA_DIR/u);
+assert.match(wrapper, /8c013591659cbf42111d9d61d102e338f462cff5/u);
+assert.match(installer, /8c013591659cbf42111d9d61d102e338f462cff5/u);
+assert.match(docs, /8c013591659cbf42111d9d61d102e338f462cff5/u);
 
 for (const label of ['rll-ready', 'rll-active', 'rll-review-ready', 'rll-escalation']) {
   assert.match(installer, new RegExp(label, 'u'));
