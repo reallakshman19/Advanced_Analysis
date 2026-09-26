@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$CommonRoot,
     [string]$Cron = "*/10 * * * *",
+    [string]$RequiredCommonBasis = "8c013591659cbf42111d9d61d102e338f462cff5",
     [int]$PilotIssue = 0,
     [switch]$EnableExecution
 )
@@ -20,6 +21,11 @@ foreach ($tool in @("git", "gh", "agy")) {
 if (-not (Test-Path $Wrapper)) { throw "RLL wrapper not found: $Wrapper" }
 $Launcher = Join-Path $CommonRoot "skills\engineering-pr-delivery-v3.1\scripts\rll_worker.py"
 if (-not (Test-Path $Launcher)) { throw "Common RLL launcher not found: $Launcher" }
+
+& git -C $CommonRoot cat-file -e "$RequiredCommonBasis^{commit}" *> $null
+if ($LASTEXITCODE -ne 0) { throw "Required Common RLL-1 basis $RequiredCommonBasis is not present in $CommonRoot." }
+& git -C $CommonRoot merge-base --is-ancestor $RequiredCommonBasis HEAD *> $null
+if ($LASTEXITCODE -ne 0) { throw "Common checkout HEAD does not contain required RLL-1 basis $RequiredCommonBasis." }
 
 & gh auth status *> $null
 if ($LASTEXITCODE -ne 0) { throw "GitHub CLI is not authenticated. Run 'gh auth login' first." }
