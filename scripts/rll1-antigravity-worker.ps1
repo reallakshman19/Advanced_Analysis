@@ -3,6 +3,7 @@ param(
     [string]$CommonRoot = $env:COMMON_REPO_ROOT,
     [string]$WorkerId = "antigravity-local",
     [string]$AuthorizedLogin = "reallaksh19",
+    [string]$RequiredCommonBasis = "8c013591659cbf42111d9d61d102e338f462cff5",
     [string]$PrintTimeout = "2h",
     [ValidateSet("low","medium","high")]
     [string]$Effort = "high",
@@ -27,7 +28,16 @@ if (-not $CommonRoot) {
 
 $Launcher = Join-Path $CommonRoot "skills\engineering-pr-delivery-v3.1\scripts\rll_worker.py"
 if (-not (Test-Path $Launcher)) {
-    throw "RLL-1 launcher not found at $Launcher. Checkout Common with the RLL-1 V3.1 transport."
+    throw "RLL-1 launcher not found at $Launcher. Checkout Common with the merged RLL-1 V3.1 transport."
+}
+
+& git -C $CommonRoot cat-file -e "$RequiredCommonBasis^{commit}" *> $null
+if ($LASTEXITCODE -ne 0) {
+    throw "Required Common RLL-1 basis $RequiredCommonBasis is not present in $CommonRoot."
+}
+& git -C $CommonRoot merge-base --is-ancestor $RequiredCommonBasis HEAD *> $null
+if ($LASTEXITCODE -ne 0) {
+    throw "Common checkout HEAD does not contain required RLL-1 basis $RequiredCommonBasis."
 }
 
 foreach ($tool in @("python", "git", "gh", "agy")) {
