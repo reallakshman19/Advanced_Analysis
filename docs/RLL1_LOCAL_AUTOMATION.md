@@ -22,13 +22,13 @@ The sidecar timer launches ordinary code, not an agent conversation. This avoids
 On the Windows worker:
 
 - a local `Advanced_Analysis` checkout;
-- a local `Common` checkout at or after merged RLL-1 basis `8c013591659cbf42111d9d61d102e338f462cff5`;
+- a local `Common` checkout at or after merged RLL-1 basis `049ebc556fb37a641709af9b786cea7cfedc6716`;
 - `git`;
 - GitHub CLI `gh`, authenticated once with `gh auth login --web` using the Windows credential store;
 - Antigravity CLI `agy`, authenticated interactively once;
 - Python.
 
-Common PR #467 is merged at `8c013591659cbf42111d9d61d102e338f462cff5`. The adapter requires that commit (or a descendant) to be present at the local Common checkout HEAD before it will run or install.
+Common PR #467 is merged at `049ebc556fb37a641709af9b786cea7cfedc6716`. The adapter requires that commit (or a descendant) to be present at the local Common checkout HEAD before it will run or install.
 
 ## Install in smoke mode
 
