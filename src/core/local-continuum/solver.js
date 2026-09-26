@@ -1,7 +1,4 @@
-import {
-  solveDeterministicJacobiPcg,
-  solveDeterministicSgsPcg,
-} from '../lafea-linear-solve/index.js';
+import { solveDeterministicJacobiPcg } from '../lafea-linear-solve/index.js';
 import { FORMULA_IDS } from './constants.js';
 import { numericalError, singularError } from './errors.js';
 import { resolveImposedDisplacementIndices } from './imposed-displacement-loads.js';
@@ -160,9 +157,6 @@ function solutionRecord(
   if (solverEvidence.method === 'DETERMINISTIC_JACOBI_PCG') {
     formulaIds.push(FORMULA_IDS.PCG);
   }
-  if (solverEvidence.method === 'DETERMINISTIC_SGS_PCG') {
-    formulaIds.push(FORMULA_IDS.PCG_SGS);
-  }
   return {
     displacementVector: displacement.map((value) =>
       canonicalNumber(value, 'displacement')),
@@ -317,7 +311,6 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
     residualScale,
   );
   let solved;
-  let recoveryFrom = null;
   try {
     solved = solveDeterministicJacobiPcg({
       size: matrix.size,
@@ -328,33 +321,12 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
       residualTolerance,
     });
   } catch (error) {
-    if (error?.code !== 'PCG_DID_NOT_CONVERGE') {
-      mapSharedPcgError(error, matrix, diagonalTolerance, residualTolerance);
-    }
-    recoveryFrom = failedPcgAttempt(error);
-    try {
-      solved = solveDeterministicSgsPcg({
-        size: matrix.size,
-        diagonal: matrix.diagonal,
-        lowerRows: lowerRowsFromCsr(matrix),
-        rightHandSide,
-        multiply: (vector) => sparseMatrixVectorRaw(matrix, vector),
-        diagonalTolerance,
-        residualTolerance,
-      });
-    } catch (recoveryError) {
-      mapSharedPcgError(
-        recoveryError,
-        matrix,
-        diagonalTolerance,
-        residualTolerance,
-      );
-    }
+    mapSharedPcgError(error, matrix, diagonalTolerance, residualTolerance);
   }
   return {
     solution: solved.solution.map((value) =>
       canonicalNumber(value, 'solved sparse displacement')),
-    evidence: continuumPcgEvidence(solved.evidence, recoveryFrom),
+    evidence: continuumPcgEvidence(solved.evidence),
   };
 }
 
@@ -413,9 +385,9 @@ function mapSharedPcgError(error, matrix, diagonalTolerance, residualTolerance) 
   throw error;
 }
 
-function continuumPcgEvidence(evidence, recoveryFrom = null) {
-  const value = {
-    method: evidence.method,
+function continuumPcgEvidence(evidence) {
+  return {
+    method: 'DETERMINISTIC_JACOBI_PCG',
     algorithmRevision: evidence.algorithmRevision,
     pivotScale: null,
     pivotTolerance: null,
@@ -423,7 +395,7 @@ function continuumPcgEvidence(evidence, recoveryFrom = null) {
     minimumPivot: null,
     maximumPivot: null,
     pivotRatio: null,
-    preconditioner: evidence.preconditioner,
+    preconditioner: 'JACOBI',
     iterationLimit: evidence.iterationLimit,
     iterations: evidence.iterations,
     reliableResidualInterval: evidence.reliableResidualInterval,
@@ -440,37 +412,6 @@ function continuumPcgEvidence(evidence, recoveryFrom = null) {
     diagonalRatio: canonicalNumber(evidence.diagonalRatio),
     accepted: true,
   };
-  if (recoveryFrom) value.recoveryFrom = recoveryFrom;
-  return value;
-}
-
-function failedPcgAttempt(error) {
-  const value = error?.evidence ?? {};
-  return {
-    code: error?.code ?? null,
-    method: value.method ?? 'DETERMINISTIC_JACOBI_PCG',
-    preconditioner: value.preconditioner ?? 'JACOBI',
-    iterations: Number.isInteger(value.iterations) ? value.iterations : null,
-    finalResidualInfinity: Number.isFinite(value.finalResidualInfinity)
-      ? canonicalNumber(value.finalResidualInfinity) : null,
-    convergenceTarget: Number.isFinite(value.convergenceTarget)
-      ? canonicalNumber(value.convergenceTarget) : null,
-    residualTolerance: Number.isFinite(value.residualTolerance)
-      ? canonicalNumber(value.residualTolerance) : null,
-  };
-}
-
-function lowerRowsFromCsr(matrix) {
-  return Array.from({ length: matrix.size }, (_, row) => {
-    const values = [];
-    for (let offset = matrix.rowPointers[row];
-      offset < matrix.rowPointers[row + 1]; offset += 1) {
-      const column = matrix.columnIndices[offset];
-      if (column > row) break;
-      values.push({ column, value: matrix.values[offset] });
-    }
-    return values;
-  });
 }
 
 function pivotEvidence(scale, limit, pivots, minimum, maximum) {
