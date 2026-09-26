@@ -34,15 +34,27 @@ assert.match(installer, /builtin = "schedule"/u);
 assert.match(installer, /RLL_SMOKE = \$smoke/u);
 assert.match(installer, /PilotIssue/u);
 assert.match(installer, /RLL_EXECUTION_V1/u);
+assert.match(installer, /not OPEN/u);
+assert.match(installer, /Never reopen completed work/u);
+assert.match(installer, /Execution enablement does not relabel/u);
+assert.match(wrapper, /GH_TOKEN/u);
+assert.match(wrapper, /gh auth login --web/u);
+assert.match(installer, /GH_TOKEN/u);
+assert.match(installer, /gh auth login --web/u);
 assert.match(installer, /\$configPath\.bak-/u);
 
 assert.doesNotMatch(wrapper, /gh\s+pr\s+merge/iu);
 assert.doesNotMatch(installer, /gh\s+pr\s+merge/iu);
 assert.doesNotMatch(wrapper, /dangerously-skip-permissions/iu);
 assert.doesNotMatch(installer, /dangerously-skip-permissions/iu);
+const sidecarBlock = installer.match(/\$sidecar = \[ordered\]@\{[\s\S]*?\n\}/u)?.[0] ?? '';
+assert.doesNotMatch(sidecarBlock, /GH_TOKEN|GITHUB_TOKEN|oauth_token/iu,
+  'sidecar env must remain credential-free');
 
 assert.match(docs, /dedicated detached worktree/u);
 assert.match(docs, /Transport state is not engineering result/u);
-assert.match(docs, /Current Agent C issue #1900/u);
+assert.match(docs, /Do not hard-code or recycle a completed issue/u);
+assert.match(docs, /command\(\*\)/u);
+assert.match(docs, /always-proceed/u);
 
 console.log('RLL-1 Advanced_Analysis adapter source guard passed.');
