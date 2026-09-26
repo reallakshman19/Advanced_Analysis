@@ -22,13 +22,13 @@ The sidecar timer launches ordinary code, not an agent conversation. This avoids
 On the Windows worker:
 
 - a local `Advanced_Analysis` checkout;
-- a local `Common` checkout containing the RLL-1 V3.1 implementation;
+- a local `Common` checkout at or after merged RLL-1 basis `8c013591659cbf42111d9d61d102e338f462cff5`;
 - `git`;
 - GitHub CLI `gh`, authenticated once with `gh auth login`;
 - Antigravity CLI `agy`, authenticated interactively once;
 - Python.
 
-Until Common PR #467 is merged, use its branch in the local Common checkout only for the RLL pilot. Do not describe the draft transport as merged Common/main authority.
+Common PR #467 is merged at `8c013591659cbf42111d9d61d102e338f462cff5`. The adapter requires that commit (or a descendant) to be present at the local Common checkout HEAD before it will run or install.
 
 ## Install in smoke mode
 
