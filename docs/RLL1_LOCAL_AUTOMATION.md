@@ -22,13 +22,13 @@ The sidecar timer launches ordinary code, not an agent conversation. This avoids
 On the Windows worker:
 
 - a local `Advanced_Analysis` checkout;
-- a local `Common` checkout at or after merged RLL-1 basis `8c013591659cbf42111d9d61d102e338f462cff5`;
+- a local `Common` checkout at or after merged RLL-1 basis `049ebc556fb37a641709af9b786cea7cfedc6716`;
 - `git`;
-- GitHub CLI `gh`, authenticated once with `gh auth login`;
+- GitHub CLI `gh`, authenticated once with `gh auth login --web` using the Windows credential store;
 - Antigravity CLI `agy`, authenticated interactively once;
 - Python.
 
-Common PR #467 is merged at `8c013591659cbf42111d9d61d102e338f462cff5`. The adapter requires that commit (or a descendant) to be present at the local Common checkout HEAD before it will run or install.
+Common PR #467 is merged at `049ebc556fb37a641709af9b786cea7cfedc6716`. The adapter requires that commit (or a descendant) to be present at the local Common checkout HEAD before it will run or install.
 
 ## Install in smoke mode
 
@@ -42,7 +42,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-rll1-antigra
 
 The installer:
 
-The optional `-PilotIssue` parameter first verifies that the issue already contains an `RLL_EXECUTION_V1` envelope, then applies `rll-ready`. It does not create engineering authority or rewrite the issue contract.
+The optional `-PilotIssue` parameter is smoke-only. It requires an OPEN issue that contains an `RLL_EXECUTION_V1` envelope and has not already reached `REVIEW_READY`/`CANCELLED`, then applies `rll-ready`. Never reopen completed engineering work merely to obtain a smoke target. When rerun with `-EnableExecution`, the installer does not relabel the issue; it resumes the smoke-established RLL state.
 
 - creates/updates the four `rll-*` labels using `gh`;
 - writes `~/.gemini/config/sidecars/advanced-analysis-rll1/sidecar.json`;
@@ -107,23 +107,17 @@ For `BRANCH_RESUME`, the deterministic launcher positions the worker on the gove
 
 For `EXACT_HEAD_EVIDENCE`, the launcher creates/reuses a dedicated detached worktree under the RLL data directory. The scheduled worker does not detach or repurpose your normal repository checkout.
 
-## Antigravity permissions
+## Authentication and Antigravity permissions
 
 Do not use `--dangerously-skip-permissions`.
 
-Headless Antigravity must be able to run the commands required by the bounded engineering issue. Configure the narrowest command/file permissions practical for the project.
+Do not set `GH_TOKEN` or `GITHUB_TOKEN` for RLL, and never paste a GitHub OAuth/PAT into sidecar JSON, Antigravity configuration, transcripts, or prompts. Authenticate with `gh auth login --web`; on Windows, GitHub CLI should store the resulting token in the system credential store. If secure storage is unavailable, stop and fix credential storage instead of using a plaintext RLL secret.
 
-Typical RLL execution needs:
+Antigravity CLI headless print mode soft-denies tools that need interactive approval. Configure its documented Tool Permission through `/config` or `/settings`; do not create undocumented wildcard grant entries such as `command(*)`, `read_file(*)`, or `write_file(*)`.
 
-- Git read/status/fetch/worktree operations;
-- `gh` issue/PR reads and bounded evidence comments;
-- the issue-specific Node/npm/Python test commands;
-- writes only inside the governed workspace for `BRANCH_RESUME`;
-- no tracked writes for `EXACT_HEAD_EVIDENCE`.
+For unattended host-backed RLL work, the documented `always-proceed` mode may be required. It is broad host authority, so use it only from a dedicated least-privileged Windows account/workspace and keep RLL's exact-head/clean-tree/postflight guards. Prefer `proceed-in-sandbox` where the task can genuinely operate without host filesystem/network access.
 
-Do not authorize `gh pr merge`, release creation, branch deletion, destructive repository administration, or arbitrary elevation.
-
-On Windows, terminal commands may require explicit permission even when the scheduled/headless agent itself starts successfully. Prove the actual installed Antigravity permission behavior with smoke/read-only execution before enabling source-write automation.
+Do not authorize merge/release/branch deletion/destructive repository administration through the engineering contract.
 
 ## Transport state is not engineering result
 
@@ -167,7 +161,7 @@ Use `REPLAN` only when the governing approach must change. Ordinary comments nev
 8. Independently review the result through normal V3.1.
 9. Only after that, pilot `BRANCH_RESUME` source writes.
 
-Current Agent C issue #1900 is a suitable exact-head pilot because its contract already forbids tracked source modification and is pinned to an exact candidate SHA.
+Do not hard-code or recycle a completed issue as the pilot. Select the current OPEN bounded RLL task. If a candidate completed before RLL activation, leave it completed and use the next genuine task or a dedicated smoke issue.
 
 ## Rollback
 
