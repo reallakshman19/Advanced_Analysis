@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$CommonRoot,
     [string]$Cron = "*/10 * * * *",
-    [string]$RequiredCommonBasis = "8c013591659cbf42111d9d61d102e338f462cff5",
+    [string]$RequiredCommonBasis = "049ebc556fb37a641709af9b786cea7cfedc6716",
     [int]$PilotIssue = 0,
     [switch]$EnableExecution
 )
