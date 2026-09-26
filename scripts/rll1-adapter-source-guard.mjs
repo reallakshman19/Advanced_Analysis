@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
+const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8').replace(/\r\n/g, '\n');
 
 const rule = read('.agents/rules/rll-1.md');
 const wrapper = read('scripts/rll1-antigravity-worker.ps1');
