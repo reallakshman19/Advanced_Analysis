@@ -12,6 +12,10 @@ param(
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 
+if (-not $env:RLL_DATA_DIR -and $env:ANTIGRAVITY_EXECUTABLE_DATA_DIR) {
+    $env:RLL_DATA_DIR = Join-Path $env:ANTIGRAVITY_EXECUTABLE_DATA_DIR "rll"
+}
+
 if (-not $CommonRoot) {
     $candidate = Join-Path (Split-Path -Parent $RepoRoot) "Common"
     if (Test-Path $candidate) { $CommonRoot = $candidate }
