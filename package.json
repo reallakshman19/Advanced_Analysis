@@ -14,6 +14,7 @@
     "benchmark:advanced": "node scripts/run-advanced-tab-benchmarks.mjs",
     "benchmark:tabs": "node scripts/run-advanced-tab-benchmarks.mjs",
     "build": "node scripts/advanced-shell-contract-check.mjs && vite build && node scripts/bundle-chunk-check.mjs",
+    "build:pages": "node scripts/advanced-shell-contract-check.mjs && vite build --config vite.pages.config.js && node scripts/bundle-chunk-check.mjs docs/site",
     "check:advanced-shell": "node scripts/advanced-shell-contract-check.mjs",
     "check:master-data-containment": "node scripts/master-data-containment-check.mjs",
     "check:core-fea": "node scripts/run-core-fea-checks.mjs",
