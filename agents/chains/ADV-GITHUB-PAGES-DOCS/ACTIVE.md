@@ -14,21 +14,21 @@ AGENT_INSTANCE_ID: chatgpt-gpt56sol:4f0c394c-2d8e-4ec4-b788-67a4e355c1b9
 REPO: reallaksh19/Advanced_Analysis
 TASK: Prepare a GitHub Pages build that can be published from main /docs without overwriting the repository's existing documentation tree.
 CHAIN: ADV-GITHUB-PAGES-DOCS
-ENDPOINT: EP-0001
+ENDPOINT: EP-0002
 
-PR: NONE
-PR_STATUS: NOT_CREATED
+PR: 1909
+PR_STATUS: OPEN_DRAFT
 BRANCH: chatgpt/github-pages-docs-build
-MATERIAL_HEAD: 2ec194c2b7bb94e41886bf700cd4bcdb154ad76b
+MATERIAL_HEAD: 4b77ed60c9e98d2787596fc93172d113b1f4eff4
 MAIN: 2ec194c2b7bb94e41886bf700cd4bcdb154ad76b
-MERGEABILITY: UNKNOWN
+MERGEABILITY: MERGEABLE_AT_LAST_READ
 REVIEWS: 0
 UNRESOLVED_THREADS: 0
-REQUIRED_CHECKS: npm run build:pages; git diff --check
+REQUIRED_CHECKS: npm run build:pages = NOT_RUN; git diff --check = NOT_RUN; commit status checks = NONE_REPORTED
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
 
-ENGINEERING_STATE: DEPLOYMENT_TOOLING_PREWORK_ONLY
+ENGINEERING_STATE: DEPLOYMENT_TOOLING_MATERIAL_PREPARED_VALIDATION_INCOMPLETE
 CUSTODY_STATE: HELD
 QUALIFICATION_STATE: NOT_APPLICABLE
 WRITE_AUTHORITY: WRITE_ALLOWED_FOR_DEPLOYMENT_BUILD_FILES_ONLY
@@ -42,8 +42,8 @@ OWNER_QUALIFICATION_BASELINE_SOURCE: NONE
 OWNER_QUALIFICATION_BASELINE_MANIFEST: NONE
 OWNER_QUALIFICATION_BASELINE_STATUS: NOT_APPLICABLE
 
-ORIGINAL_TASK_STATUS: PREWORK_ACCEPTED
-INPUT_STATUS: GitHub Pages source is main /docs; existing docs tree must be preserved.
+ORIGINAL_TASK_STATUS: BUILD_PATH_PREPARED; GENERATED_DOCS_SITE_NOT_YET_COMMITTED
+INPUT_STATUS: GitHub Pages source is main /docs; existing docs tree preserved by isolating generated site under docs/site.
 BENCHMARK_ORACLE_STATUS: NOT_APPLICABLE
 SOURCE_AUTHORITY_MUTATION: FORBIDDEN
 ENGINEERING_NUMERICS_MUTATION: FORBIDDEN
@@ -56,8 +56,8 @@ QUESTION_PACK_ACTION: NOT_APPLICABLE
 QUESTION_DISPLAY: HIDE
 CHAIN_HANDOVER_READY: TRUE
 TAKEOVER_QUALIFICATION_READY: FALSE
-HANDOVER_READY: TRUE
+HANDOVER_READY: FALSE
 
-LEG_DIAGNOSIS: Current Vite production base is /AA3/ and default output is dist. The repository already uses docs for source documentation, so a Pages build must not empty or overwrite docs. Build output will be isolated under docs/site with docs/index.html as a stable entry redirect.
-BLOCKER: NONE_FOR_BOUNDED_DEPLOYMENT_TOOLING
-EXACT_NEXT_ACTION: Add an isolated Pages Vite config, a build:pages script, Pages entry redirects, .nojekyll, and make the bundle checker accept an alternate output directory. Do not modify workflows or engineering authority.
+LEG_DIAGNOSIS: Pages plumbing is prepared safely without emptying docs. The remaining deployment artifact is the generated docs/site tree, which requires a faithful checkout to execute npm ci and npm run build:pages.
+BLOCKER: GENERATED_DOCS_SITE_NOT_BUILT_IN_CONNECTOR_ENVIRONMENT
+EXACT_NEXT_ACTION: Run npm ci && npm run build:pages from a faithful checkout on this branch; commit docs/site; verify the served site; then move PR #1909 out of Draft when validation passes.
