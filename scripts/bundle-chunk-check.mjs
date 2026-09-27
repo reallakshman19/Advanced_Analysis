@@ -36,7 +36,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const assets = path.join(root, 'dist', 'assets');
+const outputDir = process.argv[2] || 'dist';
+const assets = path.join(root, outputDir, 'assets');
 const targetBytes = 500 * 1024;
 const maximumBytes = 2.25 * 1024 * 1024;
 const prohibitedForcedApplicationPrefixes = Object.freeze([
@@ -97,6 +98,7 @@ const requiredBoundedChunks = Object.fromEntries(requiredBoundedChunkPatterns.ma
 const aboveTarget = chunks.filter((chunk) => chunk.bytes > targetBytes);
 console.log(JSON.stringify({
   check: 'bundle-chunks',
+  outputDir,
   status: 'PASS',
   targetBytes,
   maximumBytes,
