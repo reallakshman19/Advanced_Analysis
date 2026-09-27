@@ -17,7 +17,7 @@ CHAIN: ADV-GITHUB-PAGES-DOCS
 ENDPOINT: EP-0002
 
 PR: 1909
-PR_STATUS: OPEN_DRAFT
+PR_STATUS: OPEN_DRAFT_OWNER_MERGE_AUTHORIZED
 BRANCH: chatgpt/github-pages-docs-build
 MATERIAL_HEAD: 4b77ed60c9e98d2787596fc93172d113b1f4eff4
 MAIN: 2ec194c2b7bb94e41886bf700cd4bcdb154ad76b
@@ -25,8 +25,9 @@ MERGEABILITY: MERGEABLE_AT_LAST_READ
 REVIEWS: 0
 UNRESOLVED_THREADS: 0
 REQUIRED_CHECKS: npm run build:pages = NOT_RUN; git diff --check = NOT_RUN; commit status checks = NONE_REPORTED
-MERGE_AUTHORITY: OWNER_ONLY
-MERGE_AUTHORIZED: FALSE
+MERGE_AUTHORITY: AUTHORIZED
+MERGE_AUTHORIZED: TRUE
+MERGE_AUTHORIZATION_SOURCE: Owner message "merge" on 2026-09-27
 
 ENGINEERING_STATE: DEPLOYMENT_TOOLING_MATERIAL_PREPARED_VALIDATION_INCOMPLETE
 CUSTODY_STATE: HELD
@@ -60,4 +61,4 @@ HANDOVER_READY: FALSE
 
 LEG_DIAGNOSIS: Pages plumbing is prepared safely without emptying docs. The remaining deployment artifact is the generated docs/site tree, which requires a faithful checkout to execute npm ci and npm run build:pages.
 BLOCKER: GENERATED_DOCS_SITE_NOT_BUILT_IN_CONNECTOR_ENVIRONMENT
-EXACT_NEXT_ACTION: Run npm ci && npm run build:pages from a faithful checkout on this branch; commit docs/site; verify the served site; then move PR #1909 out of Draft when validation passes.
+EXACT_NEXT_ACTION: Owner authorized merge of PR #1909 as currently prepared. Mark ready and merge without representing the NOT_RUN Pages build as validated; generated docs/site remains follow-up deployment work.
