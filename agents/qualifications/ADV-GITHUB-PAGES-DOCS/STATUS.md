@@ -1,0 +1,10 @@
+# Qualification status — ADV-GITHUB-PAGES-DOCS
+
+QUALIFICATION_PROFILE_VERSION: NOT_APPLICABLE
+QUALIFICATION_SCOPE_ID: NOT_APPLICABLE_DEPLOYMENT_TOOLING
+QUESTION_SET_ID: NONE
+QUESTION_SET_STATUS: NOT_APPLICABLE
+OWNER_QUALIFICATION_BASELINE_DISCOVERY: COMPLETE
+OWNER_QUALIFICATION_BASELINE_STATUS: NOT_APPLICABLE
+
+Reason: this leg changes deployment/build plumbing only and is forbidden from changing solver, engineering method, source/oracle, result-contract, or release authority.
