@@ -1,0 +1,1149 @@
+{
+  "schema": "1885s-webgl-load-benchmark-evidence/v2",
+  "projectId": "1885S",
+  "evidenceBasis": "PORTABLE_REPOSITORY_AND_CONTENT_ADDRESSED_FIXTURES",
+  "fixtureManifest": {
+    "path": "tests/fixtures/topology-edit/1885s/fixture-manifest.json",
+    "sources": {
+      "dataset": {
+        "reference": "repository:benchmarks/Sjson.json",
+        "sha256": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288"
+      },
+      "lineList": {
+        "reference": "sha256:723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41",
+        "sha256": "723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41"
+      },
+      "pipingClass": {
+        "reference": "sha256:bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c",
+        "sha256": "bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c"
+      },
+      "componentWeight": {
+        "reference": "sha256:72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2",
+        "sha256": "72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2"
+      }
+    }
+  },
+  "generatedFromProfileRevision": 5,
+  "sources": {
+    "dataset": {
+      "reference": "repository:benchmarks/Sjson.json",
+      "sha256": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288"
+    },
+    "lineList": {
+      "reference": "sha256:723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41",
+      "sha256": "723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41"
+    },
+    "pipingClass": {
+      "reference": "sha256:bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c",
+      "sha256": "bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c"
+    },
+    "componentWeight": {
+      "reference": "sha256:72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2",
+      "sha256": "72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2"
+    }
+  },
+  "projectDataProfile": {
+    "schema": "project-data-profile/v1",
+    "projectId": "1885S",
+    "revision": 5,
+    "updatedAt": "2026-08-19T00:00:00.000Z",
+    "sourcesAndUnits": {
+      "lengthUnit": {
+        "value": "mm",
+        "evidence": {
+          "source": "Sjson.json coordinate and DTXR units",
+          "sourceKey": "dataset",
+          "sourceHash": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288",
+          "locator": "attributes APOS/LPOS and unit-bearing dimensions"
+        },
+        "approved": true
+      },
+      "sourceUpAxis": {
+        "value": "Z",
+        "evidence": {
+          "source": "Sjson.json POSI/ABOP/LBOP directional evidence",
+          "sourceKey": "dataset",
+          "sourceHash": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288",
+          "locator": "U coordinate corresponds to source z"
+        },
+        "approved": true
+      },
+      "coordinateTransform": {
+        "value": {
+          "boundary": "rendering-only",
+          "source": [
+            "x",
+            "y",
+            "z"
+          ],
+          "threeJs": [
+            "x",
+            "z",
+            "-y"
+          ]
+        },
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Source Z-up to Three.js Y-up rendering boundary"
+        },
+        "approved": true
+      },
+      "datasetSource": {
+        "value": {
+          "path": "repository:benchmarks/Sjson.json",
+          "sha256": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288"
+        },
+        "evidence": {
+          "source": "Supplied SJSON",
+          "sourceKey": "dataset",
+          "sourceHash": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288",
+          "locator": "whole file"
+        },
+        "approved": true
+      },
+      "lineListSource": {
+        "value": {
+          "path": "sha256:723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41",
+          "sheet": "LineList",
+          "row": 316,
+          "sha256": "723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41"
+        },
+        "evidence": {
+          "source": "Supplied line-list master",
+          "sourceKey": "lineList",
+          "sourceHash": "723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41",
+          "locator": "LineList!316"
+        },
+        "approved": true
+      },
+      "pipingClassSource": {
+        "value": {
+          "path": "sha256:bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c",
+          "sha256": "bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c"
+        },
+        "evidence": {
+          "source": "Supplied piping-class master",
+          "sourceKey": "pipingClass",
+          "sourceHash": "bea1c45f3f7dcf51340a6d625cfcc23cfc5926be3413d697183b607e2ccab82c",
+          "locator": "class 91261, NPS 6, rating 900"
+        },
+        "approved": true
+      },
+      "componentWeightSource": {
+        "value": {
+          "path": "sha256:72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2",
+          "sha256": "72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2"
+        },
+        "evidence": {
+          "source": "Topo Validator component-weight master",
+          "sourceKey": "componentWeight",
+          "sourceHash": "72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2",
+          "locator": "whole file"
+        },
+        "approved": true
+      }
+    },
+    "topology": {
+      "portMatchToleranceMm": {
+        "value": 1,
+        "evidence": {
+          "source": "Topo Validator sequential construction tolerance policy",
+          "sourceKey": "topoValidatorTolerancePolicy",
+          "sourceHash": "209f8e1ddcceca158a251d7e99fad9db94b25f02c05bd94923f98f45f1b6ac0e",
+          "locator": "exactEquivalence.fittingPortMm"
+        },
+        "approved": true
+      },
+      "supportSiteGroupingToleranceMm": {
+        "value": 0.1,
+        "evidence": {
+          "source": "Topo Validator canonical topology policy",
+          "sourceKey": "topoValidatorCheckerPolicy",
+          "sourceHash": "1350383dba12eb4faa707e0733a53bc3a72538d9f30c65c9870e4cca3b31bfe4",
+          "locator": "thresholds.toleranceMm and originToleranceMm"
+        },
+        "approved": true
+      },
+      "autoCarrierCoincidenceToleranceMm": {
+        "value": 1,
+        "evidence": {
+          "source": "Topo Validator sequential construction tolerance policy",
+          "sourceKey": "topoValidatorTolerancePolicy",
+          "sourceHash": "209f8e1ddcceca158a251d7e99fad9db94b25f02c05bd94923f98f45f1b6ac0e",
+          "locator": "exactEquivalence.fittingPortMm"
+        },
+        "approved": true
+      },
+      "routeJoiningRules": {
+        "value": {
+          "partition": "branch-scoped-connected-components",
+          "chainage": "exact-port-topology",
+          "sourceOrderAllowed": false,
+          "degreeAboveTwo": "BLOCKED"
+        },
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Route-partitioned chainage from exact port topology"
+        },
+        "approved": true
+      },
+      "supportTypeCapabilities": {
+        "value": {
+          "REST": {
+            "vertical": true
+          },
+          "GUIDE": {
+            "vertical": false
+          },
+          "LINESTOP": {
+            "vertical": false
+          }
+        },
+        "evidence": {
+          "source": "Topo Validator restraint family mapping and 1885S vertical-gravity scope",
+          "sourceKey": "topoValidatorVisualModel",
+          "sourceHash": "d48ffe688c5dc785e1b7ece6caf236c58180c7fbdb4437838b6d2e80f9bb390b",
+          "locator": "topology-3d-visual-model.js REST/GUIDE/LINE_STOP families"
+        },
+        "approved": true
+      },
+      "pipingClassMappings": {
+        "value": {
+          "91261M7": {
+            "masterClass": "91261",
+            "requiredChecks": [
+              "NPS",
+              "rating",
+              "material"
+            ],
+            "validation": {
+              "npsIn": 6,
+              "ratingClass": 900,
+              "lineListMaterialCode": "CSS",
+              "masterMaterialCategory": "Carbon steel",
+              "approved": true
+            }
+          }
+        },
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Approved 91261M7 to 91261 mapping"
+        },
+        "approved": true
+      }
+    },
+    "editing": {
+      "snapToleranceMm": {
+        "value": 25,
+        "evidence": {
+          "source": "Topo Validator canonical checker policy",
+          "sourceKey": "topoValidatorCheckerPolicy",
+          "sourceHash": "1350383dba12eb4faa707e0733a53bc3a72538d9f30c65c9870e4cca3b31bfe4",
+          "locator": "thresholds.snapToleranceMm"
+        },
+        "approved": true
+      },
+      "connectionToleranceMm": {
+        "value": 1,
+        "evidence": {
+          "source": "Topo Validator sequential construction tolerance policy",
+          "sourceKey": "topoValidatorTolerancePolicy",
+          "sourceHash": "209f8e1ddcceca158a251d7e99fad9db94b25f02c05bd94923f98f45f1b6ac0e",
+          "locator": "exactEquivalence.fittingPortMm"
+        },
+        "approved": true
+      },
+      "dimensionSourcePrecedence": {
+        "value": [
+          "componentWeightMaster",
+          "sourceDTXR",
+          "sourceGeometry"
+        ],
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Catalog dimensions and DTXR Sch 80 authority"
+        },
+        "approved": true
+      },
+      "componentCatalogSelection": {
+        "value": {
+          "target": "/88-UZV-11951",
+          "valve": {
+            "catalogKey": "VLV3|DN150|CLASS900|REDUCED_BORE",
+            "componentType": "VLV3",
+            "description": "reduced-bore ball valve",
+            "dnMm": 150,
+            "ratingClass": 900,
+            "lengthMm": 610,
+            "massKg": 263
+          },
+          "flange": {
+            "catalogKey": "WN_FLANGE|DN150|CLASS900",
+            "componentType": "weld-neck flange",
+            "dnMm": 150,
+            "ratingClass": 900,
+            "lengthMm": 147,
+            "massKg": 59,
+            "scheduleSource": "DTXR Sch 80"
+          },
+          "retireSourceRefs": [
+            "/51248",
+            "/51256",
+            "/88-UZV-11951"
+          ],
+          "retainSourceRefs": [
+            "/51249",
+            "/51255",
+            "/51254",
+            "PIPE AUTO /ASIM-1885-6\"-S8811951-91261M7-HC-01/B2 7"
+          ]
+        },
+        "evidence": {
+          "source": "1885S implementation plan and Topo Validator catalog match",
+          "sourceKey": "componentWeight",
+          "sourceHash": "72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2",
+          "locator": "VLV3 DN150 Class 900 and WN flange DN150 Class 900 rows"
+        },
+        "approved": true
+      }
+    },
+    "loadCalculation": {
+      "gravityMPerS2": {
+        "value": 9.80665,
+        "evidence": {
+          "source": "ISO 80000-3 standard acceleration of free fall",
+          "locator": "1885S support-load calculation basis; standard gravity g_n"
+        },
+        "approved": true
+      },
+      "loadFactor": {
+        "value": 1,
+        "evidence": {
+          "source": "1885S empirical support-load calculation basis",
+          "locator": "Unfactored EMPTY, OPE and HYD weight cases"
+        },
+        "approved": true
+      },
+      "materialDensitiesKgPerM3": {
+        "value": {
+          "DEFAULT": 7850
+        },
+        "evidence": {
+          "source": "ASME B36.10M / ASTM A106B carbon steel density; owner-approved default",
+          "locator": "Nominal density 7850 kg/m³ for carbon and low-alloy steel"
+        },
+        "approved": true
+      },
+      "pipeSectionProperties": {
+        "value": {},
+        "evidence": {
+          "source": "Resolved at runtime from piping-class master; empty map signals master-data-driven resolution",
+          "locator": "Piping-class master 91261 / schedules from DTXR"
+        },
+        "approved": true
+      },
+      "operatingFluidDensitiesKgPerM3": {
+        "value": {
+          "S8811951": {
+            "selected": 67,
+            "phase": "MIXED",
+            "mixed": 67,
+            "gas": 53.3,
+            "liquid": 693
+          }
+        },
+        "evidence": {
+          "source": "Supplied line-list master",
+          "sourceKey": "lineList",
+          "sourceHash": "723518a16b1a744c9328539f1a25fe15ea246757930970603a89d3cea46e3f41",
+          "locator": "LineList!316 Phase=M, Mixed=67 kg/m3"
+        },
+        "approved": true
+      },
+      "hydroFluidDensitiesKgPerM3": {
+        "value": {
+          "DEFAULT": 1000
+        },
+        "evidence": {
+          "source": "1885S owner-approved hydrotest fallback",
+          "locator": "Water density fallback used only when an exact line value is unavailable"
+        },
+        "approved": true
+      },
+      "insulationDensitiesKgPerM3": {
+        "value": {
+          "DEFAULT": 210
+        },
+        "evidence": {
+          "source": "1885S owner-approved insulation fallback",
+          "locator": "Bulk insulation density fallback used only for positive insulation thickness without an exact code value"
+        },
+        "approved": true
+      },
+      "componentWeightsKg": {
+        "value": {
+          "VLV3|DN150|CLASS900|REDUCED_BORE": 263,
+          "WN_FLANGE|DN150|CLASS900": 59
+        },
+        "evidence": {
+          "source": "Topo Validator component-weight master",
+          "sourceKey": "componentWeight",
+          "sourceHash": "72e266002256e2ac0b0c0c9c722dde2bb65e93deec2075d209c7ab78d219cda2",
+          "locator": "selected valve and flange catalog rows"
+        },
+        "approved": true
+      },
+      "equilibriumTolerances": {
+        "value": {
+          "forceN": 1e-8,
+          "momentNmm": 0.00001
+        },
+        "evidence": {
+          "source": "CHAINAGE_TRIBUTARY_SPAN_V2 numerical closure policy",
+          "locator": "Support-load distribution force and moment residual acceptance"
+        },
+        "approved": true
+      },
+      "activeLoadCases": {
+        "value": [
+          "EMPTY",
+          "OPE",
+          "HYD"
+        ],
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Empirical support loads"
+        },
+        "approved": true
+      }
+    },
+    "qualificationPolicy": {
+      "configuredDefaults": {
+        "value": {
+          "schema": "non-fea-configured-default-policy/v1",
+          "defaults": [
+            {
+              "defaultId": "1885S_HYDRO_WATER_DENSITY",
+              "fieldId": "HYDRO_FLUID_DENSITY",
+              "value": 1000,
+              "unit": "kg/m³",
+              "basis": "Owner-approved water density fallback when no exact hydro density exists for the line",
+              "allowedMethods": [
+                "WEIGHT_AND_GRAVITY",
+                "SUSTAINED_REACTIONS",
+                "SUSTAINED_MEMBER_ACTIONS",
+                "SUSTAINED_STRESS",
+                "RESTRAINT_REACTIONS",
+                "VERTICAL_CONTACT",
+                "COMBINED_OPERATING_REACTION",
+                "ENRICHED_STAGED_JSON_EXPORT"
+              ]
+            },
+            {
+              "defaultId": "1885S_INSULATION_BULK_DENSITY",
+              "fieldId": "INSULATION_DENSITY",
+              "value": 210,
+              "unit": "kg/m³",
+              "basis": "Owner-approved bulk insulation density fallback for positive thickness without an exact insulation-code value",
+              "allowedMethods": [
+                "WEIGHT_AND_GRAVITY",
+                "SUSTAINED_REACTIONS",
+                "SUSTAINED_MEMBER_ACTIONS",
+                "SUSTAINED_STRESS",
+                "RESTRAINT_REACTIONS",
+                "VERTICAL_CONTACT",
+                "COMBINED_OPERATING_REACTION",
+                "ENRICHED_STAGED_JSON_EXPORT"
+              ]
+            }
+          ]
+        },
+        "evidence": {
+          "source": "1885S owner-approved density fallback policy",
+          "locator": "Hydro 1000 kg/m³ and insulation 210 kg/m³; exact scoped evidence takes precedence"
+        },
+        "approved": true
+      },
+      "qualificationProfiles": {
+        "value": {
+          "schema": "non-fea-qualification-profile-set/v1",
+          "profiles": [
+            {
+              "profileId": "1885S_DEFAULT",
+              "version": 1,
+              "qualification": "QUALIFIED",
+              "locked": true,
+              "methods": [
+                "WEIGHT_AND_GRAVITY",
+                "SUSTAINED_REACTIONS",
+                "SUSTAINED_MEMBER_ACTIONS",
+                "SUSTAINED_STRESS",
+                "THERMAL_FREE_DISPLACEMENT",
+                "RESTRAINT_REACTIONS",
+                "VERTICAL_CONTACT",
+                "COMBINED_OPERATING_REACTION",
+                "ENRICHED_STAGED_JSON_EXPORT"
+              ],
+              "basis": {
+                "approvedBy": "OWNER",
+                "approvedAt": "2026-08-19"
+              }
+            }
+          ]
+        },
+        "evidence": {
+          "source": "1885S owner-approved qualification profile; all Non-FEA methods locked",
+          "locator": "revision 5 owner approval 2026-08-19"
+        },
+        "approved": true
+      },
+      "nonlinearApplicabilityPolicy": {
+        "value": {
+          "allowNonlinear": true,
+          "requiredForMethods": [
+            "VERTICAL_CONTACT",
+            "COMBINED_OPERATING_REACTION"
+          ]
+        },
+        "evidence": {
+          "source": "1885S owner default — nonlinear contact enabled for vertical-contact and combined operating methods",
+          "locator": "ASME B31.3 iterative contact solver basis"
+        },
+        "approved": true
+      },
+      "superpositionPolicy": {
+        "value": {
+          "method": "ALGEBRAIC",
+          "combinedCases": [
+            {
+              "id": "OPE+THERMAL",
+              "cases": [
+                "OPE",
+                "THERMAL"
+              ],
+              "operator": "ADD"
+            }
+          ]
+        },
+        "evidence": {
+          "source": "1885S owner default — algebraic superposition of sustained + thermal per ASME B31.3 §319",
+          "locator": "OPE and THERMAL cases combined algebraically"
+        },
+        "approved": true
+      }
+    },
+    "thermoMechanicalBasis": {
+      "installationTemperatureC": {
+        "value": 21,
+        "evidence": {
+          "source": "1885S owner default — ambient installation temperature",
+          "locator": "21°C standard ambient"
+        },
+        "approved": true
+      },
+      "operatingTemperaturesC": {
+        "value": {
+          "DEFAULT": 21
+        },
+        "evidence": {
+          "source": "1885S owner default — ambient operating temperature; override per line-list data",
+          "locator": "21°C; line-list master takes precedence for hot lines"
+        },
+        "approved": true
+      },
+      "casePressuresPa": {
+        "value": {
+          "OPE": 0,
+          "HYD": 0
+        },
+        "evidence": {
+          "source": "1885S owner default — zero gauge pressure; override from line-list",
+          "locator": "0 Pa gauge pressure placeholder"
+        },
+        "approved": true
+      },
+      "corrosionAllowancesMm": {
+        "value": {
+          "DEFAULT": 1.5
+        },
+        "evidence": {
+          "source": "1885S owner default — 1.5 mm corrosion allowance for carbon steel per ASME B31.3",
+          "locator": "Class 91261 carbon steel service"
+        },
+        "approved": true
+      },
+      "materialElasticProperties": {
+        "value": {
+          "DEFAULT": {
+            "elasticModulusMpa": 203000,
+            "thermalExpansionPerC": 0.0000117,
+            "poissonRatio": 0.3
+          }
+        },
+        "evidence": {
+          "source": "1885S owner default — ASTM A106B carbon steel at 21°C per ASME B31.3 Appendix C",
+          "locator": "E=203000 MPa, α=1.17×10⁻⁵/°C, ν=0.3"
+        },
+        "approved": true
+      },
+      "stressCodeBasis": {
+        "value": {
+          "code": "ASME_B31_3",
+          "edition": "2022",
+          "sustainedStressFormula": "BASIC_WEIGHT_AND_PRESSURE"
+        },
+        "evidence": {
+          "source": "1885S owner default — ASME B31.3 Process Piping 2022 Edition",
+          "locator": "Governing code for 1885S process piping system"
+        },
+        "approved": true
+      },
+      "pressureBoundarySemantics": {
+        "value": {
+          "bourdonEffect": true,
+          "pressureArea": "INTERNAL_BORE",
+          "closedEndAssumption": true
+        },
+        "evidence": {
+          "source": "1885S owner default — standard closed-end Bourdon-effect per ASME B31.3 §319",
+          "locator": "Internal bore area, Bourdon enabled, closed-end forces included"
+        },
+        "approved": true
+      },
+      "fluidPhaseAndFillState": {
+        "value": {
+          "DEFAULT": "LIQUID_FULL"
+        },
+        "evidence": {
+          "source": "1885S owner default — conservative liquid-full assumption (field not gated by any calculation method)",
+          "locator": "Reserved for future use"
+        },
+        "approved": true
+      }
+    },
+    "restraintPolicy": {
+      "restraintStiffnessNPerM": {
+        "value": {
+          "TRANSLATIONAL": 1000000000000,
+          "ROTATIONAL": 1000000000000
+        },
+        "evidence": {
+          "source": "1885S owner default — rigid restraint stiffness per CAESAR II / AutoPIPE standard rigid",
+          "locator": "1×10¹² N/m translational and rotational"
+        },
+        "approved": true
+      },
+      "restraintGapsMm": {
+        "value": {
+          "DEFAULT": 0
+        },
+        "evidence": {
+          "source": "1885S owner default — no gap, tight restraint fit",
+          "locator": "0 mm gap; override per support type if cold-spring or slotted"
+        },
+        "approved": true
+      },
+      "restraintPreloadsN": {
+        "value": {
+          "DEFAULT": 0
+        },
+        "evidence": {
+          "source": "1885S owner default — zero preload (field not gated by any calculation method)",
+          "locator": "Reserved for future use"
+        },
+        "approved": true
+      },
+      "frictionCoefficients": {
+        "value": {
+          "STEEL_ON_STEEL": 0.3,
+          "STEEL_ON_PTFE": 0.1,
+          "DEFAULT": 0.3
+        },
+        "evidence": {
+          "source": "1885S owner default — MSS SP-58 friction coefficients",
+          "locator": "0.3 steel-on-steel, 0.1 PTFE slide plate"
+        },
+        "approved": true
+      },
+      "contactPolicy": {
+        "value": {
+          "unilateralContactEnabled": true,
+          "liftoffAllowed": true,
+          "algorithm": "ITERATIVE_PENALTY",
+          "maxIterations": 50,
+          "convergenceTolerance": 0.0001
+        },
+        "evidence": {
+          "source": "1885S owner default — iterative penalty contact, liftoff enabled, 50 iterations",
+          "locator": "Standard nonlinear contact solver for vertical resting supports"
+        },
+        "approved": true
+      }
+    },
+    "webglNavigation": {
+      "supportMarkerSize": {
+        "value": 70,
+        "evidence": {
+          "source": "Topo Validator canonical support marker",
+          "sourceKey": "topoValidatorVisualModel",
+          "sourceHash": "d48ffe688c5dc785e1b7ece6caf236c58180c7fbdb4437838b6d2e80f9bb390b",
+          "locator": "topology-3d-visual-model.js support size 28 × approved support scale 2.5"
+        },
+        "approved": true
+      },
+      "pickingRadius": {
+        "value": 28,
+        "evidence": {
+          "source": "Topo Validator canonical node pick size",
+          "sourceKey": "topoValidatorVisualModel",
+          "sourceHash": "d48ffe688c5dc785e1b7ece6caf236c58180c7fbdb4437838b6d2e80f9bb390b",
+          "locator": "topology-3d-visual-model.js:243 pickSizeMm"
+        },
+        "approved": true
+      },
+      "cameraFitMargin": {
+        "value": 1.25,
+        "evidence": {
+          "source": "Topo Validator viewer camera fit padding",
+          "sourceKey": "topoValidatorViewerDefaults",
+          "sourceHash": "068a588c78f234c32a88656515d3457b0955ee06d647d6defe357ac8287f2838",
+          "locator": "viewer-3d-defaults.js camera.fitPadding=0.8; distance multiplier is reciprocal 1/0.8"
+        },
+        "approved": true
+      },
+      "clickTimingMs": {
+        "value": 300,
+        "evidence": {
+          "source": "Topo Validator workbench click/double-click implementation",
+          "sourceKey": "topoValidatorWorkbenchViewer",
+          "sourceHash": "4d1357ff535ebf761cee012c7156379c24d9e081b77ca44622b520d10751c874",
+          "locator": "workbench-viewer.js:1077-1129 immediate click with 300 ms double-click window"
+        },
+        "approved": true
+      },
+      "doubleClickTimingMs": {
+        "value": 300,
+        "evidence": {
+          "source": "Topo Validator workbench double-click implementation",
+          "sourceKey": "topoValidatorWorkbenchViewer",
+          "sourceHash": "4d1357ff535ebf761cee012c7156379c24d9e081b77ca44622b520d10751c874",
+          "locator": "workbench-viewer.js:1123"
+        },
+        "approved": true
+      },
+      "clickTravelTolerancePx": {
+        "value": 5,
+        "evidence": {
+          "source": "Topo Validator workbench drag/click arbitration",
+          "sourceKey": "topoValidatorWorkbenchViewer",
+          "sourceHash": "4d1357ff535ebf761cee012c7156379c24d9e081b77ca44622b520d10751c874",
+          "locator": "workbench-viewer.js:1079-1082"
+        },
+        "approved": true
+      },
+      "zoomRate": {
+        "value": 1,
+        "evidence": {
+          "source": "Topo Validator 3D navigation defaults",
+          "sourceKey": "topoValidatorViewerDefaults",
+          "sourceHash": "068a588c78f234c32a88656515d3457b0955ee06d647d6defe357ac8287f2838",
+          "locator": "viewer-3d-defaults.js controls.zoomSpeed"
+        },
+        "approved": true
+      },
+      "navigationSensitivity": {
+        "value": 1,
+        "evidence": {
+          "source": "Topo Validator 3D navigation defaults",
+          "sourceKey": "topoValidatorViewerDefaults",
+          "sourceHash": "068a588c78f234c32a88656515d3457b0955ee06d647d6defe357ac8287f2838",
+          "locator": "viewer-3d-defaults.js controls.rotateSpeed and panSpeed"
+        },
+        "approved": true
+      },
+      "perspectiveFovDeg": {
+        "value": 55,
+        "evidence": {
+          "source": "Topo Validator workbench viewer camera",
+          "sourceKey": "topoValidatorWorkbenchViewer",
+          "sourceHash": "4d1357ff535ebf761cee012c7156379c24d9e081b77ca44622b520d10751c874",
+          "locator": "workbench-viewer.js:146"
+        },
+        "approved": true
+      },
+      "meshRadialSegments": {
+        "value": 12,
+        "evidence": {
+          "source": "Topo Validator fine LOD for datasets below 3000 drawables",
+          "sourceKey": "topoValidatorSceneRuntime",
+          "sourceHash": "6c6c4f0affca5c20850e182cc3f7e2a60863ec330c169c892966a9aaea1b24f4",
+          "locator": "scene-runtime.js deriveLod fine nodeSegments"
+        },
+        "approved": true
+      },
+      "cameraNearMm": {
+        "value": 1,
+        "evidence": {
+          "source": "Topo Validator workbench viewer camera",
+          "sourceKey": "topoValidatorWorkbenchViewer",
+          "sourceHash": "4d1357ff535ebf761cee012c7156379c24d9e081b77ca44622b520d10751c874",
+          "locator": "workbench-viewer.js:146 perspective near plane"
+        },
+        "approved": true
+      },
+      "cameraFarMm": {
+        "value": 10000000,
+        "evidence": {
+          "source": "Topo Validator workbench viewer camera",
+          "sourceKey": "topoValidatorWorkbenchViewer",
+          "sourceHash": "4d1357ff535ebf761cee012c7156379c24d9e081b77ca44622b520d10751c874",
+          "locator": "workbench-viewer.js:146 perspective far plane"
+        },
+        "approved": true
+      }
+    },
+    "benchmark": {
+      "targetBrowsers": {
+        "value": [
+          "Chrome",
+          "Edge"
+        ],
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Benchmark target browsers"
+        },
+        "approved": true
+      },
+      "webglReadyMaxMs": {
+        "value": 3000,
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Approved WebGL threshold"
+        },
+        "approved": true
+      },
+      "selectionP95MaxMs": {
+        "value": 100,
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Approved selection threshold"
+        },
+        "approved": true
+      },
+      "editCommitMaxMs": {
+        "value": 500,
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Approved edit threshold"
+        },
+        "approved": true
+      },
+      "navigationMinFps": {
+        "value": 30,
+        "evidence": {
+          "source": "1885S implementation plan",
+          "locator": "Approved navigation threshold"
+        },
+        "approved": true
+      }
+    }
+  },
+  "normalization": {
+    "datasetId": "repository-benchmarks-Sjson",
+    "nodeCount": 279,
+    "sourceAxis": "Z_UP",
+    "branchIdentity": {
+      "lineKey": "S8811951",
+      "pipingClass": "91261M7",
+      "nominalDiameterMm": 150,
+      "service": "S",
+      "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+    },
+    "supportSites": {
+      "sourceSupportRecordCount": 139,
+      "supportAssemblyCount": 38,
+      "physicalLocationCount": 37
+    },
+    "routes": {
+      "routeCount": 13,
+      "edgeCount": 127,
+      "physicalEdgeCount": 124,
+      "autoCarrierCount": 3
+    },
+    "viewport": {
+      "renderableCount": 150,
+      "resolvedCount": 150,
+      "fallbackCount": 0,
+      "skippedCount": 27,
+      "byKind": {
+        "ELBOW": 14,
+        "PIPE": 43,
+        "FLANGE": 20,
+        "GENERIC": 25,
+        "VALVE": 4,
+        "REDUCER": 4,
+        "TEE": 3,
+        "SUPPORT": 37
+      },
+      "byStatus": {
+        "resolved": 150,
+        "fallback": 0,
+        "skipped": 27
+      },
+      "segmentCount": 116,
+      "pointCount": 37
+    }
+  },
+  "masterMatches": {
+    "lineList": {
+      "sourceSheet": "LineList",
+      "sourceRowNumber": 316,
+      "lineKey": "S8811951",
+      "pipingClass": "91261M7",
+      "npsIn": 6,
+      "materialCode": "CSS",
+      "service": "S"
+    },
+    "pipingClass": [
+      {
+        "sourceSheet": "PMSTable",
+        "sourceRowNumber": 9617,
+        "pipingClass": "91261",
+        "npsIn": 6,
+        "ratingClass": 900,
+        "materialName": "ASTM A106-B",
+        "materialCategory": "Carbon steel",
+        "schedule": "120",
+        "wallThicknessMm": 14.2748
+      },
+      {
+        "sourceSheet": "PMSTable",
+        "sourceRowNumber": 9631,
+        "pipingClass": "91261",
+        "npsIn": 6,
+        "ratingClass": 900,
+        "materialName": "API 5L-B (sml)",
+        "materialCategory": "Carbon steel",
+        "schedule": "120",
+        "wallThicknessMm": 14.2748
+      }
+    ],
+    "componentCatalog": {
+      "valve": {
+        "Type": "VLV3",
+        "NSfraction": "6",
+        "DN": 150,
+        "RF-F/F": 610,
+        "RTJ F/F": 613,
+        "BW-F/F": 610,
+        "RF/RTJ KG": 263,
+        "BW KG": 118,
+        "Rating": 900,
+        "NS": 6,
+        "TypeDesc": "Flanged Ball Valve-Reduced Bore",
+        "TypeNum": 2,
+        "_sourceRowNumber": 979,
+        "_sourceSheet": "JSON"
+      },
+      "flange": {
+        "Type": "Flg",
+        "NSfraction": "6",
+        "DN": 150,
+        "RF-F/F": 147,
+        "RTJ F/F": 0,
+        "BW-F/F": 0,
+        "RF/RTJ KG": 59,
+        "BW KG": 0,
+        "Rating": 900,
+        "NS": 6,
+        "TypeDesc": "Weldneck Flange",
+        "TypeNum": 1,
+        "_sourceRowNumber": 257,
+        "_sourceSheet": "JSON"
+      }
+    }
+  },
+  "editQualification": {
+    "status": "PASSED",
+    "commandId": "inline-replacement:fnv1a64:9abf28e5",
+    "retiredEntityIds": [
+      "=1006649732/51248",
+      "=1006649732/51256",
+      "=1006649732/51250"
+    ],
+    "retainedEntityIds": [
+      "=1006649732/51249",
+      "=1006649732/51255",
+      "=1006649732/51254",
+      "PIPE AUTO /ASIM-1885-6\"-S8811951-91261M7-HC-01/B2 7"
+    ],
+    "replacementEntities": [
+      {
+        "role": "FLAN",
+        "lengthMm": 147,
+        "massKg": 59,
+        "scheduleEvidence": true
+      },
+      {
+        "role": "VALV",
+        "lengthMm": 610,
+        "massKg": 263,
+        "scheduleEvidence": false
+      },
+      {
+        "role": "FLAN",
+        "lengthMm": 147,
+        "massKg": 59,
+        "scheduleEvidence": true
+      }
+    ],
+    "audit": {
+      "commandId": "inline-replacement:fnv1a64:9abf28e5",
+      "sourceDatasetHash": "6b2c8b01ab0ba6ec8e9e7c42eb4a719668ffd2dc4dbe4790d27cf426a1f60288",
+      "projectDataHash": "fnv1a64:1f0b6ba6228de691",
+      "masterChecks": {
+        "lineListRow": {
+          "sourceSheet": "LineList",
+          "sourceRowNumber": 316,
+          "lineKey": "S8811951",
+          "pipingClass": "91261M7",
+          "npsIn": 6,
+          "materialCode": "CSS",
+          "service": "S"
+        },
+        "pipingClassRows": [
+          {
+            "sourceSheet": "PMSTable",
+            "sourceRowNumber": 9617,
+            "pipingClass": "91261",
+            "npsIn": 6,
+            "ratingClass": 900,
+            "materialName": "ASTM A106-B",
+            "materialCategory": "Carbon steel",
+            "schedule": "120",
+            "wallThicknessMm": 14.2748
+          },
+          {
+            "sourceSheet": "PMSTable",
+            "sourceRowNumber": 9631,
+            "pipingClass": "91261",
+            "npsIn": 6,
+            "ratingClass": 900,
+            "materialName": "API 5L-B (sml)",
+            "materialCategory": "Carbon steel",
+            "schedule": "120",
+            "wallThicknessMm": 14.2748
+          }
+        ]
+      },
+      "retired": [
+        {
+          "entityId": "=1006649732/51248",
+          "sourceEntityId": "=1006649732/51248",
+          "componentReference": "=1006649732/51248",
+          "jsonPointer": "/objects/0/children/27",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        },
+        {
+          "entityId": "=1006649732/51256",
+          "sourceEntityId": "=1006649732/51256",
+          "componentReference": "=1006649732/51256",
+          "jsonPointer": "/objects/0/children/33",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        },
+        {
+          "entityId": "=1006649732/51250",
+          "sourceEntityId": "=1006649732/51250",
+          "componentReference": "=1006649732/51250",
+          "jsonPointer": "/objects/0/children/30",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        }
+      ],
+      "retained": [
+        {
+          "entityId": "=1006649732/51249",
+          "sourceEntityId": "=1006649732/51249",
+          "componentReference": "=1006649732/51249",
+          "jsonPointer": "/objects/0/children/28",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        },
+        {
+          "entityId": "=1006649732/51255",
+          "sourceEntityId": "=1006649732/51255",
+          "componentReference": "=1006649732/51255",
+          "jsonPointer": "/objects/0/children/32",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        },
+        {
+          "entityId": "=1006649732/51254",
+          "sourceEntityId": "=1006649732/51254",
+          "componentReference": "=1006649732/51254",
+          "jsonPointer": "/objects/0/children/31",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        },
+        {
+          "entityId": "PIPE AUTO /ASIM-1885-6\"-S8811951-91261M7-HC-01/B2 7",
+          "sourceEntityId": "PIPE AUTO /ASIM-1885-6\"-S8811951-91261M7-HC-01/B2 7",
+          "componentReference": "",
+          "jsonPointer": "/objects/0/children/29",
+          "branchId": "/ASIM-1885-6\"-S8811951-91261M7-HC-01/B2"
+        }
+      ],
+      "invariants": [
+        "SOURCE_SNAPSHOT_IMMUTABLE",
+        "ENDPOINTS_PRESERVED",
+        "BRANCH_ANCESTRY_PRESERVED",
+        "RETAINED_IDENTITIES_PRESERVED",
+        "PHYSICAL_NON_OVERLAP_VALIDATED",
+        "RETAINED_CONNECTIVITY_VALIDATED"
+      ]
+    },
+    "undo": "PASSED",
+    "redo": "PASSED"
+  },
+  "loadQualification": {
+    "status": "BLOCKED_PROJECT_DATA_INCOMPLETE",
+    "method": "CHAINAGE_TRIBUTARY_SPAN_V2",
+    "blockedFields": [
+      {
+        "path": "loadCalculation.pipeSectionProperties",
+        "code": "MISSING_VALUE",
+        "message": "An authoritative value is required."
+      }
+    ],
+    "cases": [
+      {
+        "loadCaseId": "EMPTY",
+        "status": "BLOCKED",
+        "verticalForceNPublished": false,
+        "contributionCount": 0,
+        "equilibriumStatus": "NOT_RUN_PROJECT_DATA_BLOCKED"
+      },
+      {
+        "loadCaseId": "OPE",
+        "status": "BLOCKED",
+        "verticalForceNPublished": false,
+        "contributionCount": 0,
+        "equilibriumStatus": "NOT_RUN_PROJECT_DATA_BLOCKED"
+      },
+      {
+        "loadCaseId": "HYD",
+        "status": "BLOCKED",
+        "verticalForceNPublished": false,
+        "contributionCount": 0,
+        "equilibriumStatus": "NOT_RUN_PROJECT_DATA_BLOCKED"
+      }
+    ]
+  },
+  "browserQualification": {
+    "status": "SEPARATE_WAVE5_EXACT_HEAD_EVIDENCE",
+    "evidencePath": "reports/qualification/topology-edit-wave5-browser.json",
+    "thresholds": {
+      "webglReadyMaxMs": 3000,
+      "selectionP95MaxMs": 100,
+      "editCommitMaxMs": 500,
+      "navigationMinFps": 30
+    }
+  },
+  "semanticHash": "fnv1a64:582e8e25877aa74f"
+}
