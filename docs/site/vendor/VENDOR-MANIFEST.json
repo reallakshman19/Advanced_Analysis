@@ -1,0 +1,22 @@
+{
+  "schema": "stagedjson-to-inputxml-vendor-manifest/v1",
+  "pyodide": {
+    "fileHashes": {
+      "pyodide-lock.json": "3a3cfb1c0bc02917a1792c1ecdf2b9b484ca406f5d03cb8af4083e97ec7d706a",
+      "pyodide.asm.js": "c5bc43242dbdd922b03fd9f9ca22480d37451238686e84cb38499143f81ec75b",
+      "pyodide.asm.wasm": "7936ef6019d80723adce4bd86666b84534d071362839f1cf9b2b80bed917c812",
+      "pyodide.mjs": "0a7aa1048a1349f9f9a8966f15ce224048de93b5292b9d66975b807c54d416b4",
+      "python_stdlib.zip": "7a4edf94cc3d937ba29078adb857d1646d9ce064ad93e795645d124e212eb5a1"
+    },
+    "treeSha256": "eab798976e44b77c017ca0446621f32f18842018ca45322f4e217785e8fcdaba"
+  },
+  "stagedjsonToInputxmlScripts": {
+    "fileHashes": {
+      "inputxml_bookmark.py": "e32b3217bb8b1540567bbdc08a00ac34b7ff5044c5d4e4d7fab733fe7b20d430",
+      "stagedjson_inputxml_diagnostics.py": "91e7eb918320060d5833f32bcf0f233c4c45575f19df71e495fc19362d3fe1e8",
+      "stagedjson_to_inputxml.py": "25f93e32cabc3472fb009b8af96491ae3b037c5b06e2ed952e127f672668d178",
+      "support_restraint.py": "f6c76180fcd86eeaa22e364e2c53fac9b24c8e1e8e13f90e0ef642da4356f0f3"
+    },
+    "treeSha256": "5f9b4bc5b11bf80d66ac817fee5e399e3b309f814c9f1be1a3487bf1a3b55133"
+  }
+}
