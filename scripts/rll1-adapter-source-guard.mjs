@@ -64,16 +64,18 @@ assert.match(docs, /always-proceed/u);
 
 // Codex migration adapter. Antigravity checks above remain as legacy-compatibility
 // guards until the Codex smoke is independently qualified.
-assert.match(codexWrapper, /rll_codex_worker\.py/u);
+assert.match(codexWrapper, /rll_worker\.py/u);
 assert.match(codexWrapper, /--repository.*reallaksh19\/Advanced_Analysis/u);
 assert.match(codexWrapper, /--worker-id/u);
+assert.match(codexWrapper, /--executor/u);
+assert.match(codexWrapper, /codex/u);
 assert.match(codexWrapper, /codex-local/u);
 assert.match(codexWrapper, /--codex-user/u);
 assert.match(codexWrapper, /--codex-home/u);
 assert.match(codexWrapper, /wsl\.exe/u);
-assert.match(codexWrapper, /5093474da3228720f73047226754c7e17f5ea5a3/u);
-assert.match(codexInstaller, /5093474da3228720f73047226754c7e17f5ea5a3/u);
-assert.match(codexDocs, /5093474da3228720f73047226754c7e17f5ea5a3/u);
+assert.match(codexWrapper, /ba27a21e704de9e8885dff56d6e00d2caa90497f/u);
+assert.match(codexInstaller, /ba27a21e704de9e8885dff56d6e00d2caa90497f/u);
+assert.match(codexDocs, /ba27a21e704de9e8885dff56d6e00d2caa90497f/u);
 
 for (const label of ['rll-ready', 'rll-active', 'rll-review-ready', 'rll-escalation']) {
   assert.match(codexInstaller, new RegExp(label, 'u'));
