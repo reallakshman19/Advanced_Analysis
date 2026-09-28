@@ -6,7 +6,7 @@ param(
     [string]$RepoRootLinux,
     [Parameter(Mandatory=$true)]
     [string]$CommonRootLinux,
-    [string]$RequiredCommonBasis = "5093474da3228720f73047226754c7e17f5ea5a3",
+    [string]$RequiredCommonBasis = "ba27a21e704de9e8885dff56d6e00d2caa90497f",
     [string]$CodexUser = "rll-codex",
     [string]$CodexHomeLinux = "/home/rll-codex/.codex-rll",
     [string]$TaskName = "Advanced_Analysis-RLL1-Codex",
@@ -39,7 +39,7 @@ function Invoke-WslCheck([string]$Command) {
     if ($LASTEXITCODE -ne 0) { throw "WSL prerequisite check failed: $Command" }
 }
 
-$launcher = "$CommonRootLinux/skills/engineering-pr-delivery-v3.1/scripts/rll_codex_worker.py"
+$launcher = "$CommonRootLinux/skills/engineering-pr-delivery-v3.1/scripts/rll_worker.py"
 Invoke-WslCheck "set -e; command -v python3; command -v git; command -v gh; command -v codex; command -v sudo"
 Invoke-WslCheck ("test -f " + (Quote-Bash $launcher))
 Invoke-WslCheck ("git -C " + (Quote-Bash $CommonRootLinux) + " cat-file -e " + (Quote-Bash "$RequiredCommonBasis^{commit}"))
