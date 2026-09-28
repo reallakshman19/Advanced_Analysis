@@ -8,7 +8,7 @@ param(
     [string]$CommonRootLinux,
     [string]$WorkerId = "codex-local",
     [string]$AuthorizedLogin = "reallaksh19",
-    [string]$RequiredCommonBasis = "5093474da3228720f73047226754c7e17f5ea5a3",
+    [string]$RequiredCommonBasis = "ba27a21e704de9e8885dff56d6e00d2caa90497f",
     [string]$CodexUser = "rll-codex",
     [string]$CodexHomeLinux = "/home/rll-codex/.codex-rll",
     [string]$Timeout = "2h",
@@ -29,14 +29,15 @@ function Quote-Bash([string]$Value) {
     return "'" + ($Value -replace "'", "'""'""'") + "'"
 }
 
-$launcher = "$CommonRootLinux/skills/engineering-pr-delivery-v3.1/scripts/rll_codex_worker.py"
+$launcher = "$CommonRootLinux/skills/engineering-pr-delivery-v3.1/scripts/rll_worker.py"
 $args = @(
     "python3", (Quote-Bash $launcher),
     "--repo-root", (Quote-Bash $RepoRootLinux),
     "--repository", "reallaksh19/Advanced_Analysis",
     "--worker-id", (Quote-Bash $WorkerId),
     "--authorized-login", (Quote-Bash $AuthorizedLogin),
-    "--timeout", (Quote-Bash $Timeout),
+    "--executor", "codex",
+    "--print-timeout", (Quote-Bash $Timeout),
     "--codex-user", (Quote-Bash $CodexUser),
     "--codex-home", (Quote-Bash $CodexHomeLinux)
 )
