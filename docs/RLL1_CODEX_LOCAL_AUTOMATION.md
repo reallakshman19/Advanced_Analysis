@@ -100,7 +100,8 @@ The installer:
 - verifies the dedicated Codex identity and `codex login status`;
 - creates/updates the four RLL labels;
 - refuses completed/review-ready pilot reuse;
-- writes a credential-free local runner under `%LOCALAPPDATA%\RLL\Advanced_Analysis`;
+- copies the credential-free Codex wrapper plus local runner under `%LOCALAPPDATA%\RLL\Advanced_Analysis`, outside the governed checkout;
+- the scheduled entrypoint therefore survives RLL switching the repository checkout onto a governed branch that does not yet contain the Codex adapter;
 - creates a Windows Task Scheduler job every ten minutes;
 - defaults to `-Smoke`, so the deterministic launcher runs but Codex is not invoked.
 
