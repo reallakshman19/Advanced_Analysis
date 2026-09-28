@@ -20,6 +20,6 @@ For an RLL-1 run:
 7. Preserve truthful `PASS | FAIL | NOT_RUN | NOT_APPLICABLE` and exact-head evidence.
 8. Never broaden scope, merge, release, delete branches, close programme work, weaken an oracle/tolerance, or infer Owner authority.
 9. `REVIEW_READY` means evidence is ready for independent review; it does not mean accepted or merged.
-10. Do not use GitHub MCP for RLL transport. Use native `git` and `gh` as allowed by the launcher/project permissions.
+10. Do not use GitHub MCP for RLL transport. Provider-facing `gh`, Git state/refs, evidence publication, commit and push belong to the deterministic launcher. A Codex engineering subprocess must not use `gh`, GitHub APIs/MCP, or mutate Git refs.
 
 Transport state is operational metadata only. Material Git truth wins whenever state and repository observations disagree.
