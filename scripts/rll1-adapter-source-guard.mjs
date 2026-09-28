@@ -73,9 +73,9 @@ assert.match(codexWrapper, /codex-local/u);
 assert.match(codexWrapper, /--codex-user/u);
 assert.match(codexWrapper, /--codex-home/u);
 assert.match(codexWrapper, /wsl\.exe/u);
-assert.match(codexWrapper, /2486ba4a175143aa3816792123c8a2bac24c3379/u);
-assert.match(codexInstaller, /2486ba4a175143aa3816792123c8a2bac24c3379/u);
-assert.match(codexDocs, /2486ba4a175143aa3816792123c8a2bac24c3379/u);
+assert.match(codexWrapper, /01568d8fd4cba8adba20b7a2f11a00d9c04a4e85/u);
+assert.match(codexInstaller, /01568d8fd4cba8adba20b7a2f11a00d9c04a4e85/u);
+assert.match(codexDocs, /01568d8fd4cba8adba20b7a2f11a00d9c04a4e85/u);
 
 for (const label of ['rll-ready', 'rll-active', 'rll-review-ready', 'rll-escalation']) {
   assert.match(codexInstaller, new RegExp(label, 'u'));
