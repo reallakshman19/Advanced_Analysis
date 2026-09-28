@@ -8,7 +8,7 @@ param(
     [string]$CommonRootLinux,
     [string]$WorkerId = "codex-local",
     [string]$AuthorizedLogin = "reallaksh19",
-    [string]$RequiredCommonBasis = "2486ba4a175143aa3816792123c8a2bac24c3379",
+    [string]$RequiredCommonBasis = "01568d8fd4cba8adba20b7a2f11a00d9c04a4e85",
     [string]$CodexUser = "rll-codex",
     [string]$CodexHomeLinux = "/home/rll-codex/.codex-rll",
     [string]$Timeout = "2h",
