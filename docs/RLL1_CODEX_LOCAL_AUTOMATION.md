@@ -75,7 +75,7 @@ Do not copy GitHub OAuth/PAT material into the Codex user's home, `CODEX_HOME`, 
 
 During migration smoke this adapter is pinned to Common draft head:
 
-`01568d8fd4cba8adba20b7a2f11a00d9c04a4e85`
+`22d365839e64c19c7ba606e2cf4edc6b9cc2999f`
 
 Before the adapter can be considered current, repin it to the merged Common #476 SHA.
 
