@@ -10,7 +10,7 @@ The Codex migration replaces Antigravity scheduling/execution only. RLL authorit
 Windows Task Scheduler (10 min)
   -> scripts/rll1-codex-worker.ps1
   -> WSL2/Linux
-  -> Common rll_codex_worker.py
+  -> Common rll_worker.py --executor codex
   -> Common deterministic RLL core
   -> launcher-owned git + gh preparation/state
   -> isolated codex exec
@@ -75,9 +75,9 @@ Do not copy GitHub OAuth/PAT material into the Codex user's home, `CODEX_HOME`, 
 
 During migration smoke this adapter is pinned to Common draft head:
 
-`5093474da3228720f73047226754c7e17f5ea5a3`
+`ba27a21e704de9e8885dff56d6e00d2caa90497f`
 
-Before the adapter can be considered current, repin it to the merged Common #475 SHA.
+Before the adapter can be considered current, repin it to the merged Common #476 SHA.
 
 ## Install smoke scheduler
 
@@ -178,7 +178,7 @@ The Codex process is instructed not to use `gh`, GitHub APIs, MCP, commit, push,
 5. Create a disposable WSL/Linux branch-write smoke with one harmless authorized path.
 6. Prove in-workspace edit succeeds, out-of-scope path is rejected, and Codex does not move Git HEAD.
 7. Prove launcher-owned commit/push and evidence publication.
-8. Repin this adapter to the merged Common #475 SHA.
+8. Repin this adapter to the merged Common #476 SHA.
 9. Only then migrate authorized engineering task #1908 from `antigravity-local` to `codex-local`.
 
 ## #1908 migration boundary
