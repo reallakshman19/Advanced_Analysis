@@ -86,6 +86,9 @@ assert.match(codexInstaller, /Never reopen completed work/u);
 assert.match(codexInstaller, /Execution enablement does not relabel/u);
 assert.match(codexInstaller, /codex login status/u);
 assert.match(codexInstaller, /sudo -n -u/u);
+assert.match(codexInstaller, /installedWrapper/u);
+assert.match(codexInstaller, /Copy-Item -Path \$Wrapper -Destination \$installedWrapper -Force/u);
+assert.match(codexInstaller, /%LOCALAPPDATA%|LOCALAPPDATA/u);
 
 assert.match(codexWrapper, /GH_TOKEN/u);
 assert.match(codexWrapper, /unset GH_TOKEN GITHUB_TOKEN/u);
@@ -99,6 +102,7 @@ assert.match(codexDocs, /approvals_reviewer="user"/u);
 assert.match(codexDocs, /Do not configure `auto_review`/u);
 assert.match(codexDocs, /dangerously-bypass-approvals-and-sandbox/u);
 assert.match(codexDocs, /launcher-owned commit\/push/u);
+assert.match(codexDocs, /scheduled entrypoint therefore survives RLL switching/u);
 assert.match(codexDocs, /dedicated `CODEX_HOME`/u);
 
 assert.doesNotMatch(codexWrapper, /gh\s+pr\s+merge/iu);
