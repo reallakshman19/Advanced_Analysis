@@ -83,12 +83,17 @@ if ($PilotIssue -gt 0 -and -not $EnableExecution) {
 
 $runnerDir = Join-Path $env:LOCALAPPDATA "RLL\Advanced_Analysis"
 $runnerPath = Join-Path $runnerDir "run-codex-rll.ps1"
+$installedWrapper = Join-Path $runnerDir "rll1-codex-worker.ps1"
 New-Item -ItemType Directory -Path $runnerDir -Force | Out-Null
+
+if ($PSCmdlet.ShouldProcess($installedWrapper, "Install branch-independent Codex RLL wrapper")) {
+    Copy-Item -Path $Wrapper -Destination $installedWrapper -Force
+}
 
 $smokeArg = if ($EnableExecution) { "" } else { " -Smoke" }
 $runner = @"
 `$ErrorActionPreference = "Stop"
-& "$Wrapper" -WslDistribution "$WslDistribution" -RepoRootLinux "$RepoRootLinux" -CommonRootLinux "$CommonRootLinux" -RequiredCommonBasis "$RequiredCommonBasis" -CodexUser "$CodexUser" -CodexHomeLinux "$CodexHomeLinux"$smokeArg
+& "$installedWrapper" -WslDistribution "$WslDistribution" -RepoRootLinux "$RepoRootLinux" -CommonRootLinux "$CommonRootLinux" -RequiredCommonBasis "$RequiredCommonBasis" -CodexUser "$CodexUser" -CodexHomeLinux "$CodexHomeLinux"$smokeArg
 exit `$LASTEXITCODE
 "@
 if ($PSCmdlet.ShouldProcess($runnerPath, "Write credential-free RLL task runner")) {
@@ -103,6 +108,7 @@ if ($PSCmdlet.ShouldProcess($TaskName, "Install 10-minute Codex RLL scheduled ta
 
 Write-Host "Installed task: $TaskName"
 Write-Host "Runner: $runnerPath"
+Write-Host "Installed wrapper: $installedWrapper"
 Write-Host "WSL distribution: $WslDistribution"
 if ($EnableExecution) {
     Write-Host "Mode: EXECUTION ENABLED"
