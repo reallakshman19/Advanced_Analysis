@@ -6,7 +6,7 @@ param(
     [string]$RepoRootLinux,
     [Parameter(Mandatory=$true)]
     [string]$CommonRootLinux,
-    [string]$RequiredCommonBasis = "01568d8fd4cba8adba20b7a2f11a00d9c04a4e85",
+    [string]$RequiredCommonBasis = "22d365839e64c19c7ba606e2cf4edc6b9cc2999f",
     [string]$CodexUser = "rll-codex",
     [string]$CodexHomeLinux = "/home/rll-codex/.codex-rll",
     [string]$TaskName = "Advanced_Analysis-RLL1-Codex",
