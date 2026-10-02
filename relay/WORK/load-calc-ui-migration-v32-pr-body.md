@@ -1,0 +1,27 @@
+## Draft scope and current migration
+
+The prepared four-stage **Support Load Workbench is now the default Load Calc UI**. Import/setup, input review, Calculate, and results/export embed existing Project Data, master mapping, preview, enrichment, checker, scenario and export owners. The new Calculate button calls the existing runner; advanced/legacy access and the source-only read-only prototype remain available.
+
+This also removes accumulated bootstrap automatic catalogue selection/acceptance and validation-time renewal of old source-qualified field hashes. Exact pipe-master fields retain automatic acceptance; pending manual choices are preserved. Explicit catalogue review refuses stale source/master bindings. File identity binding does not approve engineering values.
+
+Accumulated earlier scope remains: source-bore pipe-equivalent fitting estimates, missing-only insulation thickness 0 mm, grouped approximate-master preview, exception disclosure, unsigned empirical Fh/line-stop screening and current result-receipt presentation. **This is not a completed full load-vector solution or release.** No numerical formulation, restraints/stiffness/sign convention, oracle/tolerance or publication authority changed in the migration leg.
+
+## Fresh browser outcome
+
+Actual Sjson imported in isolated local build; line-list workbook mapped, previously owner-approved 35 pipe section/density inputs applied, and 23 visually matching catalogue weights explicitly reviewed. Final 195 accepted records, 0 pending proposals, checker mass coverage **119/127**. Insulation edit/reset verified through existing preview.
+
+Actual Run was attempted on final code. It correctly stops at **eight unresolved manual catalogue weights and stale retained unit/axis source evidence**. Standard fittings and missing insulation are not the remaining checker mass blockers. Results show no current gravity execution; sealed export is blocked and its controls disabled. Fresh Fv/Fh/Fa/Fl/moments and successful calculation/export remain **BLOCKED / NOT_RUN**, not done. No source-hash copying or fabricated catalogue identity was used to make the run pass.
+
+## Validation
+
+- PASS: 22 of 23 focused load-calc checks, Project Data authority, ancillary-default authority, imports, shell contract, production build and diff check.
+- Retained FAIL: five-step wrapper assertion (unchanged wrapper already has eight steps at turn-start HEAD).
+- FAIL: broader non-FEA suite stops at check 67 due to missing `benchmarks/LFEA/BM2/Input_BM2.xml`; subsequent checks NOT_RUN.
+- NOT_RUN this leg: three earlier draft guards; their previous failures remain recorded, not promoted to pass.
+- NOT_VERIFIED: accepted-override sidecar download timed out without a verified artifact. Deterministic sealed result export was not run because input evidence is blocked.
+
+[Current migration evidence and every changed file](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-ui-migration-v32-evidence.md) · [Migration plan](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-ui-migration-v32-plan.md) · [Final UI proof](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-ui-migration-v32-current.jpg)
+
+Historical accumulated scope: [earlier file manifest](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-draft-pr-v32-file-scope.md) and [earlier validation](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-draft-pr-v32-evidence.md). Their statements about unwired direct Run and automatic catalogue/hash acceptance are superseded by this leg. Earlier browser gravity receipts were calculated with exceptions, not fresh source-qualified results for this final build.
+
+No workflow/historical relay changes or original-checkout unrelated 3D edits. No merge/release authorization. Common v3.2 ResultScope: STEP; ResponsibilityComplete: NO; FULL_VECTOR_LOADS and RUNNABLE_WORKBENCH pending; progress/evidence 1/3 (33%/33%).
