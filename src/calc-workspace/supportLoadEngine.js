@@ -286,6 +286,38 @@ export function calculateSupportLoads(input, evaluatedAt, profileLike) {
   });
 }
 
+/**
+ * Existing empirical magnitudes against an explicit reference OPE demand.
+ * Screening only: no gravity recalculation, support assignment or vector solve.
+ * Caller must supply the visible profile; null/invalid inputs remain unavailable.
+ */
+export function calculateSupportLoadScreeningTerms({ opeVerticalN, outsideDiameterMm,
+  wallThicknessMm, temperatureC } = {}, profileLike) {
+  const profile = normalizeSupportLoadProfile(profileLike);
+  const finite = value => typeof value === 'number' && Number.isFinite(value);
+  const wallReady = finite(wallThicknessMm) && wallThicknessMm > 0;
+  const temperatureReady = finite(temperatureC);
+  const diameterReady = finite(outsideDiameterMm) && outsideDiameterMm > 0;
+  const sectionValid = !diameterReady || (wallReady && 2 * wallThicknessMm < outsideDiameterMm);
+  const guideReady = finite(opeVerticalN) && opeVerticalN >= 0
+    && wallReady && temperatureReady && sectionValid;
+  const stopReady = diameterReady && wallReady && temperatureReady && sectionValid;
+  const input = { identity: { pipeOdMm: outsideDiameterMm },
+    pipePhysical: { wallThicknessMm }, process: { tempExpC1: temperatureC } };
+  const guide = guideReady ? guideLoad(opeVerticalN, input, profile) : null;
+  const lineStopN = stopReady ? lineStopLoad(input, profile) : null;
+  return freezeDeep({
+    methodId: SUPPORT_LOAD_FORMULA_PROFILE_ID,
+    scope: 'UNSIGNED_EMPIRICAL_SCREENING_MAGNITUDES_NOT_SOLVED_REACTIONS',
+    guide: guide && Object.values(guide).every(Number.isFinite) ? guide : null,
+    lineStopN: Number.isFinite(lineStopN) ? lineStopN : null,
+    temperatureFactor: temperatureReady ? tempFnC(temperatureC) / profile.guideTempDivisor : null,
+    temperatureClamped: temperatureReady && (temperatureC < 0 || temperatureC > 500),
+    input: { opeVerticalN, outsideDiameterMm, wallThicknessMm, temperatureC },
+    profile: clonePlain(profile),
+  });
+}
+
 export function resultRows(supportLoadModel) {
   const inputs = supportLoadModel?.inputsByPipeId || {};
   const results = supportLoadModel?.resultsByPipeId || {};

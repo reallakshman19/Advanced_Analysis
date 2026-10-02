@@ -122,6 +122,7 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
 
     const context = {
       targetId, boreMm, requestedClass, match, lineRow, componentKey: component.componentKey,
+      sourceSemanticHash: sourceModel.semanticHash,
     };
     if (wallThicknessMm === null) {
       blockers.push(issue('LOAD_CALC_MASTER_WALL_THICKNESS_MISSING', targetId,
@@ -195,7 +196,7 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
  * a rubber stamp.
  */
 function proposalFor(fieldId, value, unit, context, masters) {
-  const { targetId, boreMm, requestedClass, match, lineRow, fluidDensitySource } = context;
+  const { targetId, boreMm, requestedClass, match, lineRow, fluidDensitySource, sourceSemanticHash } = context;
   // Fluid density comes from the Line List, every other field from the Piping
   // Class master. Attributing all of them to one master would misstate which
   // approved source a value can be traced back to.
@@ -220,18 +221,28 @@ function proposalFor(fieldId, value, unit, context, masters) {
       sourceId: master?.fileName || (fromLineList ? 'lineList' : 'pipingClass'),
       revision: master?.sourceHash || 'NOT_AVAILABLE',
       evidence: fromLineList ? {
+        sourceSemanticHash,
         matchMode: 'EXACT',
         boreMm,
         lineKey: lineRow.lineKey,
         fluidDensitySource,
         lineListSourceHash: masters?.lineList?.sourceHash || null,
       } : {
+        sourceSemanticHash,
         matchMode: approximate ? 'APPROXIMATE_CLASS_MATCH' : 'EXACT',
         requestedPipingClass: requestedClass,
         resolvedPipingClass: match.resolvedPipingClass,
         classMatchMethod: match.method,
         classMatchConfidence: match.confidence,
         classMatchNeedsReview: approximate,
+        classMatchScore: match.score,
+        classMatchReasons: match.reasons || [],
+        classCandidates: (match.classMatch?.candidates || []).filter((row) => Number.isFinite(row.score)),
+        rowCandidates: (match.candidates || []).filter((row) => Number.isFinite(row.score)).map((row) => ({
+          score: row.score, confidence: row.confidence, reasons: row.reasons || [],
+          wallThickness: row.row?.wallThickness ?? row.row?.['Wall thickness'] ?? null,
+          rating: row.row?.rating ?? null, schedule: row.row?.schedule ?? null,
+        })),
         boreMm,
         lineKey: lineRow.lineKey,
         pipingClassSourceHash: masters?.pipingClass?.sourceHash || null,

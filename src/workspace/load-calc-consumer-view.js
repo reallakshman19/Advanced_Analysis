@@ -2,6 +2,9 @@
  * Builds the empirical Load Calc workbench shell. Engineering values shown by
  * this module are read from immutable empirical result and receipt contracts.
  */
+import { renderLoadCalcExceptionReview } from './load-calc-exception-review.js';
+import { gravitySourceAxisLabel, renderLoadCalcQuantityScope } from './load-calc-quantity-scope.js';
+import { bindEmpiricalScreeningPreview, renderEmpiricalScreeningPreview } from './load-calc-empirical-screening.js';
 import {
   TOPOLOGY_EDIT_DEFAULT_AUTOFIX_GAP_MM,
   TOPOLOGY_EDIT_MAXIMUM_AUTOFIX_GAP_MM,
@@ -44,6 +47,7 @@ function resolveRunAction(state) {
 }
 
 function headerMarkup(state) {
+  if (state.activeTab === 'workbench') return `<header class="empirical-load-calc__header"><div><span class="panel-eyebrow">READ-ONLY INPUTS & RESULTS</span><h1>Support Load Workbench</h1></div><button type="button" data-load-calc-tab="preview">Return to guided workflow</button></header>`;
   const freshness = state.distribution?.freshness?.status || 'NOT_CALCULATED';
   const authorization = state.authorizationState || {};
   const commonInput = state.commonInputState || {};
@@ -78,6 +82,8 @@ function headerMarkup(state) {
     </div>
     ${workflowMarkup(state, runAction)}
     <div class="empirical-load-calc__actions">
+      <button type="button" data-load-calc-tab="preview" aria-current="${state.activeTab === 'preview' ? 'page' : 'false'}">Preview</button>
+      <button type="button" data-load-calc-tab="workbench">New workbench · read-only</button>
       <button type="button" class="button button--primary" 
         ${runAction.eligible ? '' : 'disabled'}
         data-load-calc-run
@@ -89,7 +95,7 @@ function headerMarkup(state) {
   </header>`;
 }
 
-const PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'preflight', 'verify', 'loads']);
+const PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'preview', 'workbench', 'preflight', 'verify', 'loads']);
 
 const WORKFLOW_STEPS = Object.freeze([
   Object.freeze({ id: 'import', label: 'Import JSON', tab: null }),
@@ -266,6 +272,7 @@ export function renderEngineeringLoadPane(
   routePartitionModel,
   authorizedExecution = null,
   authorizationState = null,
+  screeningContext = undefined,
 ) {
   if (!container) return;
   container.innerHTML = `${contractSummary(
@@ -274,7 +281,8 @@ export function renderEngineeringLoadPane(
     routePartitionModel,
     authorizedExecution,
     authorizationState,
-  )}${caseMarkup(distribution, supportSiteModel)}`;
+  )}${renderLoadCalcQuantityScope(distribution)}${renderEmpiricalScreeningPreview(distribution, screeningContext)}${caseMarkup(distribution, supportSiteModel)}`;
+  bindEmpiricalScreeningPreview(container, distribution, screeningContext);
 }
 
 export function renderLoadCalcTopologyPane(
@@ -645,9 +653,12 @@ function caseMarkup(distribution, supportSiteModel) {
     <h2>${escapeHtml(loadCase.loadCaseId)} <span>${escapeHtml(loadCase.status)}${current ? '' : ' / STALE'}</span></h2>
     ${completenessMarkup(loadCase.completenessAudit, loadCase.status, current)}
     ${blockerMarkup(loadCase.blockers)}
-    <table><thead><tr><th>Support site</th><th>Status</th><th>Vertical force (N, source Z-up)</th><th>Transfer moment demand (N·mm)</th><th>Contributors</th></tr></thead>
+    <table><thead><tr><th>Support site</th><th>Status</th><th>Vertical force (N, source ${gravitySourceAxisLabel(distribution)})</th><th>Transfer moment demand (N·mm)</th><th>Contributors</th></tr></thead>
     <tbody>${loadCase.supportResults.map((row) => `<tr><td><button type="button" data-load-support-entity-id="${escapeHtml(primaryBySite.get(row.supportSiteId) || '')}">${escapeHtml(row.supportSiteId)}</button></td><td>${escapeHtml(row.status)}${current ? '' : ' / STALE'}</td><td>${force(row.verticalForceN, acceptedCurrent && isPublishableCaseStatus(row.status))}</td><td>${moment(row.cantileverMomentDemandNmm, acceptedCurrent && isPublishableCaseStatus(row.status))}</td><td>${integer(row.contributorIds?.length)}</td></tr>`).join('')}</tbody></table>
-    <details ${loadCase.status === 'CALCULATED_WITH_EXCEPTIONS' ? 'open' : ''}><summary>Exceptions (${integer(loadCase.exceptionLedger?.length)})</summary><pre>${escapeHtml(JSON.stringify(loadCase.exceptionLedger || [], null, 2))}</pre></details>
+    <details ${loadCase.status === 'CALCULATED_WITH_EXCEPTIONS' ? 'open' : ''}><summary>Exceptions (${integer(loadCase.exceptionLedger?.length)})</summary>
+      ${renderLoadCalcExceptionReview(loadCase, current, supportSiteModel)}
+      <details><summary>Exact exception ledger · JSON</summary><pre>${escapeHtml(JSON.stringify(loadCase.exceptionLedger || [], null, 2))}</pre></details>
+    </details>
     <details><summary>Contribution ledger (${integer(loadCase.contributionLedger?.length)})</summary><pre>${escapeHtml(JSON.stringify(loadCase.contributionLedger || [], null, 2))}</pre></details>
     <details><summary>Excluded inputs (${integer(loadCase.excludedInputs?.length)})</summary><pre>${escapeHtml(JSON.stringify(loadCase.excludedInputs || [], null, 2))}</pre></details>
     <details><summary>Equilibrium / route closure</summary><pre>${escapeHtml(JSON.stringify(loadCase.equilibrium || null, null, 2))}</pre></details>

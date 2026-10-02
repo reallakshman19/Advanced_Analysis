@@ -62,10 +62,10 @@ console.log('PASS P04 artifact hashes are cached by immutable object identity.')
 
 for (const pattern of [
   /sha256\(this\.#dataset\.sourceSha256/u,
-  /sha256\(masterData\?\.lineList\?\.sourceHash/u,
+  /nullableSha256\(masterData\?\.lineList\?\.sourceHash/u,
   /sha256\(masterData\?\.pipingClass\?\.sourceHash/u,
   /sha256\(masterData\?\.weight\?\.sourceHash/u,
 ]) assert.match(bindings, pattern);
-console.log('PASS P05 SHA-256 provenance remains authoritative.');
+console.log('PASS P05 SHA-256 provenance remains authoritative (lineList nullable-optional).');
 
 console.log('STRUCTURAL CURRENTNESS STATUS: PASS');

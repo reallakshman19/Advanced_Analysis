@@ -312,7 +312,10 @@ export function requireConfiguredDefaultOverlay(value) {
 }
 
 function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, provider) {
-  if (record.unit !== expectedUnit) {
+  // Project Data uses the display spelling kg/m³; the common-enriched
+  // contract uses kg/m3. This alias has identical scale and needs no conversion.
+  const unit = record.unit === 'kg/m³' ? 'kg/m3' : record.unit;
+  if (unit !== expectedUnit) {
     return {
       value: null,
       blocker: issue(
@@ -329,7 +332,7 @@ function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, prov
       schema: COMMON_ENRICHED_FIELD_SCHEMA,
       field: fieldName,
       value: record.value,
-      unit: record.unit,
+      unit,
       status: 'RESOLVED_DERIVED',
       sourceKind: 'PROJECT_CONFIGURED_DEFAULT',
       sourceKey,

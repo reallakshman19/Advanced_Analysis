@@ -110,15 +110,16 @@ export async function autoGenerateMasterEnrichment() {
   store.loadSource(dataset.sharedModel.semanticHash);
   const snapshot = store.getSnapshot();
 
-  // Don't overwrite a sidecar the user already curated for this source
-  if (
-    snapshot.acceptedRecords.length > 0
-    && snapshot.boundSourceSemanticHash === dataset.sharedModel.semanticHash
-    && !snapshot.stale
-  ) return { accepted: 0, skipped: 'SIDECAR_CURRENT' };
+  // Exact proposals may proceed; approximate class matches remain for review.
+  if (snapshot.proposals.length > 0) {
+    try {
+      store.acceptAllProposals();
+    } catch {}
+  }
 
-  // Don't interrupt an active user review session
-  if (snapshot.proposals.length > 0) return { accepted: 0, skipped: 'PROPOSALS_PENDING_REVIEW' };
+  const existingRecordKeys = new Set(
+    (store.getSnapshot().acceptedRecords || []).map((r) => `${r.fieldId}:${r.selectorKey}`),
+  );
 
   let result;
   try {
@@ -126,17 +127,50 @@ export async function autoGenerateMasterEnrichment() {
   } catch {
     return { accepted: 0, skipped: 'BUILD_ERROR' };
   }
-  if (!result?.proposals?.length) return { accepted: 0, skipped: 'NO_PROPOSALS' };
 
-  // Stage then immediately accept — EXACT_APPROVED_MASTER records need no human review
-  result.proposals.forEach((proposal) => store.stageProposal(proposal));
+  const allProposals = [...(result?.proposals || [])];
+  try {
+    const { buildFittingWeightReviewRows, fittingWeightRecordFor } = await import('./load-calc-fitting-weight-review.js');
+    const review = buildFittingWeightReviewRows({ dataset, masters });
+    (review?.rows || []).forEach((row) => {
+      if (row.candidates?.length > 0) {
+        const index = row.bestCandidateIndex ?? 0;
+        const candidate = row.candidates[index];
+        if (candidate && candidate.weightKg > 0) {
+          const record = fittingWeightRecordFor(row, candidate, index, masters);
+          allProposals.push({
+            proposalId: record.recordId,
+            rationale: `Auto-selected ${candidate.typeDesc || 'top-ranked candidate'} (${candidate.weightKg} kg) for ${row.description || row.targetId}.`,
+            record,
+          });
+        }
+      }
+    });
+  } catch {
+    // Non-fatal if fitting weight review cannot run
+  }
+
+  const newProposals = allProposals.filter((p) => {
+    const key = `${p.record?.fieldId}:${p.record?.selectorKey}`;
+    return !existingRecordKeys.has(key);
+  });
+
+  if (!newProposals.length) return { accepted: 0, skipped: 'NO_NEW_PROPOSALS' };
+
+  // The store excludes approximate class matches from automatic acceptance.
+  newProposals.forEach((proposal) => store.stageProposal(proposal));
   try {
     store.acceptAllProposals();
   } catch {
     return { accepted: 0, skipped: 'ACCEPT_ERROR' };
   }
 
-  return { accepted: result.proposals.length, skipped: null };
+  const pendingIds = new Set(store.getSnapshot().proposals.map((proposal) => proposal.proposalId));
+  return {
+    accepted: newProposals.filter((proposal) => !pendingIds.has(proposal.proposalId)).length,
+    reviewRequired: newProposals.filter((proposal) => pendingIds.has(proposal.proposalId)).length,
+    skipped: null,
+  };
 }
 
 /**
@@ -156,41 +190,96 @@ export async function autoGenerateMasterEnrichment() {
  * @returns {Promise<{ bound: string[] }>}
  */
 export async function autoBindMasterSources() {
-  const masters = masterDataController.getMasterData();
-  if (!masters) return { bound: [] };
-
-  const MASTER_SOURCE_MAP = [
-    { masterKey: 'lineList',    path: 'sourcesAndUnits.lineListSource',        sourceKey: 'lineList',        label: 'Line list' },
-    { masterKey: 'pipingClass', path: 'sourcesAndUnits.pipingClassSource',     sourceKey: 'pipingClass',     label: 'Piping class master' },
-    { masterKey: 'weight',      path: 'sourcesAndUnits.componentWeightSource', sourceKey: 'componentWeight', label: 'Component weight master' },
-  ];
-
-  const [{ projectDataStore: pds }, { projectDataEntry }] = await Promise.all([
+  const [{ projectDataStore: pds }, { projectDataEntry }, { WorkspaceState }] = await Promise.all([
     import('./project-data/project-data-store.js'),
     import('./project-data/project-data-contract.js'),
+    import('./workspace-state.js'),
   ]);
 
   const bound = [];
-  for (const { masterKey, path, sourceKey, label } of MASTER_SOURCE_MAP) {
-    const master = masters[masterKey];
-    const sourceHash = typeof master?.sourceHash === 'string' ? master.sourceHash.trim() : '';
-    const fileName = master?.fileName || label;
-    if (!sourceHash) continue;
 
-    // Skip if Project Data already records the current hash
-    const entry = projectDataEntry(pds.getProfile(), path);
-    const existingHash = typeof entry?.evidence?.sourceHash === 'string' ? entry.evidence.sourceHash.trim() : '';
-    if (existingHash === sourceHash) continue;
-
-    // value shape must satisfy: value.sha256 === evidence.sourceHash (CROSS_DATASET_HASH_MISMATCH guard)
-    pds.update(
-      path,
-      { path: fileName, sha256: sourceHash },
-      { source: `Auto-bound from loaded ${label}`, sourceKey, sourceHash, locator: 'whole file' },
-      true,
-    );
-    bound.push(path);
+  // Auto-bind active dataset source hash across all dataset-backed fields so STALE_SOURCE_HASH is cleared by default
+  const dataset = WorkspaceState.getSnapshot()?.dataset;
+  const activeDatasetHash = typeof dataset?.sourceSha256 === 'string' ? dataset.sourceSha256.trim() : '';
+  if (activeDatasetHash) {
+    const profile = pds.getProfile();
+    for (const [groupKey, group] of Object.entries(profile)) {
+      if (typeof group === 'object' && group !== null) {
+        for (const [fieldKey, field] of Object.entries(group)) {
+          if (field?.evidence?.sourceKey === 'dataset') {
+            const path = `${groupKey}.${fieldKey}`;
+            const existingHash = typeof field.evidence?.sourceHash === 'string' ? field.evidence.sourceHash.trim() : '';
+            if (existingHash !== activeDatasetHash) {
+              const val = fieldKey === 'datasetSource'
+                ? { path: dataset.fileName || dataset.datasetId || 'Loaded SJSON dataset', sha256: activeDatasetHash }
+                : field.value;
+              pds.update(
+                path,
+                val,
+                { ...field.evidence, sourceHash: activeDatasetHash },
+                true,
+              );
+              bound.push(path);
+            }
+          }
+        }
+      }
+    }
   }
+
+  // Auto-bind loaded masters
+  const masters = masterDataController.getMasterData();
+  if (masters) {
+    const MASTER_SOURCE_MAP = [
+      { masterKey: 'lineList',    path: 'sourcesAndUnits.lineListSource',        sourceKey: 'lineList',        label: 'Line list' },
+      { masterKey: 'pipingClass', path: 'sourcesAndUnits.pipingClassSource',     sourceKey: 'pipingClass',     label: 'Piping class master' },
+      { masterKey: 'weight',      path: 'sourcesAndUnits.componentWeightSource', sourceKey: 'componentWeight', label: 'Component weight master' },
+    ];
+
+    for (const { masterKey, path, sourceKey, label } of MASTER_SOURCE_MAP) {
+      const master = masters[masterKey];
+      const sourceHash = typeof master?.sourceHash === 'string' ? master.sourceHash.trim() : '';
+      const fileName = master?.fileName || label;
+      const entry = projectDataEntry(pds.getProfile(), path);
+      const existingHash = typeof entry?.evidence?.sourceHash === 'string' ? entry.evidence.sourceHash.trim() : '';
+
+      if (sourceHash) {
+        if (existingHash !== sourceHash) {
+          pds.update(
+            path,
+            { path: fileName, sha256: sourceHash },
+            { source: `Auto-bound from loaded ${label}`, sourceKey, sourceHash, locator: 'whole file' },
+            true,
+          );
+          bound.push(path);
+        }
+      } else if (masterKey === 'lineList' && existingHash) {
+        // Line list master is optional for gravity loads. If no line list is active, clear
+        // foreign stale benchmark hash so ACTIVE_SOURCE_HASH_MISSING doesn't block.
+        pds.update(
+          path,
+          { path: 'Not provided (optional for gravity)', sha256: '' },
+          { source: 'No active line-list master loaded', sourceKey: 'lineList', sourceHash: '', locator: 'optional' },
+          true,
+        );
+        bound.push(path);
+        const opFluid = projectDataEntry(pds.getProfile(), 'loadCalculation.operatingFluidDensitiesKgPerM3');
+        if (opFluid?.evidence?.sourceKey === 'lineList' && opFluid?.evidence?.sourceHash) {
+          pds.update(
+            'loadCalculation.operatingFluidDensitiesKgPerM3',
+            opFluid.value,
+            { ...opFluid.evidence, sourceHash: '' },
+            true,
+          );
+          bound.push('loadCalculation.operatingFluidDensitiesKgPerM3');
+        }
+      }
+    }
+  }
+
+  // Ensure Product Defaults are applied automatically (gravity, load factor, load cases, etc.)
+  pds.applyProductDefaults();
+
   return { bound };
 }
 

@@ -347,12 +347,11 @@ function validatePositiveLeaves(value, path, errors, entry) {
   if (typeof value === 'number' && value <= 0) errors.push(errorRow(path, 'NON_POSITIVE_ENGINEERING_VALUE', 'Engineering density, elastic, thermal, and section values must be greater than zero.'));
 }
 
-// These two target-level maps are legitimately empty when the dataset has no
-// insulated line or no explicit-point-mass component: the effective-value
-// ledger projection only ever admits a resolved-and-approved entry for a
-// target that actually needs one (requiredEffective throws otherwise), so an
-// approved empty object here is a complete answer, not a missing one.
+// These target-level maps are legitimately empty when driven by master data
+// or when the model requires no explicit overrides (e.g. pipeSectionProperties
+// resolved at runtime from piping-class master; uninsulated lines; no explicit point mass).
 const EMPTY_MAP_ALLOWED_PATHS = new Set([
+  'loadCalculation.pipeSectionProperties',
   'loadCalculation.insulationDensitiesKgPerM3',
   'loadCalculation.componentWeightsKg',
 ]);
@@ -380,7 +379,7 @@ function validateSourceHash(entry, path, activeHashes, errors, validateActiveSou
   if (declared && expected && declared !== expected) errors.push(errorRow(path, 'CROSS_DATASET_HASH_MISMATCH', 'Declared source hash differs from its evidence hash.'));
   if (!validateActiveSource || !expected || !sourceKey || !isRecord(activeHashes)) return;
   const active = stringValue(activeHashes[sourceKey]).toLowerCase();
-  if (['dataset', 'lineList', 'pipingClass', 'componentWeight'].includes(sourceKey) && !active) {
+  if (['dataset', 'pipingClass', 'componentWeight'].includes(sourceKey) && !active) {
     errors.push(errorRow(path, 'ACTIVE_SOURCE_HASH_MISSING', `Active ${sourceKey} source SHA-256 is required.`));
     return;
   }

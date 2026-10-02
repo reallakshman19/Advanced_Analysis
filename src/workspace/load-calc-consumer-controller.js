@@ -11,6 +11,7 @@ import {
 } from './load-calc-current-system-view.js';
 import { classifyLoadCalcResultPresentation } from './load-calc-result-presentation.js';
 import { masterDataController } from './master-data-controller.js';
+import { WorkspaceState } from './workspace-state.js';
 import { createCurrentNonFeaWorkspaceStatusProjection } from './non-fea-analysis-plan-runtime.js';
 import { nonFeaCommonInputStore } from './non-fea-common-input-store.js';
 import {
@@ -76,6 +77,8 @@ export class LoadCalcConsumerController {
     this.message = '';
     this.unsubscribers = [];
     this.renderRevision = 0;
+    this.workbenchController = null;
+    this.workbenchState = null;
     this.topologyEdit3DController = null;
     this.pending3dInvestigationEntityId = null;
     this.pendingCertifiedTopologyAutofix = false;
@@ -193,6 +196,15 @@ export class LoadCalcConsumerController {
     this.activeTab = tab;
     const workflowStepId = WORKFLOW_STEP_BY_TAB[tab];
     if (workflowStepId) this.currentWorkflowStepId = workflowStepId;
+    if (tab === 'check' || tab === 'loads' || tab === 'seal-export') {
+      import('./master-data-ui.js').then(async ({ autoGenerateMasterEnrichment, autoBindMasterSources }) => {
+        const [enrichResult, bindResult] = await Promise.all([
+          autoGenerateMasterEnrichment(),
+          autoBindMasterSources(),
+        ]);
+        if (enrichResult?.accepted > 0 || bindResult?.bound?.length > 0) this.render();
+      }).catch(() => {});
+    }
   }
 
   /** Lazily evaluates the heavy canonical checker and refreshes run authority. */
@@ -330,6 +342,18 @@ export class LoadCalcConsumerController {
   }
 
   handleClick(event) {
+    if (event.target.closest('[data-load-calc-weight-review]')) {
+      void import('./load-calc-weight-review-dialog.js').then(({ openWeightReviewDialog }) => {
+        openWeightReviewDialog({
+          documentRef: this.rootElement.ownerDocument,
+          snapshot: nonFeaCommonInputStore.getSnapshot(),
+          status: createCurrentNonFeaWorkspaceStatusProjection(),
+          getSnapshot: () => nonFeaCommonInputStore.getSnapshot(),
+          onReviewSections: () => { this.selectTab('enrichment'); this.render(); },
+        });
+      }).catch((error) => { this.message = error.message; this.render(); });
+      return;
+    }
     const supportEntityId = event.target.closest('[data-load-support-entity-id]')?.dataset.loadSupportEntityId;
     if (supportEntityId) { this.eventBus.publish(EVENT_TOPICS.VIEWPORT_SELECTION_REQUESTED, { entityId: supportEntityId, source: 'load-table' }); return; }
     const investigationEntityId = event.target.closest('[data-non-fea-investigation-entity-id]')?.dataset.nonFeaInvestigationEntityId;
@@ -340,7 +364,9 @@ export class LoadCalcConsumerController {
       return;
     }
     if (event.target.closest('[data-load-calc-import]')) {
-      this.eventBus.publish(APPLICATION_EVENTS.CHANGE_REQUESTED, { viewId: 'WORKSPACE', source: 'load-calc-workflow' });
+      this.eventBus.publish(APPLICATION_EVENTS.CHANGE_REQUESTED, { viewId: 'WORKSPACE', source: 'navigation' });
+      const fileInput = this.rootElement.ownerDocument.querySelector('[data-role="dataset-file"]');
+      fileInput?.click();
       return;
     }
     if (event.target.closest('[data-load-calc-topology-autofix]')) {
@@ -461,6 +487,8 @@ export class LoadCalcConsumerController {
   }
 
   render() {
+    this.workbenchController?.destroy();
+    this.workbenchController = null;
     if (this.activeTab !== '3d' && this.topologyEdit3DController) {
       this.topologyEdit3DController.deactivate();
       this.topologyEdit3DController = null;
@@ -496,6 +524,14 @@ export class LoadCalcConsumerController {
       engineeringModelStore.getAuthorizedExecution(),
       authorizationState,
       currentCommonInputExecution,
+      {
+        dataset: WorkspaceState.getSnapshot().dataset,
+        commonState: nonFeaCommonInputStore.getSnapshot(),
+        execution: currentCommonInputExecution,
+        supportSiteModel: engineeringModelStore.getSupportSiteModel(),
+        routePartitionModel: engineeringModelStore.getRoutePartitionModel(),
+        lineList: masterDataController.masterData.lineList,
+      },
     );
     else this.renderDeferredPane(this.activeTab, pane, revision);
   }
@@ -531,6 +567,14 @@ export class LoadCalcConsumerController {
         else if (tab === 'results') scenarioView.renderEmpiricalScenarioResults(pane, empiricalState);
         else if (tab === 'evidence') scenarioView.renderEmpiricalScenarioEvidence(pane, empiricalState);
         else scenarioView.renderEmpiricalScenarioModel3d(pane, empiricalState);
+      } else if (tab === 'workbench') {
+        const { mountLoadCalcWorkbench, createWorkbenchState } = await import('./load-calc-workbench/workbench-runtime.js');
+        if (revision !== this.renderRevision) return;
+        this.workbenchState ||= createWorkbenchState();
+        this.workbenchController = mountLoadCalcWorkbench(pane, this.workbenchState);
+      } else if (tab === 'preview') {
+        const { renderLoadCalcPreview } = await import('./load-calc-preview-view.js');
+        if (revision === this.renderRevision) renderLoadCalcPreview(pane);
       } else if (tab === 'preflight') {
         const { renderEmpiricalPreflightView } = await import('./empirical-preflight-view.js');
         if (revision === this.renderRevision) renderEmpiricalPreflightView(pane, this.context);
@@ -794,6 +838,9 @@ export class LoadCalcConsumerController {
   }
 
   destroy() {
+    this.workbenchController?.destroy();
+    this.workbenchController = null;
+    this.workbenchState = null;
     this.topologyEdit3DController?.deactivate();
     this.topologyEdit3DController = null;
     this.pending3dInvestigationEntityId = null;

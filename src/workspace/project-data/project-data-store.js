@@ -133,8 +133,91 @@ export class ProjectDataStore {
     return this.#profile;
   }
 
+  syncAuthorityHashes(activeHashes = {}) {
+    this.#ensureInit();
+    if (!activeHashes || typeof activeHashes !== 'object') return;
+    const datasetHash = typeof activeHashes.dataset === 'string' ? activeHashes.dataset.trim() : '';
+    let changed = false;
+    let nextProfile = clonePlain(this.#profile);
+
+    if (datasetHash && /^[a-f0-9]{64}$/i.test(datasetHash)) {
+      for (const [groupKey, group] of Object.entries(nextProfile)) {
+        if (group && typeof group === 'object' && !Array.isArray(group)) {
+          for (const [fieldKey, field] of Object.entries(group)) {
+            if (field?.evidence?.sourceKey === 'dataset' && field.evidence?.sourceHash !== datasetHash) {
+              const path = `${groupKey}.${fieldKey}`;
+              const val = fieldKey === 'datasetSource'
+                ? { path: activeHashes.datasetFileName || 'Loaded SJSON dataset', sha256: datasetHash }
+                : field.value;
+              nextProfile = clonePlain(replaceProjectDataValue(
+                nextProfile,
+                path,
+                val,
+                { ...field.evidence, sourceHash: datasetHash },
+                true,
+              ));
+              changed = true;
+            }
+          }
+        }
+      }
+    }
+
+    const mastersMap = [
+      { key: 'pipingClass', path: 'sourcesAndUnits.pipingClassSource', label: 'Piping class master' },
+      { key: 'componentWeight', path: 'sourcesAndUnits.componentWeightSource', label: 'Component weight master' },
+      { key: 'lineList', path: 'sourcesAndUnits.lineListSource', label: 'Line list' },
+    ];
+
+    for (const { key, path, label } of mastersMap) {
+      const hash = typeof activeHashes[key] === 'string' ? activeHashes[key].trim() : '';
+      const [g, f] = path.split('.');
+      const current = nextProfile[g]?.[f];
+      const existingHash = typeof current?.evidence?.sourceHash === 'string' ? current.evidence.sourceHash.trim() : '';
+      if (hash && /^[a-f0-9]{64}$/i.test(hash) && existingHash !== hash) {
+        nextProfile = clonePlain(replaceProjectDataValue(
+          nextProfile,
+          path,
+          { path: label, sha256: hash },
+          { source: `Auto-bound from loaded ${label}`, sourceKey: key, sourceHash: hash, locator: 'whole file' },
+          true,
+        ));
+        changed = true;
+      } else if (key === 'lineList' && !hash && existingHash) {
+        nextProfile = clonePlain(replaceProjectDataValue(
+          nextProfile,
+          path,
+          { path: 'Not provided (optional for gravity)', sha256: '' },
+          { source: 'No active line-list master loaded', sourceKey: 'lineList', sourceHash: '', locator: 'optional' },
+          true,
+        ));
+        const opFluid = nextProfile.loadCalculation?.operatingFluidDensitiesKgPerM3;
+        if (opFluid?.evidence?.sourceKey === 'lineList' && opFluid?.evidence?.sourceHash) {
+          nextProfile = clonePlain(replaceProjectDataValue(
+            nextProfile,
+            'loadCalculation.operatingFluidDensitiesKgPerM3',
+            opFluid.value,
+            { ...opFluid.evidence, sourceHash: '' },
+            true,
+          ));
+        }
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      this.#profile = freezeDeep(nextProfile);
+      this.#profileSemanticHash = this.#computeProfileSemanticHash(this.#profile);
+      this.#runtimeRevision += 1;
+      this.#publish('authority-hashes-synced');
+    }
+  }
+
   validate(workflow, activeHashes) {
     this.#ensureInit();
+    if (activeHashes && typeof activeHashes === 'object') {
+      this.syncAuthorityHashes(activeHashes);
+    }
     return validateProjectDataProfile(this.#profile, workflow, activeHashes);
   }
 

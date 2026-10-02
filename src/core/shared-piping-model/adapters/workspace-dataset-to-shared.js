@@ -14,6 +14,7 @@ import {
 } from '../property-specs.js';
 import { createSharedPipingModel } from '../shared-piping-model.js';
 import { collectSupportEvidence } from '../support-evidence.js';
+import { collectSourcePortBoreEvidence } from '../source-port-bore-evidence.js';
 
 const WORKSPACE_DATASET_SCHEMA = 'analysis-workspace-dataset/v1';
 const CONTAINER_TYPES = new Set(['BRANCH', 'GROUP', 'MODEL', 'ROOT', 'FOLDER', 'SYSTEM', 'ZONE']);
@@ -109,7 +110,12 @@ function collectEntityEvidence(entity) {
   const roots = entityRoots(entity);
   const evidenceIndex = createEvidenceIndex(roots);
   const engineering = collectEvidence(ENGINEERING_PROPERTY_SPECS, roots, entity.entityId, evidenceIndex);
-  const compatibility = collectEvidence(COMPATIBILITY_EVIDENCE_SPECS, roots, entity.entityId, evidenceIndex);
+  const compatibilityBase = collectEvidence(COMPATIBILITY_EVIDENCE_SPECS, roots, entity.entityId, evidenceIndex);
+  const portBores = collectSourcePortBoreEvidence(evidenceIndex, entity.entityId);
+  const compatibility = deepFreeze({
+    values: { ...compatibilityBase.values, ...portBores.values },
+    diagnostics: [...compatibilityBase.diagnostics, ...portBores.diagnostics],
+  });
   const support = entity.category === 'support'
     ? collectSupportEvidence(SUPPORT_EVIDENCE_SPECS, roots, entity.entityId, evidenceIndex)
     : deepFreeze({ values: {}, diagnostics: [] });

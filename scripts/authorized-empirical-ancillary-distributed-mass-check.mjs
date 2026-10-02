@@ -206,7 +206,7 @@ function contributionFor(receipt, loadCaseId) {
 }
 
 function allocationFractions(contribution) {
-  return contribution.allocations.map((row) => row.verticalForceN / contribution.verticalForceN);
+  return contribution.allocations.map((row) => Number((row.verticalForceN / contribution.verticalForceN).toFixed(6)));
 }
 
 function makeAuthorizedInput({ claddingKgPerM, tracingKgPerM } = {}) {

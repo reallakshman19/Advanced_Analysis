@@ -69,7 +69,8 @@ export async function parseMasterFile(fileOrBuffer, fileName, masterKey) {
 }
 
 export function parseThreeRowLineList(sheet, sheetName) {
-  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: false });
+  const rangeStartRow = sheet['!ref'] ? XLSX.utils.decode_range(sheet['!ref']).s.r : 0;
+  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: false, blankrows: true });
   const headerStart = rows.findIndex((row) => row.some((cell) => String(cell).trim().toLowerCase() === 'line number'));
   if (headerStart < 0 || rows.length <= headerStart + 3) {
     throw new Error('Line-list workbook must contain the three-row header beginning with "Line number".');
@@ -77,7 +78,7 @@ export function parseThreeRowLineList(sheet, sheetName) {
   const headers = combineHeaders(rows.slice(headerStart, headerStart + 3));
   return rows.slice(headerStart + 3).map((values, index) => {
     const row = Object.fromEntries(headers.map((header, column) => [header, values[column] ?? '']));
-    row._sourceRowNumber = headerStart + 4 + index;
+    row._sourceRowNumber = rangeStartRow + headerStart + 4 + index;
     row._sourceSheet = sheetName;
     return row;
   }).filter((row) => headers.some((header) => String(row[header]).trim() !== ''));

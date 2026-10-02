@@ -1,0 +1,70 @@
+{
+  "authority": "DERIVED_CONTINUITY_ONLY",
+  "current": "New workbench stage four displays current gravity case summaries, exact existing receipt/tables and automatic screening; real Sjson browser verified with 37 rows/case and 34/37 OPE estimates. Local edits preserve all receipt/table values. Scenario display is current-authority guarded but actual source has NOT_CONFIGURED beam/contact state. Full vectors and direct workbench Run remain incomplete; legacy validation failures retained.",
+  "evidence_ref": "relay/WORK/load-calc-workbench-results-v32-evidence.md",
+  "frontier": {
+    "delta_commits": null,
+    "material_head": "6518a502d0c86524e4ad45801f4be35817622b5c",
+    "recovery_reconciliation_needed": true,
+    "relation": "SEMANTIC_UNKNOWN",
+    "semantic_evidence_head": null
+  },
+  "next": "Expose exact source/qualified restraint-basis input preview and existing scenario preparation for Fv/Fa/Fl/moments. Keep current gravity and screening working; no invented restraints, stiffness, friction, signs or source qualification. Direct workbench Run remains a separate owner-bound integration leg.",
+  "observability": {
+    "provider_sync": {
+      "status": "NOT_CONFIGURED"
+    },
+    "provider_sync_failure_blocks_engineering": false,
+    "provider_sync_required": true,
+    "update_reason": "IMPLEMENTATION_START"
+  },
+  "owner_decision": "NONE",
+  "plan_ref": "relay/WORK/load-calc-draft-pr-v32-plan.md",
+  "progress": {
+    "active_unit": "FULL_VECTOR_LOADS",
+    "completed_units": 1,
+    "denominator": 3,
+    "evidence_percent": 33,
+    "evidenced_units": 1,
+    "progress_percent": 33
+  },
+  "protocol_ref": "reallaksh19/Common@149770a21ca073df49717a96e2106c967adddc2d:skills/engineering-pr-delivery-v3.2",
+  "provider": {
+    "issue_number": null,
+    "repository": null,
+    "type": null
+  },
+  "recovery": {
+    "handover_plan_triggered_this_lifecycle": false,
+    "mode": "NONE",
+    "plan_for_handover_now": false,
+    "recovery_evidence": null,
+    "recovery_evidence_required": false,
+    "stream_loss_count": 0
+  },
+  "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
+  "result": {
+    "coverage": "New workbench stage-four current gravity/screening integrated and actual browser verified; scenario display guarded, not solved for actual source; direct Run/full vectors incomplete; legacy validation failures retained.",
+    "responsibility_complete": false,
+    "result_scope": "STEP"
+  },
+  "schema": "relay-v3.2-responsibility-continuity",
+  "state": "IMPLEMENTING",
+  "units": [
+    {
+      "complete": true,
+      "evidenced": true,
+      "id": "EXCEPTION_REVIEW"
+    },
+    {
+      "complete": false,
+      "evidenced": false,
+      "id": "FULL_VECTOR_LOADS"
+    },
+    {
+      "complete": false,
+      "evidenced": false,
+      "id": "RUNNABLE_WORKBENCH"
+    }
+  ]
+}

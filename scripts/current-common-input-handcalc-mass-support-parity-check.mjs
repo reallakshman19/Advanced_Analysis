@@ -181,6 +181,7 @@ for (const caseId of ['EMPTY', 'OPE', 'HYD']) {
   assertClose(rightReaction, hand.rightReactionN, 1e-9, `${caseId} right reaction parity`);
   assertClose(leftReaction + rightReaction, hand.forceN, 1e-9, `${caseId} force closure`);
 
+  console.log('EQUILIBRIUM:', loadCase.equilibrium);
   assertClose(
     loadCase.equilibrium.evaluatedForceN,
     hand.forceN,
@@ -194,7 +195,7 @@ for (const caseId of ['EMPTY', 'OPE', 'HYD']) {
     `${caseId} evaluated first moment`,
   );
   assertClose(
-    loadCase.equilibrium.reactionForceN,
+    loadCase.equilibrium.reactionN,
     hand.forceN,
     1e-9,
     `${caseId} reaction force`,

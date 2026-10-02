@@ -14,10 +14,12 @@ import {
 } from '../src/workspace/project-data/non-fea-configured-default-provider.js';
 import {
   LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1,
+  LOAD_CALC_INSULATION_ZERO_DEFAULT_V1,
   createNonFeaProductEngineeringDefaultProvider,
   createProductEngineeringDefaultProfile,
 } from '../src/workspace/project-data/non-fea-product-engineering-default-profile.js';
 import { buildStraightFixture } from './w10.5-screening-fixtures.mjs';
+import { createLoadCalcInsulationDefaultProvider } from '../src/workspace/load-calc-insulation-input.js';
 
 const sourceModel = buildStraightFixture({ lengthsM: [1, 1] }).sharedModel;
 const sourceHashBefore = sourceModel.semanticHash;
@@ -184,16 +186,36 @@ const runtimeSource = await readFile(
   new URL('../src/workspace/non-fea-common-input-runtime.js', import.meta.url),
   'utf8',
 );
-assert.match(
-  runtimeSource,
-  /createNonFeaProductEngineeringDefaultProvider/u,
-  'Ordinary Common Input runtime must consume the existing Product engineering-default provider.',
+const insulationSource = await readFile(
+  new URL('../src/workspace/load-calc-insulation-input.js', import.meta.url),
+  'utf8',
 );
 assert.match(
   runtimeSource,
-  /const productEngineeringDefaultProvider = createNonFeaProductEngineeringDefaultProvider\(\{[\s\S]*?sourceModel: dataset\.sharedModel,[\s\S]*?requestedMethods: configuration\.requestedMethods,[\s\S]*?\}\);/u,
+  /import \{ createLoadCalcInsulationDefaultProvider \} from '\.\/load-calc-insulation-input\.js';/u,
+  'Ordinary Common Input must import the governed insulation-default wrapper.',
+);
+assert.match(
+  runtimeSource,
+  /const productEngineeringDefaultProvider = createLoadCalcInsulationDefaultProvider\(\{[\s\S]*?sourceModel: dataset\.sharedModel,[\s\S]*?requestedMethods: configuration\.requestedMethods,[\s\S]*?\}\);/u,
   'Product engineering-default provider must bind the active source model and requested methods.',
 );
+assert.match(
+  insulationSource,
+  /const provider = createNonFeaProductEngineeringDefaultProvider\(\{\s*\.\.\.options, defaultProfile: LOAD_CALC_INSULATION_ZERO_DEFAULT_V1,/u,
+  'The insulation wrapper must delegate to the existing governed provider, not introduce another resolver.',
+);
+const insulationOptions = { sourceModel, requestedMethods: ['WEIGHT_AND_GRAVITY'] };
+const wrappedInsulation = createLoadCalcInsulationDefaultProvider(insulationOptions);
+const governedInsulation = createNonFeaProductEngineeringDefaultProvider({
+  ...insulationOptions, defaultProfile: LOAD_CALC_INSULATION_ZERO_DEFAULT_V1,
+});
+assert.deepEqual(wrappedInsulation, governedInsulation,
+  'For valid source inputs the wrapper must preserve the exact governed provider receipt.');
+assert.ok(wrappedInsulation.records.length > 0, 'Fixture must exercise actual insulation defaults.');
+assert.ok(wrappedInsulation.records.every(row => row.fieldId === 'INSULATION_THICKNESS'
+  && row.value === 0 && row.authority === 'PRODUCT_DEFAULT'),
+  'The wrapper must not manufacture section/material/support defaults.');
 assert.match(
   runtimeSource,
   /\.\.\.acceptedEnrichmentSidecar\.records,[\s\S]*?\.\.\.configuredDefaultProvider\.records,[\s\S]*?\.\.\.productEngineeringDefaultProvider\.records,/u,

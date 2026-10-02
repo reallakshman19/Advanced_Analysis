@@ -15,6 +15,9 @@ import { masterDataController } from '../master-data-controller.js';
 import { projectDataStore } from '../project-data/project-data-store.js';
 import { WorkspaceState } from '../workspace-state.js';
 import { nonFeaEnrichmentStore } from './non-fea-enrichment-store.js';
+import {
+  approximateMatchPreviewMarkup, bindApproximateMatchPreview, requiresApproximateMatchReview,
+} from './approximate-match-preview.js';
 
 const VALIDATE_INPUT_CAUSES_BY_FIELD = Object.freeze({
   PIPE_OUTER_DIAMETER: Object.freeze(['SECTION_COVERAGE_INCOMPLETE', 'MASS_COVERAGE_INCOMPLETE']),
@@ -77,10 +80,12 @@ function markup(snapshot, derived, sourceModel) {
       <div><div class="nfe__title"><span class="panel-eyebrow">COMMON PREPROCESSING</span><span class="nfe__badge">PHASE 3 · ENRICHMENT & OVERRIDES</span></div>
         <h2>Enrichment & Overrides</h2><p>Review exact source-bound evidence without mutating the imported model or repairing topology.</p></div>
       <div class="nfe__actions">
+        <button type="button" data-load-calc-tab="preview">Open Preview</button>
         <button type="button" data-load-calc-tab="preflight">Open Validate Input</button>
         <label>Import legacy records / sidecar<input type="file" accept=".json,.csv,application/json,text/csv" data-enrichment-import hidden></label>
         <button type="button" data-enrichment-generate-master>Generate proposals from approved masters</button>
-        <button type="button" data-enrichment-review-fitting-weights>Review fitting weights…</button>
+        <button type="button" data-load-calc-weight-review>Review weights & contents…</button>
+        <button type="button" data-enrichment-review-fitting-weights>Review catalogue fitting weights…</button>
         <button type="button" data-enrichment-export ${derived.sidecar ? '' : 'disabled'}>Export accepted overrides (sidecar)</button>
         <button type="button" data-enrichment-clear>Clear staged state</button>
       </div>
@@ -95,6 +100,7 @@ function markup(snapshot, derived, sourceModel) {
       ${metric('Affected entities', derived.impact?.affectedEntities?.length || 0)}
       ${metric('Topology mutation', derived.impact?.topologyMutation ? 'PROHIBITED' : 'NONE', derived.impact?.topologyMutation ? 'blocked' : 'ready')}
     </section>
+    ${approximateMatchPreviewMarkup(snapshot.proposals)}
     <div class="nfe__layout"><main>
       ${proposalForm()}
       ${proposalTable(snapshot)}
@@ -127,10 +133,10 @@ function proposalForm() {
 }
 
 function proposalTable(snapshot) {
-  return `<section class="nfe-panel" data-role="enrichment-proposals"><header><div><span class="panel-eyebrow">PROPOSAL / ACCEPTANCE</span><h3>Staged proposals</h3></div>${snapshot.proposals.length ? '<button type="button" data-enrichment-accept-all>Accept all unblocked</button>' : ''}</header>
+  return `<section class="nfe-panel" data-role="enrichment-proposals"><header><div><span class="panel-eyebrow">PROPOSAL / ACCEPTANCE</span><h3>Staged proposals</h3></div>${snapshot.proposals.length ? '<button type="button" data-enrichment-accept-all>Accept exact proposals only</button>' : ''}</header>
     ${snapshot.proposals.length ? table(
       ['Proposal', 'Exact selector', 'Field / value', 'Validate Input evidence', 'Authority', 'Decision'],
-      snapshot.proposals.map((proposal) => `<tr><td><strong>${escape(proposal.proposalId)}</strong><small>${escape(proposal.rationale)}</small></td><td>${escape(proposal.record.selectorKind)}<code>${escape(proposal.record.selectorKey)}</code></td><td>${escape(proposal.record.fieldId)}<code>${escape(proposal.record.value)} ${escape(proposal.record.unit)}</code></td><td>${validateInputImpactMarkup(proposal.record.fieldId)}</td><td>${escape(proposal.record.authority)}</td><td><button type="button" data-enrichment-accept="${escape(proposal.proposalId)}">Accept exact</button><button type="button" data-enrichment-reject="${escape(proposal.proposalId)}">Reject</button></td></tr>`),
+      snapshot.proposals.map((proposal) => `<tr><td><strong>${escape(proposal.proposalId)}</strong><small>${escape(proposal.rationale)}</small></td><td>${escape(proposal.record.selectorKind)}<code>${escape(proposal.record.selectorKey)}</code></td><td>${escape(proposal.record.fieldId)}<code>${escape(proposal.record.value)} ${escape(proposal.record.unit)}</code></td><td>${validateInputImpactMarkup(proposal.record.fieldId)}</td><td>${escape(proposal.record.authority)}</td><td>${requiresApproximateMatchReview(proposal) ? '<span class="chip warning">Review in match preview</span>' : `<button type="button" data-enrichment-accept="${escape(proposal.proposalId)}">Accept exact</button>`}<button type="button" data-enrichment-reject="${escape(proposal.proposalId)}">Reject</button></td></tr>`),
     ) : '<p class="empty">No proposals are staged.</p>'}
   </section>`;
 }
@@ -199,6 +205,20 @@ function migrationMarkup(report) {
 }
 
 function bind(container, sourceModel, derived, onChanged) {
+  bindApproximateMatchPreview(container, {
+    proposals: nonFeaEnrichmentStore.getSnapshot().proposals,
+    onApply: (group) => attempt(() => {
+      nonFeaEnrichmentStore.acceptReviewedApproximateMatch(group.proposals.map((proposal) => proposal.proposalId), {
+        approximateMatchConfirmed: true,
+        acceptanceBasis: `Explicitly reviewed ${group.requested} → ${group.resolved}, DN${group.boreMm}, line ${group.line}; approved proposed field values for exact pipe selectors.`,
+      });
+      nonFeaEnrichmentStore.setMessage(`Applied ${group.proposals.length} reviewed fields. Revalidate Input before calculation.`);
+    }, onChanged),
+    onReject: (group) => attempt(() => {
+      group.proposals.forEach((proposal) => nonFeaEnrichmentStore.rejectProposal(proposal.proposalId));
+      nonFeaEnrichmentStore.setMessage('Rejected match; source values remain unchanged.');
+    }, onChanged),
+  });
   container.querySelector('[data-enrichment-proposal-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     attempt(() => {
@@ -240,10 +260,10 @@ function bind(container, sourceModel, derived, onChanged) {
     if (remove) return attempt(() => nonFeaEnrichmentStore.removeAccepted(remove), onChanged);
     if (event.target.closest('[data-enrichment-accept-all]')) return attempt(() => {
       const proposals = [...nonFeaEnrichmentStore.getSnapshot().proposals];
-      const records = proposals.map((proposal) => proposal.record);
+      const records = proposals.filter((proposal) => !requiresApproximateMatchReview(proposal)).map((proposal) => proposal.record);
       nonFeaEnrichmentStore.acceptAllProposals();
       nonFeaEnrichmentStore.setMessage(
-        `Accepted ${records.length} exact enrichment record(s). ${validateInputCauseMessage(records, 'These accepted records', 'provide')}`,
+        `Accepted ${records.length} exact enrichment record(s). Approximate matches remain pending in the preview. ${validateInputCauseMessage(records, 'These accepted records', 'provide')}`,
       );
     }, onChanged);
     if (event.target.closest('[data-enrichment-generate-master]')) {
@@ -310,7 +330,7 @@ function generateMasterProposals() {
   }
   result.proposals.forEach((proposal) => nonFeaEnrichmentStore.stageProposal(proposal));
   nonFeaEnrichmentStore.setMessage(
-    `Staged ${result.proposals.length} proposal(s) from approved masters. Nothing is written yet -- review them in Staged proposals below and press "Accept all unblocked". ${validateInputCauseMessage(result.proposals.map((proposal) => proposal.record))}`,
+    `Staged ${result.proposals.length} proposal(s) from approved masters. Review approximate matches in the preview; use "Accept exact proposals only" for the remaining proposals. ${validateInputCauseMessage(result.proposals.map((proposal) => proposal.record))}`,
   );
   return result;
 }
@@ -335,7 +355,7 @@ function reviewFittingWeights(documentRef, onChanged) {
       }));
       if (records.length > 0) {
         nonFeaEnrichmentStore.setMessage(
-          `Staged ${records.length} fitting-weight proposal(s). Nothing is written yet -- review them in Staged proposals below and press "Accept all unblocked". ${validateInputCauseMessage(records)}`,
+          `Staged ${records.length} fitting-weight proposal(s). Nothing is written yet -- review them in Staged proposals below and press "Accept exact proposals only". ${validateInputCauseMessage(records)}`,
         );
       }
       onChanged?.();

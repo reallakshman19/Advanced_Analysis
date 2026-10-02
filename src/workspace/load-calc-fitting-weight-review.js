@@ -1,4 +1,5 @@
 import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/cii-standalone-port/core/weight-valve-hints.js';
+import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
 
 /**
  * Builds reviewable component-weight candidates for catalogue fittings, using
@@ -20,9 +21,6 @@ import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/c
  * automatic ranking is still a proposal, not an acceptance.
  */
 
-/** Catalogue fittings: types the weights master can describe. */
-const CATALOGUE_FITTING_TYPES = Object.freeze(['FLAN', 'FLANGE', 'VALV', 'VALVE', 'INST', 'INSTRUMENT']);
-
 const DEFAULT_LENGTH_TOLERANCE_MM = 4;
 
 export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
@@ -41,33 +39,37 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
   const rows = [];
   (sourceModel.components || []).forEach((component) => {
     const type = String(component.type || '').trim().toUpperCase();
-    if (!CATALOGUE_FITTING_TYPES.includes(type)) return;
+    if (!isManualWeightReviewType(type)) return;
     if (component.engineeringProperties?.componentWeightKg != null) return;
     const targetId = component.componentKey || component.sourceEntityId;
     const attributes = rawByEntityId.get(component.sourceEntityId)?.properties?.attributes || {};
     const boreMm = numberFrom(attributes.ABORE ?? attributes.LBORE);
     const lengthMm = distanceBetween(attributes.APOS, attributes.LPOS);
     const description = String(attributes.DTXR || '').trim();
-    const rating = ratingFromText(description);
+    const rating = ratingFromText(description)
+      || ratingFromText(attributes.SPRE)
+      || ratingFromText(attributes.LSTU)
+      || ratingFromText(attributes.OWNER);
 
     const base = {
       targetId, type, description, boreMm, lengthMm, rating,
       sourceEntityId: component.sourceEntityId,
     };
-    if (boreMm === null || lengthMm === null) {
-      rows.push({ ...base, candidates: [], unresolvable: 'NO_BORE_OR_LENGTH' });
+    if (boreMm === null) {
+      rows.push({ ...base, candidates: [], unresolvable: 'NO_BORE' });
       return;
     }
-    let ranking;
-    try {
-      ranking = rankXmlCiiWeightCandidates(
-        { boreMm, rating, lengthMm, dtxr: description, nodeName: description },
-        config,
-        { includeRejected: true },
-      );
-    } catch {
-      rows.push({ ...base, candidates: [], unresolvable: 'RANKING_FAILED' });
-      return;
+    let ranking = null;
+    if (lengthMm !== null && lengthMm > 0) {
+      try {
+        ranking = rankXmlCiiWeightCandidates(
+          { boreMm, rating, lengthMm, dtxr: description, nodeName: description },
+          config,
+          { includeRejected: true },
+        );
+      } catch {
+        ranking = null;
+      }
     }
     const toCandidate = (candidate, rejected) => ({
       typeDesc: candidate.typeDesc || candidate.valveType || 'UNSPECIFIED',
@@ -76,23 +78,64 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
       rowBoreMm: candidate.rowBore,
       rowRating: candidate.rowRating,
       lengthQualified: candidate.lengthQualified === true,
-      lengthDeltaMm: Number.isFinite(candidate.rowLength) ? Math.abs(candidate.rowLength - lengthMm) : null,
+      lengthDeltaMm: Number.isFinite(candidate.rowLength) && lengthMm !== null ? Math.abs(candidate.rowLength - lengthMm) : null,
       tier: candidate.tier ?? candidate.semanticPotentialTier ?? 0,
       reason: candidate.reason || candidate.semanticReason || '',
       rejected,
     });
-    const ranked = (ranking.candidates || []).map((candidate) => toCandidate(candidate, false));
-    const rejected = (ranking.rejectedCandidates || []).map((candidate) => toCandidate(candidate, true));
-    const candidates = [...ranked, ...rejected];
-    const best = ranked[0] || null;
+    const ranked = (ranking?.candidates || []).map((candidate) => toCandidate(candidate, false));
+    const rejected = (ranking?.rejectedCandidates || []).map((candidate) => toCandidate(candidate, true));
+    let candidates = [...ranked, ...rejected];
+
+    // Fallback: match master rows by boreMm and rating for point/zero-length fittings or unranked items
+    if (!candidates.length && weightRows.length > 0) {
+      const descUpper = `${description} ${type}`.toUpperCase();
+      const sameBore = weightRows.filter((r) => Math.abs(Number(r.bore) - boreMm) < 1 && Number(r.weight) > 0);
+      const sameRating = rating ? sameBore.filter((r) => String(r.rating) === String(rating)) : sameBore;
+      const pool = sameRating.length ? sameRating : sameBore;
+      if (pool.length) {
+        const scored = pool.map((r) => {
+          let score = 0;
+          const vt = String(r.valveType || '').toUpperCase();
+          if (descUpper.includes('BLIND') && vt.includes('BLIND')) score += 1000;
+          if (descUpper.includes('FLAN') && vt.includes('FLAN')) score += 500;
+          if (descUpper.includes('GATE') && vt.includes('GATE')) score += 500;
+          if (descUpper.includes('BALL') && vt.includes('BALL')) score += 500;
+          if (descUpper.includes('GLOBE') && vt.includes('GLOBE')) score += 500;
+          if (descUpper.includes('CHECK') && vt.includes('CHECK')) score += 500;
+          if (descUpper.includes('CONTROL') && vt.includes('CONTROL')) score += 500;
+          if (descUpper.includes('INST') || descUpper.includes('GAUGE') || descUpper.includes('TEMPERATURE')) {
+            if (vt.includes('FLAN')) score += 200;
+          }
+          return { row: r, score };
+        });
+        scored.sort((a, b) => b.score - a.score || a.row.weight - b.row.weight);
+        candidates = scored.slice(0, 5).map(({ row, score }) => ({
+          typeDesc: row.valveType || 'FITTING',
+          weightKg: Number(row.weight),
+          rowLengthMm: Number(row.length) || null,
+          rowBoreMm: Number(row.bore),
+          rowRating: String(row.rating),
+          lengthQualified: false,
+          lengthDeltaMm: null,
+          tier: score,
+          reason: `Matched by Bore DN${row.bore}${row.rating ? ` Rating ${row.rating}#` : ''}`,
+          rejected: false,
+        }));
+      }
+    }
+
+    const best = candidates.find((c) => !c.rejected) || candidates[0] || null;
+    const rankedOnly = candidates.filter((c) => !c.rejected);
     // A clear semantic winner is a candidate whose tier leads the runner-up by
     // more than one keyword-priority step; anything closer is left for the
     // reviewer to decide between, not auto-selected under a false label.
-    const clearWinner = Boolean(best) && (ranked.length === 1 || best.tier > (ranked[1]?.tier ?? -Infinity) + 50);
+    const clearWinner = Boolean(best) && (rankedOnly.length === 1 || best.tier > (rankedOnly[1]?.tier ?? -Infinity) + 50);
+    const valveHint = ranking ? (formatValveHint(ranking.nodeHint) || ranking.semanticSource?.label || '') : '';
     rows.push({
       ...base,
       candidates,
-      valveHint: formatValveHint(ranking.nodeHint) || ranking.semanticSource?.label || '',
+      valveHint,
       bestCandidateIndex: candidates.length ? 0 : null,
       clearWinner,
       unresolvable: candidates.length === 0 ? 'NO_CANDIDATE' : null,

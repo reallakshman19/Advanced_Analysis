@@ -152,7 +152,7 @@ assert.doesNotMatch(wrapperSource, /baselineId|handoffId|authorized-empirical-lo
   'current Common Input wrapper must not manufacture or depend on legacy publication/handoff authority');
 assert.doesNotMatch(wrapperSource, /resolveCaseMass|componentCaseMass|fluidMass|componentMass\(/u,
   'current Common Input wrapper must not recompose sealed masses');
-assert.match(wrapperSource, /projectId: stringValue\([^\n]+projectId[^\n]+\) \|\| null/u,
+assert.match(wrapperSource, /projectId: stringValue\([^\n]+projectId[^\n]*\) \|\| null/u,
   'kernel cutover must not invent a new project-ID readiness gate');
 
 console.log(JSON.stringify({

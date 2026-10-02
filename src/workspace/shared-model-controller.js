@@ -10,6 +10,7 @@ export class SharedModelController {
     this.workspaceState = workspaceState;
     this.documentRef = documentRef;
     this.unsubscribeCallbacks = [];
+    this.publishedSource = null;
   }
 
   init() {
@@ -22,7 +23,17 @@ export class SharedModelController {
   }
 
   publishModel(snapshot) {
-    const model = snapshot?.status === 'ready' ? snapshot.dataset?.sharedModel || null : null;
+    const dataset = snapshot?.status === 'ready' ? snapshot.dataset || null : null;
+    const model = dataset?.sharedModel || null;
+    const engineeringVersion = snapshot?.engineeringVersion ?? null;
+    const previous = this.publishedSource;
+    // Selection changes the UI snapshot revision, not its immutable source.
+    // Do not clear/rebuild downstream authority contracts for that notification.
+    // Replacement and explicit engineering revisions still publish, even when
+    // model content (or its semantic hash) happens to be identical.
+    if (previous && previous.dataset === dataset && previous.model === model
+        && previous.engineeringVersion === engineeringVersion) return;
+    this.publishedSource = { dataset, model, engineeringVersion };
     this.eventBus.publish(SHARED_MODEL_EVENTS.CHANGED, { model });
   }
 
@@ -49,5 +60,6 @@ export class SharedModelController {
   destroy() {
     this.unsubscribeCallbacks.forEach((unsubscribe) => unsubscribe());
     this.unsubscribeCallbacks = [];
+    this.publishedSource = null;
   }
 }

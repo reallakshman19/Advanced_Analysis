@@ -3,17 +3,19 @@ import {
   createCommonEnrichedTargetInventory,
 } from '../../core/common-enriched-properties/target-inventory.js';
 import { createPipingLoadCompositionProfile } from '../../core/model-loads/composition-profile.js';
-import { resolveComponentCaseMass } from '../../core/model-loads/component-mass-resolver.js';
+import { resolveComponentCaseMassValues } from '../../core/model-loads/component-mass-resolver.js';
 import { derivePipeLikeFittingWeightEvidence } from '../../core/model-loads/elbow-derived-mass.js';
 import { projectEngineeringLoadSources } from '../../core/model-loads/load-source-projection.js';
 import { evidenceNumber } from '../../core/model-loads/units.js';
 import { buildPipingPortTopologyGraph } from '../../core/piping-topology/index.js';
 import { deepFreeze, semanticHash } from '../../core/shared-piping-model/index.js';
+import { projectDataEntry } from '../project-data/project-data-contract.js';
 import {
   createNonFeaCommonEnrichedConfiguredDefaultOverlay,
 } from '../project-data/non-fea-common-enriched-configured-default-overlay.js';
 import {
   LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1,
+  LOAD_CALC_INSULATION_ZERO_DEFAULT_V1,
 } from '../project-data/non-fea-product-engineering-default-profile.js';
 import {
   requireCurrentNonFeaEmpiricalRunAuthorization,
@@ -52,7 +54,10 @@ const FIXED_POLICY = Object.freeze({
  * model events and cannot prove that Common Input enrichment was its mass basis.
  *
  * The existing model-load source projection, fitting derivation and component
- * mass resolver are reused directly. This preserves geometry normalization,
+ * mass-value resolver are reused directly. Load placement is not authorized by
+ * this receipt: null application points stay null, and the selected execution
+ * method owns midpoint/CoG qualification. Legacy primitive creation remains
+ * placement-strict. This preserves geometry normalization,
  * direct-vs-derived pipe/fluid/insulation mass, same-branch fitting derivation
  * and negligible gasket zero mass without constructing weight forces under a
  * separate gravity profile. This seam adds only Issue #1321 ancillary line mass
@@ -98,7 +103,11 @@ export function createCurrentCommonInputEmpiricalMassProjection({
     targetInventorySemanticHash: basis.inventory.semanticHash,
     ancillaryOverlaySemanticHash: basis.ancillaryOverlay.semanticHash,
     productEngineeringDefaultProfileSemanticHash:
-      LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1.semanticHash,
+      commonInput.enrichedModel.components.some((component) =>
+        component.engineeringProperties?.insulationThicknessMm?.sourceKind === 'PRODUCT_DEFAULT'
+        && component.engineeringProperties.insulationThicknessMm.sourceRoot === LOAD_CALC_INSULATION_ZERO_DEFAULT_V1.profileId)
+        ? LOAD_CALC_INSULATION_ZERO_DEFAULT_V1.semanticHash
+        : LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1.semanticHash,
     compositionProfileSemanticHash: basis.compositionProfile.semanticHash,
     loadCaseIds,
     entityRows,
@@ -201,7 +210,9 @@ function buildProjectionBasis(commonInput) {
     'authorityContracts.loadPrimitiveSet.semanticHash');
 
   const effectiveTopologyGraph = buildPipingPortTopologyGraph(model);
-  const effectiveLoadSourceProjection = projectEngineeringLoadSources(model, effectiveTopologyGraph);
+  const effectiveLoadSourceProjection = projectEngineeringLoadSources(model, effectiveTopologyGraph, {
+    lengthUnitFallback: projectDataEntry(commonInput.projectDataProfile, 'sourcesAndUnits.lengthUnit'),
+  });
   const compositionProfile = createPipingLoadCompositionProfile();
 
   const inventory = createCommonEnrichedTargetInventory({
@@ -275,7 +286,7 @@ function projectComponent({ component, components, target, loadCaseIds, ancillar
 }
 
 function projectCase({ component, target, loadCaseId, ancillary, compositionProfile }) {
-  const result = resolveComponentCaseMass(component, loadCaseId, compositionProfile);
+  const result = resolveComponentCaseMassValues(component, loadCaseId, compositionProfile);
   if (!result.ok) {
     throw codedError(`Current Common Input component ${component.componentKey} cannot project ${loadCaseId} mass.`,
       'CURRENT_COMMON_INPUT_EMPIRICAL_MASS_NOT_PROJECTABLE', {

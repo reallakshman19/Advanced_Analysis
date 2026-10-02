@@ -125,7 +125,7 @@ function requireCurrentContext(input) {
     projectDataProfileSemanticHash: semanticHash(effectiveProfile),
     masterSourceHashes: {
       dataset: sourceDatasetHash,
-      lineList: sha256(masterData?.lineList?.sourceHash, 'masterData.lineList.sourceHash'),
+      lineList: nullableSha256(masterData?.lineList?.sourceHash, 'masterData.lineList.sourceHash'),
       pipingClass: sha256(masterData?.pipingClass?.sourceHash, 'masterData.pipingClass.sourceHash'),
       componentWeight: sha256(masterData?.weight?.sourceHash, 'masterData.weight.sourceHash'),
     },
@@ -166,6 +166,17 @@ function sha256(value, label) {
     fail(`${label} must be a lowercase SHA-256 digest.`, 'EMPIRICAL_PRODUCTION_GOVERNED_HASH_INVALID');
   }
   return value;
+}
+
+/**
+ * Like sha256() but accepts null/undefined/'' when the line list master has
+ * not been loaded. The line list is optional for the gravity load calculation
+ * (it is only consumed for fluid-density enrichment). When absent the binding
+ * records null; downstream readiness guards surface the gap without throwing.
+ */
+function nullableSha256(value, label) {
+  if (value === null || value === undefined || value === '') return null;
+  return sha256(value, label);
 }
 
 function fail(message, code, details = null) {
