@@ -267,10 +267,10 @@ function fieldMarkup(groupKey, field, entry) {
   } else {
     // json or source — wrap with collapsible summary
     const summary = valueSummary(entry.value, field.inputType);
-    inputHtml = `<div class="phase2-value-cell">
-      <textarea rows="5" data-project-value="${escape(path)}" data-value-type="${escape(field.inputType)}" class="phase2-value-raw">${escape(value)}</textarea>
-      ${summary ? `<span class="phase2-value-summary" title="${escape(value)}">${escape(summary)}</span>` : `<span class="phase2-value-empty">${escape(state.emptyLabel)}</span>`}
-    </div>`;
+    inputHtml = `<details class="phase2-value-cell">
+      <summary class="${summary ? 'phase2-value-summary' : 'phase2-value-empty'}" aria-label="Edit value for ${escape(field.label)}" title="${escape(value)}">${escape(summary || state.emptyLabel)}</summary>
+      <textarea rows="5" aria-label="Value for ${escape(field.label)}" data-project-value="${escape(path)}" data-value-type="${escape(field.inputType)}" class="phase2-value-raw">${escape(value)}</textarea>
+    </details>`;
   }
 
   return `<label title="${escape(field.usage)}">
@@ -278,10 +278,10 @@ function fieldMarkup(groupKey, field, entry) {
       ${sublabel ? `<small>${escape(sublabel)}</small>` : ''}
     </label>
     ${inputHtml}
-    <div class="phase2-evidence-cell">
-      <textarea rows="4" data-project-evidence="${escape(path)}" placeholder='{"source":"...","locator":"...","sourceHash":"..."}' class="phase2-evidence-raw">${escape(evidence)}</textarea>
-      ${evidenceSource ? `<span class="phase2-evidence-summary" title="${escape(evidence)}">${escape(evidenceSource)}</span>` : '<span class="phase2-evidence-empty">No evidence</span>'}
-    </div>
+    <details class="phase2-evidence-cell">
+      <summary class="${evidenceSource ? 'phase2-evidence-summary' : 'phase2-evidence-empty'}" aria-label="Edit evidence for ${escape(field.label)}" title="${escape(evidence)}">${escape(evidenceSource || 'No evidence')}</summary>
+      <textarea rows="4" aria-label="Evidence for ${escape(field.label)}" data-project-evidence="${escape(path)}" placeholder='{"source":"...","locator":"...","sourceHash":"..."}' class="phase2-evidence-raw">${escape(evidence)}</textarea>
+    </details>
     <label class="phase2-approval" data-state="${state.code}"><input type="checkbox" data-project-approved="${escape(path)}" ${entry.approved ? 'checked' : ''}><span>${escape(state.label)}</span></label>`;
 }
 
@@ -372,7 +372,9 @@ function bindActions(root, onChanged) {
     const path = target.dataset.projectDataGoto;
     const input = root.querySelector(`[data-project-value="${cssEscape(path)}"]`);
     if (!input) return;
-    input.closest('details')?.setAttribute('open', '');
+    for (let disclosure = input.closest('details'); disclosure; disclosure = disclosure.parentElement?.closest('details')) {
+      disclosure.setAttribute('open', '');
+    }
     input.scrollIntoView({ block: 'center' });
     input.focus();
   });
@@ -425,21 +427,21 @@ function styles() {
     .phase2-outstanding li button:focus{outline:2px solid #f59e0b;outline-offset:2px}
     .phase2-outstanding li button strong{display:block;color:#fcd34d;font-size:13px}
     .phase2-outstanding li button small{display:block;margin-top:2px;color:#94a3b8;font-size:11px}
-    /* Evidence cell: show human summary, raw JSON only on hover/focus */
-    .phase2-evidence-cell{position:relative;display:flex;flex-direction:column;gap:4px}
-    .phase2-evidence-raw{font-size:10px;font-family:monospace;display:none}
-    .phase2-evidence-cell:focus-within .phase2-evidence-raw{display:block}
+    /* Native disclosures expose raw editors without changing data or approvals. */
+    .phase2-evidence-cell{position:relative;min-width:0}
+    .phase2-evidence-raw{font-size:10px;font-family:monospace;display:block;margin-top:4px}
     .phase2-evidence-summary{font-size:11px;color:#7dd3fc;padding:4px 6px;border:1px solid #1e3a5f;border-radius:4px;background:#0a1f3a;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
     .phase2-evidence-summary:hover{background:#0f2d52}
     .phase2-evidence-empty{font-size:11px;color:#475569;font-style:italic;padding:4px 6px}
     /* Value cell for source/json fields: same collapse pattern */
-    .phase2-value-cell{display:flex;flex-direction:column;gap:4px}
-    .phase2-value-raw{font-size:10px;font-family:monospace;display:none}
-    .phase2-value-cell:focus-within .phase2-value-raw{display:block}
+    .phase2-value-cell{min-width:0}
+    .phase2-value-raw{font-size:10px;font-family:monospace;display:block;margin-top:4px}
     .phase2-value-summary{font-size:11px;color:#e2e8f0;padding:4px 6px;border:1px solid #334155;border-radius:4px;background:#0d1728;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
     .phase2-value-summary:hover{background:#182a45;border-color:#4a6080}
     .phase2-value-empty{font-size:11px;color:#475569;font-style:italic;padding:4px 6px;border:1px dashed #293548;border-radius:4px;cursor:pointer}
     .phase2-value-empty:hover{color:#94a3b8;border-color:#475569}
+    .phase2-group .phase2-evidence-cell>summary,.phase2-group .phase2-value-cell>summary{display:list-item;padding:4px 6px;border-radius:4px;cursor:pointer}
+    .phase2-evidence-cell>summary:focus-visible,.phase2-value-cell>summary:focus-visible{outline:2px solid #38bdf8;outline-offset:2px}
     @media(max-width:1100px){.phase2-summary{grid-template-columns:repeat(2,1fr)}.phase2-layout{grid-template-columns:1fr}.phase2-rail{position:static}.phase2-fields{grid-template-columns:1fr}.phase2-policy{grid-template-columns:1fr}}
   </style>`;
 }
