@@ -1,15 +1,15 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
-  "current": "Default four-stage workbench migrated in draft PR #1915 branch: existing editors/Run/results/export embedded, exact pipe-only bootstrap and pending review preserved, no old approval hash renewal. Final-build actual Sjson browser Run BLOCKED by eight manual catalogue weights and retained stale unit/axis evidence; coverage 119/127. Build/imports/shell and 22 focused checks PASS; one legacy focused FAIL and broad-suite missing BM2 fixture FAIL retained. Full vectors and successful end-to-end calculation/export incomplete.",
-  "evidence_ref": "relay/WORK/load-calc-ui-migration-v32-evidence.md",
+  "current": "Current-source normalization blocker cleared after 223 explicit Sjson coordinate cross-checks; accessible Advanced value/evidence disclosures repaired through existing data owner. Actual profile revision 12 and 195 accepted-record browser input exports verified and saved. Real Run still BLOCKED only by eight unmatched manual catalogue weights, coverage 119/127, Project Data/Masters READY, 6/8 gates. Scenario NOT_CONFIGURED, no gravity execution or sealed result export. Ten focused checks/imports/shell/build/diff PASS; prior suite/legacy failures retained, not rerun this leg. Full vectors and successful end-to-end loads remain incomplete.",
+  "evidence_ref": "relay/WORK/load-calc-run-readiness-v32-evidence.md",
   "frontier": {
     "delta_commits": 0,
-    "material_head": "7aea4c869d8f9e3b40211a2393a8d683497c8433",
+    "material_head": "716808b0c40bae17a5f61dec76213166b31bfdcd",
     "recovery_reconciliation_needed": false,
     "relation": "ALIGNED",
-    "semantic_evidence_head": "7aea4c869d8f9e3b40211a2393a8d683497c8433"
+    "semantic_evidence_head": "716808b0c40bae17a5f61dec76213166b31bfdcd"
   },
-  "next": "Continue draft PR #1915 in C:/Users/reall/.codex/worktrees/load-calc-draft-validation/AA. Actual positive Run needs current source-qualified unit/axis evidence and eight unresolved manual catalogue weights through their existing owners; do not rubber-stamp hashes or ranked instrument estimates. Repeat calculation/results/export browser proof only after evidence is legitimately ready. Full Fv/Fa/Fl/moments require existing configured scenario basis, never inferred restraints, stiffness, signs or authority. No merge/release authorization; no repeated qualification questions.",
+  "next": "Same draft PR #1915/worktree. Preserve or explicitly re-import saved current-source profile and 195-record sidecar; no automatic source reapproval. Positive Run needs identity-matched masses for =1006649732/51250,51274,51284,51462,51463,51476,51483,51485, or separately owner-authorized labelled approximations through existing review. Do not accept unrelated valve/flange rows or zero placeholders. Full vectors require an applicable configured scenario basis; do not infer restraints, stiffness, signs or expand qualification. Repeat actual calculation/equilibrium/results/export only after legitimate inputs are ready. No merge/release; no repeated qualification questions.",
   "observability": {
     "provider_sync": {
       "status": "NOT_CONFIGURED"
@@ -19,7 +19,7 @@
     "update_reason": "MATERIAL_FRONTIER_REFRESH"
   },
   "owner_decision": "NONE",
-  "plan_ref": "relay/WORK/load-calc-ui-migration-v32-plan.md",
+  "plan_ref": "relay/WORK/load-calc-run-readiness-v32-plan.md",
   "progress": {
     "active_unit": "FULL_VECTOR_LOADS",
     "completed_units": 1,
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "Default four-stage UI and existing owner Run integrated; source custody and pending/manual review preserved. Browser actual Run blocked at stale unit/axis evidence and eight manual catalogue weights (119/127 mass coverage); successful calculation/export and full vectors incomplete. Build/imports/shell and 22 focused checks PASS, one unchanged legacy check FAIL; broader suite FAIL missing BM2 fixture, remaining checks NOT_RUN. No merge/release.",
+    "coverage": "Current-source normalization verified from 223 coordinate pairs and stale blocker cleared; existing Advanced editor disclosures repaired. Actual 195-record input sidecar and revision-12 profile downloads verified. Final browser Run blocked solely by eight unmatched manual masses, coverage119/127, Project Data and Masters READY; no gravity/Fh or full-vector execution, scenario NOT_CONFIGURED, seal/result export disabled. Ten focused checks/imports/shell/build/diff PASS, prior suite/legacy failures retained and NOT_RUN this leg. No numerical qualification, oracle, solver or release change.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },
