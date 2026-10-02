@@ -17,7 +17,8 @@ import {
  * part that matters for a review decision -- ranked chips, an editable
  * weight, and visibility into why a candidate ranked where it did.
  */
-export function openFittingWeightDialog({ documentRef, dataset, masters, onAccept }) {
+export function openFittingWeightDialog({ documentRef, dataset, masters, onAccept, getBinding = null }) {
+  const openingBinding = getBinding?.();
   const review = buildFittingWeightReviewRows({ dataset, masters });
   const host = documentRef.createElement('div');
   host.className = 'lcfw-backdrop';
@@ -55,6 +56,10 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, onAccep
     }
 
     if (event.target.closest('[data-lcfw-apply]')) {
+      if (getBinding && getBinding() !== openingBinding) {
+        host.querySelector('[data-lcfw-note]').textContent = 'Source or weight master changed. Close and reopen this review; no selections were applied.';
+        return;
+      }
       const records = [];
       review.rows.forEach((row) => {
         const input = inputFor(row.targetId);

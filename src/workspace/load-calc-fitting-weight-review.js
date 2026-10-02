@@ -53,6 +53,7 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
 
     const base = {
       targetId, type, description, boreMm, lengthMm, rating,
+      sourceSemanticHash: sourceModel.semanticHash,
       sourceEntityId: component.sourceEntityId,
     };
     if (boreMm === null) {
@@ -187,6 +188,7 @@ export function fittingWeightRecordFor(row, candidate, candidateIndex, masters) 
       lengthToleranceMm: DEFAULT_LENGTH_TOLERANCE_MM,
       candidateCount: row.candidates.length,
       reviewerSelected: true,
+      sourceSemanticHash: row.sourceSemanticHash,
       weightMasterSourceHash: masters?.weight?.sourceHash || null,
     },
   };

@@ -18,3 +18,5 @@
 .lc-workbench-host .workbench-results th,.lc-workbench-host .workbench-results td{padding:9px;text-align:left;vertical-align:top;border-bottom:1px solid #354559}
 .lc-workbench-host .workbench-results .load-case-evidence{overflow-x:auto;margin-top:18px;border-top:1px solid #354559;padding-top:14px}
 .lc-workbench-host .workbench-results .load-case-evidence>table{min-width:670px}
+.lc-workbench-host .workbench-tool{min-width:0;overflow-wrap:anywhere}
+.lc-workbench-host .workbench-tool>[data-workbench-tool]{min-width:0;max-width:100%;overflow:auto}

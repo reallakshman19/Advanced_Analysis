@@ -6,10 +6,10 @@ import { renderCurrentWorkbenchResults } from './current-results.js';
 
 export { createWorkbenchState };
 
-export function mountLoadCalcWorkbench(container, state) {
+export function mountLoadCalcWorkbench(container, state, owners = {}) {
   const controller = new WorkbenchController(container, {
     prepare: prepareCurrentReview, getBinding: currentReviewBinding,
-    renderResults: renderCurrentWorkbenchResults, state,
+    renderResults: renderCurrentWorkbenchResults, state, ...owners,
   });
   controller.mount();
   return controller;

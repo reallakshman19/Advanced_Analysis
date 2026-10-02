@@ -5,6 +5,7 @@ import { engineeringModelStore } from './engineering-model-store.js';
 import { authorizedEnrichmentConsumerController } from './enrichment/authorized-enrichment-runtime.js';
 import {
   isRoutineRunReady,
+  isRoutineRunAttemptAvailable,
   renderEngineeringLoadPane,
   renderLoadCalcConsumer,
   renderLoadCalcTopologyPane,
@@ -72,7 +73,7 @@ export class LoadCalcConsumerController {
     this.empiricalAuthorizationController = empiricalAuthorizationController;
     this.context = consumerController?.getContext() || null;
     this.reviewModel = buildReviewModel(this.context);
-    this.activeTab = 'topology';
+    this.activeTab = 'workbench';
     this.currentWorkflowStepId = this.context?.datasetId ? 'topology' : 'import';
     this.message = '';
     this.unsubscribers = [];
@@ -150,7 +151,8 @@ export class LoadCalcConsumerController {
     this.context = context;
     this.reviewModel = buildReviewModel(context);
     if (datasetChanged) {
-      this.activeTab = 'topology';
+      this.activeTab = 'workbench';
+      this.workbenchState = null;
       this.currentWorkflowStepId = context?.datasetId ? 'topology' : 'import';
       this.topologyCheck = pendingTopologyCheck(context);
       this.topologyPolicyFeedback = '';
@@ -193,6 +195,15 @@ export class LoadCalcConsumerController {
 
   /** Updates presentation progress only; engineering readiness remains store-owned. */
   selectTab(tab) {
+    if (tab === 'legacy') { this.activeTab = 'topology'; return; }
+    if (this.activeTab === 'workbench' && tab !== 'workbench' && tab !== '3d' && tab !== 'model-3d') {
+      this.workbenchState ||= { stage: 1 };
+      this.workbenchState.stage = tab === 'loads' || tab === 'seal-export' || tab === 'results' ? 3
+        : tab === 'verify' || tab === 'methods' || tab === 'restraints' ? 2
+          : tab === 'project-data' || tab === 'masters' ? 0 : 1;
+      this.workbenchState.toolTab = tab === 'loads' || tab === 'verify' ? null : tab;
+      return;
+    }
     this.activeTab = tab;
     const workflowStepId = WORKFLOW_STEP_BY_TAB[tab];
     if (workflowStepId) this.currentWorkflowStepId = workflowStepId;
@@ -364,7 +375,6 @@ export class LoadCalcConsumerController {
       return;
     }
     if (event.target.closest('[data-load-calc-import]')) {
-      this.eventBus.publish(APPLICATION_EVENTS.CHANGE_REQUESTED, { viewId: 'WORKSPACE', source: 'navigation' });
       const fileInput = this.rootElement.ownerDocument.querySelector('[data-role="dataset-file"]');
       fileInput?.click();
       return;
@@ -570,8 +580,16 @@ export class LoadCalcConsumerController {
       } else if (tab === 'workbench') {
         const { mountLoadCalcWorkbench, createWorkbenchState } = await import('./load-calc-workbench/workbench-runtime.js');
         if (revision !== this.renderRevision) return;
-        this.workbenchState ||= createWorkbenchState();
-        this.workbenchController = mountLoadCalcWorkbench(pane, this.workbenchState);
+        this.workbenchState = { ...createWorkbenchState(), ...(this.context?.datasetId ? {} : { stage: 0 }), ...this.workbenchState };
+        this.workbenchController = mountLoadCalcWorkbench(pane, this.workbenchState, {
+          renderTool: (target, toolTab) => this.renderDeferredPane(toolTab, target, revision),
+          getRunAvailability: () => ({ eligible: isRoutineRunAttemptAvailable({
+            workflowReadiness: createWorkflowReadiness(this.context, this.topologyCheck),
+          }),
+            ready: isRoutineRunReady(nonFeaCommonInputStore.getSnapshot()),
+            label: empiricalLoadCalcScenarioStore.getSnapshot()?.calculationEligible ? 'Run configured scenario' : 'Run gravity calculation',
+            message: this.message || 'Run resolves and validates current inputs first. Non-READY inputs fail closed.' }),
+        });
       } else if (tab === 'preview') {
         const { renderLoadCalcPreview } = await import('./load-calc-preview-view.js');
         if (revision === this.renderRevision) renderLoadCalcPreview(pane);

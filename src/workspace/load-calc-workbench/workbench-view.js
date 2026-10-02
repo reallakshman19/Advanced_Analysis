@@ -2,18 +2,18 @@ import { effectivePreviewFields } from '../load-calc-preview-model.js';
 import { esc, num } from '../load-calc-preview-table.js';
 import { STAGES, CATEGORIES, reviewSummary, rowProblems, problemLabel } from './workbench-model.js';
 
-export function shellMarkup(review, state) {
+export function shellMarkup(review, state, runAvailability = null) {
   const summary = reviewSummary(review, state.caseId, state.deferrals.skipped);
   const prepared = review.mode === 'prepared';
   return `<div class="workbench"><nav class="stage-nav" aria-label="Load calculation stages">
     <div class="nav-title">LOAD CALCULATION<small>${prepared ? 'Current prepared input review' : 'Sjson source review'}</small></div>
     ${STAGES.map((name, index) => `<button type="button" data-stage="${index}" ${index === state.stage ? 'aria-current="step"' : ''}><span class="step-number">${index + 1}</span><span>${esc(name)}<small>${['Source & project basis', 'Input review required', prepared ? 'Existing runner · separate authority' : 'Not connected in prototype', prepared ? 'Existing results · separate evidence' : 'No calculated results'][index]}</small></span></button>`).join('')}
-    <p class="nav-note">Specialist tools stay in the current application. This preview cannot approve inputs or execute a calculation.</p></nav>
+    <p class="nav-note">${runAvailability ? 'Four stages, with the existing input, calculation and export owners. Skips do not approve or exclude inputs.' : 'Specialist tools stay in the current application. This preview cannot approve inputs or execute a calculation.'}</p></nav>
     <main id="main" tabindex="-1"><header class="page-heading"><div><p class="eyebrow">SUPPORT LOAD WORKBENCH</p><h1>${STAGES[state.stage]}</h1></div><span class="status warning">${prepared && state.stage === 3 ? 'Separate result evidence' : 'Review required'}</span></header>
     ${prepared ? preparedNotice(review) : `<div class="source-note">Source-only: ${esc(review.dataset.sourceName)}. Saved project settings, accepted matches and proposals are not loaded here; your current app is unchanged.</div>`}
     <section class="readiness" aria-label="Review summary"><div><strong>${summary.groups.length}</strong><span>${prepared ? 'preview issue groups' : 'input issue groups'}</span></div><div><strong>${summary.affected}</strong><span>${prepared ? 'preview review items' : 'affected components'}</span></div><div><strong>${prepared ? review.checkerMassCoverage?.covered ?? 'Not reported' : summary.coverage}<small>${prepared ? review.checkerMassCoverage ? ` / ${review.checkerMassCoverage.total}` : '' : ` / ${summary.total}`}</small></strong><span>${prepared ? 'Checker mass coverage · selected methods' : `${state.caseId} mass evidence coverage`}</span></div><div><strong>${summary.deferred}</strong><span>deferred · still unresolved</span></div></section>
-    ${state.stage === 0 ? (prepared ? preparedSetupMarkup(review) : setupMarkup(review)) : state.stage === 1 ? reviewMarkup(review, state, summary) : prepared ? preparedStageMarkup(state.stage, review) : blockedMarkup(state.stage)}
-    <footer>Weights are evidence previews, not support loads. ${prepared ? 'Existing result owners supply calculated loads; screening estimates are separate. This view does not execute or publish a new calculation.' : 'Fv, Fh, Fa, Fl and moments have not been calculated in this prototype.'}</footer>
+    ${runAvailability && state.toolTab ? toolMarkup(state.toolTab) : state.stage === 0 ? (prepared ? preparedSetupMarkup(review) : setupMarkup(review)) : state.stage === 1 ? reviewMarkup(review, state, summary, runAvailability) : prepared ? preparedStageMarkup(state.stage, review, runAvailability) : blockedMarkup(state.stage)}
+    <footer>Weights are evidence previews, not support loads. ${prepared ? 'Existing owners supply input changes, calculated loads and evidence export; screening estimates remain separate from solved reactions.' : 'Fv, Fh, Fa, Fl and moments have not been calculated in this prototype.'}</footer>
     </main></div><dialog id="evidence-dialog" aria-labelledby="evidence-title"></dialog><dialog id="weight-dialog" aria-labelledby="weight-title"></dialog>`;
 }
 
@@ -27,10 +27,11 @@ function gateMarkup(review) {
   return `<div class="gate-list">${(review.status?.gates || []).map((gate) => `<div><strong>${esc(gate.label || gate.gateId)} · ${esc(gate.state)}</strong><small>${esc(gate.message || '')}</small></div>`).join('')}</div>`;
 }
 
-function preparedStageMarkup(stage, review) {
+function preparedStageMarkup(stage, review, runAvailability) {
   if (stage === 3) return review.unavailable
     ? '<section class="panel"><h2>Refresh current evidence</h2><p>Prepared input binding is unavailable. Previous loads and estimates are withheld; refresh prepared inputs.</p></section>'
     : '<div data-workbench-results></div>';
+  if (runAvailability) return `<section class="panel"><h2>Calculate current inputs</h2><p>${esc(runAvailability.message)}</p><p>${runAvailability.ready ? 'Current checker is READY. The existing Run owner creates the required current seal and execution receipt.' : 'Run will validate first; missing or stale engineering evidence is not bypassed.'}</p><button type="button" class="primary" data-load-calc-run ${runAvailability.eligible ? '' : 'disabled'}>${esc(runAvailability.label)}</button><button type="button" data-load-calc-tab="preflight">Inspect Input Check</button><button type="button" data-load-calc-tab="methods">Configured scenario methods</button></section>`;
   return `<section class="panel blocked"><h2>${stage === 2 ? 'Calculation stays in the existing governed workflow' : 'Results stay bound to their existing execution evidence'}</h2><p>This read-only integration supplies no approvals, authorization or calculated loads. A session skip cannot enable Run or export. Use the existing workspace to review eligibility and current evidence.</p><button type="button" disabled>${stage === 2 ? 'Run calculation — not available in review' : 'Export — not available in review'}</button><button type="button" data-load-calc-tab="${stage === 2 ? 'preflight' : 'results'}">${stage === 2 ? 'Open governed Input Check' : 'Open existing results'}</button><button type="button" data-stage="1">Return to input review</button></section>`;
 }
 
@@ -38,10 +39,10 @@ function setupMarkup(review) {
   return `<section class="panel"><p class="eyebrow">01 / SOURCE & SETUP</p><h2>Start with what the source actually provides</h2><dl class="facts"><dt>File</dt><dd>${esc(review.dataset.sourceName)}</dd><dt>Entities</dt><dd>${review.dataset.entities.length}</dd><dt>Components / branches</dt><dd>${review.rows.length} / ${review.branches.length}</dd><dt>Support entities</dt><dd>${review.supports.length} · not validated here</dd><dt>Global length unit</dt><dd>${esc(review.sourceLengthUnit)} · no approved fallback</dd></dl><p>Project units, line-list mapping and master assignments will use the existing governed preparation path during production integration. This prototype does not write them.</p><button class="primary" data-stage="1">Review source inputs</button></section>`;
 }
 
-function reviewMarkup(review, state, summary) {
+function reviewMarkup(review, state, summary, runAvailability) {
   const componentCategory = !['supports', 'other'].includes(state.category);
   return `<details class="issue-disclosure"><summary>Next: ${esc(summary.groups[0]?.title || 'Review execution qualification')} · view ${summary.groups.length} input issue groups</summary><section class="issues" aria-label="Next input issues">${summary.groups.map((group) => `<button type="button" class="issue-card" data-category="${group.id}"><strong>${esc(group.title)}<span>${group.count} components</span></strong><small>${esc(group.detail)}</small></button>`).join('') || '<p>No source mass issues reported. Execution qualification is separate and is not evaluated here.</p>'}</section></details>
-    <section class="panel review-panel"><div class="section-heading"><div><h2>Input preview</h2></div><div class="actions"><button type="button" data-action="weights" ${componentCategory ? '' : 'disabled'}>Weights & contents…</button><button type="button" data-action="next" ${componentCategory ? '' : 'disabled'}>Next unresolved item</button></div></div>
+    <section class="panel review-panel"><div class="section-heading"><div><h2>Input preview</h2></div><div class="actions">${runAvailability ? '<button type="button" data-load-calc-tab="preview">Edit insulation & inspect weights</button><button type="button" data-load-calc-weight-review>Weights & contents…</button><button type="button" data-load-calc-tab="enrichment">Review catalogue / master matches</button>' : `<button type="button" data-action="weights" ${componentCategory ? '' : 'disabled'}>Weights & contents…</button>`}<button type="button" data-action="next" ${componentCategory ? '' : 'disabled'}>Next unresolved item</button></div></div>
     <nav class="category-nav" aria-label="Input review categories">${CATEGORIES.map(([id, title]) => `<button type="button" data-category="${id}" aria-pressed="${state.category === id}">${title}</button>`).join('')}</nav>
     <div class="filters"><label>Search components<input type="search" data-filter="query" placeholder="Entity, line, description" value="${esc(state.query)}"></label><label>Branch<select data-filter="branch"><option value="">All branches</option>${review.branches.map((id) => `<option value="${esc(id)}" ${state.branch === id ? 'selected' : ''}>${esc(id)}</option>`).join('')}</select></label><label>Weight case<select data-filter="caseId">${['EMPTY', 'OPE', 'HYD'].map((id) => `<option ${state.caseId === id ? 'selected' : ''}>${id}</option>`).join('')}</select></label><label class="check"><input type="checkbox" data-filter="unresolvedOnly" ${state.unresolvedOnly ? 'checked' : ''}>Unresolved only</label></div>
     <div id="review-content"></div></section>`;
@@ -93,7 +94,14 @@ function proposalMarkup(row) {
 }
 
 function preparedSetupMarkup(review) {
-  return `<section class="panel"><h2>Current source & preparation</h2><dl class="facts"><dt>File</dt><dd>${esc(review.dataset.sourceName)}</dd><dt>Entities</dt><dd>${review.dataset.entities.length}</dd><dt>Components / branches</dt><dd>${review.rows.length} / ${review.branches.length}</dd><dt>Length unit</dt><dd>${esc(review.sourceLengthUnit)}</dd></dl><button type="button" data-load-calc-import>Import another source</button><p>Project settings, line-list and master changes remain in their existing owners. This view does not apply defaults or approvals.</p><button type="button" data-load-calc-tab="project-data">Open Project Data</button><button type="button" data-stage="1">Review prepared inputs</button></section>`;
+  return `<section class="panel"><h2>Current source & preparation</h2><dl class="facts"><dt>File</dt><dd>${esc(review.dataset.sourceName)}</dd><dt>Entities</dt><dd>${review.dataset.entities.length}</dd><dt>Components / branches</dt><dd>${review.rows.length} / ${review.branches.length}</dd><dt>Length unit</dt><dd>${esc(review.sourceLengthUnit)}</dd></dl><button type="button" data-load-calc-import>Import source JSON</button><p>Project settings, line-list and master changes use their existing owners. Replacing a file does not reapprove old engineering values.</p><button type="button" data-load-calc-tab="masters">Import & map line list / masters</button><button type="button" data-load-calc-tab="project-data">Project inputs & defaults</button><button type="button" data-load-calc-tab="topology">Check topology</button><button type="button" data-stage="1">Review prepared inputs</button></section>`;
+}
+
+function toolMarkup(tab) {
+  const titles = { preview: 'Editable input preview', enrichment: 'Master & catalogue weight review',
+    masters: 'Line list & master mapping', 'project-data': 'Project inputs & defaults',
+    preflight: 'Current Input Check', 'seal-export': 'Current input evidence export' };
+  return `<section class="panel workbench-tool"><header class="section-heading"><h2>${esc(titles[tab] || tab)}</h2><button type="button" data-action="close-tool">Back to stage</button></header><div data-workbench-tool></div></section>`;
 }
 
 function preparedCategoryMarkup(review, category) {

@@ -347,6 +347,11 @@ function reviewFittingWeights(documentRef, onChanged) {
     documentRef,
     dataset,
     masters: masterDataController.getMasterData(),
+    getBinding: () => JSON.stringify([
+      WorkspaceState.getSnapshot()?.dataset?.sharedModel?.semanticHash,
+      WorkspaceState.getSnapshot()?.dataset?.sourceSha256,
+      masterDataController.getRevisionSnapshot(),
+    ]),
     onAccept: (records) => {
       records.forEach((record) => nonFeaEnrichmentStore.stageProposal({
         proposalId: record.recordId,

@@ -3,16 +3,19 @@ import { shellMarkup, rowsMarkup, evidenceMarkup, weightsMarkup, specialCategory
 
 export function createWorkbenchState() {
   return { stage: 1, category: 'all', caseId: 'EMPTY', query: '', branch: '',
-    unresolvedOnly: false, deferrals: new ReviewDeferrals(), selectedId: null };
+    unresolvedOnly: false, deferrals: new ReviewDeferrals(), selectedId: null, toolTab: null };
 }
 
 /** Owns only view state. Preparation and freshness are explicit injected seams. */
 export class WorkbenchController {
-  constructor(root, { prepare, getBinding, renderResults = null, state = createWorkbenchState() }) {
+  constructor(root, { prepare, getBinding, renderResults = null, renderTool = null,
+    getRunAvailability = null, state = createWorkbenchState() }) {
     this.root = root;
     this.prepare = prepare;
     this.getBinding = getBinding;
     this.renderResults = renderResults;
+    this.renderTool = renderTool;
+    this.getRunAvailability = getRunAvailability;
     this.state = state;
     this.returnToWeights = false;
     this.handlers = {
@@ -76,10 +79,12 @@ export class WorkbenchController {
       : rowsMarkup(this.filteredRows(), this.state, this.review.rows.length);
   }
   render() {
-    this.root.innerHTML = shellMarkup(this.review, this.state);
+    this.root.innerHTML = shellMarkup(this.review, this.state, this.getRunAvailability?.());
     this.renderContent();
     const results = this.root.querySelector('[data-workbench-results]');
     if (results && this.renderResults && !this.review.unavailable) this.renderResults(results);
+    const tool = this.root.querySelector('[data-workbench-tool]');
+    if (tool && this.renderTool && this.state.toolTab) this.renderTool(tool, this.state.toolTab);
     this.root.querySelector('#evidence-dialog').addEventListener('close', () => {
       if (this.returnToWeights) { this.returnToWeights = false; this.openWeights(); }
     });
@@ -115,10 +120,13 @@ export class WorkbenchController {
     if (!button) return;
     if (button.dataset.action === 'refresh') { this.refresh(); return; }
     // Navigation bubbles to the existing route owner, not an alternate runner.
-    if (button.dataset.loadCalcTab || !this.checkCurrent()) return;
+    if (button.dataset.loadCalcTab || button.hasAttribute('data-load-calc-run')
+      || button.hasAttribute('data-load-calc-import') || button.hasAttribute('data-load-calc-weight-review')) return;
+    if (button.dataset.action === 'close-tool') { this.state.toolTab = null; this.refresh(); return; }
+    if (!this.checkCurrent()) return;
     const data = button.dataset;
     if (data.stage !== undefined) {
-      this.state.stage = Number(data.stage); this.render();
+      this.state.stage = Number(data.stage); this.state.toolTab = null; this.refresh();
       this.root.querySelector(`[data-stage="${this.state.stage}"]`)?.focus();
     } else if (data.category) {
       this.state.category = data.category; this.render();

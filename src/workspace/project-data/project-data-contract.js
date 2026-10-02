@@ -379,7 +379,7 @@ function validateSourceHash(entry, path, activeHashes, errors, validateActiveSou
   if (declared && expected && declared !== expected) errors.push(errorRow(path, 'CROSS_DATASET_HASH_MISMATCH', 'Declared source hash differs from its evidence hash.'));
   if (!validateActiveSource || !expected || !sourceKey || !isRecord(activeHashes)) return;
   const active = stringValue(activeHashes[sourceKey]).toLowerCase();
-  if (['dataset', 'pipingClass', 'componentWeight'].includes(sourceKey) && !active) {
+  if (['dataset', 'lineList', 'pipingClass', 'componentWeight'].includes(sourceKey) && !active) {
     errors.push(errorRow(path, 'ACTIVE_SOURCE_HASH_MISSING', `Active ${sourceKey} source SHA-256 is required.`));
     return;
   }

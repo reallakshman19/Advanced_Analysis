@@ -29,7 +29,7 @@ export function renderWorkbenchResults(container, bundle, renderers = {}) {
   container.innerHTML = `<section class="panel workbench-results"><h2>Calculated loads & separate estimates</h2>
     <p>Gravity, empirical screening and configured beam/contact results are separate evidence families.
       Missing projections are not zero. Preview edits do not change the calculation receipt.</p>
-    <button type="button" data-load-calc-tab="loads">Open existing results & exception export</button>
+    <button type="button" data-load-calc-tab="seal-export">Export current input evidence</button>
     ${gravitySummary(bundle.distribution)}
     <details data-workbench-scenario><summary>Fv / Fa / Fl & moments — configured beam/contact scenario</summary>
       <div data-workbench-scenario-results></div></details>
