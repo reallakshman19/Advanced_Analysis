@@ -1,7 +1,7 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
-  "current": "Current-source normalization blocker cleared after 223 explicit Sjson coordinate cross-checks; accessible Advanced value/evidence disclosures repaired through existing data owner. Actual profile revision 12 and 195 accepted-record browser input exports verified and saved. Real Run still BLOCKED only by eight unmatched manual catalogue weights, coverage 119/127, Project Data/Masters READY, 6/8 gates. Scenario NOT_CONFIGURED, no gravity execution or sealed result export. Ten focused checks/imports/shell/build/diff PASS; prior suite/legacy failures retained, not rerun this leg. Full vectors and successful end-to-end loads remain incomplete.",
-  "evidence_ref": "relay/WORK/load-calc-run-readiness-v32-evidence.md",
+  "current": "Existing UZV catalogue548kg row exposed despite blank F/F and blank DN; blank DN uses existing mapped NPS6-to-DN150 table only in direct family lookup. Actual browser accepted just this one record after explicit prior-input imports. Download verifies all195 prior records unchanged;196 current records, coverage120/127, seven manual mass obligations; actual Run BLOCKED, Project Data/Masters READY,6/8 gates. Scenario NOT_CONFIGURED; no gravity/full-vector execution or result export. Ten focused/shell checks,imports,diff PASS. Production build FAIL from memory exhaustion; prior suite/legacy failures retained NOT_RUN this leg.",
+  "evidence_ref": "relay/WORK/load-calc-direct-instrument-weight-v32-evidence.md",
   "frontier": {
     "delta_commits": 0,
     "material_head": "716808b0c40bae17a5f61dec76213166b31bfdcd",
@@ -9,17 +9,17 @@
     "relation": "ALIGNED",
     "semantic_evidence_head": "716808b0c40bae17a5f61dec76213166b31bfdcd"
   },
-  "next": "Same draft PR #1915/worktree. Preserve or explicitly re-import saved current-source profile and 195-record sidecar; no automatic source reapproval. Positive Run needs identity-matched masses for =1006649732/51250,51274,51284,51462,51463,51476,51483,51485, or separately owner-authorized labelled approximations through existing review. Do not accept unrelated valve/flange rows or zero placeholders. Full vectors require an applicable configured scenario basis; do not infer restraints, stiffness, signs or expand qualification. Repeat actual calculation/equilibrium/results/export only after legitimate inputs are ready. No merge/release; no repeated qualification questions.",
+  "next": "Same draft PR #1915/worktree and retained browser14 localhost5174. Preserve196 reviewed records/profile12; compact exact input delta can reconstruct current sidecar from prior195 artifact. Positive Run still needs legitimate masses for =1006649732/51274,51284,51462,51463,51476,51483,51485, not unrelated suggestions/zero placeholders. Full vectors require applicable configured scenario basis; do not infer restraints/stiffness/signs or expand qualification. Production build needs successful rerun after memory availability; no unrelated process termination. Then actual calculation/equilibrium/results/export only with legitimate ready inputs. No merge/release or repeated qualification questions.",
   "observability": {
     "provider_sync": {
       "status": "NOT_CONFIGURED"
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "MATERIAL_FRONTIER_REFRESH"
+    "update_reason": "TASK_RESULT"
   },
   "owner_decision": "NONE",
-  "plan_ref": "relay/WORK/load-calc-run-readiness-v32-plan.md",
+  "plan_ref": "relay/WORK/load-calc-direct-instrument-weight-v32-plan.md",
   "progress": {
     "active_unit": "FULL_VECTOR_LOADS",
     "completed_units": 1,
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "Current-source normalization verified from 223 coordinate pairs and stale blocker cleared; existing Advanced editor disclosures repaired. Actual 195-record input sidecar and revision-12 profile downloads verified. Final browser Run blocked solely by eight unmatched manual masses, coverage119/127, Project Data and Masters READY; no gravity/Fh or full-vector execution, scenario NOT_CONFIGURED, seal/result export disabled. Ten focused checks/imports/shell/build/diff PASS, prior suite/legacy failures retained and NOT_RUN this leg. No numerical qualification, oracle, solver or release change.",
+    "coverage": "Direct548kg UZV catalogue candidate and actual-mapping regression repaired; browser accepted only one new record, all195 prior records unchanged, exported196-record hash replay PASS. Coverage120/127, seven manual masses remain; actual Run BLOCKED, scenario NOT_CONFIGURED, no gravity/full-vector/result-export execution. Ten focused/shell checks and imports/diff PASS; build FAIL memory exhaustion on three attempts. Prior broader-suite/legacy failures retained NOT_RUN. No numerical/qualification/master/release authority change.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },

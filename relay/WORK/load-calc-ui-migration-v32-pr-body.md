@@ -1,4 +1,14 @@
-## Latest leg — normalization cleared, actual loads still blocked
+## Latest leg — direct UZV catalogue match exposed; actual loads still blocked
+
+Fixed the actual-browser catalogue lookup: DN150/900# `Instrument-ESDV/UZV` 548 kg was hidden because its F/F and DN cells are blank. The lookup now puts the direct family row ahead of factor-based suggestions, using the existing mapped NPS6→DN150 size table only for blank DN. Supplied DN, master/source bytes, qualification and mechanics are unchanged. Explicit staging/acceptance and master-row provenance remain required; no vendor identity claimed.
+
+Browser imported the prior accepted input exports and accepted only this one catalogue row. Verified the actual 196-record download: all 195 prior records unchanged, one 548 kg record added; mass coverage **120/127**, seven unresolved manual mass obligations. Actual Run still **BLOCKED**; configured scenario **NOT_CONFIGURED**, no gravity/Fv/Fh/Fa/Fl/moment result or sealed result export. Earlier eight-unresolved statements below are historical and superseded for this current input state.
+
+PASS: focused catalogue regression (actual mapping/Sjson/full master, mismatch/ambiguity negatives, input-export delta custody), nine other focused/shell checks, imports and diff. **Production build FAIL** this leg: Vite transform exhausted available memory; retries with Node24 and Node22 exited1. Prior build PASS is historical, not current. Existing broader-suite/legacy failures remain retained, NOT_RUN this leg. No merge/release.
+
+[Current source/browser evidence and file manifest](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-direct-instrument-weight-v32-evidence.md) · [548 kg popup proof](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-direct-instrument-weight-v32-popup.png) · [Seven remaining obligations](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-direct-instrument-weight-v32-checker.png)
+
+## Earlier normalization leg — historical
 
 Verified all 223 current Sjson position strings against their numeric coordinates (mm, U/D ↔ source Z; zero contradictions). Refreshed only unit/up-axis evidence explicitly through the existing Advanced editor. Fixed inaccessible raw value/evidence fields with native keyboard-accessible disclosures; unchanged data/approval owner, numerical conventions and qualification/oracle boundaries.
 

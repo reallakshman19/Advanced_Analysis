@@ -1,5 +1,6 @@
 import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/cii-standalone-port/core/weight-valve-hints.js';
 import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
+import { nominalBoreMmFromNps } from './master-data-normalizers.js';
 
 /**
  * Builds reviewable component-weight candidates for catalogue fittings, using
@@ -126,6 +127,13 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
       }
     }
 
+    // The XML->CII length ranker intentionally excludes rows without F/F.
+    // Instrument-family catalogue masses can be supplied without that dimension:
+    // expose the direct UZV row instead of letting a factor-based suggestion hide
+    // it. Do not generalize an Instrument-XCV row to unrelated instruments.
+    const directInstrumentRows = directUzvCatalogueCandidates(base, weightRows);
+    if (directInstrumentRows.length) candidates = [...directInstrumentRows, ...candidates];
+
     const best = candidates.find((c) => !c.rejected) || candidates[0] || null;
     const rankedOnly = candidates.filter((c) => !c.rejected);
     // A clear semantic winner is a candidate whose tier leads the runner-up by
@@ -156,6 +164,42 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
   });
 }
 
+function directUzvCatalogueCandidates(row, weightRows) {
+  const normalizedDescription = row.description.toUpperCase().replace(/[^A-Z0-9]+/gu, ' ');
+  if (!/\b(?:UZV|ESDV|ESD)\b/u.test(normalizedDescription) || !row.rating) return [];
+  return weightRows.filter((master) => {
+    const family = String(master.valveType || '').toUpperCase().replace(/[^A-Z0-9]+/gu, ' ');
+    return /\bINSTRUMENT\b/u.test(family) && /\b(?:ESDV|UZV)\b/u.test(family)
+      && instrumentCatalogueBore(master) === row.boreMm
+      && String(master.rating).replace(/#/gu, '').trim() === row.rating
+      && Number.isFinite(Number(master.weight)) && Number(master.weight) > 0;
+  }).map((master) => ({
+    typeDesc: master.valveType,
+    weightKg: Number(master.weight),
+    rowLengthMm: Number(master.length) > 0 ? Number(master.length) : null,
+    rowBoreMm: instrumentCatalogueBore(master),
+    boreDerivedFromNps: String(master.bore ?? '').trim() === '',
+    masterNps: master.nps ?? null,
+    rowRating: row.rating,
+    lengthQualified: false,
+    lengthDeltaMm: null,
+    familyQualified: true,
+    sourceRowNumber: master._sourceRowNumber ?? null,
+    sourceRowIndex: master._sourceRowIndex ?? null,
+    sourceSheet: master._sourceSheet || '',
+    tier: 10000,
+    reason: `Direct ESDV/UZV catalogue family, DN${row.boreMm}, ${row.rating}#; ${String(master.bore ?? '').trim() === '' ? `blank master DN derived from mapped NPS ${master.nps} using the existing NPS-to-DN table; ` : ''}no F/F requirement, factor or interpolation applied. Vendor identity not asserted.`,
+    rejected: false,
+  }));
+}
+
+function instrumentCatalogueBore(master) {
+  // A supplied DN, including an invalid one, must not be replaced by NPS.
+  // Restrict the existing size-table derivation to this catalogue lookup.
+  return String(master.bore ?? '').trim() === ''
+    ? nominalBoreMmFromNps(master.nps) : Number(master.bore);
+}
+
 /**
  * The enrichment record for a reviewer's chosen candidate.
  *
@@ -175,7 +219,17 @@ export function fittingWeightRecordFor(row, candidate, candidateIndex, masters) 
     sourceId: masters?.weight?.fileName || 'weight',
     revision: masters?.weight?.sourceHash || 'NOT_AVAILABLE',
     evidence: {
-      matchMode: candidate.lengthQualified ? 'BORE_RATING_LENGTH' : 'BORE_RATING_ONLY',
+      matchMode: candidate.familyQualified ? 'BORE_RATING_INSTRUMENT_FAMILY'
+        : candidate.lengthQualified ? 'BORE_RATING_LENGTH' : 'BORE_RATING_ONLY',
+      ...(candidate.familyQualified ? {
+        catalogueFamilyQualified: true,
+        vendorIdentityAsserted: false,
+        masterSourceRowNumber: candidate.sourceRowNumber,
+        masterSourceRowIndex: candidate.sourceRowIndex,
+        masterSourceSheet: candidate.sourceSheet,
+        masterBoreDerivedFromNps: candidate.boreDerivedFromNps,
+        masterNps: candidate.masterNps,
+      } : {}),
       selectedTypeDesc: candidate.typeDesc,
       rankReason: candidate.reason || null,
       wasTopRanked: candidateIndex === row.bestCandidateIndex,
