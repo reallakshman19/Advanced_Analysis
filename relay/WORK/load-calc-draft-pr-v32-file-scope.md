@@ -1,6 +1,6 @@
 # Draft PR file-scope manifest
 
-Every path below is explicitly selected from accumulated load-calc work. Unrelated 3D/viewport changes (including event-topic-ids.js) and uncommitted legacy agent-chain artifacts remain local, unstaged. Seven existing load-calc documentation commits already on local main remain ancestry relative to origin/main; their historical contents are not rewritten.
+Every path below is explicitly selected from accumulated load-calc work. Unrelated 3D/viewport changes (including event-topic-ids.js) and uncommitted legacy agent-chain artifacts remain local, unstaged. The draft branch is based on origin/main 11eca8e40e560fc2e5f0866489f0b419e1b5afb1; only the implementation commit is cherry-picked. Seven historical relay-documentation commits remain on their original local ancestry and are excluded from this PR, without rewriting them.
 
 ## Review blockers, not qualification claims
 
@@ -119,4 +119,3 @@ Actual beam/contact source inputs are not configured. Fv/Fa/Fl/moments and direc
 - `src/workspace/project-data/project-data-store.js` — Accumulated automatic authority-hash synchronization; review preservation of source custody across dataset/master replacement before merge.
 - `src/workspace/routes/route-partition-model.js` — Keep zero-length point-only route coordinates explicit; do not invent a length or lever arm.
 - `src/workspace/shared-model-controller.js` — Avoid rebuilding engineering authority on selection-only workspace notifications.
-

@@ -1,7 +1,7 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
   "current": "New workbench stage four displays current gravity case summaries, exact existing receipt/tables and automatic screening; real Sjson browser verified with 37 rows/case and 34/37 OPE estimates. Local edits preserve all receipt/table values. Scenario display is current-authority guarded but actual source has NOT_CONFIGURED beam/contact state. Full vectors and direct workbench Run remain incomplete; legacy validation failures retained.",
-  "evidence_ref": "relay/WORK/load-calc-workbench-results-v32-evidence.md",
+  "evidence_ref": "relay/WORK/load-calc-draft-pr-v32-evidence.md",
   "frontier": {
     "delta_commits": null,
     "material_head": "6518a502d0c86524e4ad45801f4be35817622b5c",
@@ -16,7 +16,7 @@
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "IMPLEMENTATION_START"
+    "update_reason": "TASK_RESULT"
   },
   "owner_decision": "NONE",
   "plan_ref": "relay/WORK/load-calc-draft-pr-v32-plan.md",
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "New workbench stage-four current gravity/screening integrated and actual browser verified; scenario display guarded, not solved for actual source; direct Run/full vectors incomplete; legacy validation failures retained.",
+    "coverage": "Scoped accumulated load-calc implementation isolated for draft review; 37 focused checks PASS, imports/shell/build PASS on equivalent tree; broad suite FAIL missing BM2 fixture, three retained guards FAIL; source-binding/catalogue authority review and actual full vectors/direct Run incomplete.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },
