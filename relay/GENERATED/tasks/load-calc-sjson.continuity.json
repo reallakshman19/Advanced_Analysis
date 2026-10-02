@@ -1,15 +1,15 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
-  "current": "New workbench stage four displays current gravity case summaries, exact existing receipt/tables and automatic screening; real Sjson browser verified with 37 rows/case and 34/37 OPE estimates. Local edits preserve all receipt/table values. Scenario display is current-authority guarded but actual source has NOT_CONFIGURED beam/contact state. Full vectors and direct workbench Run remain incomplete; legacy validation failures retained.",
+  "current": "Draft PR #1915 created and attached from codex/load-calc-workbench-review on clean main; accumulated load-calc work isolated from unrelated 3D and historical relay commits. 37 focused/prototype checks PASS; imports/shell/build PASS on identical executable tree. Full non-FEA suite FAIL on missing BM2 fixture; three prior guards FAIL retained. Source-rebinding/catalogue acceptance authority needs review. Actual full vectors and direct workbench Run remain incomplete.",
   "evidence_ref": "relay/WORK/load-calc-draft-pr-v32-evidence.md",
   "frontier": {
     "delta_commits": null,
-    "material_head": "6518a502d0c86524e4ad45801f4be35817622b5c",
+    "material_head": "3f5a0766032f1a20ad973b2b7199c3c4c4bb16e8",
     "recovery_reconciliation_needed": true,
     "relation": "SEMANTIC_UNKNOWN",
     "semantic_evidence_head": null
   },
-  "next": "Expose exact source/qualified restraint-basis input preview and existing scenario preparation for Fv/Fa/Fl/moments. Keep current gravity and screening working; no invented restraints, stiffness, friction, signs or source qualification. Direct workbench Run remains a separate owner-bound integration leg.",
+  "next": "Continue draft PR #1915 in C:/Users/reall/.codex/worktrees/load-calc-draft-validation/AA. Review automatic source-reference rebinding and catalogue-weight acceptance boundaries before merge; expose exact source/qualified restraint-basis preview and existing scenario preparation for Fv/Fa/Fl/moments without inferred restraints, stiffness, friction, signs or authority. Direct workbench Run remains incomplete. No merge/release authorization.",
   "observability": {
     "provider_sync": {
       "status": "NOT_CONFIGURED"
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "Scoped accumulated load-calc implementation isolated for draft review; 37 focused checks PASS, imports/shell/build PASS on equivalent tree; broad suite FAIL missing BM2 fixture, three retained guards FAIL; source-binding/catalogue authority review and actual full vectors/direct Run incomplete.",
+    "coverage": "Draft PR #1915 created and attached; scoped accumulated implementation isolated, 37 focused/prototype checks PASS, equivalent-tree imports/shell/build PASS; broader suite FAIL missing fixture and retained guards FAIL. Source/weight authority review and actual full vectors/direct workbench Run incomplete. No merge or release.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },
