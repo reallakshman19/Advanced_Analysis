@@ -4,10 +4,10 @@
   "evidence_ref": "relay/WORK/load-calc-direct-instrument-weight-v32-evidence.md",
   "frontier": {
     "delta_commits": 0,
-    "material_head": "716808b0c40bae17a5f61dec76213166b31bfdcd",
-    "recovery_reconciliation_needed": false,
-    "relation": "ALIGNED",
-    "semantic_evidence_head": "716808b0c40bae17a5f61dec76213166b31bfdcd"
+    "material_head": "464aa16c4f5d87d3d65c6a39636f932f8187c61d",
+    "recovery_reconciliation_needed": true,
+    "relation": "UNRESOLVED",
+    "semantic_evidence_head": "464aa16c4"
   },
   "next": "Same draft PR #1915/worktree and retained browser14 localhost5174. Preserve196 reviewed records/profile12; compact exact input delta can reconstruct current sidecar from prior195 artifact. Positive Run still needs legitimate masses for =1006649732/51274,51284,51462,51463,51476,51483,51485, not unrelated suggestions/zero placeholders. Full vectors require applicable configured scenario basis; do not infer restraints/stiffness/signs or expand qualification. Production build needs successful rerun after memory availability; no unrelated process termination. Then actual calculation/equilibrium/results/export only with legitimate ready inputs. No merge/release or repeated qualification questions.",
   "observability": {
@@ -16,7 +16,7 @@
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "TASK_RESULT"
+    "update_reason": "MATERIAL_FRONTIER_REFRESH"
   },
   "owner_decision": "NONE",
   "plan_ref": "relay/WORK/load-calc-direct-instrument-weight-v32-plan.md",
