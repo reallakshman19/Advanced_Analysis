@@ -1,4 +1,14 @@
-## Latest leg — direct UZV catalogue match exposed; actual loads still blocked
+## Latest leg — pending-only weight review; current build PASS; loads still blocked
+
+The catalogue popup now shows only unresolved manual items, using the existing current source-bound enrichment resolver. It omits24 resolved weights, leaves unsupported factor/interpolation/bore-only suggestions blank, guards bulk fill, binds review to accepted inputs and stages typed masses as ACCEPTED_OVERRIDE rather than falsely claiming exact master provenance. No mass/source/master/mechanics/qualification data changed.
+
+Actual browser restored prior Project Data12 and196 accepted records through existing imports; popup7 rows/allblank/0 active candidates, bulkfill disabled. Empty Apply rejected; Cancel preserved inputs. Exported196-record file is identical to the prior actual download. Actual Run remains BLOCKED at120/127 coverage/seven COMPONENT_WEIGHT obligations; configured scenario NOT_CONFIGURED. No Fv/Fh/Fa/Fl/moment or sealed result export completion.
+
+PASS:11 focused/shell checks,imports,diff and current production build (Node24, bounded process-local heap;2096 modules/bundle guard PASS). This supersedes prior build OOM status without erasing historical failures. Broader-suite/legacy guards NOT_RUN; previous failures retained. Same draft PR, ResultScope STEP, ResponsibilityComplete NO, progress1/3 unchanged. No merge/release.
+
+[Current evidence and file manifest](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-pending-weight-review-v32-evidence.md) · [Actual pending-only popup](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-pending-weight-review-v32-popup.png) · [Actual remaining checker obligations](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-pending-weight-review-v32-checker.png)
+
+## Earlier direct UZV leg — historical
 
 Fixed the actual-browser catalogue lookup: DN150/900# `Instrument-ESDV/UZV` 548 kg was hidden because its F/F and DN cells are blank. The lookup now puts the direct family row ahead of factor-based suggestions, using the existing mapped NPS6→DN150 size table only for blank DN. Supplied DN, master/source bytes, qualification and mechanics are unchanged. Explicit staging/acceptance and master-row provenance remain required; no vendor identity claimed.
 

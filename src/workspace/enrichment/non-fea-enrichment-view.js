@@ -343,14 +343,19 @@ function generateMasterProposals() {
 function reviewFittingWeights(documentRef, onChanged) {
   const dataset = WorkspaceState.getSnapshot()?.dataset;
   if (!dataset?.sharedModel) throw new TypeError('An active dataset is required.');
+  const snapshot = nonFeaEnrichmentStore.getSnapshot();
+  const sidecar = deriveCurrent(dataset.sharedModel, snapshot).sidecar;
   openFittingWeightDialog({
     documentRef,
     dataset,
     masters: masterDataController.getMasterData(),
+    sidecar,
     getBinding: () => JSON.stringify([
       WorkspaceState.getSnapshot()?.dataset?.sharedModel?.semanticHash,
       WorkspaceState.getSnapshot()?.dataset?.sourceSha256,
       masterDataController.getRevisionSnapshot(),
+      nonFeaEnrichmentStore.getSnapshot().boundSourceSemanticHash,
+      nonFeaEnrichmentStore.getSnapshot().acceptedRecords,
     ]),
     onAccept: (records) => {
       records.forEach((record) => nonFeaEnrichmentStore.stageProposal({

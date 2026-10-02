@@ -1,14 +1,15 @@
 import {
   buildFittingWeightReviewRows,
   fittingWeightRecordFor,
+  canPrefillFittingWeight,
 } from './load-calc-fitting-weight-review.js';
 
 /**
  * Review table for catalogue fitting weights, styled on the XML->CII
  * standalone Weight Match phase (weight-match-renderer.js): a chip per
  * candidate showing its weight and rank reason, an editable weight input
- * pre-filled with the top-ranked candidate, and a bulk "apply all clear
- * winners" action -- rather than a single-choice picker.
+ * pre-filled only for a clear dimension/family match, and a guarded bulk
+ * fill action. Unsupported suggestions remain blank for explicit review.
  *
  * Ported the interaction model, not the file: the original renders inline
  * inside its own workflow shell and depends on XML/Branch/Node concepts this
@@ -17,9 +18,9 @@ import {
  * part that matters for a review decision -- ranked chips, an editable
  * weight, and visibility into why a candidate ranked where it did.
  */
-export function openFittingWeightDialog({ documentRef, dataset, masters, onAccept, getBinding = null }) {
+export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar = null, onAccept, getBinding = null }) {
   const openingBinding = getBinding?.();
-  const review = buildFittingWeightReviewRows({ dataset, masters });
+  const review = buildFittingWeightReviewRows({ dataset, masters, sidecar });
   const host = documentRef.createElement('div');
   host.className = 'lcfw-backdrop';
   host.dataset.role = 'load-calc-fitting-weight-dialog';
@@ -45,12 +46,13 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, onAccep
     }
 
     if (event.target.closest('[data-lcfw-apply-clear-winners]')) {
-      review.rows.filter((row) => row.clearWinner).forEach((row) => {
+      review.rows.filter(canPrefillFittingWeight).forEach((row) => {
         const input = inputFor(row.targetId);
         if (input) { input.value = row.candidates[0].weightKg; input.dataset.lcfwSelectedIndex = '0'; }
       });
       host.querySelectorAll('[data-lcfw-chip]').forEach((row) => {
-        row.classList.toggle('lcfw-chip--active', row.dataset.lcfwIndex === '0');
+        const reviewRow = review.rows.find((entry) => entry.targetId === row.dataset.lcfwChip);
+        row.classList.toggle('lcfw-chip--active', row.dataset.lcfwIndex === '0' && canPrefillFittingWeight(reviewRow));
       });
       return;
     }
@@ -67,8 +69,11 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, onAccep
         const value = Number(input.value);
         if (!Number.isFinite(value) || value <= 0) return;
         const index = Number(input.dataset.lcfwSelectedIndex ?? row.bestCandidateIndex ?? -1);
-        const candidate = row.candidates[index] || { weightKg: value, typeDesc: 'MANUAL', lengthQualified: false, reason: 'Manually entered' };
-        records.push(fittingWeightRecordFor(row, { ...candidate, weightKg: value }, index, masters));
+        const selected = row.candidates[index];
+        const candidate = selected && Number(selected.weightKg) === value ? selected
+          : { weightKg: value, typeDesc: 'MANUAL', manualEntry: true, lengthQualified: false,
+            reason: 'Reviewer-entered mass; catalogue suggestions are not the source of this value.' };
+        records.push(fittingWeightRecordFor(row, candidate, candidate.manualEntry ? -1 : index, masters));
       });
       if (records.length === 0) {
         const note = host.querySelector('[data-lcfw-note]');
@@ -95,12 +100,14 @@ function markup(review) {
       <div class="lcfw-actions"><button type="button" data-lcfw-close>Close</button></div>`);
   }
   return panel(`
-    <p class="lcfw-lead">${summary.fittingCount} fitting(s) need a catalogue weight, ranked by bore, rating, measured
+    <p class="lcfw-lead">${summary.fittingCount} unresolved manual item(s) need weight review; ${summary.omittedResolvedCount} current resolved catalogue weights are omitted.
+      Suggestions are ranked by bore, rating, measured
       face-to-face length and description keyword (e.g. GATE, GLOBE, BALL) against
       ${summary.weightMasterRowCount} Weights master rows.
       ${summary.singleCandidate} match one row outright, ${summary.clearWinner} have a clear ranked winner among several,
       ${summary.needsChoice} are genuinely tied, and ${summary.unresolvable} have no candidate at all.
-      Every weight below is editable before applying.</p>
+      Only clear dimension/family matches are prefilled. Factor, interpolation and bore/rating-only suggestions stay blank until explicitly reviewed.
+      Every weight below is editable before applying. Closing this review defers it; no item is excluded or zeroed.</p>
     <div class="lcfw-table-wrap">
       <table class="lcfw-table">
         <thead><tr>
@@ -112,7 +119,7 @@ function markup(review) {
     </div>
     <p class="lcfw-note" data-lcfw-note></p>
     <div class="lcfw-actions">
-      <button type="button" data-lcfw-apply-clear-winners>Fill all clear winners (${summary.singleCandidate + summary.clearWinner})</button>
+      <button type="button" data-lcfw-apply-clear-winners ${rows.some(canPrefillFittingWeight) ? '' : 'disabled'}>Fill clear dimension / family matches (${rows.filter(canPrefillFittingWeight).length})</button>
       <button type="button" data-lcfw-apply class="lcfw-primary">Apply weights shown</button>
       <button type="button" data-lcfw-close>Cancel</button>
     </div>`);
@@ -129,7 +136,8 @@ function rowMarkup(row) {
     </tr>`;
   }
   const best = row.candidates[0];
-  const rowClass = row.clearWinner ? 'lcfw-status--clear' : 'lcfw-status--tied';
+  const prefill = canPrefillFittingWeight(row);
+  const rowClass = prefill ? 'lcfw-status--clear' : 'lcfw-status--tied';
   return `<tr class="${rowClass}">
     <td><strong>${escapeHtml(row.description || row.targetId)}</strong></td>
     <td>${escapeHtml(row.type)}</td>
@@ -137,15 +145,15 @@ function rowMarkup(row) {
     <td>${row.rating ? `${escapeHtml(row.rating)}#` : '—'}</td>
     <td>${escapeHtml(row.lengthMm)} mm</td>
     <td>${row.valveHint ? `<span class="lcfw-hint">${escapeHtml(row.valveHint)}</span>` : '—'}</td>
-    <td><input type="number" min="0" step="0.001" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="0" value="${escapeHtml(best.weightKg)}"></td>
-    <td class="lcfw-chips">${row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index)).join('')}</td>
+    <td><input aria-label="Reviewed weight for ${escapeHtml(row.targetId)} in kg" type="number" min="0" step="0.001" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="${prefill ? '0' : '-1'}" value="${prefill ? escapeHtml(best.weightKg) : ''}">${prefill ? '' : '<span class="lcfw-meta">Review required · suggestions only</span>'}</td>
+    <td class="lcfw-chips">${row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index, prefill)).join('')}</td>
   </tr>`;
 }
 
-function chipMarkup(targetId, candidate, index) {
-  const marker = index === 0 && !candidate.rejected ? '★ ' : (candidate.rejected ? '× ' : '');
+function chipMarkup(targetId, candidate, index, prefill) {
+  const marker = index === 0 && prefill ? '★ ' : (candidate.rejected ? '× ' : '');
   const classes = ['lcfw-chip'];
-  if (index === 0 && !candidate.rejected) classes.push('lcfw-chip--best', 'lcfw-chip--active');
+  if (index === 0 && prefill) classes.push('lcfw-chip--best', 'lcfw-chip--active');
   if (candidate.rejected) classes.push('lcfw-chip--rejected');
   const title = [
     candidate.typeDesc,

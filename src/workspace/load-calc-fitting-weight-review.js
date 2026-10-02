@@ -1,6 +1,7 @@
 import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/cii-standalone-port/core/weight-valve-hints.js';
 import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
 import { nominalBoreMmFromNps } from './master-data-normalizers.js';
+import { resolveNonFeaEnrichment } from '../core/non-fea-enrichment/index.js';
 
 /**
  * Builds reviewable component-weight candidates for catalogue fittings, using
@@ -24,10 +25,12 @@ import { nominalBoreMmFromNps } from './master-data-normalizers.js';
 
 const DEFAULT_LENGTH_TOLERANCE_MM = 4;
 
-export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
+export function buildFittingWeightReviewRows({ dataset, masters, sidecar = null } = {}) {
   const sourceModel = dataset?.sharedModel;
   if (!sourceModel) throw new TypeError('Fitting weight review requires an active dataset shared model.');
   const weightRows = masters?.weight?.normalizedRows || [];
+  const resolvedWeights = currentResolvedWeights(sourceModel, sidecar);
+  let omittedResolvedCount = 0;
   const rawByEntityId = new Map((dataset.entities || []).map((entity) => [entity.entityId, entity]));
   const config = {
     weight: {
@@ -43,6 +46,7 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
     if (!isManualWeightReviewType(type)) return;
     if (component.engineeringProperties?.componentWeightKg != null) return;
     const targetId = component.componentKey || component.sourceEntityId;
+    if (resolvedWeights.has(targetId)) { omittedResolvedCount += 1; return; }
     const attributes = rawByEntityId.get(component.sourceEntityId)?.properties?.attributes || {};
     const boreMm = numberFrom(attributes.ABORE ?? attributes.LBORE);
     const lengthMm = distanceBetween(attributes.APOS, attributes.LPOS);
@@ -154,6 +158,7 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
     rows: Object.freeze(rows),
     summary: Object.freeze({
       fittingCount: rows.length,
+      omittedResolvedCount,
       withCandidates: rows.filter((row) => row.candidates.length > 0).length,
       singleCandidate: rows.filter((row) => row.candidates.length === 1).length,
       clearWinner: rows.filter((row) => row.candidates.length > 1 && row.clearWinner).length,
@@ -162,6 +167,26 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
       weightMasterRowCount: weightRows.length,
     }),
   });
+}
+
+function currentResolvedWeights(sourceModel, sidecar) {
+  if (!sidecar) return new Set();
+  try {
+    const ledger = resolveNonFeaEnrichment({ sourceModel, sidecar });
+    // A blocked/stale ledger is not evidence that review can be omitted.
+    if (ledger.status !== 'READY') return new Set();
+    return new Set(ledger.rows.filter((row) => row.status === 'RESOLVED'
+      && row.targetKind === 'COMPONENT' && row.fieldId === 'COMPONENT_WEIGHT'
+      && Number.isFinite(Number(row.selected?.value)) && Number(row.selected.value) > 0)
+      .map((row) => row.targetId));
+  } catch { return new Set(); }
+}
+
+/** Ranking confidence alone cannot prefill a factor/interpolation/unrelated fallback. */
+export function canPrefillFittingWeight(row) {
+  const candidate = row.candidates[0];
+  return Boolean(row.clearWinner && candidate && !candidate.rejected
+    && (candidate.lengthQualified || candidate.familyQualified));
 }
 
 function directUzvCatalogueCandidates(row, weightRows) {
@@ -215,11 +240,12 @@ export function fittingWeightRecordFor(row, candidate, candidateIndex, masters) 
     fieldId: 'COMPONENT_WEIGHT',
     value: candidate.weightKg,
     unit: 'kg',
-    authority: 'EXACT_APPROVED_MASTER',
-    sourceId: masters?.weight?.fileName || 'weight',
-    revision: masters?.weight?.sourceHash || 'NOT_AVAILABLE',
+    authority: candidate.manualEntry ? 'ACCEPTED_OVERRIDE' : 'EXACT_APPROVED_MASTER',
+    sourceId: candidate.manualEntry ? 'manual-weight-review' : masters?.weight?.fileName || 'weight',
+    revision: candidate.manualEntry ? row.sourceSemanticHash : masters?.weight?.sourceHash || 'NOT_AVAILABLE',
     evidence: {
-      matchMode: candidate.familyQualified ? 'BORE_RATING_INSTRUMENT_FAMILY'
+      matchMode: candidate.manualEntry ? 'REVIEWED_MANUAL_VALUE'
+        : candidate.familyQualified ? 'BORE_RATING_INSTRUMENT_FAMILY'
         : candidate.lengthQualified ? 'BORE_RATING_LENGTH' : 'BORE_RATING_ONLY',
       ...(candidate.familyQualified ? {
         catalogueFamilyQualified: true,

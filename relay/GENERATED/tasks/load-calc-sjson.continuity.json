@@ -1,25 +1,25 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
-  "current": "Existing UZV catalogue548kg row exposed despite blank F/F and blank DN; blank DN uses existing mapped NPS6-to-DN150 table only in direct family lookup. Actual browser accepted just this one record after explicit prior-input imports. Download verifies all195 prior records unchanged;196 current records, coverage120/127, seven manual mass obligations; actual Run BLOCKED, Project Data/Masters READY,6/8 gates. Scenario NOT_CONFIGURED; no gravity/full-vector execution or result export. Ten focused/shell checks,imports,diff PASS. Production build FAIL from memory exhaustion; prior suite/legacy failures retained NOT_RUN this leg.",
-  "evidence_ref": "relay/WORK/load-calc-direct-instrument-weight-v32-evidence.md",
+  "current": "Pending-only catalogue review repaired: existing current resolver omits24 resolved weights; seven unsupported suggestions remain blank, bulkfill disabled, emptyApply rejected; review bound to accepted-input state and typed masses stage truthful ACCEPTED_OVERRIDE custody. Actual browser restored profile12/196records and exported identical input file;0proposals,120/127coverage. Actual Run BLOCKED at seven COMPONENT_WEIGHT obligations; Project Data/Masters READY,6/8 gates; scenario NOT_CONFIGURED. No gravity/full-vector/results completion.11focused/shellchecks,imports,diff and current production build PASS; prior broader-suite/legacy failures retained NOT_RUN.",
+  "evidence_ref": "relay/WORK/load-calc-pending-weight-review-v32-evidence.md",
   "frontier": {
-    "delta_commits": 0,
-    "material_head": "464aa16c4f5d87d3d65c6a39636f932f8187c61d",
+    "delta_commits": 1,
+    "material_head": "f2ba8b0aceeeec64e66db7f342e713f6185e1a81",
     "recovery_reconciliation_needed": true,
-    "relation": "UNRESOLVED",
-    "semantic_evidence_head": "464aa16c4"
+    "relation": "MATERIAL_AHEAD",
+    "semantic_evidence_head": "464aa16c4f5d87d3d65c6a39636f932f8187c61d"
   },
-  "next": "Same draft PR #1915/worktree and retained browser14 localhost5174. Preserve196 reviewed records/profile12; compact exact input delta can reconstruct current sidecar from prior195 artifact. Positive Run still needs legitimate masses for =1006649732/51274,51284,51462,51463,51476,51483,51485, not unrelated suggestions/zero placeholders. Full vectors require applicable configured scenario basis; do not infer restraints/stiffness/signs or expand qualification. Production build needs successful rerun after memory availability; no unrelated process termination. Then actual calculation/equilibrium/results/export only with legitimate ready inputs. No merge/release or repeated qualification questions.",
+  "next": "Same draft PR1915/worktree and retained browser14 localhost5174; preserve196reviewed records/profile12. Positive Run needs legitimate reviewed masses for =1006649732/51274 ultrasonicflowmeter,51284anglecontrol,51462lapjoint,51463temperature,51476/51483DN20blinds,51485pressuregauge; no direct matching rows found in current masters. Do not use unrelated suggestions/factors as identity evidence or zero/exclude items. Fullvectors need applicable configured scenario basis; do not infer restraints/stiffness/signs or expand qualification. Continue numerical execution/equilibrium/results/export only after legitimate ready inputs. No repeated qualification questions, merge/release, source/master authority or mechanics changes.",
   "observability": {
     "provider_sync": {
       "status": "NOT_CONFIGURED"
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "MATERIAL_FRONTIER_REFRESH"
+    "update_reason": "TASK_RESULT"
   },
   "owner_decision": "NONE",
-  "plan_ref": "relay/WORK/load-calc-direct-instrument-weight-v32-plan.md",
+  "plan_ref": "relay/WORK/load-calc-pending-weight-review-v32-plan.md",
   "progress": {
     "active_unit": "FULL_VECTOR_LOADS",
     "completed_units": 1,
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "Direct548kg UZV catalogue candidate and actual-mapping regression repaired; browser accepted only one new record, all195 prior records unchanged, exported196-record hash replay PASS. Coverage120/127, seven manual masses remain; actual Run BLOCKED, scenario NOT_CONFIGURED, no gravity/full-vector/result-export execution. Ten focused/shell checks and imports/diff PASS; build FAIL memory exhaustion on three attempts. Prior broader-suite/legacy failures retained NOT_RUN. No numerical/qualification/master/release authority change.",
+    "coverage": "Pending review UI/proposal custody repaired; actual browser sevenblank/all196inputrecords unchanged; Run BLOCKED120/127 and scenario NOT_CONFIGURED;11focused/shellchecks imports diff and current build PASS. No full-vector or responsibility completion. Prior broader regressions NOT_RUN/failures retained; no authority or mechanics expansion.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },
