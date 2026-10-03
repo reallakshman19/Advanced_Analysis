@@ -4,10 +4,10 @@
   "evidence_ref": "relay/WORK/load-calc-explicit-zero-weight-v32-evidence.md",
   "frontier": {
     "delta_commits": 0,
-    "material_head": "dba096bd62209dec6d2f9ee2e40558ad8b82566d",
+    "material_head": "520c80e00e2669f978f5d5e9b9b9cec499831a9a",
     "recovery_reconciliation_needed": false,
     "relation": "ALIGNED",
-    "semantic_evidence_head": "dba096bd62209dec6d2f9ee2e40558ad8b82566d"
+    "semantic_evidence_head": "520c80e00e2669f978f5d5e9b9b9cec499831a9a"
   },
   "next": "Same draft PR1915/worktree and retained browser15 localhost5174; preserve Project Data12 and actual203-record sidecar with seven owner-requested zero assumptions. Gravity now executed current with exceptions; inspect qualified route-local bearing paths/unallocated demand and existing scenario configuration wiring next. Fa/Fl/global moments require applicable method-owned restraint basis/execution; no invented restraints/stiffness/signs/qualification or zero full-vector projections. No repeated qualification questions, merge/release, source/master authority or mechanics changes.",
   "observability": {
@@ -16,7 +16,7 @@
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "TASK_RESULT"
+    "update_reason": "MATERIAL_FRONTIER_REFRESH"
   },
   "owner_decision": "Explicit owner instruction: assign the seven deferred equipment weights to 0 kg.",
   "plan_ref": "relay/WORK/load-calc-explicit-zero-weight-v32-plan.md",
