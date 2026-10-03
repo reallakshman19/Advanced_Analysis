@@ -8,7 +8,7 @@ import { empiricalResultOverlayStore } from '../engineering-loads/empirical-resu
 import { renderWorkbenchResults } from './results-view.js';
 
 /** Read current owner snapshots at render time; never authorize, execute or export here. */
-export function renderCurrentWorkbenchResults(container) {
+export function readCurrentWorkbenchResults() {
   const dataset = WorkspaceState.getSnapshot().dataset;
   const execution = engineeringModelStore.getCurrentCommonInputExecution();
   const supportSiteModel = engineeringModelStore.getSupportSiteModel();
@@ -30,7 +30,7 @@ export function renderCurrentWorkbenchResults(container) {
       authorizationCurrent = true;
     } catch { /* Existing owner rejected currentness; withhold scenario numbers. */ }
   }
-  renderWorkbenchResults(container, {
+  return {
     datasetId: dataset?.datasetId,
     distribution: engineeringModelStore.getDistribution(), supportSiteModel, routePartitionModel,
     execution, authorizedExecution: engineeringModelStore.getAuthorizedExecution(),
@@ -38,5 +38,9 @@ export function renderCurrentWorkbenchResults(container) {
     screeningContext: { dataset, commonState: nonFeaCommonInputStore.getSnapshot(), execution,
       supportSiteModel, routePartitionModel, lineList: masterDataController.masterData.lineList },
     scenario, overlay: empiricalResultOverlayStore.getProjection(), authorizationCurrent,
-  });
+  };
+}
+
+export function renderCurrentWorkbenchResults(container) {
+  renderWorkbenchResults(container, readCurrentWorkbenchResults());
 }

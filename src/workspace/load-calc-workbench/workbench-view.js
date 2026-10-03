@@ -5,11 +5,17 @@ import { STAGES, CATEGORIES, reviewSummary, rowProblems, problemLabel } from './
 export function shellMarkup(review, state, runAvailability = null) {
   const summary = reviewSummary(review, state.caseId, state.deferrals.skipped);
   const prepared = review.mode === 'prepared';
+  const inputStatus = runAvailability?.ready && !review.unavailable ? 'Input Check ready · preview caveats separate' : 'Input review required';
+  const headingStatus = prepared && runAvailability
+    ? state.stage === 3 ? runAvailability.resultStatus || 'No current gravity receipt'
+      : state.stage === 2 ? runAvailability.ready ? 'Ready for governed Run' : 'Run validates current inputs'
+        : inputStatus
+    : prepared && state.stage === 3 ? 'Separate result evidence' : 'Review required';
   return `<div class="workbench"><nav class="stage-nav" aria-label="Load calculation stages">
     <div class="nav-title">LOAD CALCULATION<small>${prepared ? 'Current prepared input review' : 'Sjson source review'}</small></div>
-    ${STAGES.map((name, index) => `<button type="button" data-stage="${index}" ${index === state.stage ? 'aria-current="step"' : ''}><span class="step-number">${index + 1}</span><span>${esc(name)}<small>${['Source & project basis', 'Input review required', prepared ? 'Existing runner · separate authority' : 'Not connected in prototype', prepared ? 'Existing results · separate evidence' : 'No calculated results'][index]}</small></span></button>`).join('')}
+    ${STAGES.map((name, index) => `<button type="button" data-stage="${index}" ${index === state.stage ? 'aria-current="step"' : ''}><span class="step-number">${index + 1}</span><span>${esc(name)}<small>${esc(['Source & project basis', inputStatus, prepared ? 'Existing runner · separate authority' : 'Not connected in prototype', prepared ? runAvailability?.resultStatus || 'Existing results · separate evidence' : 'No calculated results'][index])}</small></span></button>`).join('')}
     <p class="nav-note">${runAvailability ? 'Four stages, with the existing input, calculation and export owners. Skips do not approve or exclude inputs.' : 'Specialist tools stay in the current application. This preview cannot approve inputs or execute a calculation.'}</p></nav>
-    <main id="main" tabindex="-1"><header class="page-heading"><div><p class="eyebrow">SUPPORT LOAD WORKBENCH</p><h1>${STAGES[state.stage]}</h1></div><span class="status warning">${prepared && state.stage === 3 ? 'Separate result evidence' : 'Review required'}</span></header>
+    <main id="main" tabindex="-1"><header class="page-heading"><div><p class="eyebrow">SUPPORT LOAD WORKBENCH</p><h1>${STAGES[state.stage]}</h1></div><span class="status warning">${esc(headingStatus)}</span></header>
     ${prepared ? preparedNotice(review) : `<div class="source-note">Source-only: ${esc(review.dataset.sourceName)}. Saved project settings, accepted matches and proposals are not loaded here; your current app is unchanged.</div>`}
     <section class="readiness" aria-label="Review summary"><div><strong>${summary.groups.length}</strong><span>${prepared ? 'preview issue groups' : 'input issue groups'}</span></div><div><strong>${summary.affected}</strong><span>${prepared ? 'preview review items' : 'affected components'}</span></div><div><strong>${prepared ? review.checkerMassCoverage?.covered ?? 'Not reported' : summary.coverage}<small>${prepared ? review.checkerMassCoverage ? ` / ${review.checkerMassCoverage.total}` : '' : ` / ${summary.total}`}</small></strong><span>${prepared ? 'Checker mass coverage · selected methods' : `${state.caseId} mass evidence coverage`}</span></div><div><strong>${summary.deferred}</strong><span>deferred · still unresolved</span></div></section>
     ${runAvailability && state.toolTab ? toolMarkup(state.toolTab) : state.stage === 0 ? (prepared ? preparedSetupMarkup(review) : setupMarkup(review)) : state.stage === 1 ? reviewMarkup(review, state, summary, runAvailability) : prepared ? preparedStageMarkup(state.stage, review, runAvailability) : blockedMarkup(state.stage)}
@@ -31,7 +37,7 @@ function preparedStageMarkup(stage, review, runAvailability) {
   if (stage === 3) return review.unavailable
     ? '<section class="panel"><h2>Refresh current evidence</h2><p>Prepared input binding is unavailable. Previous loads and estimates are withheld; refresh prepared inputs.</p></section>'
     : '<div data-workbench-results></div>';
-  if (runAvailability) return `<section class="panel"><h2>Calculate current inputs</h2><p>${esc(runAvailability.message)}</p><p>${runAvailability.ready ? 'Current checker is READY. The existing Run owner creates the required current seal and execution receipt.' : 'Run will validate first; missing or stale engineering evidence is not bypassed.'}</p><button type="button" class="primary" data-load-calc-run ${runAvailability.eligible ? '' : 'disabled'}>${esc(runAvailability.label)}</button><button type="button" data-load-calc-tab="preflight">Inspect Input Check</button><button type="button" data-load-calc-tab="methods">Configured scenario methods</button></section>`;
+  if (runAvailability) return `<section class="panel"><h2>Calculate current inputs</h2><p>${esc(runAvailability.message)}</p><p>${runAvailability.ready ? 'Current checker is READY. The existing Run owner creates the required current seal and execution receipt.' : 'Run will validate first; missing or stale engineering evidence is not bypassed.'}</p><button type="button" class="primary" data-load-calc-run ${runAvailability.eligible ? '' : 'disabled'}>${esc(runAvailability.label)}</button><button type="button" data-load-calc-tab="preflight">Inspect Input Check</button><button type="button" data-load-calc-tab="scenario-setup">Set up calculation scenario</button><button type="button" data-load-calc-tab="restraints">Restraints</button><button type="button" data-load-calc-tab="load-cases">Load cases</button><button type="button" data-load-calc-tab="methods">Configured scenario methods</button></section>`;
   return `<section class="panel blocked"><h2>${stage === 2 ? 'Calculation stays in the existing governed workflow' : 'Results stay bound to their existing execution evidence'}</h2><p>This read-only integration supplies no approvals, authorization or calculated loads. A session skip cannot enable Run or export. Use the existing workspace to review eligibility and current evidence.</p><button type="button" disabled>${stage === 2 ? 'Run calculation — not available in review' : 'Export — not available in review'}</button><button type="button" data-load-calc-tab="${stage === 2 ? 'preflight' : 'results'}">${stage === 2 ? 'Open governed Input Check' : 'Open existing results'}</button><button type="button" data-stage="1">Return to input review</button></section>`;
 }
 
@@ -100,7 +106,7 @@ function preparedSetupMarkup(review) {
 function toolMarkup(tab) {
   const titles = { preview: 'Editable input preview', enrichment: 'Master & catalogue weight review',
     masters: 'Line list & master mapping', 'project-data': 'Project inputs & defaults',
-    preflight: 'Current Input Check', 'seal-export': 'Current input evidence export' };
+    preflight: 'Current Input Check', 'seal-export': 'Current input evidence export', 'scenario-setup': 'Calculation scenario setup' };
   return `<section class="panel workbench-tool"><header class="section-heading"><h2>${esc(titles[tab] || tab)}</h2><button type="button" data-action="close-tool">Back to stage</button></header><div data-workbench-tool></div></section>`;
 }
 

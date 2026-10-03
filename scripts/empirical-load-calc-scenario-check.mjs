@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { buildWorkbenchScenarioProposal, renderScenarioSetup } from '../src/workspace/load-calc-workbench/scenario-setup.js';
 import { createSharedPipingModel, semanticHash } from '../src/core/shared-piping-model/index.js';
 import { buildPipingPortTopologyGraph } from '../src/core/piping-topology/index.js';
 import {
@@ -91,6 +92,21 @@ const proposalInput = {
   restraintCapabilityModel: fixture.restraintCapabilityModel,
   sourceLoadPrimitiveSet: fixture.loadFoundation.loadPrimitiveSet,
 };
+// The new UI imports scenario inputs only and rebuilds against supplied current owners.
+const setupAuthorities = { dataset: { sourceSha256: 'sha256:wp3-fixture' },
+  ...proposalInput, sourceLoadPrimitiveSet: fixture.loadFoundation.loadPrimitiveSet };
+const setupInput = { scenario: fixture.scenario, runtimeProfile: fixture.runtimeProfile,
+  caseConfigurations: proposalInput.caseConfigurations };
+const setupBefore = JSON.stringify(setupInput);
+assert.deepEqual(buildWorkbenchScenarioProposal(setupInput, setupAuthorities), proposalInput);
+assert.equal(JSON.stringify(setupInput), setupBefore);
+assert.throws(() => buildWorkbenchScenarioProposal({ ...setupInput, sharedModel: fixture.sharedModel }, setupAuthorities), /Workspace authorities/);
+assert.throws(() => buildWorkbenchScenarioProposal(setupInput, { ...setupAuthorities, dataset: { sourceSha256: 'other-source' } }), /datasetHash binding is stale/);
+const setupHost = { innerHTML: '' };
+renderScenarioSetup(setupHost, setupAuthorities, { state: 'NOT_CONFIGURED' }, '<script>bad</script>', 'Not configured');
+assert.match(setupHost.innerHTML, /data-workbench-scenario-configure/);
+assert.match(setupHost.innerHTML, /&lt;script&gt;bad&lt;\/script&gt;/);
+assert.doesNotMatch(setupHost.innerHTML, /<script>/);
 
 let snapshot = store.configure(proposalInput);
 assert.equal(snapshot.state, 'DRAFT_READY');
@@ -382,6 +398,7 @@ function buildFixture() {
   });
   assert.equal(adaptedRequest.status, 'READY_FOR_RUNTIME_BRIDGE');
   return {
+    scenario,
     sharedModel,
     topologyGraph,
     supportAttachmentModel,

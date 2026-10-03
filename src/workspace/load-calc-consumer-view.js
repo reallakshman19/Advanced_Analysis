@@ -47,7 +47,7 @@ function resolveRunAction(state) {
 }
 
 function headerMarkup(state) {
-  if (state.activeTab === 'workbench') return `<header class="empirical-load-calc__header"><div><span class="panel-eyebrow">INPUTS · CALCULATION · RESULTS</span><h1>Support Load Workbench</h1></div><span role="status" data-engineering-load-status>${escapeHtml(state.message || '')}</span><button type="button" data-load-calc-tab="legacy">Advanced / legacy workflow</button></header>`;
+  if (state.activeTab === 'workbench') return `<header class="empirical-load-calc__header"><div><span class="panel-eyebrow">INPUTS · CALCULATION · RESULTS</span><h1>Support Load Workbench</h1></div><span role="status" data-engineering-load-status>${escapeHtml(state.calculationStatus || 'Gravity not calculated')}<br>${escapeHtml(state.message || '')}</span><button type="button" data-load-calc-tab="legacy">Advanced / legacy workflow</button></header>`;
   const freshness = state.distribution?.freshness?.status || 'NOT_CALCULATED';
   const authorization = state.authorizationState || {};
   const commonInput = state.commonInputState || {};

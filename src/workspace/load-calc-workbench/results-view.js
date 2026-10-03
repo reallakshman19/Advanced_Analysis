@@ -2,6 +2,7 @@ import { renderEngineeringLoadPane } from '../load-calc-current-system-view.js';
 import { renderEmpiricalScenarioResults } from '../engineering-loads/empirical-load-calc-scenario-view.js';
 import { requireEmpiricalResultOverlay } from '../engineering-loads/empirical-result-overlay.js';
 import { esc } from '../load-calc-preview-table.js';
+import { requireCurrentGravityReceipt, unallocatedGravityPaths } from './result-evidence.js';
 
 /** Additional display guard; existing owners still determine engineering currentness. */
 export function scenarioResultsDisplayable({ datasetId, scenario, overlay, authorizationCurrent }) {
@@ -26,11 +27,15 @@ export function scenarioResultsDisplayable({ datasetId, scenario, overlay, autho
 
 /** Delegates unchanged result values/controls to their existing presentation owners. */
 export function renderWorkbenchResults(container, bundle, renderers = {}) {
+  let exportable = false;
+  try { requireCurrentGravityReceipt(bundle); exportable = true; } catch { /* Withhold stale export. */ }
   container.innerHTML = `<section class="panel workbench-results"><h2>Calculated loads & separate estimates</h2>
     <p>Gravity, empirical screening and configured beam/contact results are separate evidence families.
       Missing projections are not zero. Preview edits do not change the calculation receipt.</p>
     <button type="button" data-load-calc-tab="seal-export">Export current input evidence</button>
+    <button type="button" data-workbench-gravity-export ${exportable ? '' : 'disabled'}>Download calculated gravity JSON</button>
     ${gravitySummary(bundle.distribution)}
+    ${unallocatedMarkup(bundle.distribution)}
     <details data-workbench-scenario><summary>Fv / Fa / Fl & moments — configured beam/contact scenario</summary>
       <div data-workbench-scenario-results></div></details>
     <div data-workbench-gravity></div></section>`;
@@ -58,8 +63,21 @@ export function renderWorkbenchResults(container, bundle, renderers = {}) {
       Fv (rest), Fa (line-stop), Fl (guide) and global moments require the existing method-owned restraint basis and execution;
       scalar gravity and unsigned Fh/line-stop estimates do not supply them.</p>
       <button type="button" data-load-calc-tab="restraints">Inspect existing scenario restraints</button>
+      <button type="button" data-load-calc-tab="scenario-setup">Set up calculation scenario</button>
       <button type="button" data-load-calc-tab="methods">Open existing scenario method & authorization</button>`;
   }
+}
+
+function unallocatedMarkup(distribution) {
+  const rows = unallocatedGravityPaths(distribution);
+  if (!rows.length) return '';
+  return `<details><summary>Unallocated gravity paths · ${rows.length} case/route entries</summary>
+    <p>The existing method found no qualified route-local vertical support for these contributions.
+    A bearing on another branch is not automatically a load-transfer path. Loads remain in the receipt, not discarded.</p>
+    <button type="button" data-load-calc-tab="topology">Inspect supports & topology</button>
+    <div class="table-scroll"><table><thead><tr><th>Case</th><th>Route</th><th>Unallocated N</th><th>Source components</th></tr></thead><tbody>
+    ${rows.map(row => `<tr><td>${esc(row.loadCaseId)}</td><td>${esc(row.routeId)}</td><td>${displayNumber(row.forceN)}</td>
+    <td>${row.entityIds.map(id => `<button type="button" data-load-support-entity-id="${esc(id)}">${esc(id)}</button>`).join(' ')}</td></tr>`).join('')}</tbody></table></div></details>`;
 }
 
 function gravitySummary(distribution) {

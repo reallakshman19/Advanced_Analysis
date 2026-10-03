@@ -38,6 +38,12 @@ import {
 } from './topology-edit/topology-edit-gap-autofix-policy.js';
 import { SUPPORT_RESTRAINT_EVENTS } from './support-restraint-events.js';
 import { TOPOLOGY_EVENTS } from './topology-events.js';
+import { TopologyStore } from './topology-store.js';
+import { SupportRestraintStore } from './support-restraint-store.js';
+import { ModelLoadStore } from './model-load-store.js';
+import { readCurrentWorkbenchResults } from './load-calc-workbench/current-results.js';
+import { createGravityResultExport, currentGravityStatus } from './load-calc-workbench/result-evidence.js';
+import { buildWorkbenchScenarioProposal, renderScenarioSetup } from './load-calc-workbench/scenario-setup.js';
 
 const EMPIRICAL_SCENARIO_VIEW_TABS = new Set([
   'overview', 'restraints', 'load-cases', 'methods', 'results', 'evidence', 'model-3d',
@@ -80,6 +86,8 @@ export class LoadCalcConsumerController {
     this.renderRevision = 0;
     this.workbenchController = null;
     this.workbenchState = null;
+    this.scenarioSetupDraft = '';
+    this.scenarioSetupFeedback = '';
     this.topologyEdit3DController = null;
     this.pending3dInvestigationEntityId = null;
     this.pendingCertifiedTopologyAutofix = false;
@@ -199,7 +207,7 @@ export class LoadCalcConsumerController {
     if (this.activeTab === 'workbench' && tab !== 'workbench' && tab !== '3d' && tab !== 'model-3d') {
       this.workbenchState ||= { stage: 1 };
       this.workbenchState.stage = tab === 'loads' || tab === 'seal-export' || tab === 'results' ? 3
-        : tab === 'verify' || tab === 'methods' || tab === 'restraints' ? 2
+        : tab === 'verify' || tab === 'methods' || tab === 'restraints' || tab === 'load-cases' || tab === 'scenario-setup' ? 2
           : tab === 'project-data' || tab === 'masters' ? 0 : 1;
       this.workbenchState.toolTab = tab === 'loads' || tab === 'verify' ? null : tab;
       return;
@@ -353,6 +361,30 @@ export class LoadCalcConsumerController {
   }
 
   handleClick(event) {
+    if (event.target.closest('[data-workbench-gravity-export]')) {
+      try {
+        const evidence = createGravityResultExport(readCurrentWorkbenchResults());
+        downloadJson(this.rootElement.ownerDocument, 'load-calc-calculated-gravity.json', evidence);
+        this.message = 'Current gravity receipt exported. Screening estimates and solved vectors are separate; no publication authority asserted.';
+      } catch (error) { this.message = error.message; }
+      this.render();
+      return;
+    }
+    if (event.target.closest('[data-workbench-scenario-configure]')) {
+      this.scenarioSetupDraft = this.rootElement.querySelector('[data-workbench-scenario-json]')?.value || '';
+      try {
+        const proposal = buildWorkbenchScenarioProposal(JSON.parse(this.scenarioSetupDraft), currentScenarioAuthorities());
+        const previousVersion = empiricalLoadCalcScenarioStore.getSnapshot().version;
+        this.eventBus.publish(EMPIRICAL_LOAD_CALC_SCENARIO_EVENTS.CONFIGURE_REQUESTED, proposal);
+        const snapshot = empiricalLoadCalcScenarioStore.getSnapshot();
+        this.scenarioSetupFeedback = snapshot.version > previousVersion
+          && empiricalLoadCalcScenarioStore.getProposal()?.adaptedRequest.semanticHash === proposal.adaptedRequest.semanticHash
+          ? `Scenario configured: ${snapshot.state}. Review Methods blockers before authorization.`
+          : `Scenario not configured: ${this.message || snapshot.reasonCode || snapshot.state}`;
+      } catch (error) { this.scenarioSetupFeedback = `Scenario not configured: ${error.message}`; }
+      this.render();
+      return;
+    }
     if (event.target.closest('[data-load-calc-weight-review]')) {
       void import('./load-calc-weight-review-dialog.js').then(({ openWeightReviewDialog }) => {
         openWeightReviewDialog({
@@ -513,6 +545,7 @@ export class LoadCalcConsumerController {
       activeTab: this.activeTab,
       currentWorkflowStepId: this.currentWorkflowStepId,
       message: this.message,
+      calculationStatus: currentGravityStatus(readCurrentWorkbenchResults()),
       distribution: engineeringModelStore.getDistribution(),
       currentCommonInputExecution,
       authorizedExecution: engineeringModelStore.getAuthorizedExecution(),
@@ -567,6 +600,9 @@ export class LoadCalcConsumerController {
           this.topologyPolicyFeedback,
           this.topologySkipError,
         );
+      } else if (tab === 'scenario-setup') {
+        if (revision === this.renderRevision) renderScenarioSetup(pane, currentScenarioAuthorities(),
+          empiricalState.snapshot, this.scenarioSetupDraft, this.scenarioSetupFeedback);
       } else if (EMPIRICAL_SCENARIO_VIEW_TABS.has(tab)) {
         const scenarioView = await import('./engineering-loads/empirical-load-calc-scenario-view.js');
         if (revision !== this.renderRevision) return;
@@ -587,6 +623,7 @@ export class LoadCalcConsumerController {
             workflowReadiness: createWorkflowReadiness(this.context, this.topologyCheck),
           }),
             ready: isRoutineRunReady(nonFeaCommonInputStore.getSnapshot()),
+            resultStatus: currentGravityStatus(readCurrentWorkbenchResults()),
             label: empiricalLoadCalcScenarioStore.getSnapshot()?.calculationEligible ? 'Run configured scenario' : 'Run gravity calculation',
             message: this.message || 'Run resolves and validates current inputs first. Non-READY inputs fail closed.' }),
         });
@@ -870,6 +907,14 @@ export class LoadCalcConsumerController {
     this.context = null;
     this.reviewModel = null;
   }
+}
+
+function currentScenarioAuthorities() {
+  const dataset = WorkspaceState.getSnapshot().dataset;
+  return { dataset, sharedModel: dataset?.sharedModel || null, topologyGraph: TopologyStore.getGraph(),
+    supportAttachmentModel: SupportRestraintStore.getAttachmentModel(),
+    restraintCapabilityModel: SupportRestraintStore.getRestraintModel(),
+    sourceLoadPrimitiveSet: ModelLoadStore.getLoadPrimitiveSet() };
 }
 
 /**

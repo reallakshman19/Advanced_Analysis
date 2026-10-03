@@ -1,7 +1,7 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
-  "current": "Owner requested seven deferred equipment masses=0kg. Popup now distinguishes explicit zero from blank/negative/nonfinite input and records truthful manual zero assumptions; current reviewed zeros omitted from pending review. Actual browser accepted203records/0proposals; all196 previous records unchanged, seven zero overrides added. Checker8/8; actual gravity EMPTY/OPE/HYD CALCULATED_WITH_EXCEPTIONS,37support rows each; current system receipt. OPE allocated80890.933N, unallocated704.683N,81exceptions. Configured scenario NOT_CONFIGURED; no Fa/Fl/global-moment completion. Seven focused checks, imports, shell, diff and production build PASS; broader suite/legacy NOT_RUN, previous failures retained.",
-  "evidence_ref": "relay/WORK/load-calc-explicit-zero-weight-v32-evidence.md",
+  "current": "New UI exposes reviewed scenario configuration and existing restraint/case/method authorization owners; imported authorities rejected. Actual source unallocated paths reviewed: B2/B5 no supports, B3 blank support type; mechanics unchanged. Benchmark explicitly labeled, actual current gravity/readiness separate. Fresh actual browser import-review-Run-results-export complete for gravity EMPTY/OPE/HYD with exceptions,37support rows each. Actual JSON preserves all203 accepted records/seven zeros in584 sealed effective records; custody/tamper tests PASS. Eight focused checks, imports, shell, diff and production build PASS. Actual full-vector scenario NOT_CONFIGURED; no bound runtime profile; Fa/Fl/global moments NOT_RUN. Broader suite/legacy NOT_RUN, historical failures retained.",
+  "evidence_ref": "relay/WORK/load-calc-new-ui-v32-evidence.md",
   "frontier": {
     "delta_commits": 0,
     "material_head": "520c80e00e2669f978f5d5e9b9b9cec499831a9a",
@@ -9,17 +9,17 @@
     "relation": "ALIGNED",
     "semantic_evidence_head": "520c80e00e2669f978f5d5e9b9b9cec499831a9a"
   },
-  "next": "Same draft PR1915/worktree and retained browser15 localhost5174; preserve Project Data12 and actual203-record sidecar with seven owner-requested zero assumptions. Gravity now executed current with exceptions; inspect qualified route-local bearing paths/unallocated demand and existing scenario configuration wiring next. Fa/Fl/global moments require applicable method-owned restraint basis/execution; no invented restraints/stiffness/signs/qualification or zero full-vector projections. No repeated qualification questions, merge/release, source/master authority or mechanics changes.",
+  "next": "Same draft PR1915/worktree, actual Results tab15 localhost5174 and approved Project Data12/203-record sidecar retained. Gravity run/export verified with exceptions. New scenario setup uses existing current authority owners; actual Fa/Fl/global-moment leg requires a legitimate reviewed source-bound applicable profile/case/restraint basis, currently absent. Source-backed support correction needed for unallocated paths, not automatic invented REST/cross-branch bearings. Preserve mechanics, signs, stiffness/source/master/qualification and publication boundaries; no repeated qualification questions, merge/release or completion claim.",
   "observability": {
     "provider_sync": {
       "status": "NOT_CONFIGURED"
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "MATERIAL_FRONTIER_REFRESH"
+    "update_reason": "TASK_RESULT"
   },
-  "owner_decision": "Explicit owner instruction: assign the seven deferred equipment weights to 0 kg.",
-  "plan_ref": "relay/WORK/load-calc-explicit-zero-weight-v32-plan.md",
+  "owner_decision": "Explicit owner instruction: execute the four next priorities in the existing new-UI draft; prior seven equipment zero-weight approvals retained.",
+  "plan_ref": "relay/WORK/load-calc-new-ui-completion-v32-plan.md",
   "progress": {
     "active_unit": "FULL_VECTOR_LOADS",
     "completed_units": 1,
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "Seven explicit zero mass overrides accepted; all196 previous records unchanged. Actual EMPTY/OPE/HYD gravity calculated with exceptions,37support rows each. Seven focused checks/imports/shell/diff/build PASS; configured full-vector scenario NOT_CONFIGURED; broader checks NOT_RUN, prior failures retained.",
+    "coverage": "New-UI scenario setup owner wiring, actual unallocated source review, truthful benchmark/calculation status and fresh actual gravity Run/export verified. All203 accepted records and7 zeros preserved. Eight focused checks/imports/shell/diff/build PASS. Actual Fa/Fl/global-moment execution NOT_RUN, scenario NOT_CONFIGURED; protected runtime profile/case/restraint authority absent. Broader suite/legacy NOT_RUN, prior failures retained.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },

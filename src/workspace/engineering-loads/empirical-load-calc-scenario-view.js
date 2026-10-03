@@ -99,6 +99,7 @@ export function renderEmpiricalScenarioMethods(container, state) {
         'Qualified profiles are locked. Editing begins by cloning to a new unqualified version.',
       )}
       <div class="engineering-actions" data-empirical-scenario-actions>
+        <button type="button" data-load-calc-tab="scenario-setup">Set up calculation scenario</button>
         <button type="button" class="button button--secondary" data-empirical-clone-profile
           ${proposal ? '' : 'disabled'}>Clone profile</button>
         <button type="button" class="button button--secondary" data-empirical-authorize

@@ -19,7 +19,7 @@ function applicationMarkup() {
       <nav class="application-navigation" data-role="application-navigation" aria-label="Application views"></nav>
       <output data-role="application-navigation-status" aria-live="polite"></output>
       <div class="top-bar-meta">
-        <span data-role="tab-benchmark-status" data-benchmark-tab="WORKSPACE" data-status="Unknown"><strong data-role="tab-benchmark-value">Not run</strong><a data-role="tab-benchmark-evidence" hidden>Evidence</a></span>
+        <span data-role="tab-benchmark-status" data-benchmark-tab="WORKSPACE" data-status="Unknown" title="Benchmark qualification, separate from load calculation">Benchmark: <strong data-role="tab-benchmark-value">Not run</strong><a data-role="tab-benchmark-evidence" hidden>Evidence</a></span>
         <span>Dataset: <strong data-role="topbar-dataset">None loaded</strong></span>
       </div>
     </header>

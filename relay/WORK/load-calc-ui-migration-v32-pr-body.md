@@ -1,4 +1,14 @@
-## Latest leg — explicit seven zero masses; actual gravity calculated with exceptions
+## Latest leg — new UI scenario setup, truthful status and verified calculated gravity export
+
+Owner requested the four next priorities. Added a reviewed scenario setup entry inside the workbench, rebuilding the existing adapter against current workspace-owned source authorities; configure/authorize/calculate remain existing-owner actions. No imported authority replacement, default stiffness or profile qualification promotion. Added unallocated route/component review, explicitly labeled benchmark qualification, and separate actual gravity/readiness status.
+
+Actual fresh Sjson browser import/review/Run/Results/export passed: EMPTY/OPE/HYD CALCULATED_WITH_EXCEPTIONS,37support rows each; all203 accepted records/seven zero assumptions retained unchanged in the584-record sealed effective sidecar. Allocated79790.710/80890.933/96211.950N; unallocated704.604/704.683/705.778N. Actual downloaded JSON revalidated with stale/source/seal/request/value/sidecar negatives. No publication authority; Fh screening and unavailable Fa/Fl/global moments are not synthesized as solved reactions. Actual source B2/B5 have no supports, B3 has a blank support type; no assumed cross-branch transfer.
+
+Eight focused checks, imports, shell, diff and production build/bundle guard PASS. Existing fixture/build warnings and historical broader-suite/legacy failures retained; those broader checks NOT_RUN this leg. Synthetic scenario positive/negative checks PASS; actual full-vector execution NOT_RUN / NOT_CONFIGURED (no runtime profile bound). ResultScope STEP, ResponsibilityComplete NO; same draft, denominator3/P/E1/3 unchanged. No merge/release/workflow/mechanics/source/master authority changes.
+
+[Current evidence and changed-file manifest](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-new-ui-v32-evidence.md) · [Actual new-UI results](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-new-ui-v32-results.png)
+
+## Earlier explicit seven zero masses leg — historical
 
 Owner explicitly requested weight=0 for the seven deferred items. Fixed the popup's positive-only rejection: typed0 is a reviewed manual ACCEPTED_OVERRIDE assumption; blanks/negative/nonfinite values remain rejected. Current reviewed zeros no longer recur in pending review; unsupported master zeros do. No master/source/mechanics/qualification authority changed.
 
