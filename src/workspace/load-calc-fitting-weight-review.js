@@ -177,7 +177,12 @@ function currentResolvedWeights(sourceModel, sidecar) {
     if (ledger.status !== 'READY') return new Set();
     return new Set(ledger.rows.filter((row) => row.status === 'RESOLVED'
       && row.targetKind === 'COMPONENT' && row.fieldId === 'COMPONENT_WEIGHT'
-      && Number.isFinite(Number(row.selected?.value)) && Number(row.selected.value) > 0)
+      && typeof row.selected?.value === 'number' && Number.isFinite(row.selected.value)
+      && (row.selected.value > 0 || (row.selected.value === 0
+        && row.selected.authority === 'ACCEPTED_OVERRIDE'
+        && row.selected.sourceId === 'manual-weight-review'
+        && row.selected.evidence?.zeroWeightAssumption === true
+        && row.selected.evidence?.reviewerSelected === true)))
       .map((row) => row.targetId));
   } catch { return new Set(); }
 }
@@ -244,6 +249,10 @@ export function fittingWeightRecordFor(row, candidate, candidateIndex, masters) 
     sourceId: candidate.manualEntry ? 'manual-weight-review' : masters?.weight?.fileName || 'weight',
     revision: candidate.manualEntry ? row.sourceSemanticHash : masters?.weight?.sourceHash || 'NOT_AVAILABLE',
     evidence: {
+      ...(candidate.manualEntry && candidate.weightKg === 0 ? {
+        zeroWeightAssumption: true,
+        assumptionBasis: 'Explicit reviewer-entered zero mass; missing equipment self-weight intentionally omitted. Not a verified physical mass.',
+      } : {}),
       matchMode: candidate.manualEntry ? 'REVIEWED_MANUAL_VALUE'
         : candidate.familyQualified ? 'BORE_RATING_INSTRUMENT_FAMILY'
         : candidate.lengthQualified ? 'BORE_RATING_LENGTH' : 'BORE_RATING_ONLY',

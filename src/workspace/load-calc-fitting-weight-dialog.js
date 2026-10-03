@@ -66,11 +66,13 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar
       review.rows.forEach((row) => {
         const input = inputFor(row.targetId);
         if (!input) return;
+        // An empty field is not a reviewed zero-weight assumption.
+        if (String(input.value).trim() === '') return;
         const value = Number(input.value);
-        if (!Number.isFinite(value) || value <= 0) return;
+        if (!Number.isFinite(value) || value < 0) return;
         const index = Number(input.dataset.lcfwSelectedIndex ?? row.bestCandidateIndex ?? -1);
         const selected = row.candidates[index];
-        const candidate = selected && Number(selected.weightKg) === value ? selected
+        const candidate = value > 0 && selected && Number(selected.weightKg) === value ? selected
           : { weightKg: value, typeDesc: 'MANUAL', manualEntry: true, lengthQualified: false,
             reason: 'Reviewer-entered mass; catalogue suggestions are not the source of this value.' };
         records.push(fittingWeightRecordFor(row, candidate, candidate.manualEntry ? -1 : index, masters));
@@ -107,7 +109,7 @@ function markup(review) {
       ${summary.singleCandidate} match one row outright, ${summary.clearWinner} have a clear ranked winner among several,
       ${summary.needsChoice} are genuinely tied, and ${summary.unresolvable} have no candidate at all.
       Only clear dimension/family matches are prefilled. Factor, interpolation and bore/rating-only suggestions stay blank until explicitly reviewed.
-      Every weight below is editable before applying. Closing this review defers it; no item is excluded or zeroed.</p>
+      Every weight below is editable before applying. An explicitly entered 0 kg records a reviewed zero-weight assumption, not a catalogue mass. Blank fields remain unresolved. Closing this review defers it; no item is excluded or zeroed.</p>
     <div class="lcfw-table-wrap">
       <table class="lcfw-table">
         <thead><tr>

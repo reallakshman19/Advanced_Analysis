@@ -1,4 +1,14 @@
-## Latest leg — pending-only weight review; current build PASS; loads still blocked
+## Latest leg — explicit seven zero masses; actual gravity calculated with exceptions
+
+Owner explicitly requested weight=0 for the seven deferred items. Fixed the popup's positive-only rejection: typed0 is a reviewed manual ACCEPTED_OVERRIDE assumption; blanks/negative/nonfinite values remain rejected. Current reviewed zeros no longer recur in pending review; unsupported master zeros do. No master/source/mechanics/qualification authority changed.
+
+Actual connector entered/staged/accepted seven zeros and exported203 records. Deep comparison proves all196 previous records unchanged. Actual Run completed for EMPTY/OPE/HYD,37 support rows each, current system-run receipt. Allocated gravity79790.710/80890.933/96211.950 N; unallocated704.604/704.683/705.778 N. Status CALCULATED_WITH_EXCEPTIONS,81 exceptions per case; excluded inputs0. This supersedes the earlier missing-mass blocker. Missing configured scenario did not block gravity; Fa/Fl/global moments still NOT_RUN/NOT_CONFIGURED, not fabricated zeros. Signed overhang transfer demands are not solved global support moments.
+
+PASS: seven focused weight/routing/results/migration checks, imports, shell contract, diff, current production build/bundle guard, actual browser gravity and actual export delta. Fixture relative-fetch warnings retained; broader-suite/legacy checks NOT_RUN this leg, previous failures retained. ResultScope STEP; ResponsibilityComplete NO; same draft PR, denominator3 unchanged; no merge/release.
+
+[Current evidence/file manifest](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-explicit-zero-weight-v32-evidence.md) · [Actual calculated results](https://github.com/reallaksh19/Advanced_Analysis/blob/codex/load-calc-workbench-review/relay/WORK/load-calc-explicit-zero-weight-v32-results.png)
+
+## Earlier pending-only weight review leg — historical
 
 The catalogue popup now shows only unresolved manual items, using the existing current source-bound enrichment resolver. It omits24 resolved weights, leaves unsupported factor/interpolation/bore-only suggestions blank, guards bulk fill, binds review to accepted inputs and stages typed masses as ACCEPTED_OVERRIDE rather than falsely claiming exact master provenance. No mass/source/master/mechanics/qualification data changed.
 

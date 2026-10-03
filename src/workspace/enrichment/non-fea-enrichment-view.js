@@ -360,7 +360,9 @@ function reviewFittingWeights(documentRef, onChanged) {
     onAccept: (records) => {
       records.forEach((record) => nonFeaEnrichmentStore.stageProposal({
         proposalId: record.recordId,
-        rationale: `Reviewer selected ${record.evidence.selectedTypeDesc} from ${record.evidence.candidateCount} catalogue candidate(s) for ${record.evidence.componentDescription || record.selectorKey}.`,
+        rationale: record.evidence.zeroWeightAssumption
+          ? `Explicit reviewed 0 kg assumption for ${record.evidence.componentDescription || record.selectorKey}; equipment self-weight omitted, not a verified physical mass.`
+          : `Reviewer selected ${record.evidence.selectedTypeDesc} from ${record.evidence.candidateCount} catalogue candidate(s) for ${record.evidence.componentDescription || record.selectorKey}.`,
         record,
       }));
       if (records.length > 0) {
