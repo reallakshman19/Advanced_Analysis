@@ -51,7 +51,7 @@ for (const [caseId, density] of [['EMPTY', 0], ['OPE', 800], ['HYD', 1000]]) {
 }
 assert.equal(row.component.engineeringProperties.wallThicknessMm.value, 5, 'Pending wall14.2748 cannot replace effective wall5');
 assert.equal(row.proposed[0].record.value, 14.2748);
-assert.equal(filterReviewRows(review.rows, { category: 'sections' }).length, 2, 'Sections includes pending proposals even if effective values exist');
+assert.equal(filterReviewRows(review.rows, { category: 'sections' }).length, 1, 'Sections includes pending pipe proposals, not independent fitting-section review');
 const deferrals = new ReviewDeferrals();
 deferrals.bind('A');
 deferrals.defer(point, 'EMPTY', 'Awaiting qualified placement');

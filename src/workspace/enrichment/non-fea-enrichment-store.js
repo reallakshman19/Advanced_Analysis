@@ -177,6 +177,42 @@ export class NonFeaEnrichmentStore {
     }, 'ENRICHMENT_RECORD_ACCEPTED', 'An approximate master match was explicitly reviewed and applied as one transaction.');
   }
 
+  /** Explicit table Apply only: same proposal validators, one atomic weight transaction. */
+  applyReviewedComponentWeights(inputs, decision = {}) {
+    if (decision.weightReviewConfirmed !== true || !Array.isArray(inputs) || !inputs.length) {
+      throw new TypeError('Explicit component-weight review is required.');
+    }
+    const currentHash = requiredSourceHash(this.#snapshot.currentSourceSemanticHash);
+    if (this.#snapshot.stale || (this.#snapshot.boundSourceSemanticHash && this.#snapshot.boundSourceSemanticHash !== currentHash)) {
+      throw new TypeError('Accepted records are stale. Reopen weight review for the current source.');
+    }
+    const ids = new Set();
+    const recordsById = new Map(this.#snapshot.acceptedRecords.map(record => [record.recordId, record]));
+    for (const input of inputs) {
+      if (input.fieldId !== 'COMPONENT_WEIGHT' || input.selectorKind !== 'ENTITY'
+          || input.unit !== 'kg' || typeof input.value !== 'number' || !Number.isFinite(input.value) || input.value < 0
+          || input.recordId !== `loadcalc-fitting-weight:${input.selectorKey}`
+          || input.evidence?.sourceSemanticHash !== currentHash || input.evidence?.reviewerSelected !== true
+          || input.migration || ids.has(input.recordId)
+          || !['ACCEPTED_OVERRIDE', 'EXACT_APPROVED_MASTER'].includes(input.authority)
+          || (input.value === 0 && (input.authority !== 'ACCEPTED_OVERRIDE'
+            || input.sourceId !== 'manual-weight-review' || input.evidence?.zeroWeightAssumption !== true))) {
+        throw new TypeError('Only unique current, explicitly reviewed component weights can be applied.');
+      }
+      ids.add(input.recordId);
+      const proposal = createNonFeaEnrichmentProposal({ proposalId: input.recordId, record: input,
+        rationale: input.evidence.zeroWeightAssumption ? 'Explicit Skip: equipment weight assumed 0 kg.' : 'Explicit editable-table weight review.' });
+      if (requiresApproximateMatchReview(proposal)) throw new TypeError('Approximate matches require their own review.');
+      recordsById.set(input.recordId, acceptNonFeaEnrichmentProposal(proposal, decision));
+    }
+    const records = [...recordsById.values()];
+    createNonFeaEnrichmentSidecar({ sourceSemanticHash: currentHash, records });
+    return this.#updateAuthority({ acceptedRecords: records, boundSourceSemanticHash: currentHash, stale: false,
+      proposals: this.#snapshot.proposals.filter(proposal => !ids.has(proposal.proposalId)),
+      message: `Applied ${ids.size} reviewed component weights. Zero values are explicit assumptions.`, error: '',
+    }, 'ENRICHMENT_RECORD_ACCEPTED', 'Explicitly reviewed component weights applied as one transaction.');
+  }
+
   acceptAllProposals() {
     if (this.#snapshot.migrationReport?.blockers?.length) {
       throw new TypeError('Resolve migration blockers before accepting all migrated records.');

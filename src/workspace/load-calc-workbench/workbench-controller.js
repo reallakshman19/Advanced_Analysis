@@ -1,9 +1,10 @@
 import { filterReviewRows, ReviewDeferrals } from './workbench-model.js';
-import { shellMarkup, rowsMarkup, evidenceMarkup, weightsMarkup, specialCategoryMarkup } from './workbench-view.js';
+import { shellMarkup, rowsMarkup, pipeSectionGroupsMarkup, evidenceMarkup, weightsMarkup, specialCategoryMarkup } from './workbench-view.js';
+import { openWeightReviewSettings } from '../load-calc-weight-review-settings.js';
 
 export function createWorkbenchState() {
   return { stage: 1, category: 'all', caseId: 'EMPTY', query: '', branch: '',
-    unresolvedOnly: false, deferrals: new ReviewDeferrals(), selectedId: null, toolTab: null };
+    unresolvedOnly: false, deferrals: new ReviewDeferrals(), selectedId: null, toolTab: null, sectionBore: '' };
 }
 
 /** Owns only view state. Preparation and freshness are explicit injected seams. */
@@ -76,7 +77,8 @@ export class WorkbenchController {
     if (!target) return;
     target.innerHTML = ['supports', 'other'].includes(this.state.category)
       ? specialCategoryMarkup(this.review, this.state.category)
-      : rowsMarkup(this.filteredRows(), this.state, this.review.rows.length);
+      : this.state.category === 'sections' ? pipeSectionGroupsMarkup(this.filteredRows(), this.state, this.review.rows)
+        : rowsMarkup(this.filteredRows(), this.state, this.review.rows.length, this.review.rows);
   }
   render() {
     this.root.innerHTML = shellMarkup(this.review, this.state, this.getRunAvailability?.());
@@ -118,10 +120,14 @@ export class WorkbenchController {
   click(event) {
     const button = event.target.closest('button');
     if (!button) return;
+    if (button.hasAttribute('data-weight-review-settings')) {
+      openWeightReviewSettings({ documentRef: this.root.ownerDocument, onApplied: () => this.refresh() }); return;
+    }
     if (button.dataset.action === 'refresh') { this.refresh(); return; }
     // Navigation bubbles to the existing route owner, not an alternate runner.
     if (button.dataset.loadCalcTab || button.hasAttribute('data-load-calc-run')
-      || button.hasAttribute('data-load-calc-import') || button.hasAttribute('data-load-calc-weight-review')) return;
+      || button.hasAttribute('data-load-calc-import') || button.hasAttribute('data-load-calc-weight-review')
+      || button.hasAttribute('data-load-calc-apply-approved-pipe-inputs') || button.hasAttribute('data-pipe-section-branch')) return;
     if (button.dataset.action === 'close-tool') { this.state.toolTab = null; this.refresh(); return; }
     if (!this.checkCurrent()) return;
     const data = button.dataset;
@@ -129,7 +135,7 @@ export class WorkbenchController {
       this.state.stage = Number(data.stage); this.state.toolTab = null; this.refresh();
       this.root.querySelector(`[data-stage="${this.state.stage}"]`)?.focus();
     } else if (data.category) {
-      this.state.category = data.category; this.render();
+      this.state.category = data.category; this.state.sectionBore = ''; this.render();
       this.root.querySelector(`.category-nav [data-category="${this.state.category}"]`)?.focus();
     } else if (data.review) this.openEvidence(data.review);
     else if (data.weightReview) this.openEvidence(data.weightReview, true);
@@ -160,6 +166,7 @@ export class WorkbenchController {
     const filter = event.target.dataset.filter;
     if (!filter || filter === 'query' || !this.checkCurrent()) return;
     this.state[filter] = filter === 'unresolvedOnly' ? event.target.checked : event.target.value;
+    if (filter === 'branch') this.state.sectionBore = '';
     if (filter === 'caseId') {
       this.render(); this.root.querySelector('[data-filter="caseId"]')?.focus();
     } else this.renderContent();

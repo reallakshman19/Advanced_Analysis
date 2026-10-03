@@ -5,7 +5,8 @@ import { evidenceNumber } from '../core/model-loads/units.js';
 import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
 
 /** Observational review only: reuse the resolver; never supply replacement evidence. */
-export function buildWeightReviewRows({ components = [], methodRows = [], loadCaseIds = ['EMPTY'] } = {}) {
+export function buildWeightReviewRows({ components = [], entities = [], methodRows = [], loadCaseIds = ['EMPTY'], reviewPolicy } = {}) {
+  const sources = new Map(entities.map(entity => [entity.entityId, entity]));
   const missing = new Map();
   for (const method of methodRows) for (const coverage of method.coverageRequirements || []) {
     if (coverage.requirementId !== 'MASS_COVERAGE') continue;
@@ -21,6 +22,9 @@ export function buildWeightReviewRows({ components = [], methodRows = [], loadCa
   const byId = new Map(components.map((component) => [component.componentKey, component]));
   for (const id of missing.keys()) if (!byId.has(id)) byId.set(id, { componentKey: id, type: 'UNKNOWN', engineeringProperties: {}, geometry: {} });
   return [...byId.values()].map((component) => {
+    const source = sources.get(component.sourceEntityId) || sources.get(component.componentKey);
+    const description = source?.properties?.sourceAttributes?.DTXR || source?.properties?.attributes?.DTXR || '';
+    const manualReviewRequired = isManualWeightReviewType(component.type, { component, description }, reviewPolicy);
     const derived = derivePipeLikeFittingWeightEvidence(component, components);
     const effective = derived ? { ...component, engineeringProperties: {
       ...component.engineeringProperties, componentWeightKg: derived,
@@ -31,6 +35,7 @@ export function buildWeightReviewRows({ components = [], methodRows = [], loadCa
       branchId: component.identity?.branchId || '',
       missing: [...(missing.get(component.componentKey) || [])].sort(),
       component,
+      description, manualReviewRequired,
       derived,
       sectionReview: reviewPipeLikeFittingSection(component, components),
       cases: Object.fromEntries(loadCaseIds.map((id) => [id, resolveComponentCaseMass(effective, id, profile)])),
@@ -69,7 +74,7 @@ export class WeightReviewSession {
   }
   skip(binding, entityId, reason, rows) {
     if (binding !== this.binding) throw new Error('Weight review changed; reopen the popup.');
-    if (!rows.some((row) => row.entityId === entityId && row.missing.length && isManualWeightReviewType(row.type))) {
+    if (!rows.some((row) => row.entityId === entityId && row.missing.length && (row.manualReviewRequired ?? isManualWeightReviewType(row.type, row)))) {
       throw new Error('Only a current unresolved manual weight-review row can be deferred.');
     }
     if (!String(reason || '').trim()) throw new Error('Enter a reason before skipping.');

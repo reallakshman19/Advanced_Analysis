@@ -1,7 +1,9 @@
 import { normalizeWorkspaceDataset } from '../dataset-adapter.js';
 import { projectEngineeringLoadSources } from '../../core/model-loads/load-source-projection.js';
 import { buildPipingPortTopologyGraph } from '../../core/piping-topology/index.js';
-import { buildLoadCalcPreview, effectivePreviewFields } from '../load-calc-preview-model.js';
+import { buildLoadCalcPreview, effectivePreviewFields, previewWeightStatus } from '../load-calc-preview-model.js';
+import { isManualWeightReviewType } from '../load-calc-weight-review-scope.js';
+import { needsPipeSectionReview, sectionBore } from './pipe-section-review.js';
 
 export const CASES = Object.freeze(['EMPTY', 'OPE', 'HYD']);
 export const STAGES = Object.freeze(['Import & setup', 'Review inputs', 'Calculate', 'Results & export']);
@@ -32,6 +34,7 @@ export function rowProblems(row, caseId) {
 }
 
 export function sectionMissing(row) {
+  if (previewWeightStatus(row, 'EMPTY').sectionNotRequired) return [];
   return effectivePreviewFields(row).slice(0, 3).filter((field) => field.value === null);
 }
 
@@ -39,27 +42,29 @@ export function reviewSummary(review, caseId, deferred = new Map()) {
   requireCase(caseId);
   const affected = review.rows.filter((row) => row.needsReview || !row.cases[caseId].ok);
   const coverage = review.rows.filter((row) => row.cases[caseId].ok).length;
-  const sections = review.rows.filter((row) => sectionMissing(row).length).length;
+  const sections = review.rows.filter(needsPipeSectionReview).length;
+  const manualPending = review.rows.filter(row => (row.manualReviewRequired ?? isManualWeightReviewType(row.type, row)) && !previewWeightStatus(row, caseId).available).length;
   const groups = review.issueGroups || [
     ...(review.sourceLengthUnit === 'unknown' ? [{ id: 'other', title: 'Confirm source units', count: review.rows.length,
       detail: 'Global length unit is not supplied. No project fallback is applied in this source-only preview.' }] : []),
     ...(sections ? [{ id: 'sections', title: 'Review sections & materials', count: sections,
-      detail: 'Source descriptions are not accepted master assignments. Review OD, wall and metal density.' }] : []),
-    ...(coverage < review.rows.length ? [{ id: 'weights', title: 'Complete mass evidence', count: review.rows.length - coverage,
-      detail: `${caseId} case mass is unresolved. Dry estimates alone do not qualify fittings or mass placement.` }] : []),
+      detail: 'Review each branch + bore pipe basis once. Dependent fittings reuse it automatically.' }] : []),
+    ...(manualPending ? [{ id: 'weights', title: 'Review equipment weights', count: manualPending,
+      detail: 'Only the equipment families and instrument bore threshold selected in Weight review settings.' }] : []),
   ];
   return { affected: affected.length, coverage, total: review.rows.length, groups,
     deferred: affected.filter((row) => deferred.has(row.entityId)).length };
 }
 
-export function filterReviewRows(rows, { query = '', branch = '', category = 'all', caseId = 'EMPTY', unresolvedOnly = false } = {}) {
+export function filterReviewRows(rows, { query = '', branch = '', category = 'all', caseId = 'EMPTY', unresolvedOnly = false, sectionBore: bore = '' } = {}) {
   requireCase(caseId);
   const needle = query.trim().toLowerCase();
   return rows.filter((row) => (!branch || row.branchId === branch)
+    && (category !== 'sections' || bore === '' || sectionBore(row) === Number(bore))
     && `${row.entityId} ${row.branchId} ${row.type} ${row.description} ${row.component.identity?.lineId || ''}`.toLowerCase().includes(needle)
     && (!unresolvedOnly || row.needsReview || !row.cases[caseId].ok)
-    && (category === 'all' || (category === 'sections' && (sectionMissing(row).length || row.proposed.length))
-      || (category === 'weights' && !row.cases[caseId].ok)));
+    && (category === 'all' || (category === 'sections' && needsPipeSectionReview(row))
+      || (category === 'weights' && (row.manualReviewRequired ?? isManualWeightReviewType(row.type, row)))));
 }
 
 /** UI deferral only: never changes rows, coverage, inputs or execution eligibility. */
@@ -84,5 +89,6 @@ const FRIENDLY = Object.freeze({
   UNIT_BLOCKED: 'Confirm the source length unit', MISSING_GEOMETRY: 'Review missing geometry',
   PIPE_SECTION_REQUIRED: 'Review the pipe section', COMPONENT_WEIGHT_REQUIRED: 'Provide qualified component weight',
   APPLICATION_POINT_REQUIRED: 'Confirm mass application point', MATERIAL_DENSITY_REQUIRED: 'Confirm metal density',
+  MISSING_COMPONENT_COG: 'Load location missing · CoG/application point required',
 });
 export function problemLabel(code) { return FRIENDLY[code] || String(code).replaceAll('_', ' ').toLowerCase(); }

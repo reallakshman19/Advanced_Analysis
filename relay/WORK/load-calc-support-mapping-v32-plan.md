@@ -1,0 +1,7 @@
+# PLAN_UPDATE — consolidated support mapping review
+
+Owner requests a popup link with SVG/3D location, REST fallback proposals and explicit confirmation, consolidating missing support mapping items. Same responsibility/worktree/draft PR1915; Common v3.2 exact basis149770a21ca073df49717a96e2106c967adddc2d. STEP only; denominator unchanged.
+
+Use SVG from source geometry, not a solver view. Consolidate missing/unmapped support kinds, current attachment/capability diagnostics and unallocated branches (including zero-demand paths). Existing untyped support records may offer exact-entity REST fallback proposals, unchecked until explicit reviewer confirmation. Missing support records cannot become invented bearings. Preserve source, memberships, coordinates and protected statics. Reuse existing enrichment acceptance and stale-input machinery; do not accept in the live dataset on the owner's behalf. If the scalar owner cannot consume a confirmed exact mapping, add only an execution-local input adapter bound to the sealed mapping evidence, with no mechanics/default-precedence change. Old receipts without a mapping must remain unchanged.
+
+Validate actual Sjson diagnosis, exact selectors, no implicit confirmation, stale-source/input rejection, conflicting authority, source immutability, SVG escaping/coordinates and current-run custody. Browser verify consolidated list, branch locator, selection and confirmation/cancellation; leave actual REST approval pending. Focused checks, imports, shell, build and diff. No merge/release/workflow changes.

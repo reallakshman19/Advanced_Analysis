@@ -3,7 +3,9 @@ import { evidenceNumber } from '../core/model-loads/units.js';
 import { buildPipingPortTopologyGraph } from '../core/piping-topology/index.js';
 import { projectDataEntry } from './project-data/project-data-contract.js';
 import { buildWeightReviewRows, weightReviewMassValues, WeightReviewSession } from './load-calc-weight-review-model.js';
-import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
+import { readWeightReviewPolicy } from './load-calc-weight-review-scope.js';
+import { openWeightReviewSettings } from './load-calc-weight-review-settings.js';
+import { WorkspaceState } from './workspace-state.js';
 
 const session = new WeightReviewSession();
 const value = (evidence) => evidenceNumber(evidence);
@@ -19,9 +21,10 @@ export function openWeightReviewDialog({ documentRef, snapshot, status, getSnaps
     lengthUnitFallback: projectDataEntry(request.projectDataProfile, 'sourcesAndUnits.lengthUnit'),
   });
   const rows = buildWeightReviewRows({ components: projection.components,
+    entities: WorkspaceState.getSnapshot().dataset?.entities || [],
     methodRows: status.commonInput.methodRows, loadCaseIds: ['EMPTY', 'OPE', 'HYD'] })
-    .filter((row) => isManualWeightReviewType(row.type));
-  const binding = `${request.semanticHash}:${snapshot.report?.semanticHash}`;
+    .filter((row) => row.manualReviewRequired);
+  const binding = `${request.semanticHash}:${snapshot.report?.semanticHash}:${JSON.stringify(readWeightReviewPolicy())}`;
   session.bind(binding);
   const previousFocus = documentRef.activeElement;
   const dialog = documentRef.createElement('dialog');
@@ -33,7 +36,7 @@ export function openWeightReviewDialog({ documentRef, snapshot, status, getSnaps
     result[row.type] = (result[row.type] || 0) + 1; return result;
   }, {})).map(([type, count]) => `${count} ${type}`).join(' · ');
   dialog.innerHTML = `${styles()}<header><div><small>WEIGHT & CONTENTS · CURRENT INPUT</small><h2 id="lcwr-title">Weight review</h2></div><button type="button" data-close aria-label="Close weight review">✕</button></header>
-    <p class="lcwr-banner">Manual weight review: valves, flanges, instruments, relief valves and UZV only. ${missingRows.length} unresolved review items${counts ? `: ${escape(counts)}` : ''}. Pipes, elbows, tees, olets, reducers and end caps are outside manual review; their weights belong to the automatic pipe-weight path.</p>
+    <p class="lcwr-banner">Equipment review uses your selected families; instrument bore must be above ${readWeightReviewPolicy().instrumentAboveMm} mm (unknown bore stays visible). ${missingRows.length} unresolved review items${counts ? `: ${escape(counts)}` : ''}. Standard fittings use the existing automatic weight path; missing gasket weight defaults to 0 kg.</p><button type="button" data-weight-settings>Weight review settings…</button>
     <div class="lcwr-tools"><label>Find entity / branch<input data-search type="search" placeholder="Entity ID, type or branch"></label><label>Show<select data-filter><option value="all">All review items</option><option value="unresolved">Unresolved review items</option><option value="skipped">Skipped review</option></select></label><label>Load case<select data-case><option>EMPTY</option><option>OPE</option><option>HYD</option></select></label></div>
     <p class="lcwr-progress" data-progress></p><div class="lcwr-items" data-weight-items></div>
     <section class="lcwr-detail" data-detail><strong>Inspect a row to see its section, densities and derivation basis.</strong></section>
@@ -44,7 +47,7 @@ export function openWeightReviewDialog({ documentRef, snapshot, status, getSnaps
   let selectedId = null;
   const current = () => {
     const live = getSnapshot();
-    return binding === `${live.request?.semanticHash}:${live.report?.semanticHash}`;
+    return binding === `${live.request?.semanticHash}:${live.report?.semanticHash}:${JSON.stringify(readWeightReviewPolicy())}`;
   };
   const note = (text) => { dialog.querySelector('[data-note]').textContent = text; };
   function renderRows() {
@@ -73,6 +76,9 @@ export function openWeightReviewDialog({ documentRef, snapshot, status, getSnaps
     if (event.target.matches('[data-case], [data-filter]')) renderRows();
   });
   dialog.addEventListener('click', (event) => {
+    if (event.target.closest('[data-weight-settings]')) {
+      openWeightReviewSettings({ documentRef, onApplied: () => { dialog.close(); openWeightReviewDialog({ documentRef, snapshot: getSnapshot(), status, getSnapshot }); } }); return;
+    }
     const summary = event.target.closest('[data-weight-item] > summary');
     if (summary) { selectedId = summary.parentElement.dataset.weightItem; renderDetail(rows.find((row) => row.entityId === selectedId)); }
     if (event.target.closest('[data-close]')) return dialog.close();

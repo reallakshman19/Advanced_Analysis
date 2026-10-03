@@ -37,13 +37,15 @@ assert.equal(candidates.rows.length, manual.length, 'Catalogue review uses same 
 assert.ok(candidates.rows.every(row => isManualWeightReviewType(row.type)));
 const raw = JSON.parse(readFileSync(new URL('../public/fixtures/Sjson.json', import.meta.url), 'utf8'));
 const dataset = normalizeWorkspaceDataset(raw, 'Sjson.json');
-const actual = buildWeightReviewRows({ components: dataset.sharedModel.components });
-const actualReview = actual.filter(row => isManualWeightReviewType(row.type));
+const actual = buildWeightReviewRows({ components: dataset.sharedModel.components, entities: dataset.entities });
+const actualReview = actual.filter(row => row.manualReviewRequired);
 assert.ok(actualReview.length > 0 && actualReview.length < actual.length);
 assert.ok(actualReview.every(row => ['VALV', 'FLAN', 'INST'].includes(row.type)));
 assert.ok(!actualReview.some(row => row.entityId === '=1006649732/51228'));
+assert.ok(!actualReview.some(row => row.entityId === '=1006649732/51274'), 'DN80 instrument is outside default review');
+assert.ok(actualReview.some(row => row.entityId === '=1006649732/51284'), 'DN80 control valve remains inside review');
 assert.equal(actual.length, dataset.sharedModel.components.length, 'Numerical population is not filtered');
 const dialogSource = readFileSync(new URL('../src/workspace/load-calc-weight-review-dialog.js', import.meta.url), 'utf8');
-assert.match(dialogSource, /\.filter\(\(row\) => isManualWeightReviewType\(row\.type\)\)/);
+assert.match(dialogSource, /\.filter\(\(row\) => row.manualReviewRequired\)/);
 assert.ok(!dialogSource.includes('data-sections'), 'Manual popup no longer requests pipe-section review');
 console.log(`PASS manual-weight-review-scope: aliases/exclusions/skip/real catalogue consumer/immutability; Sjson ${actualReview.length}/${actual.length} manual items; no numerical-completion assertion`);

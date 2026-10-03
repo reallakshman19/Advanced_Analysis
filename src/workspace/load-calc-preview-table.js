@@ -1,22 +1,29 @@
-import { effectivePreviewFields } from './load-calc-preview-model.js';
+import { effectivePreviewFields, previewWeightStatus } from './load-calc-preview-model.js';
+import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
+import { fittingPipeDependency } from './load-calc-workbench/pipe-section-review.js';
 
 export const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[c]);
 export const num = (value) => Number.isFinite(value) ? value.toLocaleString('en-US', { maximumFractionDigits: 4 }) : 'Pending';
 
-export function previewRowMarkup(row, caseId) {
+export function previewRowMarkup(row, caseId, allRows = []) {
   const fields = effectivePreviewFields(row);
   const mass = row.mass[caseId];
+  const weight = previewWeightStatus(row, caseId);
+  const dependency = fittingPipeDependency(row, allRows);
   const proposed = row.proposed.map(({ record }) => `<span>${esc(record.fieldId)}: <b>${esc(record.value)} ${esc(record.unit)}</b></span>`).join('');
   const match = row.proposed.find(({ record }) => record.evidence?.rowCandidates?.length)?.record.evidence;
   const suggestions = [...new Set((match?.rowCandidates || []).filter((candidate) => candidate.score === match.rowCandidates[0].score).map((candidate) => candidate.schedule).filter((value) => value != null))];
-  const section = fields.slice(0, 3).map((field) => `<span>${esc(field.label)}: <b>${num(field.value)}</b></span>`).join('');
+  const section = dependency ? `<span>Uses branch pipe section${dependency.boreMm == null ? '' : ` · DN${num(dependency.boreMm)}`}</span><small>No separate fitting OD/wall/density review.</small>${dependency.pipes.length ? `<button type="button" data-pipe-section-branch="${esc(dependency.branchId)}" data-pipe-section-bore="${dependency.boreMm}">Review pipe basis</button>` : '<small>Matching pipe basis unresolved; inspect source/master mapping.</small>'}`
+    : weight.sectionNotRequired ? '<span>Point-weight basis</span><small>OD, wall and metal density are not required for this dry weight.</small>'
+    : fields.slice(0, 3).map((field) => `<span>${esc(field.label)}: <b>${num(field.value ?? field.borrowedValue)}</b>${field.borrowedValue !== null ? '<small>Pipe derivation basis — not own section</small>' : ''}</span>`).join('');
   const status = [...row.notes, ...row.missing, ...(row.cases[caseId].ok ? [] : row.cases[caseId].blockers)];
+  const manual = row.manualReviewRequired ?? isManualWeightReviewType(row.type, row);
   return `<tr data-preview-entity="${esc(row.entityId)}"><td><b>${esc(row.entityId)}</b><span>${esc(row.type)} · ${esc(row.component.identity?.lineId || '')}</span><small>${esc(row.branchId || 'No branch')}</small></td>
     <td><span>Source bore: <b>${row.sourceBoreMm == null ? 'Not supplied' : `${num(row.sourceBoreMm)} mm`}</b></span><span>${row.type === 'PIPE' ? 'Pipe' : 'Fitting'} description Sch: <b>${esc(row.sourceSchedule || 'Not supplied')}</b></span><small>${esc(row.description || 'No source DTXR description')}</small></td>
     <td>${section}${insulationInputMarkup(row, fields)}${row.derived ? `<small>Dry derivation borrows OD ${num(row.derived.derivation.outerDiameterMm)} / wall ${num(row.derived.derivation.wallThicknessMm)} mm — not own section.</small>` : ''}</td>
     <td>${proposed || '<span>No pending proposal for this entity</span>'}${match ? `<small>Class ${esc(match.requestedPipingClass)} → ${esc(match.resolvedPipingClass)} · ${num(match.classMatchConfidence * 100)}% ranking<br>Top candidate Sch ${esc(suggestions.join(' / ') || 'Not supplied')} · ${esc(match.classMatchMethod)}</small>` : ''}</td>
-    <td><span>Dry / metal: <b>${num(mass.metalKg)}</b>${row.derived ? ' (derived preview)' : ''}</span><span>${esc(caseId)} fluid: <b>${num(mass.fluidKg)}</b></span><span>Insulation: <b>${row.type === 'PIPE' ? num(mass.insulationKg) : 'Not derived'}</b></span><span>${esc(caseId)} core${mass.dryOnly ? ' (dry only)' : ''}: <b>${num(mass.coreMassKg)}</b></span></td>
-    <td><strong class="${row.needsReview ? 'lcp-warn' : 'lcp-ok'}">${row.needsReview ? 'Needs review' : 'Resolver available · not execution'}</strong><small>${esc([...new Set(status)].join(' · ') || 'No pending mass evidence for displayed case')}</small>${traceMarkup(row, fields)}</td></tr>`;
+    <td><span>Dry / metal: <b>${num(mass.metalKg)}</b>${row.derived ? ' (derived preview)' : ''}</span><span>${esc(caseId)} fluid: <b>${num(mass.fluidKg)}</b></span><span>Insulation: <b>${row.type === 'PIPE' ? num(mass.insulationKg) : 'Not included in point dry mass'}</b></span><span>${esc(caseId)} ${mass.compositionMassKg != null ? 'mass (dry only)' : `core${mass.dryOnly ? ' (dry only)' : ''}`}: <b>${num(mass.coreMassKg ?? mass.compositionMassKg)}</b></span>${weight.locationMissing ? '<small>Mass known · load placement pending</small>' : ''}</td>
+    <td><strong class="${dependency || manual && weight.needsWeightReview ? 'lcp-warn' : 'lcp-ok'}">${esc(dependency ? 'Waiting for pipe section' : manual ? weight.label : 'No manual weight review')}</strong>${weight.locationMissing ? '<small class="lcp-warn">Load location missing · CoG/application point required</small>' : ''}<small>${esc([...new Set(status)].join(' · ') || 'No pending mass evidence for displayed case')}</small>${traceMarkup(row, fields)}</td></tr>`;
 }
 
 function insulationInputMarkup(row, fields) {

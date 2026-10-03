@@ -25,7 +25,7 @@ import { resolveNonFeaEnrichment } from '../core/non-fea-enrichment/index.js';
 
 const DEFAULT_LENGTH_TOLERANCE_MM = 4;
 
-export function buildFittingWeightReviewRows({ dataset, masters, sidecar = null } = {}) {
+export function buildFittingWeightReviewRows({ dataset, masters, sidecar = null, reviewPolicy } = {}) {
   const sourceModel = dataset?.sharedModel;
   if (!sourceModel) throw new TypeError('Fitting weight review requires an active dataset shared model.');
   const weightRows = masters?.weight?.normalizedRows || [];
@@ -43,12 +43,12 @@ export function buildFittingWeightReviewRows({ dataset, masters, sidecar = null 
   const rows = [];
   (sourceModel.components || []).forEach((component) => {
     const type = String(component.type || '').trim().toUpperCase();
-    if (!isManualWeightReviewType(type)) return;
+    const attributes = rawByEntityId.get(component.sourceEntityId)?.properties?.attributes || {};
+    const boreMm = numberFrom(attributes.ABORE ?? attributes.LBORE);
+    if (!isManualWeightReviewType(type, { component, boreMm, description: attributes.DTXR || '' }, reviewPolicy)) return;
     if (component.engineeringProperties?.componentWeightKg != null) return;
     const targetId = component.componentKey || component.sourceEntityId;
     if (resolvedWeights.has(targetId)) { omittedResolvedCount += 1; return; }
-    const attributes = rawByEntityId.get(component.sourceEntityId)?.properties?.attributes || {};
-    const boreMm = numberFrom(attributes.ABORE ?? attributes.LBORE);
     const lengthMm = distanceBetween(attributes.APOS, attributes.LPOS);
     const description = String(attributes.DTXR || '').trim();
     const rating = ratingFromText(description)

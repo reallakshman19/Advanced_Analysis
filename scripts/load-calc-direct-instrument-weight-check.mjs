@@ -37,10 +37,13 @@ assert.equal(record.evidence.masterBoreDerivedFromNps, true);
 assert.equal(record.evidence.masterNps, 6);
 assert.equal(record.value, 548);
 createNonFeaEnrichmentSidecar({ sourceSemanticHash: dataset.sharedModel.semanticHash, records: [record] });
-for (const suffix of ['51274','51284','51462','51463','51476','51483','51485']) {
+for (const suffix of ['51284','51462','51476','51483']) {
   const row = review.rows.find(r => r.targetId === `=1006649732/${suffix}`);
   assert.ok(row, suffix);
   assert.ok(!row.candidates.some(c => c.familyQualified), `${suffix}: no UZV inheritance`);
+}
+for (const suffix of ['51274', '51463', '51485']) {
+  assert.ok(!review.rows.some(r => r.targetId === `=1006649732/${suffix}`), 'Small instruments are outside default review');
 }
 
 const direct = normalizedRows.find(r => r.valveType === 'Instrument-ESDV/UZV' && r.nps === 6 && r.rating === 900);
@@ -70,4 +73,4 @@ assert.equal(replay.records.length, receipt.acceptedRecords);
 for (const prior of base.records) assert.deepEqual(replay.records.find(r => r.recordId === prior.recordId), prior);
 assert.equal(receipt.gravityCalculated, false);
 assert.equal(receipt.resultExportCreated, false);
-console.log('PASS direct instrument catalogue: actual Sjson UZV548kg, provenance/hash, seven isolated remaining items, mismatch/ambiguity negatives; no calculation asserted.');
+console.log('PASS direct instrument catalogue: actual Sjson UZV548kg, provenance/hash, four remaining review items and three excluded small instruments, mismatch/ambiguity negatives; no calculation asserted.');

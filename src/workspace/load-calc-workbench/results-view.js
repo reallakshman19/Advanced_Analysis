@@ -34,6 +34,8 @@ export function renderWorkbenchResults(container, bundle, renderers = {}) {
       Missing projections are not zero. Preview edits do not change the calculation receipt.</p>
     <button type="button" data-load-calc-tab="seal-export">Export current input evidence</button>
     <button type="button" data-workbench-gravity-export ${exportable ? '' : 'disabled'}>Download calculated gravity JSON</button>
+    <button type="button" data-workbench-loads-to-draft ${exportable || scenarioResultsDisplayable(bundle) ? '' : 'disabled'}>Loads to 3D Draft</button>
+    <button type="button" data-load-calc-support-mapping>Review missing support mappings · SVG</button>
     ${gravitySummary(bundle.distribution)}
     ${unallocatedMarkup(bundle.distribution)}
     <details data-workbench-scenario><summary>Fv / Fa / Fl & moments — configured beam/contact scenario</summary>

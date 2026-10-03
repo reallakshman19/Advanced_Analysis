@@ -9,13 +9,18 @@ import { createPreparedReview } from './prepared-review.js';
 import { semanticHash } from '../../core/shared-piping-model/index.js';
 import { empiricalLoadCalcScenarioStore } from '../engineering-loads/empirical-load-calc-scenario-store.js';
 import { empiricalResultOverlayStore } from '../engineering-loads/empirical-result-overlay-store.js';
+import { readWeightReviewPolicy } from '../load-calc-weight-review-scope.js';
+import { approvedPipeWeightGroups } from './approved-pipe-weight-inputs.js';
 
 /** Existing preparation owner evaluates inputs; no accept/seal/authorize/run. */
 export function prepareCurrentReview() {
   const { snapshot, status } = evaluateCurrentNonFeaInputCheckStatus();
-  return createPreparedReview({ workspace: WorkspaceState.getSnapshot(),
+  const review = createPreparedReview({ workspace: WorkspaceState.getSnapshot(),
     enrichment: nonFeaEnrichmentStore.getSnapshot(), snapshot, status,
     binding: currentReviewBinding() });
+  const groups = review.unavailable ? [] : approvedPipeWeightGroups(WorkspaceState.getSnapshot().dataset,
+    nonFeaEnrichmentStore.getSnapshot(), masterDataController.getMasterData());
+  return { ...review, approvedPipeWeightInputCount: groups.reduce((sum, group) => sum + group.targetCount, 0) };
 }
 
 /** Conservative session invalidation. No owner mutation or numerical work. */
@@ -40,5 +45,6 @@ export function currentReviewBinding() {
     engineeringModelStore.getEmpiricalAuthorizationState(),
     empiricalLoadCalcScenarioStore.getSnapshot().semanticHash,
     empiricalResultOverlayStore.getSnapshot().semanticHash,
+    readWeightReviewPolicy(),
   ]);
 }

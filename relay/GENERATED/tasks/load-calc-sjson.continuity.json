@@ -1,15 +1,15 @@
 {
   "authority": "DERIVED_CONTINUITY_ONLY",
-  "current": "New UI exposes reviewed scenario configuration and existing restraint/case/method authorization owners; imported authorities rejected. Actual source unallocated paths reviewed: B2/B5 no supports, B3 blank support type; mechanics unchanged. Benchmark explicitly labeled, actual current gravity/readiness separate. Fresh actual browser import-review-Run-results-export complete for gravity EMPTY/OPE/HYD with exceptions,37support rows each. Actual JSON preserves all203 accepted records/seven zeros in584 sealed effective records; custody/tamper tests PASS. Eight focused checks, imports, shell, diff and production build PASS. Actual full-vector scenario NOT_CONFIGURED; no bound runtime profile; Fa/Fl/global moments NOT_RUN. Broader suite/legacy NOT_RUN, historical failures retained.",
-  "evidence_ref": "relay/WORK/load-calc-new-ui-v32-evidence.md",
+  "current": "GitHub delivery authorized. Revalidated22 focused checks, actual final export checks, imports/shell/build/diff PASS. Existing main-identical support-token assertion and production TopoFix gap assertions FAIL; broad non-FEA missingBM2 FAIL. Packaged task-owned work only; merge held pending legitimate qualification, not authority/test weakening.",
+  "evidence_ref": "relay/WORK/load-calc-github-delivery-v32-evidence.md",
   "frontier": {
-    "delta_commits": 0,
-    "material_head": "29b9d6ae330088341660d732f3b1edf0bc5b13de",
-    "recovery_reconciliation_needed": false,
-    "relation": "ALIGNED",
+    "delta_commits": 1,
+    "material_head": "2b5dfebba05b1ae75b25d23506be5cf3f0bf0559",
+    "recovery_reconciliation_needed": true,
+    "relation": "MATERIAL_AHEAD",
     "semantic_evidence_head": "29b9d6ae330088341660d732f3b1edf0bc5b13de"
   },
-  "next": "Same draft PR1915/worktree, actual Results tab15 localhost5174 and approved Project Data12/203-record sidecar retained. Gravity run/export verified with exceptions. New scenario setup uses existing current authority owners; actual Fa/Fl/global-moment leg requires a legitimate reviewed source-bound applicable profile/case/restraint basis, currently absent. Source-backed support correction needed for unallocated paths, not automatic invented REST/cross-branch bearings. Preserve mechanics, signs, stiffness/source/master/qualification and publication boundaries; no repeated qualification questions, merge/release or completion claim.",
+  "next": "Commit and push existing PR1915 branch; update current proof/limitations and observe exact-head hosted qualification. Merge only if legitimate engineering validation supports integration. KeepB3 51465Skip; no full-vector or responsibility-completion claim.",
   "observability": {
     "provider_sync": {
       "status": "NOT_CONFIGURED"
@@ -18,8 +18,8 @@
     "provider_sync_required": true,
     "update_reason": "MATERIAL_FRONTIER_REFRESH"
   },
-  "owner_decision": "Explicit owner instruction: execute the four next priorities in the existing new-UI draft; prior seven equipment zero-weight approvals retained.",
-  "plan_ref": "relay/WORK/load-calc-new-ui-completion-v32-plan.md",
+  "owner_decision": "Explicit push and merge request; does not authorize workflow weakening, admin bypass, support-source inference changes or full-vector qualification. B3attachment51465 remainsSkip.",
+  "plan_ref": "relay/WORK/load-calc-github-delivery-v32-plan.md",
   "progress": {
     "active_unit": "FULL_VECTOR_LOADS",
     "completed_units": 1,
@@ -44,7 +44,7 @@
   },
   "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
   "result": {
-    "coverage": "New-UI scenario setup owner wiring, actual unallocated source review, truthful benchmark/calculation status and fresh actual gravity Run/export verified. All203 accepted records and7 zeros preserved. Eight focused checks/imports/shell/diff/build PASS. Actual Fa/Fl/global-moment execution NOT_RUN, scenario NOT_CONFIGURED; protected runtime profile/case/restraint authority absent. Broader suite/legacy NOT_RUN, prior failures retained.",
+    "coverage": "22 focused/actual-export/import/shell/build/diff PASS. Main-identical restraint-token and TopoFix qualification assertions FAIL; broader regression missingBM2 FAIL. Delivery step only, full loads responsibility incomplete.",
     "responsibility_complete": false,
     "result_scope": "STEP"
   },

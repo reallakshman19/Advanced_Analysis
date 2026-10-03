@@ -19,7 +19,8 @@ export function buildAutomaticEmpiricalScreening(references, distribution, conte
     const site = sites[0];
     const candidates = physicalPipeCandidates(site, dataset, routePartitionModel);
     row.candidatePipeIds = candidates.map(candidate => candidate.entityId);
-    if (candidates.length !== 1) {
+    const sharedJoin = candidates.length === 2 && sameStraightJoin(site, candidates, routePartitionModel);
+    if (candidates.length !== 1 && !sharedJoin) {
       row.reasons.push(candidates.length ? 'Multiple physical straight pipes meet this site; no pipe is chosen.'
         : 'No exact route-local physical straight pipe meets this site.');
       return row;
@@ -45,6 +46,32 @@ export function buildAutomaticEmpiricalScreening(references, distribution, conte
     row.inputs.temperatureC = temperature.value;
     row.provenance.temperatureC = temperature.provenance;
     if (temperature.reason) row.reasons.push(temperature.reason);
+    if (sharedJoin) {
+      // The equation needs section/temperature, not a uniquely chosen host. Both
+      // exact adjoining segments must independently supply the identical inputs.
+      const other = candidates[1];
+      const otherSections = common.enrichedModel.components.filter(component => component.componentKey === other.entityId);
+      const otherTemperature = operatingTemperature(other, lineList, other.lineKey || other.lineId || null, tableBinding);
+      const otherSection = otherSections.length === 1 && otherSections[0].type === 'PIPE' ? otherSections[0] : null;
+      const otherInputs = {
+        outsideDiameterMm: sectionValue(otherSection?.engineeringProperties?.outerDiameterMm),
+        wallThicknessMm: sectionValue(otherSection?.engineeringProperties?.wallThicknessMm),
+        temperatureC: otherTemperature.value,
+      };
+      row.pipeId = null; // Never claim either candidate is the selected/attached pipe.
+      row.matchMethod = 'EXACT_STRAIGHT_JOIN_SHARED_INPUTS';
+      row.provenance.sharedPipeBasis = candidates.map(candidate => ({
+        pipeId: candidate.entityId,
+        section: structuredClone(common.enrichedModel.components.find(component => component.componentKey === candidate.entityId)?.engineeringProperties || {}),
+        temperature: structuredClone(operatingTemperature(candidate, lineList, candidate.lineKey || candidate.lineId || null, tableBinding)),
+      }));
+      if (other.lineKey !== row.lineKey || otherSection?.identity?.lineId !== row.lineKey
+          || otherTemperature.reason || Object.keys(row.inputs).some(key => row.inputs[key] === null || row.inputs[key] !== otherInputs[key])) {
+        row.inputs = { outsideDiameterMm: null, wallThicknessMm: null, temperatureC: null };
+        row.reasons.push('Exact adjoining pipes do not have identical complete sealed section and operating-temperature inputs.');
+        return row;
+      }
+    }
     row.terms = calculateSupportLoadScreeningTerms({ opeVerticalN: row.opeVerticalN, ...row.inputs }, DEFAULT_SUPPORT_LOAD_PROFILE);
     if (!row.terms.guide || row.terms.lineStopN === null) {
       if (!row.reasons.length) row.reasons.push('Section geometry is invalid for screening.');
@@ -55,6 +82,29 @@ export function buildAutomaticEmpiricalScreening(references, distribution, conte
   return freezeDeep({ rows, tableBinding, summary: { total: rows.length,
     estimated: rows.filter(row => row.status === 'SCREENING_ESTIMATE').length,
     unresolved: rows.filter(row => row.status !== 'SCREENING_ESTIMATE').length } });
+}
+
+/** Two opposing, collinear PIPE ends in one existing connected route only. */
+function sameStraightJoin(site, candidates, model) {
+  const ids = candidates.map(pipe => pipe.entityId);
+  const routes = model.routes.filter(route => route.status === 'READY'
+    && site.branchIds.includes(route.branchId) && ids.every(id => (route.physicalEdgeIds || []).includes(id)));
+  if (routes.length !== 1) return false;
+  const axes = ['x', 'y', 'z'];
+  const edges = ids.map(id => model.edges.find(row => row.entityId === id));
+  const equal = (a, b) => axes.every(axis => a[axis] === b[axis]);
+  const join = [edges[0].startMm, edges[0].endMm].find(point =>
+    [edges[1].startMm, edges[1].endMm].some(other => equal(point, other)));
+  if (!join || Math.hypot(...axes.map(axis => join[axis] - site.positionMm[axis])) > model.portMatchToleranceMm) return false;
+  const vectors = edges.map(edge => {
+    const other = equal(edge.startMm, join) ? edge.endMm : equal(edge.endMm, join) ? edge.startMm : null;
+    return other && axes.map(axis => other[axis] - join[axis]);
+  });
+  if (vectors.some(vector => !vector)) return false;
+  const [a, b] = vectors;
+  return a.every(Number.isFinite) && b.every(Number.isFinite)
+    && a.reduce((sum, value, i) => sum + value * b[i], 0) < 0
+    && a[0] * b[1] === a[1] * b[0] && a[0] * b[2] === a[2] * b[0] && a[1] * b[2] === a[2] * b[1];
 }
 
 function currentnessFailure({ dataset, commonState, execution, supportSiteModel, routePartitionModel }, distribution) {

@@ -3,6 +3,15 @@ import { semanticHash } from '../src/core/shared-piping-model/canonical-json.js'
 import { buildAutomaticEmpiricalScreening } from '../src/workspace/load-calc-empirical-screening-binding.js';
 import { bindEmpiricalScreeningPreview, renderEmpiricalScreeningPreview } from '../src/workspace/load-calc-empirical-screening.js';
 import { calculateSupportLoadScreeningTerms, DEFAULT_SUPPORT_LOAD_PROFILE } from '../src/calc-workspace/supportLoadEngine.js';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { normalizeWorkspaceDataset } from '../src/workspace/dataset-adapter.js';
+import { buildSupportSiteModel } from '../src/workspace/support-sites/support-site-model.js';
+import { buildRoutePartitionModel } from '../src/workspace/routes/route-partition-model.js';
+import { resolveNonFeaEnrichment, createNonFeaEnrichedProjection } from '../src/core/non-fea-enrichment/index.js';
+import { empiricalScreeningReferences } from '../src/workspace/load-calc-empirical-screening.js';
+import { draftSupportLoadsModel } from '../src/workspace/load-calc-workbench/draft-support-loads.js';
+import { supportMarkup } from '../src/workspace/load-calc-workbench/draft-loads-inspector.js';
 
 const operating = 'AT WORKING CONDITIONS | Temp. ºC';
 const design = 'DESIGN CONDITIONS | Temp Max ºC';
@@ -64,6 +73,81 @@ ambiguous.context.dataset.entities.push({ ...ambiguous.context.dataset.entities[
 ambiguous.context.routePartitionModel.routes[0].physicalEdgeIds.push('P2');
 ambiguous.context.routePartitionModel.edges.push({ ...ambiguous.context.routePartitionModel.edges[0], entityId: 'P2' });
 rebind(ambiguous); assert.deepEqual(run(ambiguous).rows[0].candidatePipeIds, ['P', 'P2']); assert.equal(run(ambiguous).rows[0].pipeId, null);
+function straightJoin() {
+  const x = fixture();
+  x.context.routePartitionModel.edges[0].endMm.x = 5;
+  x.context.dataset.entities.push({ ...x.context.dataset.entities[0], entityId: 'P2' });
+  x.context.routePartitionModel.routes[0].physicalEdgeIds.push('P2');
+  x.context.routePartitionModel.edges.push({ ...x.context.routePartitionModel.edges[0], entityId: 'P2',
+    startMm: { x: 5, y: 0, z: 0 }, endMm: { x: 10, y: 0, z: 0 } });
+  x.context.commonState.commonInput.enrichedModel.components.push({
+    ...structuredClone(x.context.commonState.commonInput.enrichedModel.components[0]), componentKey: 'P2' });
+  rebind(x); return x;
+}
+const join = straightJoin(), joinBefore = JSON.stringify(join), joined = run(join).rows[0];
+assert.equal(joined.status, 'SCREENING_ESTIMATE'); assert.equal(joined.pipeId, null);
+assert.equal(joined.matchMethod, 'EXACT_STRAIGHT_JOIN_SHARED_INPUTS');
+assert.deepEqual(joined.terms, row.terms); assert.equal(joined.provenance.sharedPipeBasis.length, 2);
+assert.match(renderEmpiricalScreeningPreview(join.distribution, join.context), /Shared straight-join section \(2 pipes\)/);
+assert.equal(JSON.stringify(join), joinBefore);
+for (const change of [
+  x => { x.context.commonState.commonInput.enrichedModel.components[1].engineeringProperties.wallThicknessMm.value = 10; },
+  x => { x.context.commonState.commonInput.enrichedModel.components[1].engineeringProperties.outerDiameterMm.value = 200; },
+  x => { x.context.commonState.commonInput.enrichedModel.components[1].engineeringProperties.wallThicknessMm.status = 'STALE'; },
+  x => { x.context.commonState.commonInput.enrichedModel.components[1].identity.lineId = 'OTHER'; },
+  x => { x.context.dataset.entities[1].properties = { sourceAttributes: { OP_TEMP_C: 100 } }; },
+  x => { x.context.routePartitionModel.edges[1].endMm.y = 5; },
+  x => { x.context.routePartitionModel.edges[1].endMm.x = 0; },
+  x => { x.context.routePartitionModel.edges[1].startMm.x = 4; },
+  x => { x.context.routePartitionModel.routes[0].physicalEdgeIds.pop();
+    x.context.routePartitionModel.routes.push({ routeId: 'R2', branchId: 'B', status: 'READY', physicalEdgeIds: ['P2'] }); },
+]) { const x = straightJoin(); change(x); rebind(x); assert.equal(run(x).summary.estimated, 0); }
+// Actual Sjson/accepted section custody and exact two joins; temperature table is
+// a declared test double here. The live workbook binding is checked in browser.
+const read = path => JSON.parse(readFileSync(path, 'utf8'));
+const bytes = readFileSync('public/fixtures/Sjson.json');
+const source = normalizeWorkspaceDataset(JSON.parse(bytes), 'Sjson.json', {
+  sourceBytes: bytes, sourceSha256: createHash('sha256').update(bytes).digest('hex') });
+const profile = read('relay/WORK/load-calc-run-readiness-v32-project-data.json');
+const captured = read(process.argv[2] || 'relay/WORK/load-calc-new-ui-v32-gravity-export.json');
+const projection = createNonFeaEnrichedProjection({ sourceModel: source.sharedModel,
+  resolutionLedger: resolveNonFeaEnrichment({ sourceModel: source.sharedModel, sidecar: captured.enrichmentSidecar }) });
+const actualContext = { dataset: source, execution: captured.receipt,
+  supportSiteModel: buildSupportSiteModel(source, profile), routePartitionModel: buildRoutePartitionModel(source, profile),
+  commonState: { staleness: { stale: false }, commonInput: { semanticHash: captured.receipt.commonInputSemanticHash,
+    sourceModelSemanticHash: source.sharedModel.semanticHash, sourceDatasetSha256: source.sourceSha256,
+    enrichedModel: projection.enrichedModel } }, lineList: fixture().context.lineList };
+const actualRows = buildAutomaticEmpiricalScreening(empiricalScreeningReferences(captured.receipt.distribution), captured.receipt.distribution, actualContext).rows;
+for (const tag of ['PS-12244', 'PS-12246']) {
+  const actual = actualRows.find(r => r.tags.includes(tag));
+  assert.equal(actual.status, 'SCREENING_ESTIMATE', JSON.stringify(actual.reasons));
+  assert.equal(actual.pipeId, null); assert.equal(actual.candidatePipeIds.length, 2);
+  assert.equal(actual.matchMethod, 'EXACT_STRAIGHT_JOIN_SHARED_INPUTS');
+  assert.equal(actual.inputs.wallThicknessMm, 14.2748);
+  assert.deepEqual(actual.terms, calculateSupportLoadScreeningTerms({ opeVerticalN: actual.opeVerticalN, ...actual.inputs }, DEFAULT_SUPPORT_LOAD_PROFILE));
+}
+assert.equal(actualRows.find(r => r.tags.includes('=1006649732/51254')).status, 'UNRESOLVED');
+actualContext.commonState.request = { semanticHash: 'captured-request' };
+actualContext.commonState.commonInput.requestSemanticHash = 'captured-request';
+actualContext.commonState.commonInput.seal = { semanticHash: captured.receipt.commonInputSealSemanticHash };
+const canonical = { datasetId: source.datasetId, sourceHash: source.sourceSha256, canonicalTopologyHash: 'test-topology',
+  supports: actualContext.supportSiteModel.sites.flatMap(site => site.memberEntityIds.map(id => ({ id: `support:${id}`, entityId: id }))) };
+const actualBundle = { datasetId: source.datasetId, execution: captured.receipt, distribution: captured.receipt.distribution,
+  supportSiteModel: actualContext.supportSiteModel, screeningContext: actualContext };
+const draft = { dataset: source, canonical, baseCanonical: canonical };
+const selectedLoads = draftSupportLoadsModel(actualBundle, draft, ['support:=1006649732/51240']);
+assert.equal(selectedLoads.state, 'CURRENT');
+const selectedSupport = selectedLoads.supports[0];
+assert.equal(selectedSupport.screening.status, 'SCREENING_ESTIMATE');
+assert.match(supportMarkup(selectedSupport, 'OPE', selectedLoads), /Fh · guide: <strong>1,050\.356 N/);
+assert.match(supportMarkup(selectedSupport, 'OPE', selectedLoads), /not reactions/);
+assert.doesNotMatch(supportMarkup(selectedSupport, 'HYD', selectedLoads), /Fh · guide:/);
+assert.equal(selectedSupport.scenario.length, 0);
+const staleScreen = structuredClone(actualBundle);
+staleScreen.screeningContext.execution = { ...staleScreen.screeningContext.execution, routePartitionModelSemanticHash: 'changed' };
+// Screening has its own route-currentness guard even while scalar gravity is retained.
+const staleResult = draftSupportLoadsModel(staleScreen, { ...draft, dataset: staleScreen.screeningContext.dataset }, ['support:=1006649732/51240']);
+assert.equal(staleResult.supports[0].screening.status, 'UNRESOLVED');
 for (const change of [
   x => { x.context.lineList.normalizedRows[0].lineKey = 'W8811951'; },
   x => { x.context.lineList.normalizedRows.push({ ...x.context.lineList.normalizedRows[0] }); },

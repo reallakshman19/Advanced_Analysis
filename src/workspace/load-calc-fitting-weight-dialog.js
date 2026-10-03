@@ -3,6 +3,8 @@ import {
   fittingWeightRecordFor,
   canPrefillFittingWeight,
 } from './load-calc-fitting-weight-review.js';
+import { readWeightReviewPolicy } from './load-calc-weight-review-scope.js';
+import { openWeightReviewSettings } from './load-calc-weight-review-settings.js';
 
 /**
  * Review table for catalogue fitting weights, styled on the XML->CII
@@ -18,8 +20,9 @@ import {
  * part that matters for a review decision -- ranked chips, an editable
  * weight, and visibility into why a candidate ranked where it did.
  */
-export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar = null, onAccept, getBinding = null }) {
+export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar = null, onAccept, getBinding = null, drafts = new Map() }) {
   const openingBinding = getBinding?.();
+  const openingPolicy = JSON.stringify(readWeightReviewPolicy());
   const review = buildFittingWeightReviewRows({ dataset, masters, sidecar });
   const host = documentRef.createElement('div');
   host.className = 'lcfw-backdrop';
@@ -29,9 +32,55 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar
 
   const close = () => host.remove();
   const inputFor = (targetId) => host.querySelector(`[data-lcfw-weight="${cssEscape(targetId)}"]`);
+  let search = '';
+  const shownRows = () => review.rows.filter(row => `${row.targetId} ${row.description} ${row.type} ${row.boreMm} ${row.rating}`.toLowerCase().includes(search));
+  const note = text => { const element = host.querySelector('[data-lcfw-note]'); if (element) element.textContent = text; };
+  const draftStatus = (targetId) => {
+    const input = inputFor(targetId), label = host.querySelector(`[data-lcfw-status="${cssEscape(targetId)}"]`);
+    if (!input || !label) return;
+    const value = String(input.value).trim(), row = review.rows.find(row => row.targetId === targetId);
+    const candidate = row?.candidates[Number(input.dataset.lcfwSelectedIndex)];
+    label.textContent = !value ? 'Enter weight or Skip' : Number(value) === 0 ? 'Zero assumption · not applied'
+      : candidate && Number(candidate.weightKg) === Number(value) ? 'Suggested · not applied' : 'Entered weight · not applied';
+  };
+  const zeroDraft = row => {
+    const input = inputFor(row.targetId);
+    if (!input) return;
+    input.value = '0'; input.dataset.lcfwSelectedIndex = '-1';
+    draftStatus(row.targetId);
+    host.querySelectorAll(`[data-lcfw-chip="${cssEscape(row.targetId)}"]`).forEach(chip => chip.classList.remove('lcfw-chip--active'));
+    note('Skip sets a draft 0 kg assumption. Press Apply weights shown to save it.');
+  };
+  for (const row of review.rows) if (drafts.has(row.targetId)) {
+    const input = inputFor(row.targetId), draft = drafts.get(row.targetId);
+    if (input) { input.value = draft.value; input.dataset.lcfwSelectedIndex = draft.index; }
+    draftStatus(row.targetId);
+    host.querySelectorAll(`[data-lcfw-chip="${cssEscape(row.targetId)}"]`).forEach(chip =>
+      chip.classList.toggle('lcfw-chip--active', chip.dataset.lcfwIndex === draft.index && Number(draft.value) === Number(chip.dataset.lcfwWeight)));
+  }
+  host.addEventListener('input', event => {
+    if (event.target.matches?.('[data-lcfw-weight]')) { draftStatus(event.target.dataset.lcfwWeight); return; }
+    if (!event.target.matches?.('[data-lcfw-search]')) return;
+    search = event.target.value.trim().toLowerCase();
+    const shown = new Set(shownRows().map(row => row.targetId));
+    host.querySelectorAll('[data-lcfw-row]').forEach(row => { row.hidden = !shown.has(row.dataset.lcfwRow); });
+    const count = host.querySelector('[data-lcfw-count]');
+    if (count) count.textContent = `${shown.size} of ${review.rows.length} items shown`;
+  });
 
   host.addEventListener('click', (event) => {
     if (event.target === host || event.target.closest('[data-lcfw-close]')) return close();
+    if (event.target.closest('[data-lcfw-settings]')) {
+      return openWeightReviewSettings({ documentRef, onApplied: () => {
+        if (getBinding && getBinding() !== openingBinding) { note('Inputs changed. Close and reopen weight review.'); return; }
+        const retained = new Map(review.rows.map(row => { const input = inputFor(row.targetId);
+          return [row.targetId, { value: input?.value || '', index: input?.dataset.lcfwSelectedIndex || '-1' }]; }));
+        close(); openFittingWeightDialog({ documentRef, dataset, masters, sidecar, onAccept, getBinding, drafts: retained });
+      } });
+    }
+    const skip = event.target.closest('[data-lcfw-skip]');
+    if (skip) { const row = review.rows.find(row => row.targetId === skip.dataset.lcfwSkip); if (row) zeroDraft(row); return; }
+    if (event.target.closest('[data-lcfw-skip-shown]')) { shownRows().forEach(zeroDraft); return; }
 
     const chip = event.target.closest('[data-lcfw-chip]');
     if (chip) {
@@ -39,6 +88,7 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar
       if (input) {
         input.value = chip.dataset.lcfwWeight;
         input.dataset.lcfwSelectedIndex = chip.dataset.lcfwIndex;
+        draftStatus(chip.dataset.lcfwChip);
         host.querySelectorAll(`[data-lcfw-chip="${cssEscape(chip.dataset.lcfwChip)}"]`)
           .forEach((row) => row.classList.toggle('lcfw-chip--active', row === chip));
       }
@@ -46,24 +96,31 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar
     }
 
     if (event.target.closest('[data-lcfw-apply-clear-winners]')) {
-      review.rows.filter(canPrefillFittingWeight).forEach((row) => {
+      shownRows().filter(canPrefillFittingWeight).forEach((row) => {
         const input = inputFor(row.targetId);
         if (input) { input.value = row.candidates[0].weightKg; input.dataset.lcfwSelectedIndex = '0'; }
+        draftStatus(row.targetId);
       });
       host.querySelectorAll('[data-lcfw-chip]').forEach((row) => {
-        const reviewRow = review.rows.find((entry) => entry.targetId === row.dataset.lcfwChip);
+        const reviewRow = shownRows().find((entry) => entry.targetId === row.dataset.lcfwChip);
+        if (!reviewRow) return;
         row.classList.toggle('lcfw-chip--active', row.dataset.lcfwIndex === '0' && canPrefillFittingWeight(reviewRow));
       });
       return;
     }
 
     if (event.target.closest('[data-lcfw-apply]')) {
-      if (getBinding && getBinding() !== openingBinding) {
+      if ((getBinding && getBinding() !== openingBinding) || JSON.stringify(readWeightReviewPolicy()) !== openingPolicy) {
         host.querySelector('[data-lcfw-note]').textContent = 'Source or weight master changed. Close and reopen this review; no selections were applied.';
         return;
       }
       const records = [];
-      review.rows.forEach((row) => {
+      const visible = shownRows();
+      if (visible.some(row => { const value = String(inputFor(row.targetId)?.value ?? '').trim();
+        return value !== '' && (!Number.isFinite(Number(value)) || Number(value) < 0); })) {
+        note('Use a finite weight of 0 kg or more. Nothing was applied.'); return;
+      }
+      visible.forEach((row) => {
         const input = inputFor(row.targetId);
         if (!input) return;
         // An empty field is not a reviewed zero-weight assumption.
@@ -82,8 +139,8 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar
         if (note) note.textContent = 'Enter or select at least one weight before applying.';
         return;
       }
-      close();
-      onAccept?.(records);
+      try { onAccept?.(records); close(); }
+      catch (error) { note(`Nothing applied: ${error.message}`); }
     }
   });
   return host;
@@ -91,30 +148,29 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, sidecar
 
 function markup(review) {
   const { rows, summary } = review;
-  if (summary.weightMasterRowCount === 0) {
-    return panel(`
-      <p class="lcfw-empty">The Weights master has no rows. Import it in Import Masters before reviewing fitting weights.</p>
-      <div class="lcfw-actions"><button type="button" data-lcfw-close>Close</button></div>`);
-  }
   if (rows.length === 0) {
     return panel(`
-      <p class="lcfw-empty">No catalogue fitting is currently missing a component weight.</p>
+      <p class="lcfw-empty">No equipment in your review settings is missing a weight. ${summary.omittedResolvedCount} applied weights retained.</p>
+      <div class="lcfw-actions"><button type="button" data-lcfw-settings>Weight review settings…</button></div>
       <div class="lcfw-actions"><button type="button" data-lcfw-close>Close</button></div>`);
   }
   return panel(`
-    <p class="lcfw-lead">${summary.fittingCount} unresolved manual item(s) need weight review; ${summary.omittedResolvedCount} current resolved catalogue weights are omitted.
+    <p class="lcfw-lead">${summary.fittingCount} unresolved manual item(s) · ${summary.omittedResolvedCount} current resolved weights retained. Suggested weights are drafts, not applied.
+      Edit a weight or choose a candidate; <strong>Skip → 0 kg</strong> records an explicit zero-weight assumption when you Apply. Blank stays pending. Cancel saves nothing.</p>
+    <div class="lcfw-actions"><label>Find component <input type="search" data-lcfw-search aria-label="Find component" placeholder="Description, ID, type or bore"></label><span data-lcfw-count>${rows.length} of ${rows.length} items shown</span><button type="button" data-lcfw-settings>Weight review settings…</button></div>
+    <details><summary>How suggestions are matched</summary><p class="lcfw-meta">
       Suggestions are ranked by bore, rating, measured
       face-to-face length and description keyword (e.g. GATE, GLOBE, BALL) against
       ${summary.weightMasterRowCount} Weights master rows.
       ${summary.singleCandidate} match one row outright, ${summary.clearWinner} have a clear ranked winner among several,
       ${summary.needsChoice} are genuinely tied, and ${summary.unresolvable} have no candidate at all.
       Only clear dimension/family matches are prefilled. Factor, interpolation and bore/rating-only suggestions stay blank until explicitly reviewed.
-      Every weight below is editable before applying. An explicitly entered 0 kg records a reviewed zero-weight assumption, not a catalogue mass. Blank fields remain unresolved. Closing this review defers it; no item is excluded or zeroed.</p>
+      ${summary.weightMasterRowCount === 0 ? 'No weight master is loaded; manual entry and Skip are still available.' : ''}</p></details>
     <div class="lcfw-table-wrap">
       <table class="lcfw-table">
         <thead><tr>
           <th>Description</th><th>Type</th><th>Bore</th><th>Rating</th><th>Length</th>
-          <th>Keyword</th><th>Weight (kg)</th><th>Candidates</th>
+          <th>Keyword</th><th>Weight (kg)</th><th>Candidates</th><th>Action</th>
         </tr></thead>
         <tbody>${rows.map(rowMarkup).join('')}</tbody>
       </table>
@@ -122,33 +178,26 @@ function markup(review) {
     <p class="lcfw-note" data-lcfw-note></p>
     <div class="lcfw-actions">
       <button type="button" data-lcfw-apply-clear-winners ${rows.some(canPrefillFittingWeight) ? '' : 'disabled'}>Fill clear dimension / family matches (${rows.filter(canPrefillFittingWeight).length})</button>
+      <button type="button" data-lcfw-skip-shown>Skip shown → 0 kg</button>
       <button type="button" data-lcfw-apply class="lcfw-primary">Apply weights shown</button>
       <button type="button" data-lcfw-close>Cancel</button>
     </div>`);
 }
 
 function rowMarkup(row) {
-  if (row.unresolvable) {
-    return `<tr class="lcfw-row--blocked">
-      <td colspan="8">
-        <strong>${escapeHtml(row.description || row.targetId)}</strong>
-        <span class="lcfw-meta">${escapeHtml(row.type)} · ${row.boreMm ? `DN${row.boreMm}` : 'no bore'} · ${row.lengthMm ? `${row.lengthMm} mm` : 'no length'}</span>
-        <p class="lcfw-blocked-note">${escapeHtml(unresolvableText(row.unresolvable))}</p>
-      </td>
-    </tr>`;
-  }
   const best = row.candidates[0];
   const prefill = canPrefillFittingWeight(row);
   const rowClass = prefill ? 'lcfw-status--clear' : 'lcfw-status--tied';
-  return `<tr class="${rowClass}">
-    <td><strong>${escapeHtml(row.description || row.targetId)}</strong></td>
+  return `<tr class="${rowClass}" data-lcfw-row="${escapeHtml(row.targetId)}">
+    <td><strong>${escapeHtml(row.description || row.targetId)}</strong><small class="lcfw-meta">${escapeHtml(row.targetId)}</small></td>
     <td>${escapeHtml(row.type)}</td>
-    <td>DN${escapeHtml(row.boreMm)}</td>
+    <td>${row.boreMm ? `DN${escapeHtml(row.boreMm)}` : '—'}</td>
     <td>${row.rating ? `${escapeHtml(row.rating)}#` : '—'}</td>
-    <td>${escapeHtml(row.lengthMm)} mm</td>
+    <td>${row.lengthMm ? `${escapeHtml(row.lengthMm)} mm` : '—'}</td>
     <td>${row.valveHint ? `<span class="lcfw-hint">${escapeHtml(row.valveHint)}</span>` : '—'}</td>
-    <td><input aria-label="Reviewed weight for ${escapeHtml(row.targetId)} in kg" type="number" min="0" step="0.001" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="${prefill ? '0' : '-1'}" value="${prefill ? escapeHtml(best.weightKg) : ''}">${prefill ? '' : '<span class="lcfw-meta">Review required · suggestions only</span>'}</td>
-    <td class="lcfw-chips">${row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index, prefill)).join('')}</td>
+    <td><input aria-label="Reviewed weight for ${escapeHtml(row.targetId)} in kg" type="number" min="0" step="0.001" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="${prefill ? '0' : '-1'}" value="${prefill ? escapeHtml(best.weightKg) : ''}"><span class="lcfw-meta" data-lcfw-status="${escapeHtml(row.targetId)}">${prefill ? 'Suggested · not applied' : 'Enter weight or Skip'}</span></td>
+    <td class="lcfw-chips">${row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index, prefill)).join('') || `<span class="lcfw-meta">${escapeHtml(unresolvableText(row.unresolvable))}</span>`}</td>
+    <td><button type="button" data-lcfw-skip="${escapeHtml(row.targetId)}" aria-label="Skip ${escapeHtml(row.targetId)} weight → 0 kg">Skip → 0 kg</button></td>
   </tr>`;
 }
 
@@ -167,9 +216,10 @@ function chipMarkup(targetId, candidate, index, prefill) {
 }
 
 function unresolvableText(code) {
+  if (code === 'NO_BORE') return 'Bore missing — enter a weight or Skip.';
   if (code === 'NO_BORE_OR_LENGTH') return 'This fitting has no bore or no measurable face-to-face length, so no catalogue row can be matched to it.';
   if (code === 'NO_CANDIDATE') return 'No Weights master row shares this bore and rating.';
-  return 'Candidate ranking failed for this fitting.';
+  return 'No match — enter a weight or Skip.';
 }
 
 function panel(body) {
@@ -206,6 +256,9 @@ function styles() {
     .lcfw-table{width:100%;border-collapse:collapse;font-size:12px}
     .lcfw-table th{position:sticky;top:0;text-align:left;color:#94a3b8;font-size:10px;text-transform:uppercase;padding:7px 8px;background:#101b2d;border-bottom:1px solid #26354a;white-space:nowrap}
     .lcfw-table td{padding:7px 8px;border-bottom:1px solid #1b2839;vertical-align:top}
+    .lcfw-table tr[hidden]{display:none}
+    .lcfw-table td button:not(.lcfw-chip),.lcfw-actions input{border:1px solid #334155;border-radius:5px;background:#111c2f;color:#e2e8f0;padding:7px 9px}
+    .lcfw-actions{align-items:center}
     .lcfw-table tr.lcfw-status--clear{background:#0d1728}
     .lcfw-table tr.lcfw-status--tied{background:#1c1207}
     .lcfw-table tr.lcfw-row--blocked{background:#1a0e0e}

@@ -336,11 +336,10 @@ function generateMasterProposals() {
 }
 
 /**
- * Opens the catalogue fitting weight review. Selections are staged as
- * proposals rather than accepted directly, so a reviewer's choice still
- * passes through the same explicit acceptance step as every other record.
+ * One component-weight table. Apply is the explicit reviewed acceptance action;
+ * the store reuses proposal validation and commits only that weight batch.
  */
-function reviewFittingWeights(documentRef, onChanged) {
+export function reviewFittingWeights(documentRef, onChanged) {
   const dataset = WorkspaceState.getSnapshot()?.dataset;
   if (!dataset?.sharedModel) throw new TypeError('An active dataset is required.');
   const snapshot = nonFeaEnrichmentStore.getSnapshot();
@@ -356,20 +355,11 @@ function reviewFittingWeights(documentRef, onChanged) {
       masterDataController.getRevisionSnapshot(),
       nonFeaEnrichmentStore.getSnapshot().boundSourceSemanticHash,
       nonFeaEnrichmentStore.getSnapshot().acceptedRecords,
+      nonFeaEnrichmentStore.getSnapshot().proposals,
+      nonFeaEnrichmentStore.getSnapshot().stale,
     ]),
     onAccept: (records) => {
-      records.forEach((record) => nonFeaEnrichmentStore.stageProposal({
-        proposalId: record.recordId,
-        rationale: record.evidence.zeroWeightAssumption
-          ? `Explicit reviewed 0 kg assumption for ${record.evidence.componentDescription || record.selectorKey}; equipment self-weight omitted, not a verified physical mass.`
-          : `Reviewer selected ${record.evidence.selectedTypeDesc} from ${record.evidence.candidateCount} catalogue candidate(s) for ${record.evidence.componentDescription || record.selectorKey}.`,
-        record,
-      }));
-      if (records.length > 0) {
-        nonFeaEnrichmentStore.setMessage(
-          `Staged ${records.length} fitting-weight proposal(s). Nothing is written yet -- review them in Staged proposals below and press "Accept exact proposals only". ${validateInputCauseMessage(records)}`,
-        );
-      }
+      nonFeaEnrichmentStore.applyReviewedComponentWeights(records, { weightReviewConfirmed: true });
       onChanged?.();
     },
   });

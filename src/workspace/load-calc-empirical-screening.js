@@ -118,7 +118,7 @@ function automaticTable(automatic) {
     Sealed OD/wall evidence does not approve material grade or thermal properties.</p>
     <div class="screen-table" role="region" tabindex="0" aria-label="Automatic empirical screening estimates"><table><thead><tr><th>Support / OPE (N)</th><th>Pipe / line</th><th>OD / wall (mm) / operating °C</th><th>Fh estimate (N)</th><th>Line-stop estimate (N)</th><th>Source / unresolved reason</th></tr></thead>
     <tbody>${automatic.rows.map(row => `<tr data-screen-auto-row="${esc(row.supportSiteId)}"><td>${esc(row.tags.join(', ') || row.supportSiteId)}<br>${row.opeVerticalN.toFixed(3)}</td>
-      <td>${esc(row.pipeId || 'Unresolved')}<br>${esc(row.lineKey || '')}</td>
+      <td>${esc(row.pipeId || (row.matchMethod === 'EXACT_STRAIGHT_JOIN_SHARED_INPUTS' && row.status === 'SCREENING_ESTIMATE' ? 'Shared straight-join section (2 pipes)' : 'Unresolved'))}<br>${esc(row.lineKey || '')}</td>
       <td>${esc(row.inputs.outsideDiameterMm ?? '—')} / ${esc(row.inputs.wallThicknessMm ?? '—')} / ${esc(row.inputs.temperatureC ?? '—')}</td>
       <td>${row.terms?.guide ? row.terms.guide.guideH.toFixed(3) : 'Not evaluated'}</td><td>${row.terms?.lineStopN != null ? row.terms.lineStopN.toFixed(3) : 'Not evaluated'}</td>
       <td>${esc(row.status)}<details><summary>Input sources / match details</summary><p>${esc(bindingText(row))}</p><pre>${esc(JSON.stringify({ provenance: row.provenance, candidatePipeIds: row.candidatePipeIds }, null, 2))}</pre></details></td></tr>`).join('')}</tbody></table></div>`;
@@ -127,7 +127,7 @@ function automaticTable(automatic) {
 function bindingText(row) {
   if (!row) return 'No automatic binding for this reference.';
   const temperature = row.provenance.temperatureC;
-  return `Pipe ${row.pipeId || 'unresolved'}; full line ${row.lineKey || 'unresolved'}. `
+  return `${row.matchMethod === 'EXACT_STRAIGHT_JOIN_SHARED_INPUTS' ? `Shared straight-join inputs from ${row.candidatePipeIds.join(' and ')}; no unique pipe host selected` : `Pipe ${row.pipeId || 'unresolved'}`}; full line ${row.lineKey || 'unresolved'}. `
     + (row.provenance.outsideDiameterMm && row.provenance.wallThicknessMm
       ? 'OD/wall: exact current sealed enriched model, screening reuse only. '
       : 'OD/wall evidence is incomplete. ')
