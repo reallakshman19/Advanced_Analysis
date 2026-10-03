@@ -4,10 +4,10 @@
   "evidence_ref": "relay/WORK/load-calc-new-ui-v32-evidence.md",
   "frontier": {
     "delta_commits": 0,
-    "material_head": "520c80e00e2669f978f5d5e9b9b9cec499831a9a",
+    "material_head": "29b9d6ae330088341660d732f3b1edf0bc5b13de",
     "recovery_reconciliation_needed": false,
     "relation": "ALIGNED",
-    "semantic_evidence_head": "520c80e00e2669f978f5d5e9b9b9cec499831a9a"
+    "semantic_evidence_head": "29b9d6ae330088341660d732f3b1edf0bc5b13de"
   },
   "next": "Same draft PR1915/worktree, actual Results tab15 localhost5174 and approved Project Data12/203-record sidecar retained. Gravity run/export verified with exceptions. New scenario setup uses existing current authority owners; actual Fa/Fl/global-moment leg requires a legitimate reviewed source-bound applicable profile/case/restraint basis, currently absent. Source-backed support correction needed for unallocated paths, not automatic invented REST/cross-branch bearings. Preserve mechanics, signs, stiffness/source/master/qualification and publication boundaries; no repeated qualification questions, merge/release or completion claim.",
   "observability": {
@@ -16,7 +16,7 @@
     },
     "provider_sync_failure_blocks_engineering": false,
     "provider_sync_required": true,
-    "update_reason": "TASK_RESULT"
+    "update_reason": "MATERIAL_FRONTIER_REFRESH"
   },
   "owner_decision": "Explicit owner instruction: execute the four next priorities in the existing new-UI draft; prior seven equipment zero-weight approvals retained.",
   "plan_ref": "relay/WORK/load-calc-new-ui-completion-v32-plan.md",
