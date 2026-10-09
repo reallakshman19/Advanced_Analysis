@@ -1,0 +1,74 @@
+{
+  "schema": "m047-bm4l-stage2-h2-relocked-total-direction-measurement/v1",
+  "status": "REJECT_H2_LOST_DIRECTION_CORRECT_CONTROL",
+  "source": {
+    "pr1101SourceHead": "f087bed5578640c13d063a855b094146a2ded203",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8"
+  },
+  "execution": {
+    "workflowRunId": 31692958251,
+    "artifactId": 9178268980,
+    "artifactDigest": "sha256:b6ac0e008f2a120f390def081c115380a220760b516f4ab528f09880b55a291f",
+    "candidateSourceSha256": "4a49d78408eff0c6ccc5382a88ff04f3658a38d528a7a5deb9d1b7b252a9c399",
+    "converged": true,
+    "deterministic": true,
+    "equilibriumPass": true,
+    "convergencePass": true,
+    "iterationCount": 208,
+    "repeatIterationCount": 208,
+    "rowsSemanticHash": "fnv1a64:abb32bb7848706b3",
+    "repeatRowsSemanticHash": "fnv1a64:abb32bb7848706b3",
+    "slideToStickTransitionCount": 28,
+    "repeatSlideToStickTransitionCount": 28,
+    "transitionReproducible": true
+  },
+  "mechanic": {
+    "baseline": "H1_FINAL_RETURN_MAP_ON_SLIDE_TO_STICK",
+    "candidate": "POST_H1_STICK_TO_STICK_PRESERVE_TRIAL_MAGNITUDE_ORIENT_OPPOSITE_TOTAL_DISPLACEMENT",
+    "productionSolverModified": false,
+    "toleranceChanged": false,
+    "comparisonPolicyChanged": false
+  },
+  "baseline": {
+    "vectorsWithin10Pct": 15,
+    "normalsWithin10Pct": 23,
+    "normalizedStateMatches": 19,
+    "medianVectorErrorPct": 8.352365610500234,
+    "worstVectorErrorPct": 593.9544649547046
+  },
+  "candidate": {
+    "vectorsWithin10Pct": 12,
+    "normalsWithin10Pct": 23,
+    "normalizedStateMatches": 18,
+    "medianVectorErrorPct": 9.609699534264498,
+    "worstVectorErrorPct": 382.2184423981206
+  },
+  "directionTargets": {
+    "nodeIds": ["22140","22220","22070","22370","21740"],
+    "baselineMedianErrorPct": 87.69658326339962,
+    "candidateMedianErrorPct": 57.21526180977287,
+    "baselinePasses": 0,
+    "candidatePasses": 0
+  },
+  "keyRows": [
+    {"nodeId":"22140","h1ErrPct":177.68502838036707,"h2ErrPct":50.86068270077587,"forceCosineToReference":1.0},
+    {"nodeId":"22220","h1ErrPct":106.23988396977985,"h2ErrPct":17.21984042696319,"forceCosineToReference":0.9975852975551434},
+    {"nodeId":"22070","h1ErrPct":87.69658326339962,"h2ErrPct":57.21526180977287,"forceCosineToReference":0.9992299201453588},
+    {"nodeId":"22370","h1ErrPct":63.286518254727575,"h2ErrPct":65.47700341427426,"forceCosineToReference":0.9996020248166804},
+    {"nodeId":"21740","h1ErrPct":32.607144034261616,"h2ErrPct":83.1773805695929,"forceCosineToReference":0.9928455623784774},
+    {"nodeId":"22260","h1ErrPct":8.352505907761762,"h2ErrPct":98.1438665579463,"forceCosineToReference":0.9994808929789304},
+    {"nodeId":"21800","h1ErrPct":3.7308583548323977,"h2ErrPct":43.431360384597106,"forceCosineToReference":0.9929995099459089},
+    {"nodeId":"21470","h1ErrPct":8.352365610500234,"h2ErrPct":42.06079587651727,"forceCosineToReference":0.9966031353332244},
+    {"nodeId":"22020","h1ErrPct":1.16708456513059,"h2ErrPct":18.830943278579827,"forceCosineToReference":0.9999999967993337},
+    {"nodeId":"20440","h1ErrPct":10.982200658333925,"h2ErrPct":3.968401377378222,"forceCosineToReference":0.9998383984489855},
+    {"nodeId":"21860","h1ErrPct":2.492792303516914,"h2ErrPct":0.1399927464809028,"forceCosineToReference":1.0}
+  ],
+  "decision": [
+    "REJECT_CONTINUOUS_RELOCKED_DIRECTION_PROJECTION",
+    "KEEP_D1_AS_ACCEPTED_EXPERIMENTAL_BASELINE",
+    "KEEP_H1_AS_LEADING_GOVERNED_REVIEW_CANDIDATE",
+    "H2_CONFIRMS_DIRECTION_IS_CAUSAL_AT_22140_22220_22070_BUT_CONTINUOUS_PROJECTION_CORRUPTS_MAGNITUDE_HISTORY",
+    "DO_NOT_SELECT_DIRECTION_RULE_BY_BENCHMARK_ROW",
+    "NEXT_DATA_ONLY_TEST_SHOULD_COMPARE_FINAL_CAESAR_FORCE_WITH_LAST_H1_RELOCK_DIRECTION"
+  ]
+}

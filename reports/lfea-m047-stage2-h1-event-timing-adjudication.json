@@ -1,0 +1,11 @@
+{
+  "schema":"m047-bm4l-stage2-h1-event-timing-adjudication/v1",
+  "source":{"pr1101SourceHead":"f4391a634d4e8b040c5fdd394abb9f8843ad6274","siblingD1EvidenceHead":"f301d4e62ae5174556c490613fe20f10b5d451c3","accdbSha256":"64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8"},
+  "execution":{"workflowRunId":31703797032,"artifactId":9182396949,"artifactDigest":"sha256:06fb8a2f046e579cd289b3c128d011414116a147e3a60aeb7b39ab9f9145a428","h1RowsSemanticHash":"fnv1a64:77eea847870b228b","h1IterationCount":249},
+  "scope":{"lastRelockRestraints":18,"remainingH1FailuresWithLastRelock":6,"repairedByH1":2},
+  "finalH1":{"remainingFailureMedianPct":75.4915507590636,"remainingWithin10Pct":0,"h1PassControlsWithin10Pct":12},
+  "firstLockedProjected":{"remainingFailureMedianPct":17.014619508032002,"remainingWithin10Pct":2,"h1PassControlsWithin10Pct":10,"repairedControlsWithin10Pct":2},
+  "named":{"22140":{"h1Pct":177.68502838036707,"firstLockedProjectedPct":12.5750236998588},"22220":{"h1Pct":106.23988396977985,"firstLockedProjectedPct":7.733852053512621},"22070":{"h1Pct":87.69658326339962,"firstLockedProjectedPct":21.454215316205204},"22370":{"h1Pct":63.286518254727575,"firstLockedProjectedPct":4.890694949547178},"21740":{"h1Pct":32.607144034261616,"firstLockedProjectedPct":22.65093764601769},"22310":{"h1Pct":19.63378740349821,"firstLockedProjectedPct":111.39216465595689},"21470":{"h1Pct":8.352365610500234,"firstLockedProjectedPct":11.237375371735451},"21800":{"h1Pct":3.7308583548323977,"firstLockedProjectedPct":25.537920196890365},"21860":{"h1Pct":2.492792303516914,"firstLockedProjectedPct":0.2633999446606413},"22260":{"h1Pct":8.352505907761762,"firstLockedProjectedPct":8.039622489256645}},
+  "strictSnapshotPreGate":{"pass":false,"reason":"TWO_EXISTING_H1_PASS_CONTROLS_21470_21800_EXCEED_10_PERCENT"},
+  "decision":"ONE_NONLINEAR_H1E1_RCA_CANDIDATE_AUTHORIZED_BECAUSE_SNAPSHOT_IMPROVES_FIVE_OF_SIX_REMAINING_RELOCK_FAILURES_BUT_IS_NOT_FINAL_EQUILIBRIUM"
+}

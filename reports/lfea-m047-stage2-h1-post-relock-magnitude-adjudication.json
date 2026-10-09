@@ -1,0 +1,85 @@
+{
+  "schema": "m047-bm4l-stage2-h1-post-relock-magnitude-adjudication/v1",
+  "status": "NO_GENERAL_POST_RELOCK_MAGNITUDE_LAW_ESTABLISHED_KEEP_H1_REVIEW_CANDIDATE_D1_BASELINE",
+  "source": {
+    "workflowRunId": 31695000295,
+    "workflowHead": "4c8cea91d07c51bf4c1a3039c5cfbc462cbda4c2",
+    "experimentSourceHead": "fd993f6bada46663125744bd33ee3632a0f292d8",
+    "artifactId": 9179018266,
+    "artifactDigest": "sha256:3a35f6f868d269d88efe81b1edaed1703067b89ef22cdf438ba51f9b8e25dbdb",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+    "h1RowsSemanticHash": "fnv1a64:77eea847870b228b",
+    "h1IterationCount": 249
+  },
+  "guard": {
+    "acceptedDiagnosticSchema": "m047-bm4l-stage2-h1-post-relock-magnitude-diagnostic/v3",
+    "independentVectorErrorRecomputation": "PASS",
+    "supersededArtifacts": [
+      "v1 wrong scalar projection sign",
+      "v2 vector construction omitted direction-component multiplication"
+    ],
+    "solverMechanicsChanged": false,
+    "toleranceChanged": false,
+    "comparisonPolicyChanged": false
+  },
+  "counterfactuals": {
+    "constantLastRelockCoulombForce": {
+      "count": 18,
+      "within10Pct": 12,
+      "within20Pct": 14,
+      "medianErrorPct": 8.327611933696044,
+      "meanErrorPct": 14.828155557264317,
+      "worstErrorPct": 111.39111394474637
+    },
+    "scalarUnloadReloadAlongStoredRelockDirectionSigned": {
+      "count": 18,
+      "within10Pct": 7,
+      "within20Pct": 9,
+      "medianErrorPct": 21.95251372353884,
+      "meanErrorPct": 39.090633590515225,
+      "worstErrorPct": 177.68502838036744
+    },
+    "scalarUnloadReloadAlongStoredRelockDirectionNoReverse": {
+      "count": 18,
+      "within10Pct": 7,
+      "within20Pct": 9,
+      "medianErrorPct": 20.97437951156533,
+      "meanErrorPct": 30.458963770474398,
+      "worstErrorPct": 99.08106043004815
+    }
+  },
+  "referenceMagnitudeToRelockCapacity": {
+    "medianRatio": 0.96046704628402,
+    "minimumRatio": 0.47305678149810076,
+    "maximumRatio": 1.0997409683511714,
+    "decisiveLowUtilizationCounterexampleNode": "22310",
+    "decisiveLowUtilizationRatio": 0.47305678149810076
+  },
+  "focusRows": [
+    {"nodeId":"22140","lastRelockIteration":23,"referenceMagnitudeToRelockCapacityRatio":0.8879637543237834,"constantRelockForceVectorErrorPct":12.617209332101211,"scalarDirectionMemorySignedVectorErrorPct":177.68502838036744,"scalarDirectionMemoryNoReverseVectorErrorPct":22.31497161963257},
+    {"nodeId":"22220","lastRelockIteration":23,"referenceMagnitudeToRelockCapacityRatio":0.958926358827857,"constantRelockForceVectorErrorPct":7.949253488555186,"scalarDirectionMemorySignedVectorErrorPct":97.76022199724704,"scalarDirectionMemoryNoReverseVectorErrorPct":97.76022199724704},
+    {"nodeId":"22070","lastRelockIteration":23,"referenceMagnitudeToRelockCapacityRatio":0.9464878203650442,"constantRelockForceVectorErrorPct":22.09209794294255,"scalarDirectionMemorySignedVectorErrorPct":63.87270733850361,"scalarDirectionMemoryNoReverseVectorErrorPct":63.87270733850361},
+    {"nodeId":"22370","lastRelockIteration":6,"referenceMagnitudeToRelockCapacityRatio":1.0166293549704828,"constantRelockForceVectorErrorPct":5.4074584195105295,"scalarDirectionMemorySignedVectorErrorPct":56.21394730268813,"scalarDirectionMemoryNoReverseVectorErrorPct":56.21394730268813},
+    {"nodeId":"21740","lastRelockIteration":18,"referenceMagnitudeToRelockCapacityRatio":0.9200615801874638,"constantRelockForceVectorErrorPct":23.338486982283413,"scalarDirectionMemorySignedVectorErrorPct":24.357246842499624,"scalarDirectionMemoryNoReverseVectorErrorPct":24.357246842499624},
+    {"nodeId":"22310","lastRelockIteration":13,"referenceMagnitudeToRelockCapacityRatio":0.47305678149810076,"constantRelockForceVectorErrorPct":111.39111394474637,"scalarDirectionMemorySignedVectorErrorPct":19.63378740349809,"scalarDirectionMemoryNoReverseVectorErrorPct":19.63378740349809},
+    {"nodeId":"21860","lastRelockIteration":4,"referenceMagnitudeToRelockCapacityRatio":1.003543639273037,"constantRelockForceVectorErrorPct":0.35311262354310763,"scalarDirectionMemorySignedVectorErrorPct":2.492792303517011,"scalarDirectionMemoryNoReverseVectorErrorPct":2.492792303517011},
+    {"nodeId":"22260","lastRelockIteration":26,"referenceMagnitudeToRelockCapacityRatio":0.9321363832289041,"constantRelockForceVectorErrorPct":8.031477143299048,"scalarDirectionMemorySignedVectorErrorPct":6.230111963192585,"scalarDirectionMemoryNoReverseVectorErrorPct":6.230111963192585},
+    {"nodeId":"22120","lastRelockIteration":9,"referenceMagnitudeToRelockCapacityRatio":0.9891459297061238,"constantRelockForceVectorErrorPct":1.2660106204866282,"scalarDirectionMemorySignedVectorErrorPct":25.93988323383718,"scalarDirectionMemoryNoReverseVectorErrorPct":25.93988323383718}
+  ],
+  "finding": [
+    "LAST_RELOCK_DIRECTION_MEMORY_REMAINS_STRONGLY_SUPPORTED_BY_THE_SEPARATE_DIRECTION_DIAGNOSTIC",
+    "CONSTANT_LAST_RELOCK_CAP_IS_OFTEN_CLOSE_BUT_IS_NOT_A_GENERAL_MAGNITUDE_LAW",
+    "NODE_22310_DECISIVELY_REJECTS_CONSTANT_CAP_AFTER_RELOCK_BECAUSE_REFERENCE_FINAL_MAGNITUDE_IS_ONLY_47_3_PERCENT_OF_RELOCK_CAP",
+    "SCALAR_UNLOAD_RELOAD_ALONG_STORED_RELOCK_DIRECTION_IS_WORSE_IN_AGGREGATE_THAN_CONSTANT_RELOCK_FORCE_AND_DOES_NOT_RESOLVE_MAJOR_DIRECTION_ROWS",
+    "NO_NON_TUNED_GENERAL_POST_RELOCK_MAGNITUDE_RULE_IS_ESTABLISHED",
+    "DO_NOT_STAGE_H3_FROM_THESE_COUNTERFACTUALS"
+  ],
+  "decision": [
+    "KEEP_D1_AS_ACCEPTED_EXPERIMENTAL_BASELINE_13_OF_23",
+    "KEEP_H1_AS_LEADING_GOVERNED_REVIEW_CANDIDATE_15_OF_23",
+    "REJECT_H2_CONTINUOUS_REORIENTATION",
+    "STOP_THIS_MAGNITUDE_BRANCH_WITHOUT_H3",
+    "NO_PRODUCTION_OR_TOLERANCE_OR_COMPARISON_CHANGE",
+    "L7_L1_BM4_NL_REMAIN_BLOCKED"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "m047-bm4l-stage2-node20710-force-lag-diagnostic/v1",
+  "caseId": "L13",
+  "nodeId": "20710",
+  "restraintId": "20710:REST_PTR13:TYPE3:UY",
+  "sourceAccdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+  "measurementRunId": 31686794315,
+  "measurementArtifactId": 9175994007,
+  "measurementArtifactDigest": "sha256:dee87508b40b800c6082e73d4d125e1da464c0e3af6445dc2615b7a4c3604328",
+  "reference": {
+    "normalReactionMagnitudeN": 1882.3050537109375,
+    "tangentialForceN": -624.7383422851562,
+    "coefficientOfFriction": 0.3,
+    "capacityFromCurrentReferenceNormalN": 564.6915161132812,
+    "utilisationAgainstCurrentReferenceNormal": 1.106335582585517
+  },
+  "deletedSpringIteration1": {
+    "state": "STICK_TO_SLIDE",
+    "normalReactionMagnitudeN": 2197.885560610964,
+    "capacityN": 659.3656943841269,
+    "springForceN": -2218.927559682972,
+    "nextConstantForceMagnitudeN": 659.3656943841269
+  },
+  "deletedSpringIteration2FirstStateStable": {
+    "state": "SLIDE_TO_SLIDE",
+    "currentNormalReactionMagnitudeN": 1911.1265127228683,
+    "currentCapacityN": 573.3379765992638,
+    "appliedPreviousIterationConstantForceN": -659.3656943841269,
+    "appliedForceMagnitudeN": 659.3656943841269,
+    "appliedForceToCurrentCapacityRatio": 1.150048857516438,
+    "normalErrorPctVsCaesar": 1.531178963532487,
+    "tangentialForceErrorPctVsCaesar": 5.542696798840829,
+    "globalVectorsWithin10Pct": 3,
+    "globalVectorsCompared": 23,
+    "globalNormalsWithin10Pct": 20,
+    "globalNormalizedStateMatches": 12,
+    "reactionUpdateN": 32077.03124392226,
+    "displacementUpdateM": 0.0038799452657596913,
+    "fullPhysicsQualified": false
+  },
+  "period2Tail": {
+    "branchA": {
+      "currentNormalReactionMagnitudeN": 1812.923881313001,
+      "currentCapacityN": 543.8771860056371,
+      "appliedPreviousIterationConstantForceMagnitudeN": 580.3377222417099
+    },
+    "branchB": {
+      "currentNormalReactionMagnitudeN": 1934.4589972705435,
+      "currentCapacityN": 580.3377222417113,
+      "appliedPreviousIterationConstantForceMagnitudeN": 543.8771860056371
+    },
+    "converged": false
+  },
+  "finding": "NODE_20710_REFERENCE_OVERCAP_IS_CONSISTENT_WITH_A_ONE_ITERATION_LAGGED_COULOMB_FORCE_FROM_A_LARGER_PRIOR_NORMAL_BUT_THIS_DOES_NOT_DEFINE_A_GLOBALLY_CONVERGED_SOLUTION",
+  "disposition": [
+    "CLOSE_20710_AS_A_PURE_RESULTANT_VS_PER_AXIS_CAPACITY_ANOMALY",
+    "RETAIN_FORCE_LAG_PATH_DEPENDENCE_AS_THE_PLAUSIBLE_LOCAL_MECHANISM",
+    "DO_NOT_USE_FIRST_STATE_STABLE_ITERATION_AS_GLOBAL_STOPPING_RULE",
+    "DO_NOT_PROMOTE_DELETED_SPRING_SEQUENCE",
+    "D1_REMAINS_EXPERIMENTAL_BASELINE"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "acceptedD1EvidenceSemanticHash": "fnv1a64:5fe56f22e55e8ed0",
+  "authority": {
+    "caesarAccuracyComparisonScope": "FINAL_LAMBDA_1_ROWS_ONLY",
+    "caesarInternalLoadSteppingClaimed": false,
+    "intermediateSubstepAccuracyUse": "GLOBAL_EQUILIBRIUM_AND_FRICTION_STATE_CONTINUATION_ONLY_NOT_CAESAR_ROW_ACCURACY",
+    "kind": "PROJECT_DECLARED_NUMERICAL_CONTINUATION_RCA"
+  },
+  "automaticProductionMechanicsMutationAllowed": false,
+  "bm4nlAllowed": false,
+  "caseId": "L13",
+  "comparisonPolicyChanged": false,
+  "experimentDecision": {
+    "l7LoadSteppingAllowed": false,
+    "productionMechanicsPromotionAuthorized": false,
+    "status": "INCONCLUSIVE_PHYSICAL_CONTINUATION_NOT_N5_N10_REFINEMENT_STABLE"
+  },
+  "finalEngineeringDisposition": {
+    "nextWorkPackage": "INCONCLUSIVE_PHYSICAL_CONTINUATION_NOT_N5_N10_REFINEMENT_STABLE",
+    "retainedBaselineIfAccepted": "D1_TOTAL_RELATIVE_TANGENTIAL_DISPLACEMENT_DIRECTION",
+    "status": "NO_CONTINUATION_PROMOTION_KEEP_D1_EXPERIMENTAL_BASELINE"
+  },
+  "l7LoadSteppingAllowed": false,
+  "mechanicsChanged": false,
+  "n1Reproduction": {
+    "iterationMatches": true,
+    "maximumNormalDifferenceN": 1.836042429204099e-10,
+    "maximumTangentialComponentDifferenceN": 1.8335413187742233e-9,
+    "measuredD1ConvergenceIteration": 396,
+    "mismatchRestraintIds": [],
+    "n1TotalIterationCount": 396,
+    "rule": "N1_MUST_REPRODUCE_ACCEPTED_D1_RESTRAINT_STATE_AND_RESPONSE_BEFORE_PATH_RESULTS_ARE_INTERPRETED",
+    "status": "PASS"
+  },
+  "nextAccuracyEvidenceSemanticHash": "fnv1a64:f9da044f471d657b",
+  "productionMechanicsPromotionAuthorized": false,
+  "refinement": {
+    "forceDifferenceLimitN": 0.01,
+    "maximumNormalDifferenceN": 29.559297089908114,
+    "maximumTangentialComponentDifferenceN": 408.5102185410178,
+    "rule": "N5_VS_N10_REFINEMENT_USES_EXISTING_REACTION_UPDATE_LIMIT_AND_EXACT_RAW_STATE_IDENTITY_NOT_CAESAR_ERROR",
+    "stateMismatchRestraintIds": [
+      "20090:REST_PTR2:TYPE3:UY",
+      "20350:REST_PTR6:TYPE3:UY",
+      "20440:REST_PTR8:TYPE3:UY",
+      "22120:REST_PTR24:TYPE3:UY",
+      "22220:REST_PTR26:TYPE3:UY",
+      "22370:REST_PTR29:TYPE3:UY"
+    ],
+    "stateSetsIdentical": false,
+    "status": "FAIL"
+  },
+  "retainedSeparateSignals": {
+    "oneAxisCapacityPathRestraintIds": [
+      "20710:REST_PTR13:TYPE3:UY",
+      "21860:REST_PTR20:TYPE3:UY",
+      "22020:REST_PTR22:TYPE3:UY"
+    ],
+    "target20710OneAxisOverCap": true
+  },
+  "runLedger": [
+    {
+      "converged": true,
+      "deterministic": true,
+      "finalAboveR1VectorWithinGoal": 13,
+      "finalConstitutiveStateMatches": 19,
+      "finalNormalWithinGoal": 23,
+      "finalRowsSemanticHash": "fnv1a64:fcba1ccc9fb7ff15",
+      "finalVectorWithinGoal": 13,
+      "fractions": [
+        1
+      ],
+      "runId": "D1-L13-PATH-N1",
+      "totalIterationCount": 396
+    },
+    {
+      "converged": true,
+      "deterministic": true,
+      "finalAboveR1VectorWithinGoal": 12,
+      "finalConstitutiveStateMatches": 16,
+      "finalNormalWithinGoal": 23,
+      "finalRowsSemanticHash": "fnv1a64:0ff520ad8aa5292f",
+      "finalVectorWithinGoal": 12,
+      "fractions": [
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1
+      ],
+      "runId": "D1-L13-PATH-N5",
+      "totalIterationCount": 693
+    },
+    {
+      "converged": true,
+      "deterministic": true,
+      "finalAboveR1VectorWithinGoal": 12,
+      "finalConstitutiveStateMatches": 14,
+      "finalNormalWithinGoal": 23,
+      "finalRowsSemanticHash": "fnv1a64:2db101d48356f005",
+      "finalVectorWithinGoal": 12,
+      "fractions": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1
+      ],
+      "runId": "D1-L13-PATH-N10",
+      "totalIterationCount": 1137
+    }
+  ],
+  "schema": "m047-bm4l-stage2-d1-load-path-finalization/v1",
+  "semanticHash": "fnv1a64:dc8f3e52b34ee8ce",
+  "sourceAccdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+  "sourceExperimentSemanticHash": "fnv1a64:8d9d141f04721544",
+  "sourceFingerprints": {
+    "ephemeralCandidateSha256": "f749feea16184846b181da14d0104b07e175fb1c3cf93b313b84ed2d3b8c3926",
+    "productionSolverPath": "/home/runner/work/Advanced_Analysis/Advanced_Analysis/src/core/fea-benchmarks/caesar-accdb-friction-solve.js",
+    "productionSolverSha256": "9976cda40cdfd3214ce125d71a3ce5c5f30b33b7f5a9835231705d49b68dfbfa",
+    "productionSourceModifiedByExperiment": false
+  },
+  "status": "NO_CONTINUATION_PROMOTION_KEEP_D1_EXPERIMENTAL_BASELINE",
+  "toleranceChanged": false
+}

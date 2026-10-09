@@ -1,0 +1,94 @@
+{
+  "schema": "m047-bm4l-stage2-l7-d1-h1-generalization-evidence/v2",
+  "measurementBoundary": "REAL_PINNED_ACCDB_L7_GENERALIZATION_NO_L7_TUNING",
+  "source": {
+    "pr1101SourceHead": "70fb5e08b4c390ebc432cea06ab2c0be14496a6a",
+    "temporaryMeasurementHead": "0c29bfe7f4d9b906f442316cd76f6623e5a711de",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+    "productionSolverSha256": "9976cda40cdfd3214ce125d71a3ce5c5f30b33b7f5a9835231705d49b68dfbfa"
+  },
+  "execution": {
+    "workflowRunId": 31710577472,
+    "artifactId": 9185468387,
+    "artifactDigest": "sha256:33205bf9ca1836aa0da7fb8abbf02e442849a183b7594a421fcf8081cdad5e29",
+    "rawAuthority": ["l7-d1-r1.json", "l7-d1-r2.json", "l7-h1-r1.json", "l7-h1-r2.json"]
+  },
+  "correction": {
+    "status": "CORRECTED_POST_PROCESSING_ROW_PROJECTION",
+    "supersedesSchema": "m047-bm4l-stage2-l7-d1-h1-generalization-evidence/v1",
+    "aggregateMetricsChanged": false,
+    "engineeringDecisionChanged": false,
+    "reason": "v1 rows[] were populated from an incorrect post-processing projection. v2 removes those invalid detailed rows and binds detailed authority directly to the original governed Actions artifact.",
+    "detailedRowsOmittedFromCompactRecord": true
+  },
+  "guards": {
+    "productionSolverModified": false,
+    "loadSteppingUsed": false,
+    "toleranceChanged": false,
+    "comparisonPolicyChanged": false,
+    "nodeExceptionsUsed": false
+  },
+  "d1": {
+    "vectorsWithin10Pct": 10,
+    "normalsWithin10Pct": 22,
+    "referenceUtilisationProxyMatches": 9,
+    "meanVectorErrorPct": 27.07759403036222,
+    "medianVectorErrorPct": 17.147228811551088,
+    "worstVectorErrorPct": 110.33224497758086,
+    "meanAbsNormalErrorPct": 1.8725537741515097,
+    "worstAbsNormalErrorPct": 24.902657091277078,
+    "restraintSha256": "6ce2e346ea480551e5f0e94c8e3886db9097fdd56981e75394bdacadb9b31afe",
+    "repeatRestraintSha256": "6ce2e346ea480551e5f0e94c8e3886db9097fdd56981e75394bdacadb9b31afe",
+    "deterministic": true
+  },
+  "h1": {
+    "vectorsWithin10Pct": 9,
+    "normalsWithin10Pct": 22,
+    "referenceUtilisationProxyMatches": 9,
+    "meanVectorErrorPct": 21.551695733696427,
+    "medianVectorErrorPct": 14.275409037246103,
+    "worstVectorErrorPct": 90.15282888823197,
+    "meanAbsNormalErrorPct": 1.7415801427736959,
+    "worstAbsNormalErrorPct": 24.31070652130196,
+    "restraintSha256": "1da0a49d95b10a66f478dd0ed976ca45b3856d552a1fb8b1bd5da71cd352a974",
+    "repeatRestraintSha256": "1da0a49d95b10a66f478dd0ed976ca45b3856d552a1fb8b1bd5da71cd352a974",
+    "deterministic": true
+  },
+  "comparison": {
+    "h1NewPasses": ["22220"],
+    "h1PassLosses": ["20520", "21930"],
+    "h1ImprovedRows": 14,
+    "h1RegressedRows": 9
+  },
+  "correctedFocusRows": [
+    {
+      "nodeId": "20350",
+      "frictionDofs": ["UX", "UZ"],
+      "referenceNormalN": 462.6910400390625,
+      "d1NormalN": 347.46867694607124,
+      "h1NormalN": 350.20757919480627,
+      "d1VectorErrorPct": 24.990938413962407,
+      "h1VectorErrorPct": 23.654683350357615
+    },
+    {
+      "nodeId": "20440",
+      "frictionDofs": ["UX", "UZ"],
+      "referenceNormalN": 1903.251220703125,
+      "d1NormalN": 1906.7144868616558,
+      "h1NormalN": 1906.3870255949112,
+      "d1VectorErrorPct": 33.56084669637261,
+      "h1VectorErrorPct": 34.25375100179667
+    },
+    {
+      "nodeId": "20550",
+      "frictionDofs": ["UX"],
+      "referenceNormalN": 2742.558837890625,
+      "d1NormalN": 2746.6701405772983,
+      "h1NormalN": 2745.5899104837495,
+      "d1VectorErrorPct": 8.804827388462162,
+      "h1VectorErrorPct": 8.761929628972329
+    }
+  ],
+  "regimeAuthorityNote": "The reference regime is the tuning-loop utilization proxy, not a raw CAESAR SOL field.",
+  "decision": "L7_H1_DOES_NOT_GENERALIZE_CLEANLY_KEEP_D1_BASELINE"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "m047-bm4l-stage2-l7-b0-d1-branch-history-rca/v1",
+  "sourceHead": "2db6241420b4a2030f76adacadb03af8dab5cec7",
+  "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+  "run": 31721845373,
+  "artifact": 9189855108,
+  "artifactDigest": "sha256:fdde9a721ff9241064dbd04c79d5220f6c63b75b09b335f6312b31501147b253",
+  "guards": {"loadStepping": false, "mechanicsAdded": false, "tolerancesChanged": false, "nodeExceptions": false, "solverRestored": true},
+  "supersededRun": {"run": 31720834376, "reason": "invalid expected receipt from erroneous compact-evidence v1; observed D1 20440 normal 1906.7144868616558 N was actually correct"},
+  "reproduction": {
+    "b0": {"status": "NONCONVERGED", "iterations": 400, "lastStateChange": 30, "terminalDisplacementUpdateM": 6.605116696645208e-10, "terminalReactionUpdateN": 0.11567343084607273},
+    "d1": {"status": "CONVERGED", "iterations": 161, "lastStateChange": 67, "displacementUpdateM": 5.568479911118723e-11, "reactionUpdateN": 0.009751912133651786, "focusMatchesOriginalRawArtifact": true}
+  },
+  "directDivergence": {
+    "iteration": 2,
+    "twoDofCount": 14,
+    "twoDofNodes": ["20090", "20170", "20350", "20440", "20520", "21470", "21610", "21740", "21800", "22070", "22120", "22220", "22260", "22370"],
+    "allNineOneDofRestraintsUnchanged": true,
+    "iteration3DivergedRestraints": 22
+  },
+  "focus": {
+    "20350": {"dofs": ["UX", "UZ"], "direct": true, "firstSlipDivergence": 2, "firstMaterialCoupledDivergence": 3, "firstStateDivergence": 21, "b0": "relocks at 21 near N=683.826 N, re-slides at 24, ends sliding N=686.012 N", "d1": "relocks at 27 near N=348.355 N and stays locked; converged N=347.469 N", "caesarNormalN": 462.6910400390625, "d1VectorErrorPct": 24.990938413962407},
+    "20440": {"dofs": ["UX", "UZ"], "direct": true, "firstSlipDivergence": 2, "firstMaterialCoupledDivergence": 3, "firstStateDivergence": 23, "b0": "remains sliding through 400; terminal N=1900.050 N", "d1": "relocks at 23 near N=1906.942 N and stays locked; converged N=1906.714 N", "caesarNormalN": 1903.251220703125, "d1VectorErrorPct": 33.56084669637261},
+    "20550": {"dofs": ["UX"], "direct": false, "firstSlipDivergence": 3, "firstMaterialCoupledDivergence": 3, "firstStateDivergence": null, "b0": "sliding through 400; terminal slide residual 0.017216 N", "d1": "sliding through 161; converged slide residual 0.003039 N", "caesarNormalN": 2742.558837890625, "d1NormalN": 2746.6701405772983, "d1VectorErrorPct": 8.804827388462162}
+  },
+  "decision": "D1_CONVERGENCE_GAIN_IS_A_COUPLED_2D_DIRECTION_BRANCH_SELECTION_EFFECT",
+  "next": "NO_L7_LOAD_STEPPING_OR_NODE_LOCAL_RULES_FROM_THIS_RCA"
+}

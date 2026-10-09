@@ -1,0 +1,26 @@
+{
+  "schema": "m047-bm4l-stage2-h1-residual-force-geometry/v1",
+  "rule": "DATA_ONLY_CLASSIFICATION_NO_MECHANICS_OR_TOLERANCES_CHANGED",
+  "sourceMeasurement": "reports/lfea-m047-stage2-d1-relock-final-return-map-measurement.json",
+  "remainingAboveR1FailureCount": 7,
+  "remainingFailures": [
+    {"nodeId":"22140","h1VectorErrorPct":177.68502838036707,"referenceUtilisation":0.8951530882523876,"slideToStickIterations":[9,23],"candidateToReferenceMagnitudeRatio":0.7768503023836104,"candidateForceCosineToReference":-1.0,"classification":"ONE_AXIS_OPPOSITE_SIGN_WRONG_BRANCH"},
+    {"nodeId":"22220","h1VectorErrorPct":106.23988396977985,"referenceUtilisation":0.9570318542600503,"slideToStickIterations":[23],"candidateToReferenceMagnitudeRatio":0.4871025349000737,"candidateForceCosineToReference":0.11151051711411525,"classification":"TWO_AXIS_DIRECTION_AND_MAGNITUDE_BRANCH_ERROR"},
+    {"nodeId":"22070","h1VectorErrorPct":87.69658326339962,"referenceUtilisation":0.9362256859958026,"slideToStickIterations":[23],"candidateToReferenceMagnitudeRatio":0.9213921890312178,"candidateForceCosineToReference":0.5860055214238014,"classification":"TWO_AXIS_DIRECTION_DOMINATED_BRANCH_ERROR"},
+    {"nodeId":"22370","h1VectorErrorPct":63.286518254727575,"referenceUtilisation":1.016486453611979,"slideToStickIterations":[6],"candidateToReferenceMagnitudeRatio":0.5596714644243625,"candidateForceCosineToReference":0.8153779314651334,"classification":"TWO_AXIS_MAGNITUDE_AND_DIRECTION_ERROR_REFERENCE_ON_SURFACE"},
+    {"nodeId":"21740","h1VectorErrorPct":32.607144034261616,"referenceUtilisation":0.9190783509901178,"slideToStickIterations":[9,18],"candidateToReferenceMagnitudeRatio":0.9887778922439582,"candidateForceCosineToReference":0.9462884953625129,"classification":"TWO_AXIS_DIRECTION_DOMINATED_WITH_CORRECT_MAGNITUDE"},
+    {"nodeId":"22310","h1VectorErrorPct":19.63378740349821,"referenceUtilisation":0.4731506498620168,"slideToStickIterations":[5,13],"candidateToReferenceMagnitudeRatio":0.8036923116763537,"candidateForceCosineToReference":1.0,"classification":"ONE_AXIS_CORRECT_SIGN_UNDER_MAGNITUDE"},
+    {"nodeId":"20440","h1VectorErrorPct":10.982200658333925,"referenceUtilisation":0.9076623601256832,"slideToStickIterations":[],"candidateToReferenceMagnitudeRatio":1.1013950522407823,"candidateForceCosineToReference":0.9992249302617413,"classification":"TWO_AXIS_CORRECT_DIRECTION_SLIGHT_OVER_MAGNITUDE_FINAL_SLIDING"}
+  ],
+  "repairedControls": [
+    {"nodeId":"21860","d1VectorErrorPct":71.7676369873077,"h1VectorErrorPct":2.492792303516914,"referenceUtilisation":1.001821059675356,"slideToStickIterations":[4],"candidateToReferenceMagnitudeRatio":0.9750700726107506,"candidateForceCosineToReference":1.0},
+    {"nodeId":"22260","d1VectorErrorPct":11.261244073543603,"h1VectorErrorPct":8.352505907761762,"referenceUtilisation":0.9325806311646732,"slideToStickIterations":[26],"candidateToReferenceMagnitudeRatio":1.0529595443668994,"candidateForceCosineToReference":0.9979901956634858}
+  ],
+  "finding": [
+    "RELOCK_COUNT_OR_TIMING_ALONE_DOES_NOT_SEPARATE_H1_SUCCESS_FROM_FAILURE",
+    "REMAINING_FAILURES_SPLIT_INTO_DIRECTION_BRANCH_AND_MAGNITUDE_HISTORY_CLASSES",
+    "22140_IS_DECISIVE_ONE_AXIS_SIGN_REVERSAL_AND_CANNOT_BE_FIXED_BY_SCALAR_CAP_RETUNING",
+    "22310_IS_DECISIVE_ONE_AXIS_CORRECT_SIGN_BUT_UNDER_MAGNITUDE_AND_REQUIRES_DIFFERENT_EXPLANATION_FROM_22140",
+    "NEXT_DISCRIMINATOR_SHOULD_COMPARE_REFERENCE_AND_H1_RELATIVE_TANGENTIAL_DISPLACEMENT_DIRECTION_BEFORE_ANY_MECHANIC_CHANGE"
+  ]
+}

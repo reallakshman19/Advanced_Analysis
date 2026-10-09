@@ -1,0 +1,99 @@
+{
+  "schema": "m047-bm4l-stage2-d1-per-axis-cap-measurement/v1",
+  "status": "REJECT_P1_AS_MISSING_GLOBAL_MECHANISM_KEEP_D1",
+  "source": {
+    "pr1101SourceHead": "89ee02cf22412728819928d5d37146b573b9a82a",
+    "siblingEvidenceHead": "fadcee224328ab1a9e3c27e741442654e6b5206c",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+    "accdbBytes": 5136384
+  },
+  "execution": {
+    "workflowRunId": 31690877725,
+    "artifactId": 9177392823,
+    "artifactDigest": "sha256:57639ac42f6ab0663f1b5704cdde7752284c18bb19e27a0f621b22a988b3aa15",
+    "candidateSourceSha256": "ef994300219d55849aca3e31049339b12047df8f9a3d13d6293c5fe1c8332a47",
+    "rowsSemanticHash": "fnv1a64:a2864ca10d4813f4",
+    "repeatRowsSemanticHash": "fnv1a64:a2864ca10d4813f4",
+    "deterministic": true,
+    "iterationCount": 90,
+    "repeatIterationCount": 90,
+    "equilibriumPass": true,
+    "convergencePass": true
+  },
+  "mechanic": {
+    "baseline": "D1_TOTAL_RELATIVE_TANGENTIAL_DIRECTION_WITH_RESULTANT_CIRCLE_CAP",
+    "candidate": "D1_TOTAL_RELATIVE_TANGENTIAL_DIRECTION_WITH_PER_AXIS_BOX_CAP",
+    "rule": "ABS_EACH_TANGENTIAL_FORCE_COMPONENT_LE_MU_TIMES_OWN_NORMAL",
+    "oneAxisEquivalent": true,
+    "productionSolverModified": false,
+    "toleranceChanged": false,
+    "comparisonPolicyChanged": false
+  },
+  "baseline": {
+    "vectorsWithin10Pct": 13,
+    "vectorsCompared": 23,
+    "normalsWithin10Pct": 23,
+    "medianVectorErrorPct": 8.770486079612711,
+    "worstVectorErrorPct": 721.9148663680088,
+    "normalizedStateMatches": 19
+  },
+  "candidate": {
+    "vectorsWithin10Pct": 6,
+    "vectorsCompared": 23,
+    "normalsWithin10Pct": 23,
+    "medianVectorErrorPct": 13.53903611450483,
+    "worstVectorErrorPct": 276.9071043674973,
+    "normalizedStateMatches": 14,
+    "aboveR1FloorVectorsWithin10Pct": 6,
+    "aboveR1FloorCount": 22,
+    "aboveR1FloorWorstVectorErrorPct": 102.68939039610956
+  },
+  "referencePerAxisSignature": {
+    "count": 2,
+    "restraintIds": [
+      "22370:REST_PTR29:TYPE3:UY",
+      "21470:REST_PTR14:TYPE3:UY"
+    ],
+    "baselineVectorsWithin10Pct": 1,
+    "candidateVectorsWithin10Pct": 1
+  },
+  "named": {
+    "22140": {"baselineErrPct": 176.21881317667504, "candidateErrPct": 102.68939039610956, "refPerAxisSignature": false},
+    "22220": {"baselineErrPct": 111.57329837235288, "candidateErrPct": 40.12290149922551, "refPerAxisSignature": false},
+    "22370": {"baselineErrPct": 69.23253359515135, "candidateErrPct": 59.04711697888209, "refPerAxisSignature": true},
+    "21470": {"baselineErrPct": 8.757095406001723, "candidateErrPct": 7.859304439361183, "refPerAxisSignature": true},
+    "20710": {"baselineErrPct": 9.030800109380419, "candidateErrPct": 10.361185987245843, "refPerAxisSignature": false}
+  },
+  "rows": [
+    ["21930",721.9148663680088,276.9071043674973,false],
+    ["22140",176.21881317667504,102.68939039610956,false],
+    ["21860",71.7676369873077,74.74630683083538,false],
+    ["22370",69.23253359515135,59.04711697888209,true],
+    ["20440",10.962941119761869,42.64619907009623,false],
+    ["22220",111.57329837235288,40.12290149922551,false],
+    ["22310",23.288303055903743,37.418405648599865,false],
+    ["22260",11.261244073543603,36.57003591441971,false],
+    ["20170",8.770486079612711,33.49624997721728,false],
+    ["22070",87.65533143982191,32.20764828989178,false],
+    ["20520",5.427189249549053,27.98302157087183,false],
+    ["22120",8.448612829660004,13.53903611450483,false],
+    ["21740",35.277770718556724,13.0476408441187,false],
+    ["21610",5.761912438557913,12.539126476085197,false],
+    ["20090",8.376440930229316,10.596775232089925,false],
+    ["22020",1.2795502058703379,10.525758357111828,false],
+    ["20710",9.030800109380419,10.361185987245843,false],
+    ["20350",1.2776674899181693,9.668006290262454,false],
+    ["21800",7.177538776496581,8.146584563848155,false],
+    ["21470",8.757095406001723,7.859304439361183,true],
+    ["20550",4.202403563500299,7.725557419338063,false],
+    ["20250",1.6923048621887613,6.271259638417273,false],
+    ["20580",0.2567571913888783,0.5226954170688544,false]
+  ],
+  "decision": [
+    "KEEP_D1_13_OF_23_BASELINE",
+    "REJECT_PER_AXIS_BOX_AS_GLOBAL_MECHANISM",
+    "DO_NOT_INTERPRET_LOCAL_22140_22220_IMPROVEMENT_AS_GLOBAL_PROMOTION",
+    "CAPACITY_PARTITION_BRANCH_CLOSED_FOR_L13_CURRENT_MODEL",
+    "NO_TOLERANCE_OR_PRODUCTION_CHANGE"
+  ]
+}

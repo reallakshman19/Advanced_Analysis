@@ -1,0 +1,67 @@
+{
+  "schema": "m047-bm4l-stage2-h1e1-first-locked-finalization-measurement/v1",
+  "source": {
+    "pr1101SourceHead": "7668bc046ff271bf6df00f55e4e1a1940edb0c41",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8"
+  },
+  "execution": {
+    "workflowRunId": 31704443801,
+    "artifactId": 9182702291,
+    "artifactDigest": "sha256:6b245a8fe2057614dcee795c643fced8f9c2a2bd885d826ae53ecf90cba7ba74",
+    "candidateProfileId": "CAESAR-ACCDB-FRICTION-SOLVER-R1-D1-H1E1-FIRST-LOCKED-FINALIZATION",
+    "converged": true,
+    "deterministic": true,
+    "physics": true,
+    "eventReproducible": true,
+    "iterationCount": 182,
+    "repeatIterationCount": 182,
+    "rowsSemanticHash": "fnv1a64:0013b48ecff68f0b",
+    "repeatRowsSemanticHash": "fnv1a64:0013b48ecff68f0b",
+    "firstLockedFinalizationCount": 27,
+    "repeatFirstLockedFinalizationCount": 27
+  },
+  "mechanic": {
+    "baseline": "H1_FINALIZE_ON_SLIDE_TO_STICK_DETECTION_ITERATION",
+    "candidate": "SHIFT_H1_FINAL_RETURN_MAP_COMMIT_TO_FIRST_ACTIVE_STICK_EQUILIBRIUM_ONLY",
+    "productionSolverModified": false,
+    "toleranceChanged": false,
+    "comparisonPolicyChanged": false
+  },
+  "h1Baseline": {
+    "vectorsWithin10Pct": 15,
+    "normalsWithin10Pct": 23,
+    "medianVectorErrorPct": 8.352365610500234
+  },
+  "candidate": {
+    "vectorsWithin10Pct": 15,
+    "normalsWithin10Pct": 23,
+    "medianVectorErrorPct": 8.27793494651797,
+    "worstVectorErrorPct": 652.6947368015332,
+    "h1PassLossNodes": [],
+    "newPassNodes": []
+  },
+  "named": {
+    "22140": {"h1Pct":177.68502838036707,"candidatePct":170.7702934442519},
+    "22220": {"h1Pct":106.23988396977985,"candidatePct":106.39837505064159},
+    "22070": {"h1Pct":87.69658326339962,"candidatePct":95.49651753847802},
+    "22370": {"h1Pct":63.286518254727575,"candidatePct":63.02594535320947},
+    "21740": {"h1Pct":32.607144034261616,"candidatePct":31.69819277518855},
+    "22310": {"h1Pct":19.63378740349821,"candidatePct":19.58666278233904},
+    "21470": {"h1Pct":8.352365610500234,"candidatePct":8.27793494651797},
+    "21800": {"h1Pct":3.7308583548323977,"candidatePct":4.985905747190013},
+    "21860": {"h1Pct":2.492792303516914,"candidatePct":8.411752545748868},
+    "22260": {"h1Pct":8.352505907761762,"candidatePct":7.85039564524517},
+    "22120": {"h1Pct":0.789550376619253,"candidatePct":0.5729788061541509}
+  },
+  "promotionGate": {
+    "rule": "AT_LEAST_17_OF_23_23_NORMALS_ZERO_H1_PASS_LOSS_LOWER_MEDIAN",
+    "pass": false
+  },
+  "decision": [
+    "REJECT_H1E1_FOR_PROMOTION",
+    "KEEP_H1_AS_LEADING_REVIEW_CANDIDATE_15_OF_23",
+    "KEEP_D1_AS_ACCEPTED_EXPERIMENTAL_BASELINE_13_OF_23",
+    "H1E1_HAS_ZERO_H1_PASS_LOSSES_BUT_ZERO_NEW_PASSES",
+    "NO_PRODUCTION_CHANGE_NO_L7_UNLOCK"
+  ]
+}

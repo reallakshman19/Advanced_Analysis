@@ -1,0 +1,3134 @@
+{
+  "acceptedD1EvidenceArtifact": "real-d1.json",
+  "acceptedD1EvidenceSemanticHash": "fnv1a64:5fe56f22e55e8ed0",
+  "authority": "PROJECT_DECLARED_NUMERICAL_CONTINUATION_NOT_CAESAR_INTERNAL_LOAD_STEPPING",
+  "automaticProductionMechanicsMutationAllowed": false,
+  "bm4nlAllowed": false,
+  "caseId": "L13",
+  "comparisonPolicyChanged": false,
+  "decision": {
+    "l7LoadSteppingAllowed": false,
+    "productionMechanicsPromotionAuthorized": false,
+    "status": "INCONCLUSIVE_PHYSICAL_CONTINUATION_NOT_N5_N10_REFINEMENT_STABLE"
+  },
+  "frictionStateLoadsScaledByPhysicalFraction": false,
+  "fullLoadStiffnessFrozen": true,
+  "isolatedMechanic": "PHYSICAL_LOAD_PATH_CONTINUATION_FROM_ZERO_TO_FULL_L13",
+  "l7LoadSteppingAllowed": false,
+  "n1Reproduction": {
+    "iterationMatches": true,
+    "maximumNormalDifferenceN": 1.836042429204099e-10,
+    "maximumTangentialComponentDifferenceN": 1.8335413187742233e-9,
+    "measuredD1ConvergenceIteration": 396,
+    "mismatchRestraintIds": [],
+    "n1TotalIterationCount": 396,
+    "rule": "N1_MUST_REPRODUCE_ACCEPTED_D1_RESTRAINT_STATE_AND_RESPONSE_BEFORE_PATH_RESULTS_ARE_INTERPRETED",
+    "status": "PASS"
+  },
+  "nextAccuracyEvidenceArtifact": "next-accuracy.json",
+  "nextAccuracyEvidenceSemanticHash": "fnv1a64:f9da044f471d657b",
+  "physicalLoadContinuationRule": "PROJECT_DECLARED_SCALE_PHYSICAL_ELEMENT_RHS_WITH_FULL_L13_STIFFNESS_FROZEN_V1",
+  "productionSourceModified": false,
+  "refinement": {
+    "forceDifferenceLimitN": 0.01,
+    "maximumNormalDifferenceN": 29.559297089908114,
+    "maximumTangentialComponentDifferenceN": 408.5102185410178,
+    "rule": "N5_VS_N10_REFINEMENT_USES_EXISTING_REACTION_UPDATE_LIMIT_AND_EXACT_RAW_STATE_IDENTITY_NOT_CAESAR_ERROR",
+    "stateMismatchRestraintIds": [
+      "20090:REST_PTR2:TYPE3:UY",
+      "20350:REST_PTR6:TYPE3:UY",
+      "20440:REST_PTR8:TYPE3:UY",
+      "22120:REST_PTR24:TYPE3:UY",
+      "22220:REST_PTR26:TYPE3:UY",
+      "22370:REST_PTR29:TYPE3:UY"
+    ],
+    "stateSetsIdentical": false,
+    "status": "FAIL"
+  },
+  "retainedSeparateSignals": {
+    "oneAxisCapacityPathRestraintIds": [
+      "20710:REST_PTR13:TYPE3:UY",
+      "21860:REST_PTR20:TYPE3:UY",
+      "22020:REST_PTR22:TYPE3:UY"
+    ],
+    "target20710OneAxisOverCap": true
+  },
+  "runs": [
+    {
+      "converged": true,
+      "deterministic": true,
+      "existingLimits": {
+        "displacementUpdateLimitM": 1e-10,
+        "reactionUpdateLimitN": 0.01
+      },
+      "finalIterationCount": 396,
+      "finalRowsSemanticHash": "fnv1a64:fcba1ccc9fb7ff15",
+      "fractions": [
+        1
+      ],
+      "incrementCount": 1,
+      "loadPathEvidence": {
+        "adaptiveRetryAllowed": false,
+        "fractions": [
+          1
+        ],
+        "rule": "PROJECT_DECLARED_SCALE_PHYSICAL_ELEMENT_RHS_WITH_FULL_L13_STIFFNESS_FROZEN_V1",
+        "substepCount": 1,
+        "substeps": [
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 15,
+              "sliding": 5,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:1edab6a543a293c0",
+            "iterationCount": 396,
+            "physicalLoadFraction": 1,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 1
+          }
+        ],
+        "totalIterationCount": 396
+      },
+      "repeatRowsSemanticHash": "fnv1a64:fcba1ccc9fb7ff15",
+      "restraints": [
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            2126.7093249414393,
+            215.69264092460253
+          ],
+          "d1VectorErrorPct": 8.376440930229316,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20090",
+          "normal": {
+            "d1N": 7156.367118422095,
+            "d1PercentError": 1.7946419675746734,
+            "percentError": 1.7946419675746348,
+            "referenceN": 7030.2001953125,
+            "solvedN": 7156.367118422092
+          },
+          "referenceMagnitudeN": 1977.4701785819386,
+          "referenceTangentialN": [
+            1962.8560791015625,
+            239.9673309326172
+          ],
+          "restraintId": "20090:REST_PTR2:TYPE3:UY",
+          "solvedMagnitudeN": 2137.619205598108,
+          "solvedTangentialN": [
+            2126.7093249414356,
+            215.6926409245989
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.37644093022916
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            2408.75268644523,
+            3074.524758220632
+          ],
+          "d1VectorErrorPct": 8.770486079612711,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20170",
+          "normal": {
+            "d1N": 13039.89193610576,
+            "d1PercentError": 0.8704611090791758,
+            "percentError": 0.8704611090805268,
+            "referenceN": 12927.3642578125,
+            "solvedN": 13039.891936105934
+          },
+          "referenceMagnitudeN": 3617.479534866035,
+          "referenceTangentialN": [
+            2329.985595703125,
+            2767.187255859375
+          ],
+          "restraintId": "20170:REST_PTR3:TYPE3:UY",
+          "solvedMagnitudeN": 3905.738341642476,
+          "solvedTangentialN": [
+            2408.752686445274,
+            3074.524758221796
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.770486079644183
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            1944.3904847243427
+          ],
+          "d1VectorErrorPct": 1.6923048621887613,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "20250",
+          "normal": {
+            "d1N": 11214.29094670288,
+            "d1PercentError": -0.005260088622578166,
+            "percentError": -0.005260088622837677,
+            "referenceN": 11214.880859375,
+            "solvedN": 11214.290946702851
+          },
+          "referenceMagnitudeN": 1977.8619384765625,
+          "referenceTangentialN": [
+            1977.8619384765625
+          ],
+          "restraintId": "20250:REST_PTR4:TYPE3:UY",
+          "solvedMagnitudeN": 1944.3904847243261,
+          "solvedTangentialN": [
+            1944.3904847243261
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 1.6923048621896009
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -838.870674928301,
+            -394.38704954647255
+          ],
+          "d1VectorErrorPct": 1.2776674899181693,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20350",
+          "normal": {
+            "d1N": 3089.849110130143,
+            "d1PercentError": -0.1513273192305853,
+            "percentError": -0.15132731923067347,
+            "referenceN": 3094.531982421875,
+            "solvedN": 3089.84911013014
+          },
+          "referenceMagnitudeN": 915.7774780987517,
+          "referenceTangentialN": [
+            -827.2864379882812,
+            -392.7410583496094
+          ],
+          "restraintId": "20350:REST_PTR6:TYPE3:UY",
+          "solvedMagnitudeN": 926.9547745735159,
+          "solvedTangentialN": [
+            -838.8706749283301,
+            -394.38704954641435
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 1.2776674899204215
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            474.42361620239535,
+            375.74210324116575
+          ],
+          "d1VectorErrorPct": 10.962941119761869,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20440",
+          "normal": {
+            "d1N": 2023.0336709980743,
+            "d1PercentError": -0.02621196528532484,
+            "percentError": -0.02621196528530237,
+            "referenceN": 2023.5640869140625,
+            "solvedN": 2023.0336709980747
+          },
+          "referenceMagnitudeN": 551.013908393522,
+          "referenceTangentialN": [
+            415.6678466796875,
+            361.71337890625
+          ],
+          "restraintId": "20440:REST_PTR8:TYPE3:UY",
+          "solvedMagnitudeN": 605.1940975914408,
+          "solvedTangentialN": [
+            474.4236162027373,
+            375.74210324188607
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 10.962941119852593
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            533.6605506877677,
+            420.96177974602324
+          ],
+          "d1VectorErrorPct": 5.427189249549053,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20520",
+          "normal": {
+            "d1N": 2326.0577996653687,
+            "d1PercentError": -0.051825508140957856,
+            "percentError": -0.05182550814099693,
+            "referenceN": 2327.263916015625,
+            "solvedN": 2326.057799665368
+          },
+          "referenceMagnitudeN": 671.2986531136632,
+          "referenceTangentialN": [
+            548.1434326171875,
+            387.531494140625
+          ],
+          "restraintId": "20520:REST_PTR9:TYPE3:UY",
+          "solvedMagnitudeN": 679.7075866634746,
+          "solvedTangentialN": [
+            533.6605506884662,
+            420.9617797458195
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 5.427189249479843
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            183.69112803465302
+          ],
+          "d1VectorErrorPct": 4.202403563500299,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "20550",
+          "normal": {
+            "d1N": 2778.0922931971013,
+            "d1PercentError": 0.03546392603842274,
+            "percentError": 0.03546392603845549,
+            "referenceN": 2777.107421875,
+            "solvedN": 2778.092293197102
+          },
+          "referenceMagnitudeN": 176.2830047607422,
+          "referenceTangentialN": [
+            176.2830047607422
+          ],
+          "restraintId": "20550:REST_PTR10:TYPE3:UY",
+          "solvedMagnitudeN": 183.69112803463378,
+          "solvedTangentialN": [
+            183.69112803463378
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 4.202403563489384
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -658.5424207461256
+          ],
+          "d1VectorErrorPct": 0.2567571913888783,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "20580",
+          "normal": {
+            "d1N": 2195.1413152462032,
+            "d1PercentError": -0.12513293714492332,
+            "percentError": -0.1251329371449647,
+            "referenceN": 2197.8916015625,
+            "solvedN": 2195.1413152462023
+          },
+          "referenceMagnitudeN": 656.8558959960938,
+          "referenceTangentialN": [
+            -656.8558959960938
+          ],
+          "restraintId": "20580:REST_PTR11:TYPE3:UY",
+          "solvedMagnitudeN": 658.5424207461401,
+          "solvedTangentialN": [
+            -658.5424207461401
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 0.2567571913910937
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -568.319471386727
+          ],
+          "d1VectorErrorPct": 9.030800109380419,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "20710",
+          "normal": {
+            "d1N": 1894.3981606074728,
+            "d1PercentError": 0.6424626482670256,
+            "percentError": 0.6424626482671343,
+            "referenceN": 1882.3050537109375,
+            "solvedN": 1894.398160607475
+          },
+          "referenceMagnitudeN": 624.7383422851562,
+          "referenceTangentialN": [
+            -624.7383422851562
+          ],
+          "restraintId": "20710:REST_PTR13:TYPE3:UY",
+          "solvedMagnitudeN": 568.319471386727,
+          "solvedTangentialN": [
+            -568.319471386727
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 9.030800109380419
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            572.8449044116496,
+            -96.58220186332619
+          ],
+          "d1VectorErrorPct": 8.757095406001723,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21470",
+          "normal": {
+            "d1N": 2071.436567417125,
+            "d1PercentError": -0.13326175227345755,
+            "percentError": -0.13326175227321638,
+            "referenceN": 2074.20068359375,
+            "solvedN": 2071.43656741713
+          },
+          "referenceMagnitudeN": 630.7301681369572,
+          "referenceTangentialN": [
+            617.330322265625,
+            -129.3206024169922
+          ],
+          "restraintId": "21470:REST_PTR14:TYPE3:UY",
+          "solvedMagnitudeN": 580.9297773631166,
+          "solvedTangentialN": [
+            572.8449044116496,
+            -96.58220186332619
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.757095406001724
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            47.504158222269325,
+            247.12923970088013
+          ],
+          "d1VectorErrorPct": 5.761912438557913,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21610",
+          "normal": {
+            "d1N": 838.8243101354061,
+            "d1PercentError": -1.577945047704669,
+            "percentError": -1.5779450477262118,
+            "referenceN": 852.272705078125,
+            "solvedN": 838.8243101352225
+          },
+          "referenceMagnitudeN": 267.014956064353,
+          "referenceTangentialN": [
+            51.26813888549805,
+            262.046875
+          ],
+          "restraintId": "21610:REST_PTR16:TYPE3:UY",
+          "solvedMagnitudeN": 251.6535439122299,
+          "solvedTangentialN": [
+            47.504158222269325,
+            247.12923970096745
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 5.761912438526207
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -64.0890129437903,
+            -1128.9603999241517
+          ],
+          "d1VectorErrorPct": 35.277770718556724,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21740",
+          "normal": {
+            "d1N": 4467.801767085329,
+            "d1PercentError": -0.1114812228159954,
+            "percentError": -0.11148122281601573,
+            "referenceN": 4472.7880859375,
+            "solvedN": 4467.801767085328
+          },
+          "referenceMagnitudeN": 1233.2528585105686,
+          "referenceTangentialN": [
+            368.3182373046875,
+            -1176.96826171875
+          ],
+          "restraintId": "21740:REST_PTR18:TYPE3:UY",
+          "solvedMagnitudeN": 1130.778044612194,
+          "solvedTangentialN": [
+            -64.0890129437903,
+            -1128.9603999241372
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 35.27777071855686
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            50.885013906881795,
+            -1014.1935065213693
+          ],
+          "d1VectorErrorPct": 7.177538776496581,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21800",
+          "normal": {
+            "d1N": 3413.44794346903,
+            "d1PercentError": -0.04677731905025332,
+            "percentError": -0.046777319050226696,
+            "referenceN": 3415.04541015625,
+            "solvedN": 3413.447943469031
+          },
+          "referenceMagnitudeN": 962.5651573141042,
+          "referenceTangentialN": [
+            91.38105773925781,
+            -958.2177124023438
+          ],
+          "restraintId": "21800:REST_PTR19:TYPE3:UY",
+          "solvedMagnitudeN": 1015.469228145564,
+          "solvedTangentialN": [
+            50.88501390688907,
+            -1014.1935065214348
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 7.177538776501651
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -658.663510446142
+          ],
+          "d1VectorErrorPct": 71.7676369873077,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "21860",
+          "normal": {
+            "d1N": 7767.07064760175,
+            "d1PercentError": 0.05811327112390517,
+            "percentError": 0.05811327112390518,
+            "referenceN": 7762.5595703125,
+            "solvedN": 7767.07064760175
+          },
+          "referenceMagnitudeN": 2333.0087890625,
+          "referenceTangentialN": [
+            -2333.0087890625
+          ],
+          "restraintId": "21860:REST_PTR20:TYPE3:UY",
+          "solvedMagnitudeN": 658.6635104461275,
+          "solvedTangentialN": [
+            -658.6635104461275
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 71.76763698730831
+        },
+        {
+          "belowR1Floor": true,
+          "d1TangentialN": [
+            -40.7572659189606
+          ],
+          "d1VectorErrorPct": 721.9148663680088,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "21930",
+          "normal": {
+            "d1N": 4536.143433040169,
+            "d1PercentError": 0.26587935146439073,
+            "percentError": 0.26587935146441083,
+            "referenceN": 4524.11474609375,
+            "solvedN": 4536.14343304017
+          },
+          "referenceMagnitudeN": 4.958818435668945,
+          "referenceTangentialN": [
+            -4.958818435668945
+          ],
+          "restraintId": "21930:REST_PTR21:TYPE3:UY",
+          "solvedMagnitudeN": 40.75726591893884,
+          "solvedTangentialN": [
+            -40.75726591893884
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 721.9148663675701
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            389.1329176609652
+          ],
+          "d1VectorErrorPct": 1.2795502058703379,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "22020",
+          "normal": {
+            "d1N": 1297.109673994041,
+            "d1PercentError": -1.1172046119288723,
+            "percentError": -1.1172046119287855,
+            "referenceN": 1311.7647705078125,
+            "solvedN": 1297.1096739940422
+          },
+          "referenceMagnitudeN": 394.1766052246094,
+          "referenceTangentialN": [
+            394.1766052246094
+          ],
+          "restraintId": "22020:REST_PTR22:TYPE3:UY",
+          "solvedMagnitudeN": 389.1329176609652,
+          "solvedTangentialN": [
+            389.1329176609652
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 1.2795502058703379
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            144.87041454382415,
+            439.93296369419113
+          ],
+          "d1VectorErrorPct": 87.65533143982191,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22070",
+          "normal": {
+            "d1N": 1687.1762719810743,
+            "d1PercentError": -1.5787309731934283,
+            "percentError": -1.5787309731935875,
+            "referenceN": 1714.239501953125,
+            "solvedN": 1687.1762719810715
+          },
+          "referenceMagnitudeN": 481.47453523522853,
+          "referenceTangentialN": [
+            -274.80596923828125,
+            395.3471984863281
+          ],
+          "restraintId": "22070:REST_PTR23:TYPE3:UY",
+          "solvedMagnitudeN": 463.17215973660376,
+          "solvedTangentialN": [
+            144.87041454428254,
+            439.9329636942857
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 87.65533143991863
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -323.2543891969808,
+            1499.1742800313295
+          ],
+          "d1VectorErrorPct": 8.448612829660004,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22120",
+          "normal": {
+            "d1N": 5499.416093423395,
+            "d1PercentError": 0.1770019501288377,
+            "percentError": 0.1770019501285892,
+            "referenceN": 5489.69921875,
+            "solvedN": 5499.416093423381
+          },
+          "referenceMagnitudeN": 1639.4017714796194,
+          "referenceTangentialN": [
+            -254.6589813232422,
+            1619.5020751953125
+          ],
+          "restraintId": "22120:REST_PTR24:TYPE3:UY",
+          "solvedMagnitudeN": 1533.6286780191292,
+          "solvedTangentialN": [
+            -323.254389197019,
+            1499.174280031366
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.44861282965923
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -478.7014578658527
+          ],
+          "d1VectorErrorPct": 176.21881317667504,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "22140",
+          "normal": {
+            "d1N": 2356.892980754691,
+            "d1PercentError": 0.7757133775249642,
+            "percentError": 0.775713377525742,
+            "referenceN": 2338.7509765625,
+            "solvedN": 2356.8929807547092
+          },
+          "referenceMagnitudeN": 628.0620727539062,
+          "referenceTangentialN": [
+            628.0620727539062
+          ],
+          "restraintId": "22140:REST_PTR25:TYPE3:UY",
+          "solvedMagnitudeN": 478.7014578654271,
+          "solvedTangentialN": [
+            -478.7014578654271
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 176.21881317660728
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            347.08874955643114,
+            101.22615237964783
+          ],
+          "d1VectorErrorPct": 111.57329837235288,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22220",
+          "normal": {
+            "d1N": 1423.8790663120847,
+            "d1PercentError": -0.2269848018510933,
+            "percentError": -0.226984801851157,
+            "referenceN": 1427.118408203125,
+            "solvedN": 1423.8790663120838
+          },
+          "referenceMagnitudeN": 409.7393492169647,
+          "referenceTangentialN": [
+            228.31321716308594,
+            -340.2343444824219
+          ],
+          "restraintId": "22220:REST_PTR26:TYPE3:UY",
+          "solvedMagnitudeN": 361.54852232352306,
+          "solvedTangentialN": [
+            347.08874955709325,
+            101.22615237781429
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 111.57329837196272
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            388.8233221942355,
+            -367.6030991109292
+          ],
+          "d1VectorErrorPct": 11.261244073543603,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22260",
+          "normal": {
+            "d1N": 1791.5811070219243,
+            "d1PercentError": 0.04763188695843346,
+            "percentError": 0.04763188695844616,
+            "referenceN": 1790.7281494140625,
+            "solvedN": 1791.5811070219245
+          },
+          "referenceMagnitudeN": 500.9995362554062,
+          "referenceTangentialN": [
+            392.5411071777344,
+            -311.30694580078125
+          ],
+          "restraintId": "22260:REST_PTR27:TYPE3:UY",
+          "solvedMagnitudeN": 535.084679614252,
+          "solvedTangentialN": [
+            388.82332219398813,
+            -367.60309911087097
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 11.261244073535261
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -253.3257007417451
+          ],
+          "d1VectorErrorPct": 23.288303055903743,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "22310",
+          "normal": {
+            "d1N": 2327.6575149906807,
+            "d1PercentError": 0.05116039421765607,
+            "percentError": 0.05116039421765607,
+            "referenceN": 2326.46728515625,
+            "solvedN": 2327.6575149906807
+          },
+          "referenceMagnitudeN": 330.2308654785156,
+          "referenceTangentialN": [
+            -330.2308654785156
+          ],
+          "restraintId": "22310:REST_PTR28:TYPE3:UY",
+          "solvedMagnitudeN": 253.3257007413613,
+          "solvedTangentialN": [
+            -253.3257007413613
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 23.288303056019966
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -338.65426094741997,
+            -28.404243995399156
+          ],
+          "d1VectorErrorPct": 69.23253359515135,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22370",
+          "normal": {
+            "d1N": 1816.6559357000613,
+            "d1PercentError": -0.01126448575899314,
+            "percentError": -0.01126448575899314,
+            "referenceN": 1816.860595703125,
+            "solvedN": 1816.6559357000613
+          },
+          "referenceMagnitudeN": 554.0442771058258,
+          "referenceTangentialN": [
+            -435.2528076171875,
+            342.8119812011719
+          ],
+          "restraintId": "22370:REST_PTR29:TYPE3:UY",
+          "solvedMagnitudeN": 339.8433602924126,
+          "solvedTangentialN": [
+            -338.6542609474782,
+            -28.40424399550102
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 69.2325335951665
+        }
+      ],
+      "runId": "D1-L13-PATH-N1",
+      "summary": {
+        "aboveR1Count": 22,
+        "aboveR1VectorsWithinGoal": 13,
+        "aboveR1WorstVectorErrorPct": 176.21881317660728,
+        "constitutiveStateMatches": 19,
+        "frictionRestraintCount": 23,
+        "normalWithinGoal": 23,
+        "normalWorstPercentError": 1.7946419675746348,
+        "tangentialMedianVectorErrorPct": 8.770486079644183,
+        "tangentialVectorsCompared": 23,
+        "tangentialVectorsWithinGoal": 13,
+        "tangentialWorstVectorErrorPct": 721.9148663675701
+      },
+      "totalIterationCount": 396
+    },
+    {
+      "converged": true,
+      "deterministic": true,
+      "existingLimits": {
+        "displacementUpdateLimitM": 1e-10,
+        "reactionUpdateLimitN": 0.01
+      },
+      "finalIterationCount": 64,
+      "finalRowsSemanticHash": "fnv1a64:0ff520ad8aa5292f",
+      "fractions": [
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1
+      ],
+      "incrementCount": 5,
+      "loadPathEvidence": {
+        "adaptiveRetryAllowed": false,
+        "fractions": [
+          0.2,
+          0.4,
+          0.6,
+          0.8,
+          1
+        ],
+        "rule": "PROJECT_DECLARED_SCALE_PHYSICAL_ELEMENT_RHS_WITH_FULL_L13_STIFFNESS_FROZEN_V1",
+        "substepCount": 5,
+        "substeps": [
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 15,
+              "sliding": 5,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:2287e57a684cf7bc",
+            "iterationCount": 205,
+            "physicalLoadFraction": 0.2,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 1
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 16,
+              "sliding": 4,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:ec289d82e1738ddc",
+            "iterationCount": 161,
+            "physicalLoadFraction": 0.4,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 2
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 16,
+              "sliding": 4,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:74ffdac5d6feb781",
+            "iterationCount": 25,
+            "physicalLoadFraction": 0.6,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 3
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 15,
+              "sliding": 5,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:0b81732392f914a8",
+            "iterationCount": 238,
+            "physicalLoadFraction": 0.8,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 4
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:3afb7189a9b39306",
+            "iterationCount": 64,
+            "physicalLoadFraction": 1,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 5
+          }
+        ],
+        "totalIterationCount": 693
+      },
+      "repeatRowsSemanticHash": "fnv1a64:0ff520ad8aa5292f",
+      "restraints": [
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            2126.7093249414393,
+            215.69264092460253
+          ],
+          "d1VectorErrorPct": 8.376440930229316,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20090",
+          "normal": {
+            "d1N": 7156.367118422095,
+            "d1PercentError": 1.7946419675746734,
+            "percentError": 1.4837890781964846,
+            "referenceN": 7030.2001953125,
+            "solvedN": 7134.513537985895
+          },
+          "referenceMagnitudeN": 1977.4701785819386,
+          "referenceTangentialN": [
+            1962.8560791015625,
+            239.9673309326172
+          ],
+          "restraintId": "20090:REST_PTR2:TYPE3:UY",
+          "solvedMagnitudeN": 2133.6466124037834,
+          "solvedTangentialN": [
+            2123.4229132428663,
+            208.621662675092
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.273088503661185
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            2408.75268644523,
+            3074.524758220632
+          ],
+          "d1VectorErrorPct": 8.770486079612711,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20170",
+          "normal": {
+            "d1N": 13039.89193610576,
+            "d1PercentError": 0.8704611090791758,
+            "percentError": 0.48223553931936985,
+            "referenceN": 12927.3642578125,
+            "solvedN": 12989.704602560942
+          },
+          "referenceMagnitudeN": 3617.479534866035,
+          "referenceTangentialN": [
+            2329.985595703125,
+            2767.187255859375
+          ],
+          "restraintId": "20170:REST_PTR3:TYPE3:UY",
+          "solvedMagnitudeN": 3878.0499237188383,
+          "solvedTangentialN": [
+            2375.1080209554275,
+            3065.6374703556976
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.343985052853872
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            1944.3904847243427
+          ],
+          "d1VectorErrorPct": 1.6923048621887613,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "20250",
+          "normal": {
+            "d1N": 11214.29094670288,
+            "d1PercentError": -0.005260088622578166,
+            "percentError": 0.04734362328834104,
+            "referenceN": 11214.880859375,
+            "solvedN": 11220.190390321299
+          },
+          "referenceMagnitudeN": 1977.8619384765625,
+          "referenceTangentialN": [
+            1977.8619384765625
+          ],
+          "restraintId": "20250:REST_PTR4:TYPE3:UY",
+          "solvedMagnitudeN": 1959.5659073383335,
+          "solvedTangentialN": [
+            1959.5659073383335
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 0.9250408626762581
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -838.870674928301,
+            -394.38704954647255
+          ],
+          "d1VectorErrorPct": 1.2776674899181693,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20350",
+          "normal": {
+            "d1N": 3089.849110130143,
+            "d1PercentError": -0.1513273192305853,
+            "percentError": -0.029582503241186643,
+            "referenceN": 3094.531982421875,
+            "solvedN": 3093.6165423978755
+          },
+          "referenceMagnitudeN": 915.7774780987517,
+          "referenceTangentialN": [
+            -827.2864379882812,
+            -392.7410583496094
+          ],
+          "restraintId": "20350:REST_PTR6:TYPE3:UY",
+          "solvedMagnitudeN": 927.5203175358923,
+          "solvedTangentialN": [
+            -840.5322852008394,
+            -392.17268769884686
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 1.4477355174618063
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            474.42361620239535,
+            375.74210324116575
+          ],
+          "d1VectorErrorPct": 10.962941119761869,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20440",
+          "normal": {
+            "d1N": 2023.0336709980743,
+            "d1PercentError": -0.02621196528532484,
+            "percentError": -0.036429009741049574,
+            "referenceN": 2023.5640869140625,
+            "solvedN": 2022.8269225557242
+          },
+          "referenceMagnitudeN": 551.013908393522,
+          "referenceTangentialN": [
+            415.6678466796875,
+            361.71337890625
+          ],
+          "restraintId": "20440:REST_PTR8:TYPE3:UY",
+          "solvedMagnitudeN": 606.8478337139784,
+          "solvedTangentialN": [
+            471.7101862326599,
+            381.7771516050925
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": false,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 10.802924159741266
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            533.6605506877677,
+            420.96177974602324
+          ],
+          "d1VectorErrorPct": 5.427189249549053,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20520",
+          "normal": {
+            "d1N": 2326.0577996653687,
+            "d1PercentError": -0.051825508140957856,
+            "percentError": -0.029605285440957873,
+            "referenceN": 2327.263916015625,
+            "solvedN": 2326.574922890324
+          },
+          "referenceMagnitudeN": 671.2986531136632,
+          "referenceTangentialN": [
+            548.1434326171875,
+            387.531494140625
+          ],
+          "restraintId": "20520:REST_PTR9:TYPE3:UY",
+          "solvedMagnitudeN": 690.3629450198409,
+          "solvedTangentialN": [
+            558.9579704958887,
+            405.1752498309652
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 3.0827345294226656
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            183.69112803465302
+          ],
+          "d1VectorErrorPct": 4.202403563500299,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "20550",
+          "normal": {
+            "d1N": 2778.0922931971013,
+            "d1PercentError": 0.03546392603842274,
+            "percentError": -0.008549214034211713,
+            "referenceN": 2777.107421875,
+            "solvedN": 2776.870001017544
+          },
+          "referenceMagnitudeN": 176.2830047607422,
+          "referenceTangentialN": [
+            176.2830047607422
+          ],
+          "restraintId": "20550:REST_PTR10:TYPE3:UY",
+          "solvedMagnitudeN": 177.09335902822883,
+          "solvedTangentialN": [
+            177.09335902822883
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 0.4596893889949785
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -658.5424207461256
+          ],
+          "d1VectorErrorPct": 0.2567571913888783,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "20580",
+          "normal": {
+            "d1N": 2195.1413152462032,
+            "d1PercentError": -0.12513293714492332,
+            "percentError": 0.13803280032088966,
+            "referenceN": 2197.8916015625,
+            "solvedN": 2200.9254128881544
+          },
+          "referenceMagnitudeN": 656.8558959960938,
+          "referenceTangentialN": [
+            -656.8558959960938
+          ],
+          "restraintId": "20580:REST_PTR11:TYPE3:UY",
+          "solvedMagnitudeN": 660.2776491923287,
+          "solvedTangentialN": [
+            -660.2776491923287
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 0.5209290526419025
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -568.319471386727
+          ],
+          "d1VectorErrorPct": 9.030800109380419,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "20710",
+          "normal": {
+            "d1N": 1894.3981606074728,
+            "d1PercentError": 0.6424626482670256,
+            "percentError": -0.7682384136887102,
+            "referenceN": 1882.3050537109375,
+            "solvedN": 1867.8444632255262
+          },
+          "referenceMagnitudeN": 624.7383422851562,
+          "referenceTangentialN": [
+            -624.7383422851562
+          ],
+          "restraintId": "20710:REST_PTR13:TYPE3:UY",
+          "solvedMagnitudeN": 558.8716095262062,
+          "solvedTangentialN": [
+            -558.8716095262062
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 10.54309113124448
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            572.8449044116496,
+            -96.58220186332619
+          ],
+          "d1VectorErrorPct": 8.757095406001723,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21470",
+          "normal": {
+            "d1N": 2071.436567417125,
+            "d1PercentError": -0.13326175227345755,
+            "percentError": 0.28771086259084633,
+            "referenceN": 2074.20068359375,
+            "solvedN": 2080.168384272383
+          },
+          "referenceMagnitudeN": 630.7301681369572,
+          "referenceTangentialN": [
+            617.330322265625,
+            -129.3206024169922
+          ],
+          "restraintId": "21470:REST_PTR14:TYPE3:UY",
+          "solvedMagnitudeN": 607.4799002931911,
+          "solvedTangentialN": [
+            594.6913330048192,
+            -123.99212760968658
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 3.687410618749921
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            47.504158222269325,
+            247.12923970088013
+          ],
+          "d1VectorErrorPct": 5.761912438557913,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21610",
+          "normal": {
+            "d1N": 838.8243101354061,
+            "d1PercentError": -1.577945047704669,
+            "percentError": 3.4784771824238643,
+            "referenceN": 852.272705078125,
+            "solvedN": 881.9188166562942
+          },
+          "referenceMagnitudeN": 267.014956064353,
+          "referenceTangentialN": [
+            51.26813888549805,
+            262.046875
+          ],
+          "restraintId": "21610:REST_PTR16:TYPE3:UY",
+          "solvedMagnitudeN": 232.26358185572798,
+          "solvedTangentialN": [
+            67.56745874402259,
+            222.2183835224423
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 16.116923895619887
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -64.0890129437903,
+            -1128.9603999241517
+          ],
+          "d1VectorErrorPct": 35.277770718556724,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21740",
+          "normal": {
+            "d1N": 4467.801767085329,
+            "d1PercentError": -0.1114812228159954,
+            "percentError": 0.1764627936126465,
+            "referenceN": 4472.7880859375,
+            "solvedN": 4480.680892746319
+          },
+          "referenceMagnitudeN": 1233.2528585105686,
+          "referenceTangentialN": [
+            368.3182373046875,
+            -1176.96826171875
+          ],
+          "restraintId": "21740:REST_PTR18:TYPE3:UY",
+          "solvedMagnitudeN": 1335.1986310663199,
+          "solvedTangentialN": [
+            329.23750221977025,
+            -1293.969880458375
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 10.002483894800374
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            50.885013906881795,
+            -1014.1935065213693
+          ],
+          "d1VectorErrorPct": 7.177538776496581,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21800",
+          "normal": {
+            "d1N": 3413.44794346903,
+            "d1PercentError": -0.04677731905025332,
+            "percentError": -0.05118203032680241,
+            "referenceN": 3415.04541015625,
+            "solvedN": 3413.2975205787498
+          },
+          "referenceMagnitudeN": 962.5651573141042,
+          "referenceTangentialN": [
+            91.38105773925781,
+            -958.2177124023438
+          ],
+          "restraintId": "21800:REST_PTR19:TYPE3:UY",
+          "solvedMagnitudeN": 1023.9901248191269,
+          "solvedTangentialN": [
+            97.20701363527132,
+            -1019.3657695975489
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": false,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 6.381382835753024
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -658.663510446142
+          ],
+          "d1VectorErrorPct": 71.7676369873077,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "21860",
+          "normal": {
+            "d1N": 7767.07064760175,
+            "d1PercentError": 0.05811327112390517,
+            "percentError": 0.02520923875344283,
+            "referenceN": 7762.5595703125,
+            "solvedN": 7764.516452487958
+          },
+          "referenceMagnitudeN": 2333.0087890625,
+          "referenceTangentialN": [
+            -2333.0087890625
+          ],
+          "restraintId": "21860:REST_PTR20:TYPE3:UY",
+          "solvedMagnitudeN": 1722.5616141331484,
+          "solvedTangentialN": [
+            -1722.5616141331484
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 26.165661175012318
+        },
+        {
+          "belowR1Floor": true,
+          "d1TangentialN": [
+            -40.7572659189606
+          ],
+          "d1VectorErrorPct": 721.9148663680088,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "21930",
+          "normal": {
+            "d1N": 4536.143433040169,
+            "d1PercentError": 0.26587935146439073,
+            "percentError": 0.12316299869951508,
+            "referenceN": 4524.11474609375,
+            "solvedN": 4529.686781479646
+          },
+          "referenceMagnitudeN": 4.958818435668945,
+          "referenceTangentialN": [
+            -4.958818435668945
+          ],
+          "restraintId": "21930:REST_PTR21:TYPE3:UY",
+          "solvedMagnitudeN": 26.86368821728869,
+          "solvedTangentialN": [
+            -26.86368821728869
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 441.73566880483645
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            389.1329176609652
+          ],
+          "d1VectorErrorPct": 1.2795502058703379,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "22020",
+          "normal": {
+            "d1N": 1297.109673994041,
+            "d1PercentError": -1.1172046119288723,
+            "percentError": -0.5260460042667447,
+            "referenceN": 1311.7647705078125,
+            "solvedN": 1304.8642843471773
+          },
+          "referenceMagnitudeN": 394.1766052246094,
+          "referenceTangentialN": [
+            394.1766052246094
+          ],
+          "restraintId": "22020:REST_PTR22:TYPE3:UY",
+          "solvedMagnitudeN": 391.4593006257601,
+          "solvedTangentialN": [
+            391.4593006257601
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 0.6893622205967611
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            144.87041454382415,
+            439.93296369419113
+          ],
+          "d1VectorErrorPct": 87.65533143982191,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22070",
+          "normal": {
+            "d1N": 1687.1762719810743,
+            "d1PercentError": -1.5787309731934283,
+            "percentError": -0.37317063478337265,
+            "referenceN": 1714.239501953125,
+            "solvedN": 1707.8424635219792
+          },
+          "referenceMagnitudeN": 481.47453523522853,
+          "referenceTangentialN": [
+            -274.80596923828125,
+            395.3471984863281
+          ],
+          "restraintId": "22070:REST_PTR23:TYPE3:UY",
+          "solvedMagnitudeN": 388.69119764933976,
+          "solvedTangentialN": [
+            -312.5285134104479,
+            231.09905978937604
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 35.00170678854849
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -323.2543891969808,
+            1499.1742800313295
+          ],
+          "d1VectorErrorPct": 8.448612829660004,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22120",
+          "normal": {
+            "d1N": 5499.416093423395,
+            "d1PercentError": 0.1770019501288377,
+            "percentError": 0.12266644089987008,
+            "referenceN": 5489.69921875,
+            "solvedN": 5496.433237397749
+          },
+          "referenceMagnitudeN": 1639.4017714796194,
+          "referenceTangentialN": [
+            -254.6589813232422,
+            1619.5020751953125
+          ],
+          "restraintId": "22120:REST_PTR24:TYPE3:UY",
+          "solvedMagnitudeN": 1648.9300354923168,
+          "solvedTangentialN": [
+            -251.5134414486629,
+            1629.635312184706
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 0.6472011312794675
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -478.7014578658527
+          ],
+          "d1VectorErrorPct": 176.21881317667504,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "22140",
+          "normal": {
+            "d1N": 2356.892980754691,
+            "d1PercentError": 0.7757133775249642,
+            "percentError": 0.00025474622381712144,
+            "referenceN": 2338.7509765625,
+            "solvedN": 2338.7569344422973
+          },
+          "referenceMagnitudeN": 628.0620727539062,
+          "referenceTangentialN": [
+            628.0620727539062
+          ],
+          "restraintId": "22140:REST_PTR25:TYPE3:UY",
+          "solvedMagnitudeN": 290.3297025481006,
+          "solvedTangentialN": [
+            290.3297025481006
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 53.77372474107976
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            347.08874955643114,
+            101.22615237964783
+          ],
+          "d1VectorErrorPct": 111.57329837235288,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22220",
+          "normal": {
+            "d1N": 1423.8790663120847,
+            "d1PercentError": -0.2269848018510933,
+            "percentError": -0.09405620187721864,
+            "referenceN": 1427.118408203125,
+            "solvedN": 1425.7761148320785
+          },
+          "referenceMagnitudeN": 409.7393492169647,
+          "referenceTangentialN": [
+            228.31321716308594,
+            -340.2343444824219
+          ],
+          "restraintId": "22220:REST_PTR26:TYPE3:UY",
+          "solvedMagnitudeN": 418.0044031047223,
+          "solvedTangentialN": [
+            303.4773460916622,
+            -287.45292036105093
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 22.415497661168384
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            388.8233221942355,
+            -367.6030991109292
+          ],
+          "d1VectorErrorPct": 11.261244073543603,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22260",
+          "normal": {
+            "d1N": 1791.5811070219243,
+            "d1PercentError": 0.04763188695843346,
+            "percentError": 0.03348178888974945,
+            "referenceN": 1790.7281494140625,
+            "solvedN": 1791.3277172326386
+          },
+          "referenceMagnitudeN": 500.9995362554062,
+          "referenceTangentialN": [
+            392.5411071777344,
+            -311.30694580078125
+          ],
+          "restraintId": "22260:REST_PTR27:TYPE3:UY",
+          "solvedMagnitudeN": 290.2642595584504,
+          "solvedTangentialN": [
+            188.9139431802032,
+            -220.374368857003
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 44.512699919475445
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -253.3257007417451
+          ],
+          "d1VectorErrorPct": 23.288303055903743,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "22310",
+          "normal": {
+            "d1N": 2327.6575149906807,
+            "d1PercentError": 0.05116039421765607,
+            "percentError": 0.008410473180374096,
+            "referenceN": 2326.46728515625,
+            "solvedN": 2326.6629520633182
+          },
+          "referenceMagnitudeN": 330.2308654785156,
+          "referenceTangentialN": [
+            -330.2308654785156
+          ],
+          "restraintId": "22310:REST_PTR28:TYPE3:UY",
+          "solvedMagnitudeN": 250.51765546246543,
+          "solvedTangentialN": [
+            -250.51765546246543
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 24.138630984884795
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -338.65426094741997,
+            -28.404243995399156
+          ],
+          "d1VectorErrorPct": 69.23253359515135,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22370",
+          "normal": {
+            "d1N": 1816.6559357000613,
+            "d1PercentError": -0.01126448575899314,
+            "percentError": 0.0063541022830898766,
+            "referenceN": 1816.860595703125,
+            "solvedN": 1816.9760408837171
+          },
+          "referenceMagnitudeN": 554.0442771058258,
+          "referenceTangentialN": [
+            -435.2528076171875,
+            342.8119812011719
+          ],
+          "restraintId": "22370:REST_PTR29:TYPE3:UY",
+          "solvedMagnitudeN": 545.086765250411,
+          "solvedTangentialN": [
+            -430.2660538921991,
+            334.65012254471367
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 1.7263437119610143
+        }
+      ],
+      "runId": "D1-L13-PATH-N5",
+      "summary": {
+        "aboveR1Count": 22,
+        "aboveR1VectorsWithinGoal": 12,
+        "aboveR1WorstVectorErrorPct": 53.77372474107976,
+        "constitutiveStateMatches": 16,
+        "frictionRestraintCount": 23,
+        "normalWithinGoal": 23,
+        "normalWorstPercentError": 3.4784771824238643,
+        "tangentialMedianVectorErrorPct": 8.343985052853872,
+        "tangentialVectorsCompared": 23,
+        "tangentialVectorsWithinGoal": 12,
+        "tangentialWorstVectorErrorPct": 441.73566880483645
+      },
+      "totalIterationCount": 693
+    },
+    {
+      "converged": true,
+      "deterministic": true,
+      "existingLimits": {
+        "displacementUpdateLimitM": 1e-10,
+        "reactionUpdateLimitN": 0.01
+      },
+      "finalIterationCount": 18,
+      "finalRowsSemanticHash": "fnv1a64:2db101d48356f005",
+      "fractions": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1
+      ],
+      "incrementCount": 10,
+      "loadPathEvidence": {
+        "adaptiveRetryAllowed": false,
+        "fractions": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1
+        ],
+        "rule": "PROJECT_DECLARED_SCALE_PHYSICAL_ELEMENT_RHS_WITH_FULL_L13_STIFFNESS_FROZEN_V1",
+        "substepCount": 10,
+        "substeps": [
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 15,
+              "sliding": 5,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:797f2ba7dde1d278",
+            "iterationCount": 123,
+            "physicalLoadFraction": 0.1,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 1
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 16,
+              "sliding": 4,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:7b727ab59fdd55a6",
+            "iterationCount": 99,
+            "physicalLoadFraction": 0.2,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 2
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 16,
+              "sliding": 4,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:1a23eaedd0da3b53",
+            "iterationCount": 25,
+            "physicalLoadFraction": 0.3,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 3
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 15,
+              "sliding": 5,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:01870e50c4ff2707",
+            "iterationCount": 175,
+            "physicalLoadFraction": 0.4,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 4
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:76e4f3561ba47d21",
+            "iterationCount": 53,
+            "physicalLoadFraction": 0.5,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 5
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:83eb34bb2d7a902e",
+            "iterationCount": 32,
+            "physicalLoadFraction": 0.6,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 6
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:74c61d4d5c2c4d77",
+            "iterationCount": 163,
+            "physicalLoadFraction": 0.7,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 7
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:9cd54d0ce6b9833f",
+            "iterationCount": 52,
+            "physicalLoadFraction": 0.8,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 8
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:dfdf84a62c471457",
+            "iterationCount": 397,
+            "physicalLoadFraction": 0.9,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 9
+          },
+          {
+            "finalStateCounts": {
+              "lockedAfterSlip": 14,
+              "sliding": 6,
+              "stuck": 3
+            },
+            "finalSupportSemanticHash": "fnv1a64:b1bb9e1a11bd5eb9",
+            "iterationCount": 18,
+            "physicalLoadFraction": 1,
+            "recoveredEquilibriumStatus": "PASS",
+            "stepIndex": 10
+          }
+        ],
+        "totalIterationCount": 1137
+      },
+      "repeatRowsSemanticHash": "fnv1a64:2db101d48356f005",
+      "restraints": [
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            2126.7093249414393,
+            215.69264092460253
+          ],
+          "d1VectorErrorPct": 8.376440930229316,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20090",
+          "normal": {
+            "d1N": 7156.367118422095,
+            "d1PercentError": 1.7946419675746734,
+            "percentError": 1.5266571719379283,
+            "referenceN": 7030.2001953125,
+            "solvedN": 7137.5272507958325
+          },
+          "referenceMagnitudeN": 1977.4701785819386,
+          "referenceTangentialN": [
+            1962.8560791015625,
+            239.9673309326172
+          ],
+          "restraintId": "20090:REST_PTR2:TYPE3:UY",
+          "solvedMagnitudeN": 2141.2580946720623,
+          "solvedTangentialN": [
+            2126.9483499316775,
+            247.13750164947442
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": false,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 8.306008944229964
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            2408.75268644523,
+            3074.524758220632
+          ],
+          "d1VectorErrorPct": 8.770486079612711,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20170",
+          "normal": {
+            "d1N": 13039.89193610576,
+            "d1PercentError": 0.8704611090791758,
+            "percentError": 0.5867353143623179,
+            "referenceN": 12927.3642578125,
+            "solvedN": 13003.213669129338
+          },
+          "referenceMagnitudeN": 3617.479534866035,
+          "referenceTangentialN": [
+            2329.985595703125,
+            2767.187255859375
+          ],
+          "restraintId": "20170:REST_PTR3:TYPE3:UY",
+          "solvedMagnitudeN": 3889.9891769572623,
+          "solvedTangentialN": [
+            2392.22126335109,
+            3067.457126679288
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.476943987214636
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            1944.3904847243427
+          ],
+          "d1VectorErrorPct": 1.6923048621887613,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "20250",
+          "normal": {
+            "d1N": 11214.29094670288,
+            "d1PercentError": -0.005260088622578166,
+            "percentError": 0.2450586288321099,
+            "referenceN": 11214.880859375,
+            "solvedN": 11242.36389263414
+          },
+          "referenceMagnitudeN": 1977.8619384765625,
+          "referenceTangentialN": [
+            1977.8619384765625
+          ],
+          "restraintId": "20250:REST_PTR4:TYPE3:UY",
+          "solvedMagnitudeN": 1952.0978693616205,
+          "solvedTangentialN": [
+            1952.0978693616205
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 1.3026222211842875
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -838.870674928301,
+            -394.38704954647255
+          ],
+          "d1VectorErrorPct": 1.2776674899181693,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20350",
+          "normal": {
+            "d1N": 3089.849110130143,
+            "d1PercentError": -0.1513273192305853,
+            "percentError": -0.053597151532845666,
+            "referenceN": 3094.531982421875,
+            "solvedN": 3092.873401426024
+          },
+          "referenceMagnitudeN": 915.7774780987517,
+          "referenceTangentialN": [
+            -827.2864379882812,
+            -392.7410583496094
+          ],
+          "restraintId": "20350:REST_PTR6:TYPE3:UY",
+          "solvedMagnitudeN": 927.8693510252991,
+          "solvedTangentialN": [
+            -841.4777470598056,
+            -390.9689677906208
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 1.5616810056885224
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            474.42361620239535,
+            375.74210324116575
+          ],
+          "d1VectorErrorPct": 10.962941119761869,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20440",
+          "normal": {
+            "d1N": 2023.0336709980743,
+            "d1PercentError": -0.02621196528532484,
+            "percentError": -0.039368849484192225,
+            "referenceN": 2023.5640869140625,
+            "solvedN": 2022.7674330144691
+          },
+          "referenceMagnitudeN": 551.013908393522,
+          "referenceTangentialN": [
+            415.6678466796875,
+            361.71337890625
+          ],
+          "restraintId": "20440:REST_PTR8:TYPE3:UY",
+          "solvedMagnitudeN": 516.0640681837384,
+          "solvedTangentialN": [
+            356.53577096614026,
+            373.101013791078
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 10.928690890629113
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            533.6605506877677,
+            420.96177974602324
+          ],
+          "d1VectorErrorPct": 5.427189249549053,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "20520",
+          "normal": {
+            "d1N": 2326.0577996653687,
+            "d1PercentError": -0.051825508140957856,
+            "percentError": -0.023242999635568636,
+            "referenceN": 2327.263916015625,
+            "solvedN": 2326.7229900721068
+          },
+          "referenceMagnitudeN": 671.2986531136632,
+          "referenceTangentialN": [
+            548.1434326171875,
+            387.531494140625
+          ],
+          "restraintId": "20520:REST_PTR9:TYPE3:UY",
+          "solvedMagnitudeN": 403.8743474103989,
+          "solvedTangentialN": [
+            269.02072288836644,
+            301.2346911509303
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 43.521398493325854
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            183.69112803465302
+          ],
+          "d1VectorErrorPct": 4.202403563500299,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "20550",
+          "normal": {
+            "d1N": 2778.0922931971013,
+            "d1PercentError": 0.03546392603842274,
+            "percentError": -0.012693473394425949,
+            "referenceN": 2777.107421875,
+            "solvedN": 2776.7549104832697
+          },
+          "referenceMagnitudeN": 176.2830047607422,
+          "referenceTangentialN": [
+            176.2830047607422
+          ],
+          "restraintId": "20550:REST_PTR10:TYPE3:UY",
+          "solvedMagnitudeN": 240.26224182350347,
+          "solvedTangentialN": [
+            240.26224182350347
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 36.29347999235449
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -658.5424207461256
+          ],
+          "d1VectorErrorPct": 0.2567571913888783,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "20580",
+          "normal": {
+            "d1N": 2195.1413152462032,
+            "d1PercentError": -0.12513293714492332,
+            "percentError": 0.1496715665588641,
+            "referenceN": 2197.8916015625,
+            "solvedN": 2201.1812203538243
+          },
+          "referenceMagnitudeN": 656.8558959960938,
+          "referenceTangentialN": [
+            -656.8558959960938
+          ],
+          "restraintId": "20580:REST_PTR11:TYPE3:UY",
+          "solvedMagnitudeN": 660.3544158409131,
+          "solvedTangentialN": [
+            -660.3544158409131
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 0.532616037420815
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -568.319471386727
+          ],
+          "d1VectorErrorPct": 9.030800109380419,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "20710",
+          "normal": {
+            "d1N": 1894.3981606074728,
+            "d1PercentError": 0.6424626482670256,
+            "percentError": -0.6177173370087157,
+            "referenceN": 1882.3050537109375,
+            "solvedN": 1870.6777290587738
+          },
+          "referenceMagnitudeN": 624.7383422851562,
+          "referenceTangentialN": [
+            -624.7383422851562
+          ],
+          "restraintId": "20710:REST_PTR13:TYPE3:UY",
+          "solvedMagnitudeN": 551.8173492683127,
+          "solvedTangentialN": [
+            -551.8173492683127
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 11.672245495628541
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            572.8449044116496,
+            -96.58220186332619
+          ],
+          "d1VectorErrorPct": 8.757095406001723,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21470",
+          "normal": {
+            "d1N": 2071.436567417125,
+            "d1PercentError": -0.13326175227345755,
+            "percentError": 0.3799249254443429,
+            "referenceN": 2074.20068359375,
+            "solvedN": 2082.0810889944596
+          },
+          "referenceMagnitudeN": 630.7301681369572,
+          "referenceTangentialN": [
+            617.330322265625,
+            -129.3206024169922
+          ],
+          "restraintId": "21470:REST_PTR14:TYPE3:UY",
+          "solvedMagnitudeN": 618.4762844432187,
+          "solvedTangentialN": [
+            604.4708257544917,
+            -130.87373774127536
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 2.053643435467731
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            47.504158222269325,
+            247.12923970088013
+          ],
+          "d1VectorErrorPct": 5.761912438557913,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21610",
+          "normal": {
+            "d1N": 838.8243101354061,
+            "d1PercentError": -1.577945047704669,
+            "percentError": 0.010186233554568632,
+            "referenceN": 852.272705078125,
+            "solvedN": 852.3595195663861
+          },
+          "referenceMagnitudeN": 267.014956064353,
+          "referenceTangentialN": [
+            51.26813888549805,
+            262.046875
+          ],
+          "restraintId": "21610:REST_PTR16:TYPE3:UY",
+          "solvedMagnitudeN": 246.4262615142569,
+          "solvedTangentialN": [
+            58.5196185679597,
+            239.37701770753483
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.913880705409266
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -64.0890129437903,
+            -1128.9603999241517
+          ],
+          "d1VectorErrorPct": 35.277770718556724,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21740",
+          "normal": {
+            "d1N": 4467.801767085329,
+            "d1PercentError": -0.1114812228159954,
+            "percentError": 0.1535769071190365,
+            "referenceN": 4472.7880859375,
+            "solvedN": 4479.657255541872
+          },
+          "referenceMagnitudeN": 1233.2528585105686,
+          "referenceTangentialN": [
+            368.3182373046875,
+            -1176.96826171875
+          ],
+          "restraintId": "21740:REST_PTR18:TYPE3:UY",
+          "solvedMagnitudeN": 1337.4637866339476,
+          "solvedTangentialN": [
+            276.872021322557,
+            -1308.4919810094289
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 12.989241881979831
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            50.885013906881795,
+            -1014.1935065213693
+          ],
+          "d1VectorErrorPct": 7.177538776496581,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "21800",
+          "normal": {
+            "d1N": 3413.44794346903,
+            "d1PercentError": -0.04677731905025332,
+            "percentError": -0.04431777313881005,
+            "referenceN": 3415.04541015625,
+            "solvedN": 3413.5319380787896
+          },
+          "referenceMagnitudeN": 962.5651573141042,
+          "referenceTangentialN": [
+            91.38105773925781,
+            -958.2177124023438
+          ],
+          "restraintId": "21800:REST_PTR19:TYPE3:UY",
+          "solvedMagnitudeN": 1024.0596241128385,
+          "solvedTangentialN": [
+            114.28120745164415,
+            -1017.6629694361109
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": false,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 6.618113360073736
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -658.663510446142
+          ],
+          "d1VectorErrorPct": 71.7676369873077,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "21860",
+          "normal": {
+            "d1N": 7767.07064760175,
+            "d1PercentError": 0.05811327112390517,
+            "percentError": 0.026376245529997188,
+            "referenceN": 7762.5595703125,
+            "solvedN": 7764.607042084178
+          },
+          "referenceMagnitudeN": 2333.0087890625,
+          "referenceTangentialN": [
+            -2333.0087890625
+          ],
+          "restraintId": "21860:REST_PTR20:TYPE3:UY",
+          "solvedMagnitudeN": 2131.071832674166,
+          "solvedTangentialN": [
+            -2131.071832674166
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 8.655644905199026
+        },
+        {
+          "belowR1Floor": true,
+          "d1TangentialN": [
+            -40.7572659189606
+          ],
+          "d1VectorErrorPct": 721.9148663680088,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "21930",
+          "normal": {
+            "d1N": 4536.143433040169,
+            "d1PercentError": 0.26587935146439073,
+            "percentError": 0.12940495679143438,
+            "referenceN": 4524.11474609375,
+            "solvedN": 4529.9691748261275
+          },
+          "referenceMagnitudeN": 4.958818435668945,
+          "referenceTangentialN": [
+            -4.958818435668945
+          ],
+          "restraintId": "21930:REST_PTR21:TYPE3:UY",
+          "solvedMagnitudeN": 7.270549495884167,
+          "solvedTangentialN": [
+            7.270549495884167
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "STUCK",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "STUCK"
+          },
+          "vectorErrorPct": 246.61858646783404
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            389.1329176609652
+          ],
+          "d1VectorErrorPct": 1.2795502058703379,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "22020",
+          "normal": {
+            "d1N": 1297.109673994041,
+            "d1PercentError": -1.1172046119288723,
+            "percentError": -0.5495063687652797,
+            "referenceN": 1311.7647705078125,
+            "solvedN": 1304.5565395506528
+          },
+          "referenceMagnitudeN": 394.1766052246094,
+          "referenceTangentialN": [
+            394.1766052246094
+          ],
+          "restraintId": "22020:REST_PTR22:TYPE3:UY",
+          "solvedMagnitudeN": 391.36694646870455,
+          "solvedTangentialN": [
+            391.36694646870455
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "SLID",
+            "d1Raw": "SLIDING",
+            "reference": "SLID",
+            "solvedMatch": true,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 0.7127918599592746
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            144.87041454382415,
+            439.93296369419113
+          ],
+          "d1VectorErrorPct": 87.65533143982191,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22070",
+          "normal": {
+            "d1N": 1687.1762719810743,
+            "d1PercentError": -1.5787309731934283,
+            "percentError": -0.4842045635140979,
+            "referenceN": 1714.239501953125,
+            "solvedN": 1705.9390760551066
+          },
+          "referenceMagnitudeN": 481.47453523522853,
+          "referenceTangentialN": [
+            -274.80596923828125,
+            395.3471984863281
+          ],
+          "restraintId": "22070:REST_PTR23:TYPE3:UY",
+          "solvedMagnitudeN": 289.5707408122118,
+          "solvedTangentialN": [
+            -99.12408913992113,
+            272.0765129273641
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 44.57461801834524
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -323.2543891969808,
+            1499.1742800313295
+          ],
+          "d1VectorErrorPct": 8.448612829660004,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22120",
+          "normal": {
+            "d1N": 5499.416093423395,
+            "d1PercentError": 0.1770019501288377,
+            "percentError": 0.020748500326576307,
+            "referenceN": 5489.69921875,
+            "solvedN": 5490.83824901033
+          },
+          "referenceMagnitudeN": 1639.4017714796194,
+          "referenceTangentialN": [
+            -254.6589813232422,
+            1619.5020751953125
+          ],
+          "restraintId": "22120:REST_PTR24:TYPE3:UY",
+          "solvedMagnitudeN": 1596.027439674949,
+          "solvedTangentialN": [
+            -246.2882687293686,
+            1576.9101676638602
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 2.647714278898664
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -478.7014578658527
+          ],
+          "d1VectorErrorPct": 176.21881317667504,
+          "frictionDofs": [
+            "UZ"
+          ],
+          "nodeId": "22140",
+          "normal": {
+            "d1N": 2356.892980754691,
+            "d1PercentError": 0.7757133775249642,
+            "percentError": 0.3292174539973824,
+            "referenceN": 2338.7509765625,
+            "solvedN": 2346.450552982878
+          },
+          "referenceMagnitudeN": 628.0620727539062,
+          "referenceTangentialN": [
+            628.0620727539062
+          ],
+          "restraintId": "22140:REST_PTR25:TYPE3:UY",
+          "solvedMagnitudeN": 331.10697395285206,
+          "solvedTangentialN": [
+            331.10697395285206
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 47.28117039434893
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            347.08874955643114,
+            101.22615237964783
+          ],
+          "d1VectorErrorPct": 111.57329837235288,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22220",
+          "normal": {
+            "d1N": 1423.8790663120847,
+            "d1PercentError": -0.2269848018510933,
+            "percentError": -0.1237204239507277,
+            "referenceN": 1427.118408203125,
+            "solvedN": 1425.3527712582172
+          },
+          "referenceMagnitudeN": 409.7393492169647,
+          "referenceTangentialN": [
+            228.31321716308594,
+            -340.2343444824219
+          ],
+          "restraintId": "22220:REST_PTR26:TYPE3:UY",
+          "solvedMagnitudeN": 427.60559068305326,
+          "solvedTangentialN": [
+            254.91657731006853,
+            -343.31338423650595
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": false,
+            "solvedNormalized": "SLID",
+            "solvedRaw": "SLIDING"
+          },
+          "vectorErrorPct": 6.5360941208200805
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            388.8233221942355,
+            -367.6030991109292
+          ],
+          "d1VectorErrorPct": 11.261244073543603,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22260",
+          "normal": {
+            "d1N": 1791.5811070219243,
+            "d1PercentError": 0.04763188695843346,
+            "percentError": 0.03962639994489185,
+            "referenceN": 1790.7281494140625,
+            "solvedN": 1791.437750512475
+          },
+          "referenceMagnitudeN": 500.9995362554062,
+          "referenceTangentialN": [
+            392.5411071777344,
+            -311.30694580078125
+          ],
+          "restraintId": "22260:REST_PTR27:TYPE3:UY",
+          "solvedMagnitudeN": 458.52251964122587,
+          "solvedTangentialN": [
+            377.65463154707686,
+            -260.0382285149244
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 10.655942079565046
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -253.3257007417451
+          ],
+          "d1VectorErrorPct": 23.288303055903743,
+          "frictionDofs": [
+            "UX"
+          ],
+          "nodeId": "22310",
+          "normal": {
+            "d1N": 2327.6575149906807,
+            "d1PercentError": 0.05116039421765607,
+            "percentError": 0.011474149786020986,
+            "referenceN": 2326.46728515625,
+            "solvedN": 2326.7342274972716
+          },
+          "referenceMagnitudeN": 330.2308654785156,
+          "referenceTangentialN": [
+            -330.2308654785156
+          ],
+          "restraintId": "22310:REST_PTR28:TYPE3:UY",
+          "solvedMagnitudeN": 286.9032428061878,
+          "solvedTangentialN": [
+            -286.9032428061878
+          ],
+          "state": {
+            "d1Match": true,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "STUCK",
+            "solvedMatch": true,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 13.120403693805136
+        },
+        {
+          "belowR1Floor": false,
+          "d1TangentialN": [
+            -338.65426094741997,
+            -28.404243995399156
+          ],
+          "d1VectorErrorPct": 69.23253359515135,
+          "frictionDofs": [
+            "UX",
+            "UZ"
+          ],
+          "nodeId": "22370",
+          "normal": {
+            "d1N": 1816.6559357000613,
+            "d1PercentError": -0.01126448575899314,
+            "percentError": 0.005162324266542622,
+            "referenceN": 1816.860595703125,
+            "solvedN": 1816.9543879385462
+          },
+          "referenceMagnitudeN": 554.0442771058258,
+          "referenceTangentialN": [
+            -435.2528076171875,
+            342.8119812011719
+          ],
+          "restraintId": "22370:REST_PTR29:TYPE3:UY",
+          "solvedMagnitudeN": 507.7646124549665,
+          "solvedTangentialN": [
+            -465.51492591844,
+            202.7825323066354
+          ],
+          "state": {
+            "d1Match": false,
+            "d1Normalized": "STUCK",
+            "d1Raw": "LOCKED_AFTER_SLIP",
+            "reference": "SLID",
+            "solvedMatch": false,
+            "solvedNormalized": "STUCK",
+            "solvedRaw": "LOCKED_AFTER_SLIP"
+          },
+          "vectorErrorPct": 25.857526468446107
+        }
+      ],
+      "runId": "D1-L13-PATH-N10",
+      "summary": {
+        "aboveR1Count": 22,
+        "aboveR1VectorsWithinGoal": 12,
+        "aboveR1WorstVectorErrorPct": 47.28117039434893,
+        "constitutiveStateMatches": 14,
+        "frictionRestraintCount": 23,
+        "normalWithinGoal": 23,
+        "normalWorstPercentError": 1.5266571719379283,
+        "tangentialMedianVectorErrorPct": 8.913880705409266,
+        "tangentialVectorsCompared": 23,
+        "tangentialVectorsWithinGoal": 12,
+        "tangentialWorstVectorErrorPct": 246.61858646783404
+      },
+      "totalIterationCount": 1137
+    }
+  ],
+  "scaledPhysicalTerms": [
+    "W",
+    "P1"
+  ],
+  "schema": "m047-bm4l-stage2-d1-load-path-experiment/v1",
+  "semanticHash": "fnv1a64:8d9d141f04721544",
+  "sourceAccdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+  "toleranceChanged": false
+}

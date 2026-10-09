@@ -1,0 +1,86 @@
+{
+  "schema": "m047-bm4l-stage2-d1-deleted-spring-sequential-adjudication/v1",
+  "status": "REJECT_DELETED_SPRING_SEQUENTIAL_NONCONVERGED_KEEP_D1",
+  "authorityBoundary": "PROJECT_RCA_OF_DOCUMENTED_DELETED_SPRING_CONSTANT_FORCE_SEQUENCE_NOT_A_CLAIM_OF_UNPUBLISHED_CAESAR_INTERNAL_CONVERGENCE_NUMERICS",
+  "source": {
+    "pr1101SourceHead": "649fb1fb14ecacf7e9b0228290b5d0a090097169",
+    "siblingEvidenceHead": "ec5d98713727b5d6e4acfe6ccdbc2336ee5f2392",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+    "accdbBytes": 5136384,
+    "commonSourceCommit": "45d51ea18624f5775805f399110c1738301c0d90"
+  },
+  "execution": {
+    "workflowRunId": 31686794315,
+    "workflowHead": "62a168775bfcda64dea97c89cac4f73d56509b4b",
+    "artifactId": 9175994007,
+    "artifactDigest": "sha256:dee87508b40b800c6082e73d4d125e1da464c0e3af6445dc2615b7a4c3604328",
+    "artifactName": "m047-d1-deleted-spring-sequential-measurement-v2",
+    "repeatRuns": 2,
+    "maximumIterationsPerRun": 400,
+    "deterministic": true,
+    "runSemanticHash": "fnv1a64:a666ec2c1ac40269"
+  },
+  "strategy": {
+    "id": "DELETED_TANGENTIAL_SPRING_AFTER_BREAKAWAY_WITH_PREVIOUS_ITERATION_CONSTANT_COULOMB_FORCE_D1_TOTAL_DISPLACEMENT_DIRECTION",
+    "stickRule": "ASSEMBLE_FRICTION_STIFFNESS_UNTIL_BREAKAWAY",
+    "slideRule": "REPLACE_TANGENTIAL_SPRING_WITH_PREVIOUS_ITERATION_CONSTANT_COULOMB_FORCE_ON_NEXT_ITERATION",
+    "directionRule": "OPPOSE_CURRENT_TOTAL_RELATIVE_TANGENTIAL_DISPLACEMENT_D1",
+    "loadPath": "UNCHANGED_SINGLE_FULL_L13_STEP",
+    "productionSolverModified": false
+  },
+  "baseline": {
+    "variant": "D1-total-relative-tangential-displacement-direction",
+    "vectorsWithin10Pct": 13,
+    "normalsWithin10Pct": 23,
+    "normalizedStateMatches": 19
+  },
+  "unchangedGates": {
+    "displacementUpdateLimitM": 1e-10,
+    "reactionUpdateLimitN": 0.01,
+    "forceResidualLimitN": 0.01,
+    "directionCosineLimit": -0.999999,
+    "toleranceChanged": false,
+    "comparisonPolicyChanged": false
+  },
+  "result": {
+    "fullPhysicsQualifiedIterationsRun1": 0,
+    "fullPhysicsQualifiedIterationsRun2": 0,
+    "firstStateStableIteration": 2,
+    "firstStateStableVectorsWithin10Pct": 3,
+    "firstStateStableVectorsCompared": 23,
+    "firstStateStableNormalsWithin10Pct": 20,
+    "firstStateStableNormalizedStateMatches": 12,
+    "firstStateStableReactionUpdateN": 32077.03124392226,
+    "firstStateStableDisplacementUpdateM": 0.0038799452657596913,
+    "tailActiveSetPeriod": 1,
+    "tailFullResponsePeriod": 2,
+    "iteration400StateChangeCount": 0,
+    "iteration400RecoveredEquilibriumStatus": "PASS",
+    "iteration400ReactionUpdateN": 2067.478399605435,
+    "iteration400DisplacementUpdateM": 0.001238131846086882,
+    "candidateQualifiedSummary": null
+  },
+  "diagnosticOnlyOscillatingBranchAccuracy": {
+    "warning": "NOT_A_QUALIFIED_ACCURACY_RESULT_BECAUSE_THE_FULL_PHYSICS_GATES_NEVER_PASS",
+    "iteration399": {
+      "vectorsWithin10Pct": 6,
+      "normalsWithin10Pct": 22,
+      "medianVectorErrorPct": 42.98659325738515,
+      "worstVectorErrorPct": 4497.417127275662
+    },
+    "iteration400": {
+      "vectorsWithin10Pct": 5,
+      "normalsWithin10Pct": 21,
+      "medianVectorErrorPct": 52.93905217623137,
+      "worstVectorErrorPct": 4782.373685281862
+    }
+  },
+  "engineeringDisposition": [
+    "RETAIN_D1_AS_EXPERIMENTAL_L13_BASELINE",
+    "DO_NOT_PROMOTE_LITERAL_DELETED_SPRING_CONSTANT_FORCE_SEQUENCE",
+    "DO_NOT_SELECT_A_STATE_STABLE_OR_OSCILLATING_ITERATE_BY_BENCHMARK_ERROR",
+    "DO_NOT_CHANGE_FRICTION_STIFFNESS_TOLERANCES_COMPARISON_RULES_OR_NODE_EXCEPTIONS_TO_FORCE_CONVERGENCE",
+    "KEEP_20710_ONE_AXIS_CAPACITY_PATH_SIGNAL_OPEN",
+    "L7_AND_BM4_NL_REMAIN_BLOCKED"
+  ]
+}

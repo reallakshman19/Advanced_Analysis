@@ -27,4 +27,3 @@
 - EM-03 Missing vendor nozzle loads block qualification
 - EM-04 Branch/tee/olet unsupported in GC3D
 - EM-05 Screening master DB rows need final source verification
-- EM-06 BM4_L L1 hydrotest friction case blocked on an undeclared test-fluid weight basis (WW) and an explicit HP pressure-field binding; see agents/PR_M047_STAGE2_friction.md

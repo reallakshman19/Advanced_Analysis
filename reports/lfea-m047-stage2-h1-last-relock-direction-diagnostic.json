@@ -1,0 +1,31 @@
+{
+  "schema": "m047-bm4l-stage2-h1-last-relock-direction-diagnostic/v1",
+  "rule": "DATA_ONLY_H1_REPRODUCTION_NO_MECHANICS_CHANGE",
+  "source": {
+    "workflowRunId": 31693587387,
+    "artifactId": 9178464555,
+    "artifactDigest": "sha256:376f858fa9dbc22c6da9fd023d8ac23a4fe973dfadc61f1c5798f0de64e26130",
+    "accdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+    "h1RowsSemanticHash": "fnv1a64:77eea847870b228b",
+    "h1IterationCount": 249,
+    "relockEventCount": 26
+  },
+  "focusRows": [
+    {"nodeId":"22140","lastRelockIteration":23,"lastRelockDirectionCosineToReferenceForce":1.0,"finalH1ForceCosineToReferenceForce":-1.0,"finalH1ForceCosineToLastRelockDirection":-1.0},
+    {"nodeId":"22220","lastRelockIteration":23,"lastRelockDirectionCosineToReferenceForce":0.997849894445969,"finalH1ForceCosineToReferenceForce":0.11145475711316896,"finalH1ForceCosineToLastRelockDirection":0.04608273198639691},
+    {"nodeId":"22070","lastRelockIteration":23,"lastRelockDirectionCosineToReferenceForce":0.9784155462086737,"finalH1ForceCosineToReferenceForce":0.5860270799175458,"finalH1ForceCosineToLastRelockDirection":0.40593363347148653},
+    {"nodeId":"22370","lastRelockIteration":6,"lastRelockDirectionCosineToReferenceForce":0.9986496630815651,"finalH1ForceCosineToReferenceForce":0.8153954184701135,"finalH1ForceCosineToLastRelockDirection":0.7842200089941266},
+    {"nodeId":"21740","lastRelockIteration":18,"lastRelockDirectionCosineToReferenceForce":0.9784154897653259,"finalH1ForceCosineToReferenceForce":0.9463015548392424,"finalH1ForceCosineToLastRelockDirection":0.8590700527592274},
+    {"nodeId":"22310","lastRelockIteration":13,"lastRelockDirectionCosineToReferenceForce":1.0,"finalH1ForceCosineToReferenceForce":1.0,"finalH1ForceCosineToLastRelockDirection":1.0},
+    {"nodeId":"21860","lastRelockIteration":4,"lastRelockDirectionCosineToReferenceForce":1.0,"finalH1ForceCosineToReferenceForce":1.0,"finalH1ForceCosineToLastRelockDirection":1.0},
+    {"nodeId":"22260","lastRelockIteration":26,"lastRelockDirectionCosineToReferenceForce":0.9994640290679864,"finalH1ForceCosineToReferenceForce":0.99801865819288,"finalH1ForceCosineToLastRelockDirection":0.9995434630441128},
+    {"nodeId":"22120","lastRelockIteration":9,"lastRelockDirectionCosineToReferenceForce":0.9999802824917491,"finalH1ForceCosineToReferenceForce":0.9999854995291765,"finalH1ForceCosineToLastRelockDirection":0.9999995999508395}
+  ],
+  "finding": [
+    "CAESAR_FINAL_FORCE_DIRECTION_IS_STRONGLY_ALIGNED_WITH_H1_LAST_RELOCK_DIRECTION_AT_ALL_MAJOR_DIRECTION_RESIDUALS",
+    "H1_FINAL_FORCE_CAN_DRIFT_MATERIALLY_AWAY_FROM_THAT_DIRECTION_AFTER_RELOCK",
+    "22140_IS_DECISIVE_DIRECTION_REVERSAL_AFTER_RELOCK",
+    "H2_PROVES_CONTINUOUS_DIRECTION_REORIENTATION_IS_TOO_AGGRESSIVE_AND_CORRUPTS_MAGNITUDE_HISTORY",
+    "NEXT_RCA_MUST_RESOLVE_POST_RELOCK_MAGNITUDE_EVOLUTION_BEFORE_ANOTHER_MECHANICS_VARIANT"
+  ]
+}
