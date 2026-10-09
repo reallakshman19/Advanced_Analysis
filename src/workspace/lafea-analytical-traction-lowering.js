@@ -5,17 +5,21 @@
 export const LAFEA_ANALYTICAL_TRACTION_LAWS = Object.freeze([
   'KIRSCH_INFINITE_PLATE_OUTER_BOUNDARY_V1',
 ]);
-export const LAFEA_ANALYTICAL_TRACTION_QUADRATURE = 'GAUSS_LEGENDRE_8_EDGE_V1';
+export const LAFEA_ANALYTICAL_TRACTION_QUADRATURE = 'GAUSS_LEGENDRE_12_EDGE_V1';
 
-const GAUSS_8 = Object.freeze([
-  [-0.9602898564975363, 0.1012285362903763],
-  [-0.7966664774136267, 0.2223810344533745],
-  [-0.5255324099163290, 0.3137066458778873],
-  [-0.1834346424956498, 0.3626837833783620],
-  [0.1834346424956498, 0.3626837833783620],
-  [0.5255324099163290, 0.3137066458778873],
-  [0.7966664774136267, 0.2223810344533745],
-  [0.9602898564975363, 0.1012285362903763],
+const GAUSS_12 = Object.freeze([
+  [-0.9815606342467192, 0.04717533638651141],
+  [-0.9041172563704748, 0.10693932599531907],
+  [-0.7699026741943047, 0.16007832854334642],
+  [-0.5873179542866175, 0.20316742672306573],
+  [-0.3678314989981802, 0.2334925365383546],
+  [-0.1252334085114689, 0.24914704581340269],
+  [0.1252334085114689, 0.24914704581340269],
+  [0.3678314989981802, 0.2334925365383546],
+  [0.5873179542866175, 0.20316742672306573],
+  [0.7699026741943047, 0.16007832854334642],
+  [0.9041172563704748, 0.10693932599531907],
+  [0.9815606342467192, 0.04717533638651141],
 ].map(([point, weight]) => Object.freeze({ point, weight })));
 
 export function integrateLafeaAnalyticalEdgeTraction({ payload, edgeNodes, thickness, stressFactor = 1 }) {
@@ -28,7 +32,7 @@ export function integrateLafeaAnalyticalEdgeTraction({ payload, edgeNodes, thick
   if (!(Number.isFinite(stressFactor) && stressFactor > 0)) fail('LAFEA_ANALYTICAL_TRACTION_STRESS_FACTOR_INVALID');
   const nodal = edgeNodes.map((node) => ({ nodeId: node.nodeId, fx: 0, fy: 0 }));
   const points = [];
-  for (const gp of GAUSS_8) {
+  for (const gp of GAUSS_12) {
     const shape = edgeShape(edgeNodes.length, gp.point);
     const mapped = mapPoint(edgeNodes, shape.N);
     const derivative = mapDerivative(edgeNodes, shape.dNds);

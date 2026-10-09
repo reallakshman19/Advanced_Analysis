@@ -39,7 +39,7 @@ assert.match(mesherBinding, /LAFEA_B02D_POLAR_REFINEMENT_FEATURES_MUST_REMAIN_EM
 assert.match(mesherBinding, /LAFEA_B02D_POLAR_GEOMETRY_NOT_QUALIFIED/u);
 
 assert.match(analyticalTraction, /KIRSCH_INFINITE_PLATE_OUTER_BOUNDARY_V1/u);
-assert.match(analyticalTraction, /GAUSS_LEGENDRE_8_EDGE_V1/u);
+assert.match(analyticalTraction, /GAUSS_LEGENDRE_12_EDGE_V1/u);
 assert.match(analyticalTraction, /LAFEA_ANALYTICAL_TRACTION_LAW_INVALID/u);
 assert.equal(/eval\(|new Function/u.test(analyticalTraction), false,
   'Analytical traction laws must remain whitelisted serializable laws, not executable expressions.');
@@ -80,6 +80,7 @@ console.log(JSON.stringify({
   verificationReleaseFailClosedGuarded: true,
   frozenB02dEmptyRefinementFeaturesGuarded: true,
   analyticalTractionWhitelistGuarded: true,
+  analyticalTractionQuadrature: 'GAUSS_LEGENDRE_12_EDGE_V1',
   oracleRecoveryIdentitySeparationGuarded: true,
   orderedProductionSequenceGuarded: true,
   releaseAuthorityGranted: false,

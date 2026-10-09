@@ -37,8 +37,21 @@ const independent = independentCompositeGauss(edgeNodes, payload, 5, 256);
 close(integrated.resultant.forceX, independent.forceX, 2e-10, 'quarter-edge forceX');
 close(integrated.resultant.forceY, independent.forceY, 2e-10, 'quarter-edge forceY');
 close(integrated.resultant.momentZ, independent.momentZ, 2e-10, 'quarter-edge momentZ');
+assert.equal(integrated.quadratureId, 'GAUSS_LEGENDRE_12_EDGE_V1');
 assert.equal(integrated.nodalForces.length, 3);
-assert.equal(integrated.quadraturePoints.length, 8);
+assert.equal(integrated.quadraturePoints.length, 12);
+close(
+  integrated.quadraturePoints.reduce((sum, point) => sum + point.weight, 0),
+  2,
+  1e-14,
+  'Gauss weight sum',
+);
+for (let index = 0; index < integrated.quadraturePoints.length / 2; index += 1) {
+  const left = integrated.quadraturePoints[index];
+  const right = integrated.quadraturePoints.at(-(index + 1));
+  close(left.s, -right.s, 1e-14, `Gauss point symmetry ${index}`);
+  close(left.weight, right.weight, 1e-14, `Gauss weight symmetry ${index}`);
+}
 assert.equal(integrated.releaseAuthorityGranted, false);
 assert.throws(
   () => integrateLafeaAnalyticalEdgeTraction({
@@ -55,6 +68,7 @@ console.log(JSON.stringify({
   thetaZeroClosedFormChecked: true,
   thetaNinetyClosedFormChecked: true,
   independentCompositeIntegrationChecked: true,
+  gaussRuleSymmetryChecked: true,
   resultant: integrated.resultant,
   unqualifiedLawRejected: true,
   releaseAuthorityGranted: false,
@@ -62,7 +76,7 @@ console.log(JSON.stringify({
 
 function independentCompositeGauss(nodes, law, thickness, panels) {
   // Independent high-resolution composite 4-point Gauss integration over the
-  // same quadratic physical edge; production uses one 8-point rule.
+  // same quadratic physical edge; production uses one higher-order Gauss rule.
   const points = [
     [-0.8611363115940526, 0.3478548451374538],
     [-0.3399810435848563, 0.6521451548625461],
