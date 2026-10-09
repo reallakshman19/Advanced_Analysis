@@ -8,6 +8,7 @@ const SEVERITY_STYLE = Object.freeze({
   MEDIUM: Object.freeze({ color: 0xf59e0b, emissive: 0x78350f, scale: 1 }),
   LOW: Object.freeze({ color: 0x38bdf8, emissive: 0x0c4a6e, scale: 0.9 }),
 });
+const SOURCE_BACKED_PICK_SCALE = 1.65;
 
 export class TopologyEditIssueRenderer {
   constructor(group) {
@@ -34,12 +35,10 @@ export class TopologyEditIssueRenderer {
       const marker = new THREE.Mesh(geometry, material);
       marker.position.set(entry.position.x, entry.position.y, entry.position.z);
       marker.renderOrder = 900;
-      marker.userData = {
-        canonicalId: entry.issueId,
-        issueId: entry.issueId,
-        relatedCanonicalIds: [...entry.canonicalIds],
-        pickTarget: issueMarkerPickTarget(entry),
-      };
+      marker.userData = issueMarkerUserData(entry);
+      if (entry.suggestionHash) {
+        marker.add(sourceBackedPickProxy(entry, geometries, materials, style, baseRadius));
+      }
       this.group.add(marker);
     }
     this.overlayHash = overlay.overlayHash;
@@ -95,6 +94,44 @@ export function issueSeverityStyle(severity) {
     ?? SEVERITY_STYLE.LOW;
 }
 
+function issueMarkerUserData(entry) {
+  return {
+    canonicalId: entry.issueId,
+    issueId: entry.issueId,
+    relatedCanonicalIds: [...entry.canonicalIds],
+    pickTarget: issueMarkerPickTarget(entry),
+  };
+}
+
+function sourceBackedPickProxy(entry, geometries, materials, style, baseRadius) {
+  const proxy = new THREE.Mesh(
+    cachedGeometry(geometries, style.scale * SOURCE_BACKED_PICK_SCALE, baseRadius),
+    sourceBackedPickMaterial(materials),
+  );
+  proxy.renderOrder = 901;
+  proxy.userData = {
+    ...issueMarkerUserData(entry),
+    issuePickProxy: true,
+    sourceBackedSuggestionHash: entry.suggestionHash,
+  };
+  return proxy;
+}
+
+function sourceBackedPickMaterial(cache) {
+  const key = 'SOURCE_BACKED_PICK_PROXY';
+  if (!cache.has(key)) {
+    const material = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0,
+      depthTest: true,
+      depthWrite: false,
+    });
+    material.colorWrite = false;
+    cache.set(key, material);
+  }
+  return cache.get(key);
+}
+
 function cachedGeometry(cache, scale, baseRadius) {
   const key = `${scale}:${baseRadius}`;
   if (!cache.has(key)) {
@@ -128,9 +165,7 @@ function markerRadius(entries, modelBounds) {
   if (!entries.length) return 3;
   const bounds = new THREE.Box3();
   entries.forEach((entry) => bounds.expandByPoint(new THREE.Vector3(
-    entry.position.x,
-    entry.position.y,
-    entry.position.z,
+    entry.position.x, entry.position.y, entry.position.z,
   )));
   const size = bounds.getSize(new THREE.Vector3()).length();
   return Number.isFinite(size) && size > 0 ? Math.max(size * 0.02, 3) : 3;

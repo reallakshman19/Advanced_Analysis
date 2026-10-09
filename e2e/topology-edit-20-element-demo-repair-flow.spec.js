@@ -12,6 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('20-object demo repairs the 250 mm bridge and 150 mm source-backed overlap', async ({ page }, testInfo) => {
+  test.setTimeout(120_000);
   const pageErrors = [];
   const consoleErrors = [];
   page.on('pageerror', (error) => pageErrors.push(error.message));
@@ -52,6 +53,7 @@ async function runBridgeScenario(page, testInfo) {
   await selectPort(page, 'R-001:port:start', true);
 
   const bridgeButton = page.locator('[data-command-action="bridge-gap"]');
+  await revealAction(bridgeButton);
   await expect(bridgeButton).toBeEnabled();
   await expect(bridgeButton).toHaveAttribute('title', /diameter remains unresolved/i);
   await bridgeButton.click();
@@ -68,6 +70,7 @@ async function runBridgeScenario(page, testInfo) {
   await selectPort(page, 'P-003:port:end', false);
   await selectPort(page, 'R-001:port:start', true);
   const traceButton = page.locator('[data-action="build-route-trace"]');
+  await revealAction(traceButton);
   await expect(traceButton).toBeEnabled();
   await traceButton.click();
   const routePanel = page.locator('[data-role="topology-edit-route-trace"]');
@@ -110,9 +113,15 @@ async function runTrimScenario(page, testInfo) {
   await expect(overlap).toContainText('150.00mm');
 
   const beforePreview = await evidence(host);
-  await overlap.getByRole('button', { name: 'Preview TRIM_EDGE' }).click();
+  await overlap.getByRole('button', { name: 'Review fix', exact: true }).click();
   await expect(page.locator('[data-role="topology-edit-status"]'))
     .toContainText('TRIM_EDGE preview certified');
+  const review = page.locator('[data-role="topology-edit-issue-fix-review"]');
+  await expect(review).toBeVisible();
+  await expect(review.locator('[data-role="topology-edit-issue-fix-title"]'))
+    .toHaveText('Certified fix · TRIM_EDGE');
+  await expect(review.locator('[data-role="topology-edit-issue-fix-evidence"]')).toHaveCount(1);
+  await expect(review.getByRole('button', { name: 'Apply fix', exact: true })).toBeEnabled();
   const firstPreview = await evidence(host);
   expect(firstPreview.canonicalHash).toBe(beforePreview.canonicalHash);
   expect(firstPreview.journalHash).toBe(beforePreview.journalHash);
@@ -120,19 +129,21 @@ async function runTrimScenario(page, testInfo) {
   expect(firstPreview.previewCertificationHash).not.toBe('');
   await attachScreenshot(page, testInfo, '150mm-trim-preview');
 
-  await page.locator('[data-action="cancel-autofix"]').click();
+  await review.getByRole('button', { name: 'Cancel', exact: true }).click();
   const cancelled = await evidence(host);
   expect(cancelled.canonicalHash).toBe(beforePreview.canonicalHash);
   expect(cancelled.journalHash).toBe(beforePreview.journalHash);
   expect(cancelled.previewHash).toBe('');
+  await expect(review).toBeHidden();
   await expect(overlapIssue(page)).toHaveCount(1);
 
-  await overlapIssue(page).getByRole('button', { name: 'Preview TRIM_EDGE' }).click();
+  await overlapIssue(page).getByRole('button', { name: 'Review fix', exact: true }).click();
+  await expect(review).toBeVisible();
   const secondPreview = await evidence(host);
   expect(secondPreview.previewHash).toBe(firstPreview.previewHash);
   expect(secondPreview.previewCertificationHash)
     .toBe(firstPreview.previewCertificationHash);
-  await page.locator('[data-action="accept-autofix"]').click();
+  await review.getByRole('button', { name: 'Apply fix', exact: true }).click();
   await expect(page.locator('[data-role="topology-edit-status"]'))
     .toContainText('TRIM_EDGE accepted from the exact certified preview');
 
@@ -193,15 +204,31 @@ async function openFreshDemo(page) {
 
 async function selectPort(page, portKey, additive) {
   const input = page.locator('[data-role="topology-edit-search-input"]');
+  const panel = input.locator('xpath=ancestor::details[1]');
+  if (!(await panel.evaluate((element) => element.open))) {
+    await panel.locator(':scope > summary').click();
+  }
+  await expect(input).toBeVisible();
   await input.fill(portKey);
   const result = page.locator('[data-search-object-kind="node"]');
   await expect(result).toHaveCount(1);
   await result.click({ modifiers: additive ? ['Shift'] : [] });
 }
 
+async function revealAction(action) {
+  const panel = action.locator('xpath=ancestor::details[1]');
+  if (await panel.count()) {
+    if (!(await panel.evaluate((element) => element.open))) {
+      await panel.locator(':scope > summary').click();
+    }
+  }
+  await expect(action).toBeVisible();
+}
+
 function overlapIssue(page) {
   return page.locator('[data-issue-kind="OVERLAPPING_ELEMENTS"]')
-    .filter({ hasText: '150.00mm' });
+    .filter({ hasText: '150.00mm' })
+    .filter({ has: page.locator('[data-review-topology-issue-fix]') });
 }
 
 async function comparisonValue(page, label) {

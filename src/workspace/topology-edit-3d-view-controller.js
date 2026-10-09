@@ -38,7 +38,10 @@ export class TopologyEdit3DViewController extends TopologyEdit3DViewControllerCo
     this.lastExportSealedHash = null;
     this.lastCommitReceiptHash = null;
     this.lastCommitDisposition = null;
-    this.viewportSelectionHandler = (pick, event) => this.handleViewportSelection(pick, event);
+    this.viewportSelectionHandler = (pick, event) => {
+      if (this.handleIssuePick?.(pick, event)) return;
+      this.handleViewportSelection(pick, event);
+    };
     this.sharedNavigationHandler = (event) => this.handleSharedNavigation(event);
     this.navigationKeyHandler = (event) => this.handleNavigationShortcut(event);
     this.lifecycle = new TopologyEditLifecycleController({

@@ -67,10 +67,11 @@ export class TopologyEditCanvasCallout {
     if (entry.suggestionHash) {
       const previewButton = actionButton(
         documentRef,
-        `Preview ${entry.commandType || 'certified fix'}`,
+        'Review fix',
         'preview-callout-fix',
       );
       previewButton.dataset.suggestionHash = entry.suggestionHash;
+      previewButton.dataset.commandType = entry.commandType || '';
       actions.prepend(previewButton);
       previewButton.addEventListener('click', () => {
         onPreviewFix?.(entry);
