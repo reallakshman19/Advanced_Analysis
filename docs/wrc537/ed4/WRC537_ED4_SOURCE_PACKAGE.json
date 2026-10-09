@@ -1,0 +1,97 @@
+{
+  "schema": "wrc537-ed4-source-package/v1",
+  "expectedCurrentState": "BLOCKED",
+  "identity": {
+    "bulletinNumber": "WRC Bulletin 537",
+    "title": "Precision Equations and Enhanced Diagrams for Local Stresses in Spherical and Cylindrical Shells Due to External Loadings for Implementation of WRC Bulletin 107",
+    "edition": "4",
+    "publicationDate": "2026-02",
+    "numberOfPages": 202,
+    "publisher": "Welding Research Council, Inc.",
+    "catalogSourceRef": "CATALOG-WRC537-ED4",
+    "catalogQualification": "IDENTITY_METADATA_ONLY"
+  },
+  "technicalSource": {
+    "available": false,
+    "editionVerified": false,
+    "edition": "4",
+    "publicationDate": "2026-02",
+    "sourceId": "TO_BE_FILLED_FROM_AUTHORIZED_COPY",
+    "documentDigest": "TO_BE_FILLED_SHA256",
+    "sourceRef": "TO_BE_FILLED_PRIMARY_TECHNICAL_LEDGER_REF",
+    "accessBasis": "TO_BE_FILLED_LICENSE_OR_AUTHORIZATION_REFERENCE",
+    "custodyNote": "Do not place the licensed bulletin itself in this package unless repository licensing explicitly permits it. Retain source identity, digest, locators and extracted engineering data instead."
+  },
+  "geometry": {
+    "inventoryDeclared": false,
+    "definitions": [
+      {"symbol": "Rm", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "Rc", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "T", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "r0", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "rm", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "t", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "C1", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+      {"symbol": "C2", "definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"}
+    ],
+    "applicability": {
+      "hostShellFamilies": ["UNRESOLVED_ED4"],
+      "attachmentFamilies": ["UNRESOLVED_ED4"],
+      "intersectionOrientation": "UNRESOLVED_ED4",
+      "loadReferenceConvention": "UNRESOLVED_ED4",
+      "exclusions": ["UNRESOLVED_ED4"],
+      "sourceRef": "TO_BE_FILLED"
+    }
+  },
+  "parameters": [
+    {"parameterId": "SPHERE_U", "sourceSymbol": "UNRESOLVED_ED4", "equation": "UNRESOLVED_ED4", "inputs": ["UNRESOLVED_ED4"], "minimum": null, "maximum": null, "minimumInclusive": null, "maximumInclusive": null, "sourceRef": "TO_BE_FILLED"},
+    {"parameterId": "SPHERE_GAMMA", "sourceSymbol": "UNRESOLVED_ED4", "equation": "UNRESOLVED_ED4", "inputs": ["UNRESOLVED_ED4"], "minimum": null, "maximum": null, "minimumInclusive": null, "maximumInclusive": null, "sourceRef": "TO_BE_FILLED"},
+    {"parameterId": "SPHERE_RHO", "sourceSymbol": "UNRESOLVED_ED4", "equation": "UNRESOLVED_ED4", "inputs": ["UNRESOLVED_ED4"], "minimum": null, "maximum": null, "minimumInclusive": null, "maximumInclusive": null, "sourceRef": "TO_BE_FILLED"},
+    {"parameterId": "CYL_LAMBDA", "sourceSymbol": "UNRESOLVED_ED4", "equation": "UNRESOLVED_ED4", "inputs": ["UNRESOLVED_ED4"], "minimum": null, "maximum": null, "minimumInclusive": null, "maximumInclusive": null, "sourceRef": "TO_BE_FILLED"},
+    {"parameterId": "CYL_DELTA", "sourceSymbol": "UNRESOLVED_ED4", "equation": "UNRESOLVED_ED4", "inputs": ["UNRESOLVED_ED4"], "minimum": null, "maximum": null, "minimumInclusive": null, "maximumInclusive": null, "sourceRef": "TO_BE_FILLED"}
+  ],
+  "loads": [
+    {"family": "spherical", "sourceSymbol": "P", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "spherical", "sourceSymbol": "V1", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "spherical", "sourceSymbol": "V2", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "spherical", "sourceSymbol": "M1", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "spherical", "sourceSymbol": "M2", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "spherical", "sourceSymbol": "Mt", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "cylindrical", "sourceSymbol": "P", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "cylindrical", "sourceSymbol": "Vc", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "cylindrical", "sourceSymbol": "Vl", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "cylindrical", "sourceSymbol": "Mc", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "cylindrical", "sourceSymbol": "Ml", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    {"family": "cylindrical", "sourceSymbol": "Mt", "physicalDirection": "UNRESOLVED_ED4", "positiveDirection": "UNRESOLVED_ED4", "referencePoint": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"}
+  ],
+  "stressRecovery": {
+    "inventoryDeclared": false,
+    "stressComponents": [
+      {"sourceSymbol": "UNRESOLVED_ED4", "meaning": "UNRESOLVED_ED4", "stressClass": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"}
+    ],
+    "locations": [
+      {"locationId": "UNRESOLVED_ED4", "surface": "UNRESOLVED_ED4", "physicalLocation": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"}
+    ],
+    "surfaceReconstruction": {"rule": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED"},
+    "stressIntensityOrEquivalent": {"definition": "UNRESOLVED_ED4", "sourceRef": "TO_BE_FILLED", "dimensionallyVerified": false}
+  },
+  "interpolation": {
+    "interpolationAuthorized": null,
+    "extrapolationAuthorized": null,
+    "algorithm": "UNRESOLVED_ED4",
+    "boundaryBehavior": "UNRESOLVED_ED4",
+    "sourceRef": "TO_BE_FILLED"
+  },
+  "coefficients": {
+    "inventoryDeclared": false,
+    "dataFile": "WRC537_ED4_COEFFICIENTS.csv",
+    "policy": "No numerical coefficient may be copied from older editions or secondary sources and promoted to Edition 4 authority."
+  },
+  "benchmarks": [],
+  "lafeaMapping": {
+    "qualified": false,
+    "geometry": [{"sourceQuantity": "UNRESOLVED_ED4", "lafeaField": "UNRESOLVED", "mappingType": "UNRESOLVED"}],
+    "loads": [{"sourceQuantity": "UNRESOLVED_ED4", "lafeaField": "UNRESOLVED", "mappingType": "UNRESOLVED"}],
+    "stresses": [{"sourceQuantity": "UNRESOLVED_ED4", "lafeaField": "UNRESOLVED", "mappingType": "UNRESOLVED"}]
+  }
+}
