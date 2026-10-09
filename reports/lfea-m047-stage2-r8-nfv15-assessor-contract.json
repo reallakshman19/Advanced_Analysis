@@ -1,0 +1,35 @@
+{
+  "schema": "m047-r8-nfv15-assessor-contract-execution/v1",
+  "status": "PASS",
+  "measurementBoundary": "PURE_ASSESSMENT_GATE_CONTRACT_NO_ACCDB_SOLVE_NO_ACCURACY_CLAIM",
+  "runtime": {
+    "node": "v22.16.0"
+  },
+  "assessor": {
+    "path": "scripts/lfea-m047-stage2-r8-nfv15-assess.mjs",
+    "contentBlob": "65d49ed49afede5a920d02910a29b8daf8cb01f8",
+    "changeCommit": "0712c43c3c6cc25f91cf04caec33f39475b3f3de"
+  },
+  "contract": {
+    "path": "scripts/lfea-m047-stage2-r8-nfv15-assess-contract.mjs",
+    "contentBlob": "629460bf1573b53ea037577bebe10533f2af747d",
+    "changeCommit": "7350877330a2e2b71fbbff17ecf2a8061e612ee8"
+  },
+  "checks": [
+    "real_artifact_shape_positive_nomination",
+    "threshold_fail_closed",
+    "production_boundary_fail_closed",
+    "equilibrium_fail_closed",
+    "nonconvergence_is_clean_rejection_not_assessor_crash",
+    "null_blank_and_boolean_accuracy_metrics_fail_closed",
+    "incomplete_nfv_ledger_fails_closed",
+    "missing_nfv_variation_fails_closed",
+    "duplicate_restraint_ids_fail_closed",
+    "single_run_discriminator_does_not_require_determinism",
+    "requested_repeat_determinism_passes_only_on_complete_identical_repeats",
+    "governed_L13_to_L7_to_L15_sequence"
+  ],
+  "productionMechanicsChanged": false,
+  "productionPromotionAuthorized": false,
+  "accuracyClaimAuthorized": false
+}

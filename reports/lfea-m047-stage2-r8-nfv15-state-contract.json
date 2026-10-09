@@ -1,0 +1,72 @@
+{
+  "schema": "m047-stage2-r8-nfv15-state-contract/v1",
+  "status": "PASS",
+  "runtime": "node-v22.16.0",
+  "measurementBoundary": "PURE_STATE_MACHINE_ONLY_NO_ACCDB_SOLVE_NO_ACCURACY_CLAIM",
+  "threshold": 0.15,
+  "cases": {
+    "seed": {
+      "state": "STICK",
+      "nextState": "SLIDE",
+      "currentNormalMagnitudeN": 1000,
+      "retainedNormalEnteringN": null,
+      "variationRelative": 0,
+      "refreshed": false,
+      "capacityNormalMagnitudeN": 1000,
+      "nextRetainedNormalMagnitudeN": 1000
+    },
+    "within": {
+      "state": "SLIDE",
+      "nextState": "SLIDE",
+      "currentNormalMagnitudeN": 1100,
+      "retainedNormalEnteringN": 1000,
+      "variationRelative": 0.1,
+      "refreshed": false,
+      "capacityNormalMagnitudeN": 1000,
+      "nextRetainedNormalMagnitudeN": 1000
+    },
+    "exactBoundary": {
+      "state": "SLIDE",
+      "nextState": "SLIDE",
+      "currentNormalMagnitudeN": 1150,
+      "retainedNormalEnteringN": 1000,
+      "variationRelative": 0.15,
+      "refreshed": false,
+      "capacityNormalMagnitudeN": 1000,
+      "nextRetainedNormalMagnitudeN": 1000
+    },
+    "beyond": {
+      "state": "SLIDE",
+      "nextState": "SLIDE",
+      "currentNormalMagnitudeN": 1160,
+      "retainedNormalEnteringN": 1000,
+      "variationRelative": 0.16,
+      "refreshed": true,
+      "capacityNormalMagnitudeN": 1160,
+      "nextRetainedNormalMagnitudeN": 1160
+    },
+    "release": {
+      "state": "SLIDE",
+      "nextState": "STICK",
+      "currentNormalMagnitudeN": 1110,
+      "retainedNormalEnteringN": 1000,
+      "variationRelative": 0.11,
+      "refreshed": false,
+      "capacityNormalMagnitudeN": 1000,
+      "nextRetainedNormalMagnitudeN": null
+    },
+    "rebreak": {
+      "state": "STICK",
+      "nextState": "SLIDE",
+      "currentNormalMagnitudeN": 900,
+      "retainedNormalEnteringN": null,
+      "variationRelative": 0,
+      "refreshed": false,
+      "capacityNormalMagnitudeN": 900,
+      "nextRetainedNormalMagnitudeN": 900
+    }
+  },
+  "productionMechanicsChanged": false,
+  "productionPromotionAuthorized": false,
+  "nextGate": "Fresh custody-verified BM4_L.ACCDB nonlinear R8 solve with exactly NFV15 added to production R2 mechanics."
+}

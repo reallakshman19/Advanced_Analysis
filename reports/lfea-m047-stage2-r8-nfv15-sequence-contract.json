@@ -1,0 +1,30 @@
+{
+  "schema": "m047-r8-nfv15-sequence-contract-receipt/v1",
+  "status": "PASS",
+  "scope": "PURE_ORCHESTRATION_ONLY_NO_BENCHMARK_SOLVE",
+  "sequenceModule": {
+    "path": "scripts/lfea-m047-stage2-r8-nfv15-sequence.mjs",
+    "gitBlob": "5289305c5511845bc6afc12beee50490075df81a"
+  },
+  "contractScript": {
+    "path": "scripts/lfea-m047-stage2-r8-nfv15-sequence-contract.mjs",
+    "gitBlob": "70e2d3693090e9235f4257d2450287b548b41aba"
+  },
+  "checks": [
+    "initial_gate_is_L13",
+    "cannot_skip_L13",
+    "L13_rejection_stops_L7",
+    "L13_nomination_advances_only_to_L7",
+    "cannot_skip_L7",
+    "L7_rejection_stops_L15",
+    "L7_nomination_advances_only_to_algebraic_L15",
+    "L15_identity_failure_stops_sequence",
+    "independent_nonlinear_L15_is_rejected",
+    "successful_L15_still_blocks_L1",
+    "promotion_authority_is_fail_closed"
+  ],
+  "benchmarkAccuracyClaim": false,
+  "realAccdbRun": false,
+  "productionMechanicsChanged": false,
+  "productionPromotionAuthorized": false
+}
