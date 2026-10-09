@@ -1,0 +1,20 @@
+schema: AgentClaim.v1
+pr_or_wip: PR1320
+claim_state: ACTIVE
+branch: claude/input-tabs-error-check-p78jbg
+scope: >-
+  Design and review of the LFEA pipeline SOURCE-host input tabs
+  (InputXML / ACCDB / StagedJSON) and the common element table.
+  Documentation and agent artifacts only.
+files_claimed:
+  - docs/lfea-input-subtabs-ui-concept.md
+  - agents/PR1320_workreport.md
+  - agents/status/PR1320.yaml
+  - agents/claims/PR1320.yaml
+production_files_claimed: []
+overlap_classification: SAFE
+overlap_basis: >-
+  No production file is modified. The surfaces described
+  (lfea-pipeline-shell-view.js, lfea-pipeline-shell.css, src/main.js,
+  the three source panels) are named as future targets only and remain
+  unclaimed for implementation.

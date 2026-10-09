@@ -1,0 +1,24 @@
+schema: AgentStatus.v1
+pr: 1320
+wip_identity_at_allocation: WIP-LFEA-INPUT-SUBTABS
+repository: reallaksh19/Advanced_Analysis
+branch: claude/input-tabs-error-check-p78jbg
+base_sha_at_allocation: 49c9228
+criticality: ENGINEERING_CRITICAL
+intent: LFEA_INPUT_SUBTABS_AND_COMMON_ELEMENT_TABLE_DESIGN
+state: OPEN_DRAFT_HANDOVER_READY
+authority_exercised: DESIGN_AND_REVIEW_ONLY
+production_code_changed: false
+ui_changed: false
+solver_or_authority_changed: false
+benchmark_or_oracle_changed: false
+tests_changed: false
+workflow_files_changed: false
+deliverable: docs/lfea-input-subtabs-ui-concept.md
+findings_raised: F-1..F-7
+open_owner_decisions: D-1_one_model_vs_three, D-2_stagedjson_handoff, D-3_edit_scope, D-4_field_groups
+inspection_findings: PASS_7_OF_7_IMPLEMENTATION_COUPLED
+e2e_stagedjson_spec_prediction: NOT_RUN_NODE_MODULES_ABSENT
+full_repository_tests: NOT_RUN_DESIGN_ONLY_CHANGE
+merge_authority: OWNER_ONLY_NOT_GRANTED
+exact_next_action: run e2e/lfea-pipeline-stagedjson-input.spec.js to resolve RISK-1, then take decision D-1 before phase P1
