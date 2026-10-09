@@ -1,0 +1,74 @@
+{
+  "schema": "wrc537-source-readiness-manifest/v1",
+  "methodIdentity": "WRC537",
+  "purpose": "Normalize PR #1203 research artifacts into fail-closed implementation-readiness evidence without promoting secondary-source research to engineering authority.",
+  "targetEdition": {
+    "bulletinNumber": "WRC Bulletin 537",
+    "edition": "4",
+    "publicationDate": "2026-02",
+    "catalogIdentityVerified": true,
+    "catalogAuthority": "Welding Research Council listing via Accuris WRC Online Store",
+    "catalogReference": "https://store.accuristech.com/standards/wrc-bulletin-537?product_id=3060583",
+    "catalogUseBoundary": "IDENTITY_METADATA_ONLY",
+    "technicalSourceAvailable": false,
+    "technicalSourcePrimaryVerified": false,
+    "technicalSourceReference": null
+  },
+  "normalizedExtraction": {
+    "sourcePullRequest": 1203,
+    "researchArtifacts": [
+      "docs/01_WRC537_METHOD_DEFINITION.md",
+      "docs/03_WRC537_DATASET.json",
+      "docs/04_WRC537_NUMERICAL_TABLES.csv"
+    ],
+    "researchEditionsObserved": [
+      "1st Edition 2010 / 2013 reprint",
+      "3rd Edition 2022 secondary references"
+    ],
+    "technicalEdition": null,
+    "technicalPublicationDate": null,
+    "targetEditionTechnicalDataVerified": false,
+    "rawResearchStatusIsEngineeringAuthority": false,
+    "normalizationPolicy": {
+      "unresolvedCoefficientValue": "STRUCTURE_ONLY_VALUE_UNRESOLVED",
+      "unresolvedPublishedPrecision": "SOURCE_PRECISION_UNRESOLVED",
+      "rawHighConfidenceWithoutPrimaryVerification": "NOT_PRIMARY_SOURCE_VERIFIED",
+      "rawExtractedStatusWithoutNumericValue": "RESEARCH_ONLY",
+      "secondaryInterpretation": "NOT_PRIMARY_SOURCE_VERIFIED"
+    }
+  },
+  "engineeringVerification": {
+    "signTablesPrimaryVerified": false,
+    "interpolationPrimaryVerified": false,
+    "stressReconstructionPrimaryVerified": false,
+    "stressIntensityMathPrimaryVerified": false,
+    "publishedBenchmarks": []
+  },
+  "releasePolicy": {
+    "unresolvedConsumedFieldAllowed": false,
+    "secondarySourceMayAuthorizeNumericalExecution": false,
+    "mixedEditionTechnicalDataAllowed": false,
+    "coefficientWithoutPublishedPrecisionAllowed": false,
+    "coefficientWithoutPrimarySourceLocatorAllowed": false,
+    "benchmarkRequired": true,
+    "numericalMethodRegistrationAllowedBeforeReady": false
+  },
+  "expectedCurrentState": "BLOCKED",
+  "expectedBlockingGates": [
+    "TARGET_EDITION_PRIMARY_TECHNICAL_SOURCE",
+    "SOURCE_EDITION_CONSISTENCY",
+    "GEOMETRY_DEFINITIONS_COMPLETE",
+    "DIMENSIONLESS_PARAMETERS_COMPLETE",
+    "LOAD_SIGNS_COMPLETE",
+    "LAFEA_MAPPING_COMPLETE",
+    "COEFFICIENT_VALUES_COMPLETE",
+    "COEFFICIENT_PRECISION_COMPLETE",
+    "COEFFICIENT_SOURCE_CUSTODY_COMPLETE",
+    "SIGN_TABLE_PRIMARY_VERIFIED",
+    "INTERPOLATION_PRIMARY_VERIFIED",
+    "STRESS_RECONSTRUCTION_PRIMARY_VERIFIED",
+    "STRESS_INTENSITY_MATH_PRIMARY_VERIFIED",
+    "PUBLISHED_BENCHMARKS_AVAILABLE",
+    "PUBLISHED_BENCHMARKS_REPRODUCED"
+  ]
+}
