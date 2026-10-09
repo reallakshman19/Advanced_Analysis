@@ -1,0 +1,69 @@
+schema_version: relay-v3.1-snapshot
+authority: DERIVED_READ_MODEL
+generated_from:
+  roadmap_revision: RM-0012
+  state_digest: sha256:e2a72cc862c69df7de0e33c49bb9575e2f8283c26e8d1ab935c3d661eef43f91
+  material_basis:
+    head: 8e77840f8a3ee65a407ad43f0241a893dde0f62e
+    tree_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+    relevant_paths_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+    dependency_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+  coordination_head: 8e77840f8a3ee65a407ad43f0241a893dde0f62e
+owner:
+  outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
+    Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
+    capability.
+  current_goal: "Advance the Owner-selected #1862 C3-D composition frontier to close\
+    \ uniform B02/aggregate receipt, currentness and solver-diagnostics custody. The\
+    \ Lam\xE9 angular B-bar mesh-quality blocker was fixed on current main, while\
+    \ #1881 remains unresolved sparse-PCG / near-incompressible work; admission of\
+    \ #1862 does not imply all C3-D numerical boundaries are complete."
+programme:
+  accepted_progress: 0.0
+  completed_work: []
+  remaining_work:
+  - WP-1769
+  - WP-1771
+  - WP-1773
+  - WP-1774
+  - WP-1776
+execution:
+  lifecycle: IDLE
+  work_package: null
+  ep: null
+  lease: null
+  executor: null
+scope:
+  allowed_writes: []
+  protected: []
+  prohibited: []
+material:
+  base: 8e77840f8a3ee65a407ad43f0241a893dde0f62e
+  head: 8e77840f8a3ee65a407ad43f0241a893dde0f62e
+  relevant_paths_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+  dependency_digest: sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+evidence:
+  latest_checkpoint: null
+  latest_material_validation: {}
+controls:
+  execution_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  handover_blockers: []
+  delivery_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  informational: []
+delivery:
+  issue: 1771
+  pr: null
+  lifecycle: DECLARED
+  merge_authorized: false
+next:
+  immediate_material_action: null
+  delivery_action: Perform the explicitly authorized delivery transition.
+  stop_conditions: []
+handoff:
+  zero_context_takeover_possible: false
+  reconstruction_sources:
+  - relay/ROADMAP/ROADMAP.yaml
+  - relay/STATE.yaml
+  - relay/CONTROLS/controls.yaml

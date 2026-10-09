@@ -1,0 +1,103 @@
+schema_version: relay-v3.1-snapshot
+authority: DERIVED_READ_MODEL
+generated_from:
+  roadmap_revision: RM-0012
+  state_digest: sha256:88df67e42b1562a08ac0c94b55e36d75ae203a0dd2185918b3e082f021cceeff
+  material_basis:
+    head: d8d979f3326625029b79d9f06610973f2d7ad188
+    tree_digest: sha256:bbd0e20f6ea593279d07fdd46a71d05c494dea01c927cb8eaa5106a625cbe649
+    relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
+    dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+  coordination_head: 977efe43befad770172c151b03593795ba6c0542
+owner:
+  outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
+    Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
+    capability.
+  current_goal: "Advance the Owner-selected #1862 C3-D composition frontier to close\
+    \ uniform B02/aggregate receipt, currentness and solver-diagnostics custody. The\
+    \ Lam\xE9 angular B-bar mesh-quality blocker was fixed on current main, while\
+    \ #1881 remains unresolved sparse-PCG / near-incompressible work; admission of\
+    \ #1862 does not imply all C3-D numerical boundaries are complete."
+programme:
+  accepted_progress: 0.0
+  completed_work: []
+  remaining_work:
+  - WP-1769
+  - WP-1771
+  - WP-1773
+  - WP-1774
+  - WP-1776
+execution:
+  lifecycle: ACTIVE
+  work_package: WP-1771
+  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+  executor: chatgpt-gpt5.6-sol-c3d-r2-20260923
+scope:
+  allowed_writes:
+  - relay/EVIDENCE/C3D-B02-R2/**
+  protected:
+  - scripts/lafea-b02-production-source-guard.mjs
+  - scripts/lafea-b02b-production-check.mjs
+  - scripts/lafea-b02-production-sequence-check.mjs
+  - scripts/lib/lafea-b02-production-route.mjs
+  - scripts/lib/lafea-b02-rectangle-qualification.mjs
+  - scripts/lib/lafea-b02d-production-route.mjs
+  - src/workspace/lafea-workbench-currentness.js
+  - src/workspace/lafea-workbench-domain-first-run-actions.js
+  - src/workspace/lafea-runtime-solver-diagnostics.js
+  - src/workspace/lafea-continuum-physical-probe.js
+  - validation/lafea-b02-definitions/**
+  prohibited:
+  - any product/source modification in this EP
+  - changes to benchmark definitions, expected values, sign correction, acceptance
+    modes or tolerances
+  - changes to qualifier logic, mesh generators, FE solver, recovery or result authority
+  - B-bar or BM-005 implementation changes
+  - workflow YAML changes
+  - 'issue #1862 implementation'
+  - release or merge authority
+material:
+  base: 74437c40669577926c9761cd6374f53d11178a69
+  head: d8d979f3326625029b79d9f06610973f2d7ad188
+  relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
+  dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+evidence:
+  latest_checkpoint: null
+  latest_material_validation: {}
+controls:
+  execution_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  handover_blockers: []
+  delivery_blockers:
+  - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+  informational: []
+delivery:
+  issue: 1771
+  pr: null
+  lifecycle: DECLARED
+  merge_authorized: false
+next:
+  immediate_material_action: Run canonical roadmap reconciliation and task admission,
+    then use pinned V3.1 local-execution export. Require material-basis drift against
+    current main to be DISJOINT; execute source guard once, B02B once and B02 sequence
+    twice on the derived material head.
+  delivery_action: Perform the explicitly authorized delivery transition.
+  stop_conditions:
+  - Stop on HEAD_MISMATCH.
+  - Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.
+  - Do not modify product/source files.
+  - Do not normalize a nonzero exit into PASS.
+  - Do not infer deterministic replay without two durable aggregate runs.
+  - 'If numerical commands pass but CURRENT_RESULT/lineage custody is not independently
+    inspectable, return BLOCKED rather than PASS and route to #1862.'
+  - 'Do not resume or merge PR #1873 until R2 evidence and independent review disposition
+    are complete.'
+handoff:
+  zero_context_takeover_possible: true
+  reconstruction_sources:
+  - relay/ROADMAP/ROADMAP.yaml
+  - relay/STATE.yaml
+  - relay/CONTROLS/controls.yaml
+  - relay/WORK/EP-LAFEA3-C3D-B02-R2-1771-0009.yaml
+  - relay/LEASES/LEASE-LAFEA3-C3D-B02-R2-1771-0009.yaml

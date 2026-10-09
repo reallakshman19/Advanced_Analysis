@@ -1,0 +1,165 @@
+schema_version: relay-v3.1-handover-context
+authority: DERIVED_HANDOVER_INPUT
+frozen_at: '2026-09-24T08:12:27.803097Z'
+frozen_basis:
+  roadmap_revision: RM-0012
+  state_digest: sha256:88df67e42b1562a08ac0c94b55e36d75ae203a0dd2185918b3e082f021cceeff
+  target_digest: sha256:aae47f6596c465d7af3943c298a0c4c406f818b0789e643ea7a9e9c788eb16b3
+  material_head: d8d979f3326625029b79d9f06610973f2d7ad188
+  relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
+  dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+  coordination_head: 85f76a6e7639b40e1d7a1f201ba20af0279ab13b
+  checkpoint: null
+  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+target:
+  schema_version: relay-v3.1-handover-target
+  authority: PROVIDER_READBACK
+  provider: GITHUB
+  repository: reallaksh19/Advanced_Analysis
+  kind: ISSUE
+  number: 1862
+  title: '[LAFEA.3][C3-D.0] Compose production-route custody and solver-diagnostics
+    qualification'
+  url: https://github.com/reallaksh19/Advanced_Analysis/issues/1862
+  state: OPEN
+  observed_at: '2026-09-24T07:53:41Z'
+  provider_ref: github:reallaksh19/Advanced_Analysis#1862@comment:5794805060
+blind_context:
+  programme:
+    outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under
+      Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved
+      downstream capability.
+    current_goal: "Advance the Owner-selected #1862 C3-D composition frontier to close\
+      \ uniform B02/aggregate receipt, currentness and solver-diagnostics custody.\
+      \ The Lam\xE9 angular B-bar mesh-quality blocker was fixed on current main,\
+      \ while #1881 remains unresolved sparse-PCG / near-incompressible work; admission\
+      \ of #1862 does not imply all C3-D numerical boundaries are complete."
+    roadmap_revision: RM-0012
+    roadmap_title: "FEA meshing completion roadmap \u2014 shared mesh workspace, benchmarks\
+      \ and LAFEA.3\u2013.6 delivery"
+  local_responsibility:
+    work_package: WP-1771
+    title: Qualify production-route continuum response, solver robustness, and convergence
+    outcome: Execute the merged B02A-E production qualification on the current governed
+      LAFEA material basis, retain repository-visible raw execution evidence, deterministic
+      replay and explicit CURRENT_RESULT/lineage custody, and mechanically prove that
+      newer provider-main drift is DISJOINT from the EP material sensitivity before
+      any downstream implementation resumes.
+    acceptance_statements:
+    - The current B02 production source/authority guard passes on the exact material
+      basis without source modification.
+    - R2 executes on the exact governed LAFEA material head derived by pinned V3.1
+      material-basis semantics, while the current provider-main delta is mechanically
+      classified DISJOINT from EP sensitivity.
+    - Focused B02B production qualification executes and its raw stdout, stderr, exit
+      code and timestamps are retained without repair during execution.
+    - The aggregate B02 production sequence executes twice independently; each run
+      retains raw stdout, stderr, exit code and timestamps, and any nonzero result
+      remains the exact first failing witness.
+    - If both aggregate runs PASS, the final B02E qualification receipt is retained
+      from each run and semantic/result identity is compared for deterministic replay;
+      PASS is not inferred if raw receipt extraction is incomplete.
+    - 'No product/source diff is introduced by R2; this EP grants evidence only and
+      does not admit B-bar, BM-005 or #1862 implementation.'
+    - 'Numerical PASS is accepted for C3-D.1 only when the retained ordinary-route
+      execution is independently inspectable as CURRENT_RESULT/currentAuthority with
+      completed transaction and current recovery ancestry; otherwise R2 returns BLOCKED
+      and routes specifically to the reconciled #1862 composition scope.'
+  stable_constraints:
+  - any product/source modification in this EP
+  - changes to benchmark definitions, expected values, sign correction, acceptance
+    modes or tolerances
+  - changes to qualifier logic, mesh generators, FE solver, recovery or result authority
+  - B-bar or BM-005 implementation changes
+  - workflow YAML changes
+  - 'issue #1862 implementation'
+  - release or merge authority
+reality_context:
+  execution:
+    lifecycle: ACTIVE
+    ep: EP-LAFEA3-C3D-B02-R2-1771-0009
+    lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
+    executor: chatgpt-gpt5.6-sol-c3d-r2-20260923
+    branch: relay/c3d-composition-1862
+  material:
+    base: 74437c40669577926c9761cd6374f53d11178a69
+    head: d8d979f3326625029b79d9f06610973f2d7ad188
+    relevant_paths_digest: sha256:a4764428855da777e81e2674e4296557135c863d25d9dd800326dae7e6a0301a
+    dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+    coordination_head: 85f76a6e7639b40e1d7a1f201ba20af0279ab13b
+  evidence:
+    latest_checkpoint: null
+    latest_material_validation: {}
+  controls:
+    execution_blockers:
+    - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+    handover_blockers: []
+    delivery_blockers:
+    - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
+    informational: []
+  delivery:
+    issue: 1771
+    pr: null
+    lifecycle: DECLARED
+    merge_authorized: false
+accumulated_learning:
+  checkpoint: null
+  discoveries: []
+  known_limitations: []
+  what_changed: []
+  what_is_true_now: []
+  what_remains_uncertain: []
+  do_not_break: []
+  attempted_and_rejected: []
+  resume_from: []
+  first_successor_action: null
+  task_snapshot:
+    path: relay/GENERATED/tasks/EP-LAFEA3-C3C6-1856.snapshot.yaml
+    digest: sha256:736b441baa6366b51ec84eed288f7edc0526884ccebd101e183f5dafa4a60f57
+    source_protocol: V2_5
+    ep: EP-LAFEA3-C3C6-1856
+    work_package: WP-1769
+    next_action: Execute the standalone C3-C.6 matrix and 19-step aggregate on the
+      current exact PR head, retaining stdout/stderr/exit status and source custody.
+  improvement_view:
+    path: relay/GENERATED/improvements/CP-LAFEA3-C3C6-1856-0001.improvement.yaml
+    digest: sha256:228b86bf223cdd0e78e743a643f4244bff14998ca87a2ab33abd035ce8d5847c
+    source_protocol: V2_5
+    checkpoint: CP-LAFEA3-C3C6-1856-0001
+    capability_change: false
+    evidence_count: 6
+  parent_issue:
+    repository: reallaksh19/Advanced_Analysis
+    number: 1771
+    disposition: LINK
+    relationships:
+    - type: FOLLOW_UP
+      target:
+        repository: reallaksh19/Advanced_Analysis
+        issue_number: 1862
+        url: https://github.com/reallaksh19/Advanced_Analysis/issues/1862
+      scope:
+      - uniform B02 authoritative lineage/currentness/transaction projection
+      - solver diagnostics projection
+      - deterministic replay over authoritative hashes
+      - C3-D aggregate composition
+      acceptance_items:
+      - C3-D.1
+      provider_refs:
+      - github:reallaksh19/Advanced_Analysis#1862@comment:5794805060
+generator_contract:
+  canonical_launcher: skills/three-pass-prompt-generator/SKILL.md
+  canonical_schema: skills/three-pass-prompt-generator/schema.md
+  canonical_validator: skills/three-pass-prompt-generator/validate.py
+  protocol_revision_at_freeze: TPG-3P-2026-09-22-R10
+  generator_mode: THREE_PASS_ONLY
+  live_main_fetch_required: true
+  prompt_sequence:
+  - PROMPT_0_5
+  - PROMPT_1
+  - PROMPT_2
+  - PROMPT_2_5
+  - PROMPT_3
+  complex_mode: true
+  prompt1_q1_q5_required: true

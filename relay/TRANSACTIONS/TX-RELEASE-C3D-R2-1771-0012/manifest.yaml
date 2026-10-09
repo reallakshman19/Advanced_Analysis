@@ -1,0 +1,37 @@
+schema_version: relay-v3.1-transaction
+id: TX-RELEASE-C3D-R2-1771-0012
+command: RELEASE_LEASE
+actor: chatgpt-gpt5.6-sol-c3d-handover-20260924
+status: COMMITTED
+created_at: '2026-09-24T08:13:47.947831Z'
+updated_at: '2026-09-24T08:13:48.153141Z'
+operations:
+- path: relay/EVENTS.jsonl
+  before_exists: true
+  before_digest: sha256:0227a8ebde6cda9da82e2d539bbc9553754391ea06d591b4d33f8904750a871b
+  after_digest: sha256:d6113645a9ba86a8da32faf6bf39971e8ae9bdd7757ca6e75e18e8709dcb7b2d
+  staged_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/staged/000.after
+  backup_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/backups/000.before
+- path: relay/GENERATED/CURRENT_SNAPSHOT.yaml
+  before_exists: true
+  before_digest: sha256:3b80bd78d86f2c2a743b47677568617e6a6d9829647f6d6353bc76c917bb417f
+  after_digest: sha256:114a231a22c6cc6e255de1c185eeab558443db9ec10d323b118800d0dee59c07
+  staged_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/staged/001.after
+  backup_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/backups/001.before
+- path: relay/LEASES/LEASE-LAFEA3-C3D-B02-R2-1771-0009.yaml
+  before_exists: true
+  before_digest: sha256:4dc118851e2f5e25ce840b7b65cd0a1237104dc30eebaa3f70d403c9ab40d258
+  after_digest: sha256:864ca2056a4f583040ceb916ed125ecb2d86b801c4889549f6e59645297f3cd8
+  staged_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/staged/002.after
+  backup_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/backups/002.before
+- path: relay/STATE.yaml
+  before_exists: true
+  before_digest: sha256:7960b472bc877624daf1a7fba9de751ed219bcc6f51d540f22f0eea12f5b7d8b
+  after_digest: sha256:d11e3c6d6a98e54801f45f34439190459d1bb3e4c07515ad7275a44fd49bc6a9
+  staged_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/staged/003.after
+  backup_path: relay/TRANSACTIONS/TX-RELEASE-C3D-R2-1771-0012/backups/003.before
+applied:
+- relay/EVENTS.jsonl
+- relay/GENERATED/CURRENT_SNAPSHOT.yaml
+- relay/LEASES/LEASE-LAFEA3-C3D-B02-R2-1771-0009.yaml
+- relay/STATE.yaml

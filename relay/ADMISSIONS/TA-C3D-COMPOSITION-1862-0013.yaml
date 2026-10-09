@@ -1,0 +1,285 @@
+{
+  "schema_version": "relay-v3.1-task-admission",
+  "roadmap": {
+    "disposition": "MAPPED_EXISTING_WP",
+    "new_revision": "RM-0013",
+    "basis": [
+      "RM-0012 R2-to-composition handover reconciliation",
+      "PR #1878 merged reviewed R2 evidence",
+      "PR #1879 merged Lamé angular subdivision fix at 8844555359d0d64ee509a32cf28801fa29971646",
+      "Issue #1880 exact-head validation evidence (LOCAL-1771-PR1879-LAME-001) clearing Lamé mesh quality and exposing sparse-PCG convergence boundary",
+      "Issue #1881 deferred as separate C3-D.5 numerical owner; sparse-PCG solver work excluded from #1862",
+      "R2 independent review at relay/EVIDENCE/C3D-B02-R2/R2-0009/review/INDEPENDENT-REVIEW-R2-0001.json",
+      "Issue #1771 comment 5794804384",
+      "Issue #1862 comment 5794805060"
+    ],
+    "work_package": {
+      "id": "WP-1771",
+      "title": "Qualify production-route continuum response, solver robustness, and convergence",
+      "weight": 1,
+      "state": "ACTIVE",
+      "depends_on": [
+        "WP-1769"
+      ]
+    }
+  },
+  "ep": {
+    "schema_version": "relay-v3.1-ep",
+    "id": "EP-LAFEA3-C3D-COMPOSITION-1862-0013",
+    "work_package": "WP-1771",
+    "outcome": {
+      "statement": "Close only the R2-proven C3-D custody/composition gap by projecting already-authoritative stage currentness, transaction, ancestry and solver diagnostics into uniform B02 receipts and a deterministic C3-D aggregate, without changing FE mechanics, benchmark authority or acceptance policy."
+    },
+    "basis": {
+      "predecessor_checkpoint": null,
+      "material_base": "8844555359d0d64ee509a32cf28801fa29971646",
+      "protocol_basis": "github:reallaksh19/Common@4c0617bd2f41d25f43a5d98673abead8ca4e7686/skills/engineering-pr-delivery-v3.1",
+      "semantic_dependencies": [
+        {
+          "path": "scripts/lib/lafea-b02-production-route.mjs",
+          "reason": "Authoritative ordinary-route stage execution/custody source to project, not recompute."
+        },
+        {
+          "path": "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+          "reason": "Shared B02A/B retained-level qualification receipt requiring uniform custody projection."
+        },
+        {
+          "path": "scripts/lafea-b02c-production-check.mjs",
+          "reason": "B02C production receipt must satisfy the same C3-D custody contract."
+        },
+        {
+          "path": "scripts/lib/lafea-b02d-production-route.mjs",
+          "reason": "B02D production route supplies authoritative execution and recovery state."
+        },
+        {
+          "path": "scripts/lafea-b02d-production-check.mjs",
+          "reason": "B02D receipt retains additional moment/energy evidence and must add the same minimum custody vector."
+        },
+        {
+          "path": "scripts/lafea-b02-production-sequence-check.mjs",
+          "reason": "Existing B02A-E composition and deterministic sequence authority."
+        },
+        {
+          "path": "src/workspace/lafea-workbench-currentness.js",
+          "reason": "Existing CURRENT_RESULT/currentAuthority semantics must be projected unchanged."
+        },
+        {
+          "path": "src/workspace/lafea-workbench-domain-first-run-actions.js",
+          "reason": "Existing immutable run transaction and runtime diagnostic publication."
+        },
+        {
+          "path": "src/workspace/lafea-runtime-solver-diagnostics.js",
+          "reason": "Existing authoritative residual/iteration/method/equilibrium projection."
+        },
+        {
+          "path": "src/workspace/lafea-continuum-physical-probe.js",
+          "reason": "Existing CURRENT_RESULT-gated fixed-probe authority."
+        },
+        {
+          "path": "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+          "reason": "Constituent C3-D aggregate input; consume status without weakening its contract."
+        },
+        {
+          "path": "scripts/lafea-b01-final-qualification.mjs",
+          "reason": "Constituent high-order mapping qualification input."
+        },
+        {
+          "path": "scripts/lafea-plane-strain-bbar-qualification-check.mjs",
+          "reason": "Constituent near-incompressible qualification input; preserve current status exactly."
+        },
+        {
+          "path": "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+          "reason": "Constituent plane-strain Lamé benchmark executed by B-bar qualification check; depends on merged #1879 fixture."
+        },
+        {
+          "path": "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+          "reason": "Merged PR #1879 fixture providing angular subdivision fix; semantic basis for Lamé qualification."
+        }
+      ]
+    },
+    "scope": {
+      "write": [
+        "scripts/lib/lafea-b02-production-route.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lafea-b02c-production-check.mjs",
+        "scripts/lib/lafea-b02d-production-route.mjs",
+        "scripts/lafea-b02d-production-check.mjs",
+        "scripts/lafea-b02-production-sequence-check.mjs",
+        "scripts/lafea.3-c3d-production-route-qualification-check.mjs",
+        "relay/EVIDENCE/C3D-COMPOSITION/COMP-0013/**"
+      ],
+      "read": [
+        "scripts/lafea-b02-production-source-guard.mjs",
+        "scripts/lafea-b02a-production-check.mjs",
+        "scripts/lafea-b02b-production-check.mjs",
+        "scripts/lafea-b02c-production-check.mjs",
+        "scripts/lafea-b02d-production-check.mjs",
+        "scripts/lafea-b02-production-sequence-check.mjs",
+        "scripts/lib/lafea-b02-production-route.mjs",
+        "scripts/lib/lafea-b02-rectangle-qualification.mjs",
+        "scripts/lib/lafea-b02d-production-route.mjs",
+        "src/workspace/lafea-workbench-currentness.js",
+        "src/workspace/lafea-workbench-domain-first-run-actions.js",
+        "src/workspace/lafea-runtime-solver-diagnostics.js",
+        "src/workspace/lafea-continuum-physical-probe.js",
+        "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+        "scripts/lafea-b01-final-qualification.mjs",
+        "scripts/lafea-plane-strain-bbar-qualification-check.mjs",
+        "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+        "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+        "validation/lafea-b02-definitions/**",
+        "validation/lafea-benchmark-data/BM005/**"
+      ],
+      "protect": [
+        "validation/lafea-b02-definitions/**",
+        "validation/lafea-benchmark-data/BM005/**",
+        "src/core/local-continuum/**",
+        "src/core/lafea-meshing/**",
+        "src/workspace/lafea-workbench-currentness.js",
+        "src/workspace/lafea-workbench-domain-first-run-actions.js",
+        "src/workspace/lafea-runtime-solver-diagnostics.js",
+        "src/workspace/lafea-continuum-physical-probe.js",
+        "scripts/lafea.3-bm005-ordinary-route-check.mjs",
+        "scripts/lafea-b01-final-qualification.mjs",
+        "scripts/lafea-plane-strain-bbar-qualification-check.mjs",
+        "scripts/lafea-plane-strain-bbar-lame-check.mjs",
+        "scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs",
+        ".github/workflows/**"
+      ],
+      "prohibit": [
+        "solver, element formulation, quadrature, mesher or recovery mechanics changes",
+        "sparse-PCG or near-incompressible solver modifications owned by deferred issue #1881",
+        "new currentness semantics when existing stage authority can be projected",
+        "benchmark expected-value, oracle, sign, acceptance-mode or tolerance changes",
+        "convergence classifier or realized-h policy changes",
+        "BM-005 independent external-oracle/report acceptance",
+        "C3-E result/display authority redesign",
+        "registry, documentation or release-claim promotion",
+        "resuming or merging PR #1873 inside this EP",
+        "workflow YAML changes"
+      ]
+    },
+    "acceptance": [
+      {
+        "id": "AC-C3D-COMP-1",
+        "statement": "Every release-critical retained B02 level/case exposes one uniform custody object derived directly from authoritative stage state, not recomputed in the qualification harness.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+          },
+          {
+            "oracle": "receipt projection contains source/domain/geometry/mesh-profile/mesh/projection/solver-model/solver-config/canonical-input/execution/runtime-diagnostics/recovery identities"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-COMP-2",
+        "statement": "Every accepted B02 retained execution exposes explicit CURRENT_RESULT/currentAuthority plus immutable run-transaction COMPLETED status/hash and parent ancestry sufficient for independent review.",
+        "evidence_requirements": [
+          {
+            "oracle": "uniform receipt currentness/transaction projection tied to existing governed lifecycle state"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-COMP-3",
+        "statement": "Every accepted B02 load case retains authoritative solver termination, accepted state, final residual, convergence target/tolerance, iteration count/limit, method/preconditioner and equilibrium evidence without changing solver behavior.",
+        "evidence_requirements": [
+          {
+            "oracle": "runtimeSolverDiagnostics projection from authoritative stage result"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-COMP-4",
+        "statement": "Deterministic replay over identical inputs compares authoritative canonical-input, solver-model, execution, runtime-diagnostics and retained numerical evidence; existing B02 numerical/energy/equilibrium/probe acceptance remains unchanged.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea-b02-production-sequence-check.mjs"
+          },
+          {
+            "oracle": "two-run authoritative custody/evidence replay comparison"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-COMP-5",
+        "statement": "One C3-D aggregate composes B02, B01, B-bar and BM-005 truthfully, preserving each constituent PASS/FAIL/BLOCKED/NOT_RUN status and never using aggregate composition to green a constituent failure.",
+        "evidence_requirements": [
+          {
+            "test": "node scripts/lafea.3-c3d-production-route-qualification-check.mjs"
+          }
+        ]
+      },
+      {
+        "id": "AC-C3D-COMP-6",
+        "statement": "No protected mechanics, benchmark, oracle, tolerance, convergence-policy, workflow or release-authority surface changes; releaseAuthorityGranted remains false.",
+        "evidence_requirements": [
+          {
+            "oracle": "protected diff/source-custody hygiene plus explicit releaseAuthorityGranted=false"
+          }
+        ]
+      }
+    ],
+    "quality_policy": {
+      "level": "HIGH_RISK",
+      "independent_review": "REQUIRED"
+    },
+    "offloads": [
+      {
+        "id": "OFFLOAD-C3D-COMPOSITION-1862-LOCAL-0013",
+        "status": "PLANNED",
+        "agent_type": "LOCAL_AGENT",
+        "task": "After the minimum composition implementation, execute source guard, focused B02 checks, two B02 aggregate replays and the C3-D aggregate on the exact derived material head; retain full custody/currentness/solver-diagnostics receipts and clean-tree evidence.",
+        "allowed_writes": [
+          "relay/EVIDENCE/C3D-COMPOSITION/COMP-0013/**"
+        ],
+        "expected_return": [
+          "typed V3.1 local-execution-result packet",
+          "uniform B02 custody/currentness/transaction receipts",
+          "two-run authoritative replay comparison",
+          "C3-D aggregate receipt preserving constituent statuses",
+          "post-run protected diff and clean-tree evidence",
+          "material-basis/drift classification"
+        ],
+        "trace_refs": [
+          "GitHub issue #1862",
+          "GitHub issue #1771 comment 5794804384",
+          "R2 independent review INDEPENDENT-REVIEW-R2-0001"
+        ]
+      }
+    ],
+    "admission_policy": {
+      "qualification": "NOT_REQUIRED",
+      "question_policy": "NONE"
+    },
+    "next": {
+      "first_action": "Inspect the existing authoritative stage execution/currentness/transaction objects and implement the smallest receipt projection needed to satisfy AC-C3D-COMP-1 through AC-C3D-COMP-3 before adding aggregate composition; do not alter mechanics.",
+      "stop_conditions": [
+        "Stop if the required custody fields cannot be exposed without changing FE mechanics or currentness semantics.",
+        "Stop on any new numerical B02 regression and route the exact first wrong owner.",
+        "Do not alter benchmark/oracle/tolerance/sign/acceptance modes.",
+        "Do not change convergence classifier or realized-h policy.",
+        "Do not implement #1881 sparse-PCG solver work inside this EP.",
+        "Do not resume PR #1873 inside this EP.",
+        "Do not claim checkpoint, merge or release authority from implementation or tests alone."
+      ]
+    }
+  },
+  "lease": {
+    "id": "LEASE-LAFEA3-C3D-COMPOSITION-1862-0013",
+    "executor_id": "chatgpt-gpt5.6-sol-c3d-composition-20260924",
+    "method": "DETERMINISTIC",
+    "qualification": null,
+    "owner_basis": null,
+    "branch": "relay/c3d-composition-1862"
+  },
+  "delivery": {
+    "required": true,
+    "primary_vehicle": {
+      "provider": "GITHUB",
+      "kind": "ISSUE",
+      "number": 1862
+    }
+  }
+}

@@ -26,6 +26,7 @@ import {
   b02cGradedPolarProfileIdentity,
   LAFEA_B02C_GRADED_POLAR_PROFILE_SOURCE_REVISION,
 } from '../../src/workspace/lafea-mesh-producer-binding.js';
+import { projectB02C3dCustody } from './lafea-b02-production-route.mjs';
 
 const STAGE_ID = 'LAFEA.3';
 const PHYSICAL_PROBE_SCHEMA = 'lafea-continuum-physical-probe/v1';
@@ -76,6 +77,7 @@ export function executeB02KirschProductionLevel(definition, method, level) {
       stage,
       probes: definition.fixedProbes.map((probe) => store.evaluateContinuumPhysicalProbe(stripAcceptance(probe))),
       meshEvidence: generated.evidence,
+      c3dCustody: projectB02C3dCustody(stage),
     };
   } finally {
     store.destroy();

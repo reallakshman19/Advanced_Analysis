@@ -1,0 +1,57 @@
+schema_version: relay-v3.1-three-pass-request
+authority: DERIVED_GENERATOR_REQUEST
+target:
+  schema_version: relay-v3.1-handover-target
+  authority: PROVIDER_READBACK
+  provider: GITHUB
+  repository: reallaksh19/Advanced_Analysis
+  kind: ISSUE
+  number: 1862
+  title: '[LAFEA.3][C3-D.0] Compose production-route custody and solver-diagnostics
+    qualification'
+  url: https://github.com/reallaksh19/Advanced_Analysis/issues/1862
+  state: OPEN
+  observed_at: '2026-09-24T07:53:41Z'
+  provider_ref: github:reallaksh19/Advanced_Analysis#1862@comment:5794805060
+handover_context:
+  path: relay/GENERATED/HANDOVER_CONTEXT.yaml
+  digest: sha256:1b4f624f706d6fb57861be904e193c7bc25cbcb45c9ee7623a83fe5c5fd47542
+generator:
+  launcher: skills/three-pass-prompt-generator/SKILL.md
+  schema: skills/three-pass-prompt-generator/schema.md
+  validator: skills/three-pass-prompt-generator/validate.py
+  mode: THREE_PASS_ONLY
+  live_main_fetch_required: true
+  prompt_sequence:
+  - PROMPT_0_5
+  - PROMPT_1
+  - PROMPT_2
+  - PROMPT_2_5
+  - PROMPT_3
+  complex_mode: true
+  prompt1_q1_q5_required: true
+user_input:
+  target: https://github.com/reallaksh19/Advanced_Analysis/issues/1862
+  human_goal: Preserve verified C3-C truth and continue the LAFEA.3 programme under
+    Engineering Relay V3.1 without rewriting legacy evidence or admitting unproved
+    downstream capability.
+  user_intent: Generate the current standalone five-prompt handover for the provider-verified
+    target using frozen V3.1 context, preserving value-added relay continuity and
+    explicit coordination consequences.
+  authorized_actions: This handover package grants no new action authority. Prompt
+    3 must revalidate live relay.can(action) and explicit Owner authority before acting.
+  intent_boundary: Use blind_context for Prompts 0.5/1; quarantine reality_context
+    until Prompt 2; treat accumulated_learning as accepted/history context rather
+    than present action authority. Do not invent a parallel roadmap, issue model,
+    checkpoint, or status system.
+  intent_completion_test: The standalone generator fetches its canonical schema from
+    current main, emits exactly Prompt 0.5 / 1 / 2 / 2.5 / 3, validates the artifact,
+    and leaves a recipient-ready continuation when another actor must act.
+  context_rule: Read relay/GENERATED/HANDOVER_CONTEXT.yaml after the standalone schema
+    handshake. blind_context may shape Prompts 0.5/1; reality_context is reserved
+    for Prompt 2 onward; accumulated_learning must not be silently contradicted without
+    new evidence. Prompt 2 should identify stale or contradictory coordination truth.
+    Prompt 2.5 should state explicit task, parent-issue and roadmap consequences.
+    Prompt 3 should reconcile authorized existing coordination artifacts, state evidence-bound
+    value added, and when another actor must act emit a runnable request rather than
+    status-only prose.

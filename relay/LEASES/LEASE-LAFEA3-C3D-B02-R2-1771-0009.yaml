@@ -29,6 +29,6 @@ admission:
     evaluator: null
     result: null
     evidence: []
-state: ACTIVE
+state: RELEASED
 invalidation:
   reasons: []

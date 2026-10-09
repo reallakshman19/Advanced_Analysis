@@ -25,6 +25,11 @@ export const FORMULATIONS = Object.freeze({
 export const FORMULATION_GUARDS = Object.freeze({
   planeStrainPoissonWarning: 0.40,
   planeStrainPoissonBlock: 0.45,
+  // C3-D.5 exact-head qualification demonstrated deterministic T6/Q8
+  // solver convergence through nu=0.49. Values above 0.49 are not part of
+  // the qualified B-bar production envelope and must fail closed rather than
+  // relying on an unqualified preconditioner/direct-solver substitution.
+  planeStrainBbarPoissonMaximum: 0.49,
 });
 
 export const DOFS = Object.freeze({ UX: 'UX', UY: 'UY' });

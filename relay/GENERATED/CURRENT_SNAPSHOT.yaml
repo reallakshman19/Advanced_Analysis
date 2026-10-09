@@ -1,23 +1,23 @@
 schema_version: relay-v3.1-snapshot
 authority: DERIVED_READ_MODEL
 generated_from:
-  roadmap_revision: RM-0011
-  state_digest: sha256:a3a50ac7a2b3c85fa3d3529eb1e72d383e678982916058adb49a690855ca8726
+  roadmap_revision: RM-0013
+  state_digest: sha256:8c9accece3454d369fa81adcf83c56449cdeb46dfb7286f90dfcbd74e21bcb7b
   material_basis:
-    head: 74437c40669577926c9761cd6374f53d11178a69
-    tree_digest: sha256:52cde7a25050595f0367059090881554796bee996332a5c147d7e4903901b2dc
-    relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
-    dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
-  coordination_head: c8eec1094159833f9bfcb6f540caaff5b659af59
+    head: 8844555359d0d64ee509a32cf28801fa29971646
+    tree_digest: sha256:37fb3db582fc1471bb776d1da397e9396a9cf3f23bce6d8e83bcd59e8b25bf13
+    relevant_paths_digest: sha256:9fc3108645b334cf93d06559f80d9c5fba3cb602d6c2bb58b988526005b57689
+    dependency_digest: sha256:d2bec02b442c941143ce82c3d8ba306758cf8eb5df6f2d750ba2f25b05e34a21
+  coordination_head: 9c18d7298d81948ce4057af7a1f8128054fd5253
 owner:
   outcome: Preserve verified C3-C truth and continue the LAFEA.3 programme under Engineering
     Relay V3.1 without rewriting legacy evidence or admitting unproved downstream
     capability.
-  current_goal: 'Execute R2 on the current governed LAFEA material basis using V3.1
-    material-sensitivity semantics: newer provider-main commits are acceptable only
-    when drift is mechanically DISJOINT. Retain B02 numerical evidence, CURRENT_RESULT/lineage
-    custody and independent-review disposition before #1862 or parked C3-D.5 implementation
-    resumes.'
+  current_goal: "Advance the Owner-selected #1862 C3-D composition frontier to close\
+    \ uniform B02/aggregate receipt, currentness and solver-diagnostics custody. The\
+    \ Lam\xE9 angular B-bar mesh-quality blocker was fixed on current main, while\
+    \ #1881 remains unresolved sparse-PCG / near-incompressible work; admission of\
+    \ #1862 does not imply all C3-D numerical boundaries are complete."
 programme:
   accepted_progress: 0.0
   completed_work: []
@@ -30,38 +30,51 @@ programme:
 execution:
   lifecycle: ACTIVE
   work_package: WP-1771
-  ep: EP-LAFEA3-C3D-B02-R2-1771-0009
-  lease: LEASE-LAFEA3-C3D-B02-R2-1771-0009
-  executor: chatgpt-gpt5.6-sol-c3d-r2-20260923
+  ep: EP-LAFEA3-C3D-COMPOSITION-1862-0013
+  lease: LEASE-LAFEA3-C3D-COMPOSITION-1862-0013
+  executor: chatgpt-gpt5.6-sol-c3d-composition-20260924
 scope:
   allowed_writes:
-  - relay/EVIDENCE/C3D-B02-R2/**
-  protected:
-  - scripts/lafea-b02-production-source-guard.mjs
-  - scripts/lafea-b02b-production-check.mjs
-  - scripts/lafea-b02-production-sequence-check.mjs
   - scripts/lib/lafea-b02-production-route.mjs
   - scripts/lib/lafea-b02-rectangle-qualification.mjs
+  - scripts/lafea-b02c-production-check.mjs
   - scripts/lib/lafea-b02d-production-route.mjs
+  - scripts/lafea-b02d-production-check.mjs
+  - scripts/lafea-b02-production-sequence-check.mjs
+  - scripts/lafea.3-c3d-production-route-qualification-check.mjs
+  - relay/EVIDENCE/C3D-COMPOSITION/COMP-0013/**
+  protected:
+  - validation/lafea-b02-definitions/**
+  - validation/lafea-benchmark-data/BM005/**
+  - src/core/local-continuum/**
+  - src/core/lafea-meshing/**
   - src/workspace/lafea-workbench-currentness.js
   - src/workspace/lafea-workbench-domain-first-run-actions.js
   - src/workspace/lafea-runtime-solver-diagnostics.js
   - src/workspace/lafea-continuum-physical-probe.js
-  - validation/lafea-b02-definitions/**
+  - scripts/lafea.3-bm005-ordinary-route-check.mjs
+  - scripts/lafea-b01-final-qualification.mjs
+  - scripts/lafea-plane-strain-bbar-qualification-check.mjs
+  - scripts/lafea-plane-strain-bbar-lame-check.mjs
+  - scripts/lib/lafea-plane-strain-bbar-lame-fixture.mjs
+  - .github/workflows/**
   prohibited:
-  - any product/source modification in this EP
-  - changes to benchmark definitions, expected values, sign correction, acceptance
-    modes or tolerances
-  - changes to qualifier logic, mesh generators, FE solver, recovery or result authority
-  - B-bar or BM-005 implementation changes
+  - solver, element formulation, quadrature, mesher or recovery mechanics changes
+  - 'sparse-PCG or near-incompressible solver modifications owned by deferred issue
+    #1881'
+  - new currentness semantics when existing stage authority can be projected
+  - benchmark expected-value, oracle, sign, acceptance-mode or tolerance changes
+  - convergence classifier or realized-h policy changes
+  - BM-005 independent external-oracle/report acceptance
+  - C3-E result/display authority redesign
+  - registry, documentation or release-claim promotion
+  - 'resuming or merging PR #1873 inside this EP'
   - workflow YAML changes
-  - 'issue #1862 implementation'
-  - release or merge authority
 material:
-  base: 74437c40669577926c9761cd6374f53d11178a69
-  head: 74437c40669577926c9761cd6374f53d11178a69
-  relevant_paths_digest: sha256:a7bfbb439bbadc9b18ea2c6e0008b109c1ccabb2c69b2b69fb6b3dc53aaab5e5
-  dependency_digest: sha256:e42b0ebaf12c66e6817bccbae299c82e928fcf1ddbbb8ef921e8371058d3b089
+  base: 8844555359d0d64ee509a32cf28801fa29971646
+  head: 8844555359d0d64ee509a32cf28801fa29971646
+  relevant_paths_digest: sha256:9fc3108645b334cf93d06559f80d9c5fba3cb602d6c2bb58b988526005b57689
+  dependency_digest: sha256:d2bec02b442c941143ce82c3d8ba306758cf8eb5df6f2d750ba2f25b05e34a21
 evidence:
   latest_checkpoint: null
   latest_material_validation: {}
@@ -73,31 +86,30 @@ controls:
   - CTRL-C3D-BASELINE-INDEPENDENT-REVIEW
   informational: []
 delivery:
-  issue: 1771
+  issue: 1862
   pr: null
   lifecycle: DECLARED
   merge_authorized: false
 next:
-  immediate_material_action: Run canonical roadmap reconciliation and task admission,
-    then use pinned V3.1 local-execution export. Require material-basis drift against
-    current main to be DISJOINT; execute source guard once, B02B once and B02 sequence
-    twice on the derived material head.
+  immediate_material_action: Inspect the existing authoritative stage execution/currentness/transaction
+    objects and implement the smallest receipt projection needed to satisfy AC-C3D-COMP-1
+    through AC-C3D-COMP-3 before adding aggregate composition; do not alter mechanics.
   delivery_action: Perform the explicitly authorized delivery transition.
   stop_conditions:
-  - Stop on HEAD_MISMATCH.
-  - Stop if V3.1 material-basis drift against current main is RELEVANT or UNKNOWN.
-  - Do not modify product/source files.
-  - Do not normalize a nonzero exit into PASS.
-  - Do not infer deterministic replay without two durable aggregate runs.
-  - 'If numerical commands pass but CURRENT_RESULT/lineage custody is not independently
-    inspectable, return BLOCKED rather than PASS and route to #1862.'
-  - 'Do not resume or merge PR #1873 until R2 evidence and independent review disposition
-    are complete.'
+  - Stop if the required custody fields cannot be exposed without changing FE mechanics
+    or currentness semantics.
+  - Stop on any new numerical B02 regression and route the exact first wrong owner.
+  - Do not alter benchmark/oracle/tolerance/sign/acceptance modes.
+  - Do not change convergence classifier or realized-h policy.
+  - 'Do not implement #1881 sparse-PCG solver work inside this EP.'
+  - 'Do not resume PR #1873 inside this EP.'
+  - Do not claim checkpoint, merge or release authority from implementation or tests
+    alone.
 handoff:
   zero_context_takeover_possible: true
   reconstruction_sources:
   - relay/ROADMAP/ROADMAP.yaml
   - relay/STATE.yaml
   - relay/CONTROLS/controls.yaml
-  - relay/WORK/EP-LAFEA3-C3D-B02-R2-1771-0009.yaml
-  - relay/LEASES/LEASE-LAFEA3-C3D-B02-R2-1771-0009.yaml
+  - relay/WORK/EP-LAFEA3-C3D-COMPOSITION-1862-0013.yaml
+  - relay/LEASES/LEASE-LAFEA3-C3D-COMPOSITION-1862-0013.yaml
