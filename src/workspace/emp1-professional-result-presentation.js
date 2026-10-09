@@ -1,3 +1,5 @@
+import { projectEmp1ApplicabilitySummary } from '../core/emp1/emp1-applicability-summary.js';
+
 const WRC_LOCATIONS = Object.freeze(['Au', 'Al', 'Bu', 'Bl', 'Cu', 'Cl', 'Du', 'Dl']);
 
 export const EMP1_PROFESSIONAL_RESULT_PRESENTATION_SCHEMA =
@@ -33,6 +35,9 @@ export function buildEmp1ProfessionalResultPresentation({
   const governing = calculated
     ? governingEightPointStressIntensity(localCorrelation?.stresses?.stressIntensity)
     : unresolvedGoverning('CURRENT_REPORTABLE_CALCULATION_REQUIRED');
+  const applicability = currentReportableResult && record(localCorrelation?.qualifiedApplicability)
+    ? projectEmp1ApplicabilitySummary(localCorrelation.qualifiedApplicability)
+    : null;
 
   return deepFreeze({
     schema: EMP1_PROFESSIONAL_RESULT_PRESENTATION_SCHEMA,
@@ -57,6 +62,7 @@ export function buildEmp1ProfessionalResultPresentation({
         : 'NOT_RELEASE_QUALIFIED',
     },
     governing,
+    applicability,
     domain: {
       routeId: currentSnapshot?.routeId ?? null,
       methodIdentity: method?.identity ?? null,
