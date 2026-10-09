@@ -3,9 +3,12 @@ import {
   LAFEA4_SHELL_PRODUCT_REFINEMENT_CAPABILITY,
   LAFEA4_SHELL_PRODUCT_REFINEMENT_QUALIFICATION,
 } from './lafea4-shell-product-refinement-adapter.js';
+import {
+  evaluateLafea4Tech13ImplementationCurrentness,
+} from './lafea4-shell-product-refinement-implementation-currentness.js';
 
 export const LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_SCHEMA =
-  'lafea4-shell-product-refinement-promotion-record/v1';
+  'lafea4-shell-product-refinement-promotion-record/v2';
 export const LAFEA4_SHELL_PRODUCT_REFINEMENT_EXACT_HEAD_QUALIFICATION_ID =
   'LAFEA4-TECH13-PRODUCT-REFINEMENT-EXACT-HEAD-001';
 export const LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_PENDING_CODE =
@@ -13,12 +16,22 @@ export const LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_PENDING_CODE =
 export const LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_BLOCK_CODE =
   'LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_NOT_AUTHORIZED';
 
-/** Code-owned production trust root. No caller-supplied authority is accepted. */
-export const LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_RECORD = null;
+/**
+ * Code-owned production trust root. No caller-supplied authority is accepted.
+ * TECH-13J hashes this module but deliberately normalizes only the bytes between
+ * the two value markers, allowing a later trust-root-only activation commit to
+ * retain the qualified implementation identity. The declaration, validator and
+ * promotion logic around the slot remain fingerprint-critical.
+ */
+export const LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_RECORD =
+  /* LAFEA4_TECH13_TRUST_ROOT_VALUE_BEGIN */
+  null
+  /* LAFEA4_TECH13_TRUST_ROOT_VALUE_END */;
 
 const INPUT_KEYS = Object.freeze([
   'schema', 'stageId', 'exactHeadQualificationId', 'qualifiedHead',
   'bundleEvidenceSha256', 'bundlePlanSha256', 'bundleRunnerSha256',
+  'implementationFingerprint',
   'capabilityHash', 'qualificationHash', 'qualificationClassification',
   'qualificationComplete', 'futurePromotionReviewEligible',
   'productRetentionAuthorized', 'uiBindingAuthorized', 'releaseQualified',
@@ -43,11 +56,12 @@ export function createLafea4ShellProductRefinementPromotionRecord(value) {
   requireDigest(value.bundleEvidenceSha256, 'BUNDLE_EVIDENCE_SHA256');
   requireDigest(value.bundlePlanSha256, 'BUNDLE_PLAN_SHA256');
   requireDigest(value.bundleRunnerSha256, 'BUNDLE_RUNNER_SHA256');
+  requireFingerprint(value.implementationFingerprint);
   const core = freeze({ ...value });
   return freeze({
     ...core,
     semanticHash: canonicalLafeaSha256({
-      schema: 'lafea4-shell-product-refinement-promotion-record-hash-input/v1',
+      schema: 'lafea4-shell-product-refinement-promotion-record-hash-input/v2',
       record: core,
     }),
   });
@@ -67,18 +81,22 @@ export function validateLafea4ShellProductRefinementPromotionRecord(value) {
 
 /**
  * Resolve production authority from the source-controlled trust root only.
- * Extra JavaScript arguments are intentionally ignored; there is no injection seam.
+ * Extra JavaScript arguments are intentionally ignored; there is no injection
+ * seam. A non-null root is necessary but not sufficient: TECH-13J also requires
+ * its qualified promotion-critical implementation fingerprint to equal the
+ * fingerprint embedded by the current production build.
  */
 export function evaluateLafea4ShellProductRefinementPromotion() {
   const record = LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_RECORD;
   if (record === null) {
     return freeze({
-      schema: 'lafea4-shell-product-refinement-promotion-state/v1',
+      schema: 'lafea4-shell-product-refinement-promotion-state/v2',
       stageId: 'LAFEA.4',
       active: false,
       promotionRecord: null,
       qualifiedHead: null,
       bundleEvidenceSha256: null,
+      implementationCurrentness: null,
       productRetentionAuthorized: false,
       uiBindingAuthorized: false,
       releaseQualified: false,
@@ -86,13 +104,30 @@ export function evaluateLafea4ShellProductRefinementPromotion() {
     });
   }
   const promotionRecord = validateLafea4ShellProductRefinementPromotionRecord(record);
+  const implementationCurrentness = evaluateLafea4Tech13ImplementationCurrentness(promotionRecord);
+  if (!implementationCurrentness.current) {
+    return freeze({
+      schema: 'lafea4-shell-product-refinement-promotion-state/v2',
+      stageId: 'LAFEA.4',
+      active: false,
+      promotionRecord,
+      qualifiedHead: promotionRecord.qualifiedHead,
+      bundleEvidenceSha256: promotionRecord.bundleEvidenceSha256,
+      implementationCurrentness,
+      productRetentionAuthorized: false,
+      uiBindingAuthorized: false,
+      releaseQualified: false,
+      diagnosticCode: implementationCurrentness.diagnosticCode,
+    });
+  }
   return freeze({
-    schema: 'lafea4-shell-product-refinement-promotion-state/v1',
+    schema: 'lafea4-shell-product-refinement-promotion-state/v2',
     stageId: 'LAFEA.4',
     active: true,
     promotionRecord,
     qualifiedHead: promotionRecord.qualifiedHead,
     bundleEvidenceSha256: promotionRecord.bundleEvidenceSha256,
+    implementationCurrentness,
     productRetentionAuthorized: true,
     uiBindingAuthorized: true,
     releaseQualified: false,
@@ -127,6 +162,11 @@ function requireGitSha(value, field) {
 function requireDigest(value, field) {
   if (typeof value !== 'string' || !/^[0-9a-f]{64}$/u.test(value)) {
     fail(`LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_${field}_INVALID`);
+  }
+}
+function requireFingerprint(value) {
+  if (typeof value !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(value)) {
+    fail('LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_IMPLEMENTATION_FINGERPRINT_INVALID');
   }
 }
 function fail(code) { const error = new TypeError(code); error.code = code; throw error; }

@@ -1,0 +1,52 @@
+schema: engineering-pr-claim/v1
+pr: 1445
+repository: reallaksh19/Advanced_Analysis
+owner: reallaksh19
+branch: agent/lafea4-tech13j-implementation-currentness-20260826
+source_task: LAFEA.4 TECH-13J implementation currentness
+state: ACTIVE_BOUNDED_RECOVERY
+criticality: ENGINEERING_CRITICAL
+authority_domain:
+  - LAFEA.4 TECH-13J implementation fingerprint/currentness
+  - promotion-record v2 implementation binding
+  - exact-head qualification fingerprint custody
+  - production and standalone build-time fingerprint injection
+exact_paths:
+  - scripts/lafea-tech13-product-refinement-bundle-verifier.mjs
+  - scripts/lafea-tech13-product-refinement-qualification.mjs
+  - scripts/lafea-tech13f-dormant-product-refinement-activation-check.mjs
+  - scripts/lafea-tech13f-dormant-promotion-gate-check.mjs
+  - scripts/lafea-tech13f-promotion-record-generator.mjs
+  - scripts/lafea-tech13g-active-promotion-path-check.mjs
+  - scripts/lafea-tech13j-implementation-currentness-check.mjs
+  - scripts/lib/lafea4-tech13-implementation-fingerprint.mjs
+  - src/workspace/lafea4-shell-product-refinement-implementation-currentness.js
+  - src/workspace/lafea4-shell-product-refinement-promotion.js
+  - validation/lafea4-refinement/product-refinement-exact-head-plan-v1.json
+  - validation/lafea4-refinement/product-refinement-promotion-v1.json
+  - validation/lafea4-refinement/tech13-product-local-refinement-program-v1.json
+  - vite.config.js
+  - vite.lafea.config.js
+excluded_authority:
+  - production promotion trust-root activation
+  - release authority
+  - generic V2 recovery authorization for TECH-13 product evidence
+  - TECH-13H retained-refinement semantics except as fingerprinted dependency
+  - TECH-13I replay semantics except as fingerprinted dependency
+  - CST/DKT formulation and solver mechanics
+  - parent-normal mathematics
+  - mesh-quality thresholds or TECH-13E benchmark tolerances
+  - workflow semantics
+  - production bundle hard-ceiling changes
+  - registry or LAFEA.3 authority
+coordination:
+  prerequisite_i_pr: 1239
+  prerequisite_i_state: OPEN_DRAFT_CURRENT_STACK_BASE
+  prerequisite_h_pr: 1435
+  prerequisite_h_state: MERGED
+  overlaps:
+    - pr: 1246
+      classification: STALE_COMBINED_H_I_J_J_TO_BE_SUPERSEDED
+    - pr: 1249
+      classification: STALE_STACKED_H_I_J_J_TO_BE_SUPERSEDED
+merge_authority: OWNER_ONLY

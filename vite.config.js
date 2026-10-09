@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 
+import {
+  computeLafea4Tech13ImplementationFingerprint,
+} from './scripts/lib/lafea4-tech13-implementation-fingerprint.mjs';
+
 const buildTime = new Date().toISOString();
+const tech13Implementation = computeLafea4Tech13ImplementationFingerprint({
+  rootDir: fileURLToPath(new URL('.', import.meta.url)),
+});
 
 const PURE_LAFEA_MESHING_WORKSPACE_MODULES = new Set([
   '/src/workspace/lafea-analysis-mesh-evidence-v2.js',
@@ -309,6 +316,7 @@ export default defineConfig({
   plugins: [],
   define: {
     __BUILD_TIME__: JSON.stringify(buildTime),
+    __LAFEA4_TECH13_IMPLEMENTATION_FINGERPRINT__: JSON.stringify(tech13Implementation.fingerprint),
   },
   build: {
     modulePreload: false,

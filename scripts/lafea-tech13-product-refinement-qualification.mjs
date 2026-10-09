@@ -5,6 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import {
+  computeLafea4Tech13ImplementationFingerprint,
+} from './lib/lafea4-tech13-implementation-fingerprint.mjs';
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PLAN_PATH = path.join(ROOT,
   'validation/lafea4-refinement/product-refinement-exact-head-plan-v1.json');
@@ -28,6 +32,7 @@ const initialTrackedStatus = git(['status', '--porcelain', '--untracked-files=no
 const commands = [];
 let classification = 'PASS';
 let failure = null;
+let implementation = null;
 
 if (nodeMajor !== plan.requiredNodeMajor) {
   classification = 'NOT_RUN';
@@ -38,6 +43,15 @@ if (nodeMajor !== plan.requiredNodeMajor) {
 } else if (initialTrackedStatus.trim()) {
   classification = 'NOT_RUN';
   failure = 'TRACKED_TREE_NOT_CLEAN_BEFORE_QUALIFICATION';
+}
+
+if (classification === 'PASS') {
+  try {
+    implementation = computeLafea4Tech13ImplementationFingerprint({ rootDir: ROOT });
+  } catch (error) {
+    classification = 'FAIL';
+    failure = `IMPLEMENTATION_FINGERPRINT_FAILED:${error?.code ?? error?.message ?? 'UNKNOWN'}`;
+  }
 }
 
 if (classification === 'PASS') {
@@ -94,7 +108,7 @@ if (classification === 'PASS' && finalTrackedStatus.trim()) {
 }
 
 const evidenceCore = {
-  schema: 'lafea4-tech13-product-refinement-qualification-bundle/v1',
+  schema: 'lafea4-tech13-product-refinement-qualification-bundle/v2',
   qualificationId: plan.qualificationId,
   expectedHead,
   currentHead,
@@ -102,6 +116,9 @@ const evidenceCore = {
   nodeMajor,
   planSha256: sha256(planText),
   runnerSha256: sha256(fs.readFileSync(RUNNER_PATH, 'utf8')),
+  implementationFingerprint: implementation?.fingerprint ?? null,
+  implementationManifestSha256: implementation?.manifestSha256 ?? null,
+  implementationFileCount: implementation?.fileCount ?? null,
   trackedTreeCleanBefore: initialTrackedStatus.trim() === '',
   trackedTreeCleanAfter: finalTrackedStatus.trim() === '',
   browserRequested: !skipBrowser,

@@ -4,14 +4,9 @@
   "stageId": "LAFEA.4",
   "purpose": "QUALIFY_BOUNDED_LOCAL_REFINEMENT_AS_A_PRODUCT_MESH_OPERATION_WITHOUT_RELAXING_EXISTING_ENGINEERING_POLICIES",
   "scope": {
-    "surfaceKinds": [
-      "CYLINDRICAL",
-      "CYLINDRICAL_HOLES"
-    ],
+    "surfaceKinds": ["CYLINDRICAL", "CYLINDRICAL_HOLES"],
     "elementFamily": "CST_DKT_TRI3_THIN_SHELL_V1",
-    "targetTypesFirstScope": [
-      "ELEMENT"
-    ],
+    "targetTypesFirstScope": ["ELEMENT"],
     "requiresCurrentParent": true,
     "requiresExactMidsurfaceParent": true
   },
@@ -60,6 +55,11 @@
       "id": "TECH13I_PROMOTED_REFINEMENT_ROUNDTRIP",
       "status": "IMPLEMENTED_PENDING_EXACT_HEAD_EXECUTION",
       "purpose": "QUALIFY_DEDICATED_EXPORT_RECOVERY_OF_PROMOTED_REFINED_MESH_WITH_CURRENT_PROMOTION_SOURCE_MIDSURFACE_PROFILE_PARENT_NORMAL_AND_EXACT_ARTIFACT_CUSTODY"
+    },
+    {
+      "id": "TECH13J_IMPLEMENTATION_CURRENTNESS",
+      "status": "IMPLEMENTED_PENDING_EXACT_HEAD_EXECUTION",
+      "purpose": "BIND_PROMOTION_TO_A_CONTENT_DERIVED_PROMOTION_CRITICAL_IMPLEMENTATION_FINGERPRINT_WHILE_EXCLUDING_ONLY_THE_TRUST_ROOT_VALUE_SLOT_FROM_ACTIVATION_IDENTITY"
     }
   ],
   "fixedEngineeringPolicies": {
@@ -91,16 +91,17 @@
     "promotedArtifactMustHaveDistinctArtifactHash": true,
     "promotedArtifactDedicatedReplayRequiresCurrentCodeOwnedPromotion": true,
     "promotedArtifactDedicatedReplayRestoresExactArtifactHash": true,
-    "promotedArtifactDedicatedReplayRestoresExactMeshHash": true
+    "promotedArtifactDedicatedReplayRestoresExactMeshHash": true,
+    "promotionRecordMustBindImplementationFingerprint": true,
+    "runtimeImplementationFingerprintMustMatchQualifiedFingerprint": true,
+    "implementationFingerprintDerivedFromSourceContent": true,
+    "implementationFingerprintMayUseManualRevisionToken": false,
+    "implementationFingerprintExcludesTrustRootValueOnly": true,
+    "implementationFingerprintExcludesPromotionValidationLogic": false,
+    "unrelatedRepositoryChangeInvalidatesImplementationFingerprint": false
   },
   "acceptanceGate": {
-    "requiredQualityMetrics": [
-      "ASPECT_RATIO",
-      "SCALED_JACOBIAN",
-      "MINIMUM_ANGLE_DEGREES",
-      "ADJACENT_SIZE_RATIO",
-      "SHELL_ORIENTATION_TOPOLOGY"
-    ],
+    "requiredQualityMetrics": ["ASPECT_RATIO", "SCALED_JACOBIAN", "MINIMUM_ANGLE_DEGREES", "ADJACENT_SIZE_RATIO", "SHELL_ORIENTATION_TOPOLOGY"],
     "requiresV2MeshQualificationPass": true,
     "requiresZeroBlockingElements": true,
     "requiresBoundaryConformity": true,
@@ -128,9 +129,7 @@
     "showsScaledJacobianPolicy": true,
     "showsMinimumAngleBlockDegrees": true,
     "refineControlEnabledWithNullPromotionTrustRoot": false,
-    "futureActiveTargetTypes": [
-      "ELEMENT"
-    ],
+    "futureActiveTargetTypes": ["ELEMENT"],
     "globalMeshCapabilityRegistryChanged": false
   },
   "publicationSequence": [
@@ -140,6 +139,7 @@
     "QUALIFY_CANDIDATE_PARENT_NORMAL",
     "VERIFY_PARENT_AND_PROFILE_CUSTODY",
     "REQUIRE_VERIFIED_PROMOTION_RECORD",
+    "REQUIRE_CURRENT_PROMOTION_CRITICAL_IMPLEMENTATION_FINGERPRINT",
     "REWRAP_AS_PROMOTION_BOUND_RETAINED_CAPABILITY_QUALIFICATION_PLAN_AND_ARTIFACT",
     "PREPARE_VALIDATED_DEDICATED_REPLAY_PACKAGE",
     "PREVALIDATE_FINAL_RETAINED_CHILD_PARENT_NORMAL_AND_PRODUCTION_GATE",
@@ -151,6 +151,7 @@
   "replaySequence": [
     "VALIDATE_REPLAY_PACKAGE_AND_SEMANTIC_HASH",
     "REQUIRE_CURRENT_CODE_OWNED_PROMOTION_RECORD_MATCH",
+    "REQUIRE_CURRENT_PROMOTION_CRITICAL_IMPLEMENTATION_FINGERPRINT",
     "REQUIRE_CURRENT_SOURCE_MIDSURFACE_AND_PROFILE",
     "PREVALIDATE_REPLAY_CHILD_PARENT_NORMAL_AND_PRODUCTION_GATE",
     "RESTORE_EXACT_RETAINED_ARTIFACT_WITHOUT_GENERIC_V2_ROUTE",
@@ -180,9 +181,12 @@
     "actualActivePathRegression": "scripts/lafea-tech13g-active-promotion-path-check.mjs",
     "retainedAuthorityRegression": "scripts/lafea-tech13h-retained-refinement-authority-check.mjs",
     "promotedRoundTripRegression": "scripts/lafea-tech13i-promoted-refinement-roundtrip-check.mjs",
+    "implementationCurrentnessRegression": "scripts/lafea-tech13j-implementation-currentness-check.mjs",
+    "implementationFingerprintCalculator": "scripts/lib/lafea4-tech13-implementation-fingerprint.mjs",
     "productionTrustRoot": "NULL",
     "requiresCanonicalBundleVerifierPass": true,
     "requiresQualifiedHeadMatch": true,
+    "requiresCurrentImplementationFingerprintMatch": true,
     "releaseQualified": false
   },
   "activationPolicy": {
@@ -203,6 +207,10 @@
     "tech13hPromotedRetainedArtifactSelfDescribing": true,
     "tech13iDedicatedPromotedReplayQualifiedByPlan": true,
     "tech13iDedicatedReplayStillRequiresCurrentPromotion": true,
+    "tech13jImplementationFingerprintRequired": true,
+    "tech13jMissingRuntimeFingerprintBlocks": true,
+    "tech13jMismatchedRuntimeFingerprintBlocks": true,
+    "tech13jTrustRootValueOnlyActivationPreservesFingerprint": true,
     "productRetentionAuthorizedNow": false,
     "uiBindingAuthorizedNow": false,
     "releaseQualifiedNow": false,

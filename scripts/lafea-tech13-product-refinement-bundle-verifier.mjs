@@ -5,6 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import {
+  computeLafea4Tech13ImplementationFingerprint,
+} from './lib/lafea4-tech13-implementation-fingerprint.mjs';
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PLAN_PATH = path.join(ROOT,
   'validation/lafea4-refinement/product-refinement-exact-head-plan-v1.json');
@@ -23,8 +27,9 @@ const bundle = JSON.parse(fs.readFileSync(bundlePath, 'utf8'));
 const planText = fs.readFileSync(PLAN_PATH, 'utf8');
 const plan = JSON.parse(planText);
 const runnerText = fs.readFileSync(RUNNER_PATH, 'utf8');
+const implementation = computeLafea4Tech13ImplementationFingerprint({ rootDir: ROOT });
 
-assert.equal(bundle.schema, 'lafea4-tech13-product-refinement-qualification-bundle/v1');
+assert.equal(bundle.schema, 'lafea4-tech13-product-refinement-qualification-bundle/v2');
 assert.equal(bundle.qualificationId, plan.qualificationId);
 assert.match(bundle.expectedHead, /^[0-9a-f]{40}$/u);
 assert.equal(bundle.currentHead, bundle.expectedHead);
@@ -32,6 +37,12 @@ if (expectedHead !== null) assert.equal(bundle.expectedHead, expectedHead);
 assert.equal(bundle.nodeMajor, plan.requiredNodeMajor);
 assert.equal(bundle.planSha256, sha256(planText));
 assert.equal(bundle.runnerSha256, sha256(runnerText));
+assert.equal(bundle.implementationFingerprint, implementation.fingerprint,
+  'TECH13 bundle implementation fingerprint is not current');
+assert.equal(bundle.implementationManifestSha256, implementation.manifestSha256,
+  'TECH13 bundle implementation manifest digest is not current');
+assert.equal(bundle.implementationFileCount, implementation.fileCount,
+  'TECH13 bundle implementation file count is not current');
 assert.equal(bundle.trackedTreeCleanBefore, true);
 assert.equal(bundle.trackedTreeCleanAfter, true);
 assert.equal(bundle.browserRequested, true);
@@ -86,6 +97,7 @@ const critical = [
   'TECH13G_NONSPOOFABLE_PROMOTION_AUTHORITY',
   'TECH13H_RETAINED_REFINEMENT_AUTHORITY',
   'TECH13I_PROMOTED_REFINEMENT_ROUNDTRIP',
+  'TECH13J_IMPLEMENTATION_CURRENTNESS',
   'TECH7_GRADED_REFINEMENT_EXECUTOR',
   'TECH11_PARENT_NORMAL_SAMPLE',
   'MESHING_SUITE',
@@ -103,6 +115,9 @@ console.log(JSON.stringify({
   status: 'PASS',
   expectedHead: bundle.expectedHead,
   qualificationId: bundle.qualificationId,
+  implementationFingerprint: bundle.implementationFingerprint,
+  implementationManifestSha256: bundle.implementationManifestSha256,
+  implementationFileCount: bundle.implementationFileCount,
   commandCount: bundle.commands.length,
   promotionCriticalPassCount: critical.length,
   qualificationComplete: bundle.qualificationComplete,

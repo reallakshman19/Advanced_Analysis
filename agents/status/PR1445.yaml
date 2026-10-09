@@ -1,0 +1,65 @@
+schema: engineering-pr-status/v1
+pr: 1445
+repository: reallaksh19/Advanced_Analysis
+source_task: LAFEA.4 TECH-13J implementation currentness
+branch: agent/lafea4-tech13j-implementation-currentness-20260826
+base_pr: 1239
+base_branch: agent/lafea4-tech13i-promoted-refinement-roundtrip-20260817
+base_head_at_start: 40792586140fbd51497e218b34f37d040685543f
+live_main_at_start: 29c688db4a021db900d1f8c67f56f777f73f4ddc
+engineering_commit: 5156efb6c6ddb1360211dbd99d777dd76c025954
+criticality: ENGINEERING_CRITICAL
+recovery_state: CONTINUE
+handover_readiness: READY_FOR_REVIEW_WITH_RUNTIME_NOT_RUN
+takeover_authority: WRITE_ALLOWED
+merge_authority: OWNER_ONLY
+appendix_a:
+  status: PASS
+  total: 99
+  minimum_question: 19
+current_stage: RUNTIME_OBSERVATION
+engineering_failure_proven: false
+scope:
+  engineering_files: 15
+  recovery_files: 3
+  total_changed_files: 18
+validation:
+  live_grounding: PASS
+  prerequisite_i_head_unchanged: PASS
+  main_head_unchanged: PASS
+  final_pr_ledger: PASS_18_FILES
+  review_submissions: PASS_ZERO
+  review_threads: PASS_ZERO
+  historical_non_vite_blob_identity: PASS_13_OF_13
+  current_vite_reconciliation: PASS_SOURCE_AND_DIFF_INSPECTION
+  promotion_schema_v2: PASS_SOURCE_INSPECTION
+  implementation_fingerprint_required: PASS_SOURCE_INSPECTION
+  production_trust_root_null: PASS_SOURCE_INSPECTION
+  missing_or_mismatched_currentness_blocks_promotion: PASS_SOURCE_INSPECTION
+  browser_node_fallback_isolation: PASS_SOURCE_INSPECTION
+  fingerprint_domain_and_trust_root_normalization: PASS_SOURCE_INSPECTION
+  focused_tech13j_node: NOT_RUN
+  canonical_exact_head_runner: NOT_RUN
+  production_build: NOT_RUN
+  standalone_build: NOT_RUN
+  chromium_product_proof: NOT_RUN
+protected:
+  production_trust_root_null: true
+  product_retention_authorized_now: false
+  ui_binding_authorized_now: false
+  release_qualified: false
+  generic_v2_recovery_enabled_for_tech13: false
+  tech13i_replay_custody_changed: false
+  solver_or_formulation_changed: false
+  parent_normal_math_changed: false
+  mesh_threshold_changed: false
+  benchmark_or_tolerance_changed: false
+  workflow_changed: false
+  bundle_hard_ceiling_changed: false
+coordination:
+  prerequisite_i_pr: 1239
+  prerequisite_h_pr: 1435
+  stale_combined_prs:
+    - 1246
+    - 1249
+exact_next_action: Observe one automatically triggered workflow on this frozen PR head. If runner_id=0 and steps are empty, classify PRE_STEP_HOSTED_RUNNER_ALLOCATION, leave executable J/build/browser gates NOT_RUN, do not rerun the same head, and record the exact run plus #1246/#1249 J supersession in PR comments without moving the branch. Keep draft and Owner-only.

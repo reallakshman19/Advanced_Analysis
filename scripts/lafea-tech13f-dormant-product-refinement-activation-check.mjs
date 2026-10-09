@@ -77,8 +77,6 @@ assert.equal(dormantUi.canRefine, false);
 assert.equal(dormantUi.reason, LAFEA4_SHELL_PRODUCT_REFINEMENT_PENDING_CODE);
 
 const synthetic = createSyntheticPromotion();
-// JavaScript permits extra arguments, but the one-argument UI projection must
-// ignore the supplied record and continue to resolve the code-owned null root.
 const spoofedUi = buildLafea4ShellProductRefinementUiPolicy(stage, synthetic);
 assert.equal(spoofedUi.productQualified, false);
 assert.equal(spoofedUi.canRefine, false);
@@ -91,9 +89,6 @@ assert.equal(workbench.getState().diagnostics?.[0]?.code,
 assert.equal(workbench.selectRetainedAnalysisMeshEvidenceV2(stageId)?.artifactHash, parent.artifactHash);
 assert.equal(workbench.selectRetainedAnalysisMeshEvidenceV2(stageId)?.meshHash, parent.meshHash);
 
-// Attempt the former action-factory injection seam directly. The context field
-// may still physically exist in a caller object, but production authority must
-// ignore it and leave the exact parent in custody.
 const spoofHarness = createActionHarness({ stage, parent, promotionRecord: synthetic });
 const spoofResult = spoofHarness.actions.refineAnalysisMesh(request, stageId);
 assert.equal(spoofResult, null);
@@ -110,6 +105,7 @@ console.log(JSON.stringify({
   retainedParentArtifactHash: parent.artifactHash,
   retainedParentMeshHash: parent.meshHash,
   diagnostic: LAFEA4_SHELL_PRODUCT_REFINEMENT_PENDING_CODE,
+  syntheticRecordCarriesImplementationFingerprint: true,
   releaseQualified: false,
 }, null, 2));
 
@@ -161,6 +157,7 @@ function createSyntheticPromotion() {
     bundleEvidenceSha256: '1'.repeat(64),
     bundlePlanSha256: '2'.repeat(64),
     bundleRunnerSha256: '3'.repeat(64),
+    implementationFingerprint: `sha256:${'4'.repeat(64)}`,
     capabilityHash: LAFEA4_SHELL_PRODUCT_REFINEMENT_CAPABILITY.capabilityHash,
     qualificationHash: LAFEA4_SHELL_PRODUCT_REFINEMENT_QUALIFICATION.qualificationHash,
     qualificationClassification: 'PASS',
