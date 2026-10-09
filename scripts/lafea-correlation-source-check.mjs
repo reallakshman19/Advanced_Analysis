@@ -61,6 +61,22 @@ assert.match(releaseCandidate, /methodDefinitionHash/u);
 assert.match(releaseCandidate, /correlationReleaseCandidateTrustProjection/u);
 assert.match(releaseCandidate, /CORRELATION_RELEASE_CANDIDATE_NOT_TRUSTED/u);
 
+const applicability = read('applicability.js');
+assert.match(applicability, /local-attachment-correlation-applicability-acknowledgment\/v1/u);
+assert.match(applicability, /CALLER_EXPLICIT_EXACT_PROFILE_ID_MATCH/u);
+assert.match(applicability, /APPLICABILITY_IDENTITY_MATCH_ONLY/u);
+assert.match(applicability, /DOES_NOT_PROVE_PROJECT_GEOMETRY_IS_WITHIN_METHOD_SCOPE/u);
+assert.match(applicability, /CORRELATION_APPLICABILITY_PROFILE_MISMATCH/u);
+
+const engineeringAssessment = read('engineering-assessment.js');
+const applicabilityOffset = engineeringAssessment.indexOf('createCorrelationApplicabilityAcknowledgment(');
+const geometryOffset = engineeringAssessment.indexOf('createCorrelationGeometryEvidenceFromLafea2({');
+assert.ok(applicabilityOffset >= 0, 'Engineering assessment must require applicability acknowledgment.');
+assert.ok(geometryOffset > applicabilityOffset,
+  'Applicability acknowledgment must be established before correlation geometry evidence.');
+assert.match(engineeringAssessment, /local-attachment-correlation-assessment\/v2/u);
+assert.match(engineeringAssessment, /applicabilityAcknowledgment/u);
+
 const interpolation = read('interpolation.js');
 assert.match(interpolation, /OUTSIDE_CORRELATION_DOMAIN/u);
 assert.match(interpolation, /BILINEAR_NO_EXTRAPOLATION/u);
@@ -91,6 +107,8 @@ console.log(JSON.stringify({
   registryReadPathsRevalidateEvidence: true,
   releaseCandidateBindsDatasetProfileEvidenceAndRecord: true,
   releaseCandidateTrustEvaluatedSeparately: true,
+  applicabilityProfileIdentityRequiredBeforeGeometry: true,
+  applicabilityIdentityDoesNotClaimPhysicalScopeProof: true,
   extrapolationAuthorized: false,
   lafea1AndLafea2SourceCustodyRetained: true,
 }));

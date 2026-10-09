@@ -1,3 +1,4 @@
+import { createCorrelationApplicabilityAcknowledgment } from './applicability.js';
 import { calculateLocalAttachmentCorrelation } from './calculate.js';
 import { createCorrelationGeometryEvidenceFromLafea2 } from './geometry-evidence.js';
 import { createCorrelationRequestFromLafea2 } from './lafea2-bridge.js';
@@ -6,16 +7,21 @@ import {
   requireEngineeringCorrelationProfile,
 } from './registry.js';
 
-export const CORRELATION_ASSESSMENT_SCHEMA = 'local-attachment-correlation-assessment/v1';
+export const CORRELATION_ASSESSMENT_SCHEMA = 'local-attachment-correlation-assessment/v2';
 
 export function calculateEngineeringCorrelationFromLafea2(options) {
   const methodIdentity = options?.methodIdentity ?? null;
   const methodEdition = options?.methodEdition ?? null;
+  let applicabilityAcknowledgment = null;
   try {
     const profile = requireEngineeringCorrelationProfile(
       options?.registry ?? EMPTY_ENGINEERING_CORRELATION_REGISTRY,
       methodIdentity,
       methodEdition,
+    );
+    applicabilityAcknowledgment = createCorrelationApplicabilityAcknowledgment(
+      profile,
+      options?.applicabilityProfileId,
     );
     const geometryEvidence = createCorrelationGeometryEvidenceFromLafea2({
       screeningRequest: options.screeningRequest,
@@ -34,29 +40,35 @@ export function calculateEngineeringCorrelationFromLafea2(options) {
     const result = calculateLocalAttachmentCorrelation(request, profile);
     if (result.qualification.state !== 'ACCEPTED'
       || result.qualification.engineeringUseAuthorized !== true) {
-      return assessment('BLOCKED', methodIdentity, methodEdition, geometryEvidence, request,
-        result, result.diagnostics?.length ? result.diagnostics : [diagnostic(
+      return assessment('BLOCKED', methodIdentity, methodEdition, applicabilityAcknowledgment,
+        geometryEvidence, request, result,
+        result.diagnostics?.length ? result.diagnostics : [diagnostic(
           'CORRELATION_ENGINEERING_RESULT_NOT_AUTHORIZED',
           'Registered engineering correlation did not produce an authorized accepted result.',
         )]);
     }
-    return assessment('QUALIFIED', methodIdentity, methodEdition, geometryEvidence, request,
-      result, []);
+    return assessment('QUALIFIED', methodIdentity, methodEdition, applicabilityAcknowledgment,
+      geometryEvidence, request, result, []);
   } catch (error) {
-    return assessment('BLOCKED', methodIdentity, methodEdition, null, null, null, [diagnostic(
-      error?.code ?? 'CORRELATION_ENGINEERING_ASSESSMENT_REJECTED',
-      error instanceof Error ? error.message : 'Unknown engineering correlation assessment failure.',
-      error?.path ?? null,
-    )]);
+    return assessment('BLOCKED', methodIdentity, methodEdition, applicabilityAcknowledgment,
+      null, null, null, [diagnostic(
+        error?.code ?? 'CORRELATION_ENGINEERING_ASSESSMENT_REJECTED',
+        error instanceof Error ? error.message : 'Unknown engineering correlation assessment failure.',
+        error?.path ?? null,
+      )]);
   }
 }
 
-function assessment(status, methodIdentity, methodEdition, geometryEvidence, request, result, diagnostics) {
+function assessment(
+  status, methodIdentity, methodEdition, applicabilityAcknowledgment,
+  geometryEvidence, request, result, diagnostics,
+) {
   return freeze({
     schema: CORRELATION_ASSESSMENT_SCHEMA,
     status,
     methodIdentity,
     methodEdition,
+    applicabilityAcknowledgment,
     geometryEvidence,
     request,
     result,

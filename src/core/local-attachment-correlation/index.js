@@ -14,6 +14,11 @@ export {
   STRESS_COMPONENTS,
   SURFACES,
 } from './constants.js';
+export {
+  CORRELATION_APPLICABILITY_ACKNOWLEDGMENT_SCHEMA,
+  createCorrelationApplicabilityAcknowledgment,
+  validateCorrelationApplicabilityAcknowledgment,
+} from './applicability.js';
 export { calculateLocalAttachmentCorrelation } from './calculate.js';
 export {
   CORRELATION_DATASET_PACKAGE_SCHEMA,
