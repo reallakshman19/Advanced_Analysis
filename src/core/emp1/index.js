@@ -7,6 +7,7 @@ export * from './emp1-assessment.js';
 export * from './emp1-orchestrator.js';
 export * from './emp1-public-product-contract.js';
 export * from './emp1-a-to-b-refresh.js';
+export * from './emp1-calculation-trace-projection.js';
 export * from './emp1-wrc537-attachment-source-authority.js';
 export * from './emp1-wrc537-applicability-source-authority.js';
 export * from './emp1-wrc537-source-custody.js';
