@@ -16,6 +16,7 @@ export const ENGINEERING_PROPERTY_SPECS = Object.freeze({
   fluidWeightOpeKgPerM: numeric('kg/m', ['FLUID_WT_OPE_KG_M', 'FLUID_WEIGHT_OPE_KG_PER_M', 'FLUIDWEIGHTOPEKGPM']),
   fluidWeightHydKgPerM: numeric('kg/m', ['FLUID_WT_HYD_KG_M', 'FLUID_WEIGHT_HYD_KG_PER_M', 'FLUIDWEIGHTHYDKGPM']),
   elasticModulusMpa: numeric('MPa', ['ELASTIC_MODULUS_MPA', 'YOUNGS_MODULUS_MPA', 'YOUNG_MODULUS_MPA', 'MODULUS_OF_ELASTICITY_MPA']),
+  thermalExpansionPerK: numeric('1/K', ['THERMAL_EXPANSION_PER_K', 'THERMALEXPANSIONPERK', 'THERMAL_EXPANSION_COEFFICIENT']),
   secondMomentAreaMm4: numeric('mm4', ['SECOND_MOMENT_AREA_MM4', 'AREA_MOMENT_OF_INERTIA_MM4']),
   flexuralRigidityNm2: numeric('N*m2', ['FLEXURAL_RIGIDITY_N_M2', 'EI_N_M2']),
 });

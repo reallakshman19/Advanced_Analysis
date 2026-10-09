@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { semanticHash } from '../src/core/shared-piping-model/canonical-json.js';
 import {
   LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1,
+  LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1,
   createNonFeaProductEngineeringDefaultProvider,
   createProductEngineeringDefaultProfile,
   requireProductEngineeringDefaultProfile,
@@ -12,6 +13,7 @@ import {
 const sourceModel = makeSourceModel();
 
 const empty = createNonFeaProductEngineeringDefaultProvider({
+  defaultProfile: LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1,
   sourceModel,
   requestedMethods: ['WEIGHT_AND_GRAVITY'],
 });
@@ -19,6 +21,44 @@ assert.equal(empty.profileId, 'LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1')
 assert.equal(empty.productDefaultProfileSemanticHash, LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1.semanticHash);
 assert.deepEqual(empty.records, []);
 assert.deepEqual(empty.blockers, []);
+
+const standard = createNonFeaProductEngineeringDefaultProvider({
+  sourceModel,
+  requestedMethods: ['THERMAL_FREE_DISPLACEMENT'],
+});
+assert.equal(standard.profileId, LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.profileId);
+assert.equal(LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.defaults.length, 2);
+assert.deepEqual(standard.blockers, []);
+assert.equal(standard.records.length, 4,
+  'global standard elastic modulus and thermal expansion must apply to both governed components');
+const elasticRecords = standard.records.filter((record) => record.fieldId === 'ELASTIC_MODULUS');
+const thermalExpansionRecords = standard.records.filter((record) => record.fieldId === 'THERMAL_EXPANSION_COEFFICIENT');
+assert.equal(elasticRecords.length, 2);
+assert.equal(thermalExpansionRecords.length, 2);
+elasticRecords.forEach((record) => {
+  assert.equal(record.value, 200000, '2.0e11 Pa must be converted exactly to 200000 MPa');
+  assert.equal(record.unit, 'MPa');
+  assert.equal(record.authority, 'PRODUCT_DEFAULT');
+  assert.match(record.evidence.basis, /PD-ELASTIC-THERMAL/u);
+  assert.match(record.evidence.basis, /1 MPa = 1e6 Pa/u);
+  assert.equal(record.evidence.profileId, LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.profileId);
+  assert.equal(
+    record.evidence.productDefaultProfileSemanticHash,
+    LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.semanticHash,
+  );
+});
+thermalExpansionRecords.forEach((record) => {
+  assert.equal(record.value, 12e-6, 'governed thermalExpansionPerK must remain exactly 12e-6 1/K');
+  assert.equal(record.unit, '1/K');
+  assert.equal(record.authority, 'PRODUCT_DEFAULT');
+  assert.match(record.evidence.basis, /PD-ELASTIC-THERMAL/u);
+  assert.match(record.evidence.basis, /without unit conversion/u);
+  assert.equal(record.evidence.profileId, LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.profileId);
+  assert.equal(
+    record.evidence.productDefaultProfileSemanticHash,
+    LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.semanticHash,
+  );
+});
 
 const profile = createProductEngineeringDefaultProfile({
   profileId: 'PRODUCT-ENGINEERING-TABLE-2026A',
@@ -108,7 +148,10 @@ assert.throws(
 
 console.log(JSON.stringify({
   status: 'PASS',
-  builtInEngineeringDefaultCount: 0,
+  builtInEngineeringDefaultCount: LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.defaults.length,
+  builtInElasticModulusMpa: elasticRecords[0]?.value ?? null,
+  builtInThermalExpansionPerK: thermalExpansionRecords[0]?.value ?? null,
+  existingProductDefaultCustodyReused: true,
   explicitProductRecordCount: provider.records.length,
   distinctComponentMassDefaults: [c1Mass.value, c2Mass.value],
   productProfileHashBound: true,

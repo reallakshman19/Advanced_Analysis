@@ -14,6 +14,7 @@ import {
 } from '../src/workspace/project-data/non-fea-configured-default-provider.js';
 import {
   LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1,
+  LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1,
   createNonFeaProductEngineeringDefaultProvider,
   createProductEngineeringDefaultProfile,
 } from '../src/workspace/project-data/non-fea-product-engineering-default-profile.js';
@@ -31,8 +32,74 @@ assert.equal(
 assert.equal(
   LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1.defaults.length,
   0,
-  'This integration must not manufacture a shipped engineering Product-default table.',
+  'The explicit empty qualification profile must remain empty.',
 );
+assert.equal(
+  LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.defaults.length,
+  2,
+  'The shipped engineering Product-default profile must contain only the governed elastic/thermal bridge rows in this slice.',
+);
+
+const shippedElasticThermalProvider = createNonFeaProductEngineeringDefaultProvider({
+  sourceModel,
+  requestedMethods: ['THERMAL_FREE_DISPLACEMENT'],
+});
+assert.deepEqual(shippedElasticThermalProvider.blockers, []);
+assert.equal(shippedElasticThermalProvider.profileId, LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.profileId);
+assert.equal(shippedElasticThermalProvider.records.length, 4);
+const shippedElasticRecords = shippedElasticThermalProvider.records.filter((record) => record.fieldId === 'ELASTIC_MODULUS');
+const shippedThermalExpansionRecords = shippedElasticThermalProvider.records.filter((record) => (
+  record.fieldId === 'THERMAL_EXPANSION_COEFFICIENT'
+));
+assert.equal(shippedElasticRecords.length, 2);
+assert.equal(shippedThermalExpansionRecords.length, 2);
+shippedElasticRecords.forEach((record) => {
+  assert.equal(record.value, 200000);
+  assert.equal(record.unit, 'MPa');
+  assert.equal(record.authority, 'PRODUCT_DEFAULT');
+  assert.match(record.evidence.basis, /PD-ELASTIC-THERMAL/u);
+  assert.match(record.evidence.basis, /1 MPa = 1e6 Pa/u);
+});
+shippedThermalExpansionRecords.forEach((record) => {
+  assert.equal(record.value, 12e-6);
+  assert.equal(record.unit, '1/K');
+  assert.equal(record.authority, 'PRODUCT_DEFAULT');
+  assert.match(record.evidence.basis, /PD-ELASTIC-THERMAL/u);
+  assert.match(record.evidence.basis, /without unit conversion/u);
+});
+
+const shippedElasticThermalLedger = resolveNonFeaEnrichment({
+  sourceModel,
+  sidecar: createNonFeaEnrichmentSidecar({
+    sourceSemanticHash: sourceModel.semanticHash,
+    records: shippedElasticThermalProvider.records,
+  }),
+});
+assert.equal(shippedElasticThermalLedger.status, 'READY');
+for (const component of sourceModel.components) {
+  const elastic = selectedCandidate(shippedElasticThermalLedger, component.componentKey, 'ELASTIC_MODULUS');
+  const alpha = selectedCandidate(
+    shippedElasticThermalLedger,
+    component.componentKey,
+    'THERMAL_EXPANSION_COEFFICIENT',
+  );
+  assert.equal(elastic.authority, 'PRODUCT_DEFAULT');
+  assert.equal(elastic.value, 200000);
+  assert.equal(alpha.authority, 'PRODUCT_DEFAULT');
+  assert.equal(alpha.value, 12e-6);
+}
+const shippedElasticThermalProjection = createNonFeaEnrichedProjection({
+  sourceModel,
+  resolutionLedger: shippedElasticThermalLedger,
+});
+for (const component of shippedElasticThermalProjection.enrichedModel.components) {
+  assert.equal(component.engineeringProperties.elasticModulusMpa.value, 200000);
+  assert.equal(component.engineeringProperties.elasticModulusMpa.unit, 'MPa');
+  assert.equal(component.engineeringProperties.elasticModulusMpa.sourceKind, 'PRODUCT_DEFAULT');
+  assert.equal(component.engineeringProperties.thermalExpansionPerK.value, 12e-6);
+  assert.equal(component.engineeringProperties.thermalExpansionPerK.unit, '1/K');
+  assert.equal(component.engineeringProperties.thermalExpansionPerK.sourceKind, 'PRODUCT_DEFAULT');
+}
 
 const productElasticProfile = createProductEngineeringDefaultProfile({
   profileId: 'QUAL-PRODUCT-ELASTIC-2026A',
@@ -221,12 +288,16 @@ assert.equal(JSON.stringify(sourceModel), sourceJsonBefore, 'Product-default res
 console.log(JSON.stringify({
   status: 'PASS',
   benchmark: 'ISSUE1321_PRODUCT_ENGINEERING_DEFAULT_ORDINARY_RESOLUTION',
+  shippedEngineeringProductDefaultCount: LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1.defaults.length,
+  shippedElasticModulusMpa: shippedElasticRecords[0]?.value ?? null,
+  shippedThermalExpansionPerK: shippedThermalExpansionRecords[0]?.value ?? null,
+  shippedElasticThermalSource: 'PD-ELASTIC-THERMAL',
+  shippedElasticThermalProjected: true,
   productOnlyWinner: 'PRODUCT_DEFAULT',
   projectOverProductWinner: 'PROJECT_CONFIGURED_DEFAULT',
   sourceOverProductWinner: 'SOURCE_EXPLICIT',
   productCandidateRemainsAuditableWhenShadowed: true,
   supportAuthorityExpanded: false,
-  shippedEngineeringProductDefaultCount: LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1.defaults.length,
   ordinaryRuntimeUsesSingleResolver: true,
   sourceImmutable: true,
 }, null, 2));

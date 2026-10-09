@@ -1,0 +1,54 @@
+pr: 1519
+state: SOURCE_COMPLETE_EXECUTION_NOT_RUN
+branch: agent/issue-1321-standard-engineering-product-default
+initial_base_sha: 751d577290f333dbec9f18804766dde61b0f62da
+reconciled_main_sha: 1b8be743e7368eda79a06564acc84a413e1e985c
+engineering_checkpoint_sha: 2fea2fac1b262b0477b8a023fade151be5a35c8a
+latest_endpoint: EP-LC1321-SEPD-0002
+merge_disposition: DRAFT_OWNER_AUTHORITY_NOT_GRANTED
+checks:
+  live_main_grounding: PASS_SOURCE_INSPECTION
+  main_drift_classification: PASS_SOURCE_INSPECTION_NON_OVERLAPPING_1521
+  upstream_product_default_identity: PASS_SOURCE_INSPECTION
+  pa_to_mpa_conversion: PASS_SOURCE_INSPECTION
+  thermal_expansion_unit_custody: PASS_SOURCE_INSPECTION
+  standard_target_profile_scope: PASS_SOURCE_INSPECTION
+  common_enrichment_contract_alignment: PASS_SOURCE_INSPECTION
+  shared_property_spec_alignment: PASS_SOURCE_INSPECTION
+  precedence_preserved: PASS_SOURCE_INSPECTION
+  protected_numerical_paths: PASS_SOURCE_INSPECTION
+  repository_access: BLOCKED_DNS_GITHUB
+  product_engineering_profile: NOT_RUN
+  product_engineering_runtime_resolution: NOT_RUN
+  shared_property_alias_contract: NOT_RUN
+  effective_projection: NOT_RUN
+  aggregate_non_fea: NOT_RUN
+  imports: NOT_RUN
+  advanced_shell: NOT_RUN
+  build: NOT_RUN
+  diff_check: NOT_RUN
+execution_blocker:
+  command: git ls-remote https://github.com/reallaksh19/Advanced_Analysis.git HEAD
+  result: Could not resolve host: github.com
+invariants:
+  standard_target_profile_rows: 2
+  elastic_modulus_pa: 200000000000
+  elastic_modulus_mpa: 200000
+  thermal_expansion_per_k: 0.000012
+  upstream_source: PD-ELASTIC-THERMAL
+  source_mutation: false
+  generic_engineering_table_expansion: false
+  corrosion_default_promoted: false
+  support_numerical_default_promoted: false
+  precedence_changed: false
+  support_authority_expanded: false
+  numerical_mechanics_changed: false
+  benchmark_tolerance_changed: false
+  execution_authority_granted: false
+  release_authority_granted: false
+next_action: >-
+  On the first faithful exact-head checkout run
+  node scripts/non-fea-product-engineering-default-profile-check.mjs; stop on
+  the first real failure, otherwise run the documented elastic/thermal
+  resolver/projection and aggregate regression sequence, then re-ground live
+  merge metadata and await explicit owner merge authorization.

@@ -23,6 +23,10 @@ function checkAliases() {
   assert.deepEqual(ENGINEERING_PROPERTY_SPECS.elasticModulusMpa.aliases, [
     'ELASTIC_MODULUS_MPA', 'YOUNGS_MODULUS_MPA', 'YOUNG_MODULUS_MPA', 'MODULUS_OF_ELASTICITY_MPA',
   ]);
+  assert.deepEqual(ENGINEERING_PROPERTY_SPECS.thermalExpansionPerK.aliases, [
+    'THERMAL_EXPANSION_PER_K', 'THERMALEXPANSIONPERK', 'THERMAL_EXPANSION_COEFFICIENT',
+  ]);
+  assert.equal(ENGINEERING_PROPERTY_SPECS.thermalExpansionPerK.unit, '1/K');
   assert.deepEqual(ENGINEERING_PROPERTY_SPECS.secondMomentAreaMm4.aliases, [
     'SECOND_MOMENT_AREA_MM4', 'AREA_MOMENT_OF_INERTIA_MM4',
   ]);
@@ -30,7 +34,7 @@ function checkAliases() {
     'FLEXURAL_RIGIDITY_N_M2', 'EI_N_M2',
   ]);
   const aliases = Object.values(ENGINEERING_PROPERTY_SPECS).flatMap((row) => row.aliases);
-  ['E', 'I', 'MODULUS', 'INERTIA'].forEach((value) => assert.equal(aliases.includes(value), false));
+  ['E', 'I', 'MODULUS', 'INERTIA', 'ALPHA'].forEach((value) => assert.equal(aliases.includes(value), false));
 }
 
 function checkPrecedence() {

@@ -1,0 +1,98 @@
+pr: 1519
+branch: agent/issue-1321-standard-engineering-product-default
+issue: 1321
+state: SOURCE_COMPLETE_EXECUTION_NOT_RUN
+merge_authority: OWNER_ONLY_NOT_GRANTED
+initial_base_sha: 751d577290f333dbec9f18804766dde61b0f62da
+reconciled_main_sha: 1b8be743e7368eda79a06564acc84a413e1e985c
+engineering_checkpoint_sha: 2fea2fac1b262b0477b8a023fade151be5a35c8a
+latest_endpoint: EP-LC1321-SEPD-0002
+chain: LOAD-CALC-1321-STANDARD-ENGINEERING-PRODUCT-DEFAULT
+mission: >-
+  Reuse only the already-governed PD-ELASTIC-THERMAL generic-steel elastic
+  modulus and thermal-expansion coefficient as shipped target-level Product
+  engineering fallbacks, closing the minimum common/shared contract seams
+  without inventing generic engineering tables.
+authority_boundary:
+  upstream_product_profile: LOAD_CALC_STANDARD_DEFAULTS_V1
+  upstream_default_id: PD-ELASTIC-THERMAL
+  elastic_source_path: value.DEFAULT.elasticModulusPa
+  elastic_source_pa: 200000000000
+  elastic_target_field: ELASTIC_MODULUS
+  elastic_target_unit: MPa
+  elastic_target_value: 200000
+  elastic_conversion: 1 MPa = 1e6 Pa
+  thermal_source_path: value.DEFAULT.thermalExpansionPerK
+  thermal_source_value: 0.000012
+  thermal_target_field: THERMAL_EXPANSION_COEFFICIENT
+  thermal_target_unit: 1/K
+  thermal_target_value: 0.000012
+  thermal_conversion: none
+  effective_precedence_owner: src/workspace/project-data/non-fea-effective-value-resolver.js
+  execution_authority_created: false
+  release_authority_created: false
+claimed_paths:
+  - agents/agentchain.md
+  - agents/agentchain/LOAD-CALC-1321-EFFECTIVE-PROJECTION-AUTHORITY/EP-LC1321-EFF-0004.md
+  - agents/agentchain/LOAD-CALC-1321-STANDARD-ENGINEERING-PRODUCT-DEFAULT/EP-LC1321-SEPD-0001.md
+  - agents/agentchain/LOAD-CALC-1321-STANDARD-ENGINEERING-PRODUCT-DEFAULT/EP-LC1321-SEPD-0002.md
+  - agents/PR1519_workreport.md
+  - agents/claims/PR1519.yaml
+  - agents/status/PR1519.yaml
+  - scripts/non-fea-product-engineering-default-profile-check.mjs
+  - scripts/non-fea-product-engineering-default-runtime-resolution-check.mjs
+  - scripts/w10.6-flexural-property-contract-check.mjs
+  - src/workspace/project-data/non-fea-product-engineering-default-profile.js
+  - src/core/non-fea-enrichment/index.js
+  - src/core/shared-piping-model/property-specs.js
+protected_paths:
+  - src/workspace/project-data/non-fea-product-default-profile.js
+  - src/workspace/project-data/non-fea-field-registry.js
+  - src/workspace/project-data/non-fea-effective-value-resolver.js
+  - src/workspace/project-data/non-fea-effective-common-input-projection.js
+  - src/workspace/non-fea-common-input-runtime.js
+  - src/core/model-loads/**
+  - src/workspace/engineering-loads/**
+  - src/core/lafea/**
+  - src/core/emp1/**
+  - validation/**
+  - .github/workflows/**
+invariants:
+  upstream_product_value_changed: false
+  new_engineering_number_invented: false
+  pa_to_mpa_conversion_exact: true
+  thermal_expansion_reused_without_conversion: true
+  shipped_target_product_default_count: 2
+  generic_od_wall_density_mass_table_added: false
+  corrosion_default_promoted: false
+  support_preload_or_friction_promoted: false
+  effective_precedence_changed: false
+  source_or_override_precedence_weakened: false
+  support_authority_expanded: false
+  support_load_equations_changed: false
+  mass_or_cog_mechanics_changed: false
+  solver_changed: false
+  benchmark_or_tolerance_changed: false
+  execution_authority_granted: false
+  release_authority_granted: false
+validation:
+  source_inspection: PASS_SOURCE_INSPECTION
+  independent_unit_conversion: PASS_SOURCE_INSPECTION
+  alpha_unit_custody: PASS_SOURCE_INSPECTION
+  main_drift_non_overlap: PASS_SOURCE_INSPECTION
+  faithful_checkout: BLOCKED_DNS_GITHUB
+  product_engineering_profile_check: NOT_RUN
+  product_engineering_runtime_resolution_check: NOT_RUN
+  shared_property_alias_contract: NOT_RUN
+  effective_projection_check: NOT_RUN
+  aggregate_non_fea_checks: NOT_RUN
+  check_imports: NOT_RUN
+  advanced_shell_contract: NOT_RUN
+  build: NOT_RUN
+  git_diff_check: NOT_RUN
+exact_next_action: >-
+  On a faithful exact-head checkout, run
+  node scripts/non-fea-product-engineering-default-profile-check.mjs first;
+  stop on its first real failure, otherwise continue the documented
+  elastic/thermal resolver/projection regression sequence, re-ground live
+  main/head/diff/reviews/threads, and await explicit owner merge authorization.

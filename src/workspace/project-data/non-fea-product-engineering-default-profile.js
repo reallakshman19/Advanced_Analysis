@@ -8,6 +8,7 @@ import {
   NON_FEA_CONFIGURED_DEFAULT_SCOPE_PRECEDENCE,
   createNonFeaConfiguredDefaultProvider,
 } from './non-fea-configured-default-provider.js';
+import { LOAD_CALC_STANDARD_DEFAULTS_V1 } from './non-fea-product-default-profile.js';
 
 export const NON_FEA_PRODUCT_ENGINEERING_DEFAULT_PROFILE_SCHEMA =
   'non-fea-product-engineering-default-profile/v1';
@@ -17,14 +18,58 @@ export const NON_FEA_PRODUCT_ENGINEERING_DEFAULT_RECORD_SCHEMA =
   'non-fea-product-engineering-default-record/v1';
 
 /**
- * The application ships no generic OD, wall, density, insulation, or component
- * mass table. Product engineering defaults exist only when an explicit,
- * versioned product table is supplied to the provider.
+ * Empty reference profile retained for explicit no-Product-default qualification
+ * cases. Ordinary Load Calc uses the separately defined standard profile below.
  */
 export const LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1 = createProductEngineeringDefaultProfile({
   profileId: 'LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1',
   version: 1,
   defaults: [],
+});
+
+const STANDARD_ELASTIC_THERMAL_DEFAULT = requireStandardProductDefault('PD-ELASTIC-THERMAL');
+const STANDARD_ELASTIC_MODULUS_MPA = requireStandardElasticModulusMpa(STANDARD_ELASTIC_THERMAL_DEFAULT);
+const STANDARD_THERMAL_EXPANSION_PER_K = requireStandardThermalExpansionPerK(STANDARD_ELASTIC_THERMAL_DEFAULT);
+
+/**
+ * Target-level Product engineering defaults may only reuse values that already
+ * have explicit Product-default authority elsewhere in the repository. These
+ * built-in rows do not invent material values: they project the exact generic-
+ * steel elastic modulus and thermal-expansion coefficient already governed by
+ * PD-ELASTIC-THERMAL. Elastic modulus is converted from Pa to the enrichment
+ * contract's MPa value; thermal expansion already uses the canonical 1/K unit.
+ *
+ * Generic OD, wall, density, insulation and component-mass tables remain absent
+ * until separately qualified product engineering tables exist.
+ */
+export const LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1 = createProductEngineeringDefaultProfile({
+  profileId: 'LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1',
+  version: 1,
+  defaults: [{
+    defaultId: 'PD-ENG-ELASTIC-MODULUS-GENERIC-STEEL',
+    fieldId: 'ELASTIC_MODULUS',
+    value: STANDARD_ELASTIC_MODULUS_MPA,
+    unit: 'MPa',
+    basis: [
+      'Target-level projection of existing governed Product default',
+      `${LOAD_CALC_STANDARD_DEFAULTS_V1.profileId}@${LOAD_CALC_STANDARD_DEFAULTS_V1.version}`,
+      `${STANDARD_ELASTIC_THERMAL_DEFAULT.defaultId}@${STANDARD_ELASTIC_THERMAL_DEFAULT.semanticHash}`,
+      'DEFAULT.elasticModulusPa converted by exact 1 MPa = 1e6 Pa.',
+    ].join(' '),
+    allowedMethods: getNonFeaFieldDefinition('ELASTIC_MODULUS').methods,
+  }, {
+    defaultId: 'PD-ENG-THERMAL-EXPANSION-GENERIC-STEEL',
+    fieldId: 'THERMAL_EXPANSION_COEFFICIENT',
+    value: STANDARD_THERMAL_EXPANSION_PER_K,
+    unit: '1/K',
+    basis: [
+      'Target-level projection of existing governed Product default',
+      `${LOAD_CALC_STANDARD_DEFAULTS_V1.profileId}@${LOAD_CALC_STANDARD_DEFAULTS_V1.version}`,
+      `${STANDARD_ELASTIC_THERMAL_DEFAULT.defaultId}@${STANDARD_ELASTIC_THERMAL_DEFAULT.semanticHash}`,
+      'DEFAULT.thermalExpansionPerK reused without unit conversion because the field contract is 1/K.',
+    ].join(' '),
+    allowedMethods: getNonFeaFieldDefinition('THERMAL_EXPANSION_COEFFICIENT').methods,
+  }],
 });
 
 export function createProductEngineeringDefaultProfile({ profileId, version, defaults } = {}) {
@@ -68,7 +113,7 @@ export function requireProductEngineeringDefaultProfile(value) {
  * provenance. No Project Data authority escapes from the internal scope pass.
  */
 export function createNonFeaProductEngineeringDefaultProvider({
-  defaultProfile = LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_EMPTY_V1,
+  defaultProfile = LOAD_CALC_ENGINEERING_PRODUCT_DEFAULTS_STANDARD_V1,
   sourceModel,
   requestedMethods = NON_FEA_METHOD_IDS,
 } = {}) {
@@ -223,6 +268,39 @@ function requireProductRows(value) {
     }
     return freezeDeep({ ...material, semanticHash: expected });
   });
+}
+
+function requireStandardProductDefault(defaultId) {
+  const row = LOAD_CALC_STANDARD_DEFAULTS_V1.defaults.find((item) => item.defaultId === defaultId);
+  if (!row) {
+    throw codedError(
+      `Required governing Product default ${defaultId} was not found.`,
+      'PRODUCT_ENGINEERING_DEFAULT_SOURCE_PRODUCT_DEFAULT_MISSING',
+    );
+  }
+  return row;
+}
+
+function requireStandardElasticModulusMpa(row) {
+  const elasticModulusPa = Number(row?.value?.DEFAULT?.elasticModulusPa);
+  if (!Number.isFinite(elasticModulusPa) || elasticModulusPa <= 0) {
+    throw codedError(
+      'PD-ELASTIC-THERMAL DEFAULT.elasticModulusPa must be a positive finite value.',
+      'PRODUCT_ENGINEERING_DEFAULT_SOURCE_ELASTIC_MODULUS_INVALID',
+    );
+  }
+  return elasticModulusPa / 1e6;
+}
+
+function requireStandardThermalExpansionPerK(row) {
+  const thermalExpansionPerK = Number(row?.value?.DEFAULT?.thermalExpansionPerK);
+  if (!Number.isFinite(thermalExpansionPerK) || thermalExpansionPerK <= 0) {
+    throw codedError(
+      'PD-ELASTIC-THERMAL DEFAULT.thermalExpansionPerK must be a positive finite value.',
+      'PRODUCT_ENGINEERING_DEFAULT_SOURCE_THERMAL_EXPANSION_INVALID',
+    );
+  }
+  return thermalExpansionPerK;
 }
 
 function normalizeMethods(value) {
