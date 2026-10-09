@@ -136,8 +136,14 @@ function normalizeShell(input) {
   const source = typeof cleanInput.semanticHash === 'string'
     ? withoutHash(validateCanonicalLocalShellModel(cleanInput))
     : withoutHash(cleanInput);
-  const retained = withoutHash(createCanonicalLocalShellModel(source));
-  return freezeClone({ ...retained, ...(meshConfig ? { meshConfig } : {}) });
+
+  // LAFEA.4 owns an editable source mesh whose exact node ordering and element
+  // connectivity are part of source/geometry custody. Canonical shell creation
+  // is still required here as a validation boundary, but its deterministic
+  // winding normalization belongs to the solver-model representation and must
+  // not silently replace the retained editable source document.
+  createCanonicalLocalShellModel(source);
+  return freezeClone({ ...source, ...(meshConfig ? { meshConfig } : {}) });
 }
 
 function normalizeTrunnion(input, mode = 'document') {

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import { PROFILE_KINDS, canonicalProfile } from '../src/core/lafea-profile-contract/index.js';
 import { createLafeaMockDocument } from '../src/workspace/advanced-mock-data.js';
+import { issueLafeaSourceAuthority } from '../src/workspace/lafea-source-authority.js';
 import { createLafeaSimulatedShellMidsurfaceEvidence } from '../src/workspace/lafea-simulated-shell-midsurface-provider.js';
 import { cylindricalShellUvAtPoint3d } from '../src/workspace/lafea-shell-curved-midsurface-contract.js';
 import { produceLafeaShellAnalysisMesh } from '../src/workspace/lafea-shell-mesh-producer.js';
@@ -11,12 +12,14 @@ import {
   planLafea5SourceShellMeshAdoption,
   produceLafea5SourceShellMeshAdoption,
 } from '../src/workspace/lafea-source-shell-mesh-adoption.js';
+import { requireLafeaStageComposition } from '../src/workspace/lafea-stage-composition-root.js';
+import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
 
 const SOURCE_HASH = `sha256:${'c'.repeat(64)}`;
 const shellProfile = (stageId, overrides = {}) => canonicalProfile(PROFILE_KINDS.MESH, {
   schema: 'lafea-mesh-profile/v1',
   profileIdentity: `SAMPLE_${stageId.replace('.', '_')}_SHELL_MESH_${overrides.profileSuffix ?? 'QUALIFIED'}`,
-  sourceRevision: 'SAMPLE-PARENT-CHECK-V3',
+  sourceRevision: 'SAMPLE-PARENT-CHECK-V4',
   semanticHash: undefined,
   fields: {
     continuumElement: 'T3',
@@ -33,6 +36,42 @@ const shellProfile = (stageId, overrides = {}) => canonicalProfile(PROFILE_KINDS
 });
 
 const lafea4 = createLafeaMockDocument('LAFEA.4');
+const normalizedLafea4 = normalizeLafeaStageDocument('LAFEA.4', lafea4);
+assert.deepEqual(
+  normalizedLafea4.elements.map((row) => ({
+    elementId: row.elementId,
+    nodeIds: [...row.nodeIds],
+  })),
+  lafea4.elements.map((row) => ({
+    elementId: row.elementId,
+    nodeIds: [...row.nodeIds],
+  })),
+  'LAFEA.4 normalization must retain the editable Sample source connectivity exactly.',
+);
+assert.deepEqual(
+  normalizedLafea4.nodes.map((row) => ({ nodeId: row.nodeId, position: [...row.position] })),
+  lafea4.nodes.map((row) => ({ nodeId: row.nodeId, position: [...row.position] })),
+  'LAFEA.4 normalization must retain the editable Sample source node identity and coordinates.',
+);
+const normalizedAuthority4 = issueLafeaSourceAuthority(
+  'LAFEA.4', normalizedLafea4, 'SAMPLE-PARENT-CHECK/LAFEA4-NORMALIZED-SOURCE',
+);
+const normalizedParent4 = createLafeaSimulatedShellMidsurfaceEvidence(
+  'LAFEA.4', normalizedAuthority4.sourceHash, normalizedLafea4,
+);
+assert.equal(normalizedParent4?.qualification, 'PASS');
+const canonicalLafea4 = requireLafeaStageComposition('LAFEA.4').canonicalize(normalizedLafea4);
+const canonicalizedConnectivityCount = canonicalLafea4.elements.filter((canonicalElement) => {
+  const sourceElement = normalizedLafea4.elements.find(
+    (row) => row.elementId === canonicalElement.elementId,
+  );
+  return sourceElement.nodeIds.join('|') !== canonicalElement.nodeIds.join('|');
+}).length;
+assert.ok(
+  canonicalizedConnectivityCount > 0,
+  'The Sample must prove source topology custody is distinct from solver winding canonicalization.',
+);
+
 const parent4 = createLafeaSimulatedShellMidsurfaceEvidence('LAFEA.4', SOURCE_HASH, lafea4);
 assert.equal(lafea4.modelIdentity, 'CYLINDRICAL_PIPE_SHELL_BENCHMARK');
 assert.equal(lafea4.nodes.length, 26);
@@ -137,12 +176,16 @@ assert.throws(
 );
 
 console.log(JSON.stringify({
-  schema: 'lafea-shell-sample-parent-check/v3',
+  schema: 'lafea-shell-sample-parent-check/v4',
   status: 'PASS',
   lafea4: {
     sampleGeometry: 'CYLINDRICAL_PIPE_SHELL_BENCHMARK',
     sampleNodes: lafea4.nodes.length,
     sampleElements: lafea4.elements.length,
+    sourceTopologyRetainedThroughNormalization: true,
+    normalizedSourceAuthorityHash: normalizedAuthority4.sourceHash,
+    solverCanonicalizedConnectivityCount: canonicalizedConnectivityCount,
+    sourceAndSolverTopologyCustodySeparated: true,
     surface: parent4.geometry.surface.kind,
     radius: parent4.geometry.surface.radius,
     axialLength: 50,
