@@ -1,5 +1,10 @@
 import { semanticHash } from '../shared-primitives/canonical-json.js';
 import { createCorrelationProfile } from './profile.js';
+import {
+  executeCorrelationQualificationSuite,
+  validateCorrelationQualificationEvidence,
+  validateCorrelationQualificationSuite,
+} from './qualification-suite.js';
 
 export const CORRELATION_QUALIFICATION_RECORD_SCHEMA = 'local-attachment-correlation-qualification-record/v1';
 
@@ -20,6 +25,36 @@ export function createCorrelationQualificationRecord(options) {
     engineeringUseApproved: options?.engineeringUseApproved === true,
   };
   return freeze({ ...base, semanticHash: semanticHash(base) });
+}
+
+export function createCorrelationQualificationRecordFromEvidence(options) {
+  const profile = createCorrelationProfile(options?.profile);
+  const evidence = validateCorrelationQualificationEvidence(options?.qualificationEvidence);
+  const suite = validateCorrelationQualificationSuite(
+    options?.qualificationSuite ?? evidence.qualificationSuite,
+  );
+  if (evidence.status !== 'PASS') {
+    fail('CORRELATION_QUALIFICATION_EVIDENCE_NOT_PASS', 'qualificationEvidence.status');
+  }
+  assertEvidenceProfileBinding(evidence, profile);
+  assertSuiteProfileBinding(suite, profile);
+  if (evidence.suiteSemanticHash !== suite.semanticHash) {
+    fail('CORRELATION_QUALIFICATION_EVIDENCE_SUITE_MISMATCH',
+      'qualificationEvidence.suiteSemanticHash');
+  }
+  const reproduced = executeCorrelationQualificationSuite(suite, profile);
+  if (reproduced.semanticHash !== evidence.semanticHash) {
+    fail('CORRELATION_QUALIFICATION_EVIDENCE_NOT_REPRODUCIBLE',
+      'qualificationEvidence.semanticHash');
+  }
+  return createCorrelationQualificationRecord({
+    profile,
+    recordIdentity: options?.recordIdentity,
+    qualificationEvidenceHash: evidence.semanticHash,
+    approvalAuthorityId: options?.approvalAuthorityId,
+    approvalReference: options?.approvalReference,
+    engineeringUseApproved: options?.engineeringUseApproved,
+  });
 }
 
 export function validateCorrelationQualificationRecord(value) {
@@ -63,6 +98,41 @@ export function qualificationRecordMatchesProfile(recordInput, profileInput) {
     && record.coefficientDatasetId === profile.coefficientDatasetId
     && record.coefficientDatasetHash === profile.coefficientDatasetHash
     && record.profileSemanticHash === semanticHash(profile);
+}
+
+function assertEvidenceProfileBinding(evidence, profile) {
+  assertBinding({
+    methodIdentity: evidence.methodIdentity,
+    methodEdition: evidence.methodEdition,
+    coefficientDatasetId: evidence.coefficientDatasetId,
+    coefficientDatasetHash: evidence.coefficientDatasetHash,
+    profileSemanticHash: evidence.profileSemanticHash,
+  }, profile, 'qualificationEvidence');
+}
+
+function assertSuiteProfileBinding(suite, profile) {
+  assertBinding({
+    methodIdentity: suite.methodIdentity,
+    methodEdition: suite.methodEdition,
+    coefficientDatasetId: suite.coefficientDatasetId,
+    coefficientDatasetHash: suite.coefficientDatasetHash,
+    profileSemanticHash: suite.profileSemanticHash,
+  }, profile, 'qualificationSuite');
+}
+
+function assertBinding(actual, profile, path) {
+  const expected = {
+    methodIdentity: profile.methodIdentity,
+    methodEdition: profile.methodEdition,
+    coefficientDatasetId: profile.coefficientDatasetId,
+    coefficientDatasetHash: profile.coefficientDatasetHash,
+    profileSemanticHash: semanticHash(profile),
+  };
+  for (const [key, value] of Object.entries(expected)) {
+    if (actual[key] !== value) {
+      fail('CORRELATION_QUALIFICATION_PROFILE_MISMATCH', `${path}.${key}`);
+    }
+  }
 }
 
 function requiredHash(value, path) {

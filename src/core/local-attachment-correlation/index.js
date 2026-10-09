@@ -35,9 +35,19 @@ export { correlationDatasetHash, createCorrelationProfile } from './profile.js';
 export {
   CORRELATION_QUALIFICATION_RECORD_SCHEMA,
   createCorrelationQualificationRecord,
+  createCorrelationQualificationRecordFromEvidence,
   qualificationRecordMatchesProfile,
   validateCorrelationQualificationRecord,
 } from './qualification-record.js';
+export {
+  CORRELATION_QUALIFICATION_EVIDENCE_SCHEMA,
+  CORRELATION_QUALIFICATION_OBSERVATION_TYPES,
+  CORRELATION_QUALIFICATION_SUITE_SCHEMA,
+  createCorrelationQualificationSuite,
+  executeCorrelationQualificationSuite,
+  validateCorrelationQualificationEvidence,
+  validateCorrelationQualificationSuite,
+} from './qualification-suite.js';
 export {
   CORRELATION_METHOD_REGISTRY_SCHEMA,
   EMPTY_ENGINEERING_CORRELATION_REGISTRY,
