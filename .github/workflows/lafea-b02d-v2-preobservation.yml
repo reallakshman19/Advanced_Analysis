@@ -1,0 +1,32 @@
+name: LAFEA B02D V2 pre-observation qualification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/core/lafea-meshing/b02d-probe-stable-polar-mesh-v2.js'
+      - 'validation/lafea-b02-definitions/B02D-lug-pinhole-v2.json'
+      - 'scripts/lafea-b02d-v2-preobservation-quality-check.mjs'
+      - '.github/workflows/lafea-b02d-v2-preobservation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preobservation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify exact PR head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Qualify frozen V2 mesh before response observation
+        run: node scripts/lafea-b02d-v2-preobservation-quality-check.mjs

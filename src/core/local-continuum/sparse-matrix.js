@@ -96,6 +96,13 @@ export function sparseMatrixVectorCompensatedRaw(matrix, vector) {
   return output;
 }
 
+// Diagnostic-carrier compatibility only. Existing #1254 temporary workflow
+// patches refer to this function as an unqualified identifier after restoring
+// current-main solver.js. Expose the already-exported implementation so those
+// pre-existing patches can execute without editing workflow YAML. This branch
+// is explicitly non-promotable; clean PR #1259 must not inherit this binding.
+globalThis.sparseMatrixVectorCompensatedRaw = sparseMatrixVectorCompensatedRaw;
+
 export function sparseMatrixScale(matrix) {
   requireCsr(matrix);
   let scale = 0;

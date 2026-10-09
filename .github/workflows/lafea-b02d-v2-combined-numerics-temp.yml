@@ -1,0 +1,99 @@
+name: LAFEA B02D V2 combined sparse numerical repair temporary
+
+on:
+  pull_request:
+    branches:
+      - agent/lafea-b01-solver-qualification-20260818
+    paths:
+      - '.github/workflows/lafea-b02d-v2-combined-numerics-temp.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  combined-numerics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify exact PR head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Apply target-only reliable update and compensated equilibrium arithmetic
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('src/core/local-continuum/jacobi-equilibrated-cg.js')
+          s = p.read_text()
+          old = """    if (iterations % 100 === 0 || maxAbs(residual) <= convergenceTarget) {\n      const solution = unscaleSolution(scaledSolution, inverseSqrtDiagonal);\n      const exact = exactOriginalResidual(matrix, rightHandSide, solution);\n      originalResidualInfinity = maxAbs(exact);\n      if (originalResidualInfinity <= convergenceTarget) {\n        return result(\n          solution,\n          iterations,\n          iterationLimit,\n          residualScale,\n          residualTolerance,\n          convergenceTarget,\n          originalResidualInfinity,\n          diagonalScale,\n          diagonalTolerance,\n          matrix.diagonal,\n        );\n      }\n    }\n"""
+          new = """    const recursiveResidualInfinity = maxAbs(residual);\n    if (iterations % 100 === 0 || recursiveResidualInfinity <= convergenceTarget) {\n      const solution = unscaleSolution(scaledSolution, inverseSqrtDiagonal);\n      const exact = exactOriginalResidual(matrix, rightHandSide, solution);\n      originalResidualInfinity = maxAbs(exact);\n      if (originalResidualInfinity <= convergenceTarget) {\n        return result(\n          solution,\n          iterations,\n          iterationLimit,\n          residualScale,\n          residualTolerance,\n          convergenceTarget,\n          originalResidualInfinity,\n          diagonalScale,\n          diagonalTolerance,\n          matrix.diagonal,\n        );\n      }\n      if (recursiveResidualInfinity <= convergenceTarget) {\n        residual = exact.map(\n          (value, index) => value * inverseSqrtDiagonal[index],\n        );\n        scaledResidualCompensation.fill(0);\n        direction = [...residual];\n        rho = compensatedDot(residual, residual);\n        if (!(rho > 0) || !Number.isFinite(rho)) {\n          throw solverError(\n            'JACOBI_EQUILIBRATED_CG_RELIABLE_UPDATE_INVALID',\n            rho,\n          );\n        }\n        continue;\n      }\n    }\n"""
+          if s.count(old) != 1:
+              raise RuntimeError('expected one equilibrated-CG exact-residual check block')
+          p.write_text(s.replace(old, new, 1))
+
+          p = Path('src/core/local-continuum/solver.js')
+          s = p.read_text()
+          old = """  if (mesh.globalStiffnessStorage === 'CSR_FULL_SYMMETRIC') {\n    return sparseMatrixVector(mesh.globalStiffnessCsr, vector);\n  }\n"""
+          new = """  if (mesh.globalStiffnessStorage === 'CSR_FULL_SYMMETRIC') {\n    return sparseMatrixVectorCompensatedRaw(mesh.globalStiffnessCsr, vector).map((value) =>\n      canonicalNumber(value, 'sparse matrix-vector product'));\n  }\n"""
+          if s.count(old) != 1:
+              raise RuntimeError('expected one CSR stiffnessAction block')
+          s = s.replace(old, new, 1)
+          old = """function equilibriumTotals(dofs, constrained, force, residual) {\n  const totals = { UX: 0, UY: 0 };\n  force.forEach((value, index) => {\n    totals[dofAxis(dofs[index])] += value;\n  });\n  constrained.forEach((index) => {\n    totals[dofAxis(dofs[index])] += residual[index];\n  });\n  return totals;\n}\n"""
+          new = """function equilibriumTotals(dofs, constrained, force, residual) {\n  const totals = { UX: 0, UY: 0 };\n  const compensation = { UX: 0, UY: 0 };\n  force.forEach((value, index) => {\n    compensatedAxisAdd(totals, compensation, dofAxis(dofs[index]), value);\n  });\n  constrained.forEach((index) => {\n    compensatedAxisAdd(totals, compensation, dofAxis(dofs[index]), residual[index]);\n  });\n  return {\n    UX: totals.UX + compensation.UX,\n    UY: totals.UY + compensation.UY,\n  };\n}\n\nfunction compensatedAxisAdd(totals, compensation, axis, value) {\n  const sum = totals[axis];\n  const next = sum + value;\n  compensation[axis] += Math.abs(sum) >= Math.abs(value)\n    ? (sum - next) + value\n    : (value - next) + sum;\n  totals[axis] = next;\n}\n"""
+          if s.count(old) != 1:
+              raise RuntimeError('expected one equilibriumTotals block')
+          s = s.replace(old, new, 1)
+          old = """    throw numericalError(\n      'REACTION_EQUILIBRIUM_FAILURE',\n      'solver',\n      'Reaction equilibrium did not qualify.',\n    );\n"""
+          new = """    throw numericalError(\n      'REACTION_EQUILIBRIUM_FAILURE',\n      'solver',\n      `Reaction equilibrium did not qualify: UX=${totals.UX}, UY=${totals.UY}, limit=${equilibriumLimit}, scale=${scale}, freeMaximum=${freeMaximum}, freeLimit=${freeLimit}.`,\n    );\n"""
+          if s.count(old) != 1:
+              raise RuntimeError('expected one reaction-equilibrium failure block')
+          p.write_text(s.replace(old, new, 1))
+          PY
+          node --check src/core/local-continuum/jacobi-equilibrated-cg.js
+          node --check src/core/local-continuum/solver.js
+      - name: Bind frozen V2 to registered production route in runner workspace
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          edits = {
+            'src/workspace/lafea-mesh-producer-binding.js': [
+              ('generateLafeaB02dProbeStablePolarMesh,', 'generateLafeaB02dProbeStablePolarMeshV2,'),
+              ("../core/lafea-meshing/b02d-probe-stable-polar-mesh.js", "../core/lafea-meshing/b02d-probe-stable-polar-mesh-v2.js"),
+              ("'B02D_PROBE_STABLE_POLAR_QUALIFIED'", "'B02D_PROBE_STABLE_POLAR_V2_QUALIFIED'"),
+              ("'B02D-FROZEN-POLAR-V1'", "'B02D-FROZEN-POLAR-V2'"),
+              ('generateLafeaB02dProbeStablePolarMesh({', 'generateLafeaB02dProbeStablePolarMeshV2({'),
+            ],
+            'scripts/lib/lafea-b02d-production-route.mjs': [
+              ("'B02D_PROBE_STABLE_POLAR'", "'B02D_PROBE_STABLE_POLAR_V2'"),
+              ("'B02D-FROZEN-POLAR-V1'", "'B02D-FROZEN-POLAR-V2'"),
+              ("assert.equal(definition.caseId, 'B02D');", "assert.equal(definition.caseId, 'B02D-V2');"),
+              ("assert.equal(result.qualification.state, 'ACCEPTED');", "assert.equal(result.qualification.state, 'ACCEPTED', `B02D ${method}/${level.levelId}: ${JSON.stringify(result.diagnostics)}`);"),
+            ],
+            'scripts/lafea-b02d-production-check.mjs': [
+              ("validation/lafea-b02-definitions/B02D-lug-pinhole.json", "validation/lafea-b02-definitions/B02D-lug-pinhole-v2.json"),
+              ("meshPolicyId: 'B02D_PROBE_STABLE_POLAR_POLICY_V1'", "meshPolicyId: 'B02D_PROBE_STABLE_POLAR_POLICY_V2'"),
+              ("caseId: 'B02D'", "caseId: 'B02D-V2'"),
+            ],
+          }
+          for filename, pairs in edits.items():
+              p = Path(filename)
+              s = p.read_text()
+              for old, new in pairs:
+                  if s.count(old) != 1:
+                      raise RuntimeError(f'{filename}: expected one {old!r}')
+                  s = s.replace(old, new, 1)
+              p.write_text(s)
+          PY
+      - name: Reconfirm V2 mesh quality
+        run: node scripts/lafea-b02d-v2-preobservation-quality-check.mjs
+      - name: Execute frozen V2 production response
+        run: node scripts/lafea-b02d-production-check.mjs

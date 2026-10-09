@@ -3,6 +3,7 @@ import {
   matrixVector, multiply, scaleMatrix, transpose, zeros,
 } from './matrix.js';
 import { canonicalNumber } from './numeric.js';
+import { preservePlanarTranslationNullspace } from './planar-translation-nullspace.js';
 
 export const BBAR_FORMULA_IDS = Object.freeze({
   MODULI: 'PLANE_STRAIN_BBAR_ISOTROPIC_MODULI_V1',
@@ -97,15 +98,17 @@ export function bbarStiffnessMatrix(gaussEvidence, material, thickness) {
   const volumetric = outerProduct(mean.meanVolumetricRow, mean.meanVolumetricRow)
     .map((row) => row.map((value) => value
       * moduli.bulkModulus * mean.integrationArea * thickness));
-  const stiffness = deviatoric.map((row, i) => row.map((value, j) => canonicalNumber(
+  const integratedStiffness = deviatoric.map((row, i) => row.map((value, j) => canonicalNumber(
     value + volumetric[i][j],
     'B-bar stiffness',
   )));
+  const balanced = preservePlanarTranslationNullspace(integratedStiffness);
   return Object.freeze({
-    stiffness: Object.freeze(stiffness.map((row) => Object.freeze(row))),
+    stiffness: balanced.stiffness,
     meanDilatation: mean,
     deviatoricMatrix: Ddev,
     moduli,
+    translationNullspace: balanced.evidence,
     formulaIds: Object.freeze([
       BBAR_FORMULA_IDS.MODULI,
       BBAR_FORMULA_IDS.DEVIATORIC_SPLIT,
