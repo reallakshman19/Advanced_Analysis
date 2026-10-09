@@ -17,6 +17,7 @@ import {
   requireLafea4ShellProductRefinementPromotionAuthorized,
 } from '../src/workspace/lafea4-shell-product-refinement-promotion.js';
 import {
+  LAFEA4_SHELL_PRODUCT_REFINEMENT_GENERIC_RECOVERY_FORBIDDEN,
   LAFEA4_SHELL_PRODUCT_REFINEMENT_RETAINED_PRODUCER_REF,
 } from '../src/workspace/lafea4-shell-product-refinement-retention-authority.js';
 
@@ -89,6 +90,7 @@ assert.equal(result.productRetentionAuthorized, true);
 assert.equal(result.uiBindingAuthorized, true);
 assert.equal(result.releaseQualified, false);
 assert.ok(result.retentionAuthority);
+assert.ok(result.replayPackage);
 assert.equal(result.retentionAuthority.productRetentionAuthorized, true);
 assert.equal(result.retentionAuthority.releaseQualified, false);
 assert.equal(result.evidence.authority.producerRef,
@@ -108,6 +110,49 @@ assert.equal(workbench.selectRetainedAnalysisMeshEvidenceV2(stageId)?.artifactHa
   result.evidence.artifactHash);
 assert.equal(workbench.getState().stages[stageId].analysisMeshCustodyProjection.state,
   'CURRENT_PASS');
+
+const replayPackage = workbench.exportLafea4ProductRefinementReplayPackage(stageId);
+assert.ok(replayPackage);
+assert.equal(replayPackage.semanticHash, result.replayPackage.semanticHash);
+assert.equal(replayPackage.retentionAuthority.evidence.artifactHash, result.evidence.artifactHash);
+assert.equal(replayPackage.retentionAuthority.evidence.meshHash, result.evidence.meshHash);
+assert.equal(replayPackage.genericV2RecoveryAuthorized, false);
+assert.equal(replayPackage.dedicatedReplayRequired, true);
+
+// A fresh workbench with the same source/midsurface/profile must still reject
+// the promoted artifact through generic V2 recovery.
+const genericReplayWorkbench = createReplayWorkbench();
+const genericReplay = genericReplayWorkbench.recoverAnalysisMeshEvidenceV2(
+  replayPackage.retentionAuthority.evidence, stageId,
+);
+assert.equal(genericReplay, null);
+assert.equal(genericReplayWorkbench.getState().diagnostics?.[0]?.code,
+  LAFEA4_SHELL_PRODUCT_REFINEMENT_GENERIC_RECOVERY_FORBIDDEN);
+assert.equal(genericReplayWorkbench.selectRetainedAnalysisMeshEvidenceV2(stageId), null);
+
+// Dedicated replay revalidates the current code-owned promotion root,
+// source/midsurface/profile custody and parent-normal gate before restoration.
+const replayWorkbench = createReplayWorkbench();
+const replayed = replayWorkbench.recoverLafea4ProductRefinementReplayPackage(
+  replayPackage, stageId,
+);
+assert.ok(replayed);
+assert.equal(replayed.productRefinementReplay, true);
+assert.equal(replayed.productRetentionAuthorized, true);
+assert.equal(replayed.uiBindingAuthorized, true);
+assert.equal(replayed.releaseQualified, false);
+assert.equal(replayed.evidence.artifactHash, result.evidence.artifactHash);
+assert.equal(replayed.evidence.meshHash, result.evidence.meshHash);
+assert.equal(replayWorkbench.selectRetainedAnalysisMeshEvidenceV2(stageId)?.artifactHash,
+  result.evidence.artifactHash);
+assert.equal(replayWorkbench.selectRetainedAnalysisMeshEvidenceV2(stageId)?.meshHash,
+  result.evidence.meshHash);
+assert.equal(replayWorkbench.getState().stages[stageId].analysisMeshCustodyProjection.state,
+  'CURRENT_PASS');
+const replayExport = replayWorkbench.exportLafea4ProductRefinementReplayPackage(stageId);
+assert.ok(replayExport);
+assert.equal(replayExport.semanticHash, replayPackage.semanticHash);
+assert.equal(replayExport.retentionAuthority.evidence.artifactHash, result.evidence.artifactHash);
 
 // Force only the final retained-product child recovery to reject. The action
 // must restore the exact original parent before surfacing the failure.
@@ -134,11 +179,28 @@ console.log(JSON.stringify({
   retainedQualificationHash: result.evidence.authority.qualificationHash,
   retainedPlanHash: result.evidence.authority.planHash,
   custodyStateAfterSuccess: workbench.getState().stages[stageId].analysisMeshCustodyProjection.state,
+  genericReplayBlocked: true,
+  dedicatedRoundTripRestoredExactArtifact: true,
+  roundTripPackageSemanticHash: replayPackage.semanticHash,
   rollbackRestoredParent: true,
   releaseQualified: false,
 }, null, 2));
 
+genericReplayWorkbench.destroy();
+replayWorkbench.destroy();
 workbench.destroy();
+
+function createReplayWorkbench() {
+  const replay = createLafeaWorkbenchOrchestratorStore({
+    initialStage: stageId,
+    initialDocument: document,
+    initialSourceHash: sourceAuthority.sourceHash,
+  });
+  assert.equal(replay.registerShellMidsurfaceEvidence(midsurface, stageId)?.changed, true);
+  assert.equal(replay.bindAnalysisMeshProfile(profile, stageId)?.changed, true);
+  assert.equal(replay.selectRetainedAnalysisMeshEvidenceV2(stageId), null);
+  return replay;
+}
 
 function createRollbackHarness({ stage: sourceStage, parent: sourceParent }) {
   const meshGeneration = createLafeaWorkbenchMeshGenerationState([stageId]);

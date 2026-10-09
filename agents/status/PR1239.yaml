@@ -1,0 +1,68 @@
+schema: engineering-pr-status/v1
+pr: 1239
+repository: reallaksh19/Advanced_Analysis
+source_task: LAFEA.4 TECH-13I promoted refinement round-trip custody
+branch: agent/lafea4-tech13i-promoted-refinement-roundtrip-20260817
+base_branch: main
+base_head_last_checked: 29c688db4a021db900d1f8c67f56f777f73f4ddc
+legacy_base_branch: agent/lafea4-tech13h-retained-refinement-authority-20260817
+legacy_head_before_recovery_records: a666b743656be842f2aad860c5a7c17e345b3217
+reconciled_engineering_head: c19a807436ded7b309a1029e2384d2af05faa9b9
+criticality: ENGINEERING_CRITICAL
+recovery_state: SALVAGE_PARTIAL_IN_PLACE_CURRENT_MAIN
+handover_readiness: READY_FOR_VALIDATION
+takeover_authority: WRITE_ALLOWED
+merge_authority: OWNER_ONLY
+appendix_a:
+  status: PASS
+  total: 99
+  minimum_question: 19
+current_stage: VALIDATION_BLOCKED_BY_HOSTED_RUNNER_ALLOCATION
+current_blocker: GITHUB_HOSTED_RUNNER_ALLOCATION_PRE_STEP
+engineering_failure_proven: false
+legacy_base_drift:
+  ahead_by: 22
+  behind_by: 769
+scope:
+  changed_files: 13
+  engineering_and_qualification_files: 10
+  recovery_files: 3
+validation:
+  live_grounding: PASS
+  exact_pr_ledger: PASS_13_FILES
+  reviews: PASS_NONE
+  review_threads: PASS_NONE
+  mergeability: PASS_TRUE
+  final_blob_identity_to_recovered_i_checkpoint: PASS
+  shared_parent_blob_currentness: PASS_6_OF_7_EXACT
+  orchestrator_api_drift: PASS_RECONCILED_ADDITIVELY_ON_CURRENT_MAIN
+  authority_trace: PASS_SOURCE_INSPECTION
+  null_trust_root_negative_control: PASS_SOURCE_INSPECTION
+  generic_v2_recovery_remains_blocked: PASS_SOURCE_INSPECTION
+  tech13i_node: NOT_RUN
+  active_roundtrip: NOT_RUN
+  exact_head_bundle: NOT_RUN
+  browser_build: NOT_RUN
+runner_evidence:
+  lafea_run: 32919506290
+  lafea_job: 98030083217
+  tested_head: c19a807436ded7b309a1029e2384d2af05faa9b9
+  runner_id: 0
+  steps: 0
+  classification: PRE_STEP_HOSTED_RUNNER_ALLOCATION
+protected:
+  production_trust_root_null: true
+  release_authority_changed: false
+  generic_v2_recovery_enabled_for_tech13: false
+  solver_or_formulation_changed: false
+  parent_normal_math_changed: false
+  mesh_threshold_changed: false
+  benchmark_or_tolerance_changed: false
+  tech13j_included: false
+  workflow_changed: false
+coordination:
+  prerequisite_h_pr: 1435
+  h_state: MERGED_AT_29c688db4a021db900d1f8c67f56f777f73f4ddc
+  combined_pr_1246_i_disposition: SUPERSEDED_BY_CURRENT_MAIN_PR1239
+  stacked_pr_1249_i_disposition: SUPERSEDED_BY_CURRENT_MAIN_PR1239
+exact_next_action: Keep PR1239 draft and Owner-only. Do not rerun the zero-step current-head workflow. Record I supersession on stale PR1246/PR1249, then proceed to TECH-13J read-only salvage/currentness assessment. Revisit PR1239 only on runtime recovery, main drift, review input, or explicit owner merge authorization.

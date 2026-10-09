@@ -24,7 +24,7 @@
     {
       "id": "TECH13B_PRODUCT_REFINEMENT_ADAPTER",
       "status": "IMPLEMENTED_PENDING_EXECUTION",
-      "purpose": "REUSE_TECH7_NUMERICAL_KERNEL_WITH_SEPARATE PRODUCT_CANDIDATE_PRODUCER_CAPABILITY_QUALIFICATION_AND_PLAN_IDENTITY"
+      "purpose": "REUSE_TECH7_NUMERICAL_KERNEL_WITH_SEPARATE_PRODUCT_CANDIDATE_PRODUCER_CAPABILITY_QUALIFICATION_AND_PLAN_IDENTITY"
     },
     {
       "id": "TECH13C_ATOMIC_PRODUCT_ACCEPTANCE_GATE",
@@ -55,6 +55,11 @@
       "id": "TECH13H_RETAINED_REFINEMENT_AUTHORITY",
       "status": "IMPLEMENTED_PENDING_EXACT_HEAD_EXECUTION",
       "purpose": "BLOCK_GENERIC_RECOVERY_LAUNDERING_AND_REWRAP_ACCEPTED_CHILD_WITH_DISTINCT_PROMOTION_BOUND_RETAINED_CAPABILITY_QUALIFICATION_PLAN_AND_ARTIFACT"
+    },
+    {
+      "id": "TECH13I_PROMOTED_REFINEMENT_ROUNDTRIP",
+      "status": "IMPLEMENTED_PENDING_EXACT_HEAD_EXECUTION",
+      "purpose": "QUALIFY_DEDICATED_EXPORT_RECOVERY_OF_PROMOTED_REFINED_MESH_WITH_CURRENT_PROMOTION_SOURCE_MIDSURFACE_PROFILE_PARENT_NORMAL_AND_EXACT_ARTIFACT_CUSTODY"
     }
   ],
   "fixedEngineeringPolicies": {
@@ -83,7 +88,10 @@
     "promotedRetainedQualificationMustDifferFromCandidateQualification": true,
     "promotedRetentionPlanMustDifferFromCandidatePlan": true,
     "promotedArtifactMustPreserveCandidateMeshHash": true,
-    "promotedArtifactMustHaveDistinctArtifactHash": true
+    "promotedArtifactMustHaveDistinctArtifactHash": true,
+    "promotedArtifactDedicatedReplayRequiresCurrentCodeOwnedPromotion": true,
+    "promotedArtifactDedicatedReplayRestoresExactArtifactHash": true,
+    "promotedArtifactDedicatedReplayRestoresExactMeshHash": true
   },
   "acceptanceGate": {
     "requiredQualityMetrics": [
@@ -133,10 +141,23 @@
     "VERIFY_PARENT_AND_PROFILE_CUSTODY",
     "REQUIRE_VERIFIED_PROMOTION_RECORD",
     "REWRAP_AS_PROMOTION_BOUND_RETAINED_CAPABILITY_QUALIFICATION_PLAN_AND_ARTIFACT",
+    "PREPARE_VALIDATED_DEDICATED_REPLAY_PACKAGE",
     "PREVALIDATE_FINAL_RETAINED_CHILD_PARENT_NORMAL_AND_PRODUCTION_GATE",
     "REPLACE_CHILD_WITHOUT_INTERMEDIATE_PUBLISH",
+    "RETAIN_PREPARED_REPLAY_PACKAGE",
     "ROLL_BACK_EXACT_PARENT_ON_ANY_RETENTION_ERROR",
     "PUBLISH_CHILD_ATOMICALLY"
+  ],
+  "replaySequence": [
+    "VALIDATE_REPLAY_PACKAGE_AND_SEMANTIC_HASH",
+    "REQUIRE_CURRENT_CODE_OWNED_PROMOTION_RECORD_MATCH",
+    "REQUIRE_CURRENT_SOURCE_MIDSURFACE_AND_PROFILE",
+    "PREVALIDATE_REPLAY_CHILD_PARENT_NORMAL_AND_PRODUCTION_GATE",
+    "RESTORE_EXACT_RETAINED_ARTIFACT_WITHOUT_GENERIC_V2_ROUTE",
+    "REVALIDATE_PARENT_NORMAL_AND_PRODUCTION_GATE",
+    "REQUIRE_EXACT_ARTIFACT_HASH_AND_MESH_HASH",
+    "PUBLISH_REPLAYED_CHILD",
+    "REEXPORT_IDENTICAL_REPLAY_PACKAGE_SEMANTIC_HASH"
   ],
   "tech13eAcceptance": {
     "smoothCylinderAnalyticalHoopStressMPa": 219.78021978021977,
@@ -158,6 +179,7 @@
     "dormantTrustRootRegression": "scripts/lafea-tech13f-dormant-promotion-gate-check.mjs",
     "actualActivePathRegression": "scripts/lafea-tech13g-active-promotion-path-check.mjs",
     "retainedAuthorityRegression": "scripts/lafea-tech13h-retained-refinement-authority-check.mjs",
+    "promotedRoundTripRegression": "scripts/lafea-tech13i-promoted-refinement-roundtrip-check.mjs",
     "productionTrustRoot": "NULL",
     "requiresCanonicalBundleVerifierPass": true,
     "requiresQualifiedHeadMatch": true,
@@ -177,8 +199,10 @@
     "tech13fFutureActiveBranchMustPassExactHeadQualification": true,
     "tech13gCallerAuthorityIgnored": true,
     "tech13hGenericCandidateRecoveryForbidden": true,
-    "tech13hGenericPromotedReplayForbiddenUntilSeparatelyQualified": true,
+    "tech13hGenericPromotedReplayForbidden": true,
     "tech13hPromotedRetainedArtifactSelfDescribing": true,
+    "tech13iDedicatedPromotedReplayQualifiedByPlan": true,
+    "tech13iDedicatedReplayStillRequiresCurrentPromotion": true,
     "productRetentionAuthorizedNow": false,
     "uiBindingAuthorizedNow": false,
     "releaseQualifiedNow": false,

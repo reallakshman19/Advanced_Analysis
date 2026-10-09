@@ -1,0 +1,45 @@
+schema: engineering-pr-claim/v1
+pr: 1239
+repository: reallaksh19/Advanced_Analysis
+owner: reallaksh19
+branch: agent/lafea4-tech13i-promoted-refinement-roundtrip-20260817
+source_task: LAFEA.4 TECH-13I promoted refinement round-trip custody
+state: ACTIVE_BOUNDED_CURRENT_MAIN
+criticality: ENGINEERING_CRITICAL
+authority_domain:
+  - LAFEA.4 TECH-13I promoted retained refinement replay package
+  - dedicated replay/export/recovery custody
+  - current promotion/source/midsurface/profile/parent-normal replay validation
+  - exact-head I qualification/program policy
+exact_paths:
+  - scripts/lafea-tech13-product-refinement-bundle-verifier.mjs
+  - scripts/lafea-tech13g-active-promotion-path-check.mjs
+  - scripts/lafea-tech13i-promoted-refinement-roundtrip-check.mjs
+  - src/workspace/lafea-workbench-mesh-generation-actions.js
+  - src/workspace/lafea-workbench-orchestrator-api.js
+  - src/workspace/lafea4-shell-product-refinement-replay-actions.js
+  - src/workspace/lafea4-shell-product-refinement-replay.js
+  - validation/lafea4-refinement/product-refinement-exact-head-plan-v1.json
+  - validation/lafea4-refinement/product-refinement-promotion-v1.json
+  - validation/lafea4-refinement/tech13-product-local-refinement-program-v1.json
+excluded_authority:
+  - TECH-13J implementation currentness or source fingerprint
+  - production promotion trust-root activation
+  - release authority
+  - generic V2 recovery authorization for TECH-13 product evidence
+  - CST/DKT formulation and solver mechanics
+  - parent-normal mathematics
+  - mesh-quality thresholds or TECH-13E benchmark tolerances
+  - workflow or Vite bundle policy
+  - LAFEA.3 authority
+coordination:
+  prerequisite_h_pr: 1435
+  prerequisite_h_state: MERGED_AT_29c688db4a021db900d1f8c67f56f777f73f4ddc
+  overlaps:
+    - pr: 1246
+      classification: I_SUPERSEDED_BY_CURRENT_MAIN_PR1239_J_PROVENANCE_REMAINS
+    - pr: 1249
+      classification: I_SUPERSEDED_BY_CURRENT_MAIN_PR1239_J_BUILD_PROVENANCE_REMAINS
+    - pr: 1432
+      classification: SAFE_LAFEA3_DIFFERENT_AUTHORITY
+merge_authority: OWNER_ONLY

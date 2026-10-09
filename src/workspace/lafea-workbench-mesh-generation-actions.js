@@ -35,6 +35,7 @@ import {
   finalizeLafea4ShellProductRefinementRetention,
   requireLafea4ShellProductRefinementGenericRecoveryAllowed,
 } from './lafea4-shell-product-refinement-retention-authority.js';
+import { createLafea4ShellProductRefinementReplayActions } from './lafea4-shell-product-refinement-replay-actions.js';
 
 export function createLafeaMeshGenerationActions(context) {
   const {
@@ -42,6 +43,7 @@ export function createLafeaMeshGenerationActions(context) {
     invokeRetained, getRetainedState, clearOrchestratorDiagnostic, failOrchestrator,
     clearDomainFirstExecution, storeError,
   } = context;
+  const productRefinementReplay = createLafea4ShellProductRefinementReplayActions(context);
 
   function bindAnalysisMeshProfile(value, stageId = getRetainedState().activeStageId) {
     const result = meshGeneration.bindMeshProfile(value, stageId);
@@ -162,6 +164,11 @@ export function createLafeaMeshGenerationActions(context) {
         acceptance,
         promotion,
       });
+      const replayPackage = productRefinementReplay.prepareProductRefinementReplayPackage({
+        retentionAuthority,
+        acceptance,
+        promotion,
+      });
       const childEvidence = retentionAuthority.evidence;
       const parentNormalCompanion = parentNormalCompanionForEvidence(stageId, childEvidence);
       const parentNormalProductionGate = parentNormalProductionGateForCompanion(parentNormalCompanion);
@@ -173,12 +180,14 @@ export function createLafeaMeshGenerationActions(context) {
         midsurface,
         childEvidence,
       });
+      productRefinementReplay.retainPreparedProductRefinementReplayPackage(replayPackage);
       return freeze({
         ...retained,
         scope,
         acceptance,
         promotion,
         retentionAuthority,
+        replayPackage,
         candidateEvidenceArtifactHash: adapterResult.productEvidence.artifactHash,
         parentNormalCompanion,
         parentNormalProductionGate,
@@ -421,6 +430,7 @@ export function createLafeaMeshGenerationActions(context) {
     validateRetainedAnalysisMeshParentNormalCompanion,
     selectRetainedAnalysisMeshParentNormalProductionGate,
     exportRetainedAnalysisMeshParentNormalProductionGate,
+    ...productRefinementReplay,
   });
 }
 

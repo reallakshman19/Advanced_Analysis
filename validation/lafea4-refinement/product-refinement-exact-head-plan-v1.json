@@ -28,6 +28,7 @@
     { "id": "TECH13F_DORMANT_ACTIVATION_PATH", "executable": "node", "args": ["scripts/lafea-tech13f-dormant-product-refinement-activation-check.mjs"] },
     { "id": "TECH13G_NONSPOOFABLE_PROMOTION_AUTHORITY", "executable": "node", "args": ["scripts/lafea-tech13g-nonspoofable-promotion-authority-check.mjs"] },
     { "id": "TECH13H_RETAINED_REFINEMENT_AUTHORITY", "executable": "node", "args": ["scripts/lafea-tech13h-retained-refinement-authority-check.mjs"] },
+    { "id": "TECH13I_PROMOTED_REFINEMENT_ROUNDTRIP", "executable": "node", "args": ["scripts/lafea-tech13i-promoted-refinement-roundtrip-check.mjs"] },
     { "id": "SHELL_WORKBENCH_ROUTE", "executable": "node", "args": ["scripts/lafea-shell-workbench-route-check.mjs"] },
     { "id": "SHELL_COMPILED_EXECUTION", "executable": "node", "args": ["scripts/lafea-shell-compiled-execution-check.mjs"] },
     { "id": "MESHING_SUITE", "executable": "npm", "args": ["run", "check:lafea-meshing"] },
