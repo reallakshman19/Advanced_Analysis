@@ -9,6 +9,7 @@ import {
   createEngineeringCorrelationRegistry,
   engineeringCorrelationMethods,
   executeCorrelationQualificationSuite,
+  syntheticCorrelationApplicabilityDefinition,
   syntheticCorrelationProfile,
   syntheticCorrelationRequest,
   validateEngineeringCorrelationRegistry,
@@ -23,6 +24,7 @@ candidateProfile.provenance.dataExtraction = 'DIRECT_NUMERIC_FIXTURE';
 candidateProfile.provenance.licenseAuthority = 'QUALIFICATION_FIXTURE_LICENSE';
 candidateProfile.authority.engineeringUseAuthorized = true;
 candidateProfile.authority.authorizationBasis = 'QUALIFICATION_FIXTURE_ONLY';
+const applicabilityDefinition = syntheticCorrelationApplicabilityDefinition(candidateProfile);
 
 const passingSuite = createCorrelationQualificationSuite({
   suiteIdentity: 'REGISTRY-EVIDENCE-GATE-PASS',
@@ -43,6 +45,7 @@ assert.equal(passingEvidence.status, 'PASS');
 
 const passingRecord = createCorrelationQualificationRecordFromEvidence({
   profile: candidateProfile,
+  applicabilityDefinition,
   qualificationEvidence: passingEvidence,
   recordIdentity: 'REGISTRY-EVIDENCE-GATE-APPROVAL',
   approvalAuthorityId: 'UNTRUSTED:REGISTRY-EVIDENCE-GATE',
@@ -50,10 +53,11 @@ const passingRecord = createCorrelationQualificationRecordFromEvidence({
   engineeringUseApproved: true,
 });
 assert.equal(passingRecord.qualificationEvidenceHash, passingEvidence.semanticHash);
+assert.equal(passingRecord.applicabilityDefinitionHash, applicabilityDefinition.semanticHash);
 
-// A record that merely claims an evidence hash cannot reach the trust gate.
 const arbitraryRecord = createCorrelationQualificationRecord({
   profile: candidateProfile,
+  applicabilityDefinition,
   recordIdentity: 'REGISTRY-ARBITRARY-EVIDENCE-HASH',
   qualificationEvidenceHash: 'fnv1a64:0000000000000000',
   approvalAuthorityId: 'UNTRUSTED:REGISTRY-EVIDENCE-GATE',
@@ -62,16 +66,23 @@ const arbitraryRecord = createCorrelationQualificationRecord({
 });
 assert.throws(
   () => createEngineeringCorrelationRegistry(
-    [candidateProfile], [arbitraryRecord], [passingEvidence],
+    [candidateProfile], [arbitraryRecord], [passingEvidence], [applicabilityDefinition],
   ),
   (error) => error?.code === 'CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_MISSING',
 );
 
 assert.throws(
   () => createEngineeringCorrelationRegistry(
-    [candidateProfile], [passingRecord], [],
+    [candidateProfile], [passingRecord], [], [applicabilityDefinition],
   ),
   (error) => error?.code === 'CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_MISSING',
+);
+
+assert.throws(
+  () => createEngineeringCorrelationRegistry(
+    [candidateProfile], [passingRecord], [passingEvidence], [],
+  ),
+  (error) => error?.code === 'CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_MISSING',
 );
 
 const failingSuite = createCorrelationQualificationSuite({
@@ -89,6 +100,7 @@ const failingEvidence = executeCorrelationQualificationSuite(failingSuite, candi
 assert.equal(failingEvidence.status, 'FAIL');
 const failingRecord = createCorrelationQualificationRecord({
   profile: candidateProfile,
+  applicabilityDefinition,
   recordIdentity: 'REGISTRY-FAIL-EVIDENCE-APPROVAL',
   qualificationEvidenceHash: failingEvidence.semanticHash,
   approvalAuthorityId: 'UNTRUSTED:REGISTRY-EVIDENCE-GATE',
@@ -97,7 +109,7 @@ const failingRecord = createCorrelationQualificationRecord({
 });
 assert.throws(
   () => createEngineeringCorrelationRegistry(
-    [candidateProfile], [failingRecord], [failingEvidence],
+    [candidateProfile], [failingRecord], [failingEvidence], [applicabilityDefinition],
   ),
   (error) => error?.code === 'CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_NOT_PASS',
 );
@@ -105,22 +117,22 @@ assert.throws(
 assert.throws(
   () => createEngineeringCorrelationRegistry(
     [candidateProfile], [passingRecord], [passingEvidence, passingEvidence],
+    [applicabilityDefinition],
   ),
   (error) => error?.code === 'CORRELATION_QUALIFICATION_EVIDENCE_DUPLICATE',
 );
 
-// Complete reproducible evidence is necessary but still not sufficient: trust is last.
 assert.throws(
   () => createEngineeringCorrelationRegistry(
-    [candidateProfile], [passingRecord], [passingEvidence],
+    [candidateProfile], [passingRecord], [passingEvidence], [applicabilityDefinition],
   ),
   (error) => error?.code === 'CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED',
 );
 
-// A caller cannot bypass construction by hand-building a hash-valid registry object.
 const forgedBase = {
   schema: CORRELATION_METHOD_REGISTRY_SCHEMA,
   profiles: [candidateProfile],
+  applicabilityDefinitions: [applicabilityDefinition],
   qualificationRecords: [passingRecord],
   qualificationEvidence: [passingEvidence],
 };
@@ -155,6 +167,7 @@ console.log(JSON.stringify({
   emptyRegistryHash: EMPTY_ENGINEERING_CORRELATION_REGISTRY.semanticHash,
   arbitraryRecordHashRejected: true,
   missingEvidenceRejected: true,
+  missingApplicabilityDefinitionRejected: true,
   failingEvidenceRejected: true,
   duplicateEvidenceRejected: true,
   forgedRegistryRejectedOnRead: true,

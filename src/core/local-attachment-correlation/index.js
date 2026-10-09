@@ -36,11 +36,21 @@ export {
 } from './geometry-evidence.js';
 export { bilinearNoExtrapolation, bracket } from './interpolation.js';
 export { createCorrelationRequestFromLafea2 } from './lafea2-bridge.js';
+export {
+  CORRELATION_APPLICABILITY_DEFINITION_SCHEMA,
+  CORRELATION_PHYSICAL_APPLICABILITY_SCHEMA,
+  CORRELATION_PHYSICAL_APPLICABILITY_STATES,
+  correlationApplicabilityDefinitionMatchesProfile,
+  createCorrelationApplicabilityDefinition,
+  evaluateCorrelationPhysicalApplicability,
+  validateCorrelationApplicabilityDefinition,
+} from './physical-applicability.js';
 export { correlationDatasetHash, createCorrelationProfile } from './profile.js';
 export {
   CORRELATION_QUALIFICATION_RECORD_SCHEMA,
   createCorrelationQualificationRecord,
   createCorrelationQualificationRecordFromEvidence,
+  qualificationRecordMatchesApplicabilityDefinition,
   qualificationRecordMatchesProfile,
   validateCorrelationQualificationRecord,
 } from './qualification-record.js';
@@ -67,10 +77,15 @@ export {
   EMPTY_ENGINEERING_CORRELATION_REGISTRY,
   createEngineeringCorrelationRegistry,
   engineeringCorrelationMethods,
+  requireEngineeringCorrelationApplicabilityDefinition,
   requireEngineeringCorrelationProfile,
   validateEngineeringCorrelationRegistry,
 } from './registry.js';
-export { syntheticCorrelationProfile, syntheticCorrelationRequest } from './synthetic-profile.js';
+export {
+  syntheticCorrelationApplicabilityDefinition,
+  syntheticCorrelationProfile,
+  syntheticCorrelationRequest,
+} from './synthetic-profile.js';
 export {
   TRUSTED_CORRELATION_APPROVAL_AUTHORITIES,
   correlationApprovalAuthorityTrusted,

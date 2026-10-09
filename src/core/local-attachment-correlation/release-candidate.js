@@ -3,8 +3,13 @@ import {
   unqualifiedCorrelationProfileFromDatasetPackage,
   validateCorrelationDatasetPackage,
 } from './dataset-package.js';
+import {
+  correlationApplicabilityDefinitionMatchesProfile,
+  validateCorrelationApplicabilityDefinition,
+} from './physical-applicability.js';
 import { createCorrelationProfile } from './profile.js';
 import {
+  qualificationRecordMatchesApplicabilityDefinition,
   qualificationRecordMatchesProfile,
   validateCorrelationQualificationRecord,
 } from './qualification-record.js';
@@ -15,7 +20,7 @@ import {
 import { correlationApprovalAuthorityTrusted } from './trusted-authorities.js';
 
 export const CORRELATION_RELEASE_CANDIDATE_SCHEMA =
-  'local-attachment-correlation-release-candidate/v1';
+  'local-attachment-correlation-release-candidate/v2';
 export const CORRELATION_RELEASE_TRUST_PROJECTION_SCHEMA =
   'local-attachment-correlation-release-trust-projection/v1';
 export const CORRELATION_RELEASE_TRUST_STATES = Object.freeze([
@@ -26,14 +31,25 @@ export const CORRELATION_RELEASE_TRUST_STATES = Object.freeze([
 export function createCorrelationReleaseCandidate(options) {
   const datasetPackage = validateCorrelationDatasetPackage(options?.datasetPackage);
   const profile = createCorrelationProfile(options?.profile);
+  const applicabilityDefinition = validateCorrelationApplicabilityDefinition(
+    options?.applicabilityDefinition,
+  );
   const evidence = validateCorrelationQualificationEvidence(options?.qualificationEvidence);
   const record = validateCorrelationQualificationRecord(options?.qualificationRecord);
   assertDatasetProfileBinding(datasetPackage, profile);
+  if (!correlationApplicabilityDefinitionMatchesProfile(applicabilityDefinition, profile)) {
+    fail('CORRELATION_RELEASE_APPLICABILITY_DEFINITION_PROFILE_MISMATCH',
+      'applicabilityDefinition');
+  }
   assertEvidenceProfileBinding(evidence, profile);
   assertEvidenceReproducible(evidence, profile);
   if (!qualificationRecordMatchesProfile(record, profile)) {
     fail('CORRELATION_RELEASE_QUALIFICATION_RECORD_PROFILE_MISMATCH',
       'qualificationRecord.profileSemanticHash');
+  }
+  if (!qualificationRecordMatchesApplicabilityDefinition(record, applicabilityDefinition)) {
+    fail('CORRELATION_RELEASE_QUALIFICATION_RECORD_APPLICABILITY_MISMATCH',
+      'qualificationRecord.applicabilityDefinitionHash');
   }
   if (record.qualificationEvidenceHash !== evidence.semanticHash) {
     fail('CORRELATION_RELEASE_QUALIFICATION_RECORD_EVIDENCE_MISMATCH',
@@ -52,12 +68,14 @@ export function createCorrelationReleaseCandidate(options) {
     candidateIdentity: requiredString(options?.candidateIdentity, 'candidateIdentity'),
     datasetPackage,
     profile,
+    applicabilityDefinition,
     qualificationEvidence: evidence,
     qualificationRecord: record,
     binding: {
       datasetPackageHash: datasetPackage.packageSemanticHash,
       coefficientDatasetHash: profile.coefficientDatasetHash,
       profileSemanticHash: semanticHash(profile),
+      applicabilityDefinitionHash: applicabilityDefinition.semanticHash,
       qualificationSuiteHash: evidence.suiteSemanticHash,
       qualificationEvidenceHash: evidence.semanticHash,
       qualificationRecordHash: record.semanticHash,
@@ -69,7 +87,7 @@ export function createCorrelationReleaseCandidate(options) {
 
 export function validateCorrelationReleaseCandidate(value) {
   exactKeys(value, [
-    'schema', 'candidateIdentity', 'datasetPackage', 'profile',
+    'schema', 'candidateIdentity', 'datasetPackage', 'profile', 'applicabilityDefinition',
     'qualificationEvidence', 'qualificationRecord', 'binding', 'semanticHash',
   ], 'releaseCandidate');
   if (value.schema !== CORRELATION_RELEASE_CANDIDATE_SCHEMA) {
@@ -85,6 +103,7 @@ export function validateCorrelationReleaseCandidate(value) {
     candidateIdentity: value.candidateIdentity,
     datasetPackage: value.datasetPackage,
     profile: value.profile,
+    applicabilityDefinition: value.applicabilityDefinition,
     qualificationEvidence: value.qualificationEvidence,
     qualificationRecord: value.qualificationRecord,
   });
@@ -121,6 +140,7 @@ export function correlationReleaseCandidateRegistryInputs(candidateInput) {
     profiles: [candidate.profile],
     qualificationRecords: [candidate.qualificationRecord],
     qualificationEvidence: [candidate.qualificationEvidence],
+    applicabilityDefinitions: [candidate.applicabilityDefinition],
   });
 }
 

@@ -4,6 +4,7 @@ import {
   createCorrelationQualificationSuite,
   createEngineeringCorrelationRegistry,
   executeCorrelationQualificationSuite,
+  syntheticCorrelationApplicabilityDefinition,
   syntheticCorrelationProfile,
   syntheticCorrelationRequest,
   validateCorrelationQualificationEvidence,
@@ -12,6 +13,7 @@ import {
 
 const TOL = 1e-10;
 const profile = syntheticCorrelationProfile();
+const applicabilityDefinition = syntheticCorrelationApplicabilityDefinition(profile);
 const suite = createCorrelationQualificationSuite({
   suiteIdentity: 'SYNTHETIC-CORRELATION-QUALIFICATION-SUITE-001',
   profile,
@@ -82,6 +84,7 @@ assert.equal(failingEvidence.caseResults[0].status, 'FAIL');
 assert.equal(failingEvidence.caseResults[0].observations[0].pass, false);
 assert.throws(() => createCorrelationQualificationRecordFromEvidence({
   profile,
+  applicabilityDefinition,
   qualificationEvidence: failingEvidence,
   recordIdentity: 'FAIL-RECORD',
   approvalAuthorityId: 'UNTRUSTED:FIXTURE',
@@ -98,6 +101,7 @@ const candidateProfile = structuredClone(profile);
 candidateProfile.provenance.licenseAuthority = 'QUALIFICATION_FIXTURE_LICENSE';
 candidateProfile.authority.engineeringUseAuthorized = true;
 candidateProfile.authority.authorizationBasis = 'QUALIFICATION_FIXTURE_ONLY';
+const candidateApplicabilityDefinition = syntheticCorrelationApplicabilityDefinition(candidateProfile);
 const candidateSuite = createCorrelationQualificationSuite({
   suiteIdentity: 'CANDIDATE-TRUST-GATE-SUITE',
   profile: candidateProfile,
@@ -107,6 +111,7 @@ const candidateEvidence = executeCorrelationQualificationSuite(candidateSuite, c
 assert.equal(candidateEvidence.status, 'PASS');
 const candidateRecord = createCorrelationQualificationRecordFromEvidence({
   profile: candidateProfile,
+  applicabilityDefinition: candidateApplicabilityDefinition,
   qualificationEvidence: candidateEvidence,
   recordIdentity: 'CANDIDATE-UNTRUSTED-APPROVAL',
   approvalAuthorityId: 'UNTRUSTED:QUALIFICATION_FIXTURE',
@@ -114,8 +119,11 @@ const candidateRecord = createCorrelationQualificationRecordFromEvidence({
   engineeringUseApproved: true,
 });
 assert.equal(candidateRecord.qualificationEvidenceHash, candidateEvidence.semanticHash);
+assert.equal(candidateRecord.applicabilityDefinitionHash,
+  candidateApplicabilityDefinition.semanticHash);
 assert.throws(() => createEngineeringCorrelationRegistry(
   [candidateProfile], [candidateRecord], [candidateEvidence],
+  [candidateApplicabilityDefinition],
 ), (error) => error?.code === 'CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED');
 
 console.log(JSON.stringify({
@@ -123,6 +131,7 @@ console.log(JSON.stringify({
   status: 'PASS',
   suiteHash: suite.semanticHash,
   qualificationEvidenceHash: evidence.semanticHash,
+  applicabilityDefinitionHash: applicabilityDefinition.semanticHash,
   cases: evidence.caseResults.length,
   observations: evidence.caseResults.reduce((sum, row) => sum + row.observations.length, 0),
   midpointVonMisesMpa: observation(midpoint, 'VM').actual,
@@ -132,6 +141,7 @@ console.log(JSON.stringify({
   sixLoadIsolationQualified: true,
   failingEvidenceCannotCreateRecord: true,
   evidenceTamperRejected: true,
+  approvalBindsPhysicalApplicabilityDefinition: true,
   passEvidenceStillRequiresTrustedApprovalAuthority: true,
 }));
 

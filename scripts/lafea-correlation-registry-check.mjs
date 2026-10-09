@@ -6,6 +6,7 @@ import {
   createEngineeringCorrelationRegistry,
   engineeringCorrelationMethods,
   requireEngineeringCorrelationProfile,
+  syntheticCorrelationApplicabilityDefinition,
   syntheticCorrelationProfile,
   validateEngineeringCorrelationRegistry,
 } from '../src/core/local-attachment-correlation/index.js';
@@ -50,11 +51,15 @@ userClaimedEngineeringProfile.authority.engineeringUseAuthorized = true;
 userClaimedEngineeringProfile.authority.authorizationBasis = 'USER-CLAIMED-AUTHORITY';
 assert.throws(
   () => createEngineeringCorrelationRegistry([userClaimedEngineeringProfile]),
-  (error) => error?.code === 'CORRELATION_ENGINEERING_QUALIFICATION_RECORD_MISSING',
+  (error) => error?.code === 'CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_MISSING',
 );
 
+const userClaimedDefinition = syntheticCorrelationApplicabilityDefinition(
+  userClaimedEngineeringProfile,
+);
 const userClaimedApproval = createCorrelationQualificationRecord({
   profile: userClaimedEngineeringProfile,
+  applicabilityDefinition: userClaimedDefinition,
   recordIdentity: 'USER-CLAIMED-QUALIFICATION-001',
   qualificationEvidenceHash: userClaimedEngineeringProfile.coefficientDatasetHash,
   approvalAuthorityId: 'USER-CLAIMED-APPROVAL-AUTHORITY',
@@ -63,7 +68,7 @@ const userClaimedApproval = createCorrelationQualificationRecord({
 });
 assert.throws(
   () => createEngineeringCorrelationRegistry(
-    [userClaimedEngineeringProfile], [userClaimedApproval], [],
+    [userClaimedEngineeringProfile], [userClaimedApproval], [], [userClaimedDefinition],
   ),
   (error) => error?.code === 'CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_MISSING',
 );
@@ -84,7 +89,7 @@ console.log(JSON.stringify({
   trustedApprovalAuthorities: TRUSTED_CORRELATION_APPROVAL_AUTHORITIES,
   syntheticProfileRejected: true,
   testDataCannotBePromotedByAuthorityFlag: true,
-  userClaimedProfileWithoutQualificationRejected: true,
+  userClaimedProfileWithoutApplicabilityDefinitionRejected: true,
   userClaimedProfileAndApprovalRecordWithoutEvidenceRejected: true,
   registryHashTamperRejected: true,
   missingMethodFailsClosed: true,

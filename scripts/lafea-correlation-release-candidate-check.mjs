@@ -11,6 +11,7 @@ import {
   correlationReleaseCandidateRegistryInputs,
   correlationReleaseCandidateTrustProjection,
   executeCorrelationQualificationSuite,
+  syntheticCorrelationApplicabilityDefinition,
   syntheticCorrelationProfile,
   syntheticCorrelationRequest,
   unqualifiedCorrelationProfileFromDatasetPackage,
@@ -43,6 +44,7 @@ assert.equal(unqualified.authority.engineeringUseAuthorized, false);
 const candidateProfile = structuredClone(unqualified);
 candidateProfile.authority.engineeringUseAuthorized = true;
 candidateProfile.authority.authorizationBasis = 'QUALIFICATION_EVIDENCE_AND_APPROVAL_CANDIDATE';
+const applicabilityDefinition = syntheticCorrelationApplicabilityDefinition(candidateProfile);
 
 const suite = createCorrelationQualificationSuite({
   suiteIdentity: 'RELEASE-CANDIDATE-SUITE-001',
@@ -69,6 +71,7 @@ assert.equal(evidence.status, 'PASS');
 
 const record = createCorrelationQualificationRecordFromEvidence({
   profile: candidateProfile,
+  applicabilityDefinition,
   qualificationEvidence: evidence,
   recordIdentity: 'RELEASE-CANDIDATE-APPROVAL-001',
   approvalAuthorityId: 'UNTRUSTED:RELEASE-CANDIDATE-FIXTURE',
@@ -80,6 +83,7 @@ const candidate = createCorrelationReleaseCandidate({
   candidateIdentity: 'LOCAL-ATTACHMENT-METHOD-RELEASE-001',
   datasetPackage,
   profile: candidateProfile,
+  applicabilityDefinition,
   qualificationEvidence: evidence,
   qualificationRecord: record,
 });
@@ -88,8 +92,10 @@ assert.equal(Object.hasOwn(candidate, 'state'), false);
 assert.equal(Object.hasOwn(candidate, 'trust'), false);
 assert.equal(candidate.binding.datasetPackageHash, datasetPackage.packageSemanticHash);
 assert.equal(candidate.binding.coefficientDatasetHash, candidateProfile.coefficientDatasetHash);
+assert.equal(candidate.binding.applicabilityDefinitionHash, applicabilityDefinition.semanticHash);
 assert.equal(candidate.binding.qualificationEvidenceHash, evidence.semanticHash);
 assert.equal(candidate.binding.qualificationRecordHash, record.semanticHash);
+assert.equal(record.applicabilityDefinitionHash, applicabilityDefinition.semanticHash);
 assert.match(candidate.binding.methodDefinitionHash, /^fnv1a64:[0-9a-f]{16}$/u);
 assert.match(candidate.semanticHash, /^fnv1a64:[0-9a-f]{16}$/u);
 assert.deepEqual(validateCorrelationReleaseCandidate(candidate), candidate);
@@ -109,6 +115,7 @@ assert.throws(
 assert.throws(
   () => createEngineeringCorrelationRegistry(
     [candidate.profile], [candidate.qualificationRecord], [candidate.qualificationEvidence],
+    [candidate.applicabilityDefinition],
   ),
   (error) => error?.code === 'CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED',
 );
@@ -120,6 +127,7 @@ assert.throws(
     candidateIdentity: 'PROVENANCE-DRIFT',
     datasetPackage,
     profile: provenanceDrift,
+    applicabilityDefinition,
     qualificationEvidence: evidence,
     qualificationRecord: record,
   }),
@@ -133,14 +141,32 @@ assert.throws(
     candidateIdentity: 'AUTHORITY-DRIFT',
     datasetPackage,
     profile: authorityDrift,
+    applicabilityDefinition,
     qualificationEvidence: evidence,
     qualificationRecord: record,
   }),
-  (error) => error?.code === 'CORRELATION_RELEASE_QUALIFICATION_EVIDENCE_PROFILE_MISMATCH',
+  (error) => error?.code === 'CORRELATION_RELEASE_APPLICABILITY_DEFINITION_PROFILE_MISMATCH'
+    || error?.code === 'CORRELATION_RELEASE_QUALIFICATION_EVIDENCE_PROFILE_MISMATCH',
+);
+
+const definitionDrift = structuredClone(applicabilityDefinition);
+definitionDrift.topology.attachmentFamily = 'DIFFERENT_ATTACHMENT_FAMILY';
+definitionDrift.semanticHash = applicabilityDefinition.semanticHash;
+assert.throws(
+  () => createCorrelationReleaseCandidate({
+    candidateIdentity: 'DEFINITION-DRIFT',
+    datasetPackage,
+    profile: candidateProfile,
+    applicabilityDefinition: definitionDrift,
+    qualificationEvidence: evidence,
+    qualificationRecord: record,
+  }),
+  (error) => error?.code === 'CORRELATION_APPLICABILITY_DEFINITION_HASH_MISMATCH',
 );
 
 const wrongEvidenceRecord = createCorrelationQualificationRecord({
   profile: candidateProfile,
+  applicabilityDefinition,
   recordIdentity: 'WRONG-EVIDENCE-HASH-RECORD',
   qualificationEvidenceHash: 'fnv1a64:0000000000000000',
   approvalAuthorityId: 'UNTRUSTED:RELEASE-CANDIDATE-FIXTURE',
@@ -152,6 +178,7 @@ assert.throws(
     candidateIdentity: 'WRONG-EVIDENCE-RECORD',
     datasetPackage,
     profile: candidateProfile,
+    applicabilityDefinition,
     qualificationEvidence: evidence,
     qualificationRecord: wrongEvidenceRecord,
   }),
@@ -160,6 +187,7 @@ assert.throws(
 
 const unapprovedRecord = createCorrelationQualificationRecord({
   profile: candidateProfile,
+  applicabilityDefinition,
   recordIdentity: 'UNAPPROVED-RECORD',
   qualificationEvidenceHash: evidence.semanticHash,
   approvalAuthorityId: 'UNTRUSTED:RELEASE-CANDIDATE-FIXTURE',
@@ -171,6 +199,7 @@ assert.throws(
     candidateIdentity: 'UNAPPROVED-CANDIDATE',
     datasetPackage,
     profile: candidateProfile,
+    applicabilityDefinition,
     qualificationEvidence: evidence,
     qualificationRecord: unapprovedRecord,
   }),
@@ -180,6 +209,7 @@ assert.throws(
 const nonEngineeringProfile = structuredClone(candidateProfile);
 nonEngineeringProfile.authority.engineeringUseAuthorized = false;
 nonEngineeringProfile.authority.authorizationBasis = 'NOT-A-RELEASE-CANDIDATE';
+const nonEngineeringDefinition = syntheticCorrelationApplicabilityDefinition(nonEngineeringProfile);
 const nonEngineeringSuite = createCorrelationQualificationSuite({
   suiteIdentity: 'NON-ENGINEERING-PROFILE-SUITE',
   profile: nonEngineeringProfile,
@@ -194,6 +224,7 @@ const nonEngineeringEvidence = executeCorrelationQualificationSuite(
 );
 const nonEngineeringRecord = createCorrelationQualificationRecordFromEvidence({
   profile: nonEngineeringProfile,
+  applicabilityDefinition: nonEngineeringDefinition,
   qualificationEvidence: nonEngineeringEvidence,
   recordIdentity: 'NON-ENGINEERING-RECORD',
   approvalAuthorityId: 'UNTRUSTED:RELEASE-CANDIDATE-FIXTURE',
@@ -205,6 +236,7 @@ assert.throws(
     candidateIdentity: 'NON-ENGINEERING-CANDIDATE',
     datasetPackage,
     profile: nonEngineeringProfile,
+    applicabilityDefinition: nonEngineeringDefinition,
     qualificationEvidence: nonEngineeringEvidence,
     qualificationRecord: nonEngineeringRecord,
   }),
@@ -225,10 +257,12 @@ console.log(JSON.stringify({
   trustProjectionState: trust.state,
   datasetPackageHash: candidate.binding.datasetPackageHash,
   methodDefinitionHash: candidate.binding.methodDefinitionHash,
+  applicabilityDefinitionHash: candidate.binding.applicabilityDefinitionHash,
   qualificationEvidenceHash: candidate.binding.qualificationEvidenceHash,
   qualificationRecordHash: candidate.binding.qualificationRecordHash,
   immutableCandidateIndependentOfTrustProjection: true,
   datasetProfileDriftRejected: true,
+  applicabilityDefinitionDriftRejected: true,
   authorityEvidenceDriftRejected: true,
   arbitraryRecordEvidenceHashRejected: true,
   unapprovedRecordRejected: true,

@@ -1,4 +1,8 @@
 import { semanticHash } from '../shared-primitives/canonical-json.js';
+import {
+  correlationApplicabilityDefinitionMatchesProfile,
+  validateCorrelationApplicabilityDefinition,
+} from './physical-applicability.js';
 import { createCorrelationProfile } from './profile.js';
 import {
   executeCorrelationQualificationSuite,
@@ -6,10 +10,17 @@ import {
   validateCorrelationQualificationSuite,
 } from './qualification-suite.js';
 
-export const CORRELATION_QUALIFICATION_RECORD_SCHEMA = 'local-attachment-correlation-qualification-record/v1';
+export const CORRELATION_QUALIFICATION_RECORD_SCHEMA = 'local-attachment-correlation-qualification-record/v2';
 
 export function createCorrelationQualificationRecord(options) {
   const profile = createCorrelationProfile(options?.profile);
+  const applicabilityDefinition = validateCorrelationApplicabilityDefinition(
+    options?.applicabilityDefinition,
+  );
+  if (!correlationApplicabilityDefinitionMatchesProfile(applicabilityDefinition, profile)) {
+    fail('CORRELATION_QUALIFICATION_APPLICABILITY_DEFINITION_PROFILE_MISMATCH',
+      'applicabilityDefinition');
+  }
   const base = {
     schema: CORRELATION_QUALIFICATION_RECORD_SCHEMA,
     recordIdentity: requiredString(options?.recordIdentity, 'recordIdentity'),
@@ -18,6 +29,7 @@ export function createCorrelationQualificationRecord(options) {
     coefficientDatasetId: profile.coefficientDatasetId,
     coefficientDatasetHash: profile.coefficientDatasetHash,
     profileSemanticHash: semanticHash(profile),
+    applicabilityDefinitionHash: applicabilityDefinition.semanticHash,
     qualificationEvidenceHash: requiredHash(options?.qualificationEvidenceHash,
       'qualificationEvidenceHash'),
     approvalAuthorityId: requiredString(options?.approvalAuthorityId, 'approvalAuthorityId'),
@@ -29,6 +41,9 @@ export function createCorrelationQualificationRecord(options) {
 
 export function createCorrelationQualificationRecordFromEvidence(options) {
   const profile = createCorrelationProfile(options?.profile);
+  const applicabilityDefinition = validateCorrelationApplicabilityDefinition(
+    options?.applicabilityDefinition,
+  );
   const evidence = validateCorrelationQualificationEvidence(options?.qualificationEvidence);
   const suite = validateCorrelationQualificationSuite(
     options?.qualificationSuite ?? evidence.qualificationSuite,
@@ -49,6 +64,7 @@ export function createCorrelationQualificationRecordFromEvidence(options) {
   }
   return createCorrelationQualificationRecord({
     profile,
+    applicabilityDefinition,
     recordIdentity: options?.recordIdentity,
     qualificationEvidenceHash: evidence.semanticHash,
     approvalAuthorityId: options?.approvalAuthorityId,
@@ -64,8 +80,8 @@ export function validateCorrelationQualificationRecord(value) {
   exactKeys(value, [
     'schema', 'recordIdentity', 'methodIdentity', 'methodEdition',
     'coefficientDatasetId', 'coefficientDatasetHash', 'profileSemanticHash',
-    'qualificationEvidenceHash', 'approvalAuthorityId', 'approvalReference',
-    'engineeringUseApproved', 'semanticHash',
+    'applicabilityDefinitionHash', 'qualificationEvidenceHash',
+    'approvalAuthorityId', 'approvalReference', 'engineeringUseApproved', 'semanticHash',
   ], 'qualificationRecord');
   if (value.schema !== CORRELATION_QUALIFICATION_RECORD_SCHEMA) {
     fail('CORRELATION_QUALIFICATION_RECORD_SCHEMA_MISMATCH', 'qualificationRecord.schema');
@@ -76,6 +92,8 @@ export function validateCorrelationQualificationRecord(value) {
   requiredString(value.coefficientDatasetId, 'qualificationRecord.coefficientDatasetId');
   requiredHash(value.coefficientDatasetHash, 'qualificationRecord.coefficientDatasetHash');
   requiredHash(value.profileSemanticHash, 'qualificationRecord.profileSemanticHash');
+  requiredHash(value.applicabilityDefinitionHash,
+    'qualificationRecord.applicabilityDefinitionHash');
   requiredHash(value.qualificationEvidenceHash, 'qualificationRecord.qualificationEvidenceHash');
   requiredString(value.approvalAuthorityId, 'qualificationRecord.approvalAuthorityId');
   requiredString(value.approvalReference, 'qualificationRecord.approvalReference');
@@ -98,6 +116,17 @@ export function qualificationRecordMatchesProfile(recordInput, profileInput) {
     && record.coefficientDatasetId === profile.coefficientDatasetId
     && record.coefficientDatasetHash === profile.coefficientDatasetHash
     && record.profileSemanticHash === semanticHash(profile);
+}
+
+export function qualificationRecordMatchesApplicabilityDefinition(
+  recordInput, applicabilityDefinitionInput,
+) {
+  const record = validateCorrelationQualificationRecord(recordInput);
+  const definition = validateCorrelationApplicabilityDefinition(applicabilityDefinitionInput);
+  return record.applicabilityDefinitionHash === definition.semanticHash
+    && record.methodIdentity === definition.methodIdentity
+    && record.methodEdition === definition.methodEdition
+    && record.coefficientDatasetHash === definition.coefficientDatasetHash;
 }
 
 function assertEvidenceProfileBinding(evidence, profile) {

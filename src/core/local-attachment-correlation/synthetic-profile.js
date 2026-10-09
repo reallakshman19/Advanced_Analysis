@@ -4,6 +4,10 @@ import {
   INTERPOLATION_POLICIES,
   LOAD_BASES,
 } from './constants.js';
+import {
+  CORRELATION_APPLICABILITY_DEFINITION_SCHEMA,
+  createCorrelationApplicabilityDefinition,
+} from './physical-applicability.js';
 import { createCorrelationProfile } from './profile.js';
 
 export function syntheticCorrelationProfile() {
@@ -54,6 +58,44 @@ export function syntheticCorrelationProfile() {
       interpolationUncertainty: 0,
       methodValidationError: null,
     },
+  });
+}
+
+export function syntheticCorrelationApplicabilityDefinition(profileInput = null) {
+  const profile = profileInput ? createCorrelationProfile(profileInput) : syntheticCorrelationProfile();
+  return createCorrelationApplicabilityDefinition({
+    schema: CORRELATION_APPLICABILITY_DEFINITION_SCHEMA,
+    definitionIdentity: 'SYNTHETIC-PHYSICAL-APPLICABILITY-001',
+    methodIdentity: profile.methodIdentity,
+    methodEdition: profile.methodEdition,
+    coefficientDatasetHash: profile.coefficientDatasetHash,
+    applicabilityProfileId: profile.applicabilityProfileId,
+    sourceReference: 'INTERNAL_SYNTHETIC_QUALIFICATION_DATA/PHYSICAL_APPLICABILITY',
+    sourceEdition: '1',
+    topology: {
+      hostShellFamily: 'CYLINDRICAL_SHELL',
+      attachmentFamily: 'CIRCULAR_ATTACHMENT',
+      intersectionOrientation: 'NORMAL_TO_HOST_MIDSURFACE',
+      loadReferenceConvention: 'ATTACHMENT_SHELL_INTERFACE',
+    },
+    permittedTargetIds: profile.targets.map((row) => row.targetId),
+    parameterLimits: [
+      {
+        parameterId: 'DIAMETER_RATIO',
+        minimum: 0.2,
+        maximum: 0.3,
+        minimumInclusive: true,
+        maximumInclusive: true,
+      },
+      {
+        parameterId: 'DIAMETER_THICKNESS_RATIO',
+        minimum: 20,
+        maximum: 40,
+        minimumInclusive: true,
+        maximumInclusive: true,
+      },
+    ],
+    exclusions: ['SYNTHETIC_FIXTURE_ONLY', 'NO_ENGINEERING_AUTHORITY'],
   });
 }
 

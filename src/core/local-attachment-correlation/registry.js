@@ -1,6 +1,11 @@
 import { semanticHash } from '../shared-primitives/canonical-json.js';
+import {
+  correlationApplicabilityDefinitionMatchesProfile,
+  validateCorrelationApplicabilityDefinition,
+} from './physical-applicability.js';
 import { createCorrelationProfile } from './profile.js';
 import {
+  qualificationRecordMatchesApplicabilityDefinition,
   qualificationRecordMatchesProfile,
   validateCorrelationQualificationRecord,
 } from './qualification-record.js';
@@ -11,27 +16,37 @@ import {
 import { correlationApprovalAuthorityTrusted } from './trusted-authorities.js';
 
 export const CORRELATION_METHOD_REGISTRY_SCHEMA =
-  'local-attachment-correlation-method-registry/v2';
+  'local-attachment-correlation-method-registry/v3';
 
 export function createEngineeringCorrelationRegistry(
   profileInputs = [], qualificationRecordInputs = [], qualificationEvidenceInputs = [],
+  applicabilityDefinitionInputs = [],
 ) {
-  return buildRegistry(profileInputs, qualificationRecordInputs, qualificationEvidenceInputs);
+  return buildRegistry(
+    profileInputs, qualificationRecordInputs, qualificationEvidenceInputs,
+    applicabilityDefinitionInputs,
+  );
 }
 
 export function validateEngineeringCorrelationRegistry(value) {
   exactKeys(value, [
-    'schema', 'profiles', 'qualificationRecords', 'qualificationEvidence', 'semanticHash',
+    'schema', 'profiles', 'applicabilityDefinitions', 'qualificationRecords',
+    'qualificationEvidence', 'semanticHash',
   ], 'registry');
   if (value.schema !== CORRELATION_METHOD_REGISTRY_SCHEMA) {
     fail('CORRELATION_ENGINEERING_REGISTRY_SCHEMA_MISMATCH', 'registry.schema');
   }
   requiredHash(value.semanticHash, 'registry.semanticHash');
+  const { semanticHash: retainedHash, ...suppliedBase } = value;
+  if (retainedHash !== semanticHash(suppliedBase)) {
+    fail('CORRELATION_ENGINEERING_REGISTRY_HASH_MISMATCH', 'registry.semanticHash');
+  }
   const canonical = buildRegistry(
     value.profiles, value.qualificationRecords, value.qualificationEvidence,
+    value.applicabilityDefinitions,
   );
-  if (canonical.semanticHash !== value.semanticHash) {
-    fail('CORRELATION_ENGINEERING_REGISTRY_HASH_MISMATCH', 'registry.semanticHash');
+  if (canonical.semanticHash !== retainedHash) {
+    fail('CORRELATION_ENGINEERING_REGISTRY_BINDING_MISMATCH', 'registry');
   }
   return canonical;
 }
@@ -49,9 +64,25 @@ export function requireEngineeringCorrelationProfile(registryInput, methodIdenti
   return matches[0];
 }
 
+export function requireEngineeringCorrelationApplicabilityDefinition(
+  registryInput, methodIdentity, methodEdition,
+) {
+  const registry = validateEngineeringCorrelationRegistry(registryInput);
+  const key = methodKey(requiredString(methodIdentity, 'methodIdentity'),
+    requiredString(methodEdition, 'methodEdition'));
+  const matches = registry.applicabilityDefinitions.filter((definition) =>
+    methodKey(definition.methodIdentity, definition.methodEdition) === key);
+  if (matches.length !== 1) {
+    fail(matches.length ? 'CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_DUPLICATE'
+      : 'CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_NOT_REGISTERED', key);
+  }
+  return matches[0];
+}
+
 export function engineeringCorrelationMethods(registryInput) {
   const registry = validateEngineeringCorrelationRegistry(registryInput);
   return registry.profiles.map((profile, index) => {
+    const definition = registry.applicabilityDefinitions[index];
     const record = registry.qualificationRecords[index];
     const evidence = registry.qualificationEvidence[index];
     return freeze({
@@ -60,6 +91,10 @@ export function engineeringCorrelationMethods(registryInput) {
       coefficientDatasetId: profile.coefficientDatasetId,
       coefficientDatasetHash: profile.coefficientDatasetHash,
       applicabilityProfileId: profile.applicabilityProfileId,
+      applicabilityDefinitionIdentity: definition.definitionIdentity,
+      applicabilityDefinitionHash: definition.semanticHash,
+      applicabilitySourceReference: definition.sourceReference,
+      applicabilitySourceEdition: definition.sourceEdition,
       sourceReference: profile.provenance.sourceReference,
       sourceEdition: profile.provenance.sourceEdition,
       licenseAuthority: profile.provenance.licenseAuthority,
@@ -76,26 +111,31 @@ export function engineeringCorrelationMethods(registryInput) {
 }
 
 export const EMPTY_ENGINEERING_CORRELATION_REGISTRY =
-  createEngineeringCorrelationRegistry([], [], []);
+  createEngineeringCorrelationRegistry([], [], [], []);
 
-function buildRegistry(profileInputs, recordInputs, evidenceInputs) {
+function buildRegistry(profileInputs, recordInputs, evidenceInputs, definitionInputs) {
   requireArray(profileInputs, 'CORRELATION_REGISTRY_PROFILES_ARRAY_REQUIRED', 'profiles');
   requireArray(recordInputs, 'CORRELATION_REGISTRY_QUALIFICATION_RECORDS_ARRAY_REQUIRED',
     'qualificationRecords');
   requireArray(evidenceInputs, 'CORRELATION_REGISTRY_QUALIFICATION_EVIDENCE_ARRAY_REQUIRED',
     'qualificationEvidence');
+  requireArray(definitionInputs, 'CORRELATION_REGISTRY_APPLICABILITY_DEFINITIONS_ARRAY_REQUIRED',
+    'applicabilityDefinitions');
   const profiles = profileInputs.map((input, index) => validateEngineeringProfile(input, index));
   const records = recordInputs.map(validateCorrelationQualificationRecord);
   const evidence = evidenceInputs.map(validateCorrelationQualificationEvidence);
+  const definitions = definitionInputs.map(validateCorrelationApplicabilityDefinition);
   assertUnique(profiles, (profile) => methodKey(profile.methodIdentity, profile.methodEdition),
     'CORRELATION_ENGINEERING_PROFILE_DUPLICATE', 'profiles');
   assertUnique(records, (record) => record.recordIdentity,
     'CORRELATION_QUALIFICATION_RECORD_DUPLICATE', 'qualificationRecords');
   assertUnique(evidence, (row) => row.semanticHash,
     'CORRELATION_QUALIFICATION_EVIDENCE_DUPLICATE', 'qualificationEvidence');
+  assertUnique(definitions, (row) => row.definitionIdentity,
+    'CORRELATION_APPLICABILITY_DEFINITION_DUPLICATE', 'applicabilityDefinitions');
 
   const paired = profiles.map((profile, index) => pairProfile(
-    profile, index, records, evidence,
+    profile, index, records, evidence, definitions,
   )).sort((a, b) => compare(methodKey(a.profile.methodIdentity, a.profile.methodEdition),
     methodKey(b.profile.methodIdentity, b.profile.methodEdition)));
   if (records.length !== paired.length) {
@@ -104,17 +144,32 @@ function buildRegistry(profileInputs, recordInputs, evidenceInputs) {
   if (evidence.length !== paired.length) {
     fail('CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_UNCLAIMED', 'qualificationEvidence');
   }
+  if (definitions.length !== paired.length) {
+    fail('CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_UNCLAIMED',
+      'applicabilityDefinitions');
+  }
   const base = {
     schema: CORRELATION_METHOD_REGISTRY_SCHEMA,
     profiles: paired.map((row) => row.profile),
+    applicabilityDefinitions: paired.map((row) => row.definition),
     qualificationRecords: paired.map((row) => row.record),
     qualificationEvidence: paired.map((row) => row.evidence),
   };
   return freeze({ ...base, semanticHash: semanticHash(base) });
 }
 
-function pairProfile(profile, index, records, evidenceRows) {
-  const recordMatches = records.filter((record) => qualificationRecordMatchesProfile(record, profile));
+function pairProfile(profile, index, records, evidenceRows, definitions) {
+  const definitionMatches = definitions.filter((definition) =>
+    correlationApplicabilityDefinitionMatchesProfile(definition, profile));
+  if (definitionMatches.length !== 1) {
+    fail(definitionMatches.length
+      ? 'CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_AMBIGUOUS'
+      : 'CORRELATION_ENGINEERING_APPLICABILITY_DEFINITION_MISSING', `profiles[${index}]`);
+  }
+  const [definition] = definitionMatches;
+  const recordMatches = records.filter((record) =>
+    qualificationRecordMatchesProfile(record, profile)
+      && qualificationRecordMatchesApplicabilityDefinition(record, definition));
   if (recordMatches.length !== 1) {
     fail(recordMatches.length
       ? 'CORRELATION_ENGINEERING_QUALIFICATION_RECORD_AMBIGUOUS'
@@ -146,7 +201,7 @@ function pairProfile(profile, index, records, evidenceRows) {
     fail('CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED',
       `qualificationRecords[recordIdentity=${record.recordIdentity}].approvalAuthorityId`);
   }
-  return { profile, record, evidence };
+  return { profile, definition, record, evidence };
 }
 
 function evidenceMatchesProfileAndRecord(evidence, profile, record) {
