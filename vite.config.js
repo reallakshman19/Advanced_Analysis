@@ -5,6 +5,7 @@ const buildTime = new Date().toISOString();
 
 const PURE_LAFEA_MESHING_WORKSPACE_MODULES = new Set([
   '/src/workspace/lafea-analysis-mesh-evidence-v2.js',
+  '/src/workspace/lafea-canvas/retained-mesh-overlay.js',
   '/src/workspace/lafea-domain-first-mesh-custody.js',
   '/src/workspace/lafea-mesh-capabilities.js',
   '/src/workspace/lafea-mesh-dof-policy.js',
@@ -25,9 +26,11 @@ const PURE_LAFEA_MESHING_WORKSPACE_MODULES = new Set([
 
 const PURE_LAFEA_WORKBENCH_GOVERNANCE_MODULES = new Set([
   '/src/workspace/lafea-analysis-settings-view.js',
+  '/src/workspace/lafea-continuum-bc-load-glyphs.js',
   '/src/workspace/lafea-guided-workflow.js',
   '/src/workspace/lafea-guided-workflow-view.js',
   '/src/workspace/lafea-numerical-verification-view.js',
+  '/src/workspace/lafea-runtime-solver-diagnostics.js',
   '/src/workspace/lafea-t6-geometry-qualification-custody.js',
   '/src/workspace/lafea-t6-geometry-qualification-state.js',
   '/src/workspace/lafea-t6-geometry-qualification-view.js',
@@ -35,6 +38,7 @@ const PURE_LAFEA_WORKBENCH_GOVERNANCE_MODULES = new Set([
   '/src/workspace/lafea-workbench-readiness.js',
   '/src/workspace/lafea-workbench-reason-labels.js',
   '/src/workspace/lafea-workbench-release-binding.js',
+  '/src/workspace/lafea-workbench-run-transaction-state.js',
   '/src/workspace/lafea-workbench-verification-state.js',
 ]);
 
@@ -50,11 +54,7 @@ export function manualChunk(id) {
   if (source.includes('vite/preload-helper')) return 'runtime';
   if (source.includes('/node_modules/three/examples/')) return 'vendor-three-examples';
   if (source.includes('/node_modules/three/')) return 'vendor-three-core';
-  // Keep xlsx on Rollup's existing dynamic-import boundary; it is already a
-  // large isolated chunk and must not be folded into the generic leaf vendor.
   if (source.includes('/node_modules/xlsx/')) return undefined;
-  // Dependency-only partition. Workspace modules remain graph-owned below so
-  // this cannot create controller/store evaluation-order cycles.
   if (source.includes('/node_modules/')) return 'vendor';
   if (source.includes('/src/core/element-fea/')) return 'core-element-fea';
   if (source.includes('/src/core/local-continuum/')) return 'core-local-continuum';
@@ -65,101 +65,28 @@ export function manualChunk(id) {
   if (source.includes('/src/core/linear-fea-')) return 'core-linear-fea';
   if (source.includes('/src/core/linear-piping-')) return 'core-linear-piping';
   if (source.includes('/src/core/support-')) return 'core-support-engineering';
-  if (source.includes('/src/core/vertical-beam-solver/')
-    || source.includes('/src/core/centerline-beam-fea/')) return 'core-beam-analysis';
+  if (source.includes('/src/core/vertical-beam-solver/') || source.includes('/src/core/centerline-beam-fea/')) return 'core-beam-analysis';
   if (source.includes('/src/core/first-cut-load-estimation/')) return 'core-load-estimation';
   if (source.includes('/src/core/model-calculation-package/')) return 'core-model-calculation';
-  if (source.includes('/src/core/piping-topology/')
-    || source.includes('/src/core/shared-piping-model/')) return 'core-piping-model';
+  if (source.includes('/src/core/piping-topology/') || source.includes('/src/core/shared-piping-model/')) return 'core-piping-model';
   if (source.includes('/src/core/fea-benchmarks/')) return 'core-fea-benchmarks';
   if (source.includes('/src/core/')) return 'core-application';
-  if (source.includes('/src/calc-workspace/cii-standalone-port/ui-adapted/')) {
-    return 'cii-standalone-ui';
-  }
-  if (source.includes('/src/calc-workspace/cii-standalone-port/')) {
-    return 'cii-standalone-core';
-  }
+  if (source.includes('/src/calc-workspace/cii-standalone-port/ui-adapted/')) return 'cii-standalone-ui';
+  if (source.includes('/src/calc-workspace/cii-standalone-port/')) return 'cii-standalone-core';
   if (source.includes('/src/calc-workspace/')) return 'calculation-workspaces';
   if (source.includes('/src/vendors/')) return 'vendor-integrations';
   if (source.includes('/src/utils/') || source.includes('/src/mocks/')) return 'application-support';
-  // These exact paths are stateless LAFEA meshing contracts/producers. Keeping
-  // the exception explicit avoids pulling controllers, stores, views, or other
-  // singleton-bearing workspace modules into a forced chunk.
-  if ([...PURE_LAFEA_MESHING_WORKSPACE_MODULES]
-    .some((modulePath) => source.endsWith(modulePath))) {
-    return 'lafea-meshing-contracts';
-  }
-  // This helper owns no controller/store/singleton state. Splitting its I/O and
-  // style dependencies gives the graph a safe leaf boundary without forcing
-  // the LAFEA workbench controller itself into a manual chunk.
-  if (source.endsWith('/src/workspace/lafea-workbench-controller-io.js')) {
-    return 'lafea-workbench-io';
-  }
-  if (source.endsWith('/src/workspace/topology-edit/topology-edit-inline-component-replacement.js')
-    || source.endsWith('/src/workspace/topology-edit/topology-edit-junction-relation-command.js')
-    || source.endsWith('/src/workspace/topology-edit/topology-edit-engineering-edit-effect.js')) {
-    return 'topology-edit-engineering-commands';
-  }
-  if (source.endsWith('/src/workspace/topology-edit/topology-edit-stagedjson-engineering-source.js')) {
-    return 'topology-edit-stagedjson-source-engineering';
-  }
-  if (source.endsWith('/src/workspace/topology-edit/editor-state/topology-edit-capability-contract.js')
-    || source.endsWith('/src/workspace/topology-edit/table/topology-edit-table-edit-capability.js')
-    || source.endsWith('/src/workspace/viewport-interaction/topology-edit-endpoint-affordance-model.js')
-    || source.endsWith('/src/workspace/viewport-interaction/topology-edit-endpoint-affordance-runtime.js')) {
-    return 'topology-edit-r1-pure-presentation';
-  }
-  // Fidelity evidence publication is a stateless projection to host datasets.
-  // Keep it out of the large stateful SJSON controller chunk while leaving the
-  // controller/backend lifecycle under Rollup graph-aware ownership.
-  if (source.endsWith('/src/workspace/topology-edit/topology-edit-sjson-fidelity-evidence-v2.js')) {
-    return 'topology-edit-sjson-evidence';
-  }
-  if (source.endsWith('/src/workspace/resolved-engineering-geometry.js')
-    || source.endsWith('/src/workspace/model-zone-selector.js')
-    || source.endsWith('/src/workspace/model-zone-viewport-projection.js')
-    || source.endsWith('/src/workspace/viewport-render-model.js')
-    || source.endsWith('/src/workspace/support-load-viewport-callout-projection.js')) {
-    return 'workspace-viewport-engineering-projections';
-  }
-  // These modules are pure event validation and presentation projection. They
-  // own no controller, store, mutable singleton, or runtime resource, so they
-  // form a safe leaf boundary for the LFEA-to-3D-Edit integration.
-  if (source.endsWith('/src/workspace/event-topics.js')
-    || source.endsWith('/src/workspace/lfea-support-actions-panel.js')) {
-    return 'workspace-event-presentation-contracts';
-  }
-  // Import-free static shell CSS is a safe presentation leaf. Keep the
-  // application controller/layout graph under Rollup ownership while moving
-  // only this large string literal out of the entry chunk.
-  if (source.endsWith('/src/workspace/workspace-shell-styles.js')) {
-    return 'application-shell-static-styles';
-  }
-  // PR #1016 adds a bounded set of read-only views, immutable qualification
-  // custody, and derived readiness/release projections. These modules export
-  // functions/contracts only; they own no workbench controller, store, mounted
-  // viewport, or top-level mutable singleton. Keeping them in a dedicated leaf
-  // chunk reduces the entry chunk without manually partitioning the stateful
-  // workbench composition graph.
-  if ([...PURE_LAFEA_WORKBENCH_GOVERNANCE_MODULES]
-    .some((modulePath) => source.endsWith(modulePath))) {
-    return 'lafea-workbench-governance';
-  }
-
-  // The Phase-1 pre-flight core is an indexed, DOM-free, clock-free leaf stack.
-  // scripts/lafea-preflight-phase1-indexed-model-check.mjs asserts both halves of
-  // what makes this split safe: these modules create no DOM and read no ambient
-  // clock, and none of them imports the live UI, the review surface or the
-  // application entry point. The dependency therefore runs one way, so giving
-  // them their own chunk cannot reorder evaluation of a stateful workspace
-  // controller. Splitting them keeps the main chunk under the production
-  // ceiling asserted by scripts/bundle-chunk-check.mjs.
-  if (source.includes('/src/workspace/lafea-preflight-phase1-')) {
-    return 'lafea-preflight-phase1';
-  }
-
-  // Rollup must own the complete stateful workspace graph so evaluation order
-  // follows static dependency analysis rather than filename-based partitions.
+  if ([...PURE_LAFEA_MESHING_WORKSPACE_MODULES].some((modulePath) => source.endsWith(modulePath))) return 'lafea-meshing-contracts';
+  if (source.endsWith('/src/workspace/lafea-workbench-controller-io.js')) return 'lafea-workbench-io';
+  if (source.endsWith('/src/workspace/topology-edit/topology-edit-inline-component-replacement.js') || source.endsWith('/src/workspace/topology-edit/topology-edit-junction-relation-command.js') || source.endsWith('/src/workspace/topology-edit/topology-edit-engineering-edit-effect.js')) return 'topology-edit-engineering-commands';
+  if (source.endsWith('/src/workspace/topology-edit/topology-edit-stagedjson-engineering-source.js')) return 'topology-edit-stagedjson-source-engineering';
+  if (source.endsWith('/src/workspace/topology-edit/editor-state/topology-edit-capability-contract.js') || source.endsWith('/src/workspace/topology-edit/table/topology-edit-table-edit-capability.js') || source.endsWith('/src/workspace/viewport-interaction/topology-edit-endpoint-affordance-model.js') || source.endsWith('/src/workspace/viewport-interaction/topology-edit-endpoint-affordance-runtime.js')) return 'topology-edit-r1-pure-presentation';
+  if (source.endsWith('/src/workspace/topology-edit/topology-edit-sjson-fidelity-evidence-v2.js')) return 'topology-edit-sjson-evidence';
+  if (source.endsWith('/src/workspace/resolved-engineering-geometry.js') || source.endsWith('/src/workspace/model-zone-selector.js') || source.endsWith('/src/workspace/model-zone-viewport-projection.js') || source.endsWith('/src/workspace/viewport-render-model.js') || source.endsWith('/src/workspace/support-load-viewport-callout-projection.js')) return 'workspace-viewport-engineering-projections';
+  if (source.endsWith('/src/workspace/event-topics.js') || source.endsWith('/src/workspace/lfea-support-actions-panel.js')) return 'workspace-event-presentation-contracts';
+  if (source.endsWith('/src/workspace/workspace-shell-styles.js')) return 'application-shell-static-styles';
+  if ([...PURE_LAFEA_WORKBENCH_GOVERNANCE_MODULES].some((modulePath) => source.endsWith(modulePath))) return 'lafea-workbench-governance';
+  if (source.includes('/src/workspace/lafea-preflight-phase1-')) return 'lafea-preflight-phase1';
   if (source.includes('/src/workspace/')) return undefined;
   return undefined;
 }
@@ -167,9 +94,7 @@ export function manualChunk(id) {
 export default defineConfig({
   base: '/Advanced_Analysis/',
   plugins: [],
-  define: {
-    __BUILD_TIME__: JSON.stringify(buildTime),
-  },
+  define: { __BUILD_TIME__: JSON.stringify(buildTime) },
   build: {
     modulePreload: false,
     rollupOptions: {
@@ -177,18 +102,8 @@ export default defineConfig({
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         analyze: fileURLToPath(new URL('./analyze.html', import.meta.url)),
       },
-      output: {
-        manualChunks: manualChunk,
-        // Allow dependencies of a selected manual chunk to move with that
-        // chunk. Explicit-only ownership created circular chunks and TDZ
-        // failures in the generated ESM graph.
-        onlyExplicitManualChunks: false,
-      },
+      output: { manualChunks: manualChunk, onlyExplicitManualChunks: false },
     },
   },
-  server: {
-    watch: {
-      ignored: ['**/benchmarks/**', '**/reports/**', '**/playwright-report/**'],
-    },
-  },
+  server: { watch: { ignored: ['**/benchmarks/**', '**/reports/**', '**/playwright-report/**'] } },
 });

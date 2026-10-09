@@ -13,6 +13,7 @@ export function createLafeaWorkbenchViewportDependencies(input) {
   if (!stage || typeof stage !== 'object') {
     throw new TypeError('LAFEA_WORKBENCH_VIEWPORT_STAGE_REQUIRED');
   }
+  const execution = stage.execution?.status === 'QUALIFIED' ? stage.execution : null;
   return Object.freeze({
     schema: LAFEA_WORKBENCH_VIEWPORT_DEPENDENCY_SCHEMA,
     stageId: input.stageId,
@@ -20,6 +21,8 @@ export function createLafeaWorkbenchViewportDependencies(input) {
     renderPacket: input.renderPacket ?? null,
     retainedMeshEvidence: effectiveRetainedMeshEvidence(stage),
     analysisMeshCustodyState: stage.analysisMeshCustodyProjection?.state ?? null,
+    executionHash: execution?.compiledExecutionHash ?? null,
+    bcLoadGlyphProjectionHash: execution?.bcLoadGlyphProjection?.semanticHash ?? null,
     domainFirstProfileActive: stage.domainFirstProfileActive === true,
     shellMidsurfaceProfileActive: stage.shellMidsurfaceProfileActive === true,
   });
@@ -35,6 +38,8 @@ export function canReuseLafeaWorkbenchViewport(previous, next) {
     && previous.renderPacket === next.renderPacket
     && previous.retainedMeshEvidence === next.retainedMeshEvidence
     && previous.analysisMeshCustodyState === next.analysisMeshCustodyState
+    && previous.executionHash === next.executionHash
+    && previous.bcLoadGlyphProjectionHash === next.bcLoadGlyphProjectionHash
     && previous.domainFirstProfileActive === next.domainFirstProfileActive
     && previous.shellMidsurfaceProfileActive === next.shellMidsurfaceProfileActive;
 }

@@ -32,6 +32,7 @@ export function executeLafeaContinuumAuthoritativeWorkbenchRun(context, stageId)
     meshHash: compiled.meshEvidence.meshHash,
     meshProfileHash: compiled.meshEvidence.meshProfileHash,
     solverModelHash: compiled.solverModel.solverModelHash,
+    canonicalExecutionInputHash: evidence.canonicalExecutionInputHash,
     compiledExecutionHash: evidence.executionEvidenceHash,
     source: compiled.source,
     canonicalInput: evidence.canonicalInput,

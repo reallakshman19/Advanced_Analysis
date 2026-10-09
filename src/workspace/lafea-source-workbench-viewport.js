@@ -97,6 +97,8 @@ export function mountLafeaSourceWorkbenchViewportModel(root, model, input = {}) 
           onSelectSource: selectSource,
           retainedMeshEvidence: input.retainedMeshEvidence ?? null,
           analysisMeshCustodyState: input.analysisMeshCustodyState ?? null,
+          bcLoadGlyphProjection: input.bcLoadGlyphProjection ?? null,
+          executionHash: input.executionHash ?? null,
           focusedMeshElementId,
           onFocusMeshElement: focusRetainedMeshElement,
         });

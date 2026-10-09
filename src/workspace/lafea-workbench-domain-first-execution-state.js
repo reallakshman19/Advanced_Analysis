@@ -8,8 +8,9 @@ export function createLafeaWorkbenchDomainFirstExecutionState(stageIds) {
   function retain(stageId, value) {
     requireStage(stageId);
     if (!value || value.stageId !== stageId
-      || !['QUALIFIED', 'FAILED'].includes(value.status)
-      || value.schema !== LAFEA_DOMAIN_FIRST_EXECUTION_STATE_SCHEMA) {
+      || !['RUNNING', 'QUALIFIED', 'FAILED'].includes(value.status)
+      || value.schema !== LAFEA_DOMAIN_FIRST_EXECUTION_STATE_SCHEMA
+      || (value.status === 'RUNNING' && value.runTransaction?.status !== 'RUNNING')) {
       fail('LAFEA_DOMAIN_FIRST_EXECUTION_STATE_INVALID');
     }
     retained[stageId] = freeze(structuredClone(value));

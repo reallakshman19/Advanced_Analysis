@@ -17,6 +17,7 @@ const result = spawnSync(process.execPath, [
   'e2e/lafea-standalone-golden-journey.spec.js',
   'e2e/lafea-standalone-failures.spec.js',
   'e2e/lafea-visible-workbench.spec.js',
+  'e2e/lafea-b02-g3-custody.spec.js',
 ], {
   cwd: process.cwd(),
   env: { ...process.env, PLAYWRIGHT_BROWSERS_PATH: '0' },

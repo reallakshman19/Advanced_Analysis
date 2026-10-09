@@ -1,6 +1,9 @@
 /** Shared source-geometry SVG overlay for source and result hybrid viewports. */
 import { renderLafeaWorkbenchSvg } from '../lafea-workbench-svg.js';
-import { renderLafeaRetainedMeshOverlay } from './retained-mesh-overlay.js';
+import {
+  renderLafeaBcLoadGlyphOverlay,
+  renderLafeaRetainedMeshOverlay,
+} from './retained-mesh-overlay.js';
 
 export function renderLafeaSourceOverlay(input) {
   if (!input?.target?.ownerDocument || !input.scene || !input.registryEntry) {
@@ -33,6 +36,13 @@ export function renderLafeaSourceOverlay(input) {
       focusedElementId: input.focusedMeshElementId ?? null,
       custodyState: input.analysisMeshCustodyState ?? 'UNKNOWN',
       onFocusElement: input.onFocusMeshElement,
+    });
+    renderLafeaBcLoadGlyphOverlay({
+      target: input.target,
+      evidence: input.retainedMeshEvidence,
+      viewport: input.viewport,
+      projection: input.bcLoadGlyphProjection ?? null,
+      executionHash: input.executionHash ?? null,
     });
   }
   return geometry;
