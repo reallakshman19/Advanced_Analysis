@@ -113,7 +113,7 @@ function connectedRoutes(branchId, edges, tolerance) {
 
 function createRoute(branchId, index, edges, tolerance) {
   const topologyEdges = edges.filter((edge) => !edge.topologyCarrier && !edge.pointComponent);
-  const nodes = uniqueNodes(topologyEdges, tolerance);
+  const nodes = uniqueNodes(topologyEdges.length ? topologyEdges : edges, tolerance);
   const degrees = nodes.map((node) => ({ ...node, degree: topologyEdges.filter((edge) => pointOnEdgeEnd(node.positionMm, edge, tolerance)).length }));
   const ambiguous = degrees.some((node) => node.degree > 2);
   const chainage = ambiguous ? { entityChainages: [], totalLengthMm: null } : buildLinearChainage(topologyEdges, degrees, edges, tolerance);
@@ -132,7 +132,18 @@ function createRoute(branchId, index, edges, tolerance) {
 }
 
 function buildLinearChainage(topologyEdges, nodes, allEdges, tolerance) {
-  if (!topologyEdges.length) return { entityChainages: [], totalLengthMm: 0 };
+  if (!topologyEdges.length) {
+    const pointRows = allEdges.map((edge) => ({
+      entityId: edge.entityId,
+      startMm: 0,
+      endMm: 0,
+      sourceStartChainageMm: 0,
+      sourceEndChainageMm: 0,
+      pointMm: 0,
+      lengthMm: 0,
+    }));
+    return { entityChainages: pointRows, totalLengthMm: 0 };
+  }
   const endpoints = nodes.filter((node) => node.degree === 1).sort((left, right) => left.nodeId.localeCompare(right.nodeId));
   const startNode = endpoints[0] || [...nodes].sort((left, right) => left.nodeId.localeCompare(right.nodeId))[0];
   const nodeChainage = new Map([[startNode.nodeId, 0]]);

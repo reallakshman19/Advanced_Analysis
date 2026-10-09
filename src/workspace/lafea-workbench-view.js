@@ -419,7 +419,7 @@ export class LafeaWorkbenchView {
     const toolbar = element(this.rootElement, 'div', 'lafea-workbench__toolbar');
     const mock = actionButton(
       this.rootElement,
-      `[SIMULATED] Load ${stageId} demonstration source`,
+      `Load demonstration model (${stageId})`,
       () => this.handlers.onMock(stageId),
     );
     mock.dataset.role = 'lafea-mock';
@@ -451,12 +451,16 @@ export class LafeaWorkbenchView {
     const benchmark = actionButton(this.rootElement, 'Run available verification suite', this.handlers.onBenchmark);
     benchmark.dataset.role = 'lafea-benchmark';
     benchmark.disabled = !executionSupported;
+    if (!executionSupported) benchmark.title = 'Execution is not supported for this stage.';
     const exportButton = actionButton(this.rootElement, 'Export source document', this.handlers.onExport);
     exportButton.disabled = !stage.document;
+    if (!stage.document) exportButton.title = 'Load or author a source document to export.';
     const undo = actionButton(this.rootElement, 'Undo', this.handlers.onUndo);
     undo.disabled = !stage.past.length;
+    if (!stage.past.length) undo.title = 'No edits to undo.';
     const redo = actionButton(this.rootElement, 'Redo', this.handlers.onRedo);
     redo.disabled = !stage.future.length;
+    if (!stage.future.length) redo.title = 'No edits to redo.';
     const showMock = !this.rootElement?.hasAttribute?.('data-lafea-app-root');
     toolbar.append(
       ...(showMock ? [mock] : []),

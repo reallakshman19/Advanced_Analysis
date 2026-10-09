@@ -44,7 +44,8 @@ export const EMP1_ANALYTICAL_LAYOUT_STYLES = `
 [data-role="emp1-professional-workflow-steps"]>li{flex:1 0 92px;min-width:0}
 [data-role="emp1-professional-workflow-steps"] button{width:100%;min-height:36px;padding:5px 8px;line-height:1.2;text-align:left}
 [data-role="emp1-professional-workflow-steps"] button[aria-current="step"]{font-weight:700;box-shadow:inset 0 -2px currentColor}
-[data-role="emp1-workflow-compact-status"]{display:flex;flex-wrap:wrap;gap:5px 12px;align-items:center;margin:4px 0}
+[data-role="emp1-workflow-compact-status"],
+[data-role="emp1-assessment-outcome"]{display:flex;flex-wrap:wrap;gap:5px 12px;align-items:center;margin:4px 0}
 [data-role="emp1-workflow-details"]{margin-top:4px}
 [data-role="emp1-workflow-details"]>summary{cursor:pointer;font-weight:600}
 [data-role="emp1-workflow-details"][open]{position:absolute;inset-inline:0;top:calc(100% + 6px);z-index:30;max-height:min(56vh,520px);overflow:auto;overscroll-behavior:contain;padding:10px;border:1px solid currentColor;border-radius:8px;background:#07111f;box-shadow:0 12px 32px rgba(0,0,0,.45)}

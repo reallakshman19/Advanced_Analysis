@@ -314,7 +314,7 @@ export function manualChunk(id) {
 }
 
 export default defineConfig({
-  base: '/AA3/',
+  base: process.env.VITE_BASE || '/AA3/',
   plugins: [],
   define: {
     __BUILD_TIME__: JSON.stringify(buildTime),

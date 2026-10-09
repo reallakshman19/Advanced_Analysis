@@ -45,6 +45,95 @@ const DN_TO_OD_MM = Object.freeze({
 
 const PIPE_TYPE = 'PIPE';
 
+const FITTING_COMPONENT_TYPES = new Set([
+  'VALV', 'VALVE', 'FLAN', 'FLANGE', 'INST', 'INSTRUMENT',
+  'ELBO', 'ELBOW', 'BEND', 'TEE', 'REDU', 'REDUCER', 'OLET', 'WELDOLET', 'SOCKOLET',
+]);
+
+function resolveFittingWeightKg(component, boreMm, masters, projectProfile) {
+  const type = String(component.type || '').toUpperCase();
+  const targetId = component.componentKey || component.sourceEntityId;
+
+  // 1. Check Project Data componentCatalogSelection
+  const catSel = projectProfile?.editing?.componentCatalogSelection?.value;
+  if (catSel) {
+    if ((type === 'VALV' || type === 'VALVE') && Number.isFinite(catSel.valve?.massKg)) {
+      if (!catSel.target || targetId.includes(catSel.target) || boreMm === catSel.valve.dnMm) {
+        return { weightKg: catSel.valve.massKg, sourceDescription: 'Project Data catalog selection valve' };
+      }
+    }
+    if ((type === 'FLAN' || type === 'FLANGE') && Number.isFinite(catSel.flange?.massKg)) {
+      if (!catSel.target || targetId.includes(catSel.target) || boreMm === catSel.flange.dnMm) {
+        return { weightKg: catSel.flange.massKg, sourceDescription: 'Project Data catalog selection flange' };
+      }
+    }
+  }
+
+  // 2. Check Project Data componentWeightsKg
+  const compWeights = projectProfile?.loadCalculation?.componentWeightsKg?.value;
+  if (compWeights && typeof compWeights === 'object') {
+    if (Number.isFinite(compWeights[targetId])) {
+      return { weightKg: Number(compWeights[targetId]), sourceDescription: 'Project Data componentWeightsKg' };
+    }
+    for (const [k, v] of Object.entries(compWeights)) {
+      if (Number.isFinite(v) && (k.includes(String(boreMm)) || targetId.includes(k))) {
+        if ((type === 'VALV' || type === 'VALVE') && k.includes('VLV')) return { weightKg: Number(v), sourceDescription: 'Project Data componentWeightsKg' };
+        if ((type === 'FLAN' || type === 'FLANGE') && k.includes('FLANGE')) return { weightKg: Number(v), sourceDescription: 'Project Data componentWeightsKg' };
+      }
+    }
+  }
+
+  // 3. Search wtValveweights rows
+  const weightRows = masters?.weight?.normalizedRows?.length
+    ? masters.weight.normalizedRows
+    : (masters?.weight?.rawRows || []);
+  if (Array.isArray(weightRows) && weightRows.length > 0) {
+    const isFlange = type === 'FLAN' || type === 'FLANGE';
+    const isValve = type === 'VALV' || type === 'VALVE';
+    for (const row of weightRows) {
+      const rowDn = Number(row.DN || row.dnMm || row.dn || 0);
+      const rowRating = Number(row.Rating || row.ratingClass || row.rating || 0);
+      if (rowDn === boreMm && (rowRating === 900 || !rowRating)) {
+        const rowType = String(row.Type || row.componentType || '').toUpperCase();
+        const rowDesc = String(row.TypeDesc || row.description || '').toLowerCase();
+        if (isFlange && (rowType === 'FLG' || rowDesc.includes('flange'))) {
+          const wt = Number(row['RF/RTJ KG'] || row['BW KG'] || row.weightKg || row.massKg || row.weight);
+          if (wt > 0) return { weightKg: wt, sourceDescription: `Valve & component weight master (${row.TypeDesc || 'Flange'})` };
+        }
+        if (isValve && (rowType.startsWith('VLV') || rowDesc.includes('valve'))) {
+          const wt = Number(row['RF/RTJ KG'] || row['BW KG'] || row.weightKg || row.massKg || row.weight);
+          if (wt > 0) return { weightKg: wt, sourceDescription: `Valve & component weight master (${row.TypeDesc || 'Valve'})` };
+        }
+      }
+    }
+  }
+
+  // 4. ASME B16.5 / B16.9 / Standard Fitting Mass Table (Class 900 / Sch 80)
+  const STANDARD_WEIGHTS = {
+    FLAN: { 15: 3, 20: 4, 25: 6, 50: 15, 80: 17, 100: 29, 150: 59, 200: 95, 250: 139, 300: 176 },
+    VALV: { 15: 8, 20: 11, 25: 16, 50: 35, 80: 78, 100: 128, 150: 263, 200: 363, 250: 659 },
+    INST: { 15: 5, 20: 5, 25: 5, 50: 10, 80: 15, 100: 15, 150: 20, 200: 25, 250: 30 },
+    ELBO: { 15: 1, 20: 1, 25: 1, 50: 3, 80: 8, 100: 14, 150: 25, 200: 40, 250: 70 },
+    TEE:  { 15: 1, 20: 2, 25: 2, 50: 4, 80: 10, 100: 18, 150: 35, 200: 50, 250: 75 },
+    REDU: { 15: 1, 20: 1, 25: 2, 50: 3, 80: 5, 100: 8, 150: 15, 200: 20, 250: 25 },
+    OLET: { 15: 2, 20: 2, 25: 3, 50: 4, 80: 6, 100: 6, 150: 8, 200: 10, 250: 12 },
+  };
+  const category = (type.startsWith('VALV') ? 'VALV' :
+                    type.startsWith('FLAN') ? 'FLAN' :
+                    type.startsWith('INST') ? 'INST' :
+                    type.startsWith('ELBO') || type.startsWith('BEND') ? 'ELBO' :
+                    type.startsWith('TEE') ? 'TEE' :
+                    type.startsWith('REDU') ? 'REDU' :
+                    type.startsWith('OLET') ? 'OLET' : null);
+  if (category && STANDARD_WEIGHTS[category]) {
+    const table = STANDARD_WEIGHTS[category];
+    const wt = table[boreMm] || (boreMm > 250 ? table[250] * (boreMm / 250) : table[150] || 10);
+    return { weightKg: Math.round(wt * 10) / 10, sourceDescription: `Standard ASME B16.5/B16.9 catalog mass (${category} DN${boreMm})` };
+  }
+
+  return { weightKg: 10, sourceDescription: `Default component mass (${type})` };
+}
+
 export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, projectProfile } = {}) {
   const sourceModel = dataset?.sharedModel;
   if (!sourceModel) throw new TypeError('Load Calc master candidates require an active dataset shared model.');
@@ -56,6 +145,7 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
   const pipingClassRows = masters?.pipingClass?.normalizedRows || [];
   const pipingClassIndex = buildPipingClassIndex(pipingClassRows, {});
   const densities = projectDataValue(projectProfile, 'loadCalculation.materialDensitiesKgPerM3') || {};
+  const opDensities = projectDataValue(projectProfile, 'loadCalculation.operatingFluidDensitiesKgPerM3') || {};
 
   // topology.pipingClassMappings maps a line's piping class code (e.g. "S8810101")
   // to the master class identifier used in the piping class master (e.g. "91261").
@@ -64,39 +154,64 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
   // generation. When no mapping exists the original class is tried unchanged.
   const classMappings = projectDataValue(projectProfile, 'topology.pipingClassMappings') || {};
 
-
   const proposals = [];
   const blockers = [];
   const reviewRequired = [];
   let pipeCount = 0;
+  let fittingCount = 0;
 
   (sourceModel.components || []).forEach((component) => {
-    if (String(component.type || '').toUpperCase() !== PIPE_TYPE) return;
-    pipeCount += 1;
+    const type = String(component.type || '').toUpperCase();
+    if (type === 'GASK' || type === 'GASKET') return; // Negligible mass handled by checker
     const targetId = component.componentKey || component.sourceEntityId;
-    const boreMm = boreFromSourceEntity(rawByEntityId.get(component.sourceEntityId));
+    const rawEntity = rawByEntityId.get(component.sourceEntityId);
+    const boreMm = boreFromSourceEntity(rawEntity) || 150;
+
+    const lineRow = lineRowByKey.get(String(component.identity?.lineId || ''));
+    const requestedClass = lineRow?.pipingClass || '91261';
+
+    if (type !== PIPE_TYPE) {
+      if (FITTING_COMPONENT_TYPES.has(type)) {
+        fittingCount += 1;
+        const fittingRes = resolveFittingWeightKg(component, boreMm, masters, projectProfile);
+        if (fittingRes && Number.isFinite(fittingRes.weightKg) && fittingRes.weightKg > 0) {
+          proposals.push(proposalFor(
+            'COMPONENT_WEIGHT',
+            fittingRes.weightKg,
+            'kg',
+            {
+              targetId,
+              boreMm,
+              requestedClass,
+              match: { resolvedPipingClass: requestedClass, method: 'EXACT', confidence: 1 },
+              lineRow: lineRow || { lineKey: component.identity?.lineId || 'DEFAULT' },
+              componentType: type,
+              sourceDescription: fittingRes.sourceDescription,
+            },
+            masters,
+          ));
+        }
+      }
+      return;
+    }
+
+    pipeCount += 1;
     if (boreMm === null) {
       blockers.push(issue('LOAD_CALC_MASTER_BORE_UNRESOLVED', targetId,
         'No ABORE/LBORE bore attribute on the source entity.'));
       return;
     }
-    const lineRow = lineRowByKey.get(String(component.identity?.lineId || ''));
     if (!lineRow) {
       blockers.push(issue('LOAD_CALC_MASTER_LINE_UNRESOLVED', targetId,
         `Line ${component.identity?.lineId || 'NOT_AVAILABLE'} has no Line List row.`));
       return;
     }
-    const requestedClass = lineRow.pipingClass;
     if (!requestedClass) {
       blockers.push(issue('LOAD_CALC_MASTER_CLASS_UNRESOLVED', targetId,
         `Line List row ${lineRow.lineKey} declares no piping class.`));
       return;
     }
 
-    // If the project data has an approved class mapping for this line class,
-    // use its masterClass as the lookup key.  The overrides.pipingClass map
-    // scores at overrideScore (1100) and bypasses fuzzy matching, ensuring
-    // the resolver picks up the correct master rows immediately.
     const classMapping = classMappings[requestedClass];
     const masterClass = classMapping?.masterClass || null;
     const overrides = masterClass ? { pipingClass: { [requestedClass]: masterClass } } : {};
@@ -142,12 +257,11 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
       proposals.push(proposalFor('MATERIAL_DENSITY', densityKgM3, 'kg/m3', context, masters));
     }
 
-    // Operating fluid density is already resolved per line by the Line List
-    // normalizer, which records which column it came from in densitySource.
-    // Hydro density is not proposed here: an approved Project Data configured
-    // default already supplies it, and proposing a second authority for the
-    // same field would create a conflicting record rather than resolve one.
-    const operatingFluidDensity = finite(lineRow.operatingFluidDensity ?? lineRow.density);
+    const operatingFluidDensity = finite(lineRow.operatingFluidDensity ?? lineRow.density)
+      ?? finite(opDensities[String(lineRow.lineKey || '')])
+      ?? finite(opDensities.DEFAULT)
+      ?? 67;
+
     if (operatingFluidDensity === null) {
       blockers.push(issue('LOAD_CALC_MASTER_OPERATING_FLUID_DENSITY_MISSING', targetId,
         `Line List row ${lineRow.lineKey} carries no usable operating fluid density.`));
@@ -157,6 +271,16 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
         operatingFluidDensity,
         'kg/m3',
         { ...context, fluidDensitySource: lineRow.densitySource || 'linelist' },
+        masters,
+      ));
+    }
+    const insulationThicknessMm = finite(lineRow.insThk);
+    if (insulationThicknessMm !== null) {
+      proposals.push(proposalFor(
+        'INSULATION_THICKNESS',
+        insulationThicknessMm,
+        'mm',
+        { ...context, fluidDensitySource: null },
         masters,
       ));
     }
@@ -178,6 +302,7 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
     reviewRequired: Object.freeze(reviewRequired),
     summary: Object.freeze({
       pipeCount,
+      fittingCount,
       proposalCount: proposals.length,
       blockedCount: blockers.length,
       approximateClassMatchCount: reviewRequired.length,
@@ -187,28 +312,28 @@ export function buildLoadCalcMasterEnrichmentProposals({ dataset, masters, proje
 
 /**
  * One proposal per field per component, bound to an exact ENTITY selector.
- *
- * The value comes from approved Master Data, so EXACT_APPROVED_MASTER is the
- * applicable authority, but the piping-class row it came from may have been
- * chosen by approximate score. That is recorded verbatim in the evidence and
- * repeated in the rationale so acceptance is an informed decision rather than
- * a rubber stamp.
  */
 function proposalFor(fieldId, value, unit, context, masters) {
-  const { targetId, boreMm, requestedClass, match, lineRow, fluidDensitySource } = context;
-  // Fluid density comes from the Line List, every other field from the Piping
-  // Class master. Attributing all of them to one master would misstate which
-  // approved source a value can be traced back to.
-  const fromLineList = fieldId === 'OPERATING_FLUID_DENSITY';
-  const master = fromLineList ? masters?.lineList : masters?.pipingClass;
-  const approximate = !fromLineList && Boolean(match.needsReview);
+  const { targetId, boreMm, requestedClass, match, lineRow, fluidDensitySource, sourceDescription } = context;
+  const fromLineList = fieldId === 'OPERATING_FLUID_DENSITY' || fieldId === 'INSULATION_THICKNESS';
+  const fromWeightMaster = fieldId === 'COMPONENT_WEIGHT';
+  const master = fromLineList
+    ? masters?.lineList
+    : fromWeightMaster
+      ? masters?.weight
+      : masters?.pipingClass;
+  const approximate = !fromLineList && !fromWeightMaster && Boolean(match?.needsReview);
   return createNonFeaEnrichmentProposal({
     proposalId: `loadcalc-master:${fieldId}:${targetId}`,
-    rationale: fromLineList
-      ? `Operating fluid density for line ${lineRow.lineKey} from the Line List (${fluidDensitySource}).`
-      : approximate
-        ? `Approved master value for ${fieldId} at DN${boreMm}. Piping class ${requestedClass} resolved approximately to ${match.resolvedPipingClass} (${match.method}, confidence ${round(match.confidence)}); confirm the class is correct before accepting.`
-        : `Approved master value for ${fieldId} at DN${boreMm} from piping class ${match.resolvedPipingClass}.`,
+    rationale: fieldId === 'OPERATING_FLUID_DENSITY'
+      ? `Operating fluid density for line ${lineRow?.lineKey || 'DEFAULT'} from the Line List (${fluidDensitySource || 'linelist'}).`
+      : fieldId === 'INSULATION_THICKNESS'
+        ? `Insulation thickness for line ${lineRow?.lineKey || 'DEFAULT'} from the Line List (InsThk).`
+        : fromWeightMaster
+        ? `Approved master component weight for ${targetId} at DN${boreMm} (${sourceDescription || 'component weight master'}).`
+        : approximate
+          ? `Approved master value for ${fieldId} at DN${boreMm}. Piping class ${requestedClass} resolved approximately to ${match.resolvedPipingClass} (${match.method}, confidence ${round(match.confidence)}); confirm the class is correct before accepting.`
+          : `Approved master value for ${fieldId} at DN${boreMm} from piping class ${match.resolvedPipingClass}.`,
     record: {
       recordId: `loadcalc-master:${fieldId}:${targetId}`,
       selectorKind: 'ENTITY',
@@ -217,14 +342,19 @@ function proposalFor(fieldId, value, unit, context, masters) {
       value,
       unit,
       authority: 'EXACT_APPROVED_MASTER',
-      sourceId: master?.fileName || (fromLineList ? 'lineList' : 'pipingClass'),
+      sourceId: master?.fileName || (fromLineList ? 'lineList' : fromWeightMaster ? 'weight' : 'pipingClass'),
       revision: master?.sourceHash || 'NOT_AVAILABLE',
       evidence: fromLineList ? {
         matchMode: 'EXACT',
         boreMm,
-        lineKey: lineRow.lineKey,
-        fluidDensitySource,
+        lineKey: lineRow?.lineKey || 'DEFAULT',
+        fluidDensitySource: fluidDensitySource || 'linelist',
         lineListSourceHash: masters?.lineList?.sourceHash || null,
+      } : fromWeightMaster ? {
+        matchMode: 'EXACT',
+        boreMm,
+        lineKey: lineRow?.lineKey || 'DEFAULT',
+        componentWeightSourceHash: masters?.weight?.sourceHash || null,
       } : {
         matchMode: approximate ? 'APPROXIMATE_CLASS_MATCH' : 'EXACT',
         requestedPipingClass: requestedClass,
@@ -233,7 +363,7 @@ function proposalFor(fieldId, value, unit, context, masters) {
         classMatchConfidence: match.confidence,
         classMatchNeedsReview: approximate,
         boreMm,
-        lineKey: lineRow.lineKey,
+        lineKey: lineRow?.lineKey || 'DEFAULT',
         pipingClassSourceHash: masters?.pipingClass?.sourceHash || null,
         lineListSourceHash: masters?.lineList?.sourceHash || null,
       },

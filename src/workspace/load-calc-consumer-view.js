@@ -60,14 +60,24 @@ function headerMarkup(state) {
   const SEAL_LABELS = { CURRENT: 'Sealed ✓', STALE: 'Seal stale ⚠', NOT_SEALED: 'Not sealed' };
   const AUTH_LABELS = {
     EXECUTED_CURRENT: 'Authorized ✓', AUTHORIZED_CURRENT: 'Authorized ✓',
+    EXECUTED_CURRENT_SYSTEM: 'Executed ✓', ROUTINE_SYSTEM_READY: 'Ready to execute',
     DRAFT_READY: 'Ready to authorize', DRAFT_BLOCKED: 'Scenario blocked',
     AUTHORIZED_STALE: 'Stale — re-authorize', EXECUTED_STALE: 'Results stale',
     NOT_CONFIGURED: 'No scenario', AWAITING_AUTHORIZATION: 'Awaiting auth',
+    BLOCKED_NOT_SEALED: 'Blocked (unsealed)', BLOCKED_NOT_READY: 'Blocked (not ready)',
+    BLOCKED: 'Blocked', READY: 'Ready', NOT_READY: 'Not ready', STALE: 'Stale',
   };
   const RESULT_LABELS = { CURRENT: 'Results ready ✓', NOT_CALCULATED: 'Not run yet', STALE: 'Results stale' };
-  const sealLabel  = SEAL_LABELS[commonSeal]   || commonSeal;
-  const authLabel  = AUTH_LABELS[authSt]        || authSt;
-  const resultLabel = RESULT_LABELS[freshness]  || freshness;
+  function formatPillEnum(val) {
+    if (!val) return '';
+    return String(val)
+      .replace(/_/g, ' ')
+      .toLowerCase()
+      .replace(/^\w/, (c) => c.toUpperCase());
+  }
+  const sealLabel  = SEAL_LABELS[commonSeal]   || formatPillEnum(commonSeal);
+  const authLabel  = AUTH_LABELS[authSt]        || formatPillEnum(authSt);
+  const resultLabel = RESULT_LABELS[freshness]  || formatPillEnum(freshness);
 
   return `<header class="empirical-load-calc__header">
     <div><span class="panel-eyebrow">GUIDED WORKFLOW</span><h1>Support Load Calculation</h1></div>
@@ -92,11 +102,11 @@ function headerMarkup(state) {
 const PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'preflight', 'verify', 'loads']);
 
 const WORKFLOW_STEPS = Object.freeze([
-  Object.freeze({ id: 'import', label: 'Import JSON', tab: null }),
-  Object.freeze({ id: 'topology', label: 'Topology Fix', tab: 'topology' }),
-  Object.freeze({ id: 'project-data', label: 'Project Data', tab: 'project-data' }),
-  Object.freeze({ id: 'masters', label: 'Import Masters', tab: 'masters' }),
-  Object.freeze({ id: 'preflight', label: 'Validate Input', tab: 'preflight' }),
+  Object.freeze({ id: 'import', label: 'Import', tab: null }),
+  Object.freeze({ id: 'topology', label: 'Topology', tab: 'topology' }),
+  Object.freeze({ id: 'project-data', label: 'Project', tab: 'project-data' }),
+  Object.freeze({ id: 'masters', label: 'Masters', tab: 'masters' }),
+  Object.freeze({ id: 'preflight', label: 'Validate', tab: 'preflight' }),
   Object.freeze({ id: 'verify', label: 'Run Calc', tab: 'verify' }),
   Object.freeze({ id: 'loads', label: 'View Loads', tab: 'loads' }),
 ]);
@@ -146,7 +156,7 @@ function advancedToolsTileMarkup(state) {
   return `<details class="empirical-load-calc__advanced" ${advancedOpen ? 'open' : ''}>
     <summary class="empirical-load-calc__workflow-step ${advancedOpen ? 'is-active' : ''}" data-step-state="${advancedOpen ? 'current' : 'pending'}">
       <span class="empirical-load-calc__workflow-index">8</span>
-      <span class="empirical-load-calc__workflow-label">Advanced Tools</span>
+      <span class="empirical-load-calc__workflow-label">Advanced</span>
       <span class="empirical-load-calc__workflow-status">${escapeHtml(statusLabel)}</span>
     </summary>
     <nav class="empirical-load-calc__tabs" aria-label="Advanced load calculation views">
@@ -435,6 +445,25 @@ function groupTopologyFindings(findings) {
     .sort((left, right) => left.key.localeCompare(right.key));
 }
 
+const FINDING_KIND_LABELS = Object.freeze({
+  SNAP_GAP: 'Endpoint gap',
+  CENTERLINE_CLASH: 'Centerline clash',
+  PHYSICAL_CLEARANCE_CLASH: 'Physical clearance clash',
+  UNKNOWN_RESTRAINT_FAMILY: 'Unclassified support family',
+  TOPOLOGY_REVIEW: 'Topology review',
+  TOPOLOGY_BLOCKER: 'Topology blocker',
+  DISCONNECTED_SUBGRAPH: 'Disconnected pipeline segment',
+  DEGREE_ABOVE_TWO: 'Multi-way branch / tee junction',
+});
+
+function formatFindingHeading(severity, kind) {
+  const sev = severity ? severity.charAt(0).toUpperCase() + severity.slice(1).toLowerCase() : '';
+  const friendlyKind = FINDING_KIND_LABELS[kind] || (kind ? kind.replace(/_/g, ' ').toLowerCase() : 'Finding');
+  const title = sev ? `${sev}: ${friendlyKind}` : friendlyKind;
+  const rawCode = `${severity || ''} ${kind || ''}`.trim();
+  return { title, rawCode };
+}
+
 function topologyFindingGroupMarkup(group, exactFixIds, skipError) {
   const first = group.rows[0];
   const openCount = group.rows.filter((finding) => finding.reviewDisposition !== 'SKIPPED').length;
@@ -443,8 +472,15 @@ function topologyFindingGroupMarkup(group, exactFixIds, skipError) {
   )).length;
   const skippedCount = group.rows.filter((finding) => finding.reviewDisposition === 'SKIPPED').length;
   const status = blockingCount > 0 ? 'blocked' : openCount > 0 || skippedCount > 0 ? 'review' : 'ready';
+  const heading = formatFindingHeading(first.severity, first.kind);
+  const guidance = topologyFindingGuidance(first);
+
   return `<details class="load-calc-topology-group" data-status="${status}"${openCount > 0 ? ' open' : ''}>
-    <summary><strong>${escapeHtml(`${first.severity} ${first.kind}`)}</strong><span>${group.rows.length} finding(s) · ${openCount} open${skippedCount ? ` · ${skippedCount} skipped` : ''}</span></summary>
+    <summary><strong>${escapeHtml(heading.title)}</strong><small class="load-calc-topology-group__code">(${escapeHtml(heading.rawCode)})</small><span>${group.rows.length} finding(s) · ${openCount} open${skippedCount ? ` · ${skippedCount} skipped` : ''}</span></summary>
+    <div class="load-calc-topology-group__guidance">
+      <p class="load-calc-topology-plain-summary">${escapeHtml(topologyFindingPlainSummary(first))}</p>
+      <p class="load-calc-topology-possible-fix"><strong>Possible fix:</strong> ${escapeHtml(guidance.fix)}</p>
+    </div>
     <ul class="load-calc-error-check__issues">${group.rows.map((finding) => topologyFindingRowMarkup(
       finding,
       exactFixIds.has(finding.id),
@@ -502,11 +538,8 @@ function topologyFindingRowMarkup(finding, exactFixAvailable, skipError) {
   const sourceEvidence = finding.sourceLabel
     ? `<small class="load-calc-topology-source-label">Source evidence: ${escapeHtml(finding.sourceLabel)}</small>`
     : '';
-  const possibleFix = finding.reviewDisposition === 'SKIPPED'
-    ? ''
-    : `<p class="load-calc-topology-possible-fix"><strong>Possible fix:</strong> ${escapeHtml(topologyFindingGuidance(finding).fix)}</p>`;
   return `<li data-topology-finding-id="${escapeHtml(finding.id)}">
-    <span><strong>${escapeHtml(scope)}</strong>${sourceEvidence}<p class="load-calc-topology-plain-summary">${escapeHtml(topologyFindingPlainSummary(finding))}</p>${possibleFix}<small class="load-calc-topology-technical-detail">${escapeHtml(finding.message)}</small><small>${escapeHtml(disposition)}</small></span>
+    <span><strong>${escapeHtml(scope)}</strong>${sourceEvidence}<small class="load-calc-topology-technical-detail">${escapeHtml(finding.message)}</small><small class="load-calc-topology-disposition">${escapeHtml(disposition)}</small></span>
     ${topologyFindingActionMarkup(finding, exactFixAvailable, skipError)}
   </li>`;
 }

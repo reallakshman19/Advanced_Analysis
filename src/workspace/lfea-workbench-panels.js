@@ -46,6 +46,7 @@ export function renderLfeaToolbar(root, state, modes, handlers) {
   const mock = workbenchButton(root, '[SIMULATED] Load Mock Data', handlers.onMock);
   mock.dataset.role = 'lfea-mock';
   mock.dataset.mockData = 'true';
+  mock.title = 'Load sample demonstration mesh package';
   const fileLabel = workbenchElement(root, 'label', null, 'Import mesh package ');
   const file = workbenchElement(root, 'input');
   file.type = 'file';
@@ -56,6 +57,11 @@ export function renderLfeaToolbar(root, state, modes, handlers) {
   const run = workbenchButton(root, 'Validate, adapt & solve', handlers.onRun);
   run.dataset.role = 'lfea-run';
   run.disabled = !state.packageValue || state.status === 'RUNNING';
+  if (run.disabled) {
+    run.title = state.status === 'RUNNING'
+      ? 'Analysis is currently running'
+      : 'Requires an imported or sample mesh package';
+  }
   const cancel = workbenchButton(root, 'Cancel run', handlers.onCancelRun);
   cancel.hidden = state.status !== 'RUNNING';
   const benchmark = workbenchButton(root, 'Run Benchmark', handlers.onBenchmark);
@@ -70,6 +76,9 @@ export function renderLfeaToolbar(root, state, modes, handlers) {
     handlers.onExportDocument,
   );
   exportDocument.disabled = !state.packageValue;
+  if (exportDocument.disabled) {
+    exportDocument.title = 'Requires a loaded mesh package to export';
+  }
   const exportEvidence = workbenchButton(
     root,
     'Export evidence bundle',
@@ -78,10 +87,19 @@ export function renderLfeaToolbar(root, state, modes, handlers) {
   exportEvidence.dataset.role = 'lfea-export-evidence';
   exportEvidence.disabled = !isCurrentExecution(state)
     || state.execution?.evidenceExport?.status !== 'QUALIFIED_EXPORT';
+  if (exportEvidence.disabled) {
+    exportEvidence.title = 'Requires a completed qualified analysis run to export evidence';
+  }
   const undo = workbenchButton(root, 'Undo', handlers.onUndo);
   undo.disabled = !state.past.length;
+  if (undo.disabled) {
+    undo.title = 'No actions available to undo';
+  }
   const redo = workbenchButton(root, 'Redo', handlers.onRedo);
   redo.disabled = !state.future.length;
+  if (redo.disabled) {
+    redo.title = 'No actions available to redo';
+  }
   const mode = resultModeSelect(root, state, modes, handlers);
   toolbar.append(
     mock,

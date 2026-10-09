@@ -46,8 +46,10 @@ export function renderLafeaEngineeringEvidenceDrawer(root, sections, benchmarkHo
 
 export function revealLafeaGuidedTarget(target) {
   if (!target) return false;
+  target.hidden = false;
   for (let parent = target.parentElement; parent; parent = parent.parentElement) {
     if (parent.tagName === 'DETAILS') parent.open = true;
+    if (parent.hidden) parent.hidden = false;
   }
   target.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
   target.querySelector?.('button,input,select,textarea,[tabindex]')?.focus?.({ preventScroll: true });

@@ -189,7 +189,7 @@ function buildOutcome(context) {
     return Object.freeze({
       state: 'NOT_READY',
       label: 'Not ready',
-      message: 'Not ready — run the complete example or import assessment data to begin.',
+      message: 'Run the complete example or import assessment data to begin.',
     });
   }
   if (context.localCurrent) {

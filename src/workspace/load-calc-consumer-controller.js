@@ -114,10 +114,12 @@ export class LoadCalcConsumerController {
       // sync weight/materialMap seed).  The function is idempotent — it skips
       // any master that already has normalizedRows or a user-committed fieldMap.
       this.eventBus.subscribe('MASTER_DATA_UPDATED', ({ action } = {}) => {
-        if (!action?.startsWith('bundled_seed')) return;
         import('./master-data-ui.js').then(async ({ autoNormalizeBundledMasters, autoGenerateMasterEnrichment, autoBindMasterSources, autoEnsureDefaultQualificationProfile }) => {
-          const committed = autoNormalizeBundledMasters();
-          if (committed.length > 0) this.render();
+          let committed = [];
+          if (action?.startsWith('bundled_seed')) {
+            committed = autoNormalizeBundledMasters();
+            if (committed.length > 0) this.render();
+          }
           const [enrichResult, bindResult, qualResult] = await Promise.all([
             autoGenerateMasterEnrichment(),
             autoBindMasterSources(),
@@ -193,6 +195,16 @@ export class LoadCalcConsumerController {
     this.activeTab = tab;
     const workflowStepId = WORKFLOW_STEP_BY_TAB[tab];
     if (workflowStepId) this.currentWorkflowStepId = workflowStepId;
+    if (tab === 'enrichment' || tab === 'preflight' || tab === 'verify') {
+      import('./master-data-ui.js').then(async ({ autoGenerateMasterEnrichment, autoBindMasterSources, autoEnsureDefaultQualificationProfile }) => {
+        const [enrichResult, bindResult, qualResult] = await Promise.all([
+          autoGenerateMasterEnrichment(),
+          autoBindMasterSources(),
+          autoEnsureDefaultQualificationProfile(),
+        ]);
+        if (enrichResult?.accepted > 0 || bindResult?.bound?.length > 0 || qualResult) this.render();
+      }).catch(() => {});
+    }
   }
 
   /** Lazily evaluates the heavy canonical checker and refreshes run authority. */

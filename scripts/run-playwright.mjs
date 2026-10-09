@@ -11,7 +11,7 @@ import { spawnSync } from 'node:child_process';
 const cliPath = `${process.cwd()}/node_modules/playwright/cli.js`;
 const result = spawnSync(process.execPath, [cliPath, 'test', ...process.argv.slice(2)], {
   cwd: process.cwd(),
-  env: { ...process.env, PLAYWRIGHT_BROWSERS_PATH: '0' },
+  env: { ...process.env, VITE_BASE: '/', PLAYWRIGHT_BROWSERS_PATH: '0' },
   stdio: 'inherit',
 });
 

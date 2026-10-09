@@ -239,7 +239,16 @@ function workspaceProject(dataset) {
 
 function workspaceUnits(dataset) {
   const source = dataset.sourceSnapshot?.sourcePackage || {};
-  const unit = stringValue(source.unit || source.units?.length || source.project?.units?.length || 'unknown');
+  const isManagedStage = source.schema === 'inputxml-managed-stage/v1'
+    || dataset.sourceSchema === 'inputxml-managed-stage/v1'
+    || dataset.sourceSnapshot?.sourceSchema === 'inputxml-managed-stage/v1';
+  const unit = stringValue(
+    source.unit
+    || source.units?.length
+    || source.project?.units?.length
+    || dataset.units?.length
+    || (isManagedStage ? 'mm' : 'unknown'),
+  );
   return { length: unit, force: stringValue(source.units?.force || 'unknown'), mass: stringValue(source.units?.mass || 'unknown') };
 }
 

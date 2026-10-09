@@ -108,7 +108,13 @@ function midpoint(left, right) {
     z: (left.z + right.z) / 2,
   });
 }
-function firstMoment(mass, point) { return deepFreeze({ x: mass * point.x, y: mass * point.y, z: mass * point.z }); }
+function firstMoment(mass, point) {
+  if (!point) {
+    if (mass === 0) return deepFreeze({ x: 0, y: 0, z: 0 });
+    throw new TypeError('firstMoment requires an application point for a non-zero mass.');
+  }
+  return deepFreeze({ x: mass * point.x, y: mass * point.y, z: mass * point.z });
+}
 function addPoint(left, right) { return { x: left.x + right.x, y: left.y + right.y, z: left.z + right.z }; }
 function dividePoint(point, divisor) { return deepFreeze({ x: point.x / divisor, y: point.y / divisor, z: point.z / divisor }); }
 function sourceTrace(primitive, sourceId) {
