@@ -1,6 +1,6 @@
 # Active Handover — ADV-EMP1-GOVERNANCE-READINESS
 
-CHAIN_STATE_VERSION: 4
+CHAIN_STATE_VERSION: 5
 COMMON_PROTOCOL: engineering-pr-delivery-v2
 COMMON_PROTOCOL_BASIS: 293a3db7993a6945c01adc592a7ff14a339c504a
 COMMON_PROTOCOL_STATUS: CURRENT
@@ -13,22 +13,22 @@ AGENT_INSTANCE_ID: chatgpt-gpt56sol:9d86c92d-0d91-4e97-8ae7-6f21d8cb42ac
 REPO: reallaksh19/Advanced_Analysis
 TASK: Implement the bounded EMP.1 engineering-governance readiness projection and surface it in the engineer-facing professional workflow without moving qualification logic into the UI.
 CHAIN: ADV-EMP1-GOVERNANCE-READINESS
-ENDPOINT: EP-0004
+ENDPOINT: EP-0005
 
 PR: 1614
 PR_STATUS: OPEN_DRAFT
 BRANCH: agent/emp1-governance-readiness-v1
 MATERIAL_HEAD: 52de0672aaeb244471538b851ff263ef21ee0841
-CUSTODY_ENDPOINT_HEAD: 4132b5d60b518bbd1735a712d8ed86f1400555b9
+CUSTODY_ENDPOINT_HEAD: 7e402202ba541591c2365167f1a3cef17e4215c7
 MAIN: 70dd23a4fb36533f00d818586d1b753fa4f12276
-MERGEABILITY: TRUE_AT_LAST_READ
+MERGEABILITY: TRUE_AT_LAST_STABLE_READ
 REVIEWS: 0
 UNRESOLVED_THREADS: 0_AT_LAST_READ
-REQUIRED_CHECKS: EXISTING_WRC_WORKFLOWS_EXECUTED_FAIL_BEFORE_NEW_CHECKERS; READINESS_PROJECTION_CHECK_NOT_RUN; READINESS_DASHBOARD_CHECK_NOT_RUN
+REQUIRED_CHECKS: READINESS_PROJECTION_CHECK_PASS_OWNER_LOCAL_EXECUTION; READINESS_DASHBOARD_CHECK_PASS_OWNER_LOCAL_EXECUTION; PROFESSIONAL_WORKFLOW_CHECK_NOT_RUN; EXISTING_WRC_WORKFLOWS_EXECUTED_FAIL_AT_SEPARATE_PRE_EXISTING_GATES
 MERGE_AUTHORITY: OWNER_ONLY
 MERGE_AUTHORIZED: FALSE
 
-ENGINEERING_STATE: MATERIAL_COMPLETE_VALIDATION_INCOMPLETE
+ENGINEERING_STATE: FOCUSED_READINESS_VALIDATED_REMAINING_WORKFLOW_VALIDATION
 CUSTODY_STATE: HELD
 QUALIFICATION_STATE: NOT_REQUIRED
 WRITE_AUTHORITY: WRITE_ALLOWED_WITHIN_BOUNDED_GOVERNANCE_AND_READ_ONLY_UI_SLICE
@@ -39,7 +39,7 @@ OWNER_ROADMAP_MUTATION_AUTHORITY: READINESS_PROJECTION_AND_READ_ONLY_PRESENTATIO
 PROJECT_ROADMAP_STATE: NOT_APPLICABLE
 ISSUE_BASIS: NOT_APPLICABLE
 
-ORIGINAL_TASK_STATUS: CORE_READINESS_AND_DASHBOARD_SLICES_IMPLEMENTED
+ORIGINAL_TASK_STATUS: CORE_READINESS_AND_DASHBOARD_SLICES_IMPLEMENTED_AND_FOCUSED_CHECKS_PASS
 INPUT_STATUS: Existing EMP.1 product projection/currentness/route state only; no new engineering source data.
 BENCHMARK_ORACLE_STATUS: EXISTING_WRC_ORACLE_GATE_EXECUTED_FAIL_OUTSIDE_THIS_SLICE; NO ORACLE MUTATION AUTHORIZED.
 SOURCE_AUTHORITY_MUTATION: FORBIDDEN
@@ -60,6 +60,6 @@ TAKEOVER_QUALIFICATION_READY: FALSE
 HANDOVER_READY: TRUE
 
 OVERLAP: SAFE_AT_LAST_READ — readiness/dashboard material is confined to the new readiness projection/checkers plus the existing professional workflow view. No WRC numerical/source/route/oracle files were modified.
-LEG_DIAGNOSIS: Existing EMP.1 owns numerical calculation, currentness, bounded route authority and professional workflow. The core readiness projection composes those states; the professional workflow view now invokes that projection once and renders seven governance dimensions plus blocker codes without re-evaluating engineering authority. Hosted CI still fails at pre-existing WRC oracle/historical-authority gates before either new readiness checker executes.
-BLOCKER: READINESS_PROJECTION_CHECK_NOT_EXECUTED; READINESS_DASHBOARD_CHECK_NOT_EXECUTED; EXISTING_WRC_CI_HAS_SEPARATE_PRE_EXISTING_GATE_FAILURES
-EXACT_NEXT_ACTION: From a faithful checkout run `node scripts/emp1-readiness-projection-check.mjs`, `node scripts/emp1-readiness-dashboard-check.mjs`, and `node scripts/emp1-professional-workflow-check.mjs`; then run applicable non-authority-mutating import/build checks. Keep PR #1614 Draft and do not merge without explicit Owner authorization.
+LEG_DIAGNOSIS: Owner local execution now confirms PASS for both the core readiness projection and read-only dashboard checker. Applicability remains pending before execution and qualified only by a current governed bounded-C execution; UI authority creation guards remain false. Existing hosted WRC CI failures remain separate pre-existing oracle/historical-authority gate failures.
+BLOCKER: PROFESSIONAL_WORKFLOW_CHECK_NOT_EXECUTED; EXISTING_WRC_CI_HAS_SEPARATE_PRE_EXISTING_GATE_FAILURES
+EXACT_NEXT_ACTION: From the same faithful checkout run `node scripts/emp1-professional-workflow-check.mjs`; if PASS, run applicable non-authority-mutating import/build checks from `AGENTS.md`. Keep PR #1614 Draft and do not merge without explicit Owner authorization.
