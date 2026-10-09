@@ -9,6 +9,20 @@ import {
 import { evidenceNumber } from './units.js';
 
 export function resolveComponentCaseMass(component, loadCaseId, compositionProfile) {
+  const result = resolveComponentCaseMassValues(component, loadCaseId, compositionProfile);
+  if (!result.ok || result.mode !== 'POINT' || result.applicationPoint) return result;
+  const negligible = NEGLIGIBLE_MASS_TYPES.includes(String(component.type || '').trim().toUpperCase());
+  if (negligible && result.pointMassKg === 0) return result;
+  return blocked(AUDIT_CODES.MISSING_COMPONENT_COG);
+}
+
+/**
+ * Resolves mass composition only, not load placement or execution authority.
+ * A known point mass may retain a null applicationPoint. The Common Input mass
+ * receipt consumes this seam; its selected numerical method separately qualifies
+ * placement. Primitive creation must keep using resolveComponentCaseMass above.
+ */
+export function resolveComponentCaseMassValues(component, loadCaseId, compositionProfile) {
   const projectionBlocker = blockingProjectionCode(component.diagnostics);
   if (projectionBlocker) return blocked(projectionBlocker);
   if (NEGLIGIBLE_MASS_TYPES.includes(String(component.type || '').trim().toUpperCase())) {
@@ -31,7 +45,6 @@ function resolveNegligibleMass(component) {
   const pointMass = evidenceNumber(evidence.componentWeightKg);
   if (isNegative(pointMass)) return blocked(AUDIT_CODES.INVALID_NEGATIVE_VALUE);
   const massKg = pointMass ?? 0;
-  if (massKg > 0 && !component.geometry.applicationPoint) return blocked(AUDIT_CODES.MISSING_COMPONENT_COG);
   return deepFreeze({
     ok: true,
     mode: 'POINT',
@@ -77,12 +90,11 @@ function resolveLumped(component) {
       : AUDIT_CODES.LUMPED_LINEAR_MASS_CONFLICT);
   }
   if (pointMass === null) return blocked(AUDIT_CODES.MISSING_COMPONENT_MASS);
-  if (!component.geometry.applicationPoint) return blocked(AUDIT_CODES.MISSING_COMPONENT_COG);
   return deepFreeze({
     ok: true,
     mode: 'POINT',
     pointMassKg: pointMass,
-    applicationPoint: component.geometry.applicationPoint,
+    applicationPoint: component.geometry.applicationPoint || null,
     sourceEvidence: evidence.componentWeightKg,
     diagnostics: [],
   });
@@ -95,8 +107,7 @@ function resolveUnknown(component) {
   if (isNegative(pointMass) || isNegative(directLinear)) return blocked(AUDIT_CODES.INVALID_NEGATIVE_VALUE);
   if (pointMass !== null && directLinear !== null && directLinear !== 0) return blocked(AUDIT_CODES.DOUBLE_COUNT_CONFLICT);
   if (pointMass !== null) {
-    if (!component.geometry.applicationPoint) return blocked(AUDIT_CODES.MISSING_COMPONENT_COG);
-    return deepFreeze({ ok: true, mode: 'POINT', pointMassKg: pointMass, applicationPoint: component.geometry.applicationPoint,
+    return deepFreeze({ ok: true, mode: 'POINT', pointMassKg: pointMass, applicationPoint: component.geometry.applicationPoint || null,
       sourceEvidence: evidence.componentWeightKg, diagnostics: [diagnostic(AUDIT_CODES.UNSUPPORTED_COMPONENT_TYPE)] });
   }
   if (directLinear !== null) return validLinearGeometry(component)

@@ -151,7 +151,7 @@ assert.match(inspectorSource, /decision ledger, not a duplicate of the complete 
   'inspection must disclose that resolver rows are not a complete source-field inventory');
 assert.match(inspectorSource, /Product-global screening assumptions remain/u,
   'Product defaults must remain distinguished from target-level selected evidence');
-assert.match(runtimeSource, /resolutionLedger = resolveNonFeaEnrichment/u,
+assert.match(runtimeSource, /(?:candidateR|r)esolutionLedger = resolveNonFeaEnrichment/u,
   'current Common Input remains the owner of target-level resolution');
 
 console.log(JSON.stringify({

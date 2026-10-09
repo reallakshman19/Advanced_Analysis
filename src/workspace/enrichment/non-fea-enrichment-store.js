@@ -1,4 +1,5 @@
 import { freezeDeep } from '../dataset-utils.js';
+import { buildApproximateMatchPreview, requiresApproximateMatchReview } from './approximate-match-preview.js';
 import { nonFeaCommonInputStore } from '../non-fea-common-input-store.js';
 import {
   NON_FEA_ENRICHMENT_SCHEMAS,
@@ -109,6 +110,9 @@ export class NonFeaEnrichmentStore {
   acceptProposal(proposalId, decision = {}) {
     const proposal = this.#snapshot.proposals.find((row) => row.proposalId === proposalId);
     if (!proposal) throw new RangeError(`Unknown enrichment proposal: ${proposalId}.`);
+    if (requiresApproximateMatchReview(proposal)) {
+      throw new TypeError('Review and explicitly confirm the complete approximate master match in the preview before accepting.');
+    }
     if (proposal.record.migration && this.#snapshot.migrationReport?.blockers?.length) {
       throw new TypeError('Resolve all migration blockers before accepting migrated records.');
     }
@@ -136,12 +140,86 @@ export class NonFeaEnrichmentStore {
     }, 'ENRICHMENT_RECORD_ACCEPTED', `Accepted enrichment record ${accepted.recordId}.`);
   }
 
+  acceptReviewedApproximateMatch(proposalIds, decision = {}) {
+    if (decision.approximateMatchConfirmed !== true || !decision.acceptanceBasis?.trim()) {
+      throw new TypeError('Explicit approximate-match confirmation and an acceptance basis are required.');
+    }
+    const ids = new Set(proposalIds);
+    if (!ids.size || ids.size !== proposalIds.length) throw new TypeError('A unique, non-empty proposal group is required.');
+    const currentHash = requiredSourceHash(this.#snapshot.currentSourceSemanticHash);
+    if (this.#snapshot.stale || (this.#snapshot.boundSourceSemanticHash && this.#snapshot.boundSourceSemanticHash !== currentHash)) {
+      throw new TypeError('Accepted records are stale. Revalidate or clear them before applying a reviewed match.');
+    }
+    const proposals = [...ids].map((id) => {
+      const proposal = this.#snapshot.proposals.find((row) => row.proposalId === id);
+      if (!proposal || !requiresApproximateMatchReview(proposal)) throw new TypeError('Every reviewed proposal must be a staged approximate match.');
+      if (proposal.record.evidence?.sourceSemanticHash !== currentHash) throw new TypeError('Approximate match is stale against the active source model.');
+      if (proposal.record.migration && this.#snapshot.migrationReport?.blockers?.length) throw new TypeError('Resolve migration blockers before applying a reviewed match.');
+      return proposal;
+    });
+    const groups = buildApproximateMatchPreview(this.#snapshot.proposals);
+    const group = groups.find((row) => row.proposals.some((proposal) => ids.has(proposal.proposalId)));
+    if (!group || group.proposals.length !== ids.size || group.proposals.some((proposal) => !ids.has(proposal.proposalId))) {
+      throw new TypeError('Review and apply one complete preview group at a time.');
+    }
+    const recordsById = new Map(this.#snapshot.acceptedRecords.map((record) => [record.recordId, record]));
+    proposals.forEach((proposal) => {
+      const record = acceptNonFeaEnrichmentProposal(proposal, decision);
+      recordsById.set(record.recordId, record);
+    });
+    const records = [...recordsById.values()];
+    // Validate the whole transaction before mutating any accepted authority.
+    createNonFeaEnrichmentSidecar({ sourceSemanticHash: currentHash, records });
+    return this.#updateAuthority({
+      acceptedRecords: records, boundSourceSemanticHash: currentHash, stale: false,
+      proposals: this.#snapshot.proposals.filter((proposal) => !ids.has(proposal.proposalId)),
+      message: `Applied ${ids.size} explicitly reviewed approximate-match proposals.`, error: '',
+    }, 'ENRICHMENT_RECORD_ACCEPTED', 'An approximate master match was explicitly reviewed and applied as one transaction.');
+  }
+
+  /** Explicit table Apply only: same proposal validators, one atomic weight transaction. */
+  applyReviewedComponentWeights(inputs, decision = {}) {
+    if (decision.weightReviewConfirmed !== true || !Array.isArray(inputs) || !inputs.length) {
+      throw new TypeError('Explicit component-weight review is required.');
+    }
+    const currentHash = requiredSourceHash(this.#snapshot.currentSourceSemanticHash);
+    if (this.#snapshot.stale || (this.#snapshot.boundSourceSemanticHash && this.#snapshot.boundSourceSemanticHash !== currentHash)) {
+      throw new TypeError('Accepted records are stale. Reopen weight review for the current source.');
+    }
+    const ids = new Set();
+    const recordsById = new Map(this.#snapshot.acceptedRecords.map(record => [record.recordId, record]));
+    for (const input of inputs) {
+      if (input.fieldId !== 'COMPONENT_WEIGHT' || input.selectorKind !== 'ENTITY'
+          || input.unit !== 'kg' || typeof input.value !== 'number' || !Number.isFinite(input.value) || input.value < 0
+          || input.recordId !== `loadcalc-fitting-weight:${input.selectorKey}`
+          || input.evidence?.sourceSemanticHash !== currentHash || input.evidence?.reviewerSelected !== true
+          || input.migration || ids.has(input.recordId)
+          || !['ACCEPTED_OVERRIDE', 'EXACT_APPROVED_MASTER'].includes(input.authority)
+          || (input.value === 0 && (input.authority !== 'ACCEPTED_OVERRIDE'
+            || input.sourceId !== 'manual-weight-review' || input.evidence?.zeroWeightAssumption !== true))) {
+        throw new TypeError('Only unique current, explicitly reviewed component weights can be applied.');
+      }
+      ids.add(input.recordId);
+      const proposal = createNonFeaEnrichmentProposal({ proposalId: input.recordId, record: input,
+        rationale: input.evidence.zeroWeightAssumption ? 'Explicit Skip: equipment weight assumed 0 kg.' : 'Explicit editable-table weight review.' });
+      if (requiresApproximateMatchReview(proposal)) throw new TypeError('Approximate matches require their own review.');
+      recordsById.set(input.recordId, acceptNonFeaEnrichmentProposal(proposal, decision));
+    }
+    const records = [...recordsById.values()];
+    createNonFeaEnrichmentSidecar({ sourceSemanticHash: currentHash, records });
+    return this.#updateAuthority({ acceptedRecords: records, boundSourceSemanticHash: currentHash, stale: false,
+      proposals: this.#snapshot.proposals.filter(proposal => !ids.has(proposal.proposalId)),
+      message: `Applied ${ids.size} reviewed component weights. Zero values are explicit assumptions.`, error: '',
+    }, 'ENRICHMENT_RECORD_ACCEPTED', 'Explicitly reviewed component weights applied as one transaction.');
+  }
+
   acceptAllProposals() {
     if (this.#snapshot.migrationReport?.blockers?.length) {
       throw new TypeError('Resolve migration blockers before accepting all migrated records.');
     }
     let snapshot = this.#snapshot;
     for (const proposal of [...snapshot.proposals]) {
+      if (requiresApproximateMatchReview(proposal)) continue;
       this.acceptProposal(proposal.proposalId);
       snapshot = this.#snapshot;
     }

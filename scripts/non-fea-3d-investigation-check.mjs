@@ -130,7 +130,7 @@ const shared3dSource = readFileSync(
   'utf8',
 );
 const focusWorkspaceEntitySource = shared3dSource.match(
-  /focusWorkspaceEntity\(entityIdInput\) \{([\s\S]*?)\n {2}\}\n\n {2}activateSearchResult/u,
+  /focusWorkspaceEntity\(entityIdInput\) \{([\s\S]*?)\r?\n {2}\}\r?\n\r?\n {2}activateSearchResult/u,
 )?.[0];
 
 assert.doesNotMatch(projectionSource, /Math\.hypot|distanceTo|nearest|proximity|coordinateFrame|globalReaction/,

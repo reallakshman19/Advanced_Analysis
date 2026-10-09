@@ -1,4 +1,7 @@
 import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/cii-standalone-port/core/weight-valve-hints.js';
+import { isManualWeightReviewType } from './load-calc-weight-review-scope.js';
+import { nominalBoreMmFromNps } from './master-data-normalizers.js';
+import { resolveNonFeaEnrichment } from '../core/non-fea-enrichment/index.js';
 
 /**
  * Builds reviewable component-weight candidates for catalogue fittings, using
@@ -20,15 +23,14 @@ import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/c
  * automatic ranking is still a proposal, not an acceptance.
  */
 
-/** Catalogue fittings: types the weights master can describe. */
-const CATALOGUE_FITTING_TYPES = Object.freeze(['FLAN', 'FLANGE', 'VALV', 'VALVE', 'INST', 'INSTRUMENT']);
-
 const DEFAULT_LENGTH_TOLERANCE_MM = 4;
 
-export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
+export function buildFittingWeightReviewRows({ dataset, masters, sidecar = null, reviewPolicy } = {}) {
   const sourceModel = dataset?.sharedModel;
   if (!sourceModel) throw new TypeError('Fitting weight review requires an active dataset shared model.');
   const weightRows = masters?.weight?.normalizedRows || [];
+  const resolvedWeights = currentResolvedWeights(sourceModel, sidecar);
+  let omittedResolvedCount = 0;
   const rawByEntityId = new Map((dataset.entities || []).map((entity) => [entity.entityId, entity]));
   const config = {
     weight: {
@@ -41,33 +43,39 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
   const rows = [];
   (sourceModel.components || []).forEach((component) => {
     const type = String(component.type || '').trim().toUpperCase();
-    if (!CATALOGUE_FITTING_TYPES.includes(type)) return;
-    if (component.engineeringProperties?.componentWeightKg != null) return;
-    const targetId = component.componentKey || component.sourceEntityId;
     const attributes = rawByEntityId.get(component.sourceEntityId)?.properties?.attributes || {};
     const boreMm = numberFrom(attributes.ABORE ?? attributes.LBORE);
+    if (!isManualWeightReviewType(type, { component, boreMm, description: attributes.DTXR || '' }, reviewPolicy)) return;
+    if (component.engineeringProperties?.componentWeightKg != null) return;
+    const targetId = component.componentKey || component.sourceEntityId;
+    if (resolvedWeights.has(targetId)) { omittedResolvedCount += 1; return; }
     const lengthMm = distanceBetween(attributes.APOS, attributes.LPOS);
     const description = String(attributes.DTXR || '').trim();
-    const rating = ratingFromText(description);
+    const rating = ratingFromText(description)
+      || ratingFromText(attributes.SPRE)
+      || ratingFromText(attributes.LSTU)
+      || ratingFromText(attributes.OWNER);
 
     const base = {
       targetId, type, description, boreMm, lengthMm, rating,
+      sourceSemanticHash: sourceModel.semanticHash,
       sourceEntityId: component.sourceEntityId,
     };
-    if (boreMm === null || lengthMm === null) {
-      rows.push({ ...base, candidates: [], unresolvable: 'NO_BORE_OR_LENGTH' });
+    if (boreMm === null) {
+      rows.push({ ...base, candidates: [], unresolvable: 'NO_BORE' });
       return;
     }
-    let ranking;
-    try {
-      ranking = rankXmlCiiWeightCandidates(
-        { boreMm, rating, lengthMm, dtxr: description, nodeName: description },
-        config,
-        { includeRejected: true },
-      );
-    } catch {
-      rows.push({ ...base, candidates: [], unresolvable: 'RANKING_FAILED' });
-      return;
+    let ranking = null;
+    if (lengthMm !== null && lengthMm > 0) {
+      try {
+        ranking = rankXmlCiiWeightCandidates(
+          { boreMm, rating, lengthMm, dtxr: description, nodeName: description },
+          config,
+          { includeRejected: true },
+        );
+      } catch {
+        ranking = null;
+      }
     }
     const toCandidate = (candidate, rejected) => ({
       typeDesc: candidate.typeDesc || candidate.valveType || 'UNSPECIFIED',
@@ -76,23 +84,71 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
       rowBoreMm: candidate.rowBore,
       rowRating: candidate.rowRating,
       lengthQualified: candidate.lengthQualified === true,
-      lengthDeltaMm: Number.isFinite(candidate.rowLength) ? Math.abs(candidate.rowLength - lengthMm) : null,
+      lengthDeltaMm: Number.isFinite(candidate.rowLength) && lengthMm !== null ? Math.abs(candidate.rowLength - lengthMm) : null,
       tier: candidate.tier ?? candidate.semanticPotentialTier ?? 0,
       reason: candidate.reason || candidate.semanticReason || '',
       rejected,
     });
-    const ranked = (ranking.candidates || []).map((candidate) => toCandidate(candidate, false));
-    const rejected = (ranking.rejectedCandidates || []).map((candidate) => toCandidate(candidate, true));
-    const candidates = [...ranked, ...rejected];
-    const best = ranked[0] || null;
+    const ranked = (ranking?.candidates || []).map((candidate) => toCandidate(candidate, false));
+    const rejected = (ranking?.rejectedCandidates || []).map((candidate) => toCandidate(candidate, true));
+    let candidates = [...ranked, ...rejected];
+
+    // Fallback: match master rows by boreMm and rating for point/zero-length fittings or unranked items
+    if (!candidates.length && weightRows.length > 0) {
+      const descUpper = `${description} ${type}`.toUpperCase();
+      const sameBore = weightRows.filter((r) => Math.abs(Number(r.bore) - boreMm) < 1 && Number(r.weight) > 0);
+      const sameRating = rating ? sameBore.filter((r) => String(r.rating) === String(rating)) : sameBore;
+      const pool = sameRating.length ? sameRating : sameBore;
+      if (pool.length) {
+        const scored = pool.map((r) => {
+          let score = 0;
+          const vt = String(r.valveType || '').toUpperCase();
+          if (descUpper.includes('BLIND') && vt.includes('BLIND')) score += 1000;
+          if (descUpper.includes('FLAN') && vt.includes('FLAN')) score += 500;
+          if (descUpper.includes('GATE') && vt.includes('GATE')) score += 500;
+          if (descUpper.includes('BALL') && vt.includes('BALL')) score += 500;
+          if (descUpper.includes('GLOBE') && vt.includes('GLOBE')) score += 500;
+          if (descUpper.includes('CHECK') && vt.includes('CHECK')) score += 500;
+          if (descUpper.includes('CONTROL') && vt.includes('CONTROL')) score += 500;
+          if (descUpper.includes('INST') || descUpper.includes('GAUGE') || descUpper.includes('TEMPERATURE')) {
+            if (vt.includes('FLAN')) score += 200;
+          }
+          return { row: r, score };
+        });
+        scored.sort((a, b) => b.score - a.score || a.row.weight - b.row.weight);
+        candidates = scored.slice(0, 5).map(({ row, score }) => ({
+          typeDesc: row.valveType || 'FITTING',
+          weightKg: Number(row.weight),
+          rowLengthMm: Number(row.length) || null,
+          rowBoreMm: Number(row.bore),
+          rowRating: String(row.rating),
+          lengthQualified: false,
+          lengthDeltaMm: null,
+          tier: score,
+          reason: `Matched by Bore DN${row.bore}${row.rating ? ` Rating ${row.rating}#` : ''}`,
+          rejected: false,
+        }));
+      }
+    }
+
+    // The XML->CII length ranker intentionally excludes rows without F/F.
+    // Instrument-family catalogue masses can be supplied without that dimension:
+    // expose the direct UZV row instead of letting a factor-based suggestion hide
+    // it. Do not generalize an Instrument-XCV row to unrelated instruments.
+    const directInstrumentRows = directUzvCatalogueCandidates(base, weightRows);
+    if (directInstrumentRows.length) candidates = [...directInstrumentRows, ...candidates];
+
+    const best = candidates.find((c) => !c.rejected) || candidates[0] || null;
+    const rankedOnly = candidates.filter((c) => !c.rejected);
     // A clear semantic winner is a candidate whose tier leads the runner-up by
     // more than one keyword-priority step; anything closer is left for the
     // reviewer to decide between, not auto-selected under a false label.
-    const clearWinner = Boolean(best) && (ranked.length === 1 || best.tier > (ranked[1]?.tier ?? -Infinity) + 50);
+    const clearWinner = Boolean(best) && (rankedOnly.length === 1 || best.tier > (rankedOnly[1]?.tier ?? -Infinity) + 50);
+    const valveHint = ranking ? (formatValveHint(ranking.nodeHint) || ranking.semanticSource?.label || '') : '';
     rows.push({
       ...base,
       candidates,
-      valveHint: formatValveHint(ranking.nodeHint) || ranking.semanticSource?.label || '',
+      valveHint,
       bestCandidateIndex: candidates.length ? 0 : null,
       clearWinner,
       unresolvable: candidates.length === 0 ? 'NO_CANDIDATE' : null,
@@ -102,6 +158,7 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
     rows: Object.freeze(rows),
     summary: Object.freeze({
       fittingCount: rows.length,
+      omittedResolvedCount,
       withCandidates: rows.filter((row) => row.candidates.length > 0).length,
       singleCandidate: rows.filter((row) => row.candidates.length === 1).length,
       clearWinner: rows.filter((row) => row.candidates.length > 1 && row.clearWinner).length,
@@ -110,6 +167,67 @@ export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
       weightMasterRowCount: weightRows.length,
     }),
   });
+}
+
+function currentResolvedWeights(sourceModel, sidecar) {
+  if (!sidecar) return new Set();
+  try {
+    const ledger = resolveNonFeaEnrichment({ sourceModel, sidecar });
+    // A blocked/stale ledger is not evidence that review can be omitted.
+    if (ledger.status !== 'READY') return new Set();
+    return new Set(ledger.rows.filter((row) => row.status === 'RESOLVED'
+      && row.targetKind === 'COMPONENT' && row.fieldId === 'COMPONENT_WEIGHT'
+      && typeof row.selected?.value === 'number' && Number.isFinite(row.selected.value)
+      && (row.selected.value > 0 || (row.selected.value === 0
+        && row.selected.authority === 'ACCEPTED_OVERRIDE'
+        && row.selected.sourceId === 'manual-weight-review'
+        && row.selected.evidence?.zeroWeightAssumption === true
+        && row.selected.evidence?.reviewerSelected === true)))
+      .map((row) => row.targetId));
+  } catch { return new Set(); }
+}
+
+/** Ranking confidence alone cannot prefill a factor/interpolation/unrelated fallback. */
+export function canPrefillFittingWeight(row) {
+  const candidate = row.candidates[0];
+  return Boolean(row.clearWinner && candidate && !candidate.rejected
+    && (candidate.lengthQualified || candidate.familyQualified));
+}
+
+function directUzvCatalogueCandidates(row, weightRows) {
+  const normalizedDescription = row.description.toUpperCase().replace(/[^A-Z0-9]+/gu, ' ');
+  if (!/\b(?:UZV|ESDV|ESD)\b/u.test(normalizedDescription) || !row.rating) return [];
+  return weightRows.filter((master) => {
+    const family = String(master.valveType || '').toUpperCase().replace(/[^A-Z0-9]+/gu, ' ');
+    return /\bINSTRUMENT\b/u.test(family) && /\b(?:ESDV|UZV)\b/u.test(family)
+      && instrumentCatalogueBore(master) === row.boreMm
+      && String(master.rating).replace(/#/gu, '').trim() === row.rating
+      && Number.isFinite(Number(master.weight)) && Number(master.weight) > 0;
+  }).map((master) => ({
+    typeDesc: master.valveType,
+    weightKg: Number(master.weight),
+    rowLengthMm: Number(master.length) > 0 ? Number(master.length) : null,
+    rowBoreMm: instrumentCatalogueBore(master),
+    boreDerivedFromNps: String(master.bore ?? '').trim() === '',
+    masterNps: master.nps ?? null,
+    rowRating: row.rating,
+    lengthQualified: false,
+    lengthDeltaMm: null,
+    familyQualified: true,
+    sourceRowNumber: master._sourceRowNumber ?? null,
+    sourceRowIndex: master._sourceRowIndex ?? null,
+    sourceSheet: master._sourceSheet || '',
+    tier: 10000,
+    reason: `Direct ESDV/UZV catalogue family, DN${row.boreMm}, ${row.rating}#; ${String(master.bore ?? '').trim() === '' ? `blank master DN derived from mapped NPS ${master.nps} using the existing NPS-to-DN table; ` : ''}no F/F requirement, factor or interpolation applied. Vendor identity not asserted.`,
+    rejected: false,
+  }));
+}
+
+function instrumentCatalogueBore(master) {
+  // A supplied DN, including an invalid one, must not be replaced by NPS.
+  // Restrict the existing size-table derivation to this catalogue lookup.
+  return String(master.bore ?? '').trim() === ''
+    ? nominalBoreMmFromNps(master.nps) : Number(master.bore);
 }
 
 /**
@@ -127,11 +245,26 @@ export function fittingWeightRecordFor(row, candidate, candidateIndex, masters) 
     fieldId: 'COMPONENT_WEIGHT',
     value: candidate.weightKg,
     unit: 'kg',
-    authority: 'EXACT_APPROVED_MASTER',
-    sourceId: masters?.weight?.fileName || 'weight',
-    revision: masters?.weight?.sourceHash || 'NOT_AVAILABLE',
+    authority: candidate.manualEntry ? 'ACCEPTED_OVERRIDE' : 'EXACT_APPROVED_MASTER',
+    sourceId: candidate.manualEntry ? 'manual-weight-review' : masters?.weight?.fileName || 'weight',
+    revision: candidate.manualEntry ? row.sourceSemanticHash : masters?.weight?.sourceHash || 'NOT_AVAILABLE',
     evidence: {
-      matchMode: candidate.lengthQualified ? 'BORE_RATING_LENGTH' : 'BORE_RATING_ONLY',
+      ...(candidate.manualEntry && candidate.weightKg === 0 ? {
+        zeroWeightAssumption: true,
+        assumptionBasis: 'Explicit reviewer-entered zero mass; missing equipment self-weight intentionally omitted. Not a verified physical mass.',
+      } : {}),
+      matchMode: candidate.manualEntry ? 'REVIEWED_MANUAL_VALUE'
+        : candidate.familyQualified ? 'BORE_RATING_INSTRUMENT_FAMILY'
+        : candidate.lengthQualified ? 'BORE_RATING_LENGTH' : 'BORE_RATING_ONLY',
+      ...(candidate.familyQualified ? {
+        catalogueFamilyQualified: true,
+        vendorIdentityAsserted: false,
+        masterSourceRowNumber: candidate.sourceRowNumber,
+        masterSourceRowIndex: candidate.sourceRowIndex,
+        masterSourceSheet: candidate.sourceSheet,
+        masterBoreDerivedFromNps: candidate.boreDerivedFromNps,
+        masterNps: candidate.masterNps,
+      } : {}),
       selectedTypeDesc: candidate.typeDesc,
       rankReason: candidate.reason || null,
       wasTopRanked: candidateIndex === row.bestCandidateIndex,
@@ -144,6 +277,7 @@ export function fittingWeightRecordFor(row, candidate, candidateIndex, masters) 
       lengthToleranceMm: DEFAULT_LENGTH_TOLERANCE_MM,
       candidateCount: row.candidates.length,
       reviewerSelected: true,
+      sourceSemanticHash: row.sourceSemanticHash,
       weightMasterSourceHash: masters?.weight?.sourceHash || null,
     },
   };

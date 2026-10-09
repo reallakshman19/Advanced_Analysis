@@ -141,7 +141,7 @@ function viewMarkup(state) {
         <h2>Validate Input</h2>
         <p>Resolve the listed issues before calculation. This check does not invent or change engineering values.</p>
       </div>
-      ${nextActionMarkup(state)}
+      <div><button type="button" data-load-calc-weight-review ${state.commonSnapshot.request ? '' : 'disabled'}>Review weights & contents…</button>${nextActionMarkup(state)}</div>
     </header>
 
     <section class="non-fea-input-check__result" data-status="${state.blockers.length ? 'blocked' : 'ready'}">
@@ -189,7 +189,7 @@ const ROOT_CAUSE_GUIDANCE = Object.freeze({
   QUALIFICATION_PROFILE_REQUIRED: 'No locked QUALIFIED profile is bound to these methods. This is qualification evidence from your validation programme, so there is no built-in default: load an approved profile set into Project Data under qualificationPolicy.qualificationProfiles, approve it, then select the profile and version. Every other blocker can be cleared and these methods will still not seal until that is supplied.',
   SECTION_COVERAGE_INCOMPLETE: 'Some pipes have no outer diameter and wall thickness. Both come from the Piping Class master, so check that its rows actually match the piping class and bore used by those lines — a loaded master still leaves gaps where nothing matched.',
   FLEXURAL_COVERAGE_INCOMPLETE: 'Some pipes have neither direct flexural rigidity nor both elastic modulus and second moment of area. Resolve FLEXURAL_RIGIDITY directly, or provide both ELASTIC_MODULUS and SECOND_MOMENT_AREA for the common checker to derive EI. Pipe outer diameter and wall thickness alone do not satisfy flexural coverage.',
-  MASS_COVERAGE_INCOMPLETE: 'Some entities still need mass evidence. Pipe section and fluid density proposals are generated automatically from approved masters — if entities remain unresolved they are valves or catalogue fittings not covered by the piping class master. Open Enrichment \u0026amp; Overrides and use \"Review fitting weights\u2026\" to assign weights for those components, then accept the staged proposals.',
+  MASS_COVERAGE_INCOMPLETE: 'Some entities still need mass evidence. Open Review weights & contents to inspect the actual missing inputs. Pipes use section, metal density, fluid and insulation evidence. Pipe-like fittings can reuse the existing dry-metal derivation only when a pipe on the same branch has a resolved section. Catalogue weights are a separate workflow. Skipping review does not resolve a mass blocker.',
   MASTER_NOT_READY: 'A required master has no current normalized rows or source hash. Re-apply its column mapping in Import Masters.',
 });
 
@@ -243,9 +243,9 @@ function quickFixStrip(blockers, coverageProgressByCode) {
       const n = progress?.unresolvedEntityCount ?? '?';
       items.push({
         icon: '⚖️',
-        text: `${n} component${n === 1 ? '' : 's'} still need mass evidence — assign fitting weights for valves and catalogue items`,
-        tab: 'enrichment',
-        label: 'Review Fitting Weights',
+        text: `${n} component${n === 1 ? '' : 's'} still need mass evidence — inspect section, density, contents and component-weight dependencies`,
+        weightReview: true,
+        label: 'Review Weights & Contents',
       });
     } else if (code === 'SECTION_COVERAGE_INCOMPLETE') {
       const progress = coverageProgressByCode?.[code];
@@ -274,7 +274,9 @@ function quickFixStrip(blockers, coverageProgressByCode) {
     ${items.map((item) => `<div class="non-fea-quick-fix__item">
       <span class="non-fea-quick-fix__icon" aria-hidden="true">${item.icon}</span>
       <span class="non-fea-quick-fix__text">${escapeHtml(item.text)}</span>
-      ${item.action
+      ${item.weightReview
+        ? `<button type="button" class="button non-fea-quick-fix__btn" data-load-calc-weight-review>${escapeHtml(item.label)} →</button>`
+        : item.action
         ? `<button type="button" class="button non-fea-quick-fix__btn" data-quick-fix-action="${escapeHtml(item.action)}">Create profile →</button>`
         : `<button type="button" class="button non-fea-quick-fix__btn" data-load-calc-tab="${escapeHtml(item.tab)}">${escapeHtml(item.label)} →</button>`}
     </div>`).join('')}

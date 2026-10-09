@@ -67,19 +67,10 @@ export function autoNormalizeBundledMasters() {
 }
 
 /**
- * Automatically generates AND accepts master-derived enrichment proposals
- * whenever all conditions are met — eliminating the manual two-click flow
- * ("Generate proposals from approved masters" then "Accept all unblocked").
- *
- * Conditions that must all be true before running:
- *  1. An active dataset with a shared piping model exists.
- *  2. At least one required master (pipingClass or weight) has normalized rows.
- *  3. The enrichment store has NO accepted records already bound to the current
- *     source (prevents stomping on a sidecar the user already curated).
- *  4. No staged proposals are waiting for review (don't interrupt a manual session).
- *
- * EXACT_APPROVED_MASTER records are deterministic and carry the same evidentiary
- * weight whether accepted manually or automatically.
+ * Generates missing pipe-master proposals for the active source.
+ * Only exact pipe-field proposals generated here may be accepted automatically.
+ * Existing accepted records and pending manual review are preserved; approximate
+ * matches and catalogue component weights require their existing explicit review.
  *
  * @returns {Promise<{ accepted: number, skipped: string|null }>}
  */
@@ -108,17 +99,8 @@ export async function autoGenerateMasterEnrichment() {
 
   // Load the current source into the store (idempotent)
   store.loadSource(dataset.sharedModel.semanticHash);
-  const snapshot = store.getSnapshot();
-
-  // Don't overwrite a sidecar the user already curated for this source
-  if (
-    snapshot.acceptedRecords.length > 0
-    && snapshot.boundSourceSemanticHash === dataset.sharedModel.semanticHash
-    && !snapshot.stale
-  ) return { accepted: 0, skipped: 'SIDECAR_CURRENT' };
-
-  // Don't interrupt an active user review session
-  if (snapshot.proposals.length > 0) return { accepted: 0, skipped: 'PROPOSALS_PENDING_REVIEW' };
+  // Pending review is never accepted by bootstrap.
+  const { isAutomaticPipeMasterProposal, selectUnreservedMasterProposals } = await import('./load-calc-source-custody.js');
 
   let result;
   try {
@@ -126,25 +108,32 @@ export async function autoGenerateMasterEnrichment() {
   } catch {
     return { accepted: 0, skipped: 'BUILD_ERROR' };
   }
-  if (!result?.proposals?.length) return { accepted: 0, skipped: 'NO_PROPOSALS' };
 
-  // Stage then immediately accept — EXACT_APPROVED_MASTER records need no human review
-  result.proposals.forEach((proposal) => store.stageProposal(proposal));
+  const newProposals = selectUnreservedMasterProposals(result?.proposals || [], store.getSnapshot());
+
+  if (!newProposals.length) return { accepted: 0, skipped: 'NO_NEW_PROPOSALS' };
+
+  // The store excludes approximate class matches from automatic acceptance.
+  newProposals.forEach((proposal) => store.stageProposal(proposal));
   try {
-    store.acceptAllProposals();
+    newProposals.filter(isAutomaticPipeMasterProposal).forEach((proposal) => store.acceptProposal(proposal.proposalId));
   } catch {
     return { accepted: 0, skipped: 'ACCEPT_ERROR' };
   }
 
-  return { accepted: result.proposals.length, skipped: null };
+  const pendingIds = new Set(store.getSnapshot().proposals.map((proposal) => proposal.proposalId));
+  return {
+    accepted: newProposals.filter((proposal) => !pendingIds.has(proposal.proposalId)).length,
+    reviewRequired: newProposals.filter((proposal) => pendingIds.has(proposal.proposalId)).length,
+    skipped: null,
+  };
 }
 
 /**
  * Writes master source references into Project Data sourcesAndUnits fields
  * whenever a master has a committed sourceHash that differs from what Project
- * Data currently records. Clears MISSING_VALUE and STALE_SOURCE_HASH for
- * lineListSource, pipingClassSource, and componentWeightSource without any
- * user action.
+ * Data currently records. These are loaded-file identity descriptors only.
+ * Referencing the new file does not renew old source-backed engineering approvals.
  *
  * Only updates a field when the master has a non-empty sourceHash AND the
  * current Project Data entry either lacks one or records a different hash.
@@ -156,42 +145,18 @@ export async function autoGenerateMasterEnrichment() {
  * @returns {Promise<{ bound: string[] }>}
  */
 export async function autoBindMasterSources() {
-  const masters = masterDataController.getMasterData();
-  if (!masters) return { bound: [] };
-
-  const MASTER_SOURCE_MAP = [
-    { masterKey: 'lineList',    path: 'sourcesAndUnits.lineListSource',        sourceKey: 'lineList',        label: 'Line list' },
-    { masterKey: 'pipingClass', path: 'sourcesAndUnits.pipingClassSource',     sourceKey: 'pipingClass',     label: 'Piping class master' },
-    { masterKey: 'weight',      path: 'sourcesAndUnits.componentWeightSource', sourceKey: 'componentWeight', label: 'Component weight master' },
-  ];
-
-  const [{ projectDataStore: pds }, { projectDataEntry }] = await Promise.all([
-    import('./project-data/project-data-store.js'),
-    import('./project-data/project-data-contract.js'),
+  const [{ projectDataStore: pds }, { WorkspaceState }, { loadedSourceReferenceUpdates }] = await Promise.all([
+    import('./project-data/project-data-store.js'), import('./workspace-state.js'),
+    import('./load-calc-source-custody.js'),
   ]);
-
-  const bound = [];
-  for (const { masterKey, path, sourceKey, label } of MASTER_SOURCE_MAP) {
-    const master = masters[masterKey];
-    const sourceHash = typeof master?.sourceHash === 'string' ? master.sourceHash.trim() : '';
-    const fileName = master?.fileName || label;
-    if (!sourceHash) continue;
-
-    // Skip if Project Data already records the current hash
-    const entry = projectDataEntry(pds.getProfile(), path);
-    const existingHash = typeof entry?.evidence?.sourceHash === 'string' ? entry.evidence.sourceHash.trim() : '';
-    if (existingHash === sourceHash) continue;
-
-    // value shape must satisfy: value.sha256 === evidence.sourceHash (CROSS_DATASET_HASH_MISMATCH guard)
-    pds.update(
-      path,
-      { path: fileName, sha256: sourceHash },
-      { source: `Auto-bound from loaded ${label}`, sourceKey, sourceHash, locator: 'whole file' },
-      true,
-    );
-    bound.push(path);
-  }
-  return { bound };
+  const updates = loadedSourceReferenceUpdates({
+    dataset: WorkspaceState.getSnapshot()?.dataset,
+    masters: masterDataController.getMasterData(), profile: pds.getProfile(),
+  });
+  // Identity descriptors only: never rewrite engineering maps/approvals or erase absent sources.
+  updates.forEach(({ path, value, evidence }) => pds.update(path, value, evidence, true));
+  pds.applyProductDefaults();
+  return { bound: updates.map((row) => row.path) };
 }
 
 /**

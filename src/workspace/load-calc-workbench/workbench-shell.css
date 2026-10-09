@@ -1,0 +1,10 @@
+/* Active-review layout only. Leaving this route restores the workspace panels. */
+.application-shell:has(.workspace-shell[data-workbench-view="load-calc"] [data-role="load-calc-workbench"]){grid-template-columns:minmax(0,1fr)}
+.workspace-shell[data-workbench-view="load-calc"]:has([data-role="load-calc-workbench"]){grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr);height:100%;min-height:0;overflow:hidden}
+.workspace-shell[data-workbench-view="load-calc"]:has([data-role="load-calc-workbench"])>.tree-panel,
+.workspace-shell[data-workbench-view="load-calc"]:has([data-role="load-calc-workbench"])>.properties-panel,
+.workspace-shell[data-workbench-view="load-calc"]:has([data-role="load-calc-workbench"])>.panel-resizer{display:none}
+.application-view--workspace:has(.workspace-shell[data-workbench-view="load-calc"] [data-role="load-calc-workbench"]){min-width:0;width:100%}
+.empirical-load-calc:has([data-role="load-calc-workbench"])>.empirical-load-calc__header{align-items:center;min-height:60px}
+.empirical-load-calc:has([data-role="load-calc-workbench"])>.empirical-load-calc__header button{background:#152235;color:#e6edf6;border:1px solid #354559;border-radius:6px;padding:8px 12px;font:inherit;cursor:pointer;width:auto;margin-left:auto}
+@media(max-width:760px){.empirical-load-calc:has([data-role="load-calc-workbench"])>.empirical-load-calc__header{flex-wrap:wrap}}

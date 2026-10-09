@@ -217,8 +217,9 @@ export class EngineeringModelController {
    * Requested methods/load cases/qualification selection are calculation-
    * affecting even though they do not rebuild geometry. Observe the Common
    * Input store centrally so every configuration authoring surface invalidates
-   * current numerical results; evaluation/sealing with unchanged configuration
-   * does not.
+   * current numerical results. Accepted input edits also mark the retained seal
+   * stale without changing configuration. Carry that authority invalidation to
+   * the result/receipt once; unchanged current evaluation/sealing does not.
    */
   handleCommonInputSnapshot(snapshot) {
     const nextBasis = commonInputConfigurationBasis(snapshot);
@@ -226,17 +227,25 @@ export class EngineeringModelController {
       this.commonInputConfigurationBasis = nextBasis;
       return;
     }
-    if (nextBasis === this.commonInputConfigurationBasis) return;
+    const configurationChanged = nextBasis !== this.commonInputConfigurationBasis;
     this.commonInputConfigurationBasis = nextBasis;
+    const staleCurrentResult = snapshot?.staleness?.stale === true
+      && engineeringModelStore.getDistribution()?.freshness?.status === 'CURRENT';
+    if (!configurationChanged && !staleCurrentResult) return;
 
     const dataset = this.workspaceState.getSnapshot()?.dataset || null;
+    const staleCode = configurationChanged ? 'COMMON_INPUT_CONFIGURATION_CHANGED'
+      : snapshot.staleness.changes?.[0]?.code || 'COMMON_INPUT_STALE';
+    // Do not mark the seal again: this is its subscriber. Stale the result before
+    // publishing/refreshing so any nested store notification is idempotent.
     engineeringModelStore.markEmpiricalStale(
-      'COMMON_INPUT_CONFIGURATION_CHANGED',
+      staleCode,
       dataset?.version || null,
     );
     this.authorizedConsumerController.refreshEmpirical();
     this.eventBus.publish(ENGINEERING_MODEL_EVENTS.CHANGED, {
-      reason: 'common-input-configuration-changed',
+      reason: configurationChanged ? 'common-input-configuration-changed' : 'common-input-stale',
+      authorityReason: staleCode,
       topologyCheckAffected: false,
     });
   }

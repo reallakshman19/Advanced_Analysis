@@ -38,6 +38,15 @@ export function createProductEngineeringDefaultProfile({ profileId, version, def
   return freezeDeep({ ...material, semanticHash: semanticHash(material) });
 }
 
+/** Owner-requested missing-only insulation policy; callers opt in explicitly. */
+export const LOAD_CALC_INSULATION_ZERO_DEFAULT_V1 = createProductEngineeringDefaultProfile({
+  profileId: 'LOAD_CALC_INSULATION_ZERO_DEFAULT_V1', version: 1,
+  defaults: [{ defaultId: 'LOAD_CALC_MISSING_INSULATION_THICKNESS_ZERO_V1',
+    fieldId: 'INSULATION_THICKNESS', value: 0, unit: 'mm',
+    basis: 'Owner input policy: unavailable insulation thickness is 0 mm (uninsulated); preserve existing effective evidence.',
+    allowedMethods: ['WEIGHT_AND_GRAVITY', 'SUSTAINED_REACTIONS'] }],
+});
+
 export function requireProductEngineeringDefaultProfile(value) {
   if (!isRecord(value)
       || value.schema !== NON_FEA_PRODUCT_ENGINEERING_DEFAULT_PROFILE_SCHEMA

@@ -1,0 +1,13 @@
+# IMPLEMENTATION_PLAN — current pending weight review
+
+Same responsibility/isolated draft PR1915; ENGINEERING_CRITICAL. User requests continue toward actual loads. Live Common v3.2 `149770a21ca073df49717a96e2106c967adddc2d` re-grounded with required continuity references. No repeated qualification questions.
+
+Current browser:196 accepted records,120/127 mass coverage, seven manual component-weight obligations, no configured scenario. Source/master inspection finds no direct matching flow-meter, angle-control, lap-joint, temperature, DN20-blind or pressure-gauge catalogue rows. Existing factor/interpolated/unrelated candidates cannot be promoted to identity-matched evidence or zeros. Further numerics need legitimate input evidence and applicable scenario authority.
+
+Bounded implementation: derive the catalogue popup's pending population from the existing source-bound enrichment resolver; omit only positive current RESOLVED component weights, not stale/conflicted evidence. Bind open review to accepted-input state as well as source/master state. Prefill/bulk-fill only clear existing dimension-qualified or direct-family matches; unsupported suggestions remain blank, reviewable, unapplied. Preserve acceptance, checker, source population and mechanics. Add actual196-record/Sjson regression, stale/conflict/tamper/population/binding/blank-apply negatives. Browser explicit re-import of prior profile and actual196-record export after HMR; verify exactly seven pending rows, zero prefilled masses, no change in accepted evidence and actual Run still truthfully blocked. Retry build within process-local memory settings without terminating user processes.
+
+Continuity metadata: previous `464aa16c4` abbreviation identifies full material/evidence commit `464aa16c4f5d87d3d65c6a39636f932f8187c61d`; following `f2ba8b0aceeeec64e66db7f342e713f6185e1a81` changes only derived metadata, no unexplained material changes/recovery or stream loss. Normalize the exact semantic ref mechanically; do not award progress.
+
+Scope STEP, responsibility incomplete, progress1/3 unchanged. Same draft only, no source/master/qualification/mechanics/workflow/merge/release change. Stop numerical execution at missing legitimate evidence, report exact required identities rather than inventing masses.
+
+Manual-entry custody repair in the same popup boundary: a typed value with no selected candidate, or one differing from its selected row, must be staged as the already supported ACCEPTED_OVERRIDE, not falsely described as an exact master value. Preserve source binding, explicit acceptance and existing precedence definitions; no mass is entered by the agent. Catalogue suggestions remain observational until the reviewer selects them.

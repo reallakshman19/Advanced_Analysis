@@ -16,6 +16,9 @@ import {
 import {
   buildRoutePartitionModel,
 } from '../src/workspace/routes/route-partition-model.js';
+import {
+  evaluateEmpiricalGravityMethodSelection,
+} from '../src/workspace/engineering-loads/empirical-gravity-method-selection.js';
 
 const profile = createEmptyProjectDataProfile();
 const provider = createNonFeaProductDefaultProvider({ profile });
@@ -100,6 +103,43 @@ assert.equal(routes.summary.routeCount, 1);
 assert.equal(routes.routes[0].status, 'READY');
 assert.equal(routes.routes[0].totalLengthMm, 1000);
 
+const pointOnlyRoutes = buildRoutePartitionModel({
+  datasetId: 'ISSUE1321-POINT-ONLY-ROUTE',
+  version: 1,
+  entities: [pointComponent('INST-1', { x: 1200, y: -30, z: 45 })],
+}, profile);
+assert.equal(pointOnlyRoutes.status, 'READY');
+assert.equal(pointOnlyRoutes.routes.length, 1);
+assert.equal(pointOnlyRoutes.routes[0].totalLengthMm, 0);
+assert.equal(pointOnlyRoutes.routes[0].nodes.length, 1);
+assert.deepEqual(pointOnlyRoutes.routes[0].entityChainages, [{
+  entityId: 'INST-1',
+  startMm: 0,
+  endMm: 0,
+  sourceStartChainageMm: 0,
+  sourceEndChainageMm: 0,
+  pointMm: 0,
+}]);
+
+const pointOnlyDataset = {
+  datasetId: 'ISSUE1321-POINT-ONLY-AUTO-SELECTION',
+  version: 1,
+  entities: [pointComponent('INST-1', { x: 1200, y: -30, z: 45 })],
+  sharedModel: {
+    semanticHash: 'fnv1a64:point-only-auto-selection',
+    units: { length: 'mm' },
+    components: [{ componentKey: 'INST-1', loadEvidence: {} }],
+  },
+};
+const pointOnlySelection = evaluateEmpiricalGravityMethodSelection({
+  dataset: pointOnlyDataset,
+  profile: effective,
+  routePartitionModel: buildRoutePartitionModel(pointOnlyDataset, effective),
+});
+assert.equal(pointOnlySelection.selectedMethod, 'CHAINAGE_TRIBUTARY_SPAN_V2');
+assert.equal(pointOnlySelection.selectionState, 'SELECTED_V2_MISSING_COG_FALLBACK');
+assert.deepEqual(pointOnlySelection.exceptions, []);
+
 console.log(JSON.stringify({
   status: 'PASS',
   benchmark: 'ISSUE1321_CONSERVATIVE_PRODUCT_DEFAULT_BOOTSTRAP',
@@ -108,6 +148,8 @@ console.log(JSON.stringify({
   supportLocationCount: supportSites.summary.physicalLocationCount,
   routePortMatchToleranceMm: routes.portMatchToleranceMm,
   routeCount: routes.summary.routeCount,
+  pointOnlyRouteChainageMm: pointOnlyRoutes.routes[0].entityChainages[0].pointMm,
+  pointOnlyAutoSelectedMethod: pointOnlySelection.selectedMethod,
   unknownSupportVerticalCapability: effective.topology.supportTypeCapabilities.value.DEFAULT.vertical,
   equilibriumTolerances: effective.loadCalculation.equilibriumTolerances.value,
 }, null, 2));
@@ -127,6 +169,14 @@ function pipe(entityId, start, end) {
       geometry: { start, end },
       attributes: {},
     },
+  };
+}
+
+function pointComponent(entityId, point) {
+  return {
+    ...pipe(entityId, point, point),
+    entityType: 'INST',
+    category: 'component',
   };
 }
 

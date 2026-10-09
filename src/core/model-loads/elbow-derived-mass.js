@@ -6,21 +6,14 @@ import { evidenceNumber } from './units.js';
 
 /**
  * Effective-length factor (multiplied by outer diameter) used when a fitting
- * has no independent geometric length. Elbow: ASME B16.9 long-radius
- * developed length, confirmed against this dataset's own fitting text ("LR"
- * = long radius). Tee: a run + branch approximated as one nominal diameter of
- * extra pipe material at the intersection, on top of whatever run length is
- * already counted as straight pipe.
+ * has no independent geometric length. These are legacy pipe-equivalent dry
+ * metal estimates, not catalogue weights or standards-qualified fitting geometry.
+ * In particular 1.5*OD is not the arc length of a long-radius elbow.
  */
 const DEVELOPED_LENGTH_FACTOR_BY_TYPE_SET = Object.freeze([
   { types: ELBOW_TYPES, factor: 1.5 },
   { types: TEE_TYPES, factor: 1.0 },
-  // Olet and reducer factors are engineering estimates, not standards-derived
-  // like the elbow's 1.5xD long-radius developed length. A concentric reducer's
-  // B16.9 face-to-face length is close to one nominal diameter at the sizes in
-  // use here, and a branch outlet is treated as the same order of material.
-  // Both are flagged as ASSUMED on every derivation so they are visible for
-  // confirmation rather than silently trusted.
+  // Retain the existing assumed factors without granting standards authority.
   { types: OLET_TYPES, factor: 1.0, assumedFactor: true },
   { types: REDUCER_TYPES, factor: 1.0, assumedFactor: true },
 ]);
@@ -64,13 +57,11 @@ export function derivePipeLikeFittingWeightEvidence(component, allComponents) {
 /**
  * Derives a fitting's dry metal weight from its own line's already-resolved
  * pipe section (outer diameter, wall thickness, material density), using the
- * same PIPE_METAL_MASS_PER_LENGTH_V1 formula as straight pipe over a standard
+ * same PIPE_METAL_MASS_PER_LENGTH_V1 formula as straight pipe over an estimated
  * effective length rather than a geometric segment length.
  *
- * A fitting of this kind carries no independent section evidence source in
- * this codebase; it shares its adjoining pipe's bore and schedule in the
- * general case, so this borrows that already-qualified per-line resolution
- * rather than re-deriving section properties independently. Returns null
+ * Source port bore selects an already-resolved same-branch pipe section; it
+ * does not supply OD, wall or density itself. Returns null
  * whenever a confident derivation is not possible — including when the
  * fitting already carries explicit weight evidence, which is never
  * overridden — so a consuming component always falls back to its existing
@@ -79,7 +70,8 @@ export function derivePipeLikeFittingWeightEvidence(component, allComponents) {
 function deriveByType(types, developedLengthFactor, component, allComponents, assumedFactor = false) {
   if (!types.includes(String(component?.type || '').trim().toUpperCase())) return null;
   if (evidenceNumber(component.engineeringProperties?.componentWeightKg) !== null) return null;
-  const sibling = findSectionedSiblingPipe(component, allComponents);
+  const review = reviewPipeLikeFittingSection(component, allComponents);
+  const sibling = review.sourceComponent;
   if (!sibling) return null;
   const evidence = sibling.engineeringProperties;
   const odMm = evidenceNumber(evidence.outerDiameterMm);
@@ -104,24 +96,92 @@ function deriveByType(types, developedLengthFactor, component, allComponents, as
       outerDiameterMm: odMm,
       wallThicknessMm: wallMm,
       materialDensityKgM3: densityKgM3,
+      ...(review.boreMatch ? { sectionSelection: review.boreMatch } : {}),
     },
   };
 }
 
 /**
- * A PIPE-type component on the same branch as the fitting, already carrying a
- * resolved section (outer diameter, wall thickness, material density). Exact
- * branchId match only: a reducing fitting whose neighbours differ in bore is
- * intentionally not matched, rather than risk borrowing the wrong section.
+ * Source bore restricts section candidates before checking their resolved
+ * OD/wall/density. Missing bore retains the legacy uniform-branch check, not
+ * first-row selection. Reducer arrive-bore reuse is explicitly approximate;
+ * preserving both ports does not qualify a tapered fitting's actual volume.
+ * A stable key selects provenance only; it cannot decide between section values.
  */
-function findSectionedSiblingPipe(component, components) {
+export function reviewPipeLikeFittingSection(component, components) {
+  if (!isPipeLikeFittingType(component?.type)) return sectionReview('NOT_APPLICABLE');
+  if (evidenceNumber(component.engineeringProperties?.componentWeightKg) !== null) {
+    return sectionReview('EXPLICIT_COMPONENT_WEIGHT');
+  }
   const branchId = component.identity?.branchId;
-  if (!branchId || !Array.isArray(components)) return null;
-  return components.find((candidate) => (
-    String(candidate.type || '').trim().toUpperCase() === 'PIPE'
+  if (!branchId || !Array.isArray(components)) return sectionReview('MISSING_PIPE_BRANCH');
+  const candidates = components.filter((candidate) => (
+    String(candidate?.type || '').trim().toUpperCase() === 'PIPE'
     && candidate.identity?.branchId === branchId
-    && evidenceNumber(candidate.engineeringProperties?.outerDiameterMm) !== null
-    && evidenceNumber(candidate.engineeringProperties?.wallThicknessMm) !== null
-    && evidenceNumber(candidate.engineeringProperties?.materialDensityKgM3) !== null
-  )) || null;
+  )).sort((left, right) => sectionSourceKey(left).localeCompare(sectionSourceKey(right)));
+  if (!candidates.length) return sectionReview('MISSING_BRANCH_PIPE_SECTION');
+  const boreMatch = fittingBoreMatch(component);
+  if (boreMatch.error) return sectionReview(boreMatch.error, candidates);
+  const matched = boreMatch.nominalBoreMm === null ? candidates : candidates.filter((candidate) => {
+    const pipeBore = fittingBoreMatch(candidate);
+    return !pipeBore.error && pipeBore.nominalBoreMm === boreMatch.nominalBoreMm;
+  });
+  if (!matched.length) return sectionReview('MISSING_MATCHING_PIPE_BORE_SECTION', candidates);
+  return validateMatchingSections(matched, boreMatch);
+}
+
+function validateMatchingSections(candidates, boreMatch) {
+  const sections = candidates.map((candidate) => [
+    evidenceNumber(candidate.engineeringProperties?.outerDiameterMm),
+    evidenceNumber(candidate.engineeringProperties?.wallThicknessMm),
+    evidenceNumber(candidate.engineeringProperties?.materialDensityKgM3),
+  ]);
+  if (sections.some((section) => section.some((value) => value === null))) {
+    return sectionReview('INCOMPLETE_BRANCH_PIPE_SECTION', candidates);
+  }
+  if (sections.some(([od, wall, density]) => !(od > 0 && wall > 0 && wall < od / 2 && density > 0))) {
+    return sectionReview('INVALID_BRANCH_PIPE_SECTION', candidates);
+  }
+  if (new Set(sections.map((section) => JSON.stringify(section))).size !== 1) {
+    return sectionReview('CONFLICTING_BRANCH_PIPE_SECTIONS', candidates);
+  }
+  const review = sectionReview(boreMatch.nominalBoreMm === null
+    ? 'CONSISTENT_BRANCH_PIPE_SECTION' : 'MATCHED_PIPE_BORE_SECTION', candidates, candidates[0]);
+  return boreMatch.nominalBoreMm === null ? review : { ...review, boreMatch };
+}
+
+function fittingBoreMatch(component) {
+  const arrive = component.compatibilityEvidence?.sourceArriveBoreMm;
+  const leave = component.compatibilityEvidence?.sourceLeaveBoreMm;
+  const nominal = component.engineeringProperties?.nominalBoreMm;
+  const evidence = [arrive, leave, nominal].filter(Boolean);
+  if (evidence.some((row) => row.status === 'INVALID' || !(evidenceNumber(row) > 0) || (row.unit && row.unit !== 'mm'))) {
+    return { error: 'INVALID_SOURCE_PIPE_BORE' };
+  }
+  const arriveMm = evidenceNumber(arrive), leaveMm = evidenceNumber(leave);
+  const nominalMm = evidenceNumber(nominal);
+  const reducing = REDUCER_TYPES.includes(String(component.type || '').trim().toUpperCase());
+  if ((!reducing && arriveMm !== null && leaveMm !== null && arriveMm !== leaveMm)
+      || (nominalMm !== null && [arriveMm, leaveMm].some((value) => value !== null && value !== nominalMm))) {
+    return { error: 'CONFLICTING_SOURCE_PIPE_BORES' };
+  }
+  return {
+    nominalBoreMm: arriveMm ?? leaveMm ?? nominalMm,
+    arriveBoreMm: arriveMm, leaveBoreMm: leaveMm,
+    policy: reducing && arriveMm !== null && leaveMm !== null && arriveMm !== leaveMm
+      ? 'SOURCE_ARRIVE_BORE_PIPE_EQUIVALENT_ESTIMATE_V1' : 'MATCHING_NOMINAL_BORE_V1',
+    sourcePaths: evidence.map((row) => row.sourcePath || null),
+  };
+}
+
+function sectionSourceKey(component) {
+  return String(component.componentKey || component.sourceEntityId || '');
+}
+
+function sectionReview(code, candidates = [], sourceComponent = null) {
+  return {
+    code,
+    sourceComponent,
+    candidateComponentKeys: candidates.map(sectionSourceKey),
+  };
 }

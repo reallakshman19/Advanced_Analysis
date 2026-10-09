@@ -99,7 +99,7 @@ function normalizeRows(masterKey, rawRows, fieldMap) {
  * Unknown sizes return null rather than an arithmetic inch/25.4 conversion, so
  * an off-table size is reported as unmapped instead of silently fabricated.
  */
-function nominalBoreMmFromNps(value) {
+export function nominalBoreMmFromNps(value) {
   const inches = Number(String(value ?? '').trim());
   if (!Number.isFinite(inches) || inches <= 0) return null;
   const mapped = Number(NPS_TO_DN_MM[String(inches)]);

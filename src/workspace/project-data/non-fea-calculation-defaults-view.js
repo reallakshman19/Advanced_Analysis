@@ -144,20 +144,42 @@ function authorityMarkup(row) {
 }
 
 function bindBasicActions(container, onChanged) {
+  const applyField = (fieldId) => {
+    try {
+      const profile = projectDataStore.getProfile();
+      const plan = createBasicCalculationDefaultUpdate(profile, fieldId, readInput(container, fieldId));
+      projectDataStore.update(plan.projectDataPath, plan.value, plan.evidence, plan.approved);
+      refresh(container, onChanged);
+    } catch (error) {
+      showRowError(container, `[data-calculation-default-row="${cssEscape(fieldId)}"]`, error);
+    }
+  };
+
+  container.addEventListener('change', (event) => {
+    const row = event.target.closest('[data-calculation-default-row]');
+    if (!row) return;
+    const fieldId = row.dataset.calculationDefaultRow;
+    if (fieldId) applyField(fieldId);
+  });
+
   container.addEventListener('click', (event) => {
     const apply = event.target.closest('[data-default-apply]');
     const reset = event.target.closest('[data-default-reset]');
     if (!apply && !reset) return;
     const fieldId = apply?.dataset.defaultApply || reset?.dataset.defaultReset;
-    try {
-      const profile = projectDataStore.getProfile();
-      const plan = apply
-        ? createBasicCalculationDefaultUpdate(profile, fieldId, readInput(container, fieldId))
-        : createBasicCalculationDefaultReset(profile, fieldId);
-      projectDataStore.update(plan.projectDataPath, plan.value, plan.evidence, plan.approved);
-      refresh(container, onChanged);
-    } catch (error) {
-      showRowError(container, `[data-calculation-default-row="${cssEscape(fieldId)}"]`, error);
+    if (apply) {
+      applyField(fieldId);
+      return;
+    }
+    if (reset) {
+      try {
+        const profile = projectDataStore.getProfile();
+        const plan = createBasicCalculationDefaultReset(profile, fieldId);
+        projectDataStore.update(plan.projectDataPath, plan.value, plan.evidence, plan.approved);
+        refresh(container, onChanged);
+      } catch (error) {
+        showRowError(container, `[data-calculation-default-row="${cssEscape(fieldId)}"]`, error);
+      }
     }
   });
 }

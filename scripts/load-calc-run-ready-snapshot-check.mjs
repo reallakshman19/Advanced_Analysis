@@ -79,7 +79,7 @@ try {
     /if \(event\.target\.closest\('\[data-load-calc-run\]'\)\) \{\s*this\.runCurrentCalculation\(\);/u,
     'Run click must delegate to the focused routing method');
 
-  const runBody = source.match(/\n  runCurrentCalculation\(\) \{([\s\S]*?)\n  \}\n\n  handleClick\(event\)/u)?.[1];
+  const runBody = source.match(/\n  runCurrentCalculation\(\) \{([\s\S]*?)\n  \}\r?\n\r?\n  handleClick\(event\)/u)?.[1];
   assert.ok(runBody, 'focused Run routing method must remain discoverable by the regression');
   const scenarioIndex = runBody.indexOf('snap?.calculationEligible');
   const currentSystemIndex = runBody.indexOf('CURRENT_COMMON_INPUT_CALCULATE_REQUESTED');

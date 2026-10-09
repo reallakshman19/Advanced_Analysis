@@ -36,11 +36,11 @@ expectCode(
 );
 
 const wrongAxis = mutateProjection(valid, (profile) => {
-  profile.sourcesAndUnits.sourceUpAxis.value = 'Y';
+  profile.sourcesAndUnits.sourceUpAxis.value = 'W';
 });
 expectCode(
   () => requireAuthorizedEmpiricalEffectiveSupportProjection(wrongAxis),
-  'EMPIRICAL_SOURCE_AXIS_MECHANICS_UNSUPPORTED',
+  'EMPIRICAL_SOURCE_AXIS_INVALID',
 );
 
 const wrongUnit = mutateProjection(valid, (profile) => {

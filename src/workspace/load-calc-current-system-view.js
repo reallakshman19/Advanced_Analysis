@@ -3,9 +3,10 @@ import {
   renderLoadCalcConsumer as renderLegacyLoadCalcConsumer,
   renderLoadCalcTopologyPane as renderLegacyLoadCalcTopologyPane,
 } from './load-calc-consumer-view.js';
+import { bindEmpiricalScreeningPreview } from './load-calc-empirical-screening.js';
 
 const CURRENT_SYSTEM_AUTHORITY = 'CURRENT_COMMON_INPUT_SYSTEM_RUN';
-const PRODUCT_PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'enrichment', 'preflight', 'verify', 'loads']);
+const PRODUCT_PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'enrichment', 'preview', 'preflight', 'verify', 'loads']);
 const LEGACY_ADVANCED_VIEW_COUNT = 11;
 
 export const LOAD_CALC_PRIMARY_WORKFLOW_V1 = Object.freeze([
@@ -23,6 +24,8 @@ export const LOAD_CALC_PRIMARY_WORKFLOW_V1 = Object.freeze([
 export const LOAD_CALC_PROMOTED_ADVANCED_TABS_V1 = Object.freeze([]);
 
 export function renderLoadCalcConsumer(documentRef, state) {
+  // The opt-in read-only review has its own four-stage navigation, not a Run gate.
+  if (state?.activeTab === 'workbench') return renderLegacyLoadCalcConsumer(documentRef, state);
   const routineReady = isRoutineRunReady(state?.commonInputState);
   const currentExecution = state?.currentCommonInputExecution || null;
   const scenarioReady = state?.empiricalScenarioState?.calculationEligible === true;
@@ -103,6 +106,7 @@ export function renderEngineeringLoadPane(
   authorizedExecution = null,
   authorizationState = null,
   currentCommonInputExecution = null,
+  screeningContext = undefined,
 ) {
   if (!currentCommonInputExecution) {
     renderLegacyEngineeringLoadPane(
@@ -112,6 +116,7 @@ export function renderEngineeringLoadPane(
       routePartitionModel,
       authorizedExecution,
       authorizationState,
+      screeningContext,
     );
     return;
   }
@@ -132,6 +137,7 @@ export function renderEngineeringLoadPane(
     routePartitionModel,
     null,
     systemState,
+    screeningContext,
   );
   const legacyAuthority = /<p data-empirical-authority="UNAUTHORIZED_LEGACY_RESULT">[\s\S]*?<\/p>/u;
   if (!legacyAuthority.test(container.innerHTML)) {
@@ -144,6 +150,8 @@ export function renderEngineeringLoadPane(
     legacyAuthority,
     currentSystemExecutionMarkup(currentCommonInputExecution, distribution),
   );
+  // Replacing innerHTML above recreates the local screening controls.
+  bindEmpiricalScreeningPreview(container, distribution, screeningContext);
 }
 
 /**

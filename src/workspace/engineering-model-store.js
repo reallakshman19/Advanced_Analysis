@@ -195,7 +195,7 @@ export class EngineeringModelStore {
     }
     const masterSourceHashes = freezeDeep({
       dataset: sourceDatasetHash,
-      lineList: sha256(masterData?.lineList?.sourceHash, 'masterData.lineList.sourceHash'),
+      lineList: nullableSha256(masterData?.lineList?.sourceHash, 'masterData.lineList.sourceHash'),
       pipingClass: sha256(masterData?.pipingClass?.sourceHash, 'masterData.pipingClass.sourceHash'),
       componentWeight: sha256(masterData?.weight?.sourceHash, 'masterData.weight.sourceHash'),
     });
@@ -425,6 +425,17 @@ function sha256(value, label) {
     fail(`${label} must be a lowercase SHA-256 digest.`, 'EMPIRICAL_RUNTIME_SHA256_INVALID');
   }
   return value;
+}
+
+/**
+ * Like sha256() but accepts null/undefined/'' when no master has been loaded.
+ * The line list master is optional for the gravity load calculation — it is
+ * only needed for fluid-density enrichment. When absent the binding records
+ * null and downstream readiness guards surface the gap without throwing.
+ */
+function nullableSha256(value, label) {
+  if (value === null || value === undefined || value === '') return null;
+  return sha256(value, label);
 }
 
 function nullableVersion(value) {

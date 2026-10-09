@@ -1,0 +1,70 @@
+{
+  "authority": "DERIVED_CONTINUITY_ONLY",
+  "current": "GitHub delivery authorized. Revalidated22 focused checks, actual final export checks, imports/shell/build/diff PASS. Existing main-identical support-token assertion and production TopoFix gap assertions FAIL; broad non-FEA missingBM2 FAIL. Packaged task-owned work only; merge held pending legitimate qualification, not authority/test weakening.",
+  "evidence_ref": "relay/WORK/load-calc-github-delivery-v32-evidence.md",
+  "frontier": {
+    "delta_commits": 1,
+    "material_head": "2b5dfebba05b1ae75b25d23506be5cf3f0bf0559",
+    "recovery_reconciliation_needed": true,
+    "relation": "MATERIAL_AHEAD",
+    "semantic_evidence_head": "29b9d6ae330088341660d732f3b1edf0bc5b13de"
+  },
+  "next": "Commit and push existing PR1915 branch; update current proof/limitations and observe exact-head hosted qualification. Merge only if legitimate engineering validation supports integration. KeepB3 51465Skip; no full-vector or responsibility-completion claim.",
+  "observability": {
+    "provider_sync": {
+      "status": "NOT_CONFIGURED"
+    },
+    "provider_sync_failure_blocks_engineering": false,
+    "provider_sync_required": true,
+    "update_reason": "MATERIAL_FRONTIER_REFRESH"
+  },
+  "owner_decision": "Explicit push and merge request; does not authorize workflow weakening, admin bypass, support-source inference changes or full-vector qualification. B3attachment51465 remainsSkip.",
+  "plan_ref": "relay/WORK/load-calc-github-delivery-v32-plan.md",
+  "progress": {
+    "active_unit": "FULL_VECTOR_LOADS",
+    "completed_units": 1,
+    "denominator": 3,
+    "evidence_percent": 33,
+    "evidenced_units": 1,
+    "progress_percent": 33
+  },
+  "protocol_ref": "reallaksh19/Common@149770a21ca073df49717a96e2106c967adddc2d:skills/engineering-pr-delivery-v3.2",
+  "provider": {
+    "issue_number": null,
+    "repository": null,
+    "type": null
+  },
+  "recovery": {
+    "handover_plan_triggered_this_lifecycle": false,
+    "mode": "NONE",
+    "plan_for_handover_now": false,
+    "recovery_evidence": null,
+    "recovery_evidence_required": false,
+    "stream_loss_count": 0
+  },
+  "responsibility": "owner-direct:advanced-analysis:sjson-routine-run-auto-20261001",
+  "result": {
+    "coverage": "22 focused/actual-export/import/shell/build/diff PASS. Main-identical restraint-token and TopoFix qualification assertions FAIL; broader regression missingBM2 FAIL. Delivery step only, full loads responsibility incomplete.",
+    "responsibility_complete": false,
+    "result_scope": "STEP"
+  },
+  "schema": "relay-v3.2-responsibility-continuity",
+  "state": "IMPLEMENTING",
+  "units": [
+    {
+      "complete": true,
+      "evidenced": true,
+      "id": "EXCEPTION_REVIEW"
+    },
+    {
+      "complete": false,
+      "evidenced": false,
+      "id": "FULL_VECTOR_LOADS"
+    },
+    {
+      "complete": false,
+      "evidenced": false,
+      "id": "RUNNABLE_WORKBENCH"
+    }
+  ]
+}

@@ -25,9 +25,7 @@ import {
 import {
   createNonFeaProductDefaultProvider,
 } from './project-data/non-fea-product-default-profile.js';
-import {
-  createNonFeaProductEngineeringDefaultProvider,
-} from './project-data/non-fea-product-engineering-default-profile.js';
+import { createLoadCalcInsulationDefaultProvider } from './load-calc-insulation-input.js';
 import {
   assertRequestedLoadCasesAuthorized,
   createNonFeaLoadCaseAuthority,
@@ -209,7 +207,7 @@ export function buildCurrentPreFeaRequestInput() {
     error.details = configuredDefaultProvider.blockers;
     throw error;
   }
-  const productEngineeringDefaultProvider = createNonFeaProductEngineeringDefaultProvider({
+  const productEngineeringDefaultProvider = createLoadCalcInsulationDefaultProvider({
     sourceModel: dataset.sharedModel,
     requestedMethods: configuration.requestedMethods,
   });

@@ -8,9 +8,16 @@ import { validatePipingPortTopologyGraph } from '../piping-topology/index.js';
 import { AUDIT_CODES, LOAD_SOURCE_PROJECTION_SCHEMA } from './constants.js';
 import { distanceM, lengthFactorToM, normalizeLengthUnit, pointToMeters } from './units.js';
 
-export function projectEngineeringLoadSources(sharedModel, topologyGraph) {
+export function projectEngineeringLoadSources(sharedModel, topologyGraph, { lengthUnitFallback = null } = {}) {
   assertInputs(sharedModel, topologyGraph);
-  const lengthUnit = normalizeLengthUnit(sharedModel.units.length);
+  const sourceLengthUnit = normalizeLengthUnit(sharedModel.units.length);
+  // Only an absent source declaration may consume approved effective authority.
+  // Explicit source declarations (including invalid ones) are never replaced.
+  const fallbackUsed = sharedModel.units.length === 'unknown'
+    && lengthUnitFallback?.approved === true
+    && lengthUnitFallback.evidence && typeof lengthUnitFallback.evidence === 'object'
+    && normalizeLengthUnit(lengthUnitFallback.value) !== 'unknown';
+  const lengthUnit = fallbackUsed ? normalizeLengthUnit(lengthUnitFallback.value) : sourceLengthUnit;
   const factor = lengthFactorToM(lengthUnit);
   const components = sharedModel.components.map((component) => projectComponent(component, lengthUnit, factor))
     .sort((left, right) => left.componentKey.localeCompare(right.componentKey));
@@ -20,7 +27,16 @@ export function projectEngineeringLoadSources(sharedModel, topologyGraph) {
     datasetId: sharedModel.project.datasetId,
     sharedModelSemanticHash: sharedModel.semanticHash,
     topologySemanticHash: topologyGraph.semanticHash,
-    units: { sourceLengthUnit: lengthUnit, canonicalLengthUnit: 'm', unitSupported: factor !== null },
+    units: {
+      sourceLengthUnit: lengthUnit, canonicalLengthUnit: 'm', unitSupported: factor !== null,
+      ...(fallbackUsed ? {
+        declaredSourceLengthUnit: sourceLengthUnit,
+        lengthUnitAuthority: {
+          projectDataPath: 'sourcesAndUnits.lengthUnit',
+          entrySemanticHash: semanticHash(lengthUnitFallback),
+        },
+      } : {}),
+    },
     components,
     diagnostics,
     summary: {
@@ -64,6 +80,13 @@ function projectComponent(component, lengthUnit, factor) {
     identity: component.identity || {},
     geometry: { start, end, center, ports, applicationPoint: cog || center, sourceLengthM, declaredLengthM },
     engineeringProperties: component.engineeringProperties || {},
+    ...(component.compatibilityEvidence?.sourceArriveBoreMm || component.compatibilityEvidence?.sourceLeaveBoreMm
+      ? { compatibilityEvidence: {
+        ...(component.compatibilityEvidence.sourceArriveBoreMm
+          ? { sourceArriveBoreMm: component.compatibilityEvidence.sourceArriveBoreMm } : {}),
+        ...(component.compatibilityEvidence.sourceLeaveBoreMm
+          ? { sourceLeaveBoreMm: component.compatibilityEvidence.sourceLeaveBoreMm } : {}),
+      } } : {}),
     loadEvidence: component.loadEvidence || {},
     sourceReferences: component.sourceReferences || {},
     diagnostics,

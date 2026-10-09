@@ -1,6 +1,7 @@
 import { semanticHash } from '../../core/shared-piping-model/canonical-json.js';
 import { freezeDeep, stringValue } from '../dataset-utils.js';
 import { projectDataValue } from '../project-data/project-data-contract.js';
+import { projectConfirmedSupportMappings } from './current-common-input-support-mapping.js';
 import {
   bindAuthorizedEmpiricalGravityConventions,
   requireAuthorizedEmpiricalGravityConventions,
@@ -86,9 +87,10 @@ export function calculateCurrentCommonInputEmpiricalSupportLoads({
   requireAuthorizedEmpiricalSourceBasis(commonInput.projectDataProfile);
   const gravityLoadBasis = createCurrentCommonInputGravityLoadBasis({ commonInput });
   requireCurrentCommonInputGravityLoadBasis(gravityLoadBasis, { commonInput });
+  const supportMapping = projectConfirmedSupportMappings({ commonInput, dataset: executionDataset, supportSiteModel });
   const supportCapabilityBinding = bindAuthorizedEmpiricalSupportCapabilities({
     profile: gravityLoadBasis.profile,
-    supportSiteModel,
+    supportSiteModel: supportMapping.supportSiteModel,
   });
   if (supportCapabilityBinding.sourceProfileSemanticHash
       !== gravityLoadBasis.projectedProfileSemanticHash) {
@@ -112,7 +114,7 @@ export function calculateCurrentCommonInputEmpiricalSupportLoads({
   const calculationInput = {
     dataset: executionDataset,
     profile: supportCapabilityBinding.profile,
-    supportSiteModel,
+    supportSiteModel: supportMapping.supportSiteModel,
     routePartitionModel,
     masterData,
   };
@@ -166,6 +168,7 @@ export function calculateCurrentCommonInputEmpiricalSupportLoads({
     distributionSemanticHash: semanticHash(distribution),
     mappingSummary: massBinding.summary,
     gravityLoadBasis,
+    ...(supportMapping.receipt ? { supportMapping: supportMapping.receipt } : {}),
     policy: freezeDeep({
       legacyPublicationOrHandoffAuthorityAsserted: false,
       legacyMassMapsConsumed: false,
@@ -227,6 +230,17 @@ export function requireCurrentCommonInputEmpiricalSupportLoadExecution(value) {
     );
   }
   requireFixedPolicy(value.policy);
+  if (value.supportMapping) {
+    const mapping = { ...value.supportMapping }; delete mapping.semanticHash;
+    if (value.supportMapping.semanticHash !== semanticHash(mapping)
+      || mapping.schema !== 'current-common-input-support-mapping/v1'
+      || mapping.commonInputSemanticHash !== value.commonInputSemanticHash
+      || mapping.sourceModelSemanticHash !== value.sourceModelSemanticHash
+      || mapping.sourceSupportSiteModelSemanticHash !== value.supportSiteModelSemanticHash
+      || mapping.geometryChanged !== false || mapping.solverRestraintAuthorityAsserted !== false) {
+      throw codedError('Support mapping receipt does not match the execution basis.', 'CURRENT_COMMON_INPUT_SUPPORT_MAPPING_INVALID');
+    }
+  }
   for (const key of [
     'commonInputSemanticHash', 'commonInputSealSemanticHash',
     'runAuthorizationSemanticHash', 'massProjectionSemanticHash',

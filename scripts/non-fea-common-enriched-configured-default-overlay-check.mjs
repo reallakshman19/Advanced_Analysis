@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   COMMON_ENRICHED_CANDIDATE_SCHEMA,
   COMMON_ENRICHED_CANDIDATE_STATUS,
@@ -16,6 +17,7 @@ import {
   createCommonEnrichedTargetInventory,
 } from '../src/core/common-enriched-properties/target-inventory.js';
 import { semanticHash } from '../src/core/shared-piping-model/canonical-json.js';
+import { normalizeWorkspaceDataset } from '../src/workspace/dataset-adapter.js';
 import {
   authorityFromCommonEnrichedSourceKind,
 } from '../src/workspace/engineering-loads/authorized-empirical-effective-value-ledger.js';
@@ -92,6 +94,46 @@ const partial = createNonFeaCommonEnrichedConfiguredDefaultOverlay({
 assert.ok(partial.blockers.some((row) => row.code === 'CONFIGURED_DEFAULT_LINE_PARTIAL_COVERAGE'));
 assert.equal(partial.targetRecords.some((row) => row.targetKind === 'LINE'), false);
 
+const sjson = normalizeWorkspaceDataset(JSON.parse(readFileSync(
+  new URL('../benchmarks/Sjson.json', import.meta.url), 'utf8',
+)), 'Sjson.json');
+const sjsonProfile = JSON.parse(readFileSync(
+  new URL('../project-data/1885s-project-data-profile.json', import.meta.url), 'utf8',
+));
+const sjsonProfileHash = semanticHash(sjsonProfile);
+const sjsonOverlay = createNonFeaCommonEnrichedConfiguredDefaultOverlay({
+  profile: sjsonProfile,
+  sourceModel: sjson.sharedModel,
+  inventory: createCommonEnrichedTargetInventory({
+    schema: COMMON_ENRICHED_TARGET_INVENTORY_SCHEMA,
+    inventoryId: 'INV-SJSON-DENSITY-UNIT-REGRESSION',
+    sharedModel: sjson.sharedModel,
+  }),
+  requestedMethods: ['WEIGHT_AND_GRAVITY'],
+});
+assert.deepEqual(sjsonOverlay.blockers, [],
+  'the shipped kg/m³ density defaults must project to canonical kg/m3 fields');
+assert.equal(sjsonOverlay.targetRecords.length, 5);
+for (const record of sjsonOverlay.targetRecords) {
+  assert.equal(field(record, 'fluid.hydroDensityKgM3').value, 1000);
+  assert.equal(field(record, 'fluid.hydroDensityKgM3').unit, 'kg/m3');
+  assert.equal(field(record, 'insulation.densityKgM3').value, 210);
+  assert.equal(field(record, 'insulation.densityKgM3').unit, 'kg/m3');
+}
+assert.equal(semanticHash(sjsonProfile), sjsonProfileHash,
+  'unit normalization must preserve the source profile and its authority hash');
+
+const wrongDensityUnit = createNonFeaCommonEnrichedConfiguredDefaultOverlay({
+  profile: approvedProfile([
+    configured('WRONG-DENSITY', 'HYDRO_FLUID_DENSITY', 1000, 'kg/mm3', { lineIds: ['L-1'] }),
+  ]),
+  sourceModel,
+  inventory,
+});
+assert.ok(wrongDensityUnit.blockers.some((row) => (
+  row.code === 'CONFIGURED_DEFAULT_COMMON_UNIT_UNSUPPORTED'
+)), 'a different density scale must still be rejected');
+
 const conflict = createNonFeaCommonEnrichedConfiguredDefaultOverlay({
   profile: approvedProfile([
     configured('OD-C1', 'PIPE_OUTER_DIAMETER', 100, 'mm', { entityIds: ['C1'] }),
@@ -124,6 +166,8 @@ console.log(JSON.stringify({
   partialLineCoverageBlocked: true,
   conflictingLineDefaultsBlocked: true,
   ambiguousEvidenceCannotBeMasked: true,
+  sjsonDensityUnitAliasAccepted: true,
+  differentDensityScaleRejected: true,
 }, null, 2));
 
 function makeSourceModel() {
