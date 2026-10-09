@@ -54,9 +54,11 @@ function section(documentRef, title, rows) {
     empty.style.cssText = 'margin:3px 0;color:#64748b;'; empty.textContent = 'No source-backed value.'; root.append(empty); return root;
   }
   const list = documentRef.createElement('dl');
-  list.style.cssText = 'display:grid;grid-template-columns:minmax(110px,1fr) minmax(150px,2fr);gap:4px 8px;margin:0;';
+  list.style.cssText = 'display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:4px 8px;margin:0;';
   rows.forEach(([label, value]) => {
-    const term = documentRef.createElement('dt'); term.style.color = '#94a3b8'; term.textContent = label;
+    const term = documentRef.createElement('dt');
+    term.style.cssText = 'color:#94a3b8;min-width:0;overflow-wrap:anywhere;';
+    term.textContent = label;
     const description = documentRef.createElement('dd'); description.style.cssText = 'margin:0;font-family:monospace;overflow-wrap:anywhere;'; description.textContent = display(value);
     list.append(term, description);
   });
