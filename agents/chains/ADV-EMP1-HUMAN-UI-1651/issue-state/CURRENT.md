@@ -1,15 +1,15 @@
 # Current Issue State — ADV-EMP1-HUMAN-UI-1651
 
 ISSUE_CURRENT_STATE_BASIS: IB-0001
-ISSUE_CURRENT_STATE_ENDPOINT: EP-0052
+ISSUE_CURRENT_STATE_ENDPOINT: EP-0054
 UPDATED_AT: 2026-09-09
 ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5549975772
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5549975074
-ISSUE_MERGE_AUTH_COMMENT_ID: 5598129115
-RECOVERY_MERGE_AUTH_COMMENT_ID: 5598130956
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5600409695
-RECOVERY_CHILD_CHECKPOINT_COMMENT_ID: 5600412516
+ISSUE_MERGE_AUTH_COMMENT_ID: 5600526837
+RECOVERY_MERGE_AUTH_COMMENT_ID: 5600528980
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5600565405
+RECOVERY_CHILD_CHECKPOINT_COMMENT_ID: 5600567968
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1651
 PARENT_ISSUE: 1651
 RECOVERY_CHILD_ISSUE: 1664
@@ -20,16 +20,17 @@ RECOVERY_CHILD_ISSUE: 1664
 - Repair chain through LEG-013 PR #1701: MERGED as `f98d56d4c644b7bb6b79d2302739d12dac720248`.
 - LEG-014 focused synchronization repair PR #1708: MERGED as `695538dd713f2ef11fb00e54b86073f19d38684a`.
 - Owner-waiver/self-check custody PR #1719: MERGED as `754bf8f4ac869b087063ac1181513f6012684e2f`.
-- Custody PR #1720: MERGED from exact head `dedf1f9c4247d73e6fd4aac7eabf644066bc633c` as `17661f1e538a11a01bd67d2be56eccc60b608927`.
-- PR #1720 merge authorization is consumed.
-- Active custody: Draft PR #1723 on `agent/emp1-1651-post-merge-ep0049`.
-- EP-0052 consumes Owner `proceed next` as NO_PATCH post-merge executable-evidence wait.
-- No merge authorization carries to PR #1723.
+- Custody PR #1720: MERGED as `17661f1e538a11a01bd67d2be56eccc60b608927`.
+- Custody PR #1723: MERGED from exact head `d4dffaaae1a690317f18918f282efd0458a2d948` as `9dc69a278e79250f6fc94c838402e7ab85426033` under explicit Owner `merge if mergable` authorization.
+- PR #1723 merge authorization is consumed.
+- Active custody: Draft PR #1732 on `agent/emp1-1651-post-merge-ep0054`.
+- EP-0054 consumes the accompanying Owner `proceed next` as NO_PATCH post-merge executable-evidence wait.
+- No merge authorization carries to PR #1732.
 - No LEG-015 is open; no production material mutation occurred.
 
 ## Administrative exclusion
 
-Issues #1724-#1730 were accidentally created by a GitHub tool-action selection fault during EP-0050 execution and immediately closed `not_planned`. They are not part of this chain, carry no authority/evidence/custody/roadmap status, and must not be interpreted as engineering work items.
+Issues #1724-#1730 were accidentally created by a GitHub tool-action selection fault during EP-0050 and immediately closed `not_planned`. They are outside this chain and carry no authority/evidence/custody/roadmap status.
 
 ## Owner disposition retained
 
@@ -37,14 +38,14 @@ Independent review remains **WAIVED_BY_OWNER** for the executable-evidence/custo
 
 ## Live main / drift
 
-LIVE_MAIN_HEAD_AT_EP0052: `17661f1e538a11a01bd67d2be56eccc60b608927`
-MAIN_DRIFT_SINCE_EP0051: FALSE
-PR1720_DELTA_CLASS: `CUSTODY_METADATA_ONLY`
+LIVE_MAIN_HEAD_AT_EP0054: `9dc69a278e79250f6fc94c838402e7ab85426033`
+MAIN_DRIFT_SINCE_PR1723_MERGE: FALSE_AT_POST_MERGE_OBSERVATION
+PR1723_DELTA_CLASS: `CUSTODY_METADATA_ONLY`
 PR1718_POST_BASIS_DRIFT: `METADATA_ONLY`
 PR1639_POST_BASIS_DRIFT: `MATERIAL_WITHIN_QUALIFIED_BOUNDARY`
 REQUALIFICATION_REQUIRED_BY_CURRENT_DRIFT: FALSE
 
-PR #1720 merged only this chain's custody files. The inherited PR #1639 lazy EMP.1 product-loading boundary remains the material runtime obligation and must be exercised by P1-B.
+PR #1723 merged only this chain's custody files. The inherited PR #1639 lazy EMP.1 product-loading boundary remains the material runtime obligation and must be exercised by P1-B.
 
 ## Original acceptance ledger
 
@@ -52,7 +53,7 @@ PR #1720 merged only this chain's custody files. The inherited PR #1639 lazy EMP
 - TASK-002 | Pressure 5 identities × Internal/External = 10 governed cells. | SOURCE RETAINED/MERGED; live confirmation pending.
 - TASK-003 | Anti-waterfall task shell / one active task / selected evidence only. | SOURCE MERGED; human-factor desktop/narrow re-observation pending.
 - TASK-004 | CAUx staged benchmark UI with physical keyboard behavior. | SOURCE RETAINED/MERGED; physical Enter/Space and visual evidence pending.
-- TASK-005 | Preserve numerical/source/tolerance/sign/axis/route/code/release authority. | PRESERVED through EP-0052.
+- TASK-005 | Preserve numerical/source/tolerance/sign/axis/route/code/release authority. | PRESERVED through EP-0054.
 
 ## Validation truth / pending activity
 
@@ -73,7 +74,7 @@ PLAYWRIGHT_BROWSERS_PATH=0 node scripts/emp1-issue1651-executable-validation.mjs
 Required success: five Node gates PASS, focused Playwright 2/0, Stage-17 exit 0, final `PASS_EXECUTABLE_EXACT_HEAD_GATE_SEQUENCE`.
 
 ### P1-B — current-main regression proof
-Exact target at EP-0052: `17661f1e538a11a01bd67d2be56eccc60b608927`
+Exact target at EP-0054: `9dc69a278e79250f6fc94c838402e7ab85426033`
 Status: **NOT_RUN / GATED_BY_P1A**.
 Observed status contexts: 0. Observed PR-triggered workflow runs: 0. Zero is not PASS.
 After P1-A PASS, re-ground live main and run the same governed carrier on that exact head. The run must exercise the inherited PR #1639 lazy product-transaction import boundary.
@@ -100,7 +101,7 @@ Resolve TASK-001..005 from live evidence. Close #1664 then #1651 only if every a
 - Pressure remains 5 identities × Internal/External = 10 governed cells.
 - Bounded route `EMP1.C.WRC537.CYLINDRICAL.ORIGINAL.GAMMA5.ZERO_DP` retains its existing bounded engineering-use authorization.
 - Global/full-domain WRC production authority remains unclaimed/unregistered.
-- EP-0052 changes no WRC equations/tables/curves/applicability/sign/axes/SCFs, benchmark source/tolerance/authority, route authorization, code compliance, production authorization or release authority. PR #1639's unresolved validation debt is not promoted to PASS.
+- EP-0054 changes no WRC equations/tables/curves/applicability/sign/axes/SCFs, benchmark source/tolerance/authority, route authorization, code compliance, production authorization or release authority. PR #1639's unresolved validation debt is not promoted to PASS.
 
 ## Protocol / control
 
@@ -108,9 +109,9 @@ COMMON_PROTOCOL: engineering-pr-delivery-v2
 COMMON_PROTOCOL_BASIS: af4c5c73b87b26187aa6c930b60172cbb1f0f3e2
 COMMON_PROTOCOL_STATUS: CURRENT
 COMMON_SKILL_BLOB: aa832f5f9f204c3834ffcee40102b482f121ce76
-OWNER_INSTRUCTION: `proceed next`
-OWNER_MERGE_STATUS: PR_1720_MERGED_AUTHORIZATION_CONSUMED
-OWNER_PROGRESSION_STATUS: `proceed next` CONSUMED_BY_EP_0052_POST_MERGE_EXECUTABLE_EVIDENCE_WAIT
+OWNER_INSTRUCTION: `merge if mergable, proceed next`
+OWNER_MERGE_STATUS: PR_1723_MERGED_AUTHORIZATION_CONSUMED
+OWNER_PROGRESSION_STATUS: `proceed next` CONSUMED_BY_EP_0054_POST_MERGE_EXECUTABLE_EVIDENCE_WAIT
 PROGRESSION_DISPOSITION: NO_PATCH
 INDEPENDENT_REVIEW_REQUIREMENT: WAIVED_BY_OWNER
 SELF_CHECK_AUTHORITY: AUTHORIZED_BY_OWNER_FOR_SCOPE_REVIEW_INSPECTION_ONLY
@@ -135,4 +136,4 @@ HUMAN_FACTOR_MAY_PROCEED: FALSE
 
 CURRENT_BLOCKER: P1-A executable validation on exact `695538dd713f2ef11fb00e54b86073f19d38684a` remains NOT_RUN. P1-B remains gated and must be retargeted to the then-current main at execution time; human-factor remains gated.
 
-EXACT_NEXT_ACTION: remain READ_ONLY awaiting actual P1-A executable evidence. Evidence intake requires no new progression. If P1-A passes, re-ground live main and run P1-B on that exact head while exercising the inherited lazy EMP.1 transaction boundary. No merge authorization carries to PR #1723. Any production/material repair after a failed executable observation requires another exact Owner progression command.
+EXACT_NEXT_ACTION: remain READ_ONLY awaiting actual P1-A executable evidence. Evidence intake requires no new progression. If P1-A passes, re-ground live main and run P1-B on that exact head while exercising the inherited lazy EMP.1 transaction boundary. No merge authorization carries to PR #1732. Any production/material repair after a failed executable observation requires another exact Owner progression command.
