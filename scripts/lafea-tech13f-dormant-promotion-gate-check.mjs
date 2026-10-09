@@ -24,6 +24,11 @@ const policy = JSON.parse(fs.readFileSync(
 ));
 assert.equal(policy.currentTrustRoot, 'NULL');
 assert.equal(policy.activationRequiresVerifiedExactHeadBundle, true);
+assert.equal(policy.activationRecordBindsImplementationFingerprint, true);
+assert.equal(policy.runtimeImplementationFingerprintRequired, true);
+assert.equal(policy.runtimeImplementationFingerprintMustMatchQualified, true);
+assert.equal(policy.implementationFingerprintTrustRootValueExcluded, true);
+assert.equal(policy.implementationFingerprintPromotionValidatorExcluded, false);
 assert.equal(policy.runtimeCandidateGateStillRequiredAfterPromotion, true);
 assert.equal(policy.runtimeParentNormalGateStillRequiredAfterPromotion, true);
 assert.equal(policy.runtimeMeshQualityThresholdsMayChangeOnPromotion, false);
@@ -45,8 +50,9 @@ assert.throws(
   (error) => error?.code === LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_BLOCK_CODE,
 );
 
-// A structurally valid record may be constructed/verified offline, but passing
-// it as an extra JavaScript argument must NOT activate the production resolver.
+// A structurally valid v2 record may be constructed/verified offline, but
+// passing it as an extra JavaScript argument must NOT activate the production
+// resolver while the source-controlled trust root remains null.
 const synthetic = createLafea4ShellProductRefinementPromotionRecord({
   schema: LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_SCHEMA,
   stageId: 'LAFEA.4',
@@ -55,6 +61,7 @@ const synthetic = createLafea4ShellProductRefinementPromotionRecord({
   bundleEvidenceSha256: '1'.repeat(64),
   bundlePlanSha256: '2'.repeat(64),
   bundleRunnerSha256: '3'.repeat(64),
+  implementationFingerprint: `sha256:${'4'.repeat(64)}`,
   capabilityHash: LAFEA4_SHELL_PRODUCT_REFINEMENT_CAPABILITY.capabilityHash,
   qualificationHash: LAFEA4_SHELL_PRODUCT_REFINEMENT_QUALIFICATION.qualificationHash,
   qualificationClassification: 'PASS',
@@ -75,17 +82,24 @@ assert.throws(
 );
 
 const tampered = structuredClone(synthetic);
-tampered.bundleEvidenceSha256 = '4'.repeat(64);
+tampered.bundleEvidenceSha256 = '5'.repeat(64);
 assert.throws(
   () => validateLafea4ShellProductRefinementPromotionRecord(tampered),
   /LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_RECORD_TAMPERED/,
 );
 const wrongCapability = { ...synthetic };
 delete wrongCapability.semanticHash;
-wrongCapability.capabilityHash = `sha256:${'5'.repeat(64)}`;
+wrongCapability.capabilityHash = `sha256:${'6'.repeat(64)}`;
 assert.throws(
   () => createLafea4ShellProductRefinementPromotionRecord(wrongCapability),
   /LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_CONTRACT_INVALID/,
+);
+const missingFingerprint = { ...synthetic };
+delete missingFingerprint.semanticHash;
+delete missingFingerprint.implementationFingerprint;
+assert.throws(
+  () => createLafea4ShellProductRefinementPromotionRecord(missingFingerprint),
+  /LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_KEYS_INVALID/,
 );
 
 console.log(JSON.stringify({
@@ -95,6 +109,7 @@ console.log(JSON.stringify({
   productionProductRetentionAuthorized: dormant.productRetentionAuthorized,
   productionUiBindingAuthorized: dormant.uiBindingAuthorized,
   callerSuppliedValidRecordIgnored: injectionAttempt.active === false,
+  v2ImplementationFingerprintRequired: true,
   syntheticRecordIsProductionEvidence: false,
   releaseQualified: false,
 }, null, 2));

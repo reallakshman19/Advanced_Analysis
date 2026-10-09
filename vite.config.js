@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 
+import {
+  computeLafea4Tech13ImplementationFingerprint,
+} from './scripts/lib/lafea4-tech13-implementation-fingerprint.mjs';
+
 const buildTime = new Date().toISOString();
+const tech13Implementation = computeLafea4Tech13ImplementationFingerprint({
+  rootDir: fileURLToPath(new URL('.', import.meta.url)),
+});
 
 const PURE_LAFEA_MESHING_WORKSPACE_MODULES = new Set([
   '/src/workspace/lafea-analysis-mesh-evidence-v2.js',
@@ -36,6 +43,21 @@ const PURE_LAFEA_WORKBENCH_GOVERNANCE_MODULES = new Set([
   '/src/workspace/lafea-workbench-reason-labels.js',
   '/src/workspace/lafea-workbench-release-binding.js',
   '/src/workspace/lafea-workbench-verification-state.js',
+  // TECH-13 product-refinement authority is synchronous but stateless at module
+  // load. Keep this closed authority/calculation set with the already-qualified
+  // LAFEA governance chunk while leaving the context-owning replay-actions and
+  // workbench action/controller graph under Rollup ownership.
+  '/src/workspace/lafea4-shell-graded-refinement-authority.js',
+  '/src/workspace/lafea4-shell-graded-refinement-executor.js',
+  '/src/workspace/lafea4-shell-graded-transition-plan.js',
+  '/src/workspace/lafea4-shell-parent-normal-qualification.js',
+  '/src/workspace/lafea4-shell-product-refinement-contract.js',
+  '/src/workspace/lafea4-shell-product-refinement-adapter.js',
+  '/src/workspace/lafea4-shell-product-refinement-acceptance.js',
+  '/src/workspace/lafea4-shell-product-refinement-implementation-currentness.js',
+  '/src/workspace/lafea4-shell-product-refinement-promotion.js',
+  '/src/workspace/lafea4-shell-product-refinement-retention-authority.js',
+  '/src/workspace/lafea4-shell-product-refinement-replay.js',
 ]);
 
 /**
@@ -213,12 +235,9 @@ export function manualChunk(id) {
   if (source.endsWith('/src/workspace/workspace-shell-styles.js')) {
     return 'application-shell-static-styles';
   }
-  // PR #1016 adds a bounded set of read-only views, immutable qualification
-  // custody, and derived readiness/release projections. These modules export
-  // functions/contracts only; they own no workbench controller, store, mounted
-  // viewport, or top-level mutable singleton. Keeping them in a dedicated leaf
-  // chunk reduces the entry chunk without manually partitioning the stateful
-  // workbench composition graph.
+  // PR #1016 plus TECH-13 authority closure: all listed modules are immutable
+  // projections/contracts/calculators at module load. Context-owning replay
+  // actions and workbench controllers are deliberately excluded.
   if ([...PURE_LAFEA_WORKBENCH_GOVERNANCE_MODULES]
     .some((modulePath) => source.endsWith(modulePath))) {
     return 'lafea-workbench-governance';
@@ -309,6 +328,7 @@ export default defineConfig({
   plugins: [],
   define: {
     __BUILD_TIME__: JSON.stringify(buildTime),
+    __LAFEA4_TECH13_IMPLEMENTATION_FINGERPRINT__: JSON.stringify(tech13Implementation.fingerprint),
   },
   build: {
     modulePreload: false,

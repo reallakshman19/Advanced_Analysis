@@ -44,10 +44,14 @@ if (verifier.status !== 0 || verifier.error) {
 }
 
 const bundle = JSON.parse(fs.readFileSync(absoluteBundlePath, 'utf8'));
-if (bundle.schema !== 'lafea4-tech13-product-refinement-qualification-bundle/v1'
+if (bundle.schema !== 'lafea4-tech13-product-refinement-qualification-bundle/v2'
   || bundle.qualificationId !== LAFEA4_SHELL_PRODUCT_REFINEMENT_EXACT_HEAD_QUALIFICATION_ID
   || bundle.expectedHead !== expectedHead
   || bundle.currentHead !== expectedHead
+  || !/^sha256:[0-9a-f]{64}$/u.test(bundle.implementationFingerprint ?? '')
+  || !/^sha256:[0-9a-f]{64}$/u.test(bundle.implementationManifestSha256 ?? '')
+  || !Number.isSafeInteger(bundle.implementationFileCount)
+  || bundle.implementationFileCount < 1
   || bundle.classification !== 'PASS'
   || bundle.qualificationComplete !== true
   || bundle.futurePromotionReviewEligible !== true
@@ -55,7 +59,7 @@ if (bundle.schema !== 'lafea4-tech13-product-refinement-qualification-bundle/v1'
   || bundle.uiBindingAuthorized !== false
   || bundle.releaseQualified !== false
   || bundle.hardGateActivated !== false) {
-  fatal('BUNDLE_NOT_PROMOTION_ELIGIBLE', 'bundle does not satisfy TECH-13F promotion prerequisites', 1);
+  fatal('BUNDLE_NOT_PROMOTION_ELIGIBLE', 'bundle does not satisfy TECH-13F/J promotion prerequisites', 1);
 }
 
 const record = createLafea4ShellProductRefinementPromotionRecord({
@@ -66,6 +70,7 @@ const record = createLafea4ShellProductRefinementPromotionRecord({
   bundleEvidenceSha256: bundle.evidenceSha256,
   bundlePlanSha256: bundle.planSha256,
   bundleRunnerSha256: bundle.runnerSha256,
+  implementationFingerprint: bundle.implementationFingerprint,
   capabilityHash: LAFEA4_SHELL_PRODUCT_REFINEMENT_CAPABILITY.capabilityHash,
   qualificationHash: LAFEA4_SHELL_PRODUCT_REFINEMENT_QUALIFICATION.qualificationHash,
   qualificationClassification: 'PASS',

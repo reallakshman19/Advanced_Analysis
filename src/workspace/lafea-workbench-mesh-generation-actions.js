@@ -31,6 +31,11 @@ import {
   LAFEA4_SHELL_PRODUCT_REFINEMENT_PROMOTION_BLOCK_CODE,
   requireLafea4ShellProductRefinementPromotionAuthorized,
 } from './lafea4-shell-product-refinement-promotion.js';
+import {
+  finalizeLafea4ShellProductRefinementRetention,
+  requireLafea4ShellProductRefinementGenericRecoveryAllowed,
+} from './lafea4-shell-product-refinement-retention-authority.js';
+import { createLafea4ShellProductRefinementReplayActions } from './lafea4-shell-product-refinement-replay-actions.js';
 
 export function createLafeaMeshGenerationActions(context) {
   const {
@@ -38,6 +43,7 @@ export function createLafeaMeshGenerationActions(context) {
     invokeRetained, getRetainedState, clearOrchestratorDiagnostic, failOrchestrator,
     clearDomainFirstExecution, storeError,
   } = context;
+  const productRefinementReplay = createLafea4ShellProductRefinementReplayActions(context);
 
   function bindAnalysisMeshProfile(value, stageId = getRetainedState().activeStageId) {
     const result = meshGeneration.bindMeshProfile(value, stageId);
@@ -144,9 +150,7 @@ export function createLafeaMeshGenerationActions(context) {
 
       let promotion;
       try {
-        promotion = requireLafea4ShellProductRefinementPromotionAuthorized(
-          context.productRefinementPromotionRecord,
-        );
+        promotion = requireLafea4ShellProductRefinementPromotionAuthorized();
       } catch (error) {
         throw storeError(
           error?.diagnosticCode
@@ -155,7 +159,17 @@ export function createLafeaMeshGenerationActions(context) {
         );
       }
 
-      const childEvidence = adapterResult.productEvidence;
+      const retentionAuthority = finalizeLafea4ShellProductRefinementRetention({
+        adapterResult,
+        acceptance,
+        promotion,
+      });
+      const replayPackage = productRefinementReplay.prepareProductRefinementReplayPackage({
+        retentionAuthority,
+        acceptance,
+        promotion,
+      });
+      const childEvidence = retentionAuthority.evidence;
       const parentNormalCompanion = parentNormalCompanionForEvidence(stageId, childEvidence);
       const parentNormalProductionGate = parentNormalProductionGateForCompanion(parentNormalCompanion);
       requireProductionGateAllowsRetention(parentNormalProductionGate);
@@ -166,11 +180,15 @@ export function createLafeaMeshGenerationActions(context) {
         midsurface,
         childEvidence,
       });
+      productRefinementReplay.retainPreparedProductRefinementReplayPackage(replayPackage);
       return freeze({
         ...retained,
         scope,
         acceptance,
         promotion,
+        retentionAuthority,
+        replayPackage,
+        candidateEvidenceArtifactHash: adapterResult.productEvidence.artifactHash,
         parentNormalCompanion,
         parentNormalProductionGate,
         productRefinement: true,
@@ -245,6 +263,11 @@ export function createLafeaMeshGenerationActions(context) {
       const validated = meshGeneration.validateEvidence(value);
       if (validated.stageId !== stageId) {
         throw storeError('LAFEA_ANALYSIS_MESH_V2_RECOVERY_STAGE_MISMATCH');
+      }
+      try {
+        requireLafea4ShellProductRefinementGenericRecoveryAllowed(validated);
+      } catch (error) {
+        throw storeError(error?.code ?? 'LAFEA4_SHELL_PRODUCT_REFINEMENT_GENERIC_RECOVERY_FORBIDDEN');
       }
       const prevalidatedCompanion = parentNormalCompanionForEvidence(stageId, validated);
       const prevalidatedProductionGate = parentNormalProductionGateForCompanion(prevalidatedCompanion);
@@ -407,6 +430,7 @@ export function createLafeaMeshGenerationActions(context) {
     validateRetainedAnalysisMeshParentNormalCompanion,
     selectRetainedAnalysisMeshParentNormalProductionGate,
     exportRetainedAnalysisMeshParentNormalProductionGate,
+    ...productRefinementReplay,
   });
 }
 

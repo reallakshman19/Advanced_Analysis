@@ -28,6 +28,14 @@ const expectedCompilerBlock = {
   'LAFEA.4': 'LAFEA4_SHELL_SOLVER_CONSTRAINT_MAPPING_REQUIRED',
   'LAFEA.5': 'LAFEA5_SHELL_SOLVER_SOURCE_MESH_PARENT_REQUIRED',
 };
+const expectedRefinementBlock = {
+  // LAFEA.4 now owns a deliberately bounded product-refinement route. This
+  // planar fixture is outside that qualified surface envelope, so the product
+  // scope must reject it before promotion/custody. LAFEA.5 still has no local
+  // refinement product route and retains the generic stage-level rejection.
+  'LAFEA.4': 'LAFEA4_SHELL_PRODUCT_REFINEMENT_SURFACE_NOT_QUALIFIED',
+  'LAFEA.5': 'LAFEA_SHELL_LOCAL_REFINEMENT_NOT_QUALIFIED',
+};
 const rows = [];
 
 for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
@@ -115,7 +123,7 @@ for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
     lengthUnit: 'mm',
   }, stageId);
   assert.equal(rejected, null);
-  assert.equal(workbench.getState().diagnostics?.[0]?.code, 'LAFEA_SHELL_LOCAL_REFINEMENT_NOT_QUALIFIED');
+  assert.equal(workbench.getState().diagnostics?.[0]?.code, expectedRefinementBlock[stageId]);
   assert.equal(workbench.selectRetainedAnalysisMeshEvidenceV2(stageId)?.artifactHash, retainedHash);
 
   // The compiler is intentionally bounded. This generic route is outside the
@@ -143,6 +151,7 @@ for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
     meshRouteQualified: true,
     solverMeshBindingQualified: false,
     compilerBlock: expectedCompilerBlock[stageId],
+    refinementBlock: expectedRefinementBlock[stageId],
     shellRunFailClosedOutsideCompilerEnvelope: true,
     shellLocalRefinementQualified: false,
     sourceChangeInvalidatesParentAndChild: true,

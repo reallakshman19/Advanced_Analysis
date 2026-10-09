@@ -18,6 +18,10 @@ export const LAFEA_ANALYSIS_MESH_QUALITY_SCHEMA = 'lafea-analysis-mesh-quality/v
 
 const DEGREES_PER_RADIAN = 180 / Math.PI;
 const POLICY_COMPARE_EPSILON_FACTOR = 64;
+const STRAIGHT_SIDED_TRIANGLE_TYPES = new Set([
+  'T3',
+  'CST_DKT_TRI3_THIN_SHELL_V1',
+]);
 
 export function qualifyLafeaAnalysisMesh(stageId, mesh, meshProfile) {
   const nodeById = new Map(mesh.nodes.map((node) => [node.nodeId, node]));
@@ -36,7 +40,12 @@ export function qualifyLafeaAnalysisMesh(stageId, mesh, meshProfile) {
     const scaledJacobian = scaledJacobianMetric(
       stageId, element.elementType, physicalNodes, thresholds,
     );
-    const minimumAngle = cornerCount === 3
+    // Corner-angle geometry is authoritative only for straight-sided triangles.
+    // A T6 edge is quadratic and may be curved by its midside node, so the
+    // three corner chords are not the element mapping. T6 shape quality is
+    // therefore governed by its high-order scaled-Jacobian evaluation rather
+    // than a linear-corner angle surrogate.
+    const minimumAngle = STRAIGHT_SIDED_TRIANGLE_TYPES.has(element.elementType)
       ? minimumAngleMetric(cornerNodes, thresholds)
       : null;
     const metrics = Object.freeze([

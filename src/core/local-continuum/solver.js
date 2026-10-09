@@ -7,11 +7,11 @@ import { rigidReferenceConditioning } from './rigid-reference-conditioning.js';
 import {
   restrictSymmetricCsr,
   sparseMatrixVector,
+  sparseMatrixVectorCompensatedRaw,
   sparseMatrixVectorRaw,
 } from './sparse-matrix.js';
 
 const DENSE_CHOLESKY_REFINEMENT_STEPS = 3;
-const SPARSE_PCG_RELIABLE_RESIDUAL_INTERVAL = 100;
 
 export function solvePartitioned(model, mesh, load) {
   const constraints = constraintData(model, mesh.dofOrdering, load);
@@ -332,11 +332,12 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
     Math.max(1000, matrix.size * 16),
   );
   const solution = Array(matrix.size).fill(0);
+  const solutionCompensation = Array(matrix.size).fill(0);
+  const residualCompensation = Array(matrix.size).fill(0);
   let residual = [...rightHandSide];
   const initialResidualInfinity = maxAbs(residual);
   let finalResidualInfinity = initialResidualInfinity;
   let iterations = 0;
-  let reliableResidualReplacements = 0;
   if (finalResidualInfinity > convergenceTarget) {
     let preconditioned = applyJacobi(matrix.diagonal, residual);
     let direction = [...preconditioned];
@@ -360,14 +361,21 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
       }
       const alpha = rho / curvature;
       for (let index = 0; index < solution.length; index += 1) {
-        solution[index] += alpha * direction[index];
-        residual[index] -= alpha * action[index];
+        const increment = alpha * direction[index];
+        const correctedIncrement = increment - solutionCompensation[index];
+        const nextSolution = solution[index] + correctedIncrement;
+        solutionCompensation[index] = (nextSolution - solution[index]) - correctedIncrement;
+        solution[index] = nextSolution;
+        const residualIncrement = -alpha * action[index];
+        const correctedResidualIncrement = residualIncrement - residualCompensation[index];
+        const nextResidual = residual[index] + correctedResidualIncrement;
+        residualCompensation[index] = (nextResidual - residual[index]) - correctedResidualIncrement;
+        residual[index] = nextResidual;
       }
       iterations += 1;
       const recursiveResidualInfinity = maxAbs(residual);
       finalResidualInfinity = recursiveResidualInfinity;
-      const reliableResidualDue = iterations % SPARSE_PCG_RELIABLE_RESIDUAL_INTERVAL === 0;
-      if (recursiveResidualInfinity <= convergenceTarget || reliableResidualDue) {
+      if (recursiveResidualInfinity <= convergenceTarget || iterations % 100 === 0) {
         const reliableResidual = exactResidual(matrix, rightHandSide, solution);
         const reliableResidualInfinity = maxAbs(reliableResidual);
         finalResidualInfinity = reliableResidualInfinity;
@@ -375,16 +383,12 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
           residual = reliableResidual;
           break;
         }
-        if (reliableResidualDue) {
-          residual = reliableResidual;
-          reliableResidualReplacements += 1;
-        }
         if (recursiveResidualInfinity <= convergenceTarget) {
           residual = reliableResidual;
+          residualCompensation.fill(0);
           preconditioned = applyJacobi(matrix.diagonal, residual);
           direction = [...preconditioned];
           rho = dotVector(residual, preconditioned);
-          reliableResidualReplacements += reliableResidualDue ? 0 : 1;
           if (!(rho > 0) || !Number.isFinite(rho)) {
             throw singularError(
               'UNDER_CONSTRAINED_OR_SINGULAR_SYSTEM',
@@ -425,7 +429,6 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
       canonicalNumber(value, 'solved sparse displacement')),
     evidence: {
       method: 'DETERMINISTIC_JACOBI_PCG',
-      algorithmRevision: 'DETERMINISTIC_JACOBI_PCG_RELIABLE_RESIDUAL_V2',
       pivotScale: null,
       pivotTolerance: null,
       pivots: [],
@@ -435,8 +438,6 @@ function conjugateGradientSolve(matrix, rightHandSide, profile) {
       preconditioner: 'JACOBI',
       iterationLimit,
       iterations,
-      reliableResidualInterval: SPARSE_PCG_RELIABLE_RESIDUAL_INTERVAL,
-      reliableResidualReplacements,
       residualScale: canonicalNumber(residualScale),
       initialResidualInfinity: canonicalNumber(initialResidualInfinity),
       finalResidualInfinity: canonicalNumber(finalResidualInfinity),
@@ -457,16 +458,12 @@ function applyJacobi(diagonal, residual) {
 }
 
 function exactResidual(matrix, rightHandSide, solution) {
-  const action = sparseMatrixVectorRaw(matrix, solution);
+  const action = sparseMatrixVectorCompensatedRaw(matrix, solution);
   return rightHandSide.map((value, index) => value - action[index]);
 }
 
 function dotVector(left, right) {
-  let value = 0;
-  for (let index = 0; index < left.length; index += 1) {
-    value += left[index] * right[index];
-  }
-  return value;
+  return compensatedProductSumRaw(left, right);
 }
 
 function pivotEvidence(scale, limit, pivots, minimum, maximum) {

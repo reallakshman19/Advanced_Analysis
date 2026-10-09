@@ -107,8 +107,37 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: '0'
         run: npx playwright install --with-deps chromium
-      - name: Run Stage-17 and production-shell visible UI proof
-        run: node scripts/lafea-stage17-browser-run.mjs
+      - name: Observe Stage-17 pre-browser B01/B02 gate
+        id: pre_browser_gate
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p test-results
+          set +e
+          node scripts/lafea-b01-b02-gate0-diagnostic.mjs 2>&1 | tee test-results/lafea-stage17-pre-browser-gate.log
+          status=${PIPESTATUS[0]}
+          set -e
+          exit "$status"
+      - name: Run actual Stage-17 and production-shell Playwright proof
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: '0'
+        run: |
+          mkdir -p test-results
+          node node_modules/playwright/cli.js test \
+            --config=playwright.lafea-visible.config.js \
+            e2e/lafea-standalone.spec.js \
+            e2e/lafea-standalone-golden-journey.spec.js \
+            e2e/lafea-standalone-failures.spec.js \
+            e2e/lafea-visible-workbench.spec.js \
+            e2e/lafea3-sample-mesh.spec.js \
+            e2e/lafea-shell-sample-mesh.spec.js \
+            e2e/lafea-b02-g3-custody.spec.js \
+            2>&1 | tee test-results/lafea-stage17-playwright.log
+      - name: Preserve pre-browser gate failure as job failure
+        if: always() && steps.pre_browser_gate.outcome == 'failure'
+        run: |
+          echo 'Stage-17 pre-browser B01/B02 gate is FAIL; browser execution was observed separately and this diagnostic workflow preserves the gate failure.' >&2
+          exit 1
       - name: Upload visible browser evidence
         if: always()
         uses: actions/upload-artifact@v4

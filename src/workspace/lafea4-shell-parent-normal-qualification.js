@@ -253,11 +253,16 @@ function requireParents(meshEvidence, midsurface) {
 }
 
 function uvAt(surfaceKind, geometry, point) {
+  // Analysis-mesh nodes deliberately carry identity (`nodeId`) in addition to
+  // coordinates. The inverse-surface contracts deliberately accept a pure
+  // geometric point only. Project the representation boundary here rather than
+  // weakening the exact surface contract or changing any parent-normal math.
+  const position = vector(point);
   if (surfaceKind === LAFEA_SHELL_SURFACE_KINDS.CYLINDRICAL) {
-    return cylindricalShellUvAtPoint3d(geometry, point);
+    return cylindricalShellUvAtPoint3d(geometry, position);
   }
   if (surfaceKind === LAFEA_SHELL_SURFACE_KINDS.CYLINDRICAL_HOLES) {
-    return curvedHoleShellUvAtPoint3d(geometry, point);
+    return curvedHoleShellUvAtPoint3d(geometry, position);
   }
   fail('LAFEA4_PARENT_NORMAL_SURFACE_NOT_QUALIFIED');
 }

@@ -149,6 +149,10 @@ export function createLafeaWorkbenchOrchestratorApi(context) {
     exportAnalysisMeshEvidenceV2: (stageId = activeStageId()) =>
       c.meshGeneration.exportEvidence(stageId),
     recoverAnalysisMeshEvidenceV2: c.recoverAnalysisMeshEvidenceV2,
+    exportLafea4ProductRefinementReplayPackage:
+      c.exportRetainedProductRefinementReplayPackage,
+    recoverLafea4ProductRefinementReplayPackage:
+      c.recoverProductRefinementReplayPackage,
     selectRetainedAnalysisMeshProfile: (stageId = activeStageId()) =>
       c.meshGeneration.selectMeshProfile(stageId),
     selectRetainedAnalysisMeshEvidenceV2: (stageId = activeStageId()) =>
