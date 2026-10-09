@@ -119,3 +119,5 @@ jobs:
             playwright-report/**
           if-no-files-found: warn
           retention-days: 30
+
+# Diagnostic-only trigger for current-main bundle baseline; never merge.
