@@ -10,14 +10,14 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => globalThis.localStorage?.clear());
 });
 
-test('production HUD authors one governed flange–valve–flange assembly atomically', async ({ page }, testInfo) => {
+test('production Place component authors one governed flange–valve–flange assembly atomically', async ({ page }, testInfo) => {
   const diagnostics = collectBrowserDiagnostics(page);
   const host = await openProductionController(page);
   const initial = await topologySnapshot(page);
   const target = await eligibleHostEdge(page, 100, 114.3, 740, 'P-005');
 
   await selectCanonicalEdgeFromTree(page, host, target.id);
-  await page.locator('[data-action="activate-authoring-valve-assembly"]').click();
+  await activateValvePlacement(page);
   await expect(host).toHaveAttribute('data-topology-edit-authoring-tool', 'VALVE_ASSEMBLY');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-catalogue-option-count', '8');
   await page.locator('[data-authoring-field="valveRecordId"]').selectOption(VALVE_RECORD_ID);
@@ -30,18 +30,27 @@ test('production HUD authors one governed flange–valve–flange assembly atomi
   await expect(page.locator('[data-authoring-field="assemblyLengthMm"]')).toHaveValue('740');
   await expect(page.locator('[data-authoring-field="assemblyMassKg"]')).toHaveValue('179');
 
-  const priorTransactionHash = await host.getAttribute(
-    'data-topology-edit-authoring-transaction-hash',
-  ) || '';
-  await page.locator('[data-action="preview-authoring-operation"]').click();
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-command-count', '3');
+  await expect(host).toHaveAttribute('data-topology-edit-component-placement-automatic', 'true');
+  await expect.poll(() => host.getAttribute('data-topology-edit-authoring-command-count')).toBe('3');
   await expect.poll(() => page.evaluate(() => (
     globalThis.__VALVE_ASSEMBLY_CONTROLLER__.viewportBackend.groups.ghostGroup.children.length
   ))).toBeGreaterThan(0);
-  await page.locator('[data-action="validate-authoring-operation"]').click();
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-phase', 'READY_TO_APPLY');
+  await expect.poll(() => host.getAttribute('data-topology-edit-authoring-phase')).toBe('READY_TO_APPLY');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-blocking-issue-count', '0');
-  await page.locator('[data-action="apply-authoring-operation"]').click();
+  const preview = await topologySnapshot(page);
+  expect(preview.canonicalHash).toBe(initial.canonicalHash);
+  expect(preview.journalHash).toBe(initial.journalHash);
+  const engineeringEvidence = page.locator('[data-role="component-placement-engineering-evidence"]');
+  await expect(engineeringEvidence).not.toHaveAttribute('open', '');
+  await expect(engineeringEvidence.locator('[data-action="preview-authoring-operation"]')).toBeHidden();
+  await expect(engineeringEvidence.locator('[data-action="validate-authoring-operation"]')).toBeHidden();
+
+  const priorTransactionHash = await host.getAttribute(
+    'data-topology-edit-authoring-transaction-hash',
+  ) || '';
+  const apply = page.getByRole('button', { name: 'Apply valve assembly', exact: true });
+  await expect(apply).toBeEnabled();
+  await apply.click();
   await expect.poll(() => host.getAttribute('data-topology-edit-authoring-transaction-hash'))
     .not.toBe(priorTransactionHash);
 
@@ -64,7 +73,7 @@ test('production HUD authors one governed flange–valve–flange assembly atomi
   expect((await topologySnapshot(page)).faceMated).toBe(true);
 
   await assertBrowserDiagnostics(diagnostics);
-  await testInfo.attach('topology-edit-valve-assembly-authoring', {
+  await testInfo.attach('topology-edit-contextual-valve-assembly', {
     body: await page.screenshot({ fullPage: true }),
     contentType: 'image/png',
   });
@@ -97,8 +106,17 @@ async function openProductionController(page) {
   if (!(await panel.evaluate((element) => element.open))) {
     await panel.locator(':scope > summary').click();
   }
-  await expect(page.locator('[data-action="activate-authoring-valve-assembly"]')).toBeVisible();
+  await expect(page.locator('[data-role="component-placement-family-picker"]')).toBeVisible();
   return host;
+}
+
+async function activateValvePlacement(page) {
+  const picker = page.locator('[data-role="component-placement-family-picker"]');
+  if (!(await picker.evaluate((element) => element.open))) {
+    await picker.locator(':scope > summary').click();
+  }
+  await picker.locator('[data-action="activate-authoring-valve-assembly"]').click();
+  await expect(picker.locator(':scope > summary')).toContainText('Valve assembly');
 }
 
 async function selectCanonicalEdgeFromTree(page, host, edgeId) {

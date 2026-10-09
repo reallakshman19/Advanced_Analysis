@@ -3,7 +3,6 @@ import {
   publishTopologyEditAuthoringPreview,
   setTopologyEditAuthoringSelection,
   setTopologyEditAuthoringTarget,
-  topologyEditAuthoringToolDefinition,
   updateTopologyEditAuthoringProperties,
 } from '../topology-edit/authoring/topology-edit-authoring-session.js';
 import {
@@ -19,6 +18,9 @@ import {
 import {
   TopologyEditComponentAuthoringRuntime,
 } from './topology-edit-component-authoring-runtime.js';
+import {
+  renderComponentPlacementConsolidation,
+} from './topology-edit-component-placement-consolidation.js';
 
 const TOOL = 'BLIND_FLANGE';
 
@@ -29,10 +31,12 @@ export class TopologyEditBlindFlangeAuthoringRuntime
     this.cancelPendingValidation();
     this.clearCandidateState();
     this.state = activateTopologyEditAuthoringTool(this.state, TOOL);
+    this.componentPlacementRevision += 1;
     this.error = null;
     this.message = 'Blind flange: select one graph-open canonical pipe endpoint.';
     this.reconcileSelection();
     this.publish();
+    this.queueComponentQualification();
     return true;
   }
 
@@ -93,7 +97,7 @@ export class TopologyEditBlindFlangeAuthoringRuntime
         changedCanonicalIds,
       });
       this.renderCandidateGhost();
-      this.message = `BLIND_FLANGE preview ready: ${changedCanonicalIds.length} canonical object(s), ${this.candidate.commandCount} governed command(s).`;
+      this.message = `BLIND_FLANGE governed ghost ready: ${changedCanonicalIds.length} canonical object(s), ${this.candidate.commandCount} certified command(s).`;
     } catch (error) {
       this.reject(error, 'Blind flange authoring preview blocked.');
     } finally {
@@ -120,19 +124,17 @@ export class TopologyEditBlindFlangeAuthoringRuntime
         tools.append(button);
       }
     }
-    if (this.state.tool !== TOOL) return;
-    this.renderBlindCatalogueSelector();
-    this.lockGovernedFields();
-    for (const key of ['nominalSizeMm']) {
-      const control = this.element.querySelector(`[data-authoring-field="${key}"]`);
-      if (!control) continue;
-      control.disabled = true;
-      control.setAttribute('aria-readonly', 'true');
+    if (this.state.tool === TOOL) {
+      this.renderBlindCatalogueSelector();
+      this.lockGovernedFields();
+      for (const key of ['nominalSizeMm']) {
+        const control = this.element.querySelector(`[data-authoring-field="${key}"]`);
+        if (!control) continue;
+        control.disabled = true;
+        control.setAttribute('aria-readonly', 'true');
+      }
     }
-    const targetText = this.element.querySelector('.topology-edit-authoring-hud__target span');
-    if (targetText) {
-      targetText.textContent = 'Select one graph-open canonical pipe endpoint in the viewport or tree.';
-    }
+    renderComponentPlacementConsolidation(this);
   }
 
   updateEvidence() {
@@ -166,6 +168,8 @@ export class TopologyEditBlindFlangeAuthoringRuntime
     if (this.state.tool !== TOOL) return super.handleFieldChange(event);
     const field = event.target?.dataset?.authoringField;
     if (field !== 'catalogueRecordId') return;
+    this.cancelPendingValidation();
+    this.componentPlacementRevision += 1;
     try {
       const topology = this.controller.session?.currentTopology();
       const catalogue = this.catalogue();
@@ -179,12 +183,14 @@ export class TopologyEditBlindFlangeAuthoringRuntime
       this.applyBlindDefaults(topology, catalogue, patch, 'USER_INPUT');
       this.clearCandidateState();
       this.error = null;
-      this.message = 'Blind flange evidence updated from the exact selected catalogue record.';
+      this.message = 'Blind flange record changed; updating the governed ghost and validation.';
     } catch (error) {
+      this.clearCandidateState();
       this.error = errorMessage(error);
       this.message = 'Blind flange catalogue selection is not compatible with the endpoint.';
     }
     this.publish();
+    this.queueComponentQualification();
   }
 
   applyBlindDefaults(topology, catalogue, overrides, userAuthority) {

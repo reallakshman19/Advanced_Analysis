@@ -8,15 +8,15 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => globalThis.localStorage?.clear());
 });
 
-test('production HUD closes one graph-open pipe endpoint with an exact governed blind flange', async ({ page }, testInfo) => {
+test('production Place component closes one graph-open endpoint with an exact governed blind flange', async ({ page }, testInfo) => {
   const diagnostics = collectBrowserDiagnostics(page);
   const host = await openProductionController(page);
   const initial = await topologySnapshot(page);
   const target = await eligibleBlindFlangeEndpoint(page);
 
-  await page.locator('[data-action="activate-authoring-blind-flange"]').click();
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-tool', 'BLIND_FLANGE');
   await selectCanonicalNodeFromTree(page, host, target.nodeId);
+  await activateBlindFlangePlacement(page);
+  await expect(host).toHaveAttribute('data-topology-edit-authoring-tool', 'BLIND_FLANGE');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-catalogue-option-count', '1');
 
   const selector = page.locator('[data-authoring-field="catalogueRecordId"]');
@@ -43,18 +43,27 @@ test('production HUD closes one graph-open pipe endpoint with an exact governed 
     '24',
   );
 
-  const priorTransactionHash = await host.getAttribute(
-    'data-topology-edit-authoring-transaction-hash',
-  ) || '';
-  await page.locator('[data-action="preview-authoring-operation"]').click();
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-command-count', '1');
+  await expect(host).toHaveAttribute('data-topology-edit-component-placement-automatic', 'true');
+  await expect.poll(() => host.getAttribute('data-topology-edit-authoring-command-count')).toBe('1');
   await expect.poll(() => page.evaluate(() => (
     globalThis.__BLIND_FLANGE_CONTROLLER__.viewportBackend.groups.ghostGroup.children.length
   ))).toBeGreaterThan(0);
-  await page.locator('[data-action="validate-authoring-operation"]').click();
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-phase', 'READY_TO_APPLY');
+  await expect.poll(() => host.getAttribute('data-topology-edit-authoring-phase')).toBe('READY_TO_APPLY');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-blocking-issue-count', '0');
-  await page.locator('[data-action="apply-authoring-operation"]').click();
+  const preview = await topologySnapshot(page);
+  expect(preview.canonicalHash).toBe(initial.canonicalHash);
+  expect(preview.journalHash).toBe(initial.journalHash);
+  const engineeringEvidence = page.locator('[data-role="component-placement-engineering-evidence"]');
+  await expect(engineeringEvidence).not.toHaveAttribute('open', '');
+  await expect(engineeringEvidence.locator('[data-action="preview-authoring-operation"]')).toBeHidden();
+  await expect(engineeringEvidence.locator('[data-action="validate-authoring-operation"]')).toBeHidden();
+
+  const priorTransactionHash = await host.getAttribute(
+    'data-topology-edit-authoring-transaction-hash',
+  ) || '';
+  const apply = page.getByRole('button', { name: 'Apply blind flange', exact: true });
+  await expect(apply).toBeEnabled();
+  await apply.click();
   await expect.poll(() => host.getAttribute('data-topology-edit-authoring-transaction-hash'))
     .not.toBe(priorTransactionHash);
 
@@ -106,7 +115,7 @@ test('production HUD closes one graph-open pipe endpoint with an exact governed 
     .toEqual([blind.id]);
 
   await assertBrowserDiagnostics(diagnostics);
-  await testInfo.attach('topology-edit-blind-flange-authoring', {
+  await testInfo.attach('topology-edit-contextual-blind-flange', {
     body: await page.screenshot({ fullPage: true }),
     contentType: 'image/png',
   });
@@ -136,12 +145,20 @@ async function openProductionController(page) {
     globalThis.__BLIND_FLANGE_CONTROLLER__ = controller;
   });
   const panel = host.locator('details[data-panel-kind="authoring"]');
-  await expect(panel.locator(':scope > summary')).toContainText('Blind flange');
   if (!(await panel.evaluate((element) => element.open))) {
     await panel.locator(':scope > summary').click();
   }
-  await expect(page.locator('[data-action="activate-authoring-blind-flange"]')).toBeVisible();
+  await expect(page.locator('[data-role="component-placement-family-picker"]')).toBeVisible();
   return host;
+}
+
+async function activateBlindFlangePlacement(page) {
+  const picker = page.locator('[data-role="component-placement-family-picker"]');
+  if (!(await picker.evaluate((element) => element.open))) {
+    await picker.locator(':scope > summary').click();
+  }
+  await picker.locator('[data-action="activate-authoring-blind-flange"]').click();
+  await expect(picker.locator(':scope > summary')).toContainText('Blind flange');
 }
 
 async function selectCanonicalNodeFromTree(page, host, nodeId) {
@@ -156,7 +173,6 @@ async function selectCanonicalNodeFromTree(page, host, nodeId) {
   await expect(row).toHaveCount(1);
   await row.locator('[data-object-tree-select]').click();
   await expect(host).toHaveAttribute('data-topology-edit-selection-primary-id', nodeId);
-  await expect(host).toHaveAttribute('data-topology-edit-selection-source', 'tree');
   await filter.fill('');
 }
 
@@ -199,23 +215,14 @@ async function eligibleBlindFlangeEndpoint(page) {
       );
       if (!(lengthMm > 24)) return [];
       const endpoints = [
-        {
-          nodeId: edge.fromNodeId,
-          placement: 'FROM_BOUNDARY',
-          direction: 'TO_FROM',
-        },
-        {
-          nodeId: edge.toNodeId,
-          placement: 'TO_BOUNDARY',
-          direction: 'FROM_TO',
-        },
+        { nodeId: edge.fromNodeId, placement: 'FROM_BOUNDARY', direction: 'TO_FROM' },
+        { nodeId: edge.toNodeId, placement: 'TO_BOUNDARY', direction: 'FROM_TO' },
       ];
       return endpoints.filter((row) => (
         degrees.get(row.nodeId) === 1 && !dependentNodeIds.has(row.nodeId)
       )).map((row) => ({ ...row, edgeId: edge.id, lengthMm }));
     }).sort((left, right) => (
-      right.lengthMm - left.lengthMm
-      || left.nodeId.localeCompare(right.nodeId)
+      right.lengthMm - left.lengthMm || left.nodeId.localeCompare(right.nodeId)
     ));
     if (!candidates.length) {
       throw new Error('No dependency-free graph-open DN50 endpoint is available.');

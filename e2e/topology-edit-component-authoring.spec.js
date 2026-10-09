@@ -9,14 +9,16 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => globalThis.localStorage?.clear());
 });
 
-test('production HUD authors a governed flange with preview, validation, undo, and redo', async ({ page }, testInfo) => {
+test('production Place component authors flange from a real WebGL edge pick with automatic qualification', async ({ page }, testInfo) => {
   const diagnostics = collectBrowserDiagnostics(page);
   const host = await openProductionController(page);
   const initial = await topologySnapshot(page);
   const target = await eligibleHostEdge(page, 100, 114.3, 120);
 
-  await selectCanonicalEdgeFromTree(page, host, target.id);
-  await page.locator('[data-action="activate-authoring-flange"]').click();
+  await fitAllStable(page);
+  const pick = await selectCanonicalEdgeFromCanvas(page, host, target.id);
+  expect(pick.actual.pickedId).toBe(target.id);
+  await activatePlacementFamily(page, 'flange');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-tool', 'FLANGE');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-catalogue-option-count', '2');
   await page.locator('[data-authoring-field="catalogueRecordId"]')
@@ -24,7 +26,20 @@ test('production HUD authors a governed flange with preview, validation, undo, a
   await expect(page.locator('[data-authoring-field="flangeType"]')).toBeDisabled();
   await expect(page.locator('[data-authoring-field="componentLengthMm"]')).toHaveValue('120');
 
-  const applied = await previewValidateApply(page, host, 1);
+  const preview = await expectAutomaticQualification(page, host, initial, 1, 'Apply flange');
+  expect(preview.canonicalHash).toBe(initial.canonicalHash);
+  expect(preview.journalHash).toBe(initial.journalHash);
+
+  await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect.poll(() => topologySnapshot(page).then((row) => row.canonicalHash))
+    .toBe(initial.canonicalHash);
+  await expect.poll(() => ghostChildCount(page)).toBe(0);
+
+  await activatePlacementFamily(page, 'flange');
+  await page.locator('[data-authoring-field="catalogueRecordId"]')
+    .selectOption(FLANGE_RECORD_ID);
+  await expectAutomaticQualification(page, host, initial, 1, 'Apply flange');
+  const applied = await applyQualifiedPlacement(page, host, 'Apply flange');
   expect(applied.inserted).toMatchObject({
     entityType: 'FLANGE',
     catalogueRecordId: FLANGE_RECORD_ID,
@@ -36,17 +51,17 @@ test('production HUD authors a governed flange with preview, validation, undo, a
   expect(applied.inserted.catalogueBinding.materialSpecification).toBe('ASTM A105');
   await verifyUndoRedo(page, host, initial, applied);
   await assertBrowserDiagnostics(diagnostics);
-  await attachScreenshot(page, testInfo, 'topology-edit-flange-authoring');
+  await attachScreenshot(page, testInfo, 'topology-edit-contextual-flange-placement');
 });
 
-test('production HUD authors a governed reducer with preview, validation, undo, and redo', async ({ page }, testInfo) => {
+test('production Place component authors reducer with automatic ghost and validation', async ({ page }, testInfo) => {
   const diagnostics = collectBrowserDiagnostics(page);
   const host = await openProductionController(page);
   const initial = await topologySnapshot(page);
   const target = await eligibleHostEdge(page, 150, 168.3, 300, 'P-003');
 
   await selectCanonicalEdgeFromTree(page, host, target.id);
-  await page.locator('[data-action="activate-authoring-reducer"]').click();
+  await activatePlacementFamily(page, 'reducer');
   await expect(host).toHaveAttribute('data-topology-edit-authoring-tool', 'REDUCER');
   await page.locator('[data-authoring-field="catalogueRecordId"]')
     .selectOption(REDUCER_RECORD_ID);
@@ -54,7 +69,10 @@ test('production HUD authors a governed reducer with preview, validation, undo, 
   await expect(page.locator('[data-authoring-field="fromNominalSizeMm"]')).toHaveValue('150');
   await expect(page.locator('[data-authoring-field="toNominalSizeMm"]')).toHaveValue('100');
 
-  const applied = await previewValidateApply(page, host, 1);
+  const preview = await expectAutomaticQualification(page, host, initial, 1, 'Apply reducer');
+  expect(preview.canonicalHash).toBe(initial.canonicalHash);
+  expect(preview.journalHash).toBe(initial.journalHash);
+  const applied = await applyQualifiedPlacement(page, host, 'Apply reducer');
   expect(applied.inserted).toMatchObject({
     entityType: 'REDUCER',
     catalogueRecordId: REDUCER_RECORD_ID,
@@ -67,7 +85,7 @@ test('production HUD authors a governed reducer with preview, validation, undo, 
   expect(applied.inserted.catalogueBinding.secondaryNominalSizeMm).toBe(100);
   await verifyUndoRedo(page, host, initial, applied);
   await assertBrowserDiagnostics(diagnostics);
-  await attachScreenshot(page, testInfo, 'topology-edit-reducer-authoring');
+  await attachScreenshot(page, testInfo, 'topology-edit-contextual-reducer-placement');
 });
 
 async function openProductionController(page) {
@@ -94,12 +112,21 @@ async function openProductionController(page) {
     globalThis.__COMPONENT_AUTHORING_CONTROLLER__ = controller;
   });
   const panel = host.locator('details[data-panel-kind="authoring"]');
-  await expect(panel.locator(':scope > summary')).toContainText('Flange · Reducer');
   if (!(await panel.evaluate((element) => element.open))) {
     await panel.locator(':scope > summary').click();
   }
   await expect(page.locator('[data-role="topology-edit-authoring"]')).toBeVisible();
+  await expect(page.locator('[data-role="component-placement-family-picker"]')).toBeVisible();
   return host;
+}
+
+async function activatePlacementFamily(page, family) {
+  const picker = page.locator('[data-role="component-placement-family-picker"]');
+  if (!(await picker.evaluate((element) => element.open))) {
+    await picker.locator(':scope > summary').click();
+  }
+  await picker.locator(`[data-action="activate-authoring-${family}"]`).click();
+  await expect(picker.locator(':scope > summary')).toContainText('Place component');
 }
 
 async function selectCanonicalEdgeFromTree(page, host, edgeId) {
@@ -114,8 +141,77 @@ async function selectCanonicalEdgeFromTree(page, host, edgeId) {
   await expect(row).toHaveCount(1);
   await row.locator('[data-object-tree-select]').click();
   await expect(host).toHaveAttribute('data-topology-edit-selection-primary-id', edgeId);
-  await expect(host).toHaveAttribute('data-topology-edit-selection-source', 'tree');
   await filter.fill('');
+}
+
+async function fitAllStable(page) {
+  await page.evaluate(async () => {
+    const controller = globalThis.__COMPONENT_AUTHORING_CONTROLLER__;
+    controller.viewportBackend.fitAll({ remember: false });
+    await new Promise((resolve) => requestAnimationFrame(() => (
+      requestAnimationFrame(() => requestAnimationFrame(resolve))
+    )));
+  });
+}
+
+async function selectCanonicalEdgeFromCanvas(page, host, edgeId) {
+  const pick = await resolveEdgePickPoint(page, edgeId);
+  const canvas = page.locator(
+    '[data-role="topology-edit-canvas-mount"] canvas[data-viewport-backend="topology-edit-webgl"]',
+  );
+  const box = await canvas.boundingBox();
+  if (!box) throw new Error('Production WebGL canvas has no bounding box.');
+  await canvas.click({ position: { x: pick.x - box.x, y: pick.y - box.y } });
+  const actual = await page.evaluate(() => ({
+    pickedId: globalThis.__COMPONENT_AUTHORING_CONTROLLER__.viewportBackend.lastSelectionPick?.objectId ?? null,
+    selectedEdgeId: globalThis.__COMPONENT_AUTHORING_CONTROLLER__.selection?.edgeId ?? null,
+  }));
+  expect(actual.pickedId).toBe(edgeId);
+  expect(actual.selectedEdgeId).toBe(edgeId);
+  await expect(host).toHaveAttribute('data-topology-edit-selection-primary-id', edgeId);
+  return { edgeId, ...pick, actual };
+}
+
+async function resolveEdgePickPoint(page, edgeId) {
+  return page.evaluate((targetId) => {
+    const controller = globalThis.__COMPONENT_AUTHORING_CONTROLLER__;
+    const backend = controller.viewportBackend;
+    const topology = controller.session.currentTopology();
+    const edge = topology.edges.find((row) => row.id === targetId);
+    const from = topology.nodes.find((row) => row.id === edge?.fromNodeId)?.position;
+    const to = topology.nodes.find((row) => row.id === edge?.toNodeId)?.position;
+    if (!edge || !from || !to) throw new Error(`Missing edge geometry for ${targetId}.`);
+    backend.engineeringRoot.updateMatrixWorld(true);
+    backend.activeCamera.updateMatrixWorld(true);
+    backend.activeCamera.updateProjectionMatrix();
+    const rect = backend.renderer.domElement.getBoundingClientRect();
+    const fractions = [0.5, 0.35, 0.65, 0.2, 0.8];
+    const radii = [0, 2, 4, 6, 8, 10, 12, 16, 20, 24];
+    const directions = [[1,0],[.7071,.7071],[0,1],[-.7071,.7071],[-1,0],[-.7071,-.7071],[0,-1],[.7071,-.7071]];
+    for (const fraction of fractions) {
+      const point = {
+        x: from.x + ((to.x - from.x) * fraction),
+        y: from.y + ((to.y - from.y) * fraction),
+        z: from.z + ((to.z - from.z) * fraction),
+      };
+      const vector = backend.activeCamera.position.clone().set(point.x, point.y, point.z);
+      vector.applyMatrix4(backend.engineeringRoot.matrixWorld).project(backend.activeCamera);
+      const center = {
+        x: rect.left + ((vector.x + 1) / 2) * rect.width,
+        y: rect.top + ((1 - vector.y) / 2) * rect.height,
+      };
+      for (const radius of radii) {
+        const offsets = radius === 0 ? [[0, 0]] : directions.map(([x, y]) => [x * radius, y * radius]);
+        for (const [dx, dy] of offsets) {
+          const x = center.x + dx;
+          const y = center.y + dy;
+          const pick = backend.pickAt(x, y);
+          if (pick?.objectId === targetId) return { x, y, radiusPx: radius, fraction };
+        }
+      }
+    }
+    throw new Error(`COMPONENT_EDGE_UNREACHABLE_IN_STABLE_VIEW: ${targetId}`);
+  }, edgeId);
 }
 
 async function eligibleHostEdge(
@@ -160,25 +256,40 @@ async function eligibleHostEdge(
   });
 }
 
-async function previewValidateApply(page, host, commandCount) {
+async function expectAutomaticQualification(page, host, prior, commandCount, applyLabel) {
+  await expect(host).toHaveAttribute('data-topology-edit-component-placement-automatic', 'true');
+  await expect.poll(() => host.getAttribute('data-topology-edit-authoring-command-count'))
+    .toBe(String(commandCount));
+  await expect.poll(() => ghostChildCount(page)).toBeGreaterThan(0);
+  await expect.poll(() => host.getAttribute('data-topology-edit-authoring-phase'))
+    .toBe('READY_TO_APPLY');
+  await expect(host).toHaveAttribute('data-topology-edit-authoring-blocking-issue-count', '0');
+  const evidence = page.locator('[data-role="component-placement-engineering-evidence"]');
+  await expect(evidence).not.toHaveAttribute('open', '');
+  await expect(evidence.locator('[data-action="preview-authoring-operation"]')).toBeHidden();
+  await expect(evidence.locator('[data-action="validate-authoring-operation"]')).toBeHidden();
+  await expect(page.getByRole('button', { name: applyLabel, exact: true })).toBeEnabled();
+  const snapshot = await topologySnapshot(page);
+  expect(snapshot.canonicalHash).toBe(prior.canonicalHash);
+  expect(snapshot.journalHash).toBe(prior.journalHash);
+  return snapshot;
+}
+
+async function applyQualifiedPlacement(page, host, applyLabel) {
   const priorTransactionHash = await host.getAttribute(
     'data-topology-edit-authoring-transaction-hash',
   ) || '';
-  await page.locator('[data-action="preview-authoring-operation"]').click();
-  await expect(host).toHaveAttribute(
-    'data-topology-edit-authoring-command-count',
-    String(commandCount),
-  );
-  await expect.poll(() => page.evaluate(() => (
-    globalThis.__COMPONENT_AUTHORING_CONTROLLER__.viewportBackend.groups.ghostGroup.children.length
-  ))).toBeGreaterThan(0);
-  await page.locator('[data-action="validate-authoring-operation"]').click();
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-phase', 'READY_TO_APPLY');
-  await expect(host).toHaveAttribute('data-topology-edit-authoring-blocking-issue-count', '0');
-  await page.locator('[data-action="apply-authoring-operation"]').click();
+  await page.getByRole('button', { name: applyLabel, exact: true }).click();
   await expect.poll(() => host.getAttribute('data-topology-edit-authoring-transaction-hash'))
     .not.toBe(priorTransactionHash);
+  await expect.poll(() => ghostChildCount(page)).toBe(0);
   return topologySnapshot(page);
+}
+
+async function ghostChildCount(page) {
+  return page.evaluate(() => (
+    globalThis.__COMPONENT_AUTHORING_CONTROLLER__.viewportBackend.groups.ghostGroup.children.length
+  ));
 }
 
 async function verifyUndoRedo(page, host, prior, applied) {

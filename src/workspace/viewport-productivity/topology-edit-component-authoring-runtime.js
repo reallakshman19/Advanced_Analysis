@@ -29,6 +29,11 @@ import {
 import {
   TopologyEditAuthoringRuntime,
 } from './topology-edit-authoring-runtime.js';
+import {
+  componentPlacementTargetReady,
+  componentPlacementWorkflowActive,
+  renderComponentPlacementConsolidation,
+} from './topology-edit-component-placement-consolidation.js';
 
 const COMPONENT_TOOLS = new Set(['FLANGE', 'REDUCER', 'VALVE_ASSEMBLY', 'BRANCH']);
 const COMPONENT_TOOL_BUTTONS = Object.freeze([
@@ -53,19 +58,13 @@ const USER_FIELDS = Object.freeze({
     'branchPipeLengthMm',
   ]),
 });
-const RECORD_FIELDS = new Set([
-  'catalogueRecordId',
-  'inlineDirection',
-  'valveRecordId',
-  'upstreamFlangeRecordId',
-  'downstreamFlangeRecordId',
-]);
 
 export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoringRuntime {
   constructor(controller) {
     super(controller);
     this.boundFieldChange = (event) => this.handleFieldChange(event);
     this.suppressSelectionReconciles = 0;
+    this.componentPlacementRevision = 0;
   }
 
   mount(element) {
@@ -80,10 +79,12 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
     this.cancelPendingValidation();
     this.clearCandidateState();
     this.state = activateTopologyEditAuthoringTool(this.state, tool);
+    this.componentPlacementRevision += 1;
     this.error = null;
     this.message = `${topologyEditAuthoringToolDefinition(tool).label}: select one straight canonical pipe edge.`;
     this.reconcileSelection();
     this.publish();
+    this.queueComponentQualification();
     return true;
   }
 
@@ -93,7 +94,13 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
       this.publish();
       return;
     }
+    const contextual = componentPlacementWorkflowActive(this);
+    if (contextual) this.cancelPendingValidation();
     super.selectionChanged();
+    if (contextual) {
+      this.componentPlacementRevision += 1;
+      this.queueComponentQualification();
+    }
   }
 
   reconcileSelection() {
@@ -150,7 +157,7 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
         changedCanonicalIds,
       });
       this.renderCandidateGhost();
-      this.message = `${this.state.tool} preview ready: ${changedCanonicalIds.length} canonical object(s), ${this.candidate.commandCount} governed command(s).`;
+      this.message = `${this.state.tool} governed ghost ready: ${changedCanonicalIds.length} canonical object(s), ${this.candidate.commandCount} certified command(s).`;
     } catch (error) {
       this.reject(error, 'Component authoring preview blocked.');
     } finally {
@@ -178,12 +185,13 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
       this.plan = null;
       this.candidate = null;
       this.validation = null;
+      this.componentPlacementRevision += 1;
       this.error = null;
       this.suppressSelectionReconciles = 1;
       this.controller.refreshView(this.controller.session.currentTopology());
       this.suppressSelectionReconciles = 1;
       this.controller.autosaveAfterTransition?.(priorVersion);
-      this.message = `Atomic ${receipt.commandCount}-command ${toolLabel(this.state.tool)} authoring operation accepted.`;
+      this.message = `Atomic ${receipt.commandCount}-command ${toolLabel(this.state.tool)} placement accepted.`;
     } catch (error) {
       this.reject(error, 'Component authoring apply blocked.');
     } finally {
@@ -211,13 +219,13 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
         tools.append(button);
       }
     }
-    if (!COMPONENT_TOOLS.has(this.state.tool)) return;
-    if (this.state.tool === 'VALVE_ASSEMBLY') this.renderAssemblySelectors();
-    else if (this.state.tool === 'BRANCH') this.renderBranchCatalogueSelector();
-    else this.renderInlineCatalogueSelector();
-    this.lockGovernedFields();
-    const targetText = this.element.querySelector('.topology-edit-authoring-hud__target span');
-    if (targetText) targetText.textContent = 'Select one compatible straight canonical pipe edge in the viewport or tree.';
+    if (COMPONENT_TOOLS.has(this.state.tool)) {
+      if (this.state.tool === 'VALVE_ASSEMBLY') this.renderAssemblySelectors();
+      else if (this.state.tool === 'BRANCH') this.renderBranchCatalogueSelector();
+      else this.renderInlineCatalogueSelector();
+      this.lockGovernedFields();
+    }
+    renderComponentPlacementConsolidation(this);
   }
 
   updateEvidence() {
@@ -262,12 +270,19 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
     host.dataset.topologyEditAuthoringBranchClockingDeg = String(this.state.properties.clockingDeg ?? '');
     host.dataset.topologyEditAuthoringBranchPipeLengthMm = String(this.state.properties.branchPipeLengthMm ?? '');
     host.dataset.topologyEditAuthoringBranchReachMm = String(this.state.properties.totalBranchReachMm ?? '');
+    host.dataset.topologyEditComponentPlacementRevision = String(this.componentPlacementRevision);
+    host.dataset.topologyEditComponentPlacementAutomatic = String(
+      componentPlacementWorkflowActive(this),
+    );
   }
 
   handleFieldChange(event) {
     if (!COMPONENT_TOOLS.has(this.state.tool)) return;
     const field = event.target?.dataset?.authoringField;
-    if (!RECORD_FIELDS.has(field)) return;
+    const userFields = USER_FIELDS[this.state.tool];
+    if (!userFields?.has(field)) return;
+    this.cancelPendingValidation();
+    this.componentPlacementRevision += 1;
     try {
       const topology = this.controller.session?.currentTopology();
       const catalogue = this.catalogue();
@@ -277,12 +292,44 @@ export class TopologyEditComponentAuthoringRuntime extends TopologyEditAuthoring
       this.applyComponentDefaults(topology, catalogue, patch, 'USER_INPUT');
       this.clearCandidateState();
       this.error = null;
-      this.message = `${toolLabel(this.state.tool)} catalogue evidence updated from exact selected records.`;
+      this.message = `${toolLabel(this.state.tool)} placement changed; updating the governed ghost and validation.`;
     } catch (error) {
+      this.clearCandidateState();
       this.error = errorMessage(error);
-      this.message = 'Catalogue selection is not compatible with the selected edge.';
+      this.message = 'Component placement inputs are not compatible with the selected edge.';
     }
     this.publish();
+    this.queueComponentQualification();
+  }
+
+  queueComponentQualification() {
+    const revision = this.componentPlacementRevision;
+    queueMicrotask(() => this.runAutomaticComponentQualification(revision));
+  }
+
+  async runAutomaticComponentQualification(revision) {
+    if (revision !== this.componentPlacementRevision || this.pending) return;
+    if (!componentPlacementTargetReady(this)) return;
+    await this.previewOperation();
+    if (revision !== this.componentPlacementRevision) {
+      this.discardStaleComponentCandidate();
+      return;
+    }
+    if (!this.candidate) return;
+    await this.validateOperation();
+    if (revision !== this.componentPlacementRevision) this.discardStaleComponentCandidate();
+  }
+
+  discardStaleComponentCandidate() {
+    this.cancelPendingValidation();
+    this.clearCandidateState();
+    this.message = 'Component placement changed while qualification was running; the stale ghost was discarded.';
+    this.publish();
+  }
+
+  clear(announce = false, clearTransaction = false) {
+    this.componentPlacementRevision += 1;
+    return super.clear(announce, clearTransaction);
   }
 
   applyComponentDefaults(topology, catalogue, overrides, userAuthority) {

@@ -30,6 +30,7 @@ import {
   updateTopologyEditProfessionalEvidence,
 } from './topology-edit-professional-operation-state.js';
 import {
+  createTopologyEditDatasetCatalogueProvider,
   TopologyEditProjectCatalogueRuntime,
 } from './topology-edit-project-catalogue-runtime.js';
 
@@ -53,12 +54,16 @@ export class TopologyEditProfessionalOperationRuntime {
     this.message = '';
     this.error = null;
     this.validationClient = new TopologyEditValidationWorkerClient();
+    const projectCatalogueProvider = this.controller.projectCatalogueProvider
+      ?? createTopologyEditDatasetCatalogueProvider({
+        getDataset: () => this.controller.workspaceDataset,
+      });
     this.catalogueRuntime = new TopologyEditProjectCatalogueRuntime({
       getDatasetIdentity: () => this.controller.editorStore?.getState?.().dataset ?? {},
       getBaseURI: () => this.element?.ownerDocument?.baseURI
         ?? globalThis.document?.baseURI
         ?? '',
-      provider: this.controller.projectCatalogueProvider,
+      provider: projectCatalogueProvider,
     });
     this.valueChangeHandler = (event) => this.handleValueChange(event);
     this.originalUpdateActionButtons = null;

@@ -12,21 +12,20 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const scenario of CASES) {
-  test(`production HUD authors one governed ${scenario.family} branch atomically`, async ({ page }, testInfo) => {
+  test(`production Place component authors one governed ${scenario.family} branch atomically`, async ({ page }, testInfo) => {
     const diagnostics = collectBrowserDiagnostics(page);
     const host = await openProductionController(page);
     const initial = await topologySnapshot(page);
     const target = await eligibleHostEdge(page, 'P-005');
 
     await selectCanonicalEdgeFromTree(page, host, target.id);
-    await page.locator('[data-action="activate-authoring-branch"]').click();
+    await activateBranchPlacement(page);
     await expect(host).toHaveAttribute('data-topology-edit-authoring-tool', 'BRANCH');
     await expect(host).toHaveAttribute('data-topology-edit-authoring-catalogue-option-count', '2');
     await page.locator('[data-authoring-field="catalogueRecordId"]')
       .selectOption(scenario.recordId);
-    await page.locator('[data-authoring-field="clockingDeg"]').fill('0');
-    await page.locator('[data-authoring-field="branchPipeLengthMm"]')
-      .fill(String(scenario.length));
+    await fillAndCommit(page, 'clockingDeg', '0');
+    await fillAndCommit(page, 'branchPipeLengthMm', String(scenario.length));
     await expect(page.locator('[data-authoring-field="branchFamily"]')).toBeDisabled();
     await expect(page.locator('[data-authoring-field="componentMassKg"]')).toBeDisabled();
     await expect(host).toHaveAttribute(
@@ -34,18 +33,27 @@ for (const scenario of CASES) {
       scenario.family,
     );
 
-    const priorTransactionHash = await host.getAttribute(
-      'data-topology-edit-authoring-transaction-hash',
-    ) || '';
-    await page.locator('[data-action="preview-authoring-operation"]').click();
-    await expect(host).toHaveAttribute('data-topology-edit-authoring-command-count', '1');
+    await expect(host).toHaveAttribute('data-topology-edit-component-placement-automatic', 'true');
+    await expect.poll(() => host.getAttribute('data-topology-edit-authoring-command-count')).toBe('1');
     await expect.poll(() => page.evaluate(() => (
       globalThis.__BRANCH_AUTHORING_CONTROLLER__.viewportBackend.groups.ghostGroup.children.length
     ))).toBeGreaterThan(0);
-    await page.locator('[data-action="validate-authoring-operation"]').click();
-    await expect(host).toHaveAttribute('data-topology-edit-authoring-phase', 'READY_TO_APPLY');
+    await expect.poll(() => host.getAttribute('data-topology-edit-authoring-phase')).toBe('READY_TO_APPLY');
     await expect(host).toHaveAttribute('data-topology-edit-authoring-blocking-issue-count', '0');
-    await page.locator('[data-action="apply-authoring-operation"]').click();
+    const preview = await topologySnapshot(page);
+    expect(preview.canonicalHash).toBe(initial.canonicalHash);
+    expect(preview.journalHash).toBe(initial.journalHash);
+    const engineeringEvidence = page.locator('[data-role="component-placement-engineering-evidence"]');
+    await expect(engineeringEvidence).not.toHaveAttribute('open', '');
+    await expect(engineeringEvidence.locator('[data-action="preview-authoring-operation"]')).toBeHidden();
+    await expect(engineeringEvidence.locator('[data-action="validate-authoring-operation"]')).toBeHidden();
+
+    const priorTransactionHash = await host.getAttribute(
+      'data-topology-edit-authoring-transaction-hash',
+    ) || '';
+    const apply = page.getByRole('button', { name: 'Apply branch', exact: true });
+    await expect(apply).toBeEnabled();
+    await apply.click();
     await expect.poll(() => host.getAttribute('data-topology-edit-authoring-transaction-hash'))
       .not.toBe(priorTransactionHash);
 
@@ -74,7 +82,7 @@ for (const scenario of CASES) {
     expect((await topologySnapshot(page)).junctionDegree).toBe(3);
 
     await assertBrowserDiagnostics(diagnostics);
-    await testInfo.attach(`topology-edit-${scenario.family.toLowerCase()}-branch-authoring`, {
+    await testInfo.attach(`topology-edit-contextual-${scenario.family.toLowerCase()}-branch`, {
       body: await page.screenshot({ fullPage: true }),
       contentType: 'image/png',
     });
@@ -108,8 +116,23 @@ async function openProductionController(page) {
   if (!(await panel.evaluate((element) => element.open))) {
     await panel.locator(':scope > summary').click();
   }
-  await expect(page.locator('[data-action="activate-authoring-branch"]')).toBeVisible();
+  await expect(page.locator('[data-role="component-placement-family-picker"]')).toBeVisible();
   return host;
+}
+
+async function activateBranchPlacement(page) {
+  const picker = page.locator('[data-role="component-placement-family-picker"]');
+  if (!(await picker.evaluate((element) => element.open))) {
+    await picker.locator(':scope > summary').click();
+  }
+  await picker.locator('[data-action="activate-authoring-branch"]').click();
+  await expect(picker.locator(':scope > summary')).toContainText('Tee / Olet branch');
+}
+
+async function fillAndCommit(page, key, value) {
+  const control = page.locator(`[data-authoring-field="${key}"]`);
+  await control.fill(value);
+  await control.blur();
 }
 
 async function selectCanonicalEdgeFromTree(page, host, edgeId) {
