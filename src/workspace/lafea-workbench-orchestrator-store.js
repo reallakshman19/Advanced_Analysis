@@ -20,7 +20,10 @@ import { createLafeaWorkbenchMeshState } from './lafea-workbench-mesh-state.js';
 import { createLafeaWorkbenchMeshGenerationState } from './lafea-workbench-mesh-generation-state.js';
 import { createLafeaMeshGenerationActions } from './lafea-workbench-mesh-generation-actions.js';
 import { createLafeaWorkbenchPreparationState } from './lafea-workbench-preparation-state.js';
-import { projectLafeaWorkbenchReadiness } from './lafea-workbench-readiness.js';
+import {
+  projectLafeaWorkbenchCurrentness,
+  projectLafeaWorkbenchReadiness,
+} from './lafea-workbench-readiness.js';
 import { createLafeaWorkbenchReleaseState } from './lafea-workbench-release-binding.js';
 import { createLafeaWorkbenchSourceState } from './lafea-workbench-source-state.js';
 import { createLafeaT6GeometryQualificationState } from './lafea-t6-geometry-qualification-state.js';
@@ -109,12 +112,16 @@ export function createLafeaWorkbenchOrchestratorStore(options) {
     const withPreparation = freeze({ ...withMesh, preparationProjection });
     const lifecycleReadiness = projectLafeaWorkbenchReadiness(stageId, withPreparation);
     const withReadiness = freeze({ ...withPreparation, lifecycleReadiness });
-    return freeze({
+    const withCurrentness = freeze({
       ...withReadiness,
+      currentness: projectLafeaWorkbenchCurrentness(withReadiness),
+    });
+    return freeze({
+      ...withCurrentness,
       numericalVerificationProjection: projectLafeaWorkbenchVerificationBinding(
-        withReadiness, withReadiness.retainedNumericalVerificationEvidence,
+        withCurrentness, withCurrentness.retainedNumericalVerificationEvidence,
       ),
-      t6GeometryQualificationProjection: t6Geometry.project(withReadiness),
+      t6GeometryQualificationProjection: t6Geometry.project(withCurrentness),
     });
   }
 

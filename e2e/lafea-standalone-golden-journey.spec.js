@@ -27,6 +27,9 @@ test('A17 golden: source → mesh → authorize → solve → verify → compare
       historyCount: controller.listRunHistory().length,
       executionStatus: stage.execution?.status ?? null,
       resultReady: stage.lifecycleReadiness.resultReady,
+      computationalState: stage.currentness?.computationalState ?? null,
+      qualificationState: stage.currentness?.qualificationState ?? null,
+      currentAuthority: stage.currentness?.currentAuthority ?? null,
       releaseState: stage.lifecycleReadiness.releaseState,
       convergenceStatus: convergence.status,
       convergenceReasons: convergence.reasons,
@@ -42,6 +45,9 @@ test('A17 golden: source → mesh → authorize → solve → verify → compare
 
   expect(result.executionStatus).toBe('QUALIFIED');
   expect(result.resultReady).toBe(true);
+  expect(result.computationalState).toBe('CURRENT_RESULT');
+  expect(result.qualificationState).toBe('PASS');
+  expect(result.currentAuthority).toBe(true);
   expect(['PASS', 'BLOCKED']).toContain(result.convergenceStatus);
   expect(result.comparisonStatus).not.toBe('NON_COMPARABLE');
   expect(result.comparisonHasEnergy).toBe(true);
@@ -67,14 +73,32 @@ test('A17 failure: stale source/profile revokes current solve and mesh authority
       historicRunStillPresent: controller.getRunHistoryEntry(historic.runId).runId === historic.runId,
       sourceExecution: afterSource.execution,
       sourceAuthorization: afterSource.orchestration.sections.AUTHORIZATION.state,
+      sourceComputationalState: afterSource.currentness?.computationalState ?? null,
+      sourceQualificationState: afterSource.currentness?.qualificationState ?? null,
+      sourceQualificationBasis: afterSource.currentness?.qualificationBasis ?? null,
+      sourceCurrentAuthority: afterSource.currentness?.currentAuthority ?? null,
+      historicalQualificationRetained: afterSource.currentness?.historicalQualificationRetained ?? null,
+      retainedExecutionHash: afterSource.currentness?.identity?.executionHash ?? null,
       profileMeshEvidence: controller.selectRetainedAnalysisMeshEvidenceV2(),
+      profileComputationalState: afterProfile.currentness?.computationalState ?? null,
+      profileQualificationState: afterProfile.currentness?.qualificationState ?? null,
+      profileCurrentAuthority: afterProfile.currentness?.currentAuthority ?? null,
       profileRelease: afterProfile.lifecycleReadiness.releaseState,
     };
   });
   expect(result.historicRunStillPresent).toBe(true);
   expect(result.sourceExecution).toBeNull();
   expect(result.sourceAuthorization).toBe('BLOCKED');
+  expect(result.sourceComputationalState).toBe('STALE_RESULT');
+  expect(result.sourceQualificationState).toBe('PASS');
+  expect(result.sourceQualificationBasis).toBe('HISTORICAL_RETAINED');
+  expect(result.sourceCurrentAuthority).toBe(false);
+  expect(result.historicalQualificationRetained).toBe(true);
+  expect(result.retainedExecutionHash).toMatch(/^sha256:/);
   expect(result.profileMeshEvidence).toBeNull();
+  expect(result.profileComputationalState).toBe('STALE_RESULT');
+  expect(result.profileQualificationState).toBe('PASS');
+  expect(result.profileCurrentAuthority).toBe(false);
   expect(result.profileRelease).toBe('RELEASE_NOT_QUALIFIED');
   await destroyStage17(page);
 });
@@ -151,6 +175,9 @@ test('A17 failure: stale mesh after profile replacement revokes execution', asyn
       retainedMesh: controller.selectRetainedAnalysisMeshEvidenceV2(),
       execution: stage.execution,
       authorization: stage.orchestration.sections.AUTHORIZATION.state,
+      computationalState: stage.currentness?.computationalState ?? null,
+      qualificationState: stage.currentness?.qualificationState ?? null,
+      currentAuthority: stage.currentness?.currentAuthority ?? null,
       release: stage.lifecycleReadiness.releaseState,
     };
   });
@@ -158,6 +185,9 @@ test('A17 failure: stale mesh after profile replacement revokes execution', asyn
   expect(result.retainedMesh).toBeNull();
   expect(result.execution).toBeNull();
   expect(result.authorization).toBe('BLOCKED');
+  expect(result.computationalState).toBe('STALE_RESULT');
+  expect(result.qualificationState).toBe('PASS');
+  expect(result.currentAuthority).toBe(false);
   expect(result.release).toBe('RELEASE_NOT_QUALIFIED');
   await destroyStage17(page);
 });
@@ -174,6 +204,9 @@ test('A17 failure: selecting historic run cannot promote current authority', asy
       sourceHash: currentBefore.sourceAuthority.sourceHash,
       meshHash: currentBefore.analysisMeshCustodyProjection.meshHash,
       executionHash: currentBefore.execution.compiledExecutionHash,
+      computationalState: currentBefore.currentness.computationalState,
+      qualificationState: currentBefore.currentness.qualificationState,
+      currentAuthority: currentBefore.currentness.currentAuthority,
       release: currentBefore.lifecycleReadiness.releaseState,
     };
     const historic = controller.getRunHistoryEntry(first.runId);
@@ -183,6 +216,9 @@ test('A17 failure: selecting historic run cannot promote current authority', asy
       sourceHash: currentAfter.sourceAuthority.sourceHash,
       meshHash: currentAfter.analysisMeshCustodyProjection.meshHash,
       executionHash: currentAfter.execution.compiledExecutionHash,
+      computationalState: currentAfter.currentness.computationalState,
+      qualificationState: currentAfter.currentness.qualificationState,
+      currentAuthority: currentAfter.currentness.currentAuthority,
       release: currentAfter.lifecycleReadiness.releaseState,
     };
     return {
@@ -193,6 +229,9 @@ test('A17 failure: selecting historic run cannot promote current authority', asy
   });
   expect(result.historicRunId).toBeTruthy();
   expect(result.after).toEqual(result.before);
+  expect(result.after.computationalState).toBe('CURRENT_RESULT');
+  expect(result.after.qualificationState).toBe('PASS');
+  expect(result.after.currentAuthority).toBe(true);
   expect(result.dossierCustody).toBe('HISTORIC_RUN_SNAPSHOT');
   expect(result.dossierPromotesRelease).toBe(false);
   await destroyStage17(page);

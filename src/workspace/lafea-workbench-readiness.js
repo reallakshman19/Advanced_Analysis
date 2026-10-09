@@ -107,6 +107,40 @@ export function projectLafeaWorkbenchReadiness(stageId, stage) {
   });
 }
 
+/** Compact production projection; the full executable contract lives in lafea-workbench-currentness.js. */
+export function projectLafeaWorkbenchCurrentness(stage) {
+  const r = stage.lifecycleReadiness ?? {}, a = stage.lifecycle?.artifacts ?? {}, e = stage.execution;
+  const kept = [a.EXECUTION, a.RESULT_EVIDENCE, a.RECOVERY]
+    .filter((x) => x?.status !== 'ABSENT' && x?.artifactHash);
+  const pass = e?.status === 'QUALIFIED' || kept.some((x) => x.qualification === 'PASS');
+  const fail = e?.status === 'FAILED' || kept.some((x) => x.qualification === 'FAIL' || x.qualification === 'BLOCK');
+  const computationalState = e?.status === 'FAILED' ? 'REJECTED' : e?.status === 'RUNNING' ? 'RUNNING'
+    : r.resultReady ? 'CURRENT_RESULT' : kept.length || e ? 'STALE_RESULT'
+      : r.meshQualified ? 'MESHED' : r.modelCurrent || r.preMeshModelCurrent || r.solverModelCurrent ? 'READY' : 'EDITED';
+  const qualificationState = pass ? 'PASS' : fail ? 'FAIL' : 'NOT_EVALUATED';
+  const qualificationBasis = r.resultReady && pass ? 'CURRENT_CHAIN' : pass ? 'HISTORICAL_RETAINED'
+    : fail && computationalState === 'REJECTED' ? 'CURRENT_REJECTION' : fail ? 'RETAINED_FAILURE' : 'NONE';
+  const h = (kind) => a[kind]?.status !== 'ABSENT' ? a[kind]?.artifactHash ?? null : null;
+  return {
+    schema: 'lafea-workbench-currentness/v1', stageId: stage.stageId,
+    computationalState, qualificationState, qualificationBasis,
+    currentAuthority: computationalState === 'CURRENT_RESULT' && qualificationState === 'PASS'
+      && stage.lifecycleBinding?.status === 'CURRENT',
+    historicalQualificationRetained: qualificationBasis === 'HISTORICAL_RETAINED',
+    identity: {
+      sourceRevisionHash: stage.sourceAuthority?.sourceHash ?? stage.lifecycle?.source?.sourceHash ?? null,
+      documentRevisionToken: stage.lifecycleBinding?.currentDocumentDigest ?? null,
+      documentRevisionTokenAuthority: 'EDITOR_REVISION_TOKEN_ONLY',
+      canonicalModelHash: h('CANONICAL_MODEL'),
+      meshRevisionHash: stage.analysisMeshCustodyProjection?.meshHash ?? h('ANALYSIS_MESH'),
+      meshProfileHash: e?.meshProfileHash ?? null, solverModelHash: e?.solverModelHash ?? null,
+      executionHash: e?.compiledExecutionHash ?? h('EXECUTION'), recoveryHash: h('RECOVERY'),
+      convergenceEvidenceHash: h('CONVERGENCE'),
+    },
+    blockingReasons: [...(r.blockingReasons ?? [])],
+  };
+}
+
 function authoritativeDomainExecutionReasons(stage, lifecycle, custody, currentBinding) {
   const reasons = [];
   const execution = stage.execution;

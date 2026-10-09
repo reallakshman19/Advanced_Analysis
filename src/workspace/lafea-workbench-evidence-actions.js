@@ -210,7 +210,7 @@ export function createLafeaWorkbenchEvidenceActions(context) {
     const stage = c.deriveStage(activeStageId());
     return freeze({
       ...c.retained.exportLifecycle(),
-      schema: 'lafea-workbench-lifecycle-export/v2',
+      schema: 'lafea-workbench-lifecycle-export/v1',
       sourceAuthority: stage.sourceAuthority,
       lastSourceAuthorityEvent: stage.lastSourceAuthorityEvent,
       templateReleaseRecord: stage.retainedTemplateReleaseRecord,
@@ -221,6 +221,7 @@ export function createLafeaWorkbenchEvidenceActions(context) {
       t6GeometryQualificationProjection: stage.t6GeometryQualificationProjection,
       continuumPreflightEvidence: stage.retainedContinuumPreflightEvidence,
       readiness: stage.lifecycleReadiness,
+      currentness: stage.currentness,
       preparation: stage.preparationProjection,
       domainFirstLifecycle: stage.domainFirstLifecycle,
       analysisDomain: stage.analysisDomainProjection,
