@@ -1,3 +1,8 @@
+import {
+  EMP1_METHOD_AUTHORITY_STATE,
+  projectEmp1MethodAuthority,
+} from './emp1-method-authority-projection.js';
+
 export const EMP1_READINESS_SCHEMA = 'emp1-readiness/v1';
 
 export const EMP1_READINESS_OVERALL = Object.freeze({
@@ -44,7 +49,8 @@ export function projectEmp1Readiness(productProjection) {
   const c = requireStep(steps.C, 'C');
 
   const source = projectSource(projection, a, b, c);
-  const method = projectMethod(projection, c);
+  const methodAuthority = projectEmp1MethodAuthority(projection);
+  const method = projectMethod(methodAuthority, c);
   const applicability = projectApplicability(c);
   const calculation = projectCalculation(a, b, c);
   const review = Object.freeze({ state: 'NOT_REVIEWED', authorityEstablished: false });
@@ -100,29 +106,44 @@ function projectSource(projection, a, b, c) {
   });
 }
 
-function projectMethod(projection, c) {
-  const productionAuthority = projection.qualificationBoundary?.emp1CProductionAuthority ?? null;
+function projectMethod(methodAuthority, c) {
+  const shared = {
+    productionAuthority: methodAuthority.productionAuthority,
+    authorityProjection: methodAuthority,
+  };
   if (!SUPPORTED_C_STATES.has(c.state)) {
     return Object.freeze({
+      ...shared,
       state: 'BLOCKED',
-      productionAuthority,
       blockers: [`EMP1_READINESS_C_STATE_UNSUPPORTED:${String(c.state)}`],
     });
   }
   if (c.state === C_ROUTE_SUSPENDED) {
     return Object.freeze({
+      ...shared,
       state: 'BLOCKED',
-      productionAuthority,
-      blockers: unique(array(c.blockers)),
+      blockers: unique([...methodAuthority.blockers, ...array(c.blockers)]),
     });
   }
   if (c.state === C_SOURCE_INCOMPLETE) {
-    return Object.freeze({ state: 'NOT_ESTABLISHED', productionAuthority, blockers: [] });
+    return Object.freeze({
+      ...shared,
+      state: 'NOT_ESTABLISHED',
+      blockers: methodAuthority.blockers,
+    });
+  }
+  if (methodAuthority.state === EMP1_METHOD_AUTHORITY_STATE.AUTHORIZED_BOUNDED_ROUTE) {
+    return Object.freeze({ ...shared, state: 'AUTHORIZED_BOUNDED_ROUTE', blockers: [] });
+  }
+  if (methodAuthority.state === EMP1_METHOD_AUTHORITY_STATE.QUALIFIED_METHOD_AUTHORITY) {
+    return Object.freeze({ ...shared, state: 'QUALIFIED_METHOD_AUTHORITY', blockers: [] });
   }
   return Object.freeze({
-    state: 'AUTHORIZED_BOUNDED_ROUTE',
-    productionAuthority,
-    blockers: [],
+    ...shared,
+    state: 'BLOCKED',
+    blockers: methodAuthority.blockers.length > 0
+      ? methodAuthority.blockers
+      : Object.freeze(['EMP1_READINESS_METHOD_AUTHORITY_NOT_AUTHORIZED']),
   });
 }
 
