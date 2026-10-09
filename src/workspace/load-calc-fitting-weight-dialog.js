@@ -58,9 +58,9 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, onAccep
       const records = [];
       review.rows.forEach((row) => {
         const input = inputFor(row.targetId);
-        if (!input) return;
+        if (!input || input.value.trim() === '') return;
         const value = Number(input.value);
-        if (!Number.isFinite(value) || value <= 0) return;
+        if (!Number.isFinite(value) || value < 0) return;
         const index = Number(input.dataset.lcfwSelectedIndex ?? row.bestCandidateIndex ?? -1);
         const candidate = row.candidates[index] || { weightKg: value, typeDesc: 'MANUAL', lengthQualified: false, reason: 'Manually entered' };
         records.push(fittingWeightRecordFor(row, { ...candidate, weightKg: value }, index, masters));
@@ -114,26 +114,25 @@ function markup(review) {
 }
 
 function rowMarkup(row) {
+  const best = row.candidates[0] || { weightKg: '' };
+  const rowClass = row.unresolvable ? 'lcfw-status--tied lcfw-row--blocked' : (row.clearWinner ? 'lcfw-status--clear' : 'lcfw-status--tied');
+  
+  let candidatesMarkup = '';
   if (row.unresolvable) {
-    return `<tr class="lcfw-row--blocked">
-      <td colspan="8">
-        <strong>${escapeHtml(row.description || row.targetId)}</strong>
-        <span class="lcfw-meta">${escapeHtml(row.type)} · ${row.boreMm ? `DN${row.boreMm}` : 'no bore'} · ${row.lengthMm ? `${row.lengthMm} mm` : 'no length'}</span>
-        <p class="lcfw-blocked-note">${escapeHtml(unresolvableText(row.unresolvable))}</p>
-      </td>
-    </tr>`;
+    candidatesMarkup = `<p class="lcfw-blocked-note" style="margin:0">${escapeHtml(unresolvableText(row.unresolvable))}</p>`;
+  } else {
+    candidatesMarkup = row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index)).join('');
   }
-  const best = row.candidates[0];
-  const rowClass = row.clearWinner ? 'lcfw-status--clear' : 'lcfw-status--tied';
+
   return `<tr class="${rowClass}">
     <td><strong>${escapeHtml(row.description || row.targetId)}</strong></td>
     <td>${escapeHtml(row.type)}</td>
-    <td>DN${escapeHtml(row.boreMm)}</td>
+    <td>${row.boreMm ? `DN${escapeHtml(row.boreMm)}` : '—'}</td>
     <td>${row.rating ? `${escapeHtml(row.rating)}#` : '—'}</td>
-    <td>${escapeHtml(row.lengthMm)} mm</td>
+    <td>${row.lengthMm != null ? `${escapeHtml(row.lengthMm)} mm` : '—'}</td>
     <td>${row.valveHint ? `<span class="lcfw-hint">${escapeHtml(row.valveHint)}</span>` : '—'}</td>
-    <td><input type="number" min="0" step="0.001" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="0" value="${escapeHtml(best.weightKg)}"></td>
-    <td class="lcfw-chips">${row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index)).join('')}</td>
+    <td><input type="number" min="0" step="any" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="0" value="${escapeHtml(best.weightKg)}"></td>
+    <td class="lcfw-chips">${candidatesMarkup}</td>
   </tr>`;
 }
 

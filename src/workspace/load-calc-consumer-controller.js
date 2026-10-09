@@ -132,13 +132,19 @@ export class LoadCalcConsumerController {
     // Eagerly normalize + auto-generate + auto-bind for already-seeded masters
     import('./master-data-ui.js').then(async ({ autoNormalizeBundledMasters, autoGenerateMasterEnrichment, autoBindMasterSources, autoEnsureDefaultQualificationProfile }) => {
       const committed = autoNormalizeBundledMasters();
-      if (committed.length > 0) this.render();
+      const defaultsResult = projectDataStore.applyProductDefaults();
+      if (committed.length > 0 || defaultsResult) this.render();
       const [enrichResult, bindResult, qualResult] = await Promise.all([
         autoGenerateMasterEnrichment(),
         autoBindMasterSources(),
         autoEnsureDefaultQualificationProfile(),
       ]);
       if (enrichResult?.accepted > 0 || bindResult?.bound?.length > 0 || qualResult) this.render();
+      // Auto-accept unambiguous fitting weights (0 kg instruments etc.)
+      import('./enrichment/non-fea-enrichment-view.js').then(({ autoAcceptClearWinnerFittingWeights }) => {
+        const accepted = autoAcceptClearWinnerFittingWeights();
+        if (accepted > 0) this.render();
+      }).catch(() => {});
     }).catch(() => {});
   }
 
@@ -157,12 +163,18 @@ export class LoadCalcConsumerController {
       void this.refreshTopologyCheck();
       // Auto-generate enrichment + bind source hashes when a new dataset arrives
       import('./master-data-ui.js').then(async ({ autoGenerateMasterEnrichment, autoBindMasterSources, autoEnsureDefaultQualificationProfile }) => {
+        const defaultsResult = projectDataStore.applyProductDefaults();
         const [enrichResult, bindResult, qualResult] = await Promise.all([
           autoGenerateMasterEnrichment(),
           autoBindMasterSources(),
           autoEnsureDefaultQualificationProfile(),
         ]);
-        if (enrichResult?.accepted > 0 || bindResult?.bound?.length > 0 || qualResult) this.render();
+        if (defaultsResult || enrichResult?.accepted > 0 || bindResult?.bound?.length > 0 || qualResult) this.render();
+        // Auto-accept unambiguous fitting weights (0 kg instruments etc.)
+        import('./enrichment/non-fea-enrichment-view.js').then(({ autoAcceptClearWinnerFittingWeights }) => {
+          const accepted = autoAcceptClearWinnerFittingWeights();
+          if (accepted > 0) this.render();
+        }).catch(() => {});
       }).catch(() => {});
     }
   }
@@ -541,8 +553,13 @@ export class LoadCalcConsumerController {
         const { renderMasterDataUI } = await import('./master-data-ui.js');
         if (revision === this.renderRevision) pane.replaceChildren(renderMasterDataUI(pane.ownerDocument));
       } else if (tab === 'enrichment') {
-        const { renderNonFeaEnrichmentView } = await import('./enrichment/non-fea-enrichment-view.js');
-        if (revision === this.renderRevision) renderNonFeaEnrichmentView(pane, () => this.render());
+        const { renderNonFeaEnrichmentView, autoStageMasterProposals, autoAcceptClearWinnerFittingWeights } = await import('./enrichment/non-fea-enrichment-view.js');
+        if (revision === this.renderRevision) {
+          autoStageMasterProposals(() => this.render());
+          const accepted = autoAcceptClearWinnerFittingWeights();
+          renderNonFeaEnrichmentView(pane, () => this.render());
+          if (accepted > 0) this.render();
+        }
       } else if (tab === 'method-basis') {
         const { renderNonFeaMethodBasisView } = await import('./non-fea-method-basis-view.js');
         if (revision === this.renderRevision) renderNonFeaMethodBasisView(pane, () => this.render());

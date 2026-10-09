@@ -357,17 +357,17 @@ function normalizeCalculationDefaultsStatus(workflow, state) {
     const hasMissing = pdCodes.includes('MISSING_VALUE');
     const hasStale = pdCodes.includes('STALE_SOURCE_HASH');
     if (hasMissing && hasStale) {
-      status.textContent = `${pdCodes.length} issues`;
+      status.textContent = `${readiness.projectDataActionCount} issues`;
     } else if (hasStale) {
       status.textContent = 'Source stale';
     } else if (hasMissing) {
       status.textContent = 'Fields missing';
     } else {
-      status.textContent = `${pdCodes.length} issue${pdCodes.length === 1 ? '' : 's'}`;
+      status.textContent = `${readiness.projectDataActionCount} issue${readiness.projectDataActionCount === 1 ? '' : 's'}`;
     }
   } else {
     const n = preCheckerIssues || 0;
-    status.textContent = n > 0 ? `${n} issue${n === 1 ? '' : 's'}` : 'Issues';
+    status.textContent = n > 0 ? `Review ${n} default${n === 1 ? '' : 's'}` : 'Done';
   }
 }
 

@@ -40,8 +40,6 @@ export const PROJECT_DATA_GROUPS = Object.freeze([
     field('hydroFluidDensitiesKgPerM3', 'Hydro fluid densities', 'json', 'kg/m³'),
     field('insulationDensitiesKgPerM3', 'Insulation densities by code', 'json', 'kg/m³'),
     field('componentWeightsKg', 'Approved component weights', 'json', 'kg'),
-    phase2Field('componentOperatingFluidWeightsKg', 'Component operating contained-fluid masses', 'json', 'kg'),
-    phase2Field('componentHydroFluidWeightsKg', 'Component hydrotest contained-fluid masses', 'json', 'kg'),
     phase2Field('componentMassCompositionPolicy', 'Component dry-mass composition policy', 'json', 'Loads'),
     phase2Field('forceOutputConvention', 'Force output convention', 'text', 'Gravity result policy'),
     phase2Field('momentOutputConvention', 'Moment output convention', 'text', 'Gravity result policy'),

@@ -110,15 +110,27 @@ export async function autoGenerateMasterEnrichment() {
   store.loadSource(dataset.sharedModel.semanticHash);
   const snapshot = store.getSnapshot();
 
-  // Don't overwrite a sidecar the user already curated for this source
+  // If proposals are already staged (e.g. from visiting Enrichment tab), accept them
+  if (snapshot.proposals.length > 0) {
+    try {
+      store.acceptAllProposals();
+      return { accepted: snapshot.proposals.length, skipped: null };
+    } catch {
+      // Continue to try generating if accept failed
+    }
+  }
+
+  // Check whether master-derived enrichment (pipe section / fluid density) is already present
+  const hasMasterEnrichment = snapshot.acceptedRecords.some((r) =>
+    ['PIPE_OUTER_DIAMETER', 'PIPE_WALL_THICKNESS', 'MATERIAL_DENSITY', 'OPERATING_FLUID_DENSITY'].includes(r.fieldId)
+  );
+
+  // Don't overwrite if master enrichment is already current for this source
   if (
-    snapshot.acceptedRecords.length > 0
+    hasMasterEnrichment
     && snapshot.boundSourceSemanticHash === dataset.sharedModel.semanticHash
     && !snapshot.stale
   ) return { accepted: 0, skipped: 'SIDECAR_CURRENT' };
-
-  // Don't interrupt an active user review session
-  if (snapshot.proposals.length > 0) return { accepted: 0, skipped: 'PROPOSALS_PENDING_REVIEW' };
 
   let result;
   try {
@@ -165,12 +177,28 @@ export async function autoBindMasterSources() {
     { masterKey: 'weight',      path: 'sourcesAndUnits.componentWeightSource', sourceKey: 'componentWeight', label: 'Component weight master' },
   ];
 
-  const [{ projectDataStore: pds }, { projectDataEntry }] = await Promise.all([
+  const [{ projectDataStore: pds }, { projectDataEntry }, { WorkspaceState }] = await Promise.all([
     import('./project-data/project-data-store.js'),
     import('./project-data/project-data-contract.js'),
+    import('./workspace-state.js'),
   ]);
 
   const bound = [];
+  const dataset = WorkspaceState.getSnapshot()?.dataset;
+  if (dataset?.sourceSha256) {
+    const entry = projectDataEntry(pds.getProfile(), 'sourcesAndUnits.datasetSource');
+    const existingHash = typeof entry?.evidence?.sourceHash === 'string' ? entry.evidence.sourceHash.trim() : '';
+    if (existingHash !== dataset.sourceSha256) {
+      pds.update(
+        'sourcesAndUnits.datasetSource',
+        { path: dataset.datasetId || 'Loaded dataset', sha256: dataset.sourceSha256 },
+        { source: 'Auto-bound from loaded dataset', sourceKey: 'dataset', sourceHash: dataset.sourceSha256, locator: 'Canonical SJSON import' },
+        true,
+      );
+      bound.push('sourcesAndUnits.datasetSource');
+    }
+  }
+
   for (const { masterKey, path, sourceKey, label } of MASTER_SOURCE_MAP) {
     const master = masters[masterKey];
     const sourceHash = typeof master?.sourceHash === 'string' ? master.sourceHash.trim() : '';

@@ -241,12 +241,24 @@ function quickFixStrip(blockers, coverageProgressByCode) {
     if (code === 'MASS_COVERAGE_INCOMPLETE') {
       const progress = coverageProgressByCode?.[code];
       const n = progress?.unresolvedEntityCount ?? '?';
-      items.push({
-        icon: '⚖️',
-        text: `${n} component${n === 1 ? '' : 's'} still need mass evidence — assign fitting weights for valves and catalogue items`,
-        tab: 'enrichment',
-        label: 'Review Fitting Weights',
-      });
+      const hasComponentWeightMissing = progress?.unresolvedEntities?.some((e) =>
+        e.reasons?.some((r) => r === 'COMPONENT_WEIGHT' || r === 'MASS_EVIDENCE')
+      );
+      if (hasComponentWeightMissing) {
+        items.push({
+          icon: '⚖️',
+          text: `${n} component${n === 1 ? '' : 's'} still need mass evidence — assign fitting weights for valves and catalogue items`,
+          tab: 'enrichment',
+          label: 'Review Fitting Weights',
+        });
+      } else {
+        items.push({
+          icon: '⚖️',
+          text: `${n} component${n === 1 ? '' : 's'} still need mass/fluid evidence — generate & accept proposals from masters in Enrichment`,
+          tab: 'enrichment',
+          label: 'Open Enrichment & Overrides',
+        });
+      }
     } else if (code === 'SECTION_COVERAGE_INCOMPLETE') {
       const progress = coverageProgressByCode?.[code];
       const n = progress?.unresolvedEntityCount ?? '?';

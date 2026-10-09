@@ -355,6 +355,10 @@ function validatePositiveLeaves(value, path, errors, entry) {
 const EMPTY_MAP_ALLOWED_PATHS = new Set([
   'loadCalculation.insulationDensitiesKgPerM3',
   'loadCalculation.componentWeightsKg',
+  'loadCalculation.pipeSectionProperties',
+  'loadCalculation.operatingFluidDensitiesKgPerM3',
+  'loadCalculation.hydroFluidDensitiesKgPerM3',
+  'loadCalculation.materialDensitiesKgPerM3',
 ]);
 
 function validateRequired(entry, path, errors) {
