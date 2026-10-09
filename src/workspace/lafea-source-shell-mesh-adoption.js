@@ -5,7 +5,10 @@ import {
   LAFEA_ANALYSIS_MESH_INTAKE_V2_SCHEMA,
   createLafeaAnalysisMeshEvidenceV2,
 } from './lafea-analysis-mesh-evidence-v2.js';
-import { canonicalLafeaAnalysisMeshProfile } from './lafea-analysis-mesh-contract.js';
+import {
+  canonicalLafeaAnalysisMeshProfile,
+  lafeaAnalysisMeshContentHash,
+} from './lafea-analysis-mesh-contract.js';
 import { canonicalLafeaSha256 } from './lafea-canonical-sha256.js';
 
 export const LAFEA5_SOURCE_SHELL_PARENT_SCHEMA = 'lafea5-source-shell-parent/v1';
@@ -42,8 +45,9 @@ export const LAFEA5_SOURCE_SHELL_ADOPTION_CAPABILITY_HASH = canonicalLafeaSha256
 export const LAFEA5_SOURCE_SHELL_ADOPTION_QUALIFICATION_HASH = canonicalLafeaSha256(QUALIFICATION);
 
 export function createLafea5SourceShellParent({ sourceHash, shellTemplate }) {
-  requireHash(sourceHash, 'SOURCE_HASH');
+  requireSha256(sourceHash, 'SOURCE_HASH');
   const shellTemplateSemanticHash = canonicalShellTemplateSemanticHash(shellTemplate);
+  requireSemanticHash(shellTemplateSemanticHash, 'SHELL_TEMPLATE_HASH');
   const lengthUnit = text(shellTemplate?.units?.length);
   const mesh = sourceShellMesh(shellTemplate);
   assertSourceWindingAligned(shellTemplate, mesh);
@@ -93,10 +97,10 @@ export function validateLafea5SourceShellParent(value) {
     || value.stageId !== 'LAFEA.5' || value.qualification !== 'PASS') {
     fail('LAFEA5_SOURCE_SHELL_PARENT_INVALID');
   }
-  requireHash(value.sourceHash, 'SOURCE_HASH');
-  requireHash(value.shellTemplateSemanticHash, 'SHELL_TEMPLATE_HASH');
-  requireHash(value.analysisDomainHash, 'ANALYSIS_DOMAIN_HASH');
-  requireHash(value.analysisGeometryHash, 'ANALYSIS_GEOMETRY_HASH');
+  requireSha256(value.sourceHash, 'SOURCE_HASH');
+  requireSemanticHash(value.shellTemplateSemanticHash, 'SHELL_TEMPLATE_HASH');
+  requireSha256(value.analysisDomainHash, 'ANALYSIS_DOMAIN_HASH');
+  requireSha256(value.analysisGeometryHash, 'ANALYSIS_GEOMETRY_HASH');
   const lengthUnit = text(value.lengthUnit);
   const mesh = sourceMeshCanonical(value.mesh);
   const geometryHash = canonicalLafeaSha256({
@@ -176,6 +180,7 @@ export function produceLafea5SourceShellMeshAdoption(input) {
     || plan.meshProfileHash !== meshProfile.semanticHash) {
     fail('LAFEA5_SOURCE_SHELL_ADOPTION_PLAN_PARENT_MISMATCH');
   }
+  const meshHash = lafeaAnalysisMeshContentHash(parent.mesh);
   const evidence = createLafeaAnalysisMeshEvidenceV2({
     schema: LAFEA_ANALYSIS_MESH_INTAKE_V2_SCHEMA,
     stageId: 'LAFEA.5',
@@ -194,66 +199,71 @@ export function produceLafea5SourceShellMeshAdoption(input) {
       analysisDomainHash: parent.analysisDomainHash,
       analysisGeometryHash: parent.analysisGeometryHash,
       meshProfileHash: meshProfile.semanticHash,
-      meshHash: canonicalLafeaSha256({
-        schema: 'lafea-analysis-mesh-content-hash-input/v1', mesh: parent.mesh,
-      }),
+      meshHash,
       capabilityHash: LAFEA5_SOURCE_SHELL_ADOPTION_CAPABILITY_HASH,
       qualificationHash: LAFEA5_SOURCE_SHELL_ADOPTION_QUALIFICATION_HASH,
       planHash: plan.planHash,
     },
   });
   assertIdentityPreserved(parent.mesh, evidence.mesh);
-  return freeze({ plan, evidence });
-}
-
-function sourceShellMesh(shellTemplate) {
-  if (!shellTemplate || !Array.isArray(shellTemplate.nodes) || !Array.isArray(shellTemplate.elements)) {
-    fail('LAFEA5_SOURCE_SHELL_TEMPLATE_MESH_REQUIRED');
-  }
-  return sourceMeshCanonical({
-    schema: 'lafea-analysis-mesh/v1',
-    meshIdentity: `LAFEA5-SOURCE-SHELL/${canonicalShellTemplateSemanticHash(shellTemplate)}`,
-    nodes: shellTemplate.nodes.map((node) => {
-      if (!Array.isArray(node.position) || node.position.length !== 3) {
-        fail('LAFEA5_SOURCE_SHELL_NODE_POSITION_INVALID');
-      }
-      return { nodeId: node.nodeId, x: node.position[0], y: node.position[1], z: node.position[2] };
-    }),
-    elements: shellTemplate.elements.map((element) => ({
-      elementId: element.elementId,
-      elementType: LAFEA5_SOURCE_SHELL_ADOPTION_ELEMENT,
-      nodeIds: [...element.nodeIds],
-    })),
+  return freeze({
+    schema: 'lafea5-source-shell-adoption-result/v1',
+    stageId: 'LAFEA.5',
+    planHash: plan.planHash,
+    sourceShellParentHash: parent.semanticHash,
+    sourceShellTemplateHash: parent.shellTemplateSemanticHash,
+    meshProfileHash: meshProfile.semanticHash,
+    evidence,
   });
 }
 
-/**
- * Lossless adoption preserves the caller's connectivity byte-for-byte, so the
- * caller's declared winding must already agree with the shell directors. The
- * local-shell canonicalizer can choose an orientation for solver assembly; it
- * is not authority to silently rewrite source connectivity during adoption.
- */
+function sourceShellMesh(shellTemplate) {
+  const nodeRows = Array.isArray(shellTemplate?.nodes) ? shellTemplate.nodes : [];
+  const elementRows = Array.isArray(shellTemplate?.elements) ? shellTemplate.elements : [];
+  const nodeIds = new Set(nodeRows.map((row) => text(row.nodeId)));
+  const nodes = nodeRows.map((row) => {
+    const position = row.position;
+    if (!Array.isArray(position) || position.length !== 3 || position.some((value) => !Number.isFinite(value))) {
+      fail('LAFEA5_SOURCE_SHELL_NODE_INVALID');
+    }
+    return freeze({ nodeId: text(row.nodeId), x: finite(position[0]), y: finite(position[1]), z: finite(position[2]) });
+  }).sort((a, b) => a.nodeId.localeCompare(b.nodeId));
+  const elements = elementRows.map((row) => {
+    const ids = Array.isArray(row.nodeIds) ? row.nodeIds.map(text) : [];
+    if (ids.length !== 3 || new Set(ids).size !== 3 || ids.some((id) => !nodeIds.has(id))) {
+      fail('LAFEA5_SOURCE_SHELL_ELEMENT_INVALID');
+    }
+    return freeze({
+      elementId: text(row.elementId),
+      elementType: LAFEA5_SOURCE_SHELL_ADOPTION_ELEMENT,
+      nodeIds: freeze(ids),
+    });
+  }).sort((a, b) => a.elementId.localeCompare(b.elementId));
+  if (!nodes.length || !elements.length) fail('LAFEA5_SOURCE_SHELL_MESH_EMPTY');
+  return freeze({
+    schema: 'lafea-analysis-mesh/v1',
+    meshIdentity: text(shellTemplate.modelIdentity),
+    nodes,
+    elements,
+  });
+}
+
 function assertSourceWindingAligned(shellTemplate, mesh) {
-  const sourceNodes = new Map(shellTemplate.nodes.map((node) => [text(node.nodeId), node]));
-  const meshNodes = new Map(mesh.nodes.map((node) => [node.nodeId, node]));
-  const minimum = finite(shellTemplate?.qualificationProfile
-    ?.elementNormalDirectorAlignment?.minimum);
-  if (!(minimum > 0 && minimum <= 1)) fail('LAFEA5_SOURCE_SHELL_DIRECTOR_ALIGNMENT_LIMIT_INVALID');
+  const nodeById = new Map(mesh.nodes.map((row) => [row.nodeId, row]));
+  const sourceNodeById = new Map(shellTemplate.nodes.map((row) => [text(row.nodeId), row]));
   for (const element of mesh.elements) {
-    const points = element.nodeIds.map((nodeId) => meshNodes.get(nodeId));
-    const first = subtract3(points[1], points[0]);
-    const second = subtract3(points[2], points[0]);
-    const normal = unit3(cross3(first, second), 'ELEMENT_NORMAL');
+    const [a, b, c] = element.nodeIds.map((id) => nodeById.get(id));
+    const normal = unit3(cross3(subtract3(b, a), subtract3(c, a)), 'ELEMENT_NORMAL');
     for (const nodeId of element.nodeIds) {
-      const director = unitArray3(sourceNodes.get(nodeId)?.director, 'NODE_DIRECTOR');
-      if (dotArrayObject(director, normal) < minimum - 1e-12) {
-        fail('LAFEA5_SOURCE_SHELL_WINDING_DIRECTOR_MISMATCH');
-      }
+      const sourceNode = sourceNodeById.get(nodeId);
+      const director = unitArray3(sourceNode?.director, 'NODE_DIRECTOR');
+      if (!(dotArrayObject(director, normal) > 0)) fail('LAFEA5_SOURCE_SHELL_WINDING_DIRECTOR_MISMATCH');
     }
   }
 }
 
 function sourceMeshCanonical(mesh) {
+  if (!mesh || mesh.schema !== 'lafea-analysis-mesh/v1') fail('LAFEA5_SOURCE_SHELL_MESH_INVALID');
   const nodes = [...mesh.nodes].map((row) => freeze({
     nodeId: text(row.nodeId), x: finite(row.x), y: finite(row.y), z: finite(row.z),
   })).sort((a, b) => a.nodeId.localeCompare(b.nodeId));
@@ -281,6 +291,7 @@ function unitArray3(value, field) { if (!Array.isArray(value) || value.length !=
 function dotArrayObject(array, object) { return array[0] * object.x + array[1] * object.y + array[2] * object.z; }
 function text(value) { if (typeof value !== 'string' || !value.trim()) fail('LAFEA5_SOURCE_SHELL_TEXT_INVALID'); return value; }
 function finite(value) { if (!Number.isFinite(value)) fail('LAFEA5_SOURCE_SHELL_NUMBER_INVALID'); return Object.is(value, -0) ? 0 : value; }
-function requireHash(value, field) { if (typeof value !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(value)) fail(`LAFEA5_SOURCE_SHELL_${field}_INVALID`); }
+function requireSha256(value, field) { if (typeof value !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(value)) fail(`LAFEA5_SOURCE_SHELL_${field}_INVALID`); }
+function requireSemanticHash(value, field) { if (typeof value !== 'string' || !/^fnv1a64:[0-9a-f]{16}$/u.test(value)) fail(`LAFEA5_SOURCE_SHELL_${field}_INVALID`); }
 function fail(code) { const error = new TypeError(code); error.code = code; throw error; }
 function freeze(value) { if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value; Object.values(value).forEach(freeze); return Object.freeze(value); }
