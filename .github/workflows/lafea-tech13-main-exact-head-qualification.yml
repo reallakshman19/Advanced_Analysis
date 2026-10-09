@@ -1,0 +1,164 @@
+name: LAFEA TECH-13 exact-main qualification carrier
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lafea-tech13-main-exact-head-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tech13-exact-main:
+    runs-on: ubuntu-latest
+    env:
+      QUALIFIED_HEAD: ${{ github.event.pull_request.base.sha || github.sha }}
+    steps:
+      - name: Checkout exact production head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Verify exact production head and clean tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$QUALIFIED_HEAD"
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
+          git diff --check
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Run canonical TECH-13 exact-head qualification
+        id: qualify
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p qualification-evidence
+          outfile="qualification-evidence/lafea4-tech13-product-refinement-${QUALIFIED_HEAD}.json"
+          set +e
+          node scripts/lafea-tech13-product-refinement-qualification.mjs \
+            --expected-head "$QUALIFIED_HEAD" \
+            --output "$outfile" \
+            | tee /tmp/lafea-tech13-qualification.log
+          runner_status=${PIPESTATUS[0]}
+          set -e
+          test -f "$outfile"
+          echo "exit_code=$runner_status" >> "$GITHUB_OUTPUT"
+          echo "outfile=$outfile" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Independently verify PASS bundle
+        id: verify
+        shell: bash
+        env:
+          OUTFILE: ${{ steps.qualify.outputs.outfile }}
+          RUNNER_EXIT: ${{ steps.qualify.outputs.exit_code }}
+        run: |
+          set -uo pipefail
+          verify_status=125
+          if [ "$RUNNER_EXIT" = "0" ]; then
+            set +e
+            node scripts/lafea-tech13-product-refinement-bundle-verifier.mjs \
+              "$OUTFILE" \
+              --expected-head "$QUALIFIED_HEAD"
+            verify_status=$?
+            set -e
+          fi
+          echo "exit_code=$verify_status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Read qualification summary
+        id: summary
+        shell: bash
+        env:
+          OUTFILE: ${{ steps.qualify.outputs.outfile }}
+        run: |
+          node <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs = require('node:fs');
+          const bundle = JSON.parse(fs.readFileSync(process.env.OUTFILE, 'utf8'));
+          const clean = (value) => String(value ?? '').replace(/[\r\n]/g, ' ');
+          console.log(`classification=${clean(bundle.classification)}`);
+          console.log(`evidence_sha256=${clean(bundle.evidenceSha256)}`);
+          console.log(`failure=${clean(bundle.failure)}`);
+          console.log(`qualification_complete=${String(bundle.qualificationComplete === true)}`);
+          console.log(`future_promotion_review_eligible=${String(bundle.futurePromotionReviewEligible === true)}`);
+          NODE
+
+      - name: Persist immutable run evidence branch
+        id: persist
+        shell: bash
+        env:
+          OUTFILE: ${{ steps.qualify.outputs.outfile }}
+        run: |
+          set -euo pipefail
+          short_head="${QUALIFIED_HEAD:0:12}"
+          evidence_branch="evidence/lafea-tech13-${short_head}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$evidence_branch" "$QUALIFIED_HEAD"
+          git add -f "$OUTFILE"
+          git commit -m "LAFEA.4 TECH-13 evidence for ${QUALIFIED_HEAD}"
+          git push origin "HEAD:refs/heads/${evidence_branch}"
+          echo "branch=$evidence_branch" >> "$GITHUB_OUTPUT"
+
+      - name: Report exact-head qualification to PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          CLASSIFICATION: ${{ steps.summary.outputs.classification }}
+          EVIDENCE_SHA256: ${{ steps.summary.outputs.evidence_sha256 }}
+          FAILURE: ${{ steps.summary.outputs.failure }}
+          QUALIFICATION_COMPLETE: ${{ steps.summary.outputs.qualification_complete }}
+          PROMOTION_ELIGIBLE: ${{ steps.summary.outputs.future_promotion_review_eligible }}
+          EVIDENCE_BRANCH: ${{ steps.persist.outputs.branch }}
+          RUNNER_EXIT: ${{ steps.qualify.outputs.exit_code }}
+          VERIFIER_EXIT: ${{ steps.verify.outputs.exit_code }}
+        with:
+          script: |
+            const body = [
+              '### LAFEA.4 TECH-13Q exact-main qualification',
+              '',
+              `- qualified head: \`${process.env.QUALIFIED_HEAD}\``,
+              `- classification: **${process.env.CLASSIFICATION}**`,
+              `- qualification complete: \`${process.env.QUALIFICATION_COMPLETE}\``,
+              `- future promotion review eligible: \`${process.env.PROMOTION_ELIGIBLE}\``,
+              `- runner exit: \`${process.env.RUNNER_EXIT}\``,
+              `- verifier exit: \`${process.env.VERIFIER_EXIT}\``,
+              `- evidence SHA-256: \`${process.env.EVIDENCE_SHA256}\``,
+              `- evidence branch: \`${process.env.EVIDENCE_BRANCH}\``,
+              `- failure: \`${process.env.FAILURE || 'null'}\``,
+              '',
+              'The evidence branch is transport only. Product retention/UI/release authority remains false unless the canonical bundle verifier passes and a separate promotion change is reviewed.'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+
+      - name: Enforce qualification result
+        shell: bash
+        env:
+          RUNNER_EXIT: ${{ steps.qualify.outputs.exit_code }}
+          VERIFIER_EXIT: ${{ steps.verify.outputs.exit_code }}
+          CLASSIFICATION: ${{ steps.summary.outputs.classification }}
+        run: |
+          set -euo pipefail
+          if [ "$RUNNER_EXIT" != "0" ]; then
+            echo "TECH-13 exact-head qualification did not PASS: $CLASSIFICATION"
+            exit "$RUNNER_EXIT"
+          fi
+          if [ "$VERIFIER_EXIT" != "0" ]; then
+            echo "TECH-13 PASS bundle failed independent verification."
+            exit 1
+          fi
+          test "$CLASSIFICATION" = "PASS"
