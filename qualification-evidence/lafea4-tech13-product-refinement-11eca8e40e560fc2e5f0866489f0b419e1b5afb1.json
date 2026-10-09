@@ -1,0 +1,75 @@
+{
+  "schema": "lafea4-tech13-product-refinement-qualification-bundle/v1",
+  "qualificationId": "LAFEA4-TECH13-PRODUCT-REFINEMENT-EXACT-HEAD-001",
+  "expectedHead": "11eca8e40e560fc2e5f0866489f0b419e1b5afb1",
+  "currentHead": "11eca8e40e560fc2e5f0866489f0b419e1b5afb1",
+  "nodeVersion": "v22.23.3",
+  "nodeMajor": 22,
+  "planSha256": "f32a0b0fbe49569bc7e8116ffae49351caa8c9e3e9bc4f57c4ba05c7b5ec9d8b",
+  "runnerSha256": "3bfd4a9b4e44888af39d6069bb686bd5e7399b6699a58c083c43affaa33cfc6c",
+  "trackedTreeCleanBefore": true,
+  "trackedTreeCleanAfter": true,
+  "browserRequested": true,
+  "commands": [
+    {
+      "id": "DEPENDENCY_INSTALL",
+      "authority": "INFRASTRUCTURE",
+      "executable": "npm",
+      "args": [
+        "ci"
+      ],
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "elapsedMs": 9454,
+      "stdoutSha256": "da3f006a0a57f804be0582631323e434b2fc4d765b911c8c68cc1514447c23ff",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutTail": "66 packages are looking for funding\n  run `npm fund` for details\n\n9 vulnerabilities (1 low, 8 high)\n\nTo address issues that do not require attention, run:\n  npm audit fix\n\nSome issues need review, and may require choosing\na different dependency.\n\nRun `npm audit` for details.",
+      "stderrTail": ""
+    },
+    {
+      "id": "TECH3_CURVATURE_ANALYTICAL",
+      "authority": "ENGINEERING",
+      "executable": "node",
+      "args": [
+        "scripts/lafea-tech3-curvature-qualification-check.mjs"
+      ],
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "elapsedMs": 303,
+      "stdoutSha256": "aca1489ae2a42c7036a7cd36118eb88a069c0b31eb1916d45a78a207ea245c30",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutTail": "      \"facetAngleDegrees\": 3.75,\n      \"sagittaMm\": 0.053541252363431546,\n      \"sagittaToThickness\": 0.035694168242287695,\n      \"absoluteStrainError\": 3.5699902743561475e-7,\n      \"relativeStrainError\": 0.00035699902743561475,\n      \"absoluteStressErrorMpa\": 0.07846132471118494,\n      \"absoluteStressError\": 0.07846132471118494,\n      \"relativeStressError\": 0.0003569990274358915\n    }\n  ],\n  \"releaseQualified\": false\n}",
+      "stderrTail": ""
+    },
+    {
+      "id": "TECH4_CURVED_HOLE_FIXED_PROBE_CONVERGENCE",
+      "authority": "ENGINEERING",
+      "executable": "node",
+      "args": [
+        "scripts/lafea-tech4-curved-hole-convergence-check.mjs"
+      ],
+      "status": "FAIL",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "elapsedMs": 1025,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "440aa5ff91a59cc53d0c5c3da452d33315630777fac10cdcb9043761dbd5d971",
+      "stdoutTail": "",
+      "stderrTail": "    at vector3 (file:///home/runner/work/Advanced_Analysis/Advanced_Analysis/src/workspace/lafea-shell-curved-hole-midsurface-contract.js:512:3)\n    at curvedHoleShellUvAtPoint3d (file:///home/runner/work/Advanced_Analysis/Advanced_Analysis/src/workspace/lafea-shell-curved-hole-midsurface-contract.js:224:17)\n    at file:///home/runner/work/Advanced_Analysis/Advanced_Analysis/scripts/lafea-tech4-curved-hole-convergence-check.mjs:123:16\n    at Array.map (<anonymous>)\n    at shellSource (file:///home/runner/work/Advanced_Analysis/Advanced_Analysis/scripts/lafea-tech4-curved-hole-convergence-check.mjs:122:28)\n    at solveLevel (file:///home/runner/work/Advanced_Analysis/Advanced_Analysis/scripts/lafea-tech4-curved-hole-convergence-check.mjs:91:18)\n    at file:///home/runner/work/Advanced_Analysis/Advanced_Analysis/scripts/lafea-tech4-curved-hole-convergence-check.mjs:47:57\n    at Array.map (<anonymous>) {\n  code: 'LAFEA_SHELL_CURVED_HOLE_POINT_KEYS_INVALID'\n}\n\nNode.js v22.23.3"
+    }
+  ],
+  "classification": "FAIL",
+  "qualificationComplete": false,
+  "futurePromotionReviewEligible": false,
+  "productRetentionAuthorized": false,
+  "uiBindingAuthorized": false,
+  "releaseQualified": false,
+  "hardGateActivated": false,
+  "failure": "ENGINEERING_STEP_FAILED:TECH4_CURVED_HOLE_FIXED_PROBE_CONVERGENCE",
+  "evidenceSha256": "0f6c28eda1f8dc22b177c883ec722688df80eeec259ae2e164b322690c6e36b4"
+}
