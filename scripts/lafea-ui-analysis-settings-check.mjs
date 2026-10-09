@@ -68,3 +68,5 @@ function stage(stageId, document, profileId) {
 function value(model, label) {
   return model.rows.find((row) => row.label === label)?.value;
 }
+
+await import('./lafea-pr1270-longest-edge-diagnostic.mjs');
