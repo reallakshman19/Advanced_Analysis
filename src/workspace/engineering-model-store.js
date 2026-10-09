@@ -4,6 +4,7 @@ import { projectDataStore } from './project-data/project-data-store.js';
 import { validateProjectDataProfile } from './project-data/project-data-contract.js';
 import { buildRoutePartitionModel } from './routes/route-partition-model.js';
 import { buildSupportSiteModel, findSupportSiteByEntityId } from './support-sites/support-site-model.js';
+import { measureNonFeaP0Stage } from './non-fea-p0-observability.js';
 import { engineeringSupportLoadStore } from './engineering-loads/engineering-support-load-store.js';
 import {
   AUTHORIZED_EMPIRICAL_LOAD_EXECUTION_REQUEST_SCHEMA,
@@ -52,8 +53,14 @@ export class EngineeringModelStore {
       return;
     }
     const profile = projectDataStore.getProfile();
-    this.#supportSiteModel = buildSupportSiteModel(dataset, profile);
-    this.#routePartitionModel = buildRoutePartitionModel(dataset, profile);
+    this.#supportSiteModel = measureNonFeaP0Stage(
+      'SUPPORT_SITE_CONSTRUCTION',
+      () => buildSupportSiteModel(dataset, profile),
+    );
+    this.#routePartitionModel = measureNonFeaP0Stage(
+      'ROUTE_CONSTRUCTION',
+      () => buildRoutePartitionModel(dataset, profile),
+    );
     this.#artifactHashes = freezeDeep({
       sharedModelSemanticHash: dataset.sharedModel && typeof dataset.sharedModel === 'object'
         ? this.#artifactSemanticHash(dataset.sharedModel)

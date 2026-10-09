@@ -66,7 +66,7 @@ test('records exact-head P1 browser timing and invalidation evidence', async ({ 
   const bytes = await readFile(CONFIG.fixturePath);
   expect(sha256(bytes)).toBe(CONFIG.sourceSha256);
 
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.goto('/?nonFeaP0Evidence=1', { waitUntil: 'domcontentloaded' });
   await installP1Observer(page, CONFIG);
   await armAction(page, 'INITIAL_IMPORT', { sample: 0 }, 'DATASET_FILE_CHANGE');
   await page.locator('[data-role="dataset-file"]').setInputFiles(CONFIG.fixturePath);

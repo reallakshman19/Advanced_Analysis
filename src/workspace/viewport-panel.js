@@ -11,6 +11,7 @@ import {
   filterResolvedGeometryForModelZone,
   projectSupportSiteModelForModelZone,
 } from './model-zone-viewport-projection.js';
+import { measureNonFeaP0Stage } from './non-fea-p0-observability.js';
 import { projectDataStore } from './project-data/project-data-store.js';
 import { buildResolvedEngineeringGeometry } from './resolved-engineering-geometry.js';
 import { SequentialCommandGateway } from './sequential-sketcher/sequential-command-gateway.js';
@@ -81,22 +82,31 @@ export class ViewportPanel {
 
   renderDataset(dataset, preview) {
     try {
-      const projection = projectDatasetForModelZone(dataset, this.zoneSelection);
+      const projection = measureNonFeaP0Stage(
+        'MODEL_ZONE_PROJECTION',
+        () => projectDatasetForModelZone(dataset, this.zoneSelection),
+      );
       const supportSites = projectSupportSiteModelForModelZone(
         engineeringModelStore.getSupportSiteModel(),
         projection,
       );
-      const resolved = buildResolvedEngineeringGeometry(
-        dataset,
-        projectDataStore.getProfile(),
-        supportSites,
+      const resolved = measureNonFeaP0Stage(
+        'RESOLVED_GEOMETRY_CONSTRUCTION',
+        () => buildResolvedEngineeringGeometry(
+          dataset,
+          projectDataStore.getProfile(),
+          supportSites,
+        ),
       );
       const scoped = filterResolvedGeometryForModelZone(
         resolved,
         projection,
         supportSites,
       );
-      const renderModel = buildViewportRenderModel(scoped);
+      const renderModel = measureNonFeaP0Stage(
+        'RENDER_MODEL_CONSTRUCTION',
+        () => buildViewportRenderModel(scoped),
+      );
       const supportLoadCallouts = supportSites
         ? projectSupportLoadViewportCallouts({
           dataset,

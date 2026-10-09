@@ -18,14 +18,14 @@ export async function installP1Observer(page, config) {
       'RENDER_MODEL_INSTALL_REQUEST', 'THREE_SCENE_INSTALL', 'RENDER_FRAME',
     ];
     const requiredObservability = {
-      SUPPORT_SITE_CONSTRUCTION: 'workspace:p1:support-sites',
-      ROUTE_CONSTRUCTION: 'workspace:p1:route-partition',
-      MODEL_ZONE_PROJECTION: 'workspace:p1:model-zone-projection',
-      RESOLVED_GEOMETRY_CONSTRUCTION: 'workspace:p1:resolved-geometry',
-      RENDER_MODEL_CONSTRUCTION: 'workspace:p1:render-model',
-      THREE_MATERIALIZATION: 'workspace:p1:three-materialization',
-      SCENE_INSTALLATION: 'workspace:p1:scene-installation',
-      FIT: 'workspace:p1:fit',
+      SUPPORT_SITE_CONSTRUCTION: 'workspace:p0:SUPPORT_SITE_CONSTRUCTION',
+      ROUTE_CONSTRUCTION: 'workspace:p0:ROUTE_CONSTRUCTION',
+      MODEL_ZONE_PROJECTION: 'workspace:p0:MODEL_ZONE_PROJECTION',
+      RESOLVED_GEOMETRY_CONSTRUCTION: 'workspace:p0:RESOLVED_GEOMETRY_CONSTRUCTION',
+      RENDER_MODEL_CONSTRUCTION: 'workspace:p0:RENDER_MODEL_CONSTRUCTION',
+      THREE_MATERIALIZATION: 'workspace:p0:THREE_MATERIALIZATION',
+      SCENE_INSTALLATION: 'workspace:p0:GPU_SCENE_INSTALL',
+      FIT: 'workspace:p0:FIT',
     };
     const renderOwners = new Set(
       document.querySelectorAll('canvas[data-viewport-backend="webgl"]'),
