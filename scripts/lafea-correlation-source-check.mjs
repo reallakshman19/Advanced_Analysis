@@ -51,6 +51,16 @@ assert.match(registry, /correlationApprovalAuthorityTrusted/u);
 assert.match(registry, /CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED/u);
 assert.doesNotMatch(registry, /local-attachment-correlation-method-registry\/v1/u);
 
+const releaseCandidate = read('release-candidate.js');
+assert.match(releaseCandidate, /local-attachment-correlation-release-candidate\/v1/u);
+assert.match(releaseCandidate, /local-attachment-correlation-release-trust-projection\/v1/u);
+assert.match(releaseCandidate, /unqualifiedCorrelationProfileFromDatasetPackage/u);
+assert.match(releaseCandidate, /executeCorrelationQualificationSuite/u);
+assert.match(releaseCandidate, /qualificationRecordMatchesProfile/u);
+assert.match(releaseCandidate, /methodDefinitionHash/u);
+assert.match(releaseCandidate, /correlationReleaseCandidateTrustProjection/u);
+assert.match(releaseCandidate, /CORRELATION_RELEASE_CANDIDATE_NOT_TRUSTED/u);
+
 const interpolation = read('interpolation.js');
 assert.match(interpolation, /OUTSIDE_CORRELATION_DOMAIN/u);
 assert.match(interpolation, /BILINEAR_NO_EXTRAPOLATION/u);
@@ -79,6 +89,8 @@ console.log(JSON.stringify({
   trustedApprovalAuthoritiesRegistered: 0,
   executableQualificationEvidenceRequiredForRegistry: true,
   registryReadPathsRevalidateEvidence: true,
+  releaseCandidateBindsDatasetProfileEvidenceAndRecord: true,
+  releaseCandidateTrustEvaluatedSeparately: true,
   extrapolationAuthorized: false,
   lafea1AndLafea2SourceCustodyRetained: true,
 }));
