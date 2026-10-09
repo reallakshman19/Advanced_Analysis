@@ -54,6 +54,7 @@ export {
   createEngineeringCorrelationRegistry,
   engineeringCorrelationMethods,
   requireEngineeringCorrelationProfile,
+  validateEngineeringCorrelationRegistry,
 } from './registry.js';
 export { syntheticCorrelationProfile, syntheticCorrelationRequest } from './synthetic-profile.js';
 export {

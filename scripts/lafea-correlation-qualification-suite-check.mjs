@@ -115,7 +115,7 @@ const candidateRecord = createCorrelationQualificationRecordFromEvidence({
 });
 assert.equal(candidateRecord.qualificationEvidenceHash, candidateEvidence.semanticHash);
 assert.throws(() => createEngineeringCorrelationRegistry(
-  [candidateProfile], [candidateRecord],
+  [candidateProfile], [candidateRecord], [candidateEvidence],
 ), (error) => error?.code === 'CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED');
 
 console.log(JSON.stringify({

@@ -38,9 +38,18 @@ assert.match(trustedAuthorities,
   /TRUSTED_CORRELATION_APPROVAL_AUTHORITIES\s*=\s*Object\.freeze\(\[\]\)/u);
 
 const registry = read('registry.js');
+assert.match(registry, /local-attachment-correlation-method-registry\/v2/u);
 assert.match(registry, /qualificationRecordMatchesProfile/u);
+assert.match(registry, /validateCorrelationQualificationEvidence/u);
+assert.match(registry, /executeCorrelationQualificationSuite/u);
+assert.match(registry, /qualificationEvidence:\s*paired/u);
+assert.match(registry, /CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_MISSING/u);
+assert.match(registry, /CORRELATION_ENGINEERING_QUALIFICATION_EVIDENCE_NOT_REPRODUCIBLE/u);
+assert.match(registry, /validateEngineeringCorrelationRegistry/u);
+assert.match(registry, /semanticHash/u);
 assert.match(registry, /correlationApprovalAuthorityTrusted/u);
 assert.match(registry, /CORRELATION_APPROVAL_AUTHORITY_NOT_TRUSTED/u);
+assert.doesNotMatch(registry, /local-attachment-correlation-method-registry\/v1/u);
 
 const interpolation = read('interpolation.js');
 assert.match(interpolation, /OUTSIDE_CORRELATION_DOMAIN/u);
@@ -68,6 +77,8 @@ console.log(JSON.stringify({
   syntheticEngineeringAuthority: false,
   ingestedDatasetEngineeringAuthority: false,
   trustedApprovalAuthoritiesRegistered: 0,
+  executableQualificationEvidenceRequiredForRegistry: true,
+  registryReadPathsRevalidateEvidence: true,
   extrapolationAuthorized: false,
   lafea1AndLafea2SourceCustodyRetained: true,
 }));
