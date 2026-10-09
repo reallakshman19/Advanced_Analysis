@@ -23,13 +23,18 @@ export const LOAD_CALC_RESULT_PRESENTATION = Object.freeze({
 
 /**
  * Presentation-only classification for an already-produced engineering result.
+ * Current-system executions may carry an overall resultStatus that is stricter
+ * than the vertical-reaction distribution status (for example, retained
+ * source-explicit moment demand). Prefer that receipt status when supplied.
  * This function never changes result status, engineering values, readiness,
  * equilibrium, or publication authority.
  */
-export function classifyLoadCalcResultPresentation(distribution) {
-  const status = typeof distribution?.status === 'string'
-    ? distribution.status
-    : 'UNKNOWN';
+export function classifyLoadCalcResultPresentation(distribution, execution = null) {
+  const status = typeof execution?.resultStatus === 'string'
+    ? execution.resultStatus
+    : typeof distribution?.status === 'string'
+      ? distribution.status
+      : 'UNKNOWN';
   return LOAD_CALC_RESULT_PRESENTATION[status]
     || LOAD_CALC_RESULT_PRESENTATION.UNKNOWN;
 }

@@ -1,0 +1,70 @@
+pr: 1523
+issue: 1321
+branch: agent/issue-1321-result-exception-presentation-custody
+chain: LOAD-CALC-1321-RESULT-EXCEPTION-PRESENTATION
+state: SOURCE_COMPLETE_EXECUTION_NOT_RUN
+merge_authority: OWNER_ONLY_NOT_GRANTED
+current_main_sha: b97f0ddbd42ccb62c677e6322746e3459c0435db
+engineering_checkpoint_sha: 2bebb884e839d11729e3b88d3ffce1907e95e46d
+latest_endpoint: EP-LC1321-RESPRES-0001
+mission: >-
+  Preserve the current-system execution receipt's overall resultStatus in the
+  engineer-facing completion presentation when it is stricter than the raw
+  vertical-reaction distribution status, without changing engineering results.
+authority_boundary:
+  presentation_only: true
+  raw_distribution_status_authority_changed: false
+  result_contract_changed: false
+  statics_changed: false
+  equilibrium_changed: false
+  tolerance_changed: false
+  default_or_effective_value_authority_changed: false
+  release_authority_created: false
+claimed_paths:
+  - src/workspace/load-calc-result-presentation.js
+  - src/workspace/load-calc-current-system-view.js
+  - scripts/load-calc-current-system-result-presentation-custody-check.mjs
+  - agents/PR1523_workreport.md
+  - agents/claims/PR1523.yaml
+  - agents/status/PR1523.yaml
+  - agents/agentchain/LOAD-CALC-1321-RESULT-EXCEPTION-PRESENTATION/EP-LC1321-RESPRES-0001.md
+  - agents/agentchain.md
+protected_paths:
+  - src/workspace/engineering-loads/support-load-distribution-v3.js
+  - src/workspace/engineering-loads/current-common-input-empirical-support-load-execution.js
+  - src/workspace/engineering-loads/current-common-input-empirical-run-runtime.js
+  - src/workspace/engineering-loads/support-load-static-accounting.js
+  - src/core/**
+  - validation/**
+  - .github/workflows/**
+  - src/core/emp1/**
+invariants:
+  distribution_status_discriminator: CALCULATED
+  overall_result_status_discriminator: CALCULATED_WITH_EXCEPTIONS
+  exception_message_wins: true
+  loads_remain_open: true
+  raw_distribution_mutated: false
+  unallocated_force_mechanics_changed: false
+  transfer_moment_mechanics_changed: false
+  equilibrium_mechanics_changed: false
+  product_or_project_authority_changed: false
+  execution_authority_granted: false
+  release_authority_granted: false
+validation:
+  source_trace: PASS_SOURCE_INSPECTION
+  drift_classification: PASS_SOURCE_INSPECTION_NON_OVERLAPPING_EMP1
+  faithful_checkout: BLOCKED_DNS_GITHUB
+  result_presentation_custody_check: NOT_RUN
+  current_system_run_routing_check: NOT_RUN
+  current_empirical_runtime_check: NOT_RUN
+  aggregate_non_fea_checks: NOT_RUN
+  check_imports: NOT_RUN
+  advanced_shell_contract: NOT_RUN
+  build: NOT_RUN
+  git_diff_check: NOT_RUN
+exact_next_action: >-
+  On a faithful exact-head checkout run
+  node scripts/load-calc-current-system-result-presentation-custody-check.mjs;
+  stop on the first real failure, otherwise run the documented current-system
+  routing/runtime and aggregate regression sequence, then re-ground live merge
+  metadata and await explicit owner merge authorization.

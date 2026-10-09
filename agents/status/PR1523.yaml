@@ -1,0 +1,41 @@
+pr: 1523
+state: SOURCE_COMPLETE_EXECUTION_NOT_RUN
+branch: agent/issue-1321-result-exception-presentation-custody
+current_main_sha: b97f0ddbd42ccb62c677e6322746e3459c0435db
+engineering_checkpoint_sha: 2bebb884e839d11729e3b88d3ffce1907e95e46d
+latest_endpoint: EP-LC1321-RESPRES-0001
+merge_disposition: DRAFT_OWNER_AUTHORITY_NOT_GRANTED
+checks:
+  live_main_grounding: PASS_SOURCE_INSPECTION
+  result_contract_trace: PASS_SOURCE_INSPECTION
+  loads_evidence_visibility: PASS_SOURCE_INSPECTION
+  current_system_receipt_visibility: PASS_SOURCE_INSPECTION
+  completion_status_loss_boundary: PASS_SOURCE_INSPECTION_CONFIRMED
+  main_drift_classification: PASS_SOURCE_INSPECTION_NON_OVERLAPPING_EMP1
+  repository_access: BLOCKED_DNS_GITHUB
+  result_presentation_custody: NOT_RUN
+  current_system_run_routing: NOT_RUN
+  current_empirical_runtime: NOT_RUN
+  aggregate_non_fea: NOT_RUN
+  imports: NOT_RUN
+  advanced_shell: NOT_RUN
+  build: NOT_RUN
+  diff_check: NOT_RUN
+execution_blocker:
+  command: git ls-remote https://github.com/reallaksh19/Advanced_Analysis.git HEAD
+  result: Could not resolve host: github.com
+invariants:
+  vertical_distribution_status: CALCULATED
+  overall_result_status: CALCULATED_WITH_EXCEPTIONS
+  exception_completion_message_required: true
+  loads_open: true
+  engineering_result_mutated: false
+  statics_changed: false
+  equilibrium_changed: false
+  result_schema_changed: false
+  default_authority_changed: false
+  release_authority_granted: false
+next_action: >-
+  Run scripts/load-calc-current-system-result-presentation-custody-check.mjs on
+  the first faithful exact-head checkout, then continue only the documented
+  regression sequence and await explicit owner merge authorization.

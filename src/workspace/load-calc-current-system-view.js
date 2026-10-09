@@ -3,6 +3,7 @@ import {
   renderLoadCalcConsumer as renderLegacyLoadCalcConsumer,
   renderLoadCalcTopologyPane as renderLegacyLoadCalcTopologyPane,
 } from './load-calc-consumer-view.js';
+import { classifyLoadCalcResultPresentation } from './load-calc-result-presentation.js';
 
 const CURRENT_SYSTEM_AUTHORITY = 'CURRENT_COMMON_INPUT_SYSTEM_RUN';
 const PRODUCT_PRIMARY_TABS = new Set(['topology', 'project-data', 'masters', 'enrichment', 'preflight', 'verify', 'loads']);
@@ -69,8 +70,23 @@ export function renderLoadCalcConsumer(documentRef, state) {
       }
     }
   }
+  applyCurrentSystemResultPresentation(section, state, currentExecution);
   convergeFiveStepWorkflow(section, state);
   return section;
+}
+
+function applyCurrentSystemResultPresentation(section, state, currentExecution) {
+  if (!currentExecution || typeof section?.querySelector !== 'function') return;
+  const rawPresentation = classifyLoadCalcResultPresentation(state?.distribution);
+  const overallPresentation = classifyLoadCalcResultPresentation(
+    state?.distribution,
+    currentExecution,
+  );
+  if (rawPresentation === overallPresentation) return;
+  const output = section.querySelector('[data-engineering-load-status]');
+  if (output && (!state?.message || state.message === rawPresentation.message)) {
+    output.textContent = overallPresentation.message;
+  }
 }
 
 export function renderLoadCalcTopologyPane(
