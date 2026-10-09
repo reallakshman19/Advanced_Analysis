@@ -3,8 +3,8 @@ import { deepFreeze } from '../shared-piping-model/immutable.js';
 const EXTERNAL_VECTOR_DEFINITIONS = Object.freeze({
   DISPLACEMENT: Object.freeze(['UX', 'UY', 'UZ']),
   ROTATION: Object.freeze(['RX', 'RY', 'RZ']),
-  FORCE: Object.freeze(['FX', 'FY', 'FZ']),
-  MOMENT: Object.freeze(['MX', 'MY', 'MZ']),
+  FORCE: Object.freeze(['UX', 'UY', 'UZ']),
+  MOMENT: Object.freeze(['RX', 'RY', 'RZ']),
   GLOBAL_END_FORCE_FROM: Object.freeze(['FX', 'FY', 'FZ']),
   GLOBAL_END_FORCE_TO: Object.freeze(['FX', 'FY', 'FZ']),
   GLOBAL_END_MOMENT_FROM: Object.freeze(['MX', 'MY', 'MZ']),

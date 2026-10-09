@@ -1,10 +1,11 @@
 /**
  * Normalize and resolve layered CAESAR configuration authority.
  *
- * Profiles carry raw settings at their original scope. Resolution always uses
- * the declared CAESAR precedence: load case, individual file, model input,
- * then overall/global default. Unsupported or unresolved settings raise
- * explicit errors; callers never infer an effective value from CASE text.
+ * Profiles carry raw settings at their original scope. The declared precedence
+ * is stored lowest-to-highest authority and resolution applies each layer in
+ * that order: overall/global default, individual-file setting, load-case
+ * setting, then model input. Unsupported or unresolved settings raise explicit
+ * errors; callers never infer an effective value from CASE text.
  */
 
 import { deepFreeze } from '../shared-piping-model/immutable.js';
@@ -13,10 +14,10 @@ export const CAESAR_CONFIGURATION_AUTHORITY_SCHEMA =
   'caesar-configuration-authority/v1';
 
 export const CAESAR_CONFIGURATION_PRECEDENCE = Object.freeze([
-  'LOAD_CASE_SETTING',
-  'INDIVIDUAL_FILE_SETTING',
-  'MODEL_INPUT',
   'OVERALL_GLOBAL_DEFAULT',
+  'INDIVIDUAL_FILE_SETTING',
+  'LOAD_CASE_SETTING',
+  'MODEL_INPUT',
 ]);
 
 /** Validate and freeze one reusable CAESAR configuration authority record. */
@@ -30,7 +31,7 @@ export function normalizeCaesarConfigurationAuthority(input) {
   const precedence = stringArray(input.precedence, 'configurationAuthority.precedence');
   if (!sameStrings(precedence, CAESAR_CONFIGURATION_PRECEDENCE)) {
     throw new TypeError(
-      `configurationAuthority.precedence must be ${CAESAR_CONFIGURATION_PRECEDENCE.join(' > ')}.`,
+      `configurationAuthority.precedence must be ${CAESAR_CONFIGURATION_PRECEDENCE.join(' < ')}.`,
     );
   }
   const layers = input.layers;
@@ -64,7 +65,7 @@ export function normalizeCaesarConfigurationAuthority(input) {
   return deepFreeze(normalized);
 }
 
-/** Resolve one effective setting using the frozen precedence declaration. */
+/** Resolve one effective setting using the frozen low-to-high precedence declaration. */
 export function resolveCaesarConfigurationSetting(authorityInput, settingInput, caseIdInput) {
   const authority = normalizeCaesarConfigurationAuthority(authorityInput);
   const setting = nonempty(settingInput, 'setting');
@@ -76,19 +77,32 @@ export function resolveCaesarConfigurationSetting(authorityInput, settingInput, 
       `CAESAR setting ${setting}${caseId === null ? '' : ` for ${caseId}`} is unresolved: ${unresolved.reason}`,
     );
   }
-  const candidates = caseId === null
-    ? []
-    : [[
-        'LOAD_CASE_SETTING',
-        authority.layers.loadCase.cases[caseId]?.[setting],
-        authority.layers.loadCase.source,
-      ]];
-  candidates.push(
-    ['INDIVIDUAL_FILE_SETTING', authority.layers.individualFile.settings[setting], authority.layers.individualFile.source],
-    ['MODEL_INPUT', authority.layers.modelInput.settings[setting], authority.layers.modelInput.source],
-    ['OVERALL_GLOBAL_DEFAULT', authority.layers.overallGlobalDefault.settings[setting], authority.layers.overallGlobalDefault.source],
-  );
-  const resolved = candidates.find((entry) => entry[1] !== undefined);
+  const candidates = [
+    [
+      'OVERALL_GLOBAL_DEFAULT',
+      authority.layers.overallGlobalDefault.settings[setting],
+      authority.layers.overallGlobalDefault.source,
+    ],
+    [
+      'INDIVIDUAL_FILE_SETTING',
+      authority.layers.individualFile.settings[setting],
+      authority.layers.individualFile.source,
+    ],
+  ];
+  if (caseId !== null) {
+    candidates.push([
+      'LOAD_CASE_SETTING',
+      authority.layers.loadCase.cases[caseId]?.[setting],
+      authority.layers.loadCase.source,
+    ]);
+  }
+  candidates.push([
+    'MODEL_INPUT',
+    authority.layers.modelInput.settings[setting],
+    authority.layers.modelInput.source,
+  ]);
+  const declared = candidates.filter((entry) => entry[1] !== undefined);
+  const resolved = declared.at(-1);
   if (!resolved) {
     throw new TypeError(
       `CAESAR setting ${setting}${caseId === null ? '' : ` for ${caseId}`} has no declared authority value.`,

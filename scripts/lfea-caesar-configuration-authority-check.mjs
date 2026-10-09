@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Validate reusable CAESAR configuration precedence against the real BM4_NL profile.
- * Inputs are the checked-in profile layers; outputs are resolved authority records.
- * Missing or disputed settings raise instead of falling back to inferred defaults.
+ * Validate reusable CAESAR configuration precedence against the governed BM4_L profile.
+ * The authority list is written low-to-high; resolution applies every declared
+ * layer and retains the highest-authority value. Model friction coefficient and
+ * load-case friction multiplier remain distinct governed quantities.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -15,11 +16,17 @@ import {
 } from '../src/core/fea-benchmarks/caesar-configuration-authority.js';
 
 const profilePath = resolve(
-  'benchmarks/LFEA/CAESAR_ACCDB/bm4nl-l19-l20-linear-solve.profile.json',
+  'benchmarks/LFEA/CAESAR_ACCDB/bm4l-validation.profile.json',
 );
 const profile = JSON.parse(readFileSync(profilePath, 'utf8'));
 const authority = normalizeCaesarConfigurationAuthority(profile.configurationAuthority);
 
+assert.deepEqual(authority.precedence, [
+  'OVERALL_GLOBAL_DEFAULT',
+  'INDIVIDUAL_FILE_SETTING',
+  'LOAD_CASE_SETTING',
+  'MODEL_INPUT',
+]);
 assert.deepEqual(authority.precedence, CAESAR_CONFIGURATION_PRECEDENCE);
 assert.deepEqual(
   resolveCaesarConfigurationSetting(authority, 'BOURDON_PRESSURE', null),
@@ -43,22 +50,34 @@ assert.equal(
   resolveCaesarConfigurationSetting(authority, 'DEFAULT_ROT_RESTRAINT_STIFF', null).value.value,
   1e12,
 );
-for (const caseId of ['L19', 'L20']) {
-  const friction = resolveCaesarConfigurationSetting(
+for (const caseId of ['L5', 'L7', 'L13']) {
+  const coefficient = resolveCaesarConfigurationSetting(
     authority,
     'COEFFICIENT_OF_FRICTION_MU',
     caseId,
   );
-  assert.equal(friction.level, 'LOAD_CASE_SETTING');
-  assert.equal(friction.value, 0);
-  assert.equal(
-    resolveCaesarConfigurationSetting(authority, 'FLEXIBILITY_ELASTIC_MODULUS', caseId).value,
-    'EC',
-  );
+  assert.equal(coefficient.level, 'MODEL_INPUT');
+  assert.equal(coefficient.value, 0.3);
 }
+assert.equal(
+  resolveCaesarConfigurationSetting(authority, 'FRICTION_MULTIPLIER', 'L5').value,
+  0,
+);
+assert.equal(
+  resolveCaesarConfigurationSetting(authority, 'FRICTION_MULTIPLIER', 'L7').value,
+  1,
+);
+assert.equal(
+  resolveCaesarConfigurationSetting(authority, 'FRICTION_MULTIPLIER', 'L13').value,
+  1,
+);
+assert.equal(
+  resolveCaesarConfigurationSetting(authority, 'FLEXIBILITY_ELASTIC_MODULUS', 'L7').value,
+  'EC',
+);
 assert.throws(
-  () => resolveCaesarConfigurationSetting(authority, 'B31J_SMOOTH_90_CORRECTION', null),
-  /is unresolved/u,
+  () => resolveCaesarConfigurationSetting(authority, 'FRICTION_MULTIPLIER', 'L15'),
+  /has no declared authority value/u,
 );
 assert.throws(
   () => normalizeCaesarConfigurationAuthority({

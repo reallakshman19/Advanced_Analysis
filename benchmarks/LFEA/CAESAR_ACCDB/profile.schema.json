@@ -129,10 +129,10 @@
         "caesarVersion": { "type": "string", "minLength": 1 },
         "precedence": {
           "const": [
-            "LOAD_CASE_SETTING",
+            "OVERALL_GLOBAL_DEFAULT",
             "INDIVIDUAL_FILE_SETTING",
-            "MODEL_INPUT",
-            "OVERALL_GLOBAL_DEFAULT"
+            "LOAD_CASE_SETTING",
+            "MODEL_INPUT"
           ]
         },
         "layers": {

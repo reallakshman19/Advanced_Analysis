@@ -160,10 +160,10 @@
     "schema": "caesar-configuration-authority/v1",
     "caesarVersion": "14.000",
     "precedence": [
-      "LOAD_CASE_SETTING",
+      "OVERALL_GLOBAL_DEFAULT",
       "INDIVIDUAL_FILE_SETTING",
-      "MODEL_INPUT",
-      "OVERALL_GLOBAL_DEFAULT"
+      "LOAD_CASE_SETTING",
+      "MODEL_INPUT"
     ],
     "layers": {
       "overallGlobalDefault": {
@@ -223,33 +223,36 @@
         }
       },
       "loadCase": {
-        "source": "USER_VERIFIED_BM4_L_CASE_SETTINGS_2026-08-10",
+        "source": "BM4_L_LOAD_CASE_REPORT_F4D49F2_2026-08-10",
         "cases": {
-          "L1": {},
+          "L1": {
+            "FRICTION_MULTIPLIER": 1
+          },
           "L2": {
-            "COEFFICIENT_OF_FRICTION_MU": 0
+            "FRICTION_MULTIPLIER": 0
           },
           "L3": {
-            "COEFFICIENT_OF_FRICTION_MU": 0,
+            "FRICTION_MULTIPLIER": 0,
             "FLEXIBILITY_ELASTIC_MODULUS": "EC"
           },
           "L4": {
-            "COEFFICIENT_OF_FRICTION_MU": 0
+            "FRICTION_MULTIPLIER": 0
           },
           "L5": {
-            "COEFFICIENT_OF_FRICTION_MU": 0,
+            "FRICTION_MULTIPLIER": 0,
             "FLEXIBILITY_ELASTIC_MODULUS": "EC"
           },
           "L6": {
-            "COEFFICIENT_OF_FRICTION_MU": 0
+            "FRICTION_MULTIPLIER": 0
           },
           "L7": {
+            "FRICTION_MULTIPLIER": 1,
             "FLEXIBILITY_ELASTIC_MODULUS": "EC"
           },
-          "L13": {},
-          "L14": {
-            "COEFFICIENT_OF_FRICTION_MU": 0
+          "L13": {
+            "FRICTION_MULTIPLIER": 1
           },
+          "L14": {},
           "L15": {}
         }
       }
