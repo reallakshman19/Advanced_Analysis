@@ -36,6 +36,21 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Capture bounded retained-refinement diagnostics
+        run: |
+          node scripts/lafea-retained-bounded-adjacency-diagnostic.mjs
+          node scripts/lafea-retained-mesh-edge-classification-diagnostic.mjs
+          node scripts/lafea-retained-mesh-longest-edge-closure-diagnostic.mjs
+      - name: Upload bounded retained-refinement diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: lafea-bounded-refinement-diagnostics-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            test-results/lafea-retained-bounded-adjacency.json
+            test-results/lafea-retained-refinement-edge-classification.json
+            test-results/lafea-retained-refinement-longest-edge-closure.json
+          if-no-files-found: error
+          retention-days: 7
       - name: Static and projection checks
         run: |
           node --check src/workspace/lafea-engineering-overview.js
