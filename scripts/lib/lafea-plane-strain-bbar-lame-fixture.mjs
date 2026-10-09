@@ -397,7 +397,9 @@ function protectedAxis(minimum, maximum, target, anchors, targetPhase) {
   for (let index = 0; index < protectedBreaks.length - 1; index += 1) {
     const left = protectedBreaks[index];
     const right = protectedBreaks[index + 1];
-    const count = Math.max(1, Math.ceil((right - left) / target));
+    const subdivisionRatio = (right - left) / target;
+    const roundoff = 64 * Number.EPSILON * Math.max(1, Math.abs(subdivisionRatio));
+    const count = Math.max(1, Math.ceil(subdivisionRatio - roundoff));
     for (let step = 1; step <= count; step += 1) {
       output.push(left + (right - left) * step / count);
     }
