@@ -1,0 +1,27 @@
+{
+  "schema":"lafea-b02-frozen-definition-manifest/v1",
+  "issue":1112,
+  "stageId":"LAFEA.3",
+  "adoptedG4ParentExactHead":"c3fb24b5fc354763e5fd8f86161da14ac228e80b",
+  "g4ParentGate":"PASS",
+  "frozenBeforeAnyB02ProductionObservation":true,
+  "productionOutputUsedToGenerateTargetsTolerancesProbesOrMeshes":false,
+  "definitionFiles":{
+    "B02A":"validation/lafea-b02-definitions/B02A-nonuniform-bending.json",
+    "B02B":"validation/lafea-b02-definitions/B02B-nonuniform-shear.json",
+    "B02C":"validation/lafea-b02-definitions/B02C-kirsch.json",
+    "B02D":"validation/lafea-b02-definitions/B02D-lug-pinhole.json",
+    "B02E":"validation/lafea-b02-definitions/B02E-convergence.json"
+  },
+  "methodApplicabilitySource":"validation/lafea-b02-contracts/method-benchmark-applicability.json",
+  "executionOrder":["B02A","B02B","B02C","B02D","B02E"],
+  "executionState":{
+    "B02A":"BLOCKED_UNTIL_DEFINITION_FREEZE_GATE_PASS",
+    "B02B":"BLOCKED_UNTIL_B02A_PASS",
+    "B02C":"BLOCKED_UNTIL_B02B_PASS",
+    "B02D":"BLOCKED_UNTIL_B02C_PASS",
+    "B02E":"BLOCKED_UNTIL_REQUIRED_PRECURSOR_DATA_EXISTS"
+  },
+  "historicalEvidencePolicy":"SOURCE_DEFINITIONS_RECLASSIFIED_ONLY_HISTORICAL_RESULTS_REMAIN_NOT_QUALIFIED",
+  "authority":{"b02Qualified":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false}
+}

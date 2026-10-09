@@ -1,0 +1,35 @@
+{
+  "schema": "lafea-b02-frozen-benchmark-definition/v1",
+  "caseId": "B02C",
+  "title": "Kirsch circular-hole fixed-probe response",
+  "stageId": "LAFEA.3",
+  "definitionState": "FROZEN_BEFORE_PRODUCTION_OBSERVATION",
+  "productionOutputUsedToChooseDefinition": false,
+  "formulation": "PLANE_STRESS",
+  "units": {"length":"mm","force":"N","stress":"MPa","strain":"dimensionless","energy":"N*mm"},
+  "geometry": {"type":"QUARTER_ANNULUS","center":{"x":0,"y":0},"holeRadius":10,"outerRadius":100,"angleMinimumDegrees":0,"angleMaximumDegrees":90,"thickness":5},
+  "material": {"elasticModulus":200000,"poissonRatio":0.3},
+  "loadCase": {"loadCaseId":"B02C-LC1","remoteStressSigmaX":50,"boundaryConditions":[{"boundary":"HOLE_ARC","type":"TRACTION_FREE"},{"boundary":"OUTER_ARC","type":"EXACT_KIRSCH_TRACTION_FROM_INFINITE_PLATE_FIELD"},{"boundary":"X_AXIS","type":"SYMMETRY","uy":0},{"boundary":"Y_AXIS","type":"SYMMETRY","ux":0}]},
+  "independentOracle": {"authority":"CLASSICAL_KIRSCH_INFINITE_PLATE_CLOSED_FORM_AT_FIXED_PHYSICAL_POINTS","sourceRefs":["validation/bucket-01/07-kirsch-fixed-probe-oracle.json"],"outerRadiusToHoleRadius":10,"finiteDomainBoundaryTruncationBudgetRelative":0.01,"productionOutputUsed":false},
+  "fixedProbes":[
+    {"probeId":"KIRSCH_NEAR_CROWN_PMAX","physicalCoordinate":{"x":2.170602220836629,"y":12.3100969126526},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02C-LC1","quantityId":"PRINCIPAL_MAXIMUM","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"HIGH_GRADIENT_CONVERGENCE","analyticalReferenceValue":94.40050614767446,"acceptanceMode":"FIXED_LOCATION_CONVERGENCE_WITH_ANALYTICAL_REFERENCE_CONTROL"},
+    {"probeId":"KIRSCH_MIDFIELD_PMAX","physicalCoordinate":{"x":16.37202830812185,"y":12.33720897578971},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02C-LC1","quantityId":"PRINCIPAL_MAXIMUM","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"NON_SINGULAR_ANALYTICAL","analyticalReferenceValue":53.1284266378142,"acceptanceMode":"ANALYTICAL_AND_FIXED_LOCATION_CONVERGENCE"},
+    {"probeId":"KIRSCH_FARFIELD_PMAX","physicalCoordinate":{"x":36.82019443450719,"y":15.62924455157063},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02C-LC1","quantityId":"PRINCIPAL_MAXIMUM","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"NON_SINGULAR_ANALYTICAL","analyticalReferenceValue":47.1660210570134,"acceptanceMode":"ANALYTICAL_AND_FIXED_LOCATION_CONVERGENCE"}
+  ],
+  "meshLadder": {
+    "requestSchema":"REGISTERED_LAFEA_MESH_GENERATION_INTENT_V2",
+    "refinementRatio":2,
+    "levels":[
+      {"levelId":"L1","h":22.5,"targetElementLength":22.5,"curvatureToleranceDegrees":11.25,"historicalT6ControlElementCount":64},
+      {"levelId":"L2","h":11.25,"targetElementLength":11.25,"curvatureToleranceDegrees":5.625,"historicalT6ControlElementCount":256},
+      {"levelId":"L3","h":5.625,"targetElementLength":5.625,"curvatureToleranceDegrees":2.8125,"historicalT6ControlElementCount":1024}
+    ],
+    "commonRequestPolicy":{"lengthUnit":"mm","growthLimit":1.5,"maximumNodes":200000,"maximumElements":100000,"maximumEstimatedDofs":400000,"refinementFeatureIds":[]},
+    "methods":{"T3":"REQUIRED","T6":"REQUIRED","Q8":"REQUIRED"},
+    "familyRequestPolicy":{"T3":{"allowT3Fallback":true},"T6":{"allowT3Fallback":false},"Q8":{"allowT3Fallback":false}},
+    "meshSemanticHashMustBeRetained":true,
+    "historicalCountsAreControlsNotProducerGuarantees":true
+  },
+  "acceptance": {"highGradientFineRelativeMaximum":0.05,"nonSingularFineRelativeMaximum":0.03,"highGradientGciRelativeMaximum":0.05,"nonSingularGciRelativeMaximum":0.03,"forceEquilibriumRelativeMaximum":0.0001,"momentEquilibriumRelativeMaximum":0.0001,"probeMappingResidualMaximum":1e-8,"finiteDomainErrorMustBeReportedSeparately":true,"movingMaximumAllowed":false,"smoothedOrNodalAveragedStressAllowedAsSoleAuthority":false},
+  "authority":{"benchmarkQualified":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false}
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "lafea-b02-frozen-benchmark-definition/v1",
+  "caseId": "B02B",
+  "title": "Non-uniform shear-dominated short/deep cantilever",
+  "stageId": "LAFEA.3",
+  "definitionState": "FROZEN_BEFORE_PRODUCTION_OBSERVATION",
+  "productionOutputUsedToChooseDefinition": false,
+  "formulation": "PLANE_STRESS",
+  "units": {"length":"mm","force":"N","stress":"MPa","strain":"dimensionless","moment":"N*mm","energy":"N*mm"},
+  "geometry": {"type":"RECTANGLE","xMinimum":0,"xMaximum":20,"yMinimum":-20,"yMaximum":20,"thickness":1},
+  "material": {"elasticModulus":200000,"poissonRatio":0.3,"shearModulus":76923.07692307692},
+  "loadCase": {
+    "loadCaseId":"B02B-LC1",
+    "loadResultant":{"x":0,"y":-100},
+    "routeAttachmentSemantics":[
+      {"boundary":"X_MIN","kind":"RESTRAINT","targetType":"EDGE","payload":{"ux":true,"uy":true}},
+      {"boundary":"X_MAX","kind":"TRACTION","targetType":"EDGE","payload":{"tx":0,"ty":-2.5,"unit":"MPa"}}
+    ],
+    "expectedReactionResultant":{"x":0,"y":100},
+    "expectedReactionMomentAboutFixedEdgeCenter":2000
+  },
+  "independentOracle": {
+    "authority":"TIMOSHENKO_CANTILEVER_PLUS_JOURAWSKI_RECTANGULAR_SHEAR_ENGINEERING_THEORY",
+    "sourceRefs":["scripts/lafea-b02b-saint-venant-oracle-check.mjs"],
+    "length":20,"depth":40,"area":40,"halfDepth":20,"secondMomentOfArea":5333.333333333333,"shearCorrectionFactor":0.8333333333333334,
+    "equations": {
+      "bendingMoment":"Mz(x)=-P*(L-x)",
+      "sigmaX":"-Mz(x)*y/I",
+      "tauXY":"(3*P/(2*A))*(1-(y/c)^2)",
+      "gammaXY":"tauXY/G",
+      "uy":"-[P*x^2*(3*L-x)/(6*E*I)+P*x/(kappa*G*A)]"
+    },
+    "tipBendingDeflectionMagnitude":0.00025,
+    "tipShearDeflectionMagnitude":0.00078,
+    "tipDeflectionMagnitude":0.00103,
+    "bendingStrainEnergy":0.0125,
+    "shearStrainEnergy":0.039,
+    "totalStrainEnergy":0.0515,
+    "shearEnergyFraction":0.7572815533980584,
+    "shearDominatedCriterion":"shearStrainEnergy/totalStrainEnergy > 0.70",
+    "productionOutputUsed":false
+  },
+  "fixedProbes":[
+    {"probeId":"B02B-PROBE-TAU-01","physicalCoordinate":{"x":7.3,"y":4.7},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02B-LC1","quantityId":"STRESS_TAU_XY","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"NON_SINGULAR_ANALYTICAL","expectedValue":3.54290625},
+    {"probeId":"B02B-PROBE-UY-01","physicalCoordinate":{"x":17.3,"y":4.7},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02B-LC1","quantityId":"DISPLACEMENT_Y","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_SHAPE_INTERPOLATION","units":"mm","singularityClassification":"NOT_APPLICABLE","expectedValue":-0.000874382546875}
+  ],
+  "meshLadder": {
+    "requestSchema":"REGISTERED_LAFEA_MESH_GENERATION_INTENT_V2","refinementRatio":2,
+    "levels":[{"levelId":"L1","h":10,"targetElementLength":10,"curvatureToleranceDegrees":30},{"levelId":"L2","h":5,"targetElementLength":5,"curvatureToleranceDegrees":30},{"levelId":"L3","h":2.5,"targetElementLength":2.5,"curvatureToleranceDegrees":30}],
+    "commonRequestPolicy":{"lengthUnit":"mm","growthLimit":1.5,"maximumNodes":200000,"maximumElements":100000,"maximumEstimatedDofs":400000,"refinementFeatureIds":[]},
+    "methods":{"T3":"REQUIRED","T6":"REQUIRED","Q8":"REQUIRED"},
+    "familyRequestPolicy":{"T3":{"allowT3Fallback":true},"T6":{"allowT3Fallback":false},"Q8":{"allowT3Fallback":false}},
+    "meshSemanticHashMustBeRetained":true
+  },
+  "acceptance": {"fixedProbeDisplacementRelativeErrorMaximum":0.05,"fixedProbeShearStressRelativeErrorMaximum":0.05,"strainEnergyRelativeErrorMaximum":0.05,"forceEquilibriumRelativeMaximum":0.000001,"momentEquilibriumRelativeMaximum":0.000001,"probeMappingResidualMaximum":1e-8,"convergence":"B02E_FROZEN_RULES","movingMaximumAllowed":false,"smoothedOrNodalAveragedStressAllowedAsSoleAuthority":false},
+  "authority":{"benchmarkQualified":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false}
+}

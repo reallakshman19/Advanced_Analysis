@@ -1,0 +1,63 @@
+{
+  "schema": "lafea-b02-frozen-benchmark-definition/v1",
+  "caseId": "B02D",
+  "title": "Lug/pinhole production-response and fixed-probe convergence",
+  "stageId": "LAFEA.3",
+  "definitionState": "FROZEN_BEFORE_PRODUCTION_OBSERVATION",
+  "productionOutputUsedToChooseDefinition": false,
+  "formulation": "PLANE_STRESS",
+  "units": {"length":"mm","force":"N","stress":"MPa","moment":"N*mm","energy":"N*mm"},
+  "geometry": {"type":"CONCENTRIC_ANNULAR_LUG_PINHOLE","center":{"x":0,"y":0},"holeRadius":20,"outerRadius":100,"startAngleDegrees":0,"endAngleDegrees":360,"thickness":10},
+  "material": {"elasticModulus":200000,"poissonRatio":0.3},
+  "loadCase": {
+    "loadCaseId":"LC1",
+    "resultant":{"x":1000,"y":250},
+    "loadFeature":{"role":"RADIAL_QUARTER_0","baseStartEdge":0,"baseEdgeCount":1,"selectedSegmentRadiusStart":20,"selectedSegmentRadiusEnd":60,"selectionAuthority":"EXACT_PHYSICAL_COORDINATE_WINDOW_NOT_INDEX_SCALING"},
+    "lineOfAction":{"x":40,"y":0},
+    "expectedMomentAboutCenter":10000,
+    "restraintFeature":{"role":"RADIAL_QUARTER_2","baseStartEdge":0,"baseEdgeCount":1,"kinematics":"BOUNDARY_ZERO"},
+    "expectedReactionMomentAboutCenter":-10000
+  },
+  "historicalDefinitionSources":["validation/bucket-01/06-production-response-convergence-spec.json","validation/bucket-01/08-production-lug-fixed-probe-spec.json","validation/bucket-01/13-probe-stable-polar-mesh-design.json"],
+  "globalResponseLadder": {
+    "requestSchema":"REGISTERED_LAFEA_MESH_GENERATION_INTENT_V2",
+    "refinementRatio":2,
+    "levels":[
+      {"levelId":"L1","h":40,"targetElementLength":40,"curvatureToleranceDegrees":22.5,"historicalT6ControlElementCount":64},
+      {"levelId":"L2","h":20,"targetElementLength":20,"curvatureToleranceDegrees":11.25,"historicalT6ControlElementCount":256},
+      {"levelId":"L3","h":10,"targetElementLength":10,"curvatureToleranceDegrees":5.625,"historicalT6ControlElementCount":1024},
+      {"levelId":"L4","h":5,"targetElementLength":5,"curvatureToleranceDegrees":2.8125,"historicalT6ControlElementCount":4096}
+    ],
+    "commonRequestPolicy":{"lengthUnit":"mm","growthLimit":1.5,"maximumNodes":200000,"maximumElements":100000,"maximumEstimatedDofs":400000,"refinementFeatureIds":[]},
+    "evaluatedConvergenceLevels":["L2","L3","L4"],
+    "methods":{"T3":"CONTROL","T6":"REQUIRED","Q8":"REQUIRED"},
+    "familyRequestPolicy":{"T3":{"allowT3Fallback":true},"T6":{"allowT3Fallback":false},"Q8":{"allowT3Fallback":false}},
+    "meshSemanticHashMustBeRetained":true,
+    "historicalCountsAreControlsNotProducerGuarantees":true
+  },
+  "fixedProbeMeshPolicy": {
+    "designAuthority":"B01-PROBE-STABLE-POLAR-V3_RECLASSIFIED_AS_B02_DEFINITION_ONLY",
+    "executionRequirement":"MUST_BE_BOUND_TO_REGISTERED_ROUTE_BEFORE_B02D_POINTWISE_OBSERVATION",
+    "refinementRatio":2,
+    "levelCount":4,
+    "radialAxis":{"anchors":[27,33,47,73,87],"protectedBreakpoints":[60],"targetPhase":0.35,"backgroundBaseDivisions":6,"windowClearanceFraction":0.3},
+    "circumferentialAxis":{"anchorsDegrees":[17,67,83],"protectedBreakpointsDegrees":[90,180,270],"targetPhase":0.65,"backgroundBaseDivisions":16,"windowClearanceFraction":0.3},
+    "physicalBoundaryMidsidePolicy":"HOLE_AND_OUTER_CIRCULAR_MIDSIDES_PROJECTED_TO_ANALYTIC_ARCS",
+    "anchorCellWidthContraction":"EXACT_FACTOR_TWO_PER_LEVEL",
+    "minimumParametricDiagonalSeparation":0.3,
+    "familyRules":{"T3":"two counter-clockwise triangles per polar cell","T6":"same triangular topology with exact physical-boundary midsides","Q8":"one serendipity quadrilateral per polar cell"}
+  },
+  "fixedProbes":[
+    {"probeId":"LUG_NEAR_HOLE_PMAX","physicalCoordinate":{"x":3.2904722719389823,"y":26.798746094315693},"coordinateFrame":"GLOBAL_XY","loadCaseId":"LC1","quantityId":"PRINCIPAL_MAXIMUM","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"HIGH_GRADIENT_CONVERGENCE"},
+    {"probeId":"LUG_LOAD_SIDE_VM","physicalCoordinate":{"x":31.55805694678017,"y":9.648266255850313},"coordinateFrame":"GLOBAL_XY","loadCaseId":"LC1","quantityId":"VON_MISES","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"HIGH_GRADIENT_CONVERGENCE"}
+  ],
+  "fixedPath": {"pathId":"LUG_RADIAL_PATH_THETA_67","angleDegrees":67,"quantityId":"VON_MISES","stations":[
+    {"stationId":"R27","physicalCoordinate":{"x":10.54974046921039,"y":24.85363104321589},"singularityClassification":"HIGH_GRADIENT_CONVERGENCE"},
+    {"stationId":"R33","physicalCoordinate":{"x":12.894127240146032,"y":30.37666016393053},"singularityClassification":"HIGH_GRADIENT_CONVERGENCE"},
+    {"stationId":"R47","physicalCoordinate":{"x":18.364363038995865,"y":43.2637281122647},"singularityClassification":"NON_SINGULAR_CONVERGENCE"},
+    {"stationId":"R73","physicalCoordinate":{"x":28.52337237971698,"y":67.19685430202814},"singularityClassification":"NON_SINGULAR_CONVERGENCE"},
+    {"stationId":"R87","physicalCoordinate":{"x":33.99360817856682,"y":80.0839222503623},"singularityClassification":"NON_SINGULAR_CONVERGENCE"}
+  ]},
+  "acceptance": {"loadResultantRelativeMaximum":1e-8,"forceEquilibriumRelativeMaximum":0.0001,"loadMomentRelativeMaximum":1e-8,"momentEquilibriumRelativeMaximum":0.0001,"energyReconstructionRelativeMaximum":1e-8,"strainEnergyGciRelativeMaximum":0.02,"highGradientStressGciRelativeMaximum":0.05,"nonSingularStressGciRelativeMaximum":0.03,"probeMappingResidualMaximum":1e-8,"naturalCoordinateMarginMinimum":0.0001,"movingMaximumAllowed":false,"nodalProjectionAllowedAsAcceptanceAuthority":false,"crossElementAveragingAllowedAsAcceptanceAuthority":false,"integrationPointExtrapolationAllowedAsAcceptanceAuthority":false},
+  "authority":{"benchmarkQualified":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false}
+}

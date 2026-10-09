@@ -1,0 +1,50 @@
+{
+  "schema": "lafea-b02-frozen-benchmark-definition/v1",
+  "caseId": "B02A",
+  "title": "Non-uniform plane-stress cantilever bending",
+  "stageId": "LAFEA.3",
+  "definitionState": "FROZEN_BEFORE_PRODUCTION_OBSERVATION",
+  "productionOutputUsedToChooseDefinition": false,
+  "formulation": "PLANE_STRESS",
+  "units": {"length":"mm","force":"N","stress":"MPa","strain":"dimensionless","moment":"N*mm","energy":"N*mm"},
+  "geometry": {"type":"RECTANGLE","xMinimum":0,"xMaximum":100,"yMinimum":-5,"yMaximum":5,"thickness":1},
+  "material": {"elasticModulus":200000,"poissonRatio":0.3,"shearModulus":76923.07692307692},
+  "loadCase": {
+    "loadCaseId":"B02A-LC1",
+    "loadResultant":{"x":0,"y":-100},
+    "routeAttachmentSemantics":[
+      {"boundary":"X_MIN","kind":"RESTRAINT","targetType":"EDGE","payload":{"ux":true,"uy":true}},
+      {"boundary":"X_MAX","kind":"TRACTION","targetType":"EDGE","payload":{"tx":0,"ty":-10,"unit":"MPa"}}
+    ],
+    "expectedReactionResultant":{"x":0,"y":100},
+    "expectedReactionMomentAboutFixedEdgeCenter":10000
+  },
+  "independentOracle": {
+    "authority":"TIMOSHENKO_RECTANGULAR_CANTILEVER_ENGINEERING_THEORY",
+    "sourceRefs":["validation/bucket-01/12-cantilever-oracle.json"],
+    "length":100,"depth":10,"area":10,"secondMomentOfArea":83.33333333333333,"shearCorrectionFactor":0.8333333333333334,
+    "equations": {
+      "bendingMoment":"Mz(x)=-P*(L-x)",
+      "sigmaX":"-Mz(x)*y/I",
+      "tauXY":"(3*P/(2*A))*(1-(2*y/depth)^2)",
+      "uy":"-[P*x^2*(3*L-x)/(6*E*I)+P*x/(kappa*G*A)]"
+    },
+    "tipDeflectionMagnitude":2.0156,
+    "totalStrainEnergy":100.78,
+    "productionOutputUsed":false
+  },
+  "fixedProbes": [
+    {"probeId":"B02A-PROBE-STRESS-01","physicalCoordinate":{"x":53,"y":2.7},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02A-LC1","quantityId":"STRESS_SIGMA_X","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_LOCAL_DIRECT_DISPLACEMENT_GRADIENT","units":"MPa","singularityClassification":"NON_SINGULAR_ANALYTICAL","expectedValue":152.28},
+    {"probeId":"B02A-PROBE-UY-01","physicalCoordinate":{"x":97,"y":0.3},"coordinateFrame":"GLOBAL_XY","loadCaseId":"B02A-LC1","quantityId":"DISPLACEMENT_Y","representation":"PHYSICAL_POINT_DIRECT","recoveryMethod":"ELEMENT_SHAPE_INTERPOLATION","units":"mm","singularityClassification":"NOT_APPLICABLE","expectedValue":-1.925159}
+  ],
+  "meshLadder": {
+    "requestSchema":"REGISTERED_LAFEA_MESH_GENERATION_INTENT_V2","refinementRatio":2,
+    "levels":[{"levelId":"L1","h":25,"targetElementLength":25,"curvatureToleranceDegrees":30},{"levelId":"L2","h":12.5,"targetElementLength":12.5,"curvatureToleranceDegrees":30},{"levelId":"L3","h":6.25,"targetElementLength":6.25,"curvatureToleranceDegrees":30}],
+    "commonRequestPolicy":{"lengthUnit":"mm","growthLimit":1.5,"maximumNodes":200000,"maximumElements":100000,"maximumEstimatedDofs":400000,"refinementFeatureIds":[]},
+    "methods":{"T3":"REQUIRED","T6":"REQUIRED","Q8":"REQUIRED"},
+    "familyRequestPolicy":{"T3":{"allowT3Fallback":true},"T6":{"allowT3Fallback":false},"Q8":{"allowT3Fallback":false}},
+    "meshSemanticHashMustBeRetained":true
+  },
+  "acceptance": {"fixedProbeDisplacementRelativeErrorMaximum":0.05,"fixedProbeStressRelativeErrorMaximum":0.05,"strainEnergyRelativeErrorMaximum":0.05,"forceEquilibriumRelativeMaximum":0.000001,"momentEquilibriumRelativeMaximum":0.000001,"probeMappingResidualMaximum":1e-8,"convergence":"B02E_FROZEN_RULES","movingMaximumAllowed":false,"smoothedOrNodalAveragedStressAllowedAsSoleAuthority":false},
+  "authority":{"benchmarkQualified":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false}
+}

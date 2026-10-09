@@ -1,0 +1,36 @@
+{
+  "schema": "lafea-b02-frozen-benchmark-definition/v1",
+  "caseId": "B02E",
+  "title": "Numerical verification and quantity-bound convergence policy",
+  "stageId": "LAFEA.3",
+  "definitionState": "FROZEN_BEFORE_PRODUCTION_OBSERVATION",
+  "productionOutputUsedToChooseDefinition": false,
+  "methods":{"T3":"REQUIRED","T6":"REQUIRED","Q8":"REQUIRED"},
+  "minimumUsefulLevels":3,
+  "definitionObservationSeparationRequired":true,
+  "frozenRules": {
+    "refinementRatio":2,
+    "gciSafetyFactor":1.25,
+    "orderStabilityRelativeTolerance":0.2,
+    "nearZeroAbsoluteByQuantityClass": {"DISPLACEMENT_MM":1e-10,"STRAIN_DIMENSIONLESS":1e-12,"STRESS_MPA":1e-8,"REACTION_N":1e-8,"MOMENT_N_MM":1e-6,"ENERGY_N_MM":1e-10},
+    "classificationVocabulary":["ASYMPTOTIC","MONOTONIC_CONVERGING","PRE_ASYMPTOTIC","OSCILLATORY","DIVERGENT","NEAR_ZERO_SCALE_LIMITED","NEAR_ZERO_FINE_DIFFERENCE","SINGULAR_EXCLUDED"],
+    "richardsonGciPolicy":"ONLY_WHEN_POSITIVE_MEANINGFUL_ORDER_AND_NON_OSCILLATORY_NON_DIVERGENT_SEQUENCE_SUPPORT_IT",
+    "globalAndLocalConvergenceReportedSeparately":true,
+    "fixedPhysicalQuantityIdentityRequired":true,
+    "sameProbeIdentityHashRequiredAcrossLevels":true,
+    "sameQuantityIdentityHashRequiredAcrossLevels":true,
+    "sameUnitsRequiredAcrossLevels":true,
+    "singularPointwisePeaksExcluded":true,
+    "movingMaximumForbidden":true,
+    "displayInterpolationForbiddenAsAcceptanceAuthority":true,
+    "nodalAveragingForbiddenAsAcceptanceAuthority":true
+  },
+  "subBucketBindings": {
+    "B02A":{"levelIds":["L1","L2","L3"],"h":[25,12.5,6.25]},
+    "B02B":{"levelIds":["L1","L2","L3"],"h":[10,5,2.5]},
+    "B02C":{"levelIds":["L1","L2","L3"],"h":[22.5,11.25,5.625]},
+    "B02D":{"levelIds":["L2","L3","L4"],"h":[20,10,5]}
+  },
+  "acceptance": {"classificationMustBeExplicit":true,"preAsymptoticMayNotClaimGciAcceptance":true,"oscillatoryMayNotClaimGciAcceptance":true,"divergentMayNotClaimGciAcceptance":true,"singularExcludedMayNotClaimPointwiseAcceptance":true,"nearZeroUsesAbsoluteRuleInsteadOfUnstableRelativePercent":true,"benchmarkAcceptanceRequiresOwningSubBucketCriteriaToo":true},
+  "authority":{"benchmarkQualified":false,"releaseAuthorityGranted":false,"temperatureAuthorityGranted":false}
+}
