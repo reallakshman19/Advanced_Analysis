@@ -54,8 +54,15 @@ export function renderLafeaDescriptorForm({
       (descriptor) => descriptor.valueContract.domainType === 'NUMBER',
     );
     entityDescriptors.forEach((descriptor) => {
+      // When the group's own table already lists every instance of this
+      // collection in its identity column, the register is a second copy of the
+      // same identities. Keep it reachable, but out of the primary scroll.
+      const duplicated = scalarDescriptors.some(
+        (scalar) => scalar.target?.collectionPath === descriptor.target?.collectionPath
+          && scalar.target?.identityKey === descriptor.target?.identityKey,
+      );
       section.append(
-        renderIdentityRegister(documentRef, documentValue, descriptor),
+        renderIdentityRegister(documentRef, documentValue, descriptor, duplicated),
       );
     });
 
@@ -206,10 +213,10 @@ function renderGroupAction({ documentRef, wrapper, groupId, onSetScalarBatch }) 
   return action;
 }
 
-function renderIdentityRegister(documentRef, documentValue, descriptor) {
-  const wrapper = documentRef.createElement('div');
+function renderIdentityRegister(documentRef, documentValue, descriptor, collapsed = false) {
+  const wrapper = documentRef.createElement(collapsed ? 'details' : 'div');
   wrapper.className = 'lafea-doc-identity-register';
-  const heading = documentRef.createElement('h5');
+  const heading = documentRef.createElement(collapsed ? 'summary' : 'h5');
   heading.textContent = descriptor.presentation.label;
   const note = documentRef.createElement('p');
   note.textContent = 'Exact engineering identities. Creation and deletion require governed entity commands; array position is not authority.';
@@ -232,6 +239,22 @@ function renderIdentityRegister(documentRef, documentValue, descriptor) {
 }
 
 const VECTOR_AXES = Object.freeze(['X', 'Y', 'Z']);
+/**
+ * A vector family collapses to one identity row only when it is complete for its
+ * own dimensionality: exactly X/Y for a planar quantity such as a LAFEA.3 node,
+ * or exactly X/Y/Z for a spatial one. A partial family (X alone, or X and Z)
+ * falls back to scalar rows rather than reshaping on a guess.
+ */
+const VECTOR_AXIS_SETS = Object.freeze([
+  Object.freeze(['X', 'Y', 'Z']),
+  Object.freeze(['X', 'Y']),
+]);
+
+function completeVectorAxes(entry) {
+  const present = VECTOR_AXES.filter((axis) => entry.axes[axis]);
+  return VECTOR_AXIS_SETS.find((axes) => axes.length === present.length
+    && axes.every((axis) => Boolean(entry.axes[axis]))) ?? null;
+}
 
 /**
  * Identify descriptors that are the X/Y/Z components of one vector quantity.
@@ -262,10 +285,33 @@ export function collectVectorTriples(descriptors) {
 
   const triples = new Map();
   candidates.forEach((entry) => {
-    if (!VECTOR_AXES.every((axis) => entry.axes[axis])) return;
-    VECTOR_AXES.forEach((axis) => triples.set(entry.axes[axis].descriptorId, entry));
+    const axes = completeVectorAxes(entry);
+    if (!axes) return;
+    entry.orderedAxes = axes;
+    axes.forEach((axis) => triples.set(entry.axes[axis].descriptorId, entry));
   });
   return triples;
+}
+
+/**
+ * Group scalar descriptors that address the same collection under the same
+ * identity key, so an entity is one row and each governed property is a column
+ * instead of each property being its own full-width row. Descriptor order is
+ * preserved as column order. Descriptors without a collection target, or whose
+ * target is incomplete, are not grouped.
+ */
+export function collectCollectionFamilies(descriptors) {
+  const families = new Map();
+  descriptors.forEach((descriptor) => {
+    const collectionPath = descriptor.target?.collectionPath;
+    const identityKey = descriptor.target?.identityKey;
+    if (typeof collectionPath !== 'string' || typeof identityKey !== 'string') return;
+    const familyId = `${collectionPath}#${identityKey}`;
+    const entry = families.get(familyId) ?? { familyId, collectionPath, identityKey, members: [] };
+    entry.members.push(descriptor);
+    families.set(familyId, entry);
+  });
+  return families;
 }
 
 /**
@@ -293,7 +339,7 @@ export function collectRenderableMatrixPresentation(descriptors) {
           collectionPath: basis.target.collectionPath,
           identityKey: basis.target.identityKey,
         }),
-        columns: Object.freeze(VECTOR_AXES.map((axis) => Object.freeze({
+        columns: Object.freeze(triple.orderedAxes.map((axis) => Object.freeze({
           columnId: axis,
           label: axis,
           descriptor: triple.axes[axis],
@@ -302,6 +348,25 @@ export function collectRenderableMatrixPresentation(descriptors) {
       vectorMatrices.set(triple.groupKey, matrix);
     }
     byDescriptor.set(descriptorId, matrix);
+  });
+
+  collectCollectionFamilies(descriptors).forEach((family) => {
+    if (family.members.some((member) => byDescriptor.has(member.descriptorId))) return;
+    const matrix = Object.freeze({
+      familyId: family.familyId,
+      rowLabel: family.members[0].presentation?.label ?? family.collectionPath,
+      legacyVector: false,
+      target: Object.freeze({
+        collectionPath: family.collectionPath,
+        identityKey: family.identityKey,
+      }),
+      columns: Object.freeze(family.members.map((member) => Object.freeze({
+        columnId: member.descriptorId,
+        label: member.presentation?.label ?? member.descriptorId,
+        descriptor: member,
+      }))),
+    });
+    family.members.forEach((member) => byDescriptor.set(member.descriptorId, matrix));
   });
 
   if (!descriptors.length || byDescriptor.size !== descriptors.length) return null;

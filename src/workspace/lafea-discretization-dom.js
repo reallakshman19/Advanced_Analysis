@@ -61,6 +61,9 @@ export function node(doc, tag, className = null, text = undefined) {
  * `context.quality`, when supplied, is used only to associate a non-OK
  * aggregate gate with affected retained element IDs. This function never
  * recomputes or reclassifies an engineering metric.
+ *
+ * No numerical quality status is asserted here: the panel presents the retained
+ * gate outcome and never renders a computed metric verdict of its own.
  */
 export function buildMeshQualityPanel(gateResults, context) {
   if (!Array.isArray(gateResults)) {

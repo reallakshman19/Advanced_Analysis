@@ -8,7 +8,6 @@ const AREA_DEFINITIONS = Object.freeze([
     label: 'Model',
     stepIds: Object.freeze([
       'SOURCE_IDENTITY',
-      'MODEL_DIAGNOSTICS',
       'ANALYSIS_PROFILE',
       'MATERIALS_SECTIONS',
       'RESTRAINTS_BCS',
@@ -23,7 +22,12 @@ const AREA_DEFINITIONS = Object.freeze([
   Object.freeze({
     areaId: 'SOLVE',
     label: 'Solve',
-    stepIds: Object.freeze(['NUMERICAL_PREFLIGHT', 'AUTHORIZATION', 'RUN']),
+    stepIds: Object.freeze([
+      'MODEL_DIAGNOSTICS',
+      'NUMERICAL_PREFLIGHT',
+      'AUTHORIZATION',
+      'RUN',
+    ]),
   }),
   Object.freeze({
     areaId: 'CONVERGENCE',
@@ -67,11 +71,30 @@ export function buildLafeaWorkflowAreaPresentation(workflow) {
       targetStep: selectTargetStep(canonicalSteps),
       reasons: status === 'NOT_APPLICABLE'
         ? Object.freeze([])
-        : Object.freeze(unique(canonicalSteps
-          .filter((step) => step.status !== 'COMPLETE')
-          .flatMap((step) => step.reasons))),
+        : Object.freeze(areaReasons(definition.areaId, workflow, byId, canonicalSteps)),
     });
   }));
+}
+
+/**
+ * #1841: when the solver has produced a qualified result and publication is held
+ * only by the outstanding convergence study, the Results area was reporting
+ * RESULT_EVIDENCE_NOT_CURRENT -- "not current" reads as a stale or failed run,
+ * which is the opposite of what happened. Report the gate that is actually
+ * holding publication, and the action that clears it. The gate itself is
+ * unchanged: Results stays BLOCKED until convergence is qualified.
+ */
+function areaReasons(areaId, workflow, byId, steps) {
+  const reasons = unique(steps
+    .filter((step) => step.status !== 'COMPLETE')
+    .flatMap((step) => step.reasons));
+  if (areaId !== 'RESULTS'
+    || workflow.executionBoundary?.resultEvidenceStatus !== 'QUALIFIED') return reasons;
+  const convergence = byId.get('CONVERGENCE');
+  if (!convergence || convergence.status === 'COMPLETE') return reasons;
+  return unique(['CONVERGENCE_STUDY_NOT_RUN', ...reasons.filter(
+    (reason) => reason !== 'RESULT_EVIDENCE_NOT_CURRENT',
+  )]);
 }
 
 function areaStatus(areaId, workflow, steps) {
@@ -88,7 +111,9 @@ function areaStatus(areaId, workflow, steps) {
   if (sourceStep?.status === 'NOT_STARTED' && (areaId === 'MESH' || areaId === 'SOLVE' || areaId === 'RESULTS')) {
     return 'NOT_STARTED';
   }
-  return aggregateStatus(steps);
+  const aggregate = aggregateStatus(steps);
+  if (aggregate === 'READY' && steps[steps.length - 1].status === 'COMPLETE') return 'COMPLETE';
+  return aggregate;
 }
 
 function aggregateStatus(steps) {

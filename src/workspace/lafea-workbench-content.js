@@ -71,6 +71,7 @@ export function renderLafeaWorkbenchContent(root, state, stage, options) {
     stage.document,
     {
       onSetScalar: options.handlers.onSetScalar,
+      onSetScalarBatch: options.handlers.onSetScalarBatch,
       onApplyJson: options.handlers.onApplyJson,
     },
   ));

@@ -18,7 +18,13 @@ import {
   renderLafeaJsonEditor,
 } from './lafea-document-table-support.js';
 
-const GROUPED_ANALYTICAL_STAGES = new Set(['LAFEA.1', 'LAFEA.2']);
+/**
+ * Stages whose governed scalar families are presented as one identity row with a
+ * value column per component, applied as one batch, instead of one row and one
+ * Apply button per scalar. Descriptor identity and per-field validation are
+ * unchanged; only the number of rows and commits the operator sees changes.
+ */
+const GROUPED_ANALYTICAL_STAGES = new Set(['LAFEA.1', 'LAFEA.2', 'LAFEA.3']);
 
 /** Render governed typed fields and the advanced whole-document JSON view. */
 export function renderDocumentTableEditor(

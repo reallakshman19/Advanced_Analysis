@@ -26,6 +26,8 @@ const REASON_LABELS = Object.freeze({
   LAFEA_CONTINUUM_SOLVER_GEOMETRY_PARENT_STALE: 'The retained mesh belongs to a different analysis-geometry revision. Regenerate or re-adopt the mesh from the current geometry.',
   LAFEA_CONTINUUM_SOLVER_MESH_NOT_CURRENT_PASS: 'The retained mesh is not a current qualified mesh for solve. Regenerate, re-adopt, or resolve its quality block.',
   LAFEA_CONTINUUM_SOLVER_SOURCE_BINDING_NOT_CURRENT: 'The source binding is not current. Re-establish source authority before solving.',
+  LAFEA_CONTINUUM_DOMAIN_FIRST_PREFLIGHT_ABSENT: 'Solve evidence has not been prepared yet. Open Meshing and discretization, then choose "Check solve readiness".',
+  LAFEA_CONTINUUM_PREFLIGHT_SOURCE_STALE: 'The prepared solve evidence belongs to an earlier source revision. Choose "Check solve readiness" again to re-prepare it.',
   LAFEA_PREPARATION_NOT_AUTHORIZED: 'Preparation evidence is not authorized for solve.',
   LAFEA_RENDER_DISPLAY_GEOMETRY_HASH_MISMATCH: 'The display geometry belongs to a different analysis revision. Regenerate the view from the current geometry.',
   LAFEA_RENDER_DISPLAY_GEOMETRY_PROFILE_MISSING: 'No display-geometry profile is bound for this stage, so results cannot be drawn.',

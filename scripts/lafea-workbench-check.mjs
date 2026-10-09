@@ -169,7 +169,10 @@ const documentTableSource = [
   read('lafea-document-table-support.js'),
 ].join('\n');
 const previewSource = read('lafea-stage-preview.js');
-const meshPanelSource = read('lafea-mesh-quality-panel.js');
+const meshPanelSource = [
+  read('lafea-mesh-quality-panel.js'),
+  read('lafea-discretization-dom.js'),
+].join('\n');
 const resultsSource = read('lafea-results-view.js');
 const presenterIndexSource = read('lafea-result-presenters/index.js');
 const screeningPresenterSource = read('lafea-result-presenters/attachment-screening.js');
