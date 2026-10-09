@@ -13,6 +13,8 @@ export const EMP1_ENGINEERING_REVIEW_WORKSPACE_SCHEMA =
   'emp1-engineering-review-workspace/v1';
 export const EMP1_ENGINEERING_REVIEW_BASIS_CODE = 'EMP1_ENGINEERING_RESULT_REVIEW';
 
+const EXPORTABLE_REVIEW_STATES = new Set(['REVIEW_ACCEPTED', 'REVIEW_REJECTED']);
+
 /**
  * Extract review evidence only from one retained workbench execution. Caller/UI
  * values cannot supply or override engineering hashes through this adapter.
@@ -49,8 +51,10 @@ export function projectEmp1EngineeringReviewWorkspace({
   const reasons = reviewCreationBlockers({ execution, executionCurrentness, cState });
   let reviewState = projectEmp1EngineeringReviewState({ reviewRecord: null });
   let retainedReview = null;
+  let validatedReviewRecord = null;
   if (reviewRecord != null) {
     const review = requireEmp1EngineeringReviewRecord(reviewRecord);
+    validatedReviewRecord = review;
     retainedReview = reviewSummary(review);
     if (execution != null) {
       reviewState = projectEmp1EngineeringReviewState({
@@ -62,6 +66,13 @@ export function projectEmp1EngineeringReviewWorkspace({
     }
   }
 
+  const engineeringRecordExport = recordExportDescriptor({
+    reviewRecord: validatedReviewRecord,
+    reviewState,
+    execution,
+    currentnessBlockers: reasons,
+  });
+
   return deepFreeze({
     schema: EMP1_ENGINEERING_REVIEW_WORKSPACE_SCHEMA,
     productId: 'EMP.1',
@@ -70,9 +81,11 @@ export function projectEmp1EngineeringReviewWorkspace({
     reviewState,
     readinessReviewState: execution == null && reviewRecord != null ? null : reviewState,
     retainedReview,
+    engineeringRecordExport,
     retention: {
       scope: 'WORKSPACE_SESSION_ONLY',
-      durableExportImplemented: false,
+      durableExportImplemented: engineeringRecordExport.canExport,
+      durableExportFormat: 'EMP1_ENGINEERING_RECORD_PACKAGE_JSON_V1',
     },
     authorityBoundary: {
       createsEngineeringCalculationAuthority: false,
@@ -82,6 +95,7 @@ export function projectEmp1EngineeringReviewWorkspace({
       createsReleaseAuthority: false,
       createsCryptographicSeal: false,
       uiMayAuthorEngineeringHashes: false,
+      uiMayCreateAuditPackageIdentity: true,
     },
   });
 }
@@ -113,6 +127,40 @@ export function createEmp1WorkspaceEngineeringReview({
     basisCode: EMP1_ENGINEERING_REVIEW_BASIS_CODE,
     comment: optionalText(comment),
     evidence: emp1EngineeringReviewEvidenceFromExecution(execution),
+  });
+}
+
+function recordExportDescriptor({ reviewRecord, reviewState, execution, currentnessBlockers }) {
+  const blockers = [];
+  if (currentnessBlockers.length) {
+    blockers.push('EMP1_ENGINEERING_RECORD_CURRENT_EXECUTION_REQUIRED', ...currentnessBlockers);
+  }
+  if (reviewRecord == null || reviewState?.reviewed !== true) {
+    blockers.push('EMP1_ENGINEERING_RECORD_REVIEW_REQUIRED');
+  }
+  if (reviewState?.current !== true || !EXPORTABLE_REVIEW_STATES.has(reviewState?.state)) {
+    blockers.push('EMP1_ENGINEERING_RECORD_CURRENT_REVIEW_REQUIRED');
+  }
+  const uniqueBlockers = Object.freeze([...new Set(blockers.map(String))]);
+  const canExport = uniqueBlockers.length === 0;
+  return deepFreeze({
+    schema: 'emp1-engineering-record-export-descriptor/v1',
+    canExport,
+    blockers: uniqueBlockers,
+    reviewState: reviewState?.state ?? 'NOT_REVIEWED',
+    packageInput: canExport
+      ? {
+        reviewRecord,
+        evidence: emp1EngineeringReviewEvidenceFromExecution(execution),
+      }
+      : null,
+    authorityBoundary: {
+      descriptorOnly: true,
+      createsEngineeringAuthority: false,
+      createsReleaseAuthority: false,
+      createsCryptographicSeal: false,
+      uiMayAuthorEngineeringHashes: false,
+    },
   });
 }
 

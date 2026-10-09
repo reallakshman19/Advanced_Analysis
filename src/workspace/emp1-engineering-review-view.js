@@ -1,3 +1,8 @@
+import { createEmp1EngineeringRecordPackage } from '../core/emp1/emp1-engineering-record-package.js';
+import {
+  emp1EngineeringRecordPackageFilename,
+} from './emp1-engineering-record-package-workspace.js';
+import { downloadLafeaJson } from './lafea-workbench-controller-io.js';
 import { element } from './lafea-workbench-dom.js';
 
 /** DOM-only Review & Evidence form over one controller-owned workspace projection. */
@@ -9,6 +14,9 @@ export function renderEmp1EngineeringReviewPanel(root, workspace, onReview) {
   section.dataset.role = 'emp1-engineering-review-panel';
   section.dataset.reviewState = workspace.reviewState?.state ?? 'NOT_REVIEWED';
   section.dataset.canCreateReview = String(workspace.canCreateReview === true);
+  section.dataset.canExportEngineeringRecord = String(
+    workspace.engineeringRecordExport?.canExport === true,
+  );
   section.append(
     element(root, 'strong', null, 'Review & Evidence — engineering attestation'),
     element(root, 'p', 'lafea-result-highlights__status',
@@ -67,10 +75,51 @@ export function renderEmp1EngineeringReviewPanel(root, workspace, onReview) {
   reject.addEventListener('click', () => submit('REJECTED'));
   actions.append(accept, reject);
 
+  const exportSection = engineeringRecordExport(root, workspace.engineeringRecordExport, result);
   const boundary = element(root, 'p', 'lafea-workbench__authority',
-    'This action records a human engineering-review attestation for the exact current governed EMP.1 execution. It is retained only for this workspace session in this slice. Acceptance is not code compliance, release qualification, a cryptographic signature, or a professional digital seal.');
+    'This action records a human engineering-review attestation for the exact current governed EMP.1 execution. A current accepted or rejected review may also be exported as an immutable audit JSON package. Review acceptance or export is not code compliance, release qualification, a cryptographic signature, or a professional digital seal.');
   boundary.dataset.role = 'emp1-engineering-review-authority-boundary';
-  section.append(form, actions, result, boundary);
+  section.append(form, actions, exportSection, result, boundary);
+  return section;
+}
+
+function engineeringRecordExport(root, descriptor, result) {
+  const section = element(root, 'div', 'lafea-workbench__custody');
+  section.dataset.role = 'emp1-engineering-record-export';
+  const button = element(root, 'button', null, 'Download Engineering Record');
+  button.type = 'button';
+  button.dataset.role = 'emp1-engineering-record-download';
+  button.disabled = descriptor?.canExport !== true;
+  if (descriptor?.blockers?.length) {
+    button.title = descriptor.blockers.map(human).join(' · ');
+  }
+  button.addEventListener('click', () => {
+    if (descriptor?.canExport !== true || !descriptor.packageInput) return;
+    try {
+      const packageValue = createEmp1EngineeringRecordPackage({
+        ...descriptor.packageInput,
+        packagedAt: new Date().toISOString(),
+      });
+      downloadLafeaJson(
+        root.ownerDocument,
+        packageValue,
+        emp1EngineeringRecordPackageFilename(packageValue),
+      );
+      result.value = `Engineering record exported · ${packageValue.packageId}`;
+      result.textContent = result.value;
+    } catch (error) {
+      result.value = error?.code ?? error?.message ?? 'Engineering record export failed.';
+      result.textContent = result.value;
+    }
+  });
+  section.append(
+    element(root, 'strong', null, 'Engineering record export'),
+    element(root, 'p', 'lafea-workbench__section-intro',
+      descriptor?.canExport === true
+        ? 'Export the exact current reviewed evidence and retained route limitations as a validated JSON audit record.'
+        : 'Export becomes available only when the governed calculation and retained engineering review are both current.'),
+    button,
+  );
   return section;
 }
 
