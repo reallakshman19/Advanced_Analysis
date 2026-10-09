@@ -1,13 +1,13 @@
 CHAIN_STATE_VERSION: 3
 CHAIN_ID: ADV-LAFEA-1536-SHELL-PRODUCTION
 MISSION: Promote the qualified MITC mechanics stack into an explicit LAFEA.4 production contract and application path while preserving legacy CST/DKT semantics and holding release qualification until executable evidence exists.
-ACTIVE_ENDPOINT: EP-0037
-ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA-1536-SHELL-PRODUCTION/endpoints/EP-0037.md
+ACTIVE_ENDPOINT: EP-0039
+ACTIVE_ENDPOINT_FILE: agents/chains/ADV-LAFEA-1536-SHELL-PRODUCTION/endpoints/EP-0039.md
 MATERIAL_HISTORY_ROOT_BASE: e409a233c46bbec193292565b58b40dffab4b853
 MATERIAL_LEG_PREWORK_ENDPOINT_FILE: agents/chains/ADV-LAFEA-1536-SHELL-PRODUCTION/endpoints/EP-0025.md
-PR: #1603
-BRANCH: codex/lafea-1536-qpack-0014
-HEAD: 75c670424ef46888f0a1c02188a9ea8d42b5209f
+PR: #1609
+BRANCH: codex/lafea-1536-postmerge-ep0038
+HEAD: 2bade51fc8207db4cc7934de3b8cb6771e41e9e8
 STATE: BLOCKED
 ENGINEERING_STATE: BLOCKED
 CUSTODY_STATE: HELD
@@ -26,9 +26,9 @@ AGENT_INSTANCE_ID: chatgpt:ddc9d66e-417d-4a98-a48f-8fb83328fe3d
 WORK_ITEM_SOURCE: GITHUB_ISSUE
 WORK_ITEM_KEY: github:reallaksh19/Advanced_Analysis#1536
 WORK_ITEM_MODE: EXCLUSIVE
-CUSTODY_EPOCH: 37
+CUSTODY_EPOCH: 39
 COORDINATION_STATE: SAFE
-DEPENDENCIES: qualification basis b4ca03357f584ed993cf3739b11f89c255e54b84; live main 75c670424ef46888f0a1c02188a9ea8d42b5209f; basis-to-main compare is 171 commits ahead / 0 behind with no LAFEA.4 local-shell/stage/presenter/oracle/tolerance/release-owner change; current Q-set QS-ADV-LAFEA4-1536-0014-IMPLEMENTATION-TAKEOVER is CURRENT/REUSED/HIDE; refreshed independent review request 5473697847 awaits disposition; latest exact-head LAFEA.4 run 33350279178 job 99362148647 has steps=null before checkout; governed BM-001..BM-009, aggregate/build/import, handover validation and release qualification remain NOT_RUN
+DEPENDENCIES: qualification basis b4ca03357f584ed993cf3739b11f89c255e54b84; live main 2bade51fc8207db4cc7934de3b8cb6771e41e9e8; basis-to-main compare is 223 commits ahead / 0 behind; post-EP0038 main delta is 10 commits and exactly four ADV-EMP1-WRC-UI-WALKTHROUGH custody files with no LAFEA.4/local-shell/shared production owner; current Q-set QS-ADV-LAFEA4-1536-0014-IMPLEMENTATION-TAKEOVER is CURRENT/REUSED/HIDE; independent review request 5473697847 awaits disposition; latest LAFEA.4 exact-head run 33358415016 job 99384895188 has steps=null before checkout; newest unrelated run 33360846900 job 99391756014 also has steps=null; governed BM-001..BM-009, aggregate/build/import, handover validation and release qualification remain NOT_RUN
 COMMON_PROTOCOL: engineering-pr-delivery-v2
 COMMON_PROTOCOL_BASIS: 293a3db7993a6945c01adc592a7ff14a339c504a
 COMMON_PROTOCOL_STATUS: CURRENT
@@ -62,7 +62,7 @@ RESPONSE_DELTA_MODE: DELTA_ONLY
 ROADMAPS: docs/conceptcumroadmapLAFEA.md@088f4cebfd954e5d1e37da855c95142712463a31
 ROADMAP_REVIEW_STATUS: COMPLETE
 POST_BASIS_DRIFT: MATERIAL_WITHIN_QUALIFIED_BOUNDARY
-POST_BASIS_COMMITS: 171
+POST_BASIS_COMMITS: 223
 QUALIFICATION_COVERAGE: INDEPENDENT_CONFIRMATION_REQUIRED
 RECONCILIATION_REVIEWER_ID: NONE
 CURRENT_STATE_AUTHORITY: BLOCKED
@@ -72,27 +72,30 @@ ISSUE_BASIS_FILE: agents/chains/ADV-LAFEA-1536-SHELL-PRODUCTION/issue-basis/IB-0
 ISSUE_BASIS_STATUS: CURRENT
 ISSUE_CURRENT_STATE_FILE: agents/chains/ADV-LAFEA-1536-SHELL-PRODUCTION/issue-state/CURRENT.md
 ISSUE_CURRENT_STATE_BASIS: IB-0001
-ISSUE_CURRENT_STATE_ENDPOINT: EP-0037
+ISSUE_CURRENT_STATE_ENDPOINT: EP-0039
 ISSUE_CHAIN_ROOT_COMMENT_ID: 5466335389
 ISSUE_ACTIVE_HANDOVER_COMMENT_ID: 5466334636
-ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5473706584
+ISSUE_LATEST_ENDPOINT_COMMENT_ID: 5474182741
 ISSUE_HANDOVER_SYNC_STATUS: IN_SYNC
 MATERIAL_LEG_ID: LEG-002
 MATERIAL_LEG_RECEIPT: agents/chains/ADV-LAFEA-1536-SHELL-PRODUCTION/material-legs/LEG-002.md
 MERGED_MATERIAL_PR: #1574
-MERGED_CUSTODY_SOURCE_PR: #1598
-MERGED_CUSTODY_RECOVERY_PR: #1601
-MERGED_CUSTODY_SOURCE_HEAD: 962238b2a2cdb5b24e3066bd0667d4fb2bb8d90d
-MERGED_CUSTODY_MAIN: 75c670424ef46888f0a1c02188a9ea8d42b5209f
-LIVE_MAIN: 75c670424ef46888f0a1c02188a9ea8d42b5209f
+MERGED_CUSTODY_SOURCE_PR: #1603
+MERGED_CUSTODY_RECOVERY_PR: #1606
+MERGED_CUSTODY_SOURCE_HEAD: 88524662ad0f3823262a3a00ae5d43938a058ab9
+MERGED_CUSTODY_MAIN: 8abc2e379d2ccc56a14d3397c97772ec0290f7d6
+LIVE_MAIN: 2bade51fc8207db4cc7934de3b8cb6771e41e9e8
 INDEPENDENT_REVIEW_REQUEST_COMMENT_ID: 5473697847
 SOURCE_DERIVED_V2_ISOLATION: PASS
 SOURCE_DERIVED_STAGE_ISOLATION: PASS
 SOURCE_DERIVED_LAFEA4_SHARED_UI_DRIFT_ISOLATION: PASS
 GOVERNED_BM_001_TO_BM_009: NOT_RUN
-LATEST_LAFEA4_RUN: 33350279178
-LATEST_LAFEA4_JOB: 99362148647
+LATEST_LAFEA4_RUN: 33358415016
+LATEST_LAFEA4_JOB: 99384895188
 LATEST_LAFEA4_RUN_ATTEMPT: 1
 LATEST_LAFEA4_RUNNER_ID: 0
 LATEST_LAFEA4_STEPS: ZERO
-EXACT_NEXT_ACTION: Obtain independent disposition on Issue comment 5473697847 and/or evidence that a governed runner reaches executable step 1; clear only the corresponding gate, then execute BM-001..BM-009 plus aggregate/core/solver/import/build/handover gates and patch only the first demonstrated wrong owner.
+LATEST_REPO_HEALTH_RUN: 33360846900
+LATEST_REPO_HEALTH_JOB: 99391756014
+LATEST_REPO_HEALTH_STEPS: ZERO
+EXACT_NEXT_ACTION: Obtain independent disposition on Issue comment 5473697847 for current coverage, using the custody-only post-request delta through live main 2bade51fc8207db4cc7934de3b8cb6771e41e9e8, and/or evidence that a governed runner reaches executable step 1; clear only the corresponding gate, then execute BM-001..BM-009 plus aggregate/core/solver/import/build/handover gates and patch only the first demonstrated wrong owner.
