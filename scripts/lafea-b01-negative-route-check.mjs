@@ -123,6 +123,7 @@ function runNegative(definition) {
     canonicalModelSemanticHash: observed.canonicalModelSemanticHash,
     resultSemanticHash: observed.resultSemanticHash,
     canonicalEvidence: observed.canonicalEvidence,
+    isoparametricGeometry: observed.isoparametricGeometry,
     specialEvidence,
     status: pass ? 'PASS' : 'FAIL',
     failureReason,
@@ -208,6 +209,9 @@ function executeRegisteredRoute(source) {
     };
   }
   const accepted = COMPOSITION.acceptResult(result);
+  const isoparametricGeometry = result?.meshEvidence?.elementEvidence
+    ?.map((row) => row?.isoparametricGeometry)
+    .find(Boolean) ?? null;
   return {
     observedPhase: accepted ? 'REGISTERED_ACCEPTANCE' : 'REGISTERED_CALCULATION_REJECTION',
     observedDiagnostic: result?.diagnostics?.[0] ?? null,
@@ -218,6 +222,7 @@ function executeRegisteredRoute(source) {
     canonicalModelSemanticHash: model.semanticHash,
     resultSemanticHash: safeHash(result),
     canonicalEvidence,
+    isoparametricGeometry,
     rawResult: result,
   };
 }
@@ -243,6 +248,7 @@ function rejection(phase, error) {
     canonicalModelSemanticHash: null,
     resultSemanticHash: null,
     canonicalEvidence: null,
+    isoparametricGeometry: null,
     rawResult: null,
   };
 }

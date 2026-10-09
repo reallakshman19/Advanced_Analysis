@@ -56,6 +56,7 @@ const masterBase = {
   status: failed.length ? 'FAIL' : 'PASS',
   governedInterpretations: [
     'NEG-INVERTED-T3 may remain authoritative after deterministic T3 orientation canonicalization only when the B01 receipt retains source connectivity, canonical connectivity, negative source signed area, positive canonical signed area, and demonstrates a connectivity change.',
+    'NEG-T6-MIDSIDE and NEG-Q8-MIDSIDE may remain authoritative only when the production element evidence explicitly classifies the off-chord midside as declared CURVED_ISOPARAMETRIC_GEOMETRY, records the edge deviation above numerical roundoff, and proves snappingApplied=false. Curved isoparametric geometry is not equivalent to a malformed midpoint when it is explicit and mapping qualification remains in force.',
     'NEG-STALE-RESULT currentness is owned by the workbench/lifecycle state, not intrinsic result acceptance. A source edit must clear the retained execution and mark execution/recovery lifecycle artifacts stale before the prior result can no longer be current authority.',
   ],
   failedRuns: failed.map((row) => ({
@@ -78,6 +79,9 @@ process.exit(master.status === 'PASS' ? 0 : 1);
 
 function applyGovernedInterpretation(receipt) {
   if (receipt.negativeId === 'NEG-INVERTED-T3') return governT3Orientation(receipt);
+  if (receipt.negativeId === 'NEG-T6-MIDSIDE' || receipt.negativeId === 'NEG-Q8-MIDSIDE') {
+    return governHighOrderGeometry(receipt);
+  }
   if (receipt.negativeId === 'NEG-STALE-RESULT') return governStaleResult(receipt);
   return receipt;
 }
@@ -107,6 +111,46 @@ function governT3Orientation(receipt) {
       beforeAfterConnectivityRetainedInGovernedReceipt: true,
       signedGeometryRetainedInGovernedReceipt: true,
       deterministicT3OrientationPolicyPreserved: true,
+    },
+    status: 'PASS',
+    failureReason: null,
+  };
+}
+
+function governHighOrderGeometry(receipt) {
+  const evidence = receipt.isoparametricGeometry;
+  const curvedEdges = Array.isArray(evidence?.edges)
+    ? evidence.edges.filter((row) => row?.curved === true)
+    : [];
+  const deviationsExplicit = curvedEdges.length > 0 && curvedEdges.every((row) => (
+    Number.isFinite(row.midpointDeviation)
+    && Number.isFinite(row.roundoffTolerance)
+    && row.midpointDeviation > row.roundoffTolerance
+  ));
+  const governedClassification = receipt.acceptedByRegisteredAcceptance === true
+    && evidence?.schema === 'local-continuum-isoparametric-geometry/v1'
+    && evidence?.classification === 'CURVED_ISOPARAMETRIC_GEOMETRY'
+    && evidence?.authority === 'DECLARED_NODAL_ISOPARAMETRIC_GEOMETRY'
+    && evidence?.snappingApplied === false
+    && Number(evidence?.curvedEdgeCount) === curvedEdges.length
+    && deviationsExplicit;
+  if (!governedClassification) return receipt;
+  return {
+    ...receipt,
+    authorityLeak: false,
+    specialEvidence: {
+      ...(receipt.specialEvidence ?? {}),
+      governedCurvedIsoparametricClassification: true,
+      declaredNodalGeometryRetained: true,
+      snappingApplied: false,
+      curvedEdgeCount: curvedEdges.length,
+      curvedEdges: curvedEdges.map((row) => ({
+        edgeIndex: row.edgeIndex,
+        cornerNodeIds: row.cornerNodeIds,
+        midsideNodeId: row.midsideNodeId,
+        midpointDeviation: row.midpointDeviation,
+        roundoffTolerance: row.roundoffTolerance,
+      })),
     },
     status: 'PASS',
     failureReason: null,

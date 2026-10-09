@@ -46,6 +46,11 @@ function dispatchElementEvidence(element, nodeMap, material, model) {
     const physicalNodes = element.nodeIds.map((id) => nodeMap.get(id));
     const builder = element.elementType === ELEMENT_TYPES.T6 ? t6ElementEvidence : q8ElementEvidence;
     const evidence = builder(element.elementId, physicalNodes, material, model.formulation, element.thickness, model.qualificationProfile);
+    const isoparametricGeometry = classifyHighOrderIsoparametricGeometry(
+      element.elementType,
+      element.nodeIds,
+      physicalNodes,
+    );
     return {
       ...evidence,
       nodeIds: element.nodeIds,
@@ -58,6 +63,7 @@ function dispatchElementEvidence(element, nodeMap, material, model) {
         material: material.sourceReference,
         nodes: physicalNodes.map((node) => node.sourceReference),
       },
+      ...(isoparametricGeometry ? { isoparametricGeometry } : {}),
     };
   }
   return elementEvidence(element, nodeMap, material, model);
@@ -147,6 +153,50 @@ function affineFields(nodes) {
     nodes.flatMap((node) => [0, node.y]),
     nodes.flatMap((node) => [node.y / 2, node.x / 2]),
   ];
+}
+
+function classifyHighOrderIsoparametricGeometry(elementType, nodeIds, nodes) {
+  const edges = elementType === ELEMENT_TYPES.T6
+    ? [[0, 1, 3], [1, 2, 4], [2, 0, 5]]
+    : [[0, 1, 4], [1, 2, 5], [2, 3, 6], [3, 0, 7]];
+  const edgeEvidence = edges.map(([leftIndex, rightIndex, midsideIndex], edgeIndex) => {
+    const left = nodes[leftIndex];
+    const right = nodes[rightIndex];
+    const midside = nodes[midsideIndex];
+    const midpointX = (left.x + right.x) / 2;
+    const midpointY = (left.y + right.y) / 2;
+    const deviation = Math.hypot(midside.x - midpointX, midside.y - midpointY);
+    const chordLength = Math.hypot(right.x - left.x, right.y - left.y);
+    const scale = Math.max(
+      1,
+      chordLength,
+      Math.abs(left.x), Math.abs(left.y),
+      Math.abs(right.x), Math.abs(right.y),
+      Math.abs(midside.x), Math.abs(midside.y),
+    );
+    const roundoffTolerance = 64 * Number.EPSILON * scale;
+    return {
+      edgeIndex,
+      cornerNodeIds: [nodeIds[leftIndex], nodeIds[rightIndex]],
+      midsideNodeId: nodeIds[midsideIndex],
+      chordMidpoint: { x: canonicalNumber(midpointX), y: canonicalNumber(midpointY) },
+      midsidePosition: { x: midside.x, y: midside.y },
+      midpointDeviation: canonicalNumber(deviation),
+      roundoffTolerance: canonicalNumber(roundoffTolerance),
+      curved: deviation > roundoffTolerance,
+    };
+  });
+  const curvedEdges = edgeEvidence.filter((row) => row.curved);
+  if (!curvedEdges.length) return null;
+  return {
+    schema: 'local-continuum-isoparametric-geometry/v1',
+    classification: 'CURVED_ISOPARAMETRIC_GEOMETRY',
+    authority: 'DECLARED_NODAL_ISOPARAMETRIC_GEOMETRY',
+    snappingApplied: false,
+    curvedEdgeCount: curvedEdges.length,
+    edgeCount: edgeEvidence.length,
+    edges: edgeEvidence,
+  };
 }
 
 function evidenceRecord(element, coordinates, material, b, constitutive, stiffness, qualifications) {
