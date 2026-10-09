@@ -1,0 +1,30 @@
+{
+  "schema": "m047-l1-uniform-ww-assess-contract-execution/v1",
+  "status": "PASS",
+  "measurementBoundary": "PURE_ASSESSMENT_GATE_CONTRACT_NO_ACCDB_SOLVE_NO_ACCURACY_CLAIM",
+  "runtime": {
+    "node": "v22.16.0"
+  },
+  "assessment": {
+    "path": "scripts/lfea-m047-stage2-l1-uniform-ww-assess.mjs",
+    "contentBlob": "88f83d81071474bdbbac3f561525668c640fc427",
+    "changeCommit": "a99efd9366195b1a0bc3c2bc17c527a767e8829c"
+  },
+  "contract": {
+    "path": "scripts/lfea-m047-stage2-l1-uniform-ww-assess-contract.mjs",
+    "changeCommit": "14047f2bb6c216dcb62c128bb96ed06e3eeaac35"
+  },
+  "checks": [
+    "positive_multi_metric_nomination_is_non_promotional",
+    "nonconvergence_is_clean_rejection",
+    "null_blank_boolean_metrics_fail_closed",
+    "null_summary_metric_fails_closed",
+    "duplicate_restraint_ids_fail_closed",
+    "hydrotest_basis_drift_fails_closed",
+    "zero_changed_sources_rejected_as_non_load_bearing",
+    "mixed_accuracy_evidence_not_nominated"
+  ],
+  "productionMechanicsChanged": false,
+  "productionPromotionAuthorized": false,
+  "accuracyClaimAuthorized": false
+}

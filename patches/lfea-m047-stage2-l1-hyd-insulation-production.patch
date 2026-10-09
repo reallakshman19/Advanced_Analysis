@@ -1,0 +1,166 @@
+--- a/src/core/fea-benchmarks/caesar-accdb-linear-solve.js
++++ b/src/core/fea-benchmarks/caesar-accdb-linear-solve.js
+@@ -81,7 +81,10 @@
+ } from '../linear-fea-result-recovery/index.js';
+ import { semanticHash } from '../shared-piping-model/canonical-json.js';
+ import { deepFreeze } from '../shared-piping-model/immutable.js';
+-import { resolveCaesarConfigurationSetting } from './caesar-configuration-authority.js';
++import {
++  resolveCaesarConfigurationLedger,
++  resolveCaesarConfigurationSetting,
++} from './caesar-configuration-authority.js';
+ import { resolveCaesarFrictionAuthority } from './caesar-friction-authority.js';
+ 
+ const PROFILE_SOURCE = 'CAESAR_ACCDB_LINEAR_SOLVE_PROFILE_V1';
+@@ -204,6 +207,9 @@
+   const { benchmarkPackage, caseRecord, solveProfile } = input;
+   const gate = requireCaseGate(input.gate);
+   const caseMode = resolveSupportedLinearCaseMode(benchmarkPackage, caseRecord);
++  const hydrotestInsulation = caseMode.hydrotest
++    ? resolveHydrotestInsulationAuthority(benchmarkPackage.profile.configurationAuthority, caseRecord.caseId)
++    : null;
+   const effectiveConfiguration = resolveCaseConfiguration(
+     benchmarkPackage.profile.configurationAuthority,
+     caseRecord.caseId,
+@@ -261,6 +267,7 @@
+     material,
+     bendDefinitions,
+     teeModifierBySourceElementId,
++    hydrotestInsulation,
+   });
+   const geometry = analysisGeometry(benchmarkPackage, analysis.positions, analysis.elements);
+   const conditioned = conditionGeometry(geometry, [], conditioningProfile());
+@@ -290,6 +297,7 @@
+     caseRecord,
+     solveProfile,
+     caseMode,
++    hydrotestInsulation,
+     effectiveConfiguration,
+     frictionAuthority,
+     material,
+@@ -319,7 +327,7 @@
+   const prepared = input.prepared;
+   const overlay = normalizeCaseOverlay(input.overlay ?? EMPTY_OVERLAY);
+   const {
+-    benchmarkPackage, caseRecord, solveProfile, caseMode, effectiveConfiguration, frictionAuthority,
++    benchmarkPackage, caseRecord, solveProfile, caseMode, hydrotestInsulation, effectiveConfiguration, frictionAuthority,
+     material, sectionResolutions, sourceRows, bendDefinitions, teeJunctions, conditioned,
+   } = prepared;
+   const shiftedAnalysis = prepared.analysis;
+@@ -390,6 +398,7 @@
+       pressureField: caseMode.pressureField,
+       contentsDensityKgPerM3: caseMode.contentsDensityKgPerM3,
+       hydrotestBasis: caseMode.hydrotestBasis,
++      ...(hydrotestInsulation === null ? {} : { hydrotestInsulation }),
+       executionStatus: execution.status,
+       solverDiagnostics: execution.diagnostics,
+       stiffnessStateHash: execution.stiffnessStateHash,
+@@ -704,6 +713,7 @@
+       input.section,
+       input.solveProfile.gravityAcceleration,
+       input.caseMode.contentsDensityKgPerM3,
++      insulationWeightIncluded(input.hydrotestInsulation),
+     );
+   const gravityLineWeight = input.caseMode.gravity
+     ? lineWeight * input.gravityLengthScale
+@@ -813,8 +823,12 @@
+     pipeWallThickness: physicalSection.dimensions.wallThickness,
+     enteredRigidWeight: Number(input.declaration.RIGID_WGT),
+     fluidDensity: density(input.row.FLUID_DENSITY),
+-    insulationThickness: Number(input.row.INSUL_THICK) * MM_TO_M,
+-    insulationDensity: density(input.row.INSUL_DENSITY),
++    insulationThickness: insulationWeightIncluded(input.hydrotestInsulation)
++      ? Number(input.row.INSUL_THICK) * MM_TO_M
++      : 0,
++    insulationDensity: insulationWeightIncluded(input.hydrotestInsulation)
++      ? density(input.row.INSUL_DENSITY)
++      : 0,
+     refractoryWeight: 0,
+     claddingWeight: 0,
+     gravityAcceleration: input.solveProfile.gravityAcceleration,
+@@ -883,8 +897,12 @@
+       acceleration: input.solveProfile.gravityAcceleration,
+       directionLocal: gravityDirectionLocal,
+       fluidDensity: density(input.row.FLUID_DENSITY),
+-      insulationThickness: Number(input.row.INSUL_THICK) * MM_TO_M,
+-      insulationDensity: density(input.row.INSUL_DENSITY),
++      insulationThickness: insulationWeightIncluded(input.hydrotestInsulation)
++        ? Number(input.row.INSUL_THICK) * MM_TO_M
++        : 0,
++      insulationDensity: insulationWeightIncluded(input.hydrotestInsulation)
++        ? density(input.row.INSUL_DENSITY)
++        : 0,
+     },
+     thermal: {
+       installationTemperature: input.benchmarkPackage.model.installationTemperatureK,
+@@ -2093,7 +2111,13 @@
+  * `contentsDensityKgPerM3` replaces the ACCDB operating fluid density for a
+  * hydrotest case, where the line carries test fluid instead of process fluid.
+  */
+-function physicalLineWeight(row, section, gravityAcceleration, contentsDensityKgPerM3 = null) {
++function physicalLineWeight(
++  row,
++  section,
++  gravityAcceleration,
++  contentsDensityKgPerM3 = null,
++  includeInsulation = true,
++) {
+   const pipe = density(row.PIPE_DENSITY) * section.sectionState.area * gravityAcceleration;
+   const fluidArea = Math.PI * section.dimensions.innerDiameter ** 2 / 4;
+   const contentsDensity = contentsDensityKgPerM3 === null
+@@ -2103,7 +2127,9 @@
+   const insulationThickness = Number(row.INSUL_THICK) * MM_TO_M;
+   const insulatedOd = section.dimensions.outerDiameter + 2 * insulationThickness;
+   const insulationArea = Math.PI * (insulatedOd ** 2 - section.dimensions.outerDiameter ** 2) / 4;
+-  const insulation = density(row.INSUL_DENSITY) * insulationArea * gravityAcceleration;
++  const insulation = includeInsulation
++    ? density(row.INSUL_DENSITY) * insulationArea * gravityAcceleration
++    : 0;
+   return pipe + contents + insulation;
+ }
+ 
+@@ -2305,6 +2331,44 @@
+ 
+ function nodeResultRow(entityId, quantity, component, value, unit) {
+   return { entityKind: 'NODE', entityId, quantity, component, value: clean(value), unit };
++}
++
++/**
++ * Resolve CAESAR v14 hydrotest insulation authority without inventing a
++ * BM4_L-specific override. Declared configuration wins by the governed
++ * low-to-high precedence; an undeclared setting uses CAESAR v14's documented
++ * default `Include Insulation in Hydrotest = False`.
++ */
++function resolveHydrotestInsulationAuthority(authority, caseId) {
++  const ledger = resolveCaesarConfigurationLedger(
++    authority,
++    'INCLUDE_INSULATION_IN_HYDROTEST',
++    caseId,
++  );
++  const resolved = ledger.resolved ?? {
++    setting: 'INCLUDE_INSULATION_IN_HYDROTEST',
++    caseId,
++    level: 'CAESAR_V14_DEFAULT',
++    value: false,
++    source: 'HEXAGON_CAESAR_II_14_INCLUDE_INSULATION_IN_HYDROTEST_DEFAULT_FALSE',
++  };
++  if (typeof resolved.value !== 'boolean') {
++    throw new TypeError(
++      `${caseId} Include Insulation in Hydrotest must resolve to boolean; got ${String(resolved.value)}.`,
++    );
++  }
++  return deepFreeze({
++    ...resolved,
++    precedence: ledger.precedence,
++    precedenceDirection: ledger.precedenceDirection,
++    candidates: ledger.candidates,
++  });
++}
++
++function insulationWeightIncluded(hydrotestInsulation) {
++  return hydrotestInsulation === null
++    || hydrotestInsulation === undefined
++    || hydrotestInsulation.value === true;
+ }
+ 
+ /** Resolve direct and derived CAESAR formulas to the three implemented linear primitives. */

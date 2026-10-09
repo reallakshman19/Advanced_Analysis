@@ -1,0 +1,15 @@
+{
+  "schema": "m047-l1-hyd-insulation-production-control-compare/v1",
+  "sourceAccdbSha256": "64c05a50e9ed0452622ff5880335460486f24ac8e6adecc9a300b549c9aa82f8",
+  "status": "PASS",
+  "productionPromotionAuthorized": false,
+  "cases": {
+    "L2": {"rowCount":6360,"rowHash":"fnv1a64:68b4321c67d6f29e","executionSemanticHash":"fnv1a64:ae2360dbad0e6852","stiffnessStateHash":"fnv1a64:45fdd6b1ae86b704","baselineCandidateIdentical":true},
+    "L3": {"rowCount":6360,"rowHash":"fnv1a64:e3fb239ceded6291","executionSemanticHash":"fnv1a64:7280b9bfbb352a17","stiffnessStateHash":"fnv1a64:45fdd6b1ae86b704","baselineCandidateIdentical":true},
+    "L4": {"rowCount":6360,"rowHash":"fnv1a64:96bb7a651bf908ec","executionSemanticHash":"fnv1a64:4c2906ad03faf4ee","stiffnessStateHash":"fnv1a64:45fdd6b1ae86b704","baselineCandidateIdentical":true},
+    "L5": {"rowCount":6360,"rowHash":"fnv1a64:bd42936828714096","executionSemanticHash":"fnv1a64:05f9901458b9c1a3","stiffnessStateHash":"fnv1a64:45fdd6b1ae86b704","baselineCandidateIdentical":true},
+    "L6": {"rowCount":6360,"rowHash":"fnv1a64:7eed679d70c8a2ea","executionSemanticHash":"fnv1a64:343be28f318155d6","stiffnessStateHash":"fnv1a64:45fdd6b1ae86b704","baselineCandidateIdentical":true},
+    "L14": {"rowCount":6360,"rowHash":"fnv1a64:e3fb239ceded6291","executionSemanticHash":"fnv1a64:852605311a85eb0b","stiffnessStateHash":"fnv1a64:45fdd6b1ae86b704","baselineCandidateIdentical":true}
+  },
+  "localArtifactSha256": "27925f44ac727f819be51691e2166718e12997a16b0dc8e927e7e66adf97cfe1"
+}
