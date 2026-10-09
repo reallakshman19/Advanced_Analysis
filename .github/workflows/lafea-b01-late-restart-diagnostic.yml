@@ -1,0 +1,86 @@
+name: LAFEA B01 late reliable restart diagnostic
+
+on:
+  push:
+    branches:
+      - diagnostic/lafea-b01-late-restart-20260818
+  pull_request:
+    branches:
+      - agent/lafea-b01-solver-qualification-20260818
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply one late reliable-residual restart in runner workspace
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/core/local-continuum/solver.js')
+          s = p.read_text()
+          old = '''  const iterationLimit = Math.min(
+            50000,
+            Math.max(1000, matrix.size * 16),
+          );
+          const solution = Array(matrix.size).fill(0);'''
+          new = '''  const iterationLimit = Math.min(
+            50000,
+            Math.max(1000, matrix.size * 16),
+          );
+          const lateReliableRestartIteration = Math.max(
+            100,
+            Math.floor((iterationLimit * 0.75) / 100) * 100,
+          );
+          const solution = Array(matrix.size).fill(0);'''
+          if s.count(old) != 1:
+              raise RuntimeError(f'iteration marker count={s.count(old)}')
+          s = s.replace(old, new, 1)
+          old = '''  let finalResidualInfinity = initialResidualInfinity;
+          let iterations = 0;
+          if (finalResidualInfinity > convergenceTarget) {'''
+          new = '''  let finalResidualInfinity = initialResidualInfinity;
+          let iterations = 0;
+          let lateReliableRestartPerformed = false;
+          if (finalResidualInfinity > convergenceTarget) {'''
+          if s.count(old) != 1:
+              raise RuntimeError(f'state marker count={s.count(old)}')
+          s = s.replace(old, new, 1)
+          old = '''        if (recursiveResidualInfinity <= convergenceTarget) {
+          residual = reliableResidual;
+          residualCompensation.fill(0);'''
+          new = '''        const lateReliableRestartDue = !lateReliableRestartPerformed
+          && iterations >= lateReliableRestartIteration;
+        if (recursiveResidualInfinity <= convergenceTarget || lateReliableRestartDue) {
+          residual = reliableResidual;
+          residualCompensation.fill(0);
+          if (lateReliableRestartDue) lateReliableRestartPerformed = true;'''
+          if s.count(old) != 1:
+              raise RuntimeError(f'restart marker count={s.count(old)}')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+          PY
+          node --check src/core/local-continuum/solver.js
+      - name: Execute frozen B01 Lamé L3 sweep
+        shell: bash
+        run: |
+          node scripts/lafea-b01-bbar-lame-diagnostic.mjs > /tmp/b01-late-restart.json
+          cat /tmp/b01-late-restart.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const report = JSON.parse(fs.readFileSync('/tmp/b01-late-restart.json', 'utf8'));
+          if (report.firstL3SolverFailure !== null) {
+            console.error(JSON.stringify(report.firstL3SolverFailure, null, 2));
+            process.exit(1);
+          }
+          console.log('B01 late-restart L3 sweep PASS');
+          NODE
