@@ -1,0 +1,64 @@
+{
+  "schema": "lafea4-parent-normal-lifecycle-export-current-authority-definition/v1",
+  "qualificationId": "LAFEA4-PARENT-NORMAL-LIFECYCLE-EXPORT-CURRENT-AUTHORITY-001",
+  "stage": "LAFEA.4",
+  "purpose": "PREVENT_RETAINED_LIFECYCLE_EVIDENCE_FROM_BEING_MISTAKEN_FOR_CURRENT_ENGINEERING_AUTHORITY_AFTER_GATE_REVOCATION",
+  "currentTrustRoot": "NULL",
+  "lifecycleExportSchema": "lafea-workbench-lifecycle-export/v2",
+  "authorityProjectionSchema": "lafea-workbench-lifecycle-export-current-authority/v1",
+  "retainedLifecycleLedgerMutationAllowed": false,
+  "exportGrantsEngineeringAuthority": false,
+  "governedResultAuthorityBasis": "GOVERNED_EXECUTION_AND_READINESS",
+  "legacyResultAuthorityBasis": "LEGACY_LIFECYCLE_READINESS",
+  "governedCurrentResultAcceptanceRequires": [
+    "execution.status == QUALIFIED",
+    "readiness.calculationState == CALCULATION_ACCEPTED_BY_STAGE_CONTRACT",
+    "readiness.resultReady == true"
+  ],
+  "legacyCurrentResultAcceptanceRequires": [
+    "readiness.resultReady == true"
+  ],
+  "legacyCompatibilityRationale": "Non-governed LAFEA.3 may consume caller-authored qualified lifecycle result evidence without a local stage.execution object; TECH-12K must not revoke that existing evidence route.",
+  "currentReleaseQualificationRequires": [
+    "readiness.releaseState == RELEASE_QUALIFIED",
+    "readiness.releaseBinding.releaseQualified == true"
+  ],
+  "requiredInterpretationFlags": {
+    "lifecycleArtifactStatusIsRetainedEvidenceOnly": true,
+    "retainedExecutionQualificationGrantsCurrentAuthority": false,
+    "retainedReleaseRecordGrantsCurrentAuthority": false,
+    "exportGrantsCurrentResultAuthority": false,
+    "exportGrantsCurrentReleaseAuthority": false
+  },
+  "mandatoryNegativeCase": {
+    "retainedExecutionStatus": "QUALIFIED",
+    "retainedLifecycleExecutionArtifactStatus": "CURRENT",
+    "retainedLifecycleExecutionArtifactQualification": "PASS",
+    "liveCalculationState": "CALCULATION_NOT_ACCEPTED_BY_STAGE_CONTRACT",
+    "liveResultReady": false,
+    "expectedCurrentResultAccepted": false,
+    "expectedBlockingReason": "LAFEA4_PARENT_NORMAL_PRODUCTION_GATE_BLOCKED"
+  },
+  "mandatoryLegacyCompatibilityCase": {
+    "stage": "LAFEA.3",
+    "governedRoute": false,
+    "localExecutionPresent": false,
+    "retainedLifecycleExecutionArtifactStatus": "CURRENT",
+    "retainedLifecycleExecutionArtifactQualification": "PASS",
+    "liveCalculationState": "CALCULATION_NOT_RUN",
+    "liveResultReady": true,
+    "expectedCurrentResultAccepted": true,
+    "expectedResultAuthorityBasis": "LEGACY_LIFECYCLE_READINESS"
+  },
+  "forbidden": [
+    "rewriting retained lifecycle artifact history on authority revocation",
+    "treating lifecycle EXECUTION CURRENT/PASS as sufficient for governed current result authority",
+    "revoking legacy non-governed lifecycle-result readiness solely because local stage.execution is absent",
+    "treating a retained release record as sufficient for current release authority",
+    "letting an export object itself grant engineering or release authority",
+    "activating the parent-normal production trust root in TECH-12K",
+    "changing parent-normal mathematics",
+    "changing mesh-quality thresholds",
+    "changing shell formulation or solver equations"
+  ]
+}

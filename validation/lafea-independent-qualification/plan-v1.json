@@ -218,6 +218,15 @@
       ]
     },
     {
+      "id": "TECH12K_LIFECYCLE_EXPORT_CURRENT_AUTHORITY",
+      "classification": "ENGINEERING",
+      "required": true,
+      "executable": "node",
+      "args": [
+        "scripts/lafea-tech12k-lifecycle-export-current-authority-check.mjs"
+      ]
+    },
+    {
       "id": "TECH7_GRADED_REFINEMENT_EXECUTOR",
       "classification": "ENGINEERING",
       "required": true,

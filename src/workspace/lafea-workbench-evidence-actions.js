@@ -8,6 +8,9 @@ import {
   createLafeaContinuumRevalidationBatch,
   registerLafeaContinuumRevalidationBatch,
 } from './lafea-continuum-revalidation.js';
+import {
+  projectLafeaWorkbenchLifecycleExportAuthority,
+} from './lafea-workbench-lifecycle-export-authority.js';
 
 const WORKBENCH_DOCUMENT_SCHEMA = 'lafea-workbench-document/v1';
 const PREFLIGHT_FAILURE_MODE_DIAGNOSTIC_UI = 'DIAGNOSTIC_UI';
@@ -256,6 +259,7 @@ export function createLafeaWorkbenchEvidenceActions(context) {
       analysisGeometry: stage.analysisGeometryProjection,
       shellMidsurface: stage.retainedShellMidsurfaceEvidence,
       orchestration: stage.orchestration,
+      currentAuthority: projectLafeaWorkbenchLifecycleExportAuthority(stage),
     });
   }
 
