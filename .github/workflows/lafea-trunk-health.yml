@@ -1,0 +1,89 @@
+name: LAFEA trunk health
+
+# Nothing watched the trunk. Of 27 workflows only the Pages deploy ran on a
+# push to main; lafea4-shell-pr-validation is bound to a stale feature branch
+# and lafea4-a3-cst-dkt-vv is path-filtered. So when #1792 merged a checker
+# carrying an unsatisfiable assertion, check:lafea-core went red on main and
+# stayed red, because no job was looking.
+#
+# This workflow watches main unconditionally, with no path filter, and reports
+# INFRASTRUCTURE separately from GATE. That distinction is the point: the
+# earlier failure was misread as an infrastructure block because runs produced
+# empty step lists, and NOT_RUN was inferred without ever executing the gates.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # Daily, so a trunk that breaks through a path nobody pushed still surfaces.
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trunk-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # Preflight proves the toolchain itself works. If anything here fails the
+      # failure is INFRASTRUCTURE and no conclusion may be drawn about the
+      # engineering gates below. If preflight passes, a later failure is a real
+      # GATE failure and must not be reported as "not run".
+      - name: Preflight — prove the runner can execute repository commands
+        id: preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "::group::runner"
+          node --version
+          npm --version
+          git rev-parse HEAD
+          echo "::endgroup::"
+          npm ci --no-audit --no-fund
+          node -e "console.log('node can execute repository scripts')"
+          test -f scripts/lafea.4-contract-check.mjs
+          echo "PREFLIGHT=OK" >> "$GITHUB_OUTPUT"
+
+      - name: Preflight outcome
+        if: failure() && steps.preflight.outcome == 'failure'
+        run: |
+          echo "::error title=INFRASTRUCTURE::Preflight failed. The runner could not execute repository commands."
+          echo "Classify as INFRASTRUCTURE. Do NOT record the engineering gates as PASS, FAIL or NOT_RUN;"
+          echo "they did not execute. Re-run once the runner is healthy."
+
+      - name: Gate — governed LAFEA core aggregate
+        id: core
+        run: npm run check:lafea-core
+
+      - name: Gate — imports
+        id: imports
+        run: node scripts/import-check.mjs
+
+      - name: Gate — production build and bundle budget
+        id: build
+        run: npm run build
+
+      - name: Gate failure classification
+        if: failure() && steps.preflight.outputs.PREFLIGHT == 'OK'
+        run: |
+          echo "::error title=GATE FAILURE::A governed gate failed on a healthy runner."
+          echo "Preflight passed, so the toolchain executed. This is an ENGINEERING failure, not infrastructure."
+          echo "Do not classify it as NOT_RUN. Reproduce locally with:"
+          echo "  npm ci && npm run check:lafea-core"
+
+      - name: Trunk healthy
+        run: echo "All governed gates passed on $(git rev-parse --short HEAD)."
