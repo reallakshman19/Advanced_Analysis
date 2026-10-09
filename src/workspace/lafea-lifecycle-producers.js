@@ -218,9 +218,9 @@ function governedShellFeaRecords(stage, profile, authority, execution) {
   const sourceHash = authority.sourceHash;
   for (const [field, value] of Object.entries({
     sourceHash: execution.sourceHash,
+    analysisDomainHash: execution.analysisDomainHash,
     analysisGeometryHash: execution.analysisGeometryHash,
     meshHash: execution.meshHash,
-    meshProfileHash: execution.meshProfileHash,
     solverModelHash: execution.solverModelHash,
     solverModelBindingHash: execution.solverModelBindingHash,
     executionMeshBindingHash: execution.executionMeshBindingHash,
@@ -230,6 +230,11 @@ function governedShellFeaRecords(stage, profile, authority, execution) {
       throw producerError(`LAFEA_SHELL_COMPILED_${field.toUpperCase()}_INVALID`);
     }
   }
+  const meshProfileSemanticHash = execution.meshProfileHash;
+  if (typeof meshProfileSemanticHash !== 'string'
+    || !/^fnv1a64:[0-9a-f]{16}$/u.test(meshProfileSemanticHash)) {
+    throw producerError('LAFEA_SHELL_COMPILED_MESHPROFILEHASH_INVALID');
+  }
   if (execution.sourceHash !== sourceHash) {
     throw producerError('LAFEA_SHELL_COMPILED_SOURCE_AUTHORITY_MISMATCH');
   }
@@ -238,7 +243,15 @@ function governedShellFeaRecords(stage, profile, authority, execution) {
     canonicalInput: execution.canonicalInput,
   });
   const analysisGeometryHash = execution.analysisGeometryHash;
-  const meshProfileHash = execution.meshProfileHash;
+  // Lifecycle parent hashes are SHA-256 by contract, while the governed mesh
+  // profile owns an FNV-1a semantic identity. Preserve the native profile
+  // identity inside a deterministic lifecycle-owned SHA-256 wrapper rather
+  // than coercing or reinterpreting either hash domain.
+  const meshProfileHash = engineeringHash(stage.stageId, 'ANALYSIS_MESH_PROFILE', {
+    authority: 'RETAINED_GOVERNED_MESH_PROFILE',
+    meshProfileSemanticHash,
+    producerRevision: LAFEA_PRODUCER_REVISION,
+  });
   const meshHash = execution.meshHash;
   const physicalLoadCaseHash = engineeringHash(stage.stageId, 'PHYSICAL_LOAD_CASE_INPUT',
     physicalLoadPayload(stage.stageId, execution.canonicalInput));
@@ -321,6 +334,7 @@ function meshArtifactHash(
     meshProfileHash,
     sourceMesh,
     retainedAcceptedMeshEvidence: retainedMeshEvidence,
+    canonicalInput,
   });
 }
 
