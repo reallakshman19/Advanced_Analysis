@@ -1,0 +1,64 @@
+name: LFEA S5 pressure authority prerequisite
+
+on:
+  pull_request:
+    paths:
+      - 'src/core/linear-piping-analysis-consumer/production-pressure-effect-authority.js'
+      - 'src/core/linear-piping-analysis-consumer/production-capability-profile.js'
+      - 'src/core/fea-benchmarks/caesar-configuration-authority.js'
+      - 'benchmarks/LFEA/CAESAR_ACCDB/bm4nl-l19-l20-linear-solve.profile.json'
+      - 'docs/lfea/S5_Pressure_Effect_Source_Authority_20260824.md'
+      - 'docs/lfea/S5_Pressure_Effect_Parity_Protocol_20260824.md'
+      - 'docs/lfea/S5_Pressure_Parity_Evidence_Package_20260824.md'
+      - 'scripts/lfea-s5-pressure-authority-gate-check.mjs'
+      - 'scripts/lfea-s5-pressure-parity-evidence-contract.mjs'
+      - 'scripts/lfea-s5-pressure-parity-evidence-contract-check.mjs'
+      - 'scripts/lfea-s5-pressure-parity-evidence-file-check.mjs'
+      - 'scripts/lfea-s5-pressure-parity-evidence-template.mjs'
+      - '.github/workflows/lfea-s5-pressure-authority-gate.yml'
+      - 'agents/PR1391_workreport.md'
+
+permissions:
+  contents: read
+
+jobs:
+  s5-pressure-authority-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax check S5 authority surface
+        run: |
+          node --check src/core/linear-piping-analysis-consumer/production-pressure-effect-authority.js
+          node --check scripts/lfea-s5-pressure-authority-gate-check.mjs
+          node --check scripts/lfea-s5-pressure-parity-evidence-contract.mjs
+          node --check scripts/lfea-s5-pressure-parity-evidence-contract-check.mjs
+          node --check scripts/lfea-s5-pressure-parity-evidence-file-check.mjs
+          node --check scripts/lfea-s5-pressure-parity-evidence-template.mjs
+      - name: Run reusable CAESAR configuration authority check
+        run: node scripts/lfea-caesar-configuration-authority-check.mjs
+      - name: Run S5 pressure authority prerequisite gate
+        run: node scripts/lfea-s5-pressure-authority-gate-check.mjs
+      - name: Validate mechanism-scoped CAESAR pressure parity evidence contract
+        run: node scripts/lfea-s5-pressure-parity-evidence-contract-check.mjs
+      - name: Confirm external evidence CLIs
+        run: |
+          node scripts/lfea-s5-pressure-parity-evidence-template.mjs --help
+          node scripts/lfea-s5-pressure-parity-evidence-file-check.mjs --help
+      - name: Prove generated evidence scaffolds are fail-closed
+        shell: bash
+        run: |
+          for scope in BOURDON_ONLY PRESSURE_STIFFENING_ONLY BOURDON_AND_PRESSURE_STIFFENING; do
+            dir="artifacts/s5-draft-${scope}"
+            rm -rf "$dir"
+            node scripts/lfea-s5-pressure-parity-evidence-template.mjs "$scope" "$dir"
+            if node scripts/lfea-s5-pressure-parity-evidence-file-check.mjs "$dir/evidence.json"; then
+              echo "Generated S5 draft scaffold unexpectedly qualified for $scope." >&2
+              exit 1
+            fi
+          done
+      - name: Enforce linear piping anti-drift rules
+        run: node scripts/linear-piping-analysis-consumer-anti-drift-check.mjs
