@@ -1,0 +1,573 @@
+{
+  "schema": "local-continuum-model/v1",
+  "modelIdentity": "BM-005-LAME-CONT-CYL-01-DEMO",
+  "modelVersion": "1",
+  "sourceAncestry": {
+    "sourceModelIdentity": "CONT-CYL-01",
+    "sourceVersion": "BM005-FROZEN/V1",
+    "adapterIdentity": "LAFEA3_BM005_ANNULUS_Q8_DEMO",
+    "adapterVersion": "1"
+  },
+  "units": {
+    "length": "mm",
+    "force": "N",
+    "stress": "MPa",
+    "modulus": "MPa"
+  },
+  "formulation": "PLANE_STRESS",
+  "materials": [
+    {
+      "materialId": "MAT",
+      "elasticModulus": 200000,
+      "poissonRatio": 0.3,
+      "sourceReference": "MAT-SRC"
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "N0",
+      "x": 50,
+      "y": 0,
+      "sourceReference": "NODE#N0"
+    },
+    {
+      "nodeId": "N1",
+      "x": 75,
+      "y": 0,
+      "sourceReference": "NODE#N1"
+    },
+    {
+      "nodeId": "N2",
+      "x": 69.29096493834652,
+      "y": 28.701257427381734,
+      "sourceReference": "NODE#N2"
+    },
+    {
+      "nodeId": "N3",
+      "x": 46.193976625564346,
+      "y": 19.134171618254488,
+      "sourceReference": "NODE#N3"
+    },
+    {
+      "nodeId": "N4",
+      "x": 62.5,
+      "y": 0,
+      "sourceReference": "NODE#N4"
+    },
+    {
+      "nodeId": "N5",
+      "x": 73.5588960302423,
+      "y": 14.631774151209619,
+      "sourceReference": "NODE#N5"
+    },
+    {
+      "nodeId": "N6",
+      "x": 57.74247078195543,
+      "y": 23.91771452281811,
+      "sourceReference": "NODE#N6"
+    },
+    {
+      "nodeId": "N7",
+      "x": 49.039264020161525,
+      "y": 9.754516100806413,
+      "sourceReference": "NODE#N7"
+    },
+    {
+      "nodeId": "N8",
+      "x": 100,
+      "y": 0,
+      "sourceReference": "NODE#N8"
+    },
+    {
+      "nodeId": "N9",
+      "x": 92.38795325112869,
+      "y": 38.268343236508976,
+      "sourceReference": "NODE#N9"
+    },
+    {
+      "nodeId": "N10",
+      "x": 87.5,
+      "y": 0,
+      "sourceReference": "NODE#N10"
+    },
+    {
+      "nodeId": "N11",
+      "x": 98.07852804032305,
+      "y": 19.509032201612825,
+      "sourceReference": "NODE#N11"
+    },
+    {
+      "nodeId": "N12",
+      "x": 80.8394590947376,
+      "y": 33.48480033194535,
+      "sourceReference": "NODE#N12"
+    },
+    {
+      "nodeId": "N13",
+      "x": 53.033008588991066,
+      "y": 53.033008588991066,
+      "sourceReference": "NODE#N13"
+    },
+    {
+      "nodeId": "N14",
+      "x": 35.35533905932738,
+      "y": 35.35533905932737,
+      "sourceReference": "NODE#N14"
+    },
+    {
+      "nodeId": "N15",
+      "x": 62.3602209226909,
+      "y": 41.66776747647016,
+      "sourceReference": "NODE#N15"
+    },
+    {
+      "nodeId": "N16",
+      "x": 44.19417382415922,
+      "y": 44.19417382415921,
+      "sourceReference": "NODE#N16"
+    },
+    {
+      "nodeId": "N17",
+      "x": 41.573480615127266,
+      "y": 27.778511650980107,
+      "sourceReference": "NODE#N17"
+    },
+    {
+      "nodeId": "N18",
+      "x": 70.71067811865476,
+      "y": 70.71067811865474,
+      "sourceReference": "NODE#N18"
+    },
+    {
+      "nodeId": "N19",
+      "x": 83.14696123025453,
+      "y": 55.557023301960214,
+      "sourceReference": "NODE#N19"
+    },
+    {
+      "nodeId": "N20",
+      "x": 61.87184335382291,
+      "y": 61.8718433538229,
+      "sourceReference": "NODE#N20"
+    },
+    {
+      "nodeId": "N21",
+      "x": 28.701257427381737,
+      "y": 69.29096493834652,
+      "sourceReference": "NODE#N21"
+    },
+    {
+      "nodeId": "N22",
+      "x": 19.13417161825449,
+      "y": 46.193976625564346,
+      "sourceReference": "NODE#N22"
+    },
+    {
+      "nodeId": "N23",
+      "x": 41.667767476470175,
+      "y": 62.3602209226909,
+      "sourceReference": "NODE#N23"
+    },
+    {
+      "nodeId": "N24",
+      "x": 23.917714522818112,
+      "y": 57.74247078195543,
+      "sourceReference": "NODE#N24"
+    },
+    {
+      "nodeId": "N25",
+      "x": 27.778511650980118,
+      "y": 41.573480615127266,
+      "sourceReference": "NODE#N25"
+    },
+    {
+      "nodeId": "N26",
+      "x": 38.26834323650898,
+      "y": 92.38795325112869,
+      "sourceReference": "NODE#N26"
+    },
+    {
+      "nodeId": "N27",
+      "x": 55.557023301960236,
+      "y": 83.14696123025453,
+      "sourceReference": "NODE#N27"
+    },
+    {
+      "nodeId": "N28",
+      "x": 33.484800331945365,
+      "y": 80.8394590947376,
+      "sourceReference": "NODE#N28"
+    },
+    {
+      "nodeId": "N29",
+      "x": 4.592425496802574e-15,
+      "y": 75,
+      "sourceReference": "NODE#N29"
+    },
+    {
+      "nodeId": "N30",
+      "x": 3.061616997868383e-15,
+      "y": 50,
+      "sourceReference": "NODE#N30"
+    },
+    {
+      "nodeId": "N31",
+      "x": 14.63177415120962,
+      "y": 73.5588960302423,
+      "sourceReference": "NODE#N31"
+    },
+    {
+      "nodeId": "N32",
+      "x": 3.827021247335479e-15,
+      "y": 62.5,
+      "sourceReference": "NODE#N32"
+    },
+    {
+      "nodeId": "N33",
+      "x": 9.754516100806416,
+      "y": 49.039264020161525,
+      "sourceReference": "NODE#N33"
+    },
+    {
+      "nodeId": "N34",
+      "x": 6.123233995736766e-15,
+      "y": 100,
+      "sourceReference": "NODE#N34"
+    },
+    {
+      "nodeId": "N35",
+      "x": 19.509032201612833,
+      "y": 98.07852804032305,
+      "sourceReference": "NODE#N35"
+    },
+    {
+      "nodeId": "N36",
+      "x": 5.3578297462696714e-15,
+      "y": 87.5,
+      "sourceReference": "NODE#N36"
+    }
+  ],
+  "elements": [
+    {
+      "elementId": "E0",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N0",
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6",
+        "N7"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E0"
+    },
+    {
+      "elementId": "E1",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N1",
+        "N8",
+        "N9",
+        "N2",
+        "N10",
+        "N11",
+        "N12",
+        "N5"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E1"
+    },
+    {
+      "elementId": "E2",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N3",
+        "N2",
+        "N13",
+        "N14",
+        "N6",
+        "N15",
+        "N16",
+        "N17"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E2"
+    },
+    {
+      "elementId": "E3",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N2",
+        "N9",
+        "N18",
+        "N13",
+        "N12",
+        "N19",
+        "N20",
+        "N15"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E3"
+    },
+    {
+      "elementId": "E4",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N14",
+        "N13",
+        "N21",
+        "N22",
+        "N16",
+        "N23",
+        "N24",
+        "N25"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E4"
+    },
+    {
+      "elementId": "E5",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N13",
+        "N18",
+        "N26",
+        "N21",
+        "N20",
+        "N27",
+        "N28",
+        "N23"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E5"
+    },
+    {
+      "elementId": "E6",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N22",
+        "N21",
+        "N29",
+        "N30",
+        "N24",
+        "N31",
+        "N32",
+        "N33"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E6"
+    },
+    {
+      "elementId": "E7",
+      "elementType": "Q8",
+      "nodeIds": [
+        "N21",
+        "N26",
+        "N34",
+        "N29",
+        "N28",
+        "N35",
+        "N36",
+        "N31"
+      ],
+      "materialId": "MAT",
+      "thickness": 10,
+      "sourceReference": "ELEMENT#E7"
+    }
+  ],
+  "elementTypePolicy": {
+    "allowT3Fallback": false,
+    "sourceReference": "BM005_Q8_ONLY"
+  },
+  "constraints": [
+    {
+      "constraintId": "C-N0-UY",
+      "nodeId": "N0",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N0-UY"
+    },
+    {
+      "constraintId": "C-N1-UY",
+      "nodeId": "N1",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N1-UY"
+    },
+    {
+      "constraintId": "C-N4-UY",
+      "nodeId": "N4",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N4-UY"
+    },
+    {
+      "constraintId": "C-N8-UY",
+      "nodeId": "N8",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N8-UY"
+    },
+    {
+      "constraintId": "C-N10-UY",
+      "nodeId": "N10",
+      "dof": "UY",
+      "value": 0,
+      "sourceReference": "C-N10-UY"
+    },
+    {
+      "constraintId": "C-N29-UX",
+      "nodeId": "N29",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N29-UX"
+    },
+    {
+      "constraintId": "C-N30-UX",
+      "nodeId": "N30",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N30-UX"
+    },
+    {
+      "constraintId": "C-N32-UX",
+      "nodeId": "N32",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N32-UX"
+    },
+    {
+      "constraintId": "C-N34-UX",
+      "nodeId": "N34",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N34-UX"
+    },
+    {
+      "constraintId": "C-N36-UX",
+      "nodeId": "N36",
+      "dof": "UX",
+      "value": 0,
+      "sourceReference": "C-N36-UX"
+    }
+  ],
+  "loadCases": [
+    {
+      "loadCaseId": "INTERNAL_PRESSURE",
+      "nodalForces": [],
+      "edgeTractions": [],
+      "pressureLoads": [
+        {
+          "pressureLoadId": "P0",
+          "elementId": "E0",
+          "edgeNodeIds": [
+            "N0",
+            "N3",
+            "N7"
+          ],
+          "pressure": 10,
+          "sourceReference": "LOAD#P0"
+        },
+        {
+          "pressureLoadId": "P1",
+          "elementId": "E2",
+          "edgeNodeIds": [
+            "N14",
+            "N17",
+            "N3"
+          ],
+          "pressure": 10,
+          "sourceReference": "LOAD#P1"
+        },
+        {
+          "pressureLoadId": "P2",
+          "elementId": "E4",
+          "edgeNodeIds": [
+            "N14",
+            "N22",
+            "N25"
+          ],
+          "pressure": 10,
+          "sourceReference": "LOAD#P2"
+        },
+        {
+          "pressureLoadId": "P3",
+          "elementId": "E6",
+          "edgeNodeIds": [
+            "N22",
+            "N30",
+            "N33"
+          ],
+          "pressure": 10,
+          "sourceReference": "LOAD#P3"
+        }
+      ],
+      "bodyForces": [],
+      "temperatureLoads": [],
+      "imposedDisplacements": [],
+      "sourceReference": "CASE#INTERNAL_PRESSURE"
+    }
+  ],
+  "resultRequests": {
+    "loadCaseIds": [
+      "INTERNAL_PRESSURE"
+    ]
+  },
+  "qualificationProfile": {
+    "schema": "local-continuum-qualification-profile/v1",
+    "identity": "LAFEA3_SCALE_AWARE_CST_V1",
+    "tolerances": {
+      "minimumElementArea": {
+        "absolute": 1e-12,
+        "relative": 1e-12
+      },
+      "stiffnessSymmetry": {
+        "absolute": 1e-10,
+        "relative": 1e-12
+      },
+      "constitutiveSymmetry": {
+        "absolute": 1e-12,
+        "relative": 1e-12
+      },
+      "choleskyPivot": {
+        "absolute": 1e-12,
+        "relative": 1e-12
+      },
+      "freeDofResidual": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "reactionEquilibrium": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "strainEnergy": {
+        "absolute": 1e-8,
+        "relative": 1e-10
+      },
+      "rigidBodyStrain": {
+        "absolute": 1e-12,
+        "relative": 1e-12
+      },
+      "patchTestStress": {
+        "absolute": 1e-9,
+        "relative": 1e-10
+      }
+    }
+  },
+  "limitations": [
+    "Demonstration model based on the ASME B02/BM-005 Lamé thick cylinder benchmark.",
+    "Plane stress formulation over quarter-annulus symmetry sector with internal pressure.",
+    "Demonstration only; not qualified for production engineering release."
+  ]
+}

@@ -1,0 +1,74 @@
+name: LAFEA zero-to-first-result demo
+
+# UX-1 (#1821) guarantees a cold app reaches a rendered, NON-ZERO result in one
+# action. Before it, the LAFEA.4 demo model had 130 DOF all constrained, so the
+# run reported Accepted with 0 mm displacement and 0 N*mm energy (#1842 D0).
+# A zero result still passes as "Accepted", so without this job a regression to
+# vacuity is invisible. This is #1842 D6.
+#
+# Runs on main as well as on pull requests: a gate that only fires on touched
+# paths does not protect the trunk (see lafea-trunk-health.yml).
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'public/fixtures/lafea-*-demo.json'
+      - 'src/workspace/lafea-demo-catalog.js'
+      - 'src/workspace/lafea-workbench-controller.js'
+      - 'src/workspace/lafea-workbench-content.js'
+      - 'src/workspace/lafea-workbench-view.js'
+      - 'src/core/local-shell/**'
+      - 'e2e/lafea-zero-to-first-result.spec.js'
+      - 'playwright.config.js'
+      - '.github/workflows/lafea-zero-to-first-result.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  zero-to-first-result:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # The demo fixtures must stay physically meaningful independently of the
+      # browser journey: free DOF > 0, and the response within the pre-frozen
+      # tolerance of the closed-form oracle. This catches a vacuous fixture even
+      # if the UI journey is green.
+      - name: Demo fixtures produce a non-zero, oracle-checked result
+        run: node scripts/lafea-demo-fixture-response-check.mjs
+
+      - name: Install pinned Chromium runtime
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: '0'
+        run: npx playwright install --with-deps chromium
+
+      - name: Zero-to-first-result browser journey
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p reports/qualification
+          node scripts/run-playwright.mjs e2e/lafea-zero-to-first-result.spec.js 2>&1 \
+            | tee reports/qualification/lafea-zero-to-first-result.log
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lafea-zero-to-first-result-${{ github.sha }}
+          path: |
+            reports/qualification/lafea-zero-to-first-result.log
+          if-no-files-found: ignore

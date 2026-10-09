@@ -38,6 +38,11 @@ import {
 } from '../core/emp1/emp1-a-to-b-refresh.js';
 import { publicLafeaFailure } from './lafea-public-failure.js';
 import { issueLafeaSourceAuthority } from './lafea-source-authority.js';
+import {
+  getLafeaDemoDescriptor,
+  hasLafeaDemoModel,
+  loadLafeaDemoDocument,
+} from './lafea-demo-catalog.js';
 import { LafeaWorkbenchView } from './lafea-workbench-view.js';
 
 const ACCESSORY_PANEL_MANAGERS = new WeakMap();
@@ -106,6 +111,7 @@ export class LafeaWorkbenchController {
     installLafeaWorkbenchStyles(this.documentRef);
     this.view.init({
       onStage: (stageId) => this.store.selectStage(stageId),
+      onLoadDemo: (stageId) => this.loadDemoModel(stageId),
       onMock: (stageId) => this.loadMockData(stageId),
       onLoadEmp1QualificationSample: () => this.loadEmp1QualificationSample(),
       onFile: (file) => this.loadFile(file),
@@ -179,6 +185,9 @@ export class LafeaWorkbenchController {
 
   async loadMockData(stageId) {
     if (!this.mockDocumentFactory) {
+      if (hasLafeaDemoModel(stageId)) {
+        return this.loadDemoModel(stageId);
+      }
       return this.store.reportEditError(
         'document',
         null,
@@ -244,6 +253,44 @@ export class LafeaWorkbenchController {
         this.store.registerShellMidsurfaceEvidence(shellParent);
       }
       return this.getState();
+    } catch (error) {
+      return this.store.reportEditError('document', null, error);
+    }
+  }
+
+  async loadDemoModel(stageId = this.getState().activeStageId) {
+    if (stageId === 'LAFEA.1' || stageId === 'LAFEA.2') {
+      return this.loadEmp1QualificationSample();
+    }
+    if (!hasLafeaDemoModel(stageId)) {
+      if (stageId === 'LAFEA.6') {
+        const error = new TypeError(
+          'Weld profile analysis is not implemented; no demonstration model or solver is available for this stage.',
+        );
+        error.code = 'LAFEA_STAGE_ENGINE_NOT_IMPLEMENTED';
+        return this.store.reportEditError('document', null, error);
+      }
+      const error = new TypeError(`No demonstration model is available for stage ${stageId}.`);
+      error.code = 'LAFEA_DEMO_NOT_AVAILABLE';
+      return this.store.reportEditError('document', null, error);
+    }
+    try {
+      const documentValue = await loadLafeaDemoDocument(stageId);
+      this.importDocument(documentValue, stageId);
+      const importedDocument = this.getState().stages[stageId]?.document;
+      if (!importedDocument) {
+        throw new TypeError(`Demonstration model for ${stageId} failed to import.`);
+      }
+      const sourceAuthority = issueLafeaSourceAuthority(
+        stageId,
+        importedDocument,
+        'DEMO_MODEL_LOADER',
+      );
+      this.initializeLifecycle(sourceAuthority.sourceHash, 'DEMO_MODEL_LOADER');
+      this.store.selectStage(stageId);
+      const ran = this.run();
+      this.view?.revealTarget?.('results');
+      return ran;
     } catch (error) {
       return this.store.reportEditError('document', null, error);
     }

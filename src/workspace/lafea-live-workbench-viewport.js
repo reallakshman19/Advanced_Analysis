@@ -12,6 +12,7 @@ import {
   mountLafeaSourceWorkbenchViewportModel,
 } from './lafea-source-workbench-viewport.js';
 import { evaluateLafeaRenderEvidenceIntake } from './lafea-render-evidence-intake.js';
+import { lafeaWorkbenchReasonLabels } from './lafea-workbench-reason-labels.js';
 import { mountLafeaHybridResultViewport } from './lafea-hybrid-result-viewport-public.js';
 
 export const LAFEA_LIVE_WORKBENCH_VIEWPORT_SCHEMA = 'lafea-live-workbench-viewport/v1';
@@ -118,7 +119,42 @@ function retainedMeshIdentity(evidence) {
 }
 function projectSelectionForSource(value, sceneRevision) { if (!isRecord(value) || value.sourceEntityId === null || value.meshEntityId === null || value.sceneRevision !== sceneRevision) return value; return { sceneRevision, sourceEntityId: value.sourceEntityId, meshEntityId: null, entityRole: 'SOURCE' }; }
 function resultViewport(sourceViewport, packet) { const value = structuredClone(sourceViewport); value.displayOptions = { sourceAuthoring: false, wireframe: false, fieldBounds: structuredClone(packet.field.bounds), colorMapId: packet.field.colorMapId, deformationScale: 0 }; return freeze(value); }
-function renderBlockedStatus(root, reasons) { const documentRef = root.ownerDocument, section = documentRef.createElement('section'); section.dataset.role = 'lafea-live-result-blocked-status'; section.setAttribute('aria-live', 'polite'); const title = documentRef.createElement('p'); title.textContent = 'Qualified result display is BLOCKED; source authoring remains active.'; const list = documentRef.createElement('ul'); reasons.forEach((reason) => { const item = documentRef.createElement('li'); item.textContent = reason; list.append(item); }); section.append(title, list); root.append(section); return section; }
+function renderBlockedStatus(root, reasons) {
+  const documentRef = root.ownerDocument;
+  const section = documentRef.createElement('section');
+  section.dataset.role = 'lafea-live-result-blocked-status';
+  section.setAttribute('aria-live', 'polite');
+  const title = documentRef.createElement('p');
+  title.textContent = 'Analysis results are not displayed yet. You can continue authoring the source model.';
+  const list = documentRef.createElement('ul');
+  lafeaWorkbenchReasonLabels(reasons).forEach((label) => {
+    const item = documentRef.createElement('li');
+    item.textContent = label;
+    list.append(item);
+  });
+  section.append(title, list);
+  if (reasons.length) section.append(renderBlockedTechnicalCodes(documentRef, reasons));
+  root.append(section);
+  return section;
+}
+
+/** Raw reason codes stay available for support and evidence, behind a disclosure. */
+function renderBlockedTechnicalCodes(documentRef, reasons) {
+  const details = documentRef.createElement('details');
+  details.dataset.role = 'lafea-live-result-blocked-technical';
+  const summary = documentRef.createElement('summary');
+  summary.textContent = 'Technical reason codes';
+  const codes = documentRef.createElement('ul');
+  reasons.forEach((reason) => {
+    const item = documentRef.createElement('li');
+    const code = documentRef.createElement('code');
+    code.textContent = reason;
+    item.append(code);
+    codes.append(item);
+  });
+  details.append(summary, codes);
+  return details;
+}
 function freeze(value) { if (!value || typeof value !== 'object' || ArrayBuffer.isView(value) || Object.isFrozen(value)) return value; Object.values(value).forEach(freeze); return Object.freeze(value); }
 function isRecord(value) { return Boolean(value) && typeof value === 'object' && !Array.isArray(value); }
 function liveViewportError(code) { const error = new TypeError(code); error.code = code; return error; }

@@ -32,6 +32,10 @@ export const LAFEA_GUIDED_WORKBENCH_STYLES = `
 .lafea-next-action-banner>strong{font-size:12px;font-weight:700;letter-spacing:.01em;color:#cbd5e1}
 .lafea-next-action-banner__button{min-height:34px;padding:7px 12px!important;border:1px solid #0ea5e9!important;border-radius:5px!important;background:#0c4a6e!important;color:#e0f2fe!important;font-size:12px!important;font-weight:750!important;cursor:pointer!important;box-shadow:none!important}
 .lafea-next-action-banner__button:hover:not(:disabled){background:#075985!important;border-color:#38bdf8!important}.lafea-next-action-banner__button:focus-visible{outline:2px solid #7dd3fc;outline-offset:2px}.lafea-next-action-banner__button:disabled{cursor:not-allowed!important;background:#172033!important;border-color:#334155!important;color:#7f91a6!important}
+.lafea-next-action-banner__button--primary{background:#0284c7!important;border-color:#38bdf8!important;color:#f0f9ff!important;font-weight:800!important;box-shadow:0 0 12px rgba(14,165,233,0.35)!important}
+.lafea-next-action-banner__button--primary:hover:not(:disabled){background:#0369a1!important}
+.lafea-next-action-banner__description{font-size:11px;color:#94a3b8;margin-inline:8px;flex:1}
+.lafea-next-action-banner__message{font-size:12px;color:#cbd5e1;margin-inline:8px;flex:1}
 .lafea-engineering-overview__run,[data-lafea-slot="toolbar"] [data-role="lafea-run"]{background:transparent!important;border-color:#41536a!important;color:#a8bad0!important;box-shadow:none!important;font-weight:650!important}.lafea-engineering-overview__run:hover:not(:disabled),[data-lafea-slot="toolbar"] [data-role="lafea-run"]:hover:not(:disabled){background:#101d2d!important;border-color:#64748b!important;color:#e2e8f0!important}
 .lafea-engineering-overview__run:disabled,[data-lafea-slot="toolbar"] [data-role="lafea-run"]:disabled{opacity:.58}
 
