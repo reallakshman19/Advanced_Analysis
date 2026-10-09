@@ -6,9 +6,6 @@ import {
   topologyEditComponentHudCandidateRecords,
 } from '../topology-edit/professional/topology-edit-component-hud-context.js';
 import {
-  createTopologyEditSpecificationCatalogue,
-} from '../topology-edit/professional/topology-edit-spec-catalog.js';
-import {
   deriveTopologyEditCommandCapability,
 } from '../topology-edit/editor-state/topology-edit-capability-authority.js';
 import {
@@ -32,14 +29,18 @@ import {
   restoreTopologyEditProfessionalViewState,
   updateTopologyEditProfessionalEvidence,
 } from './topology-edit-professional-operation-state.js';
-
-const CATALOGUE_URL = 'fixtures/topology-edit-professional-spec-catalog.json';
+import {
+  TopologyEditProjectCatalogueRuntime,
+} from './topology-edit-project-catalogue-runtime.js';
 
 export class TopologyEditProfessionalOperationRuntime {
   constructor(controller) {
     this.controller = controller;
     this.element = null;
     this.catalogue = null;
+    this.catalogueCustody = null;
+    this.catalogueLoadStarted = false;
+    this.catalogueLoadIdentity = null;
     this.componentContext = null;
     this.values = createTopologyEditProfessionalInitialValues();
     this.plan = null;
@@ -52,6 +53,13 @@ export class TopologyEditProfessionalOperationRuntime {
     this.message = '';
     this.error = null;
     this.validationClient = new TopologyEditValidationWorkerClient();
+    this.catalogueRuntime = new TopologyEditProjectCatalogueRuntime({
+      getDatasetIdentity: () => this.controller.editorStore?.getState?.().dataset ?? {},
+      getBaseURI: () => this.element?.ownerDocument?.baseURI
+        ?? globalThis.document?.baseURI
+        ?? '',
+      provider: this.controller.projectCatalogueProvider,
+    });
     this.valueChangeHandler = (event) => this.handleValueChange(event);
     this.originalUpdateActionButtons = null;
     this.capabilityUpdateActionButtons = () => {
@@ -101,11 +109,15 @@ export class TopologyEditProfessionalOperationRuntime {
   }
 
   async loadCatalogue() {
+    this.catalogueLoadStarted = true;
+    const loadIdentity = this.catalogueDatasetIdentity();
+    this.catalogueLoadIdentity = loadIdentity;
     try {
-      const url = new URL(CATALOGUE_URL, this.element?.ownerDocument.baseURI);
-      const response = await fetch(url, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`catalogue request returned ${response.status}`);
-      this.catalogue = createTopologyEditSpecificationCatalogue(await response.json());
+      const result = await this.catalogueRuntime.load();
+      if (result.status !== 'CURRENT') return false;
+      if (this.catalogueDatasetIdentity() !== loadIdentity) return false;
+      this.catalogueCustody = result.custody;
+      this.catalogue = result.custody.catalogue;
       if (!this.values.catalogueRecordId) {
         this.values = {
           ...this.values,
@@ -115,15 +127,21 @@ export class TopologyEditProfessionalOperationRuntime {
         };
       }
       this.reconcileComponentContext();
-      this.message = `Catalogue ${this.catalogue.catalogueId} loaded from exact source digest.`;
+      this.message = `Catalogue ${this.catalogue.catalogueId} loaded with dataset-bound custody.`;
       this.error = null;
     } catch (error) {
+      if (this.catalogueDatasetIdentity() !== loadIdentity) return false;
+      this.catalogueRuntime.invalidate();
       this.catalogue = null;
+      this.catalogueCustody = null;
       this.componentContext = null;
       this.error = errorMessage(error);
+    } finally {
+      if (this.catalogueLoadIdentity === loadIdentity) this.catalogueLoadIdentity = null;
     }
     this.render();
     this.updateEvidence();
+    return Boolean(this.catalogue);
   }
 
   selectionChanged() {
@@ -136,6 +154,7 @@ export class TopologyEditProfessionalOperationRuntime {
   }
 
   canonicalChanged(canonical) {
+    this.reconcileCatalogueDataset();
     if (this.plan?.basisHash && this.plan.basisHash !== canonical?.canonicalTopologyHash) {
       this.clear(false, false);
       this.message = 'Professional plan cleared because its canonical basis changed.';
@@ -145,6 +164,33 @@ export class TopologyEditProfessionalOperationRuntime {
     this.render();
     this.updateEvidence();
     this.refreshCommandCapabilities();
+  }
+
+  reconcileCatalogueDataset() {
+    if (!this.catalogueLoadStarted) return false;
+    const identity = this.catalogueDatasetIdentity();
+    if (this.catalogueCustody && this.catalogueRuntime.matchesCurrentDataset()) return false;
+    if (!this.catalogueCustody && this.catalogueLoadIdentity === identity) return false;
+    this.catalogueRuntime.invalidate();
+    this.catalogue = null;
+    this.catalogueCustody = null;
+    this.componentContext = null;
+    this.values = { ...this.values, catalogueRecordId: '' };
+    this.plan = null;
+    this.candidate = null;
+    this.validation = null;
+    this.validationPending = false;
+    this.transactionPreview = null;
+    this.validationClient.cancel();
+    this.error = null;
+    this.message = 'Catalogue custody invalidated because the dataset identity changed.';
+    void this.loadCatalogue();
+    return true;
+  }
+
+  catalogueDatasetIdentity() {
+    const dataset = this.controller.editorStore?.getState?.().dataset ?? {};
+    return `${dataset.sourceHash ?? ''}\u0000${dataset.sessionVersion ?? ''}`;
   }
 
   reconcileComponentContext(canonical = this.controller.session?.currentTopology?.()) {
@@ -250,7 +296,21 @@ export class TopologyEditProfessionalOperationRuntime {
   }
 
   render() { renderTopologyEditProfessionalRuntime(this); }
-  updateEvidence() { updateTopologyEditProfessionalEvidence(this); }
+
+  updateEvidence() {
+    updateTopologyEditProfessionalEvidence(this);
+    const host = this.controller.hostElement;
+    if (!host) return;
+    const custody = this.catalogueCustody;
+    host.dataset.topologyEditCatalogueCustodyHash = custody?.custodyHash ?? '';
+    host.dataset.topologyEditCatalogueSourceKind = custody?.source.kind ?? '';
+    host.dataset.topologyEditCatalogueSourceLocator = custody?.source.locator ?? '';
+    host.dataset.topologyEditCatalogueDatasetSourceHash = custody?.dataset.sourceHash ?? '';
+    host.dataset.topologyEditCatalogueDatasetSessionVersion = String(
+      custody?.dataset.sessionVersion ?? '',
+    );
+    host.dataset.topologyEditCatalogueHash = custody?.catalogue.catalogueHash ?? '';
+  }
 
   publishState() {
     this.render();
@@ -270,6 +330,10 @@ export class TopologyEditProfessionalOperationRuntime {
       this.controller.updateActionButtons = this.originalUpdateActionButtons;
       this.originalUpdateActionButtons = null;
     }
+    this.catalogueRuntime.destroy();
+    this.catalogue = null;
+    this.catalogueCustody = null;
+    this.catalogueLoadIdentity = null;
     this.clear(false, true);
     this.validationClient.destroy();
     this.componentContext = null;
