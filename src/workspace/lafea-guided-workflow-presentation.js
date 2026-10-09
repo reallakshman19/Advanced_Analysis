@@ -84,6 +84,10 @@ function areaStatus(areaId, workflow, steps) {
     && workflow.executionSupported === false) {
     return 'NOT_APPLICABLE';
   }
+  const sourceStep = workflow.steps.find((step) => step.stepId === 'SOURCE_IDENTITY');
+  if (sourceStep?.status === 'NOT_STARTED' && (areaId === 'MESH' || areaId === 'SOLVE' || areaId === 'RESULTS')) {
+    return 'NOT_STARTED';
+  }
   return aggregateStatus(steps);
 }
 

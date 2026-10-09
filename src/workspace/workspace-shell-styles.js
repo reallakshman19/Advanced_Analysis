@@ -202,6 +202,15 @@ export function advancedShellStyles() {
     .load-calc-error-check__passed { padding: 14px; border: 1px solid #166534; border-radius: 7px; background: rgba(22, 101, 52, 0.12); color: #4ade80; }
     .load-calc-error-check__review { padding: 14px; border: 1px solid #a16207; border-radius: 7px; background: rgba(161, 98, 7, 0.12); color: #fbbf24; }
     .load-calc-error-check__blocked { padding: 14px; border: 1px solid #991b1b; border-radius: 7px; background: rgba(153, 27, 27, 0.12); color: #f87171; }
+    .load-calc-topology-group__code { color: #94a3b8; font-size: 11px; margin-left: 6px; font-weight: normal; }
+    .load-calc-topology-group__guidance { padding: 8px 12px; background: rgba(15, 23, 42, 0.4); border-bottom: 1px solid #1e293b; font-size: 12px; }
+    .load-calc-topology-group__guidance p { margin: 2px 0 4px; color: #cbd5e1; }
+    .load-calc-topology-possible-fix { color: #94a3b8 !important; }
+    .lafea-empty-state-notice { margin: 12px 14px 0; }
+    .lafea-empty-state-card { padding: 14px 18px; border: 1px solid #1e3a5f; border-radius: 8px; background: rgba(15, 23, 42, 0.6); }
+    .lafea-empty-state-card h3 { margin: 0 0 6px; font-size: 15px; color: #38bdf8; }
+    .lafea-empty-state-card p { margin: 0; font-size: 13px; color: #94a3b8; line-height: 1.5; }
+    .lafea-empty-state-card p + p { margin-top: 6px; }
     @media (max-width: 1500px) {
       .empirical-load-calc__workflow { grid-template-columns: repeat(4, minmax(112px, 1fr)); overflow-x: visible; }
     }

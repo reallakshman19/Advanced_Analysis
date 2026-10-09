@@ -45,8 +45,8 @@ function workspaceMarkup() {
       <header class="panel-header"><div><span class="panel-eyebrow">Workspace</span><h1>Dataset Tree</h1></div><button type="button" data-action="toggle-tree-collapse">Collapse</button></header>
       <section class="dataset-toolbar">
         <div class="dataset-toolbar__actions"><button type="button" data-action="open-native-model">New model</button><button type="button" data-action="import-dataset">Import SJSON/JSON</button><button type="button" data-action="clear-dataset" disabled>Clear</button></div>
-        <input data-role="dataset-file" type="file" accept=".json,application/json" hidden>
-        <input data-role="tree-search" type="search" placeholder="Search source IDs, tags, branches">
+        <input data-role="dataset-file" type="file" accept=".json,application/json" hidden aria-label="Import dataset file">
+        <input data-role="tree-search" type="search" placeholder="Search source IDs, tags, branches" aria-label="Search dataset tree">
         <output data-role="tree-status">No dataset loaded</output><p data-role="tree-error" class="dataset-error" hidden></p>
       </section>
       <section class="layer-summary"><span data-role="summary-pipes">Pipes 0</span><span data-role="summary-supports">Supports 0</span></section>
@@ -71,7 +71,7 @@ function workspaceMarkup() {
     <aside class="workspace-panel properties-panel" data-panel="properties">
       <header class="panel-header"><div><span class="panel-eyebrow">Canonical selection</span><h2>Properties &amp; Loads</h2></div><button type="button" data-action="toggle-properties-collapse">Collapse</button></header>
       <div class="panel-collapsible-content">
-      <input data-role="properties-search" type="search" placeholder="Filter properties">
+      <input data-role="properties-search" type="search" placeholder="Filter properties" aria-label="Filter properties">
       <div data-role="properties-content"><p class="panel-empty">Select an entity in SVG, WebGL, tree, or the load table.</p></div>
       <details><summary>Model health</summary><div data-role="shared-model-summary"></div><div data-role="topology-summary"></div><div data-role="support-restraint-summary"></div></details>
       <details><summary>Existing analysis contracts</summary><div data-role="model-load-summary"></div><div data-role="support-load-screening-summary"></div><div data-role="vertical-beam-summary"></div><div data-role="model-calculation-summary"></div><div data-role="model-support-load-summary"></div></details>

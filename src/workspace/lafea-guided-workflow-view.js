@@ -45,13 +45,8 @@ export function renderLafeaGuidedWorkflow(root, workflow, onNavigate) {
     button.addEventListener('click', () => onNavigate?.(area.targetStep));
     item.append(button);
 
-    const summaryReason = primaryReason(area);
-    if (summaryReason) {
-      const reasons = doc.createElement('small');
-      reasons.className = 'lafea-guided-workflow__reasons';
-      reasons.textContent = summaryReason;
-      item.append(reasons);
-    }
+    const reasonsElement = renderAreaReasons(doc, area);
+    if (reasonsElement) item.append(reasonsElement);
     if (area.steps.length > 1) item.append(technicalSteps(doc, area, onNavigate));
     list.append(item);
   }
@@ -199,11 +194,28 @@ function technicalSteps(doc, area, onNavigate) {
   return details;
 }
 
-function primaryReason(area) {
+function renderAreaReasons(doc, area) {
   if (!area.reasons.length || !['BLOCKED', 'WARNING'].includes(area.status)) return null;
   const labels = lafeaWorkbenchReasonLabels(area.reasons);
   if (!labels.length) return null;
-  return labels.length === 1 ? labels[0] : `${labels[0]} · ${labels.length - 1} more`;
+  if (labels.length === 1) {
+    const reasons = doc.createElement('small');
+    reasons.className = 'lafea-guided-workflow__reasons';
+    reasons.textContent = labels[0];
+    return reasons;
+  }
+  const details = doc.createElement('details');
+  details.className = 'lafea-guided-workflow__reasons-disclosure';
+  const summary = doc.createElement('summary');
+  summary.textContent = `${labels[0]} · ${labels.length - 1} more`;
+  const list = doc.createElement('ul');
+  labels.slice(1).forEach((label) => {
+    const li = doc.createElement('li');
+    li.textContent = label;
+    list.append(li);
+  });
+  details.append(summary, list);
+  return details;
 }
 
 function cStatusHeading(state, productionAuthorized) {
