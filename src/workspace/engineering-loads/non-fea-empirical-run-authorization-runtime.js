@@ -37,6 +37,12 @@ export function authorizeCurrentNonFeaEmpiricalRun(
       },
     );
   }
+  // The required-method set is compared as a set, not a sequence: the decision
+  // canonicalises it (requiredMethods() sorts) while the coordinator carries
+  // it in declaration order, so an order-sensitive compare here rejects an
+  // otherwise exactly-matching receipt. Set semantics are what the binding
+  // actually means, and they match how every other required-method comparison
+  // in the consumption contract already behaves.
   const receipt = prepared?.receipt;
   if (!receipt
       || receipt.authorizationId !== decision.authorizationId
@@ -44,8 +50,8 @@ export function authorizeCurrentNonFeaEmpiricalRun(
       || receipt.implementationId !== decision.implementationId
       || receipt.methodRequestSemanticHash !== decision.semanticHash
       || receipt.commonInputSemanticHash !== decision.commonInputSemanticHash
-      || JSON.stringify(receipt.requiredCommonMethodIds)
-        !== JSON.stringify(decision.requiredCommonMethodIds)) {
+      || JSON.stringify([...receipt.requiredCommonMethodIds].sort())
+        !== JSON.stringify([...decision.requiredCommonMethodIds].sort())) {
     fail(
       'Method-currentness coordinator returned a receipt that does not bind the system Run authorization.',
       'NON_FEA_EMPIRICAL_RUN_AUTHORIZATION_COORDINATOR_BINDING_MISMATCH',

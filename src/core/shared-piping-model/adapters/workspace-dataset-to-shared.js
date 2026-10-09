@@ -12,17 +12,27 @@ import {
   LOAD_EVIDENCE_SPECS,
   SUPPORT_EVIDENCE_SPECS,
 } from '../property-specs.js';
+import { withConfiguredSourceAttributeAliases } from '../source-attribute-aliases.js';
 import { createSharedPipingModel } from '../shared-piping-model.js';
 import { collectSupportEvidence } from '../support-evidence.js';
 
 const WORKSPACE_DATASET_SCHEMA = 'analysis-workspace-dataset/v1';
 const CONTAINER_TYPES = new Set(['BRANCH', 'GROUP', 'MODEL', 'ROOT', 'FOLDER', 'SYSTEM', 'ZONE']);
 
-export function buildSharedPipingModelFromWorkspaceDataset(dataset) {
+/**
+ * @param {object} [options]
+ * @param {object} [options.sourceAttributeAliases] Project-configured extra
+ *   source attribute names, keyed by engineering property. Additive only.
+ */
+export function buildSharedPipingModelFromWorkspaceDataset(dataset, options = {}) {
   assertWorkspaceDataset(dataset);
   const units = workspaceUnits(dataset);
+  const engineeringSpecs = withConfiguredSourceAttributeAliases(
+    ENGINEERING_PROPERTY_SPECS,
+    options.sourceAttributeAliases,
+  );
   const state = { components: [], supports: [], diagnostics: initialDiagnostics(dataset), units };
-  dataset.entities.forEach((entity) => addWorkspaceEntity(entity, state));
+  dataset.entities.forEach((entity) => addWorkspaceEntity(entity, state, engineeringSpecs));
   return createSharedPipingModel({
     project: workspaceProject(dataset), units,
     sourceSnapshotRef: snapshotReference(dataset.sourceSnapshot),
@@ -32,12 +42,12 @@ export function buildSharedPipingModelFromWorkspaceDataset(dataset) {
   });
 }
 
-function addWorkspaceEntity(entity, state) {
+function addWorkspaceEntity(entity, state, engineeringSpecs) {
   if (CONTAINER_TYPES.has(normalizedType(entity.entityType))) {
     state.diagnostics.push(containerDiagnostic(entity));
     return;
   }
-  const evidence = collectEntityEvidence(entity);
+  const evidence = collectEntityEvidence(entity, engineeringSpecs);
   const sourceDiagnostics = normalizeDiagnosticRows(entity.properties?.diagnostics, entity.entityId);
   const diagnostics = [...evidence.diagnostics, ...sourceDiagnostics];
   state.diagnostics.push(...diagnostics);
@@ -105,10 +115,10 @@ function supportPosition(entity, geometry) {
     || null;
 }
 
-function collectEntityEvidence(entity) {
+function collectEntityEvidence(entity, engineeringSpecs) {
   const roots = entityRoots(entity);
   const evidenceIndex = createEvidenceIndex(roots);
-  const engineering = collectEvidence(ENGINEERING_PROPERTY_SPECS, roots, entity.entityId, evidenceIndex);
+  const engineering = collectEvidence(engineeringSpecs, roots, entity.entityId, evidenceIndex);
   const compatibility = collectEvidence(COMPATIBILITY_EVIDENCE_SPECS, roots, entity.entityId, evidenceIndex);
   const support = entity.category === 'support'
     ? collectSupportEvidence(SUPPORT_EVIDENCE_SPECS, roots, entity.entityId, evidenceIndex)

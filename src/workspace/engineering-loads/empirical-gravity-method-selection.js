@@ -18,6 +18,11 @@ import {
 import {
   requireCurrentCommonInputExplicitMomentRetention,
 } from './current-common-input-explicit-moment-retention.js';
+import {
+  assertZeroMassWaiversAdmissible,
+  createNonFeaZeroMassWaiverSet,
+  zeroMassWaiverSetFromProfile,
+} from './non-fea-zero-mass-waiver.js';
 import { getEmpiricalMethodRegistration } from './empirical-method-registry.js';
 import {
   EMPIRICAL_LOAD_COG_METHOD,
@@ -51,6 +56,7 @@ export function evaluateEmpiricalGravityMethodSelection(input = {}) {
     componentCogFallbackPolicy,
     componentAuthorityAudit,
     explicitMomentRetention: input.explicitMomentRetention || null,
+    zeroMassWaiverSet: zeroMassWaiverSetFromProfile(input.profile),
   });
 }
 
@@ -73,6 +79,7 @@ export function evaluateGovernedEmpiricalGravityMethodSelection(input = {}) {
     componentCogFallbackPolicy,
     componentAuthorityAudit,
     explicitMomentRetention: input.explicitMomentRetention || null,
+    zeroMassWaiverSet: zeroMassWaiverSetFromProfile(input.profile),
   });
 }
 
@@ -97,6 +104,7 @@ export function createGovernedEmpiricalGravityMethodSelection(input = {}) {
     componentCogFallbackPolicy,
     componentAuthorityAudit: audit,
     explicitMomentRetention: input.explicitMomentRetention || null,
+    zeroMassWaiverSet: input.zeroMassWaiverSet || null,
   });
   const base = {
     schema: EMPIRICAL_GOVERNED_GRAVITY_METHOD_SELECTION_SCHEMA,
@@ -116,7 +124,8 @@ export function createEmpiricalGravityMethodSelection(input = {}) {
   );
   const audit = requireEmpiricalComponentLoadAuthorityAudit(input.componentAuthorityAudit);
   const retention = optionalExplicitMomentRetention(input.explicitMomentRetention, audit);
-  const classification = classifyAudit(audit, retention, componentCogFallbackPolicy);
+  const waiverSet = optionalZeroMassWaiverSet(input.zeroMassWaiverSet, audit);
+  const classification = classifyAudit(audit, retention, componentCogFallbackPolicy, waiverSet);
   const explicit = requestedMethod !== EMPIRICAL_GRAVITY_AUTO;
   const choice = explicit
     ? explicitChoice(requestedMethod, classification)
@@ -131,6 +140,8 @@ export function createEmpiricalGravityMethodSelection(input = {}) {
     componentCogFallbackPolicy,
     componentAuthorityAuditSemanticHash: audit.semanticHash,
     explicitMomentRetentionSemanticHash: retention?.semanticHash || null,
+    zeroMassWaiverSemanticHash: waiverSet.semanticHash,
+    zeroMassWaivedEntityIds: waiverSet.waivedEntityIds,
     candidates,
     fallbackLedger,
     assumptions: choice.assumptions,
@@ -214,6 +225,29 @@ function requireProfileComponentCogFallback(profile) {
   );
 }
 
+/**
+ * Binds the waiver set to the exact audit it was admitted against.
+ *
+ * Admissibility is checked here, not only where a reviewer sets a waiver: the
+ * audit is what knows whether a component carries a source explicit moment, and
+ * a waiver that would drop a real demand must fail closed at selection rather
+ * than quietly lighten the model.
+ */
+function optionalZeroMassWaiverSet(value, audit) {
+  const waiverSet = value === null || value === undefined
+    ? createNonFeaZeroMassWaiverSet({ waivers: [] })
+    : value;
+  const rejected = assertZeroMassWaiversAdmissible(waiverSet, audit.records || []);
+  if (rejected.length > 0) {
+    throw codedError(
+      'A zero-mass waiver is not admissible against the current component-load authority audit.',
+      'EMPIRICAL_GRAVITY_ZERO_MASS_WAIVER_INADMISSIBLE',
+      { rejected },
+    );
+  }
+  return waiverSet;
+}
+
 function optionalExplicitMomentRetention(value, audit) {
   if (value === null || value === undefined) return null;
   const retention = requireCurrentCommonInputExplicitMomentRetention(value);
@@ -230,8 +264,16 @@ function optionalExplicitMomentRetention(value, audit) {
   return retention;
 }
 
-function classifyAudit(audit, retention, componentCogFallbackPolicy) {
-  const records = audit.records || [];
+function classifyAudit(audit, retention, componentCogFallbackPolicy, waiverSet) {
+  const auditedRecords = audit.records || [];
+  const waivedIds = new Set(waiverSet?.waivedEntityIds || []);
+  // A waived component is massless, so it is not in the load path at all: it
+  // cannot be missing a CoG worth resolving, and it cannot block a method it
+  // contributes nothing to. Excluding it here is what keeps one waived gauge
+  // from demoting the whole model to the V2 fallback.
+  const records = waivedIds.size === 0
+    ? auditedRecords
+    : auditedRecords.filter((row) => !waivedIds.has(row.entityId));
   const retainedIds = new Set(
     retention?.status === 'RETAINED'
       ? retention.records.map((row) => row.entityId)

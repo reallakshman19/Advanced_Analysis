@@ -14,6 +14,7 @@ export const PROJECT_DATA_GROUPS = Object.freeze([
     field('lineListSource', 'Line-list source', 'source', 'Loads'),
     field('pipingClassSource', 'Piping-class source', 'source', 'Loads'),
     field('componentWeightSource', 'Component-weight source', 'source', 'Editing and loads'),
+    phase2Field('sourceAttributeAliases', 'Extra source attribute names', 'json', 'Normalization'),
   ]),
   group('topology', 'Topology', [
     field('portMatchToleranceMm', 'Port-match tolerance', 'number', 'mm'),
@@ -41,6 +42,7 @@ export const PROJECT_DATA_GROUPS = Object.freeze([
     field('insulationDensitiesKgPerM3', 'Insulation densities by code', 'json', 'kg/m³'),
     field('componentWeightsKg', 'Approved component weights', 'json', 'kg'),
     phase2Field('componentMassCompositionPolicy', 'Component dry-mass composition policy', 'json', 'Loads'),
+    phase2Field('zeroMassWaivers', 'Zero-mass waivers by component', 'json', 'Loads'),
     phase2Field('forceOutputConvention', 'Force output convention', 'text', 'Gravity result policy'),
     phase2Field('momentOutputConvention', 'Moment output convention', 'text', 'Gravity result policy'),
     phase2Field('analysisBasis', 'Gravity analysis basis', 'text', 'Gravity result policy'),

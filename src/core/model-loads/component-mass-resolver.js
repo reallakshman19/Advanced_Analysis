@@ -8,9 +8,18 @@ import {
 } from './formulas.js';
 import { evidenceNumber } from './units.js';
 
-export function resolveComponentCaseMass(component, loadCaseId, compositionProfile) {
+export function resolveComponentCaseMass(component, loadCaseId, compositionProfile, options = {}) {
   const projectionBlocker = blockingProjectionCode(component.diagnostics);
   if (projectionBlocker) return blocked(projectionBlocker);
+  // An approved zero-mass waiver is the engineer's answer for this component,
+  // so it resolves exactly as a gasket does: zero self-weight, and no
+  // application point demanded for a mass that is zero. Without this the
+  // waiver satisfies the coverage checker and then blocks here with
+  // MISSING_COMPONENT_MASS, which is the same evidence answered in one place
+  // and unanswered in another.
+  if (options.zeroMassWaived === true) {
+    return resolveNegligibleMass(component, AUDIT_CODES.EXCLUDED_ZERO_MASS_WAIVER);
+  }
   if (NEGLIGIBLE_MASS_TYPES.includes(String(component.type || '').trim().toUpperCase())) {
     return resolveNegligibleMass(component);
   }
@@ -26,7 +35,7 @@ export function resolveComponentCaseMass(component, loadCaseId, compositionProfi
  * never overridden, and a non-zero mass still requires its application point
  * so it is placed correctly rather than silently dropped.
  */
-function resolveNegligibleMass(component) {
+function resolveNegligibleMass(component, exclusionCode = AUDIT_CODES.EXCLUDED_NEGLIGIBLE_MASS) {
   const evidence = component.engineeringProperties;
   const pointMass = evidenceNumber(evidence.componentWeightKg);
   if (isNegative(pointMass)) return blocked(AUDIT_CODES.INVALID_NEGATIVE_VALUE);
@@ -38,7 +47,7 @@ function resolveNegligibleMass(component) {
     pointMassKg: massKg,
     applicationPoint: component.geometry.applicationPoint || null,
     sourceEvidence: evidence.componentWeightKg || null,
-    diagnostics: [diagnostic(AUDIT_CODES.EXCLUDED_NEGLIGIBLE_MASS)],
+    diagnostics: [diagnostic(exclusionCode)],
   });
 }
 

@@ -475,7 +475,11 @@ function createEvaluationContext(request) {
     authorityContracts: request.authorityContracts,
     qualificationProfile: request.qualificationProfile,
     requestedLoadCases: request.requestedLoadCases,
-    modelCoverage: analyzeModelCoverage(request.enrichedProjection.enrichedModel, request.requestedLoadCases),
+    modelCoverage: analyzeModelCoverage(
+      request.enrichedProjection.enrichedModel,
+      request.requestedLoadCases,
+      approvedZeroMassWaiverIds(request.projectDataProfile),
+    ),
   };
 }
 
@@ -687,7 +691,20 @@ function hasSectionedSiblingOnBranch(component, components) {
   ));
 }
 
-function analyzeModelCoverage(model, requestedLoadCases) {
+/**
+ * Component ids the project has approved as massless.
+ *
+ * Read from the profile rather than the enriched model because a waiver is a
+ * project decision about a component, not evidence discovered in the source.
+ * An unapproved entry waives nothing.
+ */
+function approvedZeroMassWaiverIds(profile) {
+  const entry = profile?.loadCalculation?.zeroMassWaivers;
+  if (!isRecord(entry) || entry.approved !== true || !isRecord(entry.value)) return new Set();
+  return new Set(Object.keys(entry.value));
+}
+
+function analyzeModelCoverage(model, requestedLoadCases, zeroMassWaivedIds = new Set()) {
   const components = model.components || [];
   const massMissing = [];
   const flexuralMissing = [];
@@ -719,6 +736,10 @@ function analyzeModelCoverage(model, requestedLoadCases) {
         && finiteEvidence(properties.secondMomentAreaMm4, false);
       if (!directEi && !derivedEi) flexuralMissing.push(id);
       if (!finiteEvidence(properties.outerDiameterMm, false) || !finiteEvidence(properties.wallThicknessMm, false)) sectionMissing.push(id);
+    } else if (zeroMassWaivedIds.has(id)) {
+      // An approved zero-mass waiver is the engineer's answer for this
+      // component, on the same footing as the gasket rule below: it carries no
+      // weighable mass, so no further mass evidence is owed for it.
     } else if (NEGLIGIBLE_MASS_COMPONENT_TYPES.includes(type)) {
       // Matches the execution-time resolver: gasket-type components default to
       // zero self-weight and never gate readiness on missing evidence.

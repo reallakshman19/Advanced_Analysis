@@ -8,7 +8,12 @@ export const ENGINEERING_PROPERTY_SPECS = Object.freeze({
   componentWeightKg: numeric('kg', ['COMPONENT_WEIGHT_KG', 'COMPONENTWEIGHTKG', 'BEST_WEIGHT_KG', 'WEIGHT_KG']),
   componentFluidWeightOpeKg: numeric('kg', []),
   componentFluidWeightHydKg: numeric('kg', []),
-  insulationThicknessMm: numeric('mm', ['INSULATION_THICKNESS_MM', 'INSULATIONTHICKNESSMM']),
+  // INSU is how SJSON states insulation thickness ("80mm"). Without it the
+  // property is absent, which the readiness checker reads as an uninsulated
+  // line and passes, while the mass resolver refuses to compute an
+  // insulation mass it cannot determine. Projects can add further names
+  // through sourcesAndUnits.sourceAttributeAliases.
+  insulationThicknessMm: numeric('mm', ['INSULATION_THICKNESS_MM', 'INSULATIONTHICKNESSMM', 'INSU', 'INSULATION_THICKNESS', 'INSUTHK']),
   insulationDensityKgM3: numeric('kg/m3', ['INSULATION_DENSITY_KG_M3', 'INSULATIONDENSITYKGM3']),
   insulationWeightKgPerM: numeric('kg/m', ['INSULATION_WEIGHT_KG_PER_M', 'INSULATIONWEIGHTKGPM']),
   fluidDensityOpeKgM3: numeric('kg/m3', ['FLUID_DENSITY_OPE_KG_M3', 'FLUIDDENSITYOPEKGM3', 'FLUID_DENSITY_KG_M3']),

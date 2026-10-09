@@ -140,11 +140,6 @@ export class LoadCalcConsumerController {
         autoEnsureDefaultQualificationProfile(),
       ]);
       if (enrichResult?.accepted > 0 || bindResult?.bound?.length > 0 || qualResult) this.render();
-      // Auto-accept unambiguous fitting weights (0 kg instruments etc.)
-      import('./enrichment/non-fea-enrichment-view.js').then(({ autoAcceptClearWinnerFittingWeights }) => {
-        const accepted = autoAcceptClearWinnerFittingWeights();
-        if (accepted > 0) this.render();
-      }).catch(() => {});
     }).catch(() => {});
   }
 
@@ -170,11 +165,6 @@ export class LoadCalcConsumerController {
           autoEnsureDefaultQualificationProfile(),
         ]);
         if (defaultsResult || enrichResult?.accepted > 0 || bindResult?.bound?.length > 0 || qualResult) this.render();
-        // Auto-accept unambiguous fitting weights (0 kg instruments etc.)
-        import('./enrichment/non-fea-enrichment-view.js').then(({ autoAcceptClearWinnerFittingWeights }) => {
-          const accepted = autoAcceptClearWinnerFittingWeights();
-          if (accepted > 0) this.render();
-        }).catch(() => {});
       }).catch(() => {});
     }
   }
@@ -553,12 +543,10 @@ export class LoadCalcConsumerController {
         const { renderMasterDataUI } = await import('./master-data-ui.js');
         if (revision === this.renderRevision) pane.replaceChildren(renderMasterDataUI(pane.ownerDocument));
       } else if (tab === 'enrichment') {
-        const { renderNonFeaEnrichmentView, autoStageMasterProposals, autoAcceptClearWinnerFittingWeights } = await import('./enrichment/non-fea-enrichment-view.js');
+        const { renderNonFeaEnrichmentView, autoStageMasterProposals } = await import('./enrichment/non-fea-enrichment-view.js');
         if (revision === this.renderRevision) {
           autoStageMasterProposals(() => this.render());
-          const accepted = autoAcceptClearWinnerFittingWeights();
           renderNonFeaEnrichmentView(pane, () => this.render());
-          if (accepted > 0) this.render();
         }
       } else if (tab === 'method-basis') {
         const { renderNonFeaMethodBasisView } = await import('./non-fea-method-basis-view.js');

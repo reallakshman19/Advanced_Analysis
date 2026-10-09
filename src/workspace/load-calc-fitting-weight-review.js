@@ -1,5 +1,4 @@
 import { formatValveHint, rankXmlCiiWeightCandidates } from '../calc-workspace/cii-standalone-port/core/weight-valve-hints.js';
-import { nonFeaEnrichmentStore } from './enrichment/non-fea-enrichment-store.js';
 
 /**
  * Builds reviewable component-weight candidates for catalogue fittings, using
@@ -26,7 +25,24 @@ const CATALOGUE_FITTING_TYPES = Object.freeze(['FLAN', 'FLANGE', 'VALV', 'VALVE'
 
 const DEFAULT_LENGTH_TOLERANCE_MM = 4;
 
-export function buildFittingWeightReviewRows({ dataset, masters, acceptedRecords } = {}) {
+/**
+ * How many catalogue fittings still lack a component weight.
+ *
+ * Deliberately separate from buildFittingWeightReviewRows: the count needs only
+ * the component list, while the review ranks every fitting against the whole
+ * weights master. Status badges re-render often, and paying for a full ranking
+ * pass to display one integer made the Enrichment tab unusable on a real model.
+ */
+export function countFittingsAwaitingWeight({ dataset } = {}) {
+  const components = dataset?.sharedModel?.components || [];
+  return components.filter((component) => {
+    const type = String(component.type || '').trim().toUpperCase();
+    if (!CATALOGUE_FITTING_TYPES.includes(type)) return false;
+    return component.engineeringProperties?.componentWeightKg == null;
+  }).length;
+}
+
+export function buildFittingWeightReviewRows({ dataset, masters } = {}) {
   const sourceModel = dataset?.sharedModel;
   if (!sourceModel) throw new TypeError('Fitting weight review requires an active dataset shared model.');
   const weightRows = masters?.weight?.normalizedRows || [];
@@ -39,54 +55,24 @@ export function buildFittingWeightReviewRows({ dataset, masters, acceptedRecords
     },
   };
 
-  const records = acceptedRecords ?? nonFeaEnrichmentStore.getSnapshot()?.acceptedRecords ?? [];
-  const acceptedWeightIds = new Set(
-    records
-      .filter((r) => r.fieldId === 'COMPONENT_WEIGHT')
-      .map((r) => r.selectorKey)
-  );
-
   const rows = [];
   (sourceModel.components || []).forEach((component) => {
     const type = String(component.type || '').trim().toUpperCase();
     if (!CATALOGUE_FITTING_TYPES.includes(type)) return;
     if (component.engineeringProperties?.componentWeightKg != null) return;
     const targetId = component.componentKey || component.sourceEntityId;
-    if (acceptedWeightIds.has(targetId)) return;
     const attributes = rawByEntityId.get(component.sourceEntityId)?.properties?.attributes || {};
     const boreMm = numberFrom(attributes.ABORE ?? attributes.LBORE);
     const lengthMm = distanceBetween(attributes.APOS, attributes.LPOS);
     const description = String(attributes.DTXR || '').trim();
-    const ratingText = [attributes.DTXR, attributes.SPRE, attributes.NAME, attributes.OWNER].join(' ');
-    const rating = ratingFromText(ratingText);
+    const rating = ratingFromText(description);
 
     const base = {
       targetId, type, description, boreMm, lengthMm, rating,
       sourceEntityId: component.sourceEntityId,
     };
-    // No bore or no measurable length (e.g. pressure gauge, temperature instrument):
-    // auto-resolve to 0 kg — user confirmed "0 kg always for these instruments".
     if (boreMm === null || lengthMm === null) {
-      const zeroCandidate = {
-        typeDesc: 'No bore / no face-to-face length — instrument',
-        weightKg: 0,
-        rowLengthMm: null,
-        rowBoreMm: null,
-        rowRating: rating,
-        lengthQualified: false,
-        lengthDeltaMm: null,
-        tier: 100,
-        reason: 'Auto-resolved 0 kg (no bore or no measurable length)',
-        rejected: false,
-      };
-      rows.push({
-        ...base,
-        candidates: [zeroCandidate],
-        valveHint: '',
-        bestCandidateIndex: 0,
-        clearWinner: true,
-        unresolvable: null,
-      });
+      rows.push({ ...base, candidates: [], unresolvable: 'NO_BORE_OR_LENGTH' });
       return;
     }
     let ranking;
@@ -114,43 +100,16 @@ export function buildFittingWeightReviewRows({ dataset, masters, acceptedRecords
     });
     const ranked = (ranking.candidates || []).map((candidate) => toCandidate(candidate, false));
     const rejected = (ranking.rejectedCandidates || []).map((candidate) => toCandidate(candidate, true));
-    let candidates = [...ranked, ...rejected];
-    
-    // Auto-resolve zero weight for short fittings (length <= 6mm)
-    if (candidates.length === 0 && lengthMm != null && lengthMm <= 6) {
-      candidates.push({
-        typeDesc: 'No same Bore/Rating master row',
-        weightKg: 0,
-        rowLengthMm: 0,
-        rowBoreMm: boreMm,
-        rowRating: rating,
-        lengthQualified: true,
-        lengthDeltaMm: 0,
-        tier: 100,
-        reason: 'Auto-resolved 0kg (length \u2264 6mm)',
-        rejected: false,
-      });
-    }
-    
-    const best = candidates[0] || null;
+    const candidates = [...ranked, ...rejected];
+    const best = ranked[0] || null;
     // A clear semantic winner is a candidate whose tier leads the runner-up by
     // more than one keyword-priority step; anything closer is left for the
     // reviewer to decide between, not auto-selected under a false label.
-    // Also, if length <= 6mm and weight is 0, it does NOT require review (it's a clear winner).
-    // If length > 6mm and weight is 0, it DOES require review (force clearWinner to false).
-    let clearWinner = Boolean(best) && (
-      (candidates.length === 1 && !best.rejected) ||
-      (ranked.length > 0 && best.tier > (ranked[1]?.tier ?? -Infinity) + 50)
-    );
-    
-    if (best?.weightKg === 0 && lengthMm > 6) {
-      clearWinner = false;
-    }
-
+    const clearWinner = Boolean(best) && (ranked.length === 1 || best.tier > (ranked[1]?.tier ?? -Infinity) + 50);
     rows.push({
       ...base,
       candidates,
-      valveHint: (ranking?.nodeHint ? formatValveHint(ranking.nodeHint) : ranking?.semanticSource?.label) || '',
+      valveHint: formatValveHint(ranking.nodeHint) || ranking.semanticSource?.label || '',
       bestCandidateIndex: candidates.length ? 0 : null,
       clearWinner,
       unresolvable: candidates.length === 0 ? 'NO_CANDIDATE' : null,
@@ -219,7 +178,7 @@ function distanceBetween(start, end) {
     Number(end.y) - Number(start.y),
     Number(end.z) - Number(start.z),
   );
-  return Number.isFinite(distance) && distance >= 0 ? Math.round(distance * 1000) / 1000 : null;
+  return Number.isFinite(distance) && distance > 0 ? Math.round(distance * 1000) / 1000 : null;
 }
 
 /** Pressure rating as written in the fitting description, e.g. "900#". */

@@ -30,6 +30,14 @@ export const AUDIT_CODES = Object.freeze({
   MISSING_HYD_FLUID_INPUT: 'MISSING_HYD_FLUID_INPUT',
   MISSING_COMPONENT_MASS: 'MISSING_COMPONENT_MASS',
   MISSING_COMPONENT_COG: 'MISSING_COMPONENT_COG',
+  // An approved zero-mass waiver answered this component, so it carries no
+  // weighable mass. Distinct from EXCLUDED_NEGLIGIBLE_MASS: that is a
+  // property of a gasket's type, this is an engineer's recorded decision.
+  EXCLUDED_ZERO_MASS_WAIVER: 'EXCLUDED_ZERO_MASS_WAIVER',
+  // The governed geometric-midpoint fallback was used to place a lumped
+  // component's mass because no exact CoG authority existed. Recorded on the
+  // component so the assumption is auditable rather than invisible.
+  COMPONENT_COG_GEOMETRIC_MIDPOINT_ASSUMED: 'COMPONENT_COG_GEOMETRIC_MIDPOINT_ASSUMED',
   DOUBLE_COUNT_CONFLICT: 'DOUBLE_COUNT_CONFLICT',
   LUMPED_LINEAR_MASS_CONFLICT: 'LUMPED_LINEAR_MASS_CONFLICT',
   UNSUPPORTED_COMPONENT_TYPE: 'UNSUPPORTED_COMPONENT_TYPE',

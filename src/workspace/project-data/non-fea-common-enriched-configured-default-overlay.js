@@ -22,6 +22,7 @@ import {
   NON_FEA_CONFIGURED_DEFAULT_SCOPE_PRECEDENCE,
   createNonFeaConfiguredDefaultProvider,
 } from './non-fea-configured-default-provider.js';
+import { normalizeEngineeringUnit, sameEngineeringUnit } from './non-fea-unit-equivalence.js';
 
 export const NON_FEA_COMMON_ENRICHED_CONFIGURED_DEFAULT_OVERLAY_SCHEMA =
   'non-fea-common-enriched-configured-default-overlay/v1';
@@ -312,7 +313,7 @@ export function requireConfiguredDefaultOverlay(value) {
 }
 
 function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, provider) {
-  if (record.unit !== expectedUnit) {
+  if (!sameEngineeringUnit(record.unit, expectedUnit)) {
     return {
       value: null,
       blocker: issue(
@@ -329,7 +330,10 @@ function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, prov
       schema: COMMON_ENRICHED_FIELD_SCHEMA,
       field: fieldName,
       value: record.value,
-      unit: record.unit,
+      // The declared and expected units are equivalent by the guard above, so
+      // the record carries the common-enriched layer's own ASCII spelling:
+      // requireCommonEnrichedField rejects a typographic unit outright.
+      unit: expectedUnit,
       status: 'RESOLVED_DERIVED',
       sourceKind: 'PROJECT_CONFIGURED_DEFAULT',
       sourceKey,
@@ -349,7 +353,9 @@ function configuredDefaultField(record, fieldName, expectedUnit, sourceKey, prov
 function defaultAuthorityFingerprint(record) {
   return semanticHash({
     value: record.value,
-    unit: record.unit,
+    // Normalized so two records spelling the same unit differently read as
+    // one authority rather than a conflict that cannot be resolved.
+    unit: normalizeEngineeringUnit(record.unit),
     defaultId: record.evidence?.defaultId || null,
     basis: record.evidence?.basis || null,
     configuredDefaultPolicyHash: record.evidence?.configuredDefaultPolicyHash || null,

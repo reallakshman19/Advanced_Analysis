@@ -1,5 +1,7 @@
 import { createSourcePackageSnapshot } from '../core/shared-piping-model/source-package-snapshot.js';
 import { buildSharedPipingModelFromWorkspaceDataset } from '../core/shared-piping-model/adapters/workspace-dataset-to-shared.js';
+import { projectDataStore } from './project-data/project-data-store.js';
+import { withAdjacentRunAttributes } from './auto-generated-pipe-run-attributes.js';
 import { buildDatasetHierarchy } from './dataset-hierarchy.js';
 import { isPipeType, isSupportType, resolveEntityType, selectionTypeFor } from './dataset-types.js';
 import { extractGeometryEvidence } from './geometry-evidence.js';
@@ -46,7 +48,7 @@ export function normalizeWorkspaceDataset(rawPackage, sourceName = '', sourceEvi
   });
   return freezeDeep({
     ...baseDataset,
-    sharedModel: buildSharedPipingModelFromWorkspaceDataset(baseDataset),
+    sharedModel: buildSharedPipingModelFromWorkspaceDataset(baseDataset, sharedModelOptions()),
   });
 }
 
@@ -65,7 +67,7 @@ export function rebuildWorkspaceDataset(dataset, entities, editAudit) {
     editAudit: clonePlain(editAudit),
     calculationFreshness: 'STALE',
   });
-  return freezeDeep({ ...baseDataset, sharedModel: buildSharedPipingModelFromWorkspaceDataset(baseDataset) });
+  return freezeDeep({ ...baseDataset, sharedModel: buildSharedPipingModelFromWorkspaceDataset(baseDataset, sharedModelOptions()) });
 }
 
 function normalizePackageRoot(rawPackage) {
@@ -82,7 +84,10 @@ function inferSourceSchema(packageJson) {
 
 function normalizeEntities(entries, sourceModel) {
   const counts = sourceModel.indexes.bySourceEntityId;
-  return entries.map((entry) => normalizeEntity(entry, counts));
+  return withAdjacentRunAttributes(
+    entries.map((entry) => normalizeEntity(entry, counts)),
+    sharedModelOptions(),
+  );
 }
 
 function normalizeEntity({ item, node }, sourceIdIndex) {
@@ -233,4 +238,21 @@ function assertUniqueEntityIds(entities) {
     if (ids.has(entity.entityId)) throw new Error(`Duplicate workspace entity ID: ${entity.entityId}.`);
     ids.add(entity.entityId);
   });
+}
+
+/**
+ * Project-configured source attribute aliases, read at import time.
+ *
+ * Read lazily and defensively: normalization runs in contexts where no project
+ * profile is loaded, and an unreadable or unapproved setting must leave the
+ * built-in aliases exactly as they were rather than failing the import.
+ */
+function sharedModelOptions() {
+  try {
+    const entry = projectDataStore.getProfile()?.sourcesAndUnits?.sourceAttributeAliases;
+    if (entry?.approved !== true) return {};
+    return { sourceAttributeAliases: entry.value || null };
+  } catch {
+    return {};
+  }
 }

@@ -347,18 +347,24 @@ function validatePositiveLeaves(value, path, errors, entry) {
   if (typeof value === 'number' && value <= 0) errors.push(errorRow(path, 'NON_POSITIVE_ENGINEERING_VALUE', 'Engineering density, elastic, thermal, and section values must be greater than zero.'));
 }
 
-// These two target-level maps are legitimately empty when the dataset has no
-// insulated line or no explicit-point-mass component: the effective-value
-// ledger projection only ever admits a resolved-and-approved entry for a
-// target that actually needs one (requiredEffective throws otherwise), so an
-// approved empty object here is a complete answer, not a missing one.
+// These target-level maps are legitimately empty before execution: the
+// effective-value ledger projection only ever admits a resolved-and-approved
+// entry for a target that actually needs one (requiredEffective throws
+// otherwise), so an approved empty object here is a complete answer, not a
+// missing one. Insulation and component weights are empty when the dataset has
+// no insulated line or no explicit-point-mass component; pipe section
+// properties are always projected per bore/schedule from the approved piping
+// class master and are never authored into the profile by hand.
+//
+// The density maps are deliberately NOT listed. They carry approved project
+// values (a material density, a line's operating fluid density), and mass
+// coverage depends on them: admitting an empty map there does not answer the
+// question, it only stops the checker asking it, and every PIPE then fails
+// PIPE_MASS with no blocker naming the cause.
 const EMPTY_MAP_ALLOWED_PATHS = new Set([
   'loadCalculation.insulationDensitiesKgPerM3',
   'loadCalculation.componentWeightsKg',
   'loadCalculation.pipeSectionProperties',
-  'loadCalculation.operatingFluidDensitiesKgPerM3',
-  'loadCalculation.hydroFluidDensitiesKgPerM3',
-  'loadCalculation.materialDensitiesKgPerM3',
 ]);
 
 function validateRequired(entry, path, errors) {

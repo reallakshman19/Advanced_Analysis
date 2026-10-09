@@ -9,7 +9,7 @@ export function collectEvidence(specs, roots, scope, evidenceIndex) {
   Object.entries(specs).forEach(([field, spec]) => {
     const found = findFirstIndexedEvidence(index, spec.aliases);
     if (!found) return;
-    const normalized = normalizeEvidenceValue(found.value, spec.kind);
+    const normalized = normalizeEvidenceValue(found.value, spec.kind, spec.unit);
     const sourced = { ...found, sourceKind: rootKind(found.rootPath) };
     if (normalized.valid) values[field] = valueEvidence(normalized.value, spec.unit, sourced);
     else diagnostics.push(invalidValueDiagnostic(field, sourced, scope));
@@ -49,13 +49,35 @@ export function evidenceValue(evidence) {
   return evidence && Object.prototype.hasOwnProperty.call(evidence, 'value') ? evidence.value : null;
 }
 
-function normalizeEvidenceValue(value, kind) {
+function normalizeEvidenceValue(value, kind, unit) {
   if (kind === 'number') {
     const numeric = finiteNumber(value);
-    return { valid: numeric !== null, value: numeric };
+    if (numeric !== null) return { valid: true, value: numeric };
+    return unitSuffixedNumber(value, unit);
   }
   const text = stringValue(value);
   return { valid: Boolean(text), value: text };
+}
+
+/**
+ * A numeric value written with its own unit, as SJSON writes them: "80mm".
+ *
+ * Accepted only when the stated unit is the one the property is declared in,
+ * so "80mm" satisfies a mm property and "80in" does not. A suffix that
+ * disagrees is a real unit error and must stay invalid rather than being
+ * silently read as a number in the wrong scale - the failure mode is a load
+ * computed from a value that means something else.
+ */
+function unitSuffixedNumber(value, unit) {
+  const text = stringValue(value);
+  const declared = stringValue(unit).toLowerCase();
+  if (!text || !declared) return { valid: false, value: null };
+  const match = /^\s*([-+]?\d*\.?\d+(?:e[-+]?\d+)?)\s*([a-z°µ/²³^*.\-0-9]*)\s*$/iu.exec(text);
+  if (!match) return { valid: false, value: null };
+  const suffix = match[2].trim().toLowerCase();
+  if (suffix && suffix !== declared) return { valid: false, value: null };
+  const numeric = finiteNumber(match[1]);
+  return { valid: numeric !== null, value: numeric };
 }
 
 function valueEvidence(value, unit, found) {

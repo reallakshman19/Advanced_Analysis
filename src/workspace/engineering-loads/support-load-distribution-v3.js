@@ -293,7 +293,7 @@ function calculateRoute(route, input, state, execution) {
     const edge = execution.edgeById.get(entityId);
     const chainage = routeExecution.chainageByEntityId.get(entityId);
     if (!entity || !edge || !chainage || !Number.isFinite(chainage.pointMm)) {
-      state.excludedInputs.push({ code: 'MISSING_ROUTE_CHAINAGE', routeId: route.routeId, entityId });
+      recordMissingChainage(state, execution, route, entityId, entity, edge, input.profile);
       return;
     }
     const mass = execution.qualifiedCaseMassByKey instanceof Map
@@ -320,6 +320,50 @@ function calculateRoute(route, input, state, execution) {
       : allocateSupportPointLoad({ chainageMm: application.chainageMm, forceN, supports });
     recordContribution(state, route, entity, chainage, application, mass, forceN, accounting);
   });
+}
+
+/**
+ * A component the route carries no chainage for.
+ *
+ * Where the load acts decides how it splits between supports, so a component
+ * that cannot be placed on the route is normally fatal: its force is real and
+ * nothing can say which supports carry it.
+ *
+ * A qualified mass of exactly zero is the one case where the position cannot
+ * matter. Zero force allocated anywhere adds zero to every reaction and zero
+ * to every first moment, so the result is identical whether the component is
+ * placed or omitted, and no reaction is understated by leaving it out. The
+ * 1885S model has one: a pressure gauge, alone on its branch, whose source
+ * weight is 0 and whose route therefore has no length to measure along.
+ *
+ * This turns on the mass actually qualified for the case, never on the kind of
+ * component. A gauge with a real weight stays fatal, and so does any component
+ * whose mass could not be qualified at all - an unknown mass at an unknown
+ * position is exactly the case the exclusion exists for.
+ */
+function recordMissingChainage(state, execution, route, entityId, entity, edge, profile) {
+  const mass = unplacedCaseMass(state, execution, entityId, entity, edge, profile);
+  if (mass.qualified && mass.massKg === 0) {
+    state.exceptions.push({
+      code: 'ZERO_MASS_OFF_ROUTE_CONTRIBUTION_IGNORED',
+      routeId: route.routeId,
+      entityId,
+      loadCaseId: state.caseId,
+      massKg: 0,
+      verticalForceN: 0,
+    });
+    return;
+  }
+  state.excludedInputs.push({ code: 'MISSING_ROUTE_CHAINAGE', routeId: route.routeId, entityId });
+}
+
+/** The case mass of a component the route could not place, when one is available. */
+function unplacedCaseMass(state, execution, entityId, entity, edge, profile) {
+  if (execution.qualifiedCaseMassByKey instanceof Map) {
+    return resolveQualifiedCaseMass(execution.qualifiedCaseMassByKey, entityId, state.caseId);
+  }
+  if (!entity || !edge || !execution.baseMassByEntityId?.has(entityId)) return { qualified: false };
+  return resolveLegacyCaseMass(execution, entity, edge, state.caseId, profile);
 }
 
 function resolveLegacyCaseMass(execution, entity, edge, caseId, profile) {

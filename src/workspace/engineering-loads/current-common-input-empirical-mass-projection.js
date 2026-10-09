@@ -5,6 +5,9 @@ import {
 import { createPipingLoadCompositionProfile } from '../../core/model-loads/composition-profile.js';
 import { resolveComponentCaseMass } from '../../core/model-loads/component-mass-resolver.js';
 import { derivePipeLikeFittingWeightEvidence } from '../../core/model-loads/elbow-derived-mass.js';
+import { optionalAuthorizedEmpiricalSourceLengthUnit } from './authorized-empirical-source-axis-binding.js';
+import { projectDataValue } from '../project-data/project-data-contract.js';
+import { zeroMassWaiverSetFromProfile } from './non-fea-zero-mass-waiver.js';
 import { projectEngineeringLoadSources } from '../../core/model-loads/load-source-projection.js';
 import { evidenceNumber } from '../../core/model-loads/units.js';
 import { buildPipingPortTopologyGraph } from '../../core/piping-topology/index.js';
@@ -78,6 +81,7 @@ export function createCurrentCommonInputEmpiricalMassProjection({
     loadCaseIds,
     ancillaryByLine: basis.ancillaryByLine,
     compositionProfile: basis.compositionProfile,
+    zeroMassWaivedIds: basis.zeroMassWaivedIds,
   })).sort((left, right) => ascii(left.entityId, right.entityId));
 
   const base = {
@@ -201,7 +205,32 @@ function buildProjectionBasis(commonInput) {
     'authorityContracts.loadPrimitiveSet.semanticHash');
 
   const effectiveTopologyGraph = buildPipingPortTopologyGraph(model);
-  const effectiveLoadSourceProjection = projectEngineeringLoadSources(model, effectiveTopologyGraph);
+  // SJSON states no units, so the shared model carries units.length "unknown"
+  // and every component would project UNIT_BLOCKED. The governed unit is the
+  // approved sourcesAndUnits.lengthUnit. Only the unit is required here: the
+  // up-axis decides which way gravity acts and is not consulted until
+  // distribution, so demanding it would fail closed on a profile that is
+  // complete for this step.
+  const governedLengthUnit = optionalAuthorizedEmpiricalSourceLengthUnit(commonInput.projectDataProfile);
+  // PD-COMPONENT-COG-FALLBACK declares what to do when a component has no exact
+  // CoG authority. The gravity method selector already honours it; passing it
+  // here is what stops a fitting whose mass was derived from its adjacent pipe
+  // section from blocking with MISSING_COMPONENT_COG for want of a point to
+  // apply that mass at.
+  // The same approved waivers the coverage checker reads, so a component
+  // answered there is answered here too.
+  const zeroMassWaivedIds = new Set(
+    zeroMassWaiverSetFromProfile(commonInput.projectDataProfile).waivedEntityIds,
+  );
+  const componentCogFallback = projectDataValue(
+    commonInput.projectDataProfile,
+    'loadCalculation.componentCogFallback',
+  );
+  const effectiveLoadSourceProjection = projectEngineeringLoadSources(
+    model,
+    effectiveTopologyGraph,
+    { sourceLengthUnit: governedLengthUnit, componentCogFallback },
+  );
   const compositionProfile = createPipingLoadCompositionProfile();
 
   const inventory = createCommonEnrichedTargetInventory({
@@ -231,6 +260,7 @@ function buildProjectionBasis(commonInput) {
     compositionProfile,
     inventory,
     ancillaryOverlay,
+    zeroMassWaivedIds,
     ancillaryByLine: ancillaryByLineTarget(inventory, ancillaryOverlay),
     targetBySourceRecordId: new Map(
       inventory.componentTargets.map((target) => [target.sourceRecordId, target]),
@@ -238,7 +268,7 @@ function buildProjectionBasis(commonInput) {
   };
 }
 
-function projectComponent({ component, components, target, loadCaseIds, ancillaryByLine, compositionProfile }) {
+function projectComponent({ component, components, target, loadCaseIds, ancillaryByLine, compositionProfile, zeroMassWaivedIds }) {
   if (!target || target.sourceRecordId !== component.componentKey) {
     throw codedError(`Component ${component.componentKey || '<missing>'} is not bound to one exact target row.`,
       'CURRENT_COMMON_INPUT_EMPIRICAL_MASS_TARGET_MISMATCH');
@@ -250,12 +280,14 @@ function projectComponent({ component, components, target, loadCaseIds, ancillar
   const ancillary = target.lineTargetId
     ? ancillaryByLine.get(target.lineTargetId) || zeroAncillary()
     : zeroAncillary();
+  const zeroMassWaived = zeroMassWaivedIds?.has(component.componentKey) === true;
   const cases = loadCaseIds.map((loadCaseId) => projectCase({
     component: resolvedComponent,
     target,
     loadCaseId,
     ancillary,
     compositionProfile,
+    zeroMassWaived,
   }));
   return deepFreeze({
     targetId: target.targetId,
@@ -274,8 +306,8 @@ function projectComponent({ component, components, target, loadCaseIds, ancillar
   });
 }
 
-function projectCase({ component, target, loadCaseId, ancillary, compositionProfile }) {
-  const result = resolveComponentCaseMass(component, loadCaseId, compositionProfile);
+function projectCase({ component, target, loadCaseId, ancillary, compositionProfile, zeroMassWaived }) {
+  const result = resolveComponentCaseMass(component, loadCaseId, compositionProfile, { zeroMassWaived });
   if (!result.ok) {
     throw codedError(`Current Common Input component ${component.componentKey} cannot project ${loadCaseId} mass.`,
       'CURRENT_COMMON_INPUT_EMPIRICAL_MASS_NOT_PROJECTABLE', {

@@ -6,6 +6,9 @@ import {
   NON_FEA_COMMON_SCHEMAS,
 } from '../src/core/non-fea-common-checker/index.js';
 import {
+  commonMethodsForImplementation,
+} from '../src/core/non-fea-method-consumption/index.js';
+import {
   createSharedPipingModel,
   semanticHash,
 } from '../src/core/shared-piping-model/index.js';
@@ -68,6 +71,17 @@ const runtimeAuthorization = authorizeCurrentNonFeaEmpiricalRun(readySnapshot, {
 });
 assert.equal(coordinatorCalls.prepared.length, 1);
 assert.equal(coordinatorCalls.recorded.length, 1);
+// The coordinator carries the required-method set in declaration order while the
+// decision canonicalises it by sorting. The binding is over the set, not the
+// sequence, so a receipt that differs only in order must still be accepted.
+assert.deepEqual(
+  [...coordinatorCalls.recorded[0].requiredCommonMethodIds].sort(),
+  [...authorization.requiredCommonMethodIds].sort(),
+);
+assert.notDeepEqual(
+  coordinatorCalls.recorded[0].requiredCommonMethodIds,
+  authorization.requiredCommonMethodIds,
+);
 assert.equal(
   coordinatorCalls.prepared[0].authorizationId,
   runtimeAuthorization.decision.authorizationId,
@@ -243,7 +257,11 @@ function fakeCoordinator(snapshotValue, calls) {
         scenarioId: input.scenarioId,
         methodRequestSemanticHash: input.methodRequestSemanticHash,
         commonInputSemanticHash: snapshotValue.commonInput.semanticHash,
-        requiredCommonMethodIds: ['SUSTAINED_REACTIONS', 'WEIGHT_AND_GRAVITY'],
+        // Declaration order, exactly as the production coordinator supplies it.
+        // The authorization decision canonicalises the same set by sorting, so a
+        // fixture that pre-sorts here cannot see an order-sensitive binding
+        // comparison reject an otherwise-identical receipt.
+        requiredCommonMethodIds: [...commonMethodsForImplementation(input.implementationId)],
       };
       const receipt = {
         ...receiptMaterial,

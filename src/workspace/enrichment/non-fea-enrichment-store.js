@@ -136,16 +136,53 @@ export class NonFeaEnrichmentStore {
     }, 'ENRICHMENT_RECORD_ACCEPTED', `Accepted enrichment record ${accepted.recordId}.`);
   }
 
+  /**
+   * Accepts every staged proposal as one batch.
+   *
+   * Deliberately not a loop over acceptProposal. That path rebuilds and
+   * re-hashes the whole sidecar per record and publishes an authority change
+   * each time, so a real model's master enrichment - 172 records on 1885S -
+   * costs a quadratic number of record hashes and one full re-render per
+   * record. The Enrichment tab stopped completing at all on that dataset.
+   *
+   * The per-proposal admissibility rules are unchanged; only the validation and
+   * publication are hoisted out of the loop. Hoisting them also makes the batch
+   * atomic: a stale proposal now rejects the whole batch instead of leaving the
+   * earlier half accepted, which is the behaviour the sidecar's own
+   * all-or-nothing validation already implied.
+   */
   acceptAllProposals() {
     if (this.#snapshot.migrationReport?.blockers?.length) {
       throw new TypeError('Resolve migration blockers before accepting all migrated records.');
     }
-    let snapshot = this.#snapshot;
-    for (const proposal of [...snapshot.proposals]) {
-      this.acceptProposal(proposal.proposalId);
-      snapshot = this.#snapshot;
+    const proposals = [...this.#snapshot.proposals];
+    if (proposals.length === 0) return this.#snapshot;
+    const currentHash = requiredSourceHash(this.#snapshot.currentSourceSemanticHash);
+    if (this.#snapshot.boundSourceSemanticHash && this.#snapshot.boundSourceSemanticHash !== currentHash) {
+      throw new TypeError('Accepted records are stale. Revalidate or clear them before accepting another proposal.');
     }
-    return snapshot;
+    const byRecordId = new Map(this.#snapshot.acceptedRecords.map((row) => [row.recordId, row]));
+    for (const proposal of proposals) {
+      const proposalSourceHash = proposal.record.evidence?.sourceSemanticHash;
+      if (proposalSourceHash && proposalSourceHash !== currentHash) {
+        throw new TypeError('Enrichment proposal is stale against the active source model.');
+      }
+      const accepted = acceptNonFeaEnrichmentProposal(proposal);
+      // Delete before set so a re-accepted record keeps the append-at-end
+      // ordering the one-at-a-time path produced.
+      byRecordId.delete(accepted.recordId);
+      byRecordId.set(accepted.recordId, accepted);
+    }
+    const records = [...byRecordId.values()];
+    createNonFeaEnrichmentSidecar({ sourceSemanticHash: currentHash, records });
+    return this.#updateAuthority({
+      acceptedRecords: records,
+      boundSourceSemanticHash: currentHash,
+      stale: false,
+      proposals: [],
+      message: `Accepted ${proposals.length} exact enrichment record(s).`,
+      error: '',
+    }, 'ENRICHMENT_RECORD_ACCEPTED', `Accepted ${proposals.length} enrichment record(s).`);
   }
 
   rejectProposal(proposalId) {

@@ -23,6 +23,46 @@ const AXIS_INVARIANCE_BASIS = 'XYZ_PERMUTATION_INVARIANT_EUCLIDEAN_ROUTE_CHAINAG
  * coordinate used by the statics formulas. Source geometry remains in mm and
  * no arbitrary gravity-vector or unit transformation is introduced here.
  */
+/**
+ * The approved source length unit on its own.
+ *
+ * Separated from the full source basis because callers differ in what they
+ * legitimately need: converting source geometry to metres requires the length
+ * unit, while the up-axis only decides which way gravity acts and is not
+ * consulted until distribution. Demanding the axis from a caller that never
+ * uses it would fail closed on a profile that is complete for its purpose.
+ */
+/**
+ * The approved source length unit when the profile carries one, else null.
+ *
+ * Optional rather than required because a missing unit is already fatal
+ * downstream and says so precisely: the load-source projection stamps
+ * UNIT_BLOCKED on every component. Demanding approval here would turn that
+ * specific diagnostic into an earlier, blunter refusal, and would break
+ * callers whose profile is complete for what they actually do. Nothing is
+ * assumed when it is absent - the model's own units still decide.
+ */
+export function optionalAuthorizedEmpiricalSourceLengthUnit(profile) {
+  const unitEntry = projectDataEntry(profile, LENGTH_UNIT_PATH);
+  if (unitEntry?.approved !== true) return null;
+  const lengthUnit = stringValue(unitEntry.value);
+  return lengthUnit.toLowerCase() === IMPLEMENTED_LENGTH_UNIT ? IMPLEMENTED_LENGTH_UNIT : null;
+}
+
+export function requireAuthorizedEmpiricalSourceLengthUnit(profile) {
+  const unitEntry = projectDataEntry(profile, LENGTH_UNIT_PATH);
+  const lengthUnit = stringValue(unitEntry?.value);
+  requireApprovedEntry(unitEntry, LENGTH_UNIT_PATH, 'EMPIRICAL_SOURCE_LENGTH_UNIT_AUTHORITY_INVALID');
+  if (lengthUnit.toLowerCase() !== IMPLEMENTED_LENGTH_UNIT) {
+    throw codedError(
+      `Authorized empirical gravity currently implements ${IMPLEMENTED_LENGTH_UNIT} source geometry only; ${lengthUnit || 'missing'} requires an explicit engineering-unit transformation before calculation.`,
+      'EMPIRICAL_SOURCE_LENGTH_UNIT_UNSUPPORTED',
+      { projectDataPath: LENGTH_UNIT_PATH, requestedLengthUnit: lengthUnit || null },
+    );
+  }
+  return { lengthUnit: IMPLEMENTED_LENGTH_UNIT, unitEntry };
+}
+
 export function requireAuthorizedEmpiricalSourceBasis(profile) {
   const axisEntry = projectDataEntry(profile, SOURCE_AXIS_PATH);
   const axis = stringValue(axisEntry?.value).toUpperCase();
@@ -35,21 +75,7 @@ export function requireAuthorizedEmpiricalSourceBasis(profile) {
     );
   }
 
-  const unitEntry = projectDataEntry(profile, LENGTH_UNIT_PATH);
-  const lengthUnit = stringValue(unitEntry?.value);
-  requireApprovedEntry(unitEntry, LENGTH_UNIT_PATH, 'EMPIRICAL_SOURCE_LENGTH_UNIT_AUTHORITY_INVALID');
-  if (lengthUnit.toLowerCase() !== IMPLEMENTED_LENGTH_UNIT) {
-    throw codedError(
-      `Authorized empirical gravity currently implements ${IMPLEMENTED_LENGTH_UNIT} source geometry only; ${lengthUnit || 'missing'} requires an explicit engineering-unit transformation before calculation.`,
-      'EMPIRICAL_SOURCE_LENGTH_UNIT_UNSUPPORTED',
-      {
-        projectDataPath: LENGTH_UNIT_PATH,
-        requestedLengthUnit: lengthUnit || null,
-        implementedLengthUnit: IMPLEMENTED_LENGTH_UNIT,
-      },
-    );
-  }
-
+  const { unitEntry } = requireAuthorizedEmpiricalSourceLengthUnit(profile);
   return freezeDeep({
     sourceUpAxis: axis,
     sourceAxisBasis: `${axis}_UP`,

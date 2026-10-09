@@ -2,6 +2,7 @@ import {
   buildFittingWeightReviewRows,
   fittingWeightRecordFor,
 } from './load-calc-fitting-weight-review.js';
+import { zeroMassWaiverSuggested } from './engineering-loads/non-fea-zero-mass-waiver.js';
 
 /**
  * Review table for catalogue fitting weights, styled on the XML->CII
@@ -56,6 +57,20 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, onAccep
 
     if (event.target.closest('[data-lcfw-apply]')) {
       const records = [];
+      const waivers = [];
+      let waiverMissingReason = null;
+      host.querySelectorAll('[data-lcfw-waive]:checked').forEach((box) => {
+        const entityId = box.dataset.lcfwWaive;
+        const justification = host
+          .querySelector(`[data-lcfw-waive-reason="${cssEscape(entityId)}"]`)?.value?.trim() || '';
+        if (!justification) { waiverMissingReason = entityId; return; }
+        waivers.push({ entityId, justification });
+      });
+      if (waiverMissingReason) {
+        const note = host.querySelector('[data-lcfw-note]');
+        if (note) note.textContent = `Enter a reason for the zero-mass waiver on ${waiverMissingReason}.`;
+        return;
+      }
       review.rows.forEach((row) => {
         const input = inputFor(row.targetId);
         if (!input || input.value.trim() === '') return;
@@ -65,13 +80,13 @@ export function openFittingWeightDialog({ documentRef, dataset, masters, onAccep
         const candidate = row.candidates[index] || { weightKg: value, typeDesc: 'MANUAL', lengthQualified: false, reason: 'Manually entered' };
         records.push(fittingWeightRecordFor(row, { ...candidate, weightKg: value }, index, masters));
       });
-      if (records.length === 0) {
+      if (records.length === 0 && waivers.length === 0) {
         const note = host.querySelector('[data-lcfw-note]');
-        if (note) note.textContent = 'Enter or select at least one weight before applying.';
+        if (note) note.textContent = 'Enter or select at least one weight, or waive a component, before applying.';
         return;
       }
       close();
-      onAccept?.(records);
+      onAccept?.(records, waivers);
     }
   });
   return host;
@@ -119,7 +134,8 @@ function rowMarkup(row) {
   
   let candidatesMarkup = '';
   if (row.unresolvable) {
-    candidatesMarkup = `<p class="lcfw-blocked-note" style="margin:0">${escapeHtml(unresolvableText(row.unresolvable))}</p>`;
+    candidatesMarkup = `<p class="lcfw-blocked-note" style="margin:0">${escapeHtml(unresolvableText(row.unresolvable))}</p>
+      ${waiverMarkup(row)}`;
   } else {
     candidatesMarkup = row.candidates.map((candidate, index) => chipMarkup(row.targetId, candidate, index)).join('');
   }
@@ -134,6 +150,30 @@ function rowMarkup(row) {
     <td><input type="number" min="0" step="any" class="lcfw-weight-input" data-lcfw-weight="${escapeHtml(row.targetId)}" data-lcfw-selected-index="0" value="${escapeHtml(best.weightKg)}"></td>
     <td class="lcfw-chips">${candidatesMarkup}</td>
   </tr>`;
+}
+
+/**
+ * The zero-mass waiver control, offered only where the catalogue genuinely
+ * cannot answer.
+ *
+ * The checkbox defaults to suggested-only (a pressure gauge, a temperature
+ * instrument) and the reason is required, because a waiver without a stated
+ * reason is exactly the unexplained zero this control exists to replace. The
+ * suggestion is drawn from the description, never the component type: this
+ * dataset types a 900# angle control valve as INST, and a type rule would
+ * silently zero it.
+ */
+function waiverMarkup(row) {
+  const suggested = zeroMassWaiverSuggested(row.description);
+  const reason = suggested
+    ? `${row.description || 'Instrument'} carries no weighable mass for support-load purposes.`
+    : '';
+  return `<label class="lcfw-waiver">
+      <input type="checkbox" data-lcfw-waive="${escapeHtml(row.targetId)}" ${suggested ? 'checked' : ''}>
+      <span>Waive as zero mass</span>
+    </label>
+    <input type="text" class="lcfw-waiver-reason" data-lcfw-waive-reason="${escapeHtml(row.targetId)}"
+      placeholder="Reason for the waiver (required)" value="${escapeHtml(reason)}">`;
 }
 
 function chipMarkup(targetId, candidate, index) {
@@ -205,6 +245,8 @@ function styles() {
     .lcfw-note{margin:0;min-height:16px;color:#fbbf24;font-size:11px}
     .lcfw-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
     .lcfw-actions button{border:1px solid #334155;border-radius:5px;background:#111c2f;color:#e2e8f0;padding:7px 12px;cursor:pointer}
+    .lcfw-waiver{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;color:#cbd5f5}
+    .lcfw-waiver-reason{width:100%;margin-top:4px;padding:4px 6px;border:1px solid #334155;border-radius:4px;background:#0b1526;color:#e2e8f0;font-size:12px}
     .lcfw-primary{border-color:#0ea5e9;background:#0c4a6e;color:#e0f2fe}
   </style>`;
 }

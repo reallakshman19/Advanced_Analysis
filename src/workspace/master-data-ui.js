@@ -110,27 +110,15 @@ export async function autoGenerateMasterEnrichment() {
   store.loadSource(dataset.sharedModel.semanticHash);
   const snapshot = store.getSnapshot();
 
-  // If proposals are already staged (e.g. from visiting Enrichment tab), accept them
-  if (snapshot.proposals.length > 0) {
-    try {
-      store.acceptAllProposals();
-      return { accepted: snapshot.proposals.length, skipped: null };
-    } catch {
-      // Continue to try generating if accept failed
-    }
-  }
-
-  // Check whether master-derived enrichment (pipe section / fluid density) is already present
-  const hasMasterEnrichment = snapshot.acceptedRecords.some((r) =>
-    ['PIPE_OUTER_DIAMETER', 'PIPE_WALL_THICKNESS', 'MATERIAL_DENSITY', 'OPERATING_FLUID_DENSITY'].includes(r.fieldId)
-  );
-
-  // Don't overwrite if master enrichment is already current for this source
+  // Don't overwrite a sidecar the user already curated for this source
   if (
-    hasMasterEnrichment
+    snapshot.acceptedRecords.length > 0
     && snapshot.boundSourceSemanticHash === dataset.sharedModel.semanticHash
     && !snapshot.stale
   ) return { accepted: 0, skipped: 'SIDECAR_CURRENT' };
+
+  // Don't interrupt an active user review session
+  if (snapshot.proposals.length > 0) return { accepted: 0, skipped: 'PROPOSALS_PENDING_REVIEW' };
 
   let result;
   try {
