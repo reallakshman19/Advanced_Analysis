@@ -96,20 +96,14 @@ export function createLafeaWorkbenchSourceState(stageIds, hostValue) {
   function ensureRunAuthority(stageId, originRef) {
     requireStage(stageId);
     const stage = host.getRetainedState().stages[stageId];
-    let authority = sourceByStage[stageId];
-    if (authority && stage.lifecycle) return authority;
-    authority = issueLafeaSourceAuthority(stageId, stage.document, originRef);
-    if (stage.lifecycle) {
-      if (stage.lifecycle.source?.sourceHash && stage.lifecycle.source.sourceHash !== authority.sourceHash) {
-        authority = freeze({
-          ...authority,
-          sourceHash: stage.lifecycle.source.sourceHash,
-        });
-      }
-      sourceByStage[stageId] = authority;
-      return authority;
+    const authority = issueLafeaSourceAuthority(stageId, stage.document, originRef);
+    const lifecycleSourceHash = stage.lifecycle?.source?.sourceHash ?? null;
+    if (lifecycleSourceHash && lifecycleSourceHash !== authority.sourceHash) {
+      throw sourceError('LAFEA_WORKBENCH_SOURCE_LIFECYCLE_HASH_MISMATCH');
     }
-    host.invokeRetained('initializeLifecycle', [authority.sourceHash, originRef]);
+    if (!stage.lifecycle) {
+      host.invokeRetained('initializeLifecycle', [authority.sourceHash, originRef]);
+    }
     sourceByStage[stageId] = authority;
     return authority;
   }

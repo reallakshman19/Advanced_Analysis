@@ -17,6 +17,7 @@ import {
   produceLafea5SourceShellMeshAdoption,
 } from '../src/workspace/lafea-source-shell-mesh-adoption.js';
 import { compileLafeaShellSolverModel } from '../src/workspace/lafea-shell-solver-model.js';
+import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
 import { createLafeaWorkbenchOrchestratorStore } from '../src/workspace/lafea-workbench-orchestrator-store.js';
 
 const SHELL_ELEMENT = 'CST_DKT_TRI3_THIN_SHELL_V1';
@@ -184,16 +185,40 @@ assert.ok(result5.loadDistributionEvidence.length > 0);
 assert.ok(result5.rawShellResult?.loadCaseResults?.length > 0);
 
 // ---------------------------------------------------------------------------
-// Product route: prove meshHash -> solverModelHash -> execution -> lifecycle.
+// Product route: rebuild the source chain from the exact normalized document
+// retained by the workbench, then prove mesh -> compiler -> execution custody.
 // ---------------------------------------------------------------------------
+const workbenchDocument4 = normalizeLafeaStageDocument('LAFEA.4', lafea4);
+const workbenchAuthority4 = issueLafeaSourceAuthority(
+  'LAFEA.4', workbenchDocument4, 'SHELL-COMPILED-CHECK/LAFEA4-WORKBENCH',
+);
+const workbenchParent4 = createLafeaSimulatedShellMidsurfaceEvidence(
+  'LAFEA.4', workbenchAuthority4.sourceHash, workbenchDocument4,
+);
+const workbenchProduced4 = produceLafeaShellAnalysisMesh({
+  midsurfaceEvidence: workbenchParent4,
+  meshProfile: profile4,
+});
+const workbenchCompiled4 = compileLafeaShellSolverModel({
+  stageId: 'LAFEA.4',
+  sourceHash: workbenchAuthority4.sourceHash,
+  source: workbenchDocument4,
+  midsurfaceEvidence: workbenchParent4,
+  meshEvidence: workbenchProduced4.evidence,
+});
 const workbench4 = createLafeaWorkbenchOrchestratorStore({
   initialStage: 'LAFEA.4',
-  initialDocument: lafea4,
-  initialSourceHash: authority4.sourceHash,
+  initialDocument: workbenchDocument4,
+  initialSourceHash: workbenchAuthority4.sourceHash,
 });
-qualifyAndRunWorkbench(workbench4, 'LAFEA.4', parent4, profile4, 'AUTOMATIC');
+qualifyAndRunWorkbench(workbench4, 'LAFEA.4', workbenchParent4, profile4, 'AUTOMATIC');
 const workbenchState4 = workbench4.getState().stages['LAFEA.4'];
-assertWorkbenchExecutionBinding(workbenchState4, produced4.evidence.mesh.nodes.length);
+assertWorkbenchExecutionBinding(workbenchState4, workbenchProduced4.evidence.mesh.nodes.length);
+assert.equal(workbenchState4.execution.solverModelHash, workbenchCompiled4.solverModelHash);
+assert.equal(
+  workbenchState4.execution.result.canonicalModelSemanticHash,
+  workbenchCompiled4.kernelModelHash,
+);
 assert.equal(workbenchState4.execution.result.loadCaseResults[0].forceEquilibrium.qualification.accepted, true);
 assert.ok(
   workbenchState4.execution.result.loadCaseResults[0].appliedLoadEvidence.contributions.some(
@@ -202,15 +227,45 @@ assert.ok(
 );
 workbench4.destroy();
 
+const workbenchDocument5 = normalizeLafeaStageDocument('LAFEA.5', lafea5);
+const workbenchAuthority5 = issueLafeaSourceAuthority(
+  'LAFEA.5', workbenchDocument5, 'SHELL-COMPILED-CHECK/LAFEA5-WORKBENCH',
+);
+const workbenchParent5 = createLafea5SourceShellParent({
+  sourceHash: workbenchAuthority5.sourceHash,
+  shellTemplate: workbenchDocument5.shellTemplate,
+});
+const workbenchPlan5 = planLafea5SourceShellMeshAdoption({
+  parent: workbenchParent5,
+  meshProfile: profile5,
+});
+const workbenchProduced5 = produceLafea5SourceShellMeshAdoption({
+  parent: workbenchParent5,
+  meshProfile: profile5,
+  plan: workbenchPlan5,
+});
+const workbenchCompiled5 = compileLafeaShellSolverModel({
+  stageId: 'LAFEA.5',
+  sourceHash: workbenchAuthority5.sourceHash,
+  source: workbenchDocument5,
+  midsurfaceEvidence: workbenchParent5,
+  meshEvidence: workbenchProduced5.evidence,
+});
 const workbench5 = createLafeaWorkbenchOrchestratorStore({
   initialStage: 'LAFEA.5',
-  initialDocument: lafea5,
-  initialSourceHash: authority5.sourceHash,
+  initialDocument: workbenchDocument5,
+  initialSourceHash: workbenchAuthority5.sourceHash,
 });
-qualifyAndRunWorkbench(workbench5, 'LAFEA.5', parent5, profile5, 'SOURCE_MESH_ADOPTION');
+qualifyAndRunWorkbench(
+  workbench5, 'LAFEA.5', workbenchParent5, profile5, 'SOURCE_MESH_ADOPTION',
+);
 const workbenchState5 = workbench5.getState().stages['LAFEA.5'];
-assertWorkbenchExecutionBinding(workbenchState5, produced5.evidence.mesh.nodes.length);
-assert.equal(workbenchState5.execution.result.canonicalWorkflowModelHash, compiled5.kernelModelHash);
+assertWorkbenchExecutionBinding(workbenchState5, workbenchProduced5.evidence.mesh.nodes.length);
+assert.equal(workbenchState5.execution.solverModelHash, workbenchCompiled5.solverModelHash);
+assert.equal(
+  workbenchState5.execution.result.canonicalWorkflowModelHash,
+  workbenchCompiled5.kernelModelHash,
+);
 assertGeneratedShellMatchesRetained(
   workbenchState5.retainedAnalysisMeshEvidenceV2.mesh,
   workbenchState5.execution.result.generatedShellModel,
@@ -218,7 +273,7 @@ assertGeneratedShellMatchesRetained(
 workbench5.destroy();
 
 console.log(JSON.stringify({
-  schema: 'lafea-shell-compiled-execution-check/v2',
+  schema: 'lafea-shell-compiled-execution-check/v3',
   status: 'PASS',
   lafea4: {
     sourceElements: lafea4.elements.length,
@@ -232,6 +287,7 @@ console.log(JSON.stringify({
     momentEquilibrium: pressureCase4.momentEquilibrium.qualification.accepted,
     unsupportedNodalLoadRejected: true,
     unsupportedNonzeroLocalRotationRejected: true,
+    normalizedWorkbenchSourceHash: workbenchAuthority4.sourceHash,
     authoritativeWorkbenchExecutionBoundToRetainedMesh: true,
   },
   lafea5: {
@@ -242,6 +298,7 @@ console.log(JSON.stringify({
     canonicalWorkflowModelHash: result5.canonicalWorkflowModelHash,
     generatedShellModelHash: result5.canonicalShellModelHash,
     workflowLoadCaseCount: result5.loadDistributionEvidence.length,
+    normalizedWorkbenchSourceHash: workbenchAuthority5.sourceHash,
     losslessRetainedMeshExecutionBinding: true,
     authoritativeWorkbenchExecutionBoundToRetainedMesh: true,
   },
@@ -300,7 +357,7 @@ function shellProfile(stageId, target, suffix = 'QUALIFIED') {
   return canonicalProfile(PROFILE_KINDS.MESH, {
     schema: 'lafea-mesh-profile/v1',
     profileIdentity: `SHELL_COMPILED_${stageId.replace('.', '_')}_${suffix}`,
-    sourceRevision: 'SHELL-COMPILED-CHECK-V2',
+    sourceRevision: 'SHELL-COMPILED-CHECK-V3',
     semanticHash: undefined,
     fields: {
       continuumElement: 'T3',

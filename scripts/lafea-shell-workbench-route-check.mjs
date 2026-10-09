@@ -15,7 +15,9 @@ import {
 } from '../src/workspace/lafea-shell-midsurface-contract.js';
 import { LAFEA_SHELL_ELEMENT } from '../src/workspace/lafea-shell-mesh-producer.js';
 import { issueLafeaSourceAuthority } from '../src/workspace/lafea-source-authority.js';
+import { normalizeLafeaStageDocument } from '../src/workspace/lafea-workbench-model.js';
 import { createLafeaWorkbenchOrchestratorStore } from '../src/workspace/lafea-workbench-orchestrator-store.js';
+import { createLafeaWorkbenchSourceState } from '../src/workspace/lafea-workbench-source-state.js';
 import { triangleSource as shellFixture } from './lafea.4-fixtures.mjs';
 import { workflowSource as trunnionFixture } from './lafea.5-fixtures.mjs';
 
@@ -29,7 +31,10 @@ const expectedCompilerBlock = {
 const rows = [];
 
 for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
-  const document = fixtureByStage[stageId]();
+  // Source authority is issued over the exact normalized document retained by
+  // the workbench. A raw fixture hash is not a substitute for workbench source
+  // authority because import normalization is part of the source boundary.
+  const document = normalizeLafeaStageDocument(stageId, fixtureByStage[stageId]());
   const sourceAuthority = issueLafeaSourceAuthority(
     stageId, document, `P2-8-${stageId}-SOURCE-AUTHORITY`,
   );
@@ -145,10 +150,39 @@ for (const stageId of ['LAFEA.4', 'LAFEA.5']) {
   workbench.destroy();
 }
 
+// A lifecycle source hash is not permission to rewrite source authority. The
+// source-state layer must reject a lifecycle hash that does not bind the exact
+// normalized retained document.
+const mismatchDocument = normalizeLafeaStageDocument('LAFEA.4', shellFixture());
+const mismatchedLifecycleHash = `sha256:${'e'.repeat(64)}`;
+const mismatchSourceState = createLafeaWorkbenchSourceState(['LAFEA.4'], {
+  getRetainedState: () => ({
+    stages: {
+      'LAFEA.4': {
+        document: mismatchDocument,
+        lifecycle: { source: { sourceHash: mismatchedLifecycleHash } },
+      },
+    },
+  }),
+  getActiveStageId: () => 'LAFEA.4',
+  invokeRetained: () => {
+    throw new Error('Mismatched lifecycle authority must fail before retained lifecycle mutation.');
+  },
+});
+assert.throws(
+  () => mismatchSourceState.ensureRunAuthority('LAFEA.4', 'P2-8-SOURCE-MISMATCH-NEGATIVE'),
+  (error) => error?.code === 'LAFEA_WORKBENCH_SOURCE_LIFECYCLE_HASH_MISMATCH',
+);
+
 console.log(JSON.stringify({
-  schema: 'lafea-shell-workbench-route-check/v3',
+  schema: 'lafea-shell-workbench-route-check/v4',
   status: 'PASS',
   rows,
+  sourceAuthority: {
+    normalizedDocumentBound: true,
+    mismatchedLifecycleHashRejected: true,
+    lifecycleHashSubstitutionAllowed: false,
+  },
   compilerEnvelope: {
     lafea4: 'WHOLE_SURFACE_UNIFORM_REGION_TRANSFER_ONLY',
     lafea5: 'LOSSLESS_SOURCE_MESH_PARENT_ONLY',
